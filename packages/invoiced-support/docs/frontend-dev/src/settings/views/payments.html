@@ -1,0 +1,51 @@
+<div class="contents">
+	<div class="settings-title-bar">
+		<h2 class="title">
+			<div class="docs-link">
+				<a href="https://docs.invoiced.com/accounts-receivable/payments" target="_blank">
+					{{'general.documentation'|translate}}
+					<span class="fas fa-external-link"></span>
+				</a>
+			</div>
+			<div class="back-link">
+				<a ui-sref="manage.settings.default">
+					<span class="fas fa-arrow-left"></span>
+					{{'general.settings'|translate}}
+				</a>
+			</div>
+			{{'settings.titles.payments'|translate}}
+		</h2>
+
+		<p class="lead">
+			Configure the payment methods you want to accept from customers.
+		</p>
+	</div>
+
+	<flywire-payments-offer can-dismiss="false"></flywire-payments-offer>
+
+	<ul class="nav nav-tabs">
+		<!-- Tab Links -->
+		<li ui-sref-active="active">
+			<a ui-sref=".methods">
+				{{'settings.payments.payment_methods'|translate}}
+			</a>
+		</li>
+		<li ui-sref-active="active">
+			<a ui-sref=".gateways">
+				{{'settings.payments.payment_gateways'|translate}}
+			</a>
+		</li>
+		<li ui-sref-active="active" ng-if="'flywire_invoiced_payments'|hasFeature">
+			<a ui-sref=".account">
+				{{'settings.payments.invoiced_payments'|translate}}
+			</a>
+		</li>
+	</ul>
+
+	<!-- Selected Tab Content -->
+	<div class="tab-content">
+		<div class="tab-pane active">
+			<ui-view/>
+		</div>
+	</div>
+</div>

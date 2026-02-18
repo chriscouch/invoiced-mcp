@@ -1,0 +1,124 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    # Adds a fallbacks if the env var is not set.
+    # This allows you to run cache:warmup even if your
+    # environment variables are not available yet.
+    # You should not need to change this value.
+    env(API_LOG_ENV): ''
+    env(CSADMIN_API_SECRET): ''
+    env(CSADMIN_API_URL): ''
+    env(CSADMIN_HOSTNAME): 'localhost'
+    env(HUBSPOT_KEY): ''
+    env(IPINFO_KEY): ''
+    env(PAYMENT_APPLICATION_ID): ''
+    env(SENTRY_DSN): ''
+
+    ########################
+    # Service Parameters
+    ########################
+
+    locale: 'en'
+    app.api_log_env: '%env(API_LOG_ENV)%'
+    app.csadmin_api_secret: '%env(CSADMIN_API_SECRET)%'
+    app.csadmin_api_url: '%env(CSADMIN_API_URL)%'
+    app.currencylayer_key: '%env(CURRENCY_LAYER_KEY)%'
+    app.email_region: '%env(EMAIL_REGION)%'
+    app.hostname: '%env(CSADMIN_HOSTNAME)%'
+    app.hubspot_key: '%env(HUBSPOT_KEY)%'
+    app.invoiced_key: '%env(INVOICED_CLIENT_SECRET)%'
+    app.invoiced_sandbox: '%env(bool:INVOICED_SANDBOX)%'
+    app.ipinfo_key: '%env(IPINFO_KEY)%'
+    app.new_order_email: c046ud9d@robot.zapier.com
+    app.payment_application_id: '%env(PAYMENT_APPLICATION_ID)%'
+    app.saml_cert: '%env(SAML_CERT)%'
+    app.saml_entity_id: '%env(SAML_ENTITY_ID)%'
+    app.saml_slo_url: '%env(SAML_SLO_URL)%'
+    app.saml_sso_url: '%env(SAML_SSO_URL)%'
+
+    # Enable preloading
+    container.dumper.inline_factories: true
+    container.dumper.inline_class_loader: true
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: false       # Allows optimizing the container by removing unused services; this also means
+                            # fetching services directly from the container via $container->get() won't work.
+                            # The best practice is to be explicit about your dependencies anyway.
+        bind:
+            $apiLogEnvironment: '%app.api_log_env%'
+            $csAdminApiSecret: '%app.csadmin_api_secret%'
+            $csAdminApiUrl: '%app.csadmin_api_url%'
+            $emailRegion: '%app.email_region%'
+            $environment: '%kernel.environment%'
+            $hubspotKey: '%app.hubspot_key%'
+            $ipinfoKey: '%app.ipinfo_key%'
+            $newOrderEmail: '%app.new_order_email%'
+            $paymentApplicationId: '%app.payment_application_id%'
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    App\Service\CurrencyConverter:
+        arguments:
+            $key: '%app.currencylayer_key%'
+
+    App\Service\MonthlyReport:
+        arguments:
+            $connection: '@doctrine.dbal.InvoicedReadOnly_connection'
+
+    App\Service\UsageReport:
+        arguments:
+            $database: '@doctrine.dbal.Invoiced_connection'
+
+    App\Controller\EntityListController:
+        arguments:
+            $controllers: !tagged_iterator { tag: 'ea.crud_controller' }
+
+    App\Controller\SqlConsoleController:
+        arguments:
+            $connection: '@doctrine.dbal.InvoicedReadOnly_connection'
+
+    doctrine.result_cache_provider:
+        class: Symfony\Component\Cache\DoctrineProvider
+        public: false
+        arguments:
+            - '@doctrine.result_cache_pool'
+    doctrine.system_cache_provider:
+        class: Symfony\Component\Cache\DoctrineProvider
+        public: false
+        arguments:
+            - '@doctrine.system_cache_pool'
+
+    Aws\Sdk: '@aws_sdk'
+
+    Aws\PsrCacheAdapter: {}
+
+    Invoiced\Client:
+        arguments:
+            - '%app.invoiced_key%'
+            - '%app.invoiced_sandbox%'
+
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
+        arguments:
+            - '%env(CUSTOMERADMIN_DB_URL)%'
+            -
+                lock_mode: !php/const Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler::LOCK_NONE

@@ -1,0 +1,92 @@
+# This tests a scenario in which a subscriber is switching
+# from yearly to monthly billing.
+
+#debug: true
+data:
+  - object: plan
+    id: year
+    interval: year
+
+  - object: plan
+    id: day
+    interval: day
+
+operations:
+  - operation: create
+    time: 2022-09-21
+    parameters:
+      start_date: 2021-09-25
+      plan: year
+    assertions:
+      subscription:
+        renews_next: 2022-09-25
+        contract_period_start: 2021-09-25
+        contract_period_end: 2022-09-25
+        period_start: 2021-09-25
+        period_end: 2022-09-24T23:59:59Z
+
+  - operation: pause
+    time: 2022-09-21
+
+  - operation: edit
+    name: Plan Change
+    time: 2022-09-21
+    parameters:
+      plan: day
+
+  - operation: resume
+    time: 2022-09-21
+    parameters:
+      period_end: 2022-09-25
+    assertions:
+      subscription:
+        renews_next: 2022-09-25
+        contract_period_start: 2021-09-25
+        contract_period_end: 2022-09-25
+        period_start: 2022-09-24
+        period_end: 2022-09-24T23:59:59Z
+
+  - operation: edit
+    time: 2022-09-21
+    parameters:
+      renews_next: 2022-09-25
+
+  - operation: bill
+    name: Bill one
+    time: 2022-09-22
+    assertions:
+      subscription:
+        renews_next: 2022-09-25
+        contract_period_start: 2021-09-25
+        contract_period_end: 2022-09-25
+        period_start: 2022-09-24
+        period_end: 2022-09-24T23:59:59Z
+      invoice: null
+
+
+#since previous cycle stops, we advance a day ahead
+  - operation: bill
+    name: Bill 2
+    time: 2022-09-25T12:00:00Z
+    assertions:
+      subscription:
+        renews_next: 2022-09-25
+        contract_period_start: 2022-09-25
+        contract_period_end: 2022-09-26
+        period_start: 2022-09-24
+        period_end: 2022-09-24T23:59:59Z
+      invoice:
+        date: 2022-09-25
+
+  - operation: bill
+    name: Bill 3
+    time: 2022-09-25T12:00:00Z
+    assertions:
+      subscription:
+        renews_next: 2022-09-26
+        contract_period_start: 2022-09-26
+        contract_period_end: 2022-09-27
+        period_start: 2022-09-25
+        period_end: 2022-09-25T23:59:59Z
+      invoice:
+        date: 2022-09-25

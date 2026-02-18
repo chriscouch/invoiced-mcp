@@ -1,0 +1,26 @@
+framework:
+  rate_limiter:
+    username_login:
+      policy: 'sliding_window'
+      limit: 6
+      interval: '30 minutes'
+    ip_login:
+      policy: 'sliding_window'
+      limit: 50
+      interval: '30 minutes'
+    reset_password:
+      policy: 'sliding_window'
+      limit: 6
+      interval: '30 minutes'
+    customer_portal_login:
+      policy: 'sliding_window'
+      limit: 6
+      interval: '30 minutes'
+    customer_portal_invoice_view:
+      policy: 'sliding_window'
+      limit: 50
+      interval: '1 hour'
+    inbox_email_exception:
+      policy: 'sliding_window'
+      limit: 10
+      interval: '1 day'

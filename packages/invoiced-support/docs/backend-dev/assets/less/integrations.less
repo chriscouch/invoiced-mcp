@@ -1,0 +1,426 @@
+@import 'invoiced5.less';
+
+/*
+ ------
+ Variables
+ ------
+*/
+
+/* Fonts */
+@headingFont: FFMetaSerifWebProBold, Helvetica, Arial, sans-serif;
+@bodyFont: "ColfaxWeb", Helvetica, Arial, sans-serif;
+@footerFont: "ColfaxWeb", Helvetica, Arial, sans-serif;
+@buttonFont: "ColfaxWeb", Helvetica, Arial, sans-serif;
+
+/* Brand Colors */
+@evergreen: #009E74;
+@mint: #A0D4AD;
+@pine: #0E7162;
+@storm: #034752;
+@space: #ffffff;
+@coral: #FF8575;
+
+/* Colors */
+@darkGray: #4E5459;
+@borderColor: #E6E6E6;
+@linkColor: @evergreen;
+@linkHoverColor: @pine;
+
+html {
+    background: #fafbfc;
+
+    body {
+        background: #fafbfc;
+    }
+}
+
+body,
+html {
+    font-family: @bodyFont;
+    background: #fafbfc;
+    color: @darkGray;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: 100%;
+}
+
+h1.logo {
+    padding: 30px 0 0;
+    margin: 0;
+    text-align: center;
+
+    img {
+        margin: 0 auto 20px;
+    }
+
+    a {
+        color: #777;
+    }
+}
+
+h1.logo.slim {
+    padding-top: 45px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: @pine;
+}
+
+h1,
+h2 {
+    font-weight: bold;
+    font-family: @headingFont;
+}
+
+h4.title {
+    text-align: center;
+    font-weight: bold;
+    color: @evergreen;
+}
+
+table {
+    th,
+    td {
+        text-align: center;
+    }
+}
+
+label {
+    color: @darkGray;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.input-large {
+    max-width: 320px;
+}
+
+.input-medium {
+    max-width: 180px;
+}
+
+.input-small {
+    max-width: 100px;
+}
+
+.form-control {
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: none;
+    color: #4e5459;
+}
+
+.form-control:focus {
+    border-color: @evergreen;
+    box-shadow: none;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/*
+ -----
+ Buttons
+ -----
+*/
+
+.btn {
+    box-shadow: none;
+    border-radius: 3px;
+    text-rendering: optimizelegibility;
+    border: 1px solid transparent;
+    text-shadow: none;
+    font-family: @buttonFont;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.btn-lg {
+    height: 50px;
+    padding: 17px 16px;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.btn:not(.btn-link):hover {
+    opacity: 0.9;
+}
+
+.btn:focus {
+    opacity: 0.9;
+    box-shadow: none !important;
+}
+
+.btn.disabled,
+.btn[disabled],
+fieldset[disabled] .btn {
+    opacity: 0.35 !important;
+}
+
+.btn[disabled='disabled'] {
+    cursor: not-allowed;
+    pointer-events: auto;
+}
+
+.btn-link {
+    color: @linkColor;
+    border-bottom: none;
+    text-shadow: none;
+    box-shadow: none;
+}
+
+.btn-link:hover {
+    color: @linkHoverColor;
+}
+
+.btn-white {
+    background-color: #fff;
+    background: none;
+    border-bottom: none;
+    text-shadow: none;
+    box-shadow: none;
+}
+
+.btn-white:hover,
+.btn-white:focus {
+    box-shadow: none;
+    color: @linkHoverColor;
+}
+
+.btn-white.active {
+    box-shadow: none;
+    color: @linkColor;
+}
+
+.btn-success,
+.btn-success:hover {
+    background: @evergreen;
+    border-color: @evergreen;
+    color: #fff;
+}
+
+.btn-success-dark,
+.btn-success-dark:hover {
+    background: @pine;
+    border-color: @pine;
+    color: #fff;
+}
+
+.btn-success.btn-outline,
+.btn-success.btn-outline:hover {
+    color: @evergreen;
+    border-color: @evergreen;
+    background: transparent;
+}
+
+.btn-coral,
+.btn-coral:hover {
+    background: @coral;
+    border-color: @coral;
+    color: #fff;
+}
+
+/*
+-----
+Floating Labels
+-----
+*/
+
+.floating-label-input {
+    position: relative;
+
+    input:focus ~ .floating-label,
+    input:valid ~ .floating-label {
+        top: 4px;
+        bottom: 10px;
+        left: 0;
+        font-size: 11px;
+        opacity: 1;
+    }
+
+    .floating-label {
+        position: absolute;
+        pointer-events: none;
+        left: 0;
+        top: 10px;
+        transition: 0.2s ease all;
+        -moz-transition: 0.2s ease all;
+        -webkit-transition: 0.2s ease all;
+        color: #999;
+        font-weight: normal;
+        font-size: 18px;
+        margin: 0;
+        height: 46px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
+        padding: 0 16px;
+    }
+
+    input {
+        height: 46px;
+        border-radius: 6px;
+        line-height: 1.33;
+        font-size: 18px;
+        padding: 16px 16px 4px;
+    }
+}
+
+/*
+------
+Invoiced Payments
+------
+ */
+
+.invoiced-payments-signup {
+    .main {
+        background: #fff;
+        border: 1px solid #e6e6e6;
+        border-radius: 4px;
+        padding: 30px 30px;
+        margin: 15px auto 60px;
+        text-align: left;
+        max-width: 750px;
+
+        p.lead {
+            font-size: 16px;
+            text-align: center;
+            margin: 0 0 30px;
+            color: @darkGray;
+            font-weight: normal;
+            line-height: 24px;
+        }
+
+        p:not(.alert):not(.lead),
+        ul {
+            font-size: 14px;
+            text-align: left;
+            color: @darkGray;
+            font-weight: normal;
+            line-height: 24px;
+        }
+
+        ul {
+            padding-left: 15px;
+            margin-left: 0;
+
+            li {
+                padding-left: 0;
+                margin: 5px 0 0;
+            }
+        }
+
+        .application-form {
+            margin-top: 45px;
+            padding: 0 45px;
+
+            .form-group + .form-group {
+                margin-top: 20px;
+            }
+
+            textarea {
+                resize: none;
+            }
+
+            .form-actions {
+                margin: 25px 0 0;
+
+                .btn {
+                    min-width: 200px;
+                }
+            }
+        }
+
+        .fees-holder {
+            margin: 45px auto 0;
+            padding: 30px 45px 0;
+            border-top: 2px solid #e6e6e6;
+        }
+
+        .fees-table {
+            font-size: 14px;
+            border: 1px solid #e6e6e6;
+            border-radius: 3px;
+
+            th {
+                border-bottom: none;
+                font-size: 12px;
+                text-align: left;
+
+                .details {
+                    margin-top: 15px;
+                    font-weight: normal;
+                    font-style: italic;
+                    font-size: 11px;
+                }
+            }
+
+            th + th {
+                border-left: 1px solid #e6e6e6;
+            }
+
+            tbody {
+                tr {
+                    td {
+                        text-align: left;
+                    }
+
+                    td + td {
+                        border-left: 1px solid #e6e6e6;
+                    }
+
+                    td.header-row {
+                        font-size: 12px;
+                        font-weight: bold;
+                        background: #fff;
+                    }
+                }
+            }
+        }
+    }
+
+    .main.small {
+        max-width: 400px;
+
+        .buttons {
+            margin: 15px 0 0;
+            text-align: center;
+        }
+    }
+}
+
+@media (max-width: 767px) {
+    .invoiced-payments-signup {
+        .main {
+            padding-left: 15px;
+            padding-right: 15px;
+            border-radius: 0;
+            border-left-width: 0;
+            border-right-width: 0;
+
+            .application-form,
+            .fees-holder {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+        }
+
+        .container {
+            padding: 0;
+        }
+    }
+}

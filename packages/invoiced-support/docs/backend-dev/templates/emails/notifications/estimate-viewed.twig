@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}Estimate viewed{% endblock %}
+{% block notification %}
+    {% for estimate in estimates %}
+        <p>Customer <a href="{{ dashboardUrl}}/customers/{{ estimate.customer.id  }}?account={{ tenant_id  }}">{{ estimate.customer.name }}</a> has viewed <a href="{{ dashboardUrl}}/estimates/{{ estimate.id  }}?account={{ tenant_id  }}">{{ estimate.number }}</a></p>
+    {% endfor %}
+{% endblock %}

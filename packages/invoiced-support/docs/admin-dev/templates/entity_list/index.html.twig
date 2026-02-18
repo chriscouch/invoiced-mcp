@@ -1,0 +1,18 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Object Lists{% endblock %}
+
+{% block main %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-4 g-1 g-md-4 mt-0">
+        {% for entity in entities %}
+            <div class="col">
+                <a href="{{ ea_url().setController(entity.id).setAction('index') }}" class="d-block border py-3 px-4 rounded text-primary">
+                    <span class="me-1">
+                        <span class="badge badge-secondary">{{ entity.initials }}</span>
+                    </span>
+                    {{ entity.name }}
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

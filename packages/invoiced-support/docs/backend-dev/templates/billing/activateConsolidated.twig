@@ -1,0 +1,790 @@
+{% extends 'billing/activate.twig' %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row justify-content-center px-lg-6 py-3 py-lg-6">
+            <div class="text-center">
+                <img src="{{ asset('/img/logo.png') }}" alt="Invoiced" height="45" class="mw-100"/>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                    <div class="mt-5">
+                        <h1 class="text-center display-3">Activate Account</h1>
+                        <p class="lead text-center">
+                            {{ app.request.query.get('company') }}: Purchase a subscription to unlock invoice sending and gain access to more features. Please select a plan in order to begin.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {% for error in app.flashes('activate_error') %}
+                <div class="alert bg-danger text-white" role="alert">{{ error }}</div>
+            {% endfor %}
+
+            <div class="text-center mt-5 fs-4">
+                <label class="me-3">Pay:</label>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info select-price-yearly">
+                        Yearly <small>(lowest cost)</small>
+                    </button>
+                    <button type="button" class="btn btn-light select-price-monthly">
+                        Monthly
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <table class="table pricing-table">
+                    <thead>
+                    <tr>
+                        <th class="position-sticky top-0 bg-white fs-3"></th>
+                        <th class="position-sticky top-0 bg-white fs-3">Light Touch</th>
+                        <th class="position-sticky top-0 bg-white fs-3">Premium</th>
+                        <th class="position-sticky top-0 bg-white fs-3">Enterprise</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="no-stripe">
+                        <td class="border-0 pt-2 pb-0 text-start"></td>
+                        <td class="border-0 pt-2 pb-0 text-center text-nowrap"><span class="fs-2">Contact Us</span></td>
+                        <td class="border-0 pt-2 pb-0 text-center text-nowrap"><span class="fs-2">Contact Us</span></td>
+                        <td class="border-0 pt-2 pb-0 text-center text-nowrap"><span class="fs-2">Contact Us</span></td>
+                    </tr>
+                    <tr class="no-stripe">
+                        <td class="border-0 pt-4 pb-0 text-start align-top text-secondary"></td>
+                        <td class="border-0 pt-4 pb-0 text-center align-top text-secondary">Perfect for small businesses and startups that have a growing need for A/R automation.</td>
+                        <td class="border-0 pt-4 pb-0 text-center align-top text-secondary">Expanded functionality, ERP integrations, and premium support for mid-sized and enterprise businesses.</td>
+                        <td class="border-0 pt-4 pb-0 text-center align-top text-secondary">Our bespoke offering for high volume billers and enterprises.</td>
+                    </tr>
+                    <tr class="no-stripe">
+                        <td class="border-0 py-3 text-start"></td>
+                        <td class="border-0 py-4 text-center px-6 text-nowrap">
+                            <a href="{{ scheduleUrl }}" class="btn btn-lg d-block btn-coral">
+                                Contact Us
+                            </a>
+                        </td>
+                        <td class="border-0 py-4 text-center px-6 text-nowrap">
+                            <a href="{{ scheduleUrl }}" class="btn btn-lg d-block btn-green-1">
+                                Contact Us
+                            </a>
+                        </td>
+                        <td class="border-0 py-4 text-center px-6 text-nowrap">
+                            <a href="{{ scheduleUrl }}" class="btn btn-lg d-block btn-green-2">
+                                Contact Us
+                            </a>
+                        </td>
+                    </tr>
+                    <tr class="no-stripe">
+                        <td colspan="4" class="border-0 py-0 text-gray-700 fs-4 text-start pt-5 pb-2 section-title">
+                            The Basics
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Ideal For</td>
+                        <td class="text-center">Small and Midsize Businesses</td>
+                        <td class="text-center">Midsize and Enterprise Businesses</td>
+                        <td class="text-center">Enterprise Businesses</td>
+                    </tr>
+                    <tr class="no-stripe">
+                        <td colspan="4" class="text-gray-700 fs-4 text-start pt-5 pb-2 section-title">
+                            Invoicing &amp; Billing Management Features
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">
+                            Invoice delivery via email, text, print/mail, and e-invoicing network
+                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Mailing is U.S. only, text messaging and mail cost extra">
+                                <span class="fas fa-info-circle"></span>
+                            </a>
+                        </td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Invoice view and email open tracking</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Automated dunning with Smart Chasing</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Account statements</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Estimates and customer approvals</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Deposit and prepayment collection</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Credit notes and credit balances</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Bad debt write off</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">
+                            Billing CRM
+                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Send and receive billing emails, assign and track A/R tasks, and manage billing contacts.">
+                                <span class="fas fa-info-circle"></span>
+                            </a>
+                        </td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">
+                            Forms
+                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Create forms to capture payment information and more from customers">
+                                <span class="fas fa-info-circle"></span>
+                            </a>
+                        </td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">
+                            Subscription billing
+                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Recurring invoicing and usage based billing">
+                                <span class="fas fa-info-circle"></span>
+                            </a>
+                        </td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">
+                            White-labeled customer portal
+                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Customers view and pay invoices in a fully branded experience">
+                                <span class="fas fa-info-circle"></span>
+                            </a>
+                        </td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr class="no-stripe">
+                        <td colspan="4" class="text-gray-700 fs-4 text-start pt-5 pb-2 section-title">
+                            Payment Operations
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">
+                            Process bank account (direct debit), credit card, and PayPal payments
+                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Requires separate merchant account">
+                                <span class="fas fa-info-circle"></span>
+                            </a>
+                        </td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">
+                            Check lockbox
+                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Requires Earth Class Mail account, paid separately">
+                                <span class="fas fa-info-circle"></span>
+                            </a>
+                        </td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Provide payment instructions to payers</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">
+                            Payment Plans
+                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Collect large invoice balances over a personalized installment schedule">
+                                <span class="fas fa-info-circle"></span>
+                            </a>
+                        </td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">
+                            Virtual Terminal
+                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Process customer payments in-person or over the phone">
+                                <span class="fas fa-info-circle"></span>
+                            </a>
+                        </td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Payment method on file</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">
+                            AutoPay
+                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Automatic direct debit and credit card payments. AutoPay intelligently retries failed charges and sends failed payment notices">
+                                <span class="fas fa-info-circle"></span>
+                            </a>
+                        </td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Automatic failed payment retries</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Automatic bank feed payment import</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Refunds</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Short-pay and over-pay application</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">CashMatch AI™ payment application recommendations</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">User-defined payment application rules</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Promise-to-pay tracking</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Generate payment receipts</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Late fees</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Early payment discounts</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Convenience fees</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr class="no-stripe">
+                        <td colspan="4" class="text-gray-700 fs-4 text-start pt-5 pb-2 section-title">
+                            Payable Management Features
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">
+                            Receive invoices securely through Invoiced Network
+                        </td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">
+                            Invoice capture
+                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Upload an invoice to automatically create a bill">
+                                <span class="fas fa-info-circle"></span>
+                            </a>
+                        </td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Manually enter bills</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Vendor credits</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Purchase orders</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Bill approvals</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Approval workflows</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">
+                            A/P Inbox
+                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Email inbox where vendors can send invoices">
+                                <span class="fas fa-info-circle"></span>
+                            </a>
+                        </td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr class="no-stripe">
+                        <td colspan="4" class="text-gray-700 fs-4 text-start pt-5 pb-2 section-title">
+                            Vendor Payments
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Credit card payments</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Credit card digital wallet</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Print check</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">
+                            ACH payment files
+                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Pay vendors through your bank’s ACH service">
+                                <span class="fas fa-info-circle"></span>
+                            </a>
+                        </td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Mass payments</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Record payments sent outside Invoiced</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr class="no-stripe">
+                        <td colspan="4" class="text-gray-700 fs-4 text-start pt-5 pb-2 section-title">
+                            Reporting &amp; Analytics
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">A/R aging & core A/R metrics</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">30+ pre-built reports</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">
+                            Subscription metrics
+                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Monthly Recurring Revenue, Churn, Lifetime Value, ARPU and more">
+                                <span class="fas fa-info-circle"></span>
+                            </a>
+                        </td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Cash flow forecasting</td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Report builder</td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Scheduled reports</td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr class="no-stripe">
+                        <td colspan="4" class="text-gray-700 fs-4 text-start pt-5 pb-2 section-title">
+                            Supported ERP/Accounting Systems
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">QuickBooks Online</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">QuickBooks Desktop/Enterprise</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Microsoft Dynamics Business Central</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">
+                            Other accounting systems
+                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Sage Accounting, FreshBooks, Xero">
+                                <span class="fas fa-info-circle"></span>
+                            </a>
+                        </td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Intacct</td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">NetSuite</td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">
+                            Other ERPs
+                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Integrated with ERP Connect">
+                                <span class="fas fa-info-circle"></span>
+                            </a>
+                        </td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr class="no-stripe">
+                        <td colspan="4" class="text-gray-700 fs-4 text-start pt-5 pb-2 section-title">
+                            Integrations &amp; Extensibility
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Spreadsheet import</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">15+ payment gateways</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Custom payment gateway integration</td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Salesforce integration</td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">12+ specialty integrations</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Automations builder</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">API</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Webhooks</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Single sign-on</td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr class="no-stripe">
+                        <td colspan="4" class="text-gray-700 fs-4 text-start pt-5 pb-2 section-title">
+                            Advanced Configuration Features
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Email template customization</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Invoice and statement themes</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Pricing catalog</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Sales tax rate management</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Multi-currency support</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Internationalization support</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Custom fields</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Multi-level customer hierarchy</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Coupon codes</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Customizable notifications</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Audit log</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Roles and permissions</td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Custom invoice and statement templates</td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">
+                            Multi-entity support
+                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Allows you to bill from multiple entities and subsidiaries">
+                                <span class="fas fa-info-circle"></span>
+                            </a>
+                        </td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr class="no-stripe">
+                        <td colspan="4" class="text-gray-700 fs-4 text-start pt-5 pb-2 section-title">
+                            Support
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Documentation / guides</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Email support</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Live chat support</td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Phone support</td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">SLA</td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Implementation services</td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-start">Comprehensive onboarding and training</td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"></td>
+                        <td class="check-icon"><span class="fas fa-check-circle"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-xl-8 offset-xl-2 ps-5 ps-xl-0">
+                <h2 class="display-3">FAQs</h2>
+                <div class="row mt-3">
+                    <div class="col-lg-6 mt-3 pe-6">
+                        <h3 class="display-5">How does the invoices/month limit work?</h3>
+                        <p class="fs-3">We track the invoices that are issued within each calendar month. The invoices/month limit is how many invoices you can issue within each calendar month at no additional cost.</p>
+                    </div>
+                    <div class="col-lg-6 mt-3 pe-6">
+                        <h3 class="display-5">What if I exceed the included invoices?</h3>
+                        <p class="fs-3">Any invoice overages within a calendar month will be billed at {{ prices['growth-yearly'].invoice }}/invoice at the beginning of the next month.</p>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-lg-6 mt-3 pe-6">
+                        <h3 class="display-5">Are there any extra fees?</h3>
+                        <p class="fs-3">Nope! Your Invoiced subscription includes everything you need to automate your invoicing and billing. There are optional services available from third party providers, like payment processing, check lockbox, text messaging, and print/mail. These third party services do have a fee charged by the provider if you choose to sign up and use an optional service.</p>
+                    </div>
+                    <div class="col-lg-6 mt-3 pe-6">
+                        <h3 class="display-5">Will my invoices be secure and private?</h3>
+                        <p class="fs-3">We take the privacy of our customer's data with great responsibility. Our website uses TLS (Transport Layer Security) encryption for all traffic, we perform daily backups, and maintain PCI Level 1 Service Provider and SOC 2 Type II compliance. Learn more on our <a href="https://www.invoiced.com/legal/security" target="_blank">security page</a>.</p>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-lg-6 mt-3 pe-6">
+                        <h3 class="display-5">How do I pay for Invoiced?</h3>
+                        <p class="fs-3">We charge your credit card for the plan and billing interval that you select. You can select to pay yearly or monthly. All pricing shown is in USD.</p>
+                        <p class="fs-3"><img src="{{ asset('/img/signup/card-logos.png') }}" alt="Card Logos" height="45" /></p>
+                    </div>
+                    <div class="col-lg-6 mt-3 pe-6">
+                        <h3 class="display-5">Can I switch plans or cancel my account?</h3>
+                        <p class="fs-3">Yes, as a subscriber you can cancel, upgrade, or downgrade your plan at any time.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5 text-center">
+            <small class="d-block mb-3 text-muted">&copy; {{ 'now'|date('Y') }} Invoiced, Inc.</small>
+        </div>
+    </div>
+{% endblock %}

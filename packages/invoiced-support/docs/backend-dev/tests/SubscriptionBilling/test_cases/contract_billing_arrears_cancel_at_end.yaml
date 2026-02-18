@@ -1,0 +1,182 @@
+# This tests the contract billing scenario
+# with bill in arrears and scheduled to
+## cancel at the end of the contract
+
+data:
+  - object: plan
+    interval: month
+    interval_count: 1
+    amount: 500
+
+operations:
+  - operation: create
+    time: 2021-03-20
+    parameters:
+      start_date: 2021-03-20
+      contract_renewal_mode: auto
+      cycles: 12
+      bill_in: arrears
+      cancel_at_period_end: true
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-03-20
+        period_end: 2021-04-19T23:59:59Z
+        contract_period_start: 2021-03-20
+        contract_period_end: 2022-03-19T23:59:59Z
+
+  - operation: bill
+    name: First Invoice
+    time: 2021-04-20
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-04-20
+        period_end: 2021-05-19T23:59:59Z
+        contract_period_start: 2021-03-20
+        contract_period_end: 2022-03-19T23:59:59Z
+      invoice:
+        date: 2021-04-19T23:59:59
+
+  - operation: bill
+    name: Second Invoice
+    time: 2021-05-20
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-05-20
+        period_end: 2021-06-19T23:59:59Z
+        contract_period_start: 2021-03-20
+        contract_period_end: 2022-03-19T23:59:59Z
+      invoice:
+        date: 2021-05-19T23:59:59
+
+  - operation: bill
+    name: Third Invoice
+    time: 2021-06-20
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-06-20
+        period_end: 2021-07-19T23:59:59Z
+        contract_period_start: 2021-03-20
+        contract_period_end: 2022-03-19T23:59:59Z
+      invoice:
+        date: 2021-06-19T23:59:59
+
+  - operation: bill
+    name: Fourth Invoice
+    time: 2021-07-20
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-07-20
+        period_end: 2021-08-19T23:59:59Z
+        contract_period_start: 2021-03-20
+        contract_period_end: 2022-03-19T23:59:59Z
+      invoice:
+        date: 2021-07-19T23:59:59
+
+  - operation: bill
+    name: Fifth Invoice
+    time: 2021-08-20
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-08-20
+        period_end: 2021-09-19T23:59:59Z
+        contract_period_start: 2021-03-20
+        contract_period_end: 2022-03-19T23:59:59Z
+      invoice:
+        date: 2021-08-19T23:59:59
+
+  - operation: bill
+    name: Sixth Invoice
+    time: 2021-09-20
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-09-20
+        period_end: 2021-10-19T23:59:59Z
+        contract_period_start: 2021-03-20
+        contract_period_end: 2022-03-19T23:59:59Z
+      invoice:
+        date: 2021-09-19T23:59:59
+
+  - operation: bill
+    name: Seventh Invoice
+    time: 2021-10-20
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-10-20
+        period_end: 2021-11-19T23:59:59Z
+        contract_period_start: 2021-03-20
+        contract_period_end: 2022-03-19T23:59:59Z
+      invoice:
+        date: 2021-10-19T23:59:59
+
+  - operation: bill
+    name: Eigth Invoice
+    time: 2021-11-20
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-11-20
+        period_end: 2021-12-19T23:59:59Z
+        contract_period_start: 2021-03-20
+        contract_period_end: 2022-03-19T23:59:59Z
+      invoice:
+        date: 2021-11-19T23:59:59
+
+  - operation: bill
+    name: Ninth Invoice
+    time: 2021-12-20
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-12-20
+        period_end: 2022-01-19T23:59:59Z
+        contract_period_start: 2021-03-20
+        contract_period_end: 2022-03-19T23:59:59Z
+      invoice:
+        date: 2021-12-19T23:59:59
+
+  - operation: bill
+    name: Tenth Invoice
+    time: 2022-01-20
+    assertions:
+      subscription:
+        status: active
+        period_start: 2022-01-20
+        period_end: 2022-02-19T23:59:59Z
+        contract_period_start: 2021-03-20
+        contract_period_end: 2022-03-19T23:59:59Z
+      invoice:
+        date: 2022-01-19T23:59:59
+
+  - operation: bill
+    name: Eleventh Invoice
+    time: 2022-02-20
+    assertions:
+      subscription:
+        status: active
+        period_start: 2022-02-20
+        period_end: 2022-03-19T23:59:59Z
+        contract_period_start: 2021-03-20
+        contract_period_end: 2022-03-19T23:59:59Z
+      invoice:
+        date: 2022-02-19T23:59:59
+
+  - operation: bill
+    name: Twelfth Invoice
+    time: 2022-03-20
+    assertions:
+      subscription:
+        status: canceled
+        period_start: ~
+        period_end: ~
+        contract_period_start: 2021-03-20
+        contract_period_end: 2022-03-19T23:59:59Z
+      invoice:
+        date: 2022-03-19T23:59:59

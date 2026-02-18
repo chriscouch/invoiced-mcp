@@ -1,0 +1,14 @@
+<div class="contents medium">
+	<div class="announcements-list">
+		<h2>Updates</h2>
+		<div class="announcement" ng-repeat="announcement in announcements">
+			<div class="date">
+				<company-date date="announcement.date"></company-date>
+			</div>
+			<div class="title">
+				{{announcement.name}}
+			</div>
+			<div class="content" ng-bind-html="announcement.body|nl2br"></div>
+		</div>
+	</div>
+</div>

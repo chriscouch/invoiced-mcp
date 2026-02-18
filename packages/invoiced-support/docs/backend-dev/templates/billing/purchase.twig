@@ -1,0 +1,302 @@
+{% trans_default_domain 'general' %}
+{% set title='Purchase' %}
+{% extends "billing/parent.twig" %}
+
+{% block header %}
+    <script type="text/javascript" src="{{ asset("/js/auth.js") }}"></script>
+    <script async src="https://www.google.com/recaptcha/api.js"></script>
+    <script src="{{ invoicedTokenizationUrl }}"></script>
+    <script>
+        const styleObject = {
+            base: {
+                caretColor: 'rgba(110, 132, 163, 1);',
+                color: 'rgba(110, 132, 163, 1);',
+                padding: '0 5px',
+            },
+            error: {
+                color: '#d9534f',
+                caretColor: '#d9534f',
+            },
+        };
+        Invoiced.create(
+            {
+                publishableKey:"{{ invoicedPublishableKey }}",
+                clientKey:"{{ adyenClientKey }}",
+                payFacEnv:"{{ payFacEnv }}",
+                invoicedUrl:"{{ tokenizationUrl }}",
+            },
+            {
+                styles: styleObject,
+            },
+            handleInvoicedToken,
+            () => {},
+        );
+
+
+        function onSubmit() {
+            $('#theSubmitButton').attr('disabled', 'disabled');
+            {% if paymentTerms == 'AutoPay' %}
+                tokenizeCard();
+            {% else %}
+                complete();
+            {% endif %}
+        }
+
+        function tokenizeCard() {
+            $('#cardErrors').addClass('d-none');
+            var name = $('.cc-name').val();
+            var address = {
+                address1: $('.cc-address1').val(),
+                address2: $('.cc-address2').val(),
+                city: $('.cc-city').val(),
+                state: $('.cc-state').val(),
+                postal_code: $('.cc-postal-code').val(),
+                country: '{{ country }}'
+            };
+            Invoiced.card.tokenize(name, address);
+        }
+
+        function handleInvoicedToken(statusCode, response) {
+            if (statusCode >= 400) {
+                $('#cardErrors').removeClass('d-none');
+                $('#cardErrorMsg').html(response.message);
+                $('#theSubmitButton').removeAttr('disabled');
+                return;
+            }
+
+            $('#form_invoiced_token').val(response.invoiced_token);
+            complete();
+        }
+
+        function complete() {
+            document.getElementById("purchaseForm").submit();
+        }
+    </script>
+
+
+    <style>
+        .input-card-number, .input-expiry, .input-cvc {
+            height: 50px;
+            border: 1px solid #d2ddec;
+            box-sizing: border-box;
+        }
+
+        .iframe-container {
+            display: block;
+            line-height: 1.5;
+            color: rgba(110, 132, 163, 1);
+
+            width: 100%;
+            height: 50px;
+
+            position: absolute;
+            left: 43px;
+        }
+
+
+        .input-expiry .iframe-container {
+            left: 39px;
+            width: 50%;
+        }
+
+        .input-cvc .iframe-container {
+            left: 39px;
+            width: 50%;
+        }
+
+        .iframe-container iframe {
+            width: 100%;  /* Make iframe match parent's width */
+            height: 100%; /* Make iframe match parent's height */
+            border: none; /* Remove default iframe border */
+            display: block; /* Ensures no extra space below the iframe */
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+    {{ form_start(form, {'attr': {'id': 'purchaseForm'}}) }}
+    <div class="row">
+        <div class="col-12 col-xl-5 offset-xl-1 px-6 pt-6">
+            <h5 class="text-uppercase text-muted display-5">
+                Purchase
+            </h5>
+            <h1 class="display-3 mb-4">
+                {% if reason == 'NewCompany' %}
+                    New Account
+                {% elseif reason == 'Activate' %}
+                    Activate Account
+                {% elseif reason == 'Upgrade' %}
+                    Upgrade Account
+                {% elseif reason == 'Reactivate' %}
+                    Reactivate Account
+                {% endif %}
+            </h1>
+
+            <!-- Note to Buyer -->
+            {% if note %}
+                <blockquote class="blockquote border rounded p-3">
+                    {{ note|nl2br }}
+                </blockquote>
+            {% endif %}
+
+            <!-- Order Summary -->
+            {% if company %}
+                <div class="mb-3 fs-3">
+                    Company: <em>{{ company }}</em>
+                </div>
+            {% endif %}
+            <div class="mb-5 fs-3">
+                {% if company != billingProfileName %}
+                    Prepared for <em>{{ billingProfileName }}</em>
+                {% endif %}
+                {% if salesRep %}by {{ salesRep }}{% endif %}
+            </div>
+
+            <table class="table m-0">
+                <thead>
+                <tr>
+                    <th class="border-top-0">Description</th>
+                    <th class="border-top-0 text-end">Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for displayItem in displayItems %}
+                    <tr>
+                        <td class="">{{ displayItem.description }}</td>
+                        <td class="text-end">{{ displayItem.price }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                {% if recurringTotal %}
+                    <tr>
+                        <td class="fs-3">Total</td>
+                        <td colspan="2" class="text-end fs-3">
+                            <strong>{{ recurringTotal }}</strong>
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if oneTimeTotal %}
+                    <tr>
+                        <td class="fs-4">One-Time Fees</td>
+                        <td colspan="2" class="text-end fs-4">
+                            <strong>{{ oneTimeTotal }}</strong>
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if country == 'US' %}
+                    <tr>
+                        <td colspan="3" class="fs-5">
+                            Sales tax will be added to your order if we are required to collect sales tax in your state.
+                        </td>
+                    </tr>
+                {% endif %}
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="col-12 col-xl-5 px-6 py-6">
+            {{ form_errors(form) }}
+
+            <!-- Billing Details -->
+            <h4 class="display-4 mb-4">Billing Details</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_row(form.company) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.person) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    {{ form_row(form.email) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_row(form.address1) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.address2) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    {{ form_row(form.city) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_row(form.state) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_row(form.postal_code) }}
+                </div>
+            </div>
+            <hr/>
+
+            <!-- Payment Details -->
+            <h4 class="display-4 mt-5 mb-4">Payment</h4>
+
+            {% if paymentTerms == 'Net30' %}
+                <div class="mb-5">You will be invoiced with NET 30 payment terms.</div>
+            {% elseif paymentTerms == 'AutoPay' %}
+                <div>You will be charged automatically each billing cycle to the payment method on file.</div>
+                <div class="credit-card-holder mt-3">
+                    <div class="text-danger mb-3 d-none" id="cardErrors">
+                        <span class="far fa-circle-exclamation"></span>
+                        <span id="cardErrorMsg">Your card has expired</span>
+                    </div>
+                    <div class="credit-card" id="customCard-container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="input-card-number input-group">
+                                    <span class="input-group-text text-secondary">
+                                        <span class="far fa-credit-card"></span>
+                                    </span>
+                                    <span class="type"></span>
+                                    <span class="iframe-container" data-cse="encryptedCardNumber"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <div class="input-expiry input-group">
+                                    <span class="input-group-text text-secondary">
+                                        <span class="far fa-calendar"></span>
+                                    </span>
+                                    <span class="iframe-container" data-cse="encryptedExpiryDate"></span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-cvc input-group">
+                                    <span class="input-group-text text-secondary">
+                                        <span class="far fa-lock"></span>
+                                    </span>
+                                    <span class="iframe-container" data-cse="encryptedSecurityCode"></span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="card-logos text-end">
+                            <img src="{{ asset("/img/billing-portal/card-logos.png") }}" width="150" />
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- ToS Agreement -->
+            <div class="mt-3 fs-3">
+                {{ form_row(form.agree)|replace({'LINK': '<a href="https://invoiced.com/terms" target="_blank">Terms of Service</a>'})|raw }}
+            </div>
+
+            <div class="mt-5">
+                <button type="button" data-sitekey="6LfBzJkiAAAAAP0HW4F4s9PLh8EiLGtbEeei5KQM" data-callback="onSubmit" data-action="submit" class="g-recaptcha btn btn-lg btn-primary" id="theSubmitButton">
+                    Purchase
+                </button>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

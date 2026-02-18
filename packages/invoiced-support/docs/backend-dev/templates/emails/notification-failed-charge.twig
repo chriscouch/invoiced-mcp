@@ -1,0 +1,11 @@
+{% extends "emails/notification.twig" %}
+
+{% block message %}
+    {{ parent() }}
+    <center>
+        <p style="margin-top:30px;">
+            Here is why the charge failed:<br/><br/>
+            {{ failureReason }}
+        </p>
+    </center>
+{% endblock %}

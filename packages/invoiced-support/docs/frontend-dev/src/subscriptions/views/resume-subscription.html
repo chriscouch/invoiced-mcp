@@ -1,0 +1,40 @@
+<form name="subscriptionForm" ng-submit="save(id, nextStartDate)" class="below0">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title">
+            {{'subscriptions.actions.resume_subscription'|translate}}
+        </h4>
+    </div>
+    <div class="modal-body form-horizontal">
+        <p ng-show="isTrialing">
+            {{'subscriptions.messages.extend_trial'|translate}}
+        </p>
+        <p ng-hide="isTrialing">
+            {{'subscriptions.messages.next_billing_date'|translate}}
+        </p>
+
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <div>
+            <label class="control-label" ng-show="isTrialing">{{'subscriptions.labels.trial_ends_on'|translate}}</label>
+            <label class="control-label" ng-hide="isTrialing">{{'subscriptions.labels.next_period_start_date'|translate}}</label>
+            <div>
+                <div class="input-group input-medium">
+                    <input class="form-control" type="text" ng-model="nextStartDate" ui-date="dateOptions" is-open="dpOpened" readonly="readonly" required />
+                    <span class="input-group-btn">
+						<button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'dpOpened')">
+							<span class="fas fa-calendar-alt"></span>
+						</button>
+					</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary Button" ng-disabled="subscriptionForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+            {{'subscriptions.buttons.resume'|translate}}
+        </button>
+    </div>
+</form>

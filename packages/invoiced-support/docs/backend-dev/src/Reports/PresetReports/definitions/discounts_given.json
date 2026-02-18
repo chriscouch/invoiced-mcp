@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "title": "Discounts Given",
+  "sections": [
+    {
+      "title": "Subtotal Discounts",
+      "object": "invoice_discount",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "coupon.name"
+          },
+          "name": "Coupon"
+        },
+        {
+          "name": "# Discounts",
+          "field": {
+            "function": "count"
+          }
+        },
+        {
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "amount"
+              }
+            ]
+          },
+          "name": "Total Discounts"
+        }
+      ],
+      "filter": [
+        {
+          "operator": "=",
+          "value": "$currency",
+          "field": {
+            "id": "invoice.currency"
+          }
+        },
+        {
+          "operator": "between",
+          "value": "$dateRange",
+          "field": {
+            "id": "invoice.date"
+          }
+        },
+        {
+          "operator": "=",
+          "value": false,
+          "field": {
+            "id": "invoice.voided"
+          }
+        },
+        {
+          "operator": "=",
+          "value": false,
+          "field": {
+            "id": "invoice.draft"
+          }
+        },
+        {
+          "operator": ">",
+          "value": "0",
+          "field": {
+            "id": "amount"
+          }
+        }
+      ],
+      "group": [
+        {
+          "expanded": false,
+          "field": {
+            "id": "coupon.id"
+          },
+          "ascending": true
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "coupon.name"
+          },
+          "ascending": true
+        }
+      ]
+    }
+  ]
+}

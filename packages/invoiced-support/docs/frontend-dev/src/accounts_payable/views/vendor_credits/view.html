@@ -1,0 +1,67 @@
+<p class="loading" ng-show="loading"></p>
+
+<div class="object-view vendor-credit-summary" ng-hide="loading">
+    <div class="title-bar clearfix">
+        <!-- Title -->
+        <h2>Vendor Credit</h2>
+        <h3>{{vendorCredit.number}}</h3>
+    </div>
+
+    <ul class="nav nav-tabs">
+        <!-- Tab Links -->
+        <li ui-sref-active="active">
+            <a ui-sref=".summary">
+                {{'tabs.summary'|translate}}
+            </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref=".messages">
+                {{'inboxes.messages.title'|translate}}
+            </a>
+        </li>
+
+        <!-- Action Buttons -->
+        <li class="action dropdown right" dropdown>
+            <a href="" class="dropdown-toggle" dropdown-toggle>
+                <span class="actions-label"></span>
+                <span class="fas fa-chevron-down"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li ng-if="vendorCredit.status != 'Paid' && vendorCredit.status != 'Voided'">
+                    <a href="" ng-click="addAdjustment(vendorCredit)">
+                        Add Adjustment
+                    </a>
+                </li>
+                <li ng-if="vendorCredit.status != 'Paid' && vendorCredit.status != 'Voided' && 'bills.edit'|hasPermission">
+                    <assign-workflow workflow="vendorCredit.approval_workflow" callback="assignWorkflow"></assign-workflow>
+                </li>
+                <li ng-if="vendorCredit.status == 'PendingApproval'">
+                    <a href="" ng-click="approverModal()">
+                        Assign Approver
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li class="danger" ng-show="vendorCredit.status == 'PendingApproval' || vendorCredit.status == 'Approved'">
+                    <a href="" ng-click="rejectDocument(vendorCredit)" ng-hide="changingStatus">
+                        Reject Vendor Credit
+                    </a>
+                </li>
+                <li class="danger" ng-if="'bills.delete'|hasPermission">
+                    <a href="" ng-click="delete(vendorCredit)" ng-hide="deleting || vendorCredit.voided">
+                        Void Vendor Credit
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="action right" ng-if="vendorCredit.source != 'Network'">
+            <a ui-sref="manage.vendor_credit.edit({id: vendorCredit.id})">{{'general.edit'|translate}}</a>
+        </li>
+    </ul>
+
+    <!-- Selected Tab Content -->
+    <div class="tab-content">
+        <div class="tab-pane active">
+            <ui-view/>
+        </div>
+    </div>
+</div>

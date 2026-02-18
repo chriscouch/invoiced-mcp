@@ -1,0 +1,13 @@
+{
+  "data": [{
+    "checks": [{
+      "id": 1,
+      "check_number": "2",
+      "amount_in_cents": 20000
+    }],
+    "created_at": "2020-03-06T18:01:31Z",
+    "piece_id": 111
+  }],
+  "current_page": 1,
+  "last_page": 2
+}

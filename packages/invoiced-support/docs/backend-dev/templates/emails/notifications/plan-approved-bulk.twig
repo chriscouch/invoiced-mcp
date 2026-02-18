@@ -1,0 +1,5 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}Payment plans approved{% endblock %}
+{% block notification %}
+    <p><a href="{{ dashboardUrl}}/alerts?account={{ tenant_id  }}">{{ count }} payment</a> plans approved were approved by customers</p>
+{% endblock %}

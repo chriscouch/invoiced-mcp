@@ -1,0 +1,38 @@
+<h1 class="logo">
+	<img src="/img/auth-logo@2x.png" width="181" height="46" alt="Invoiced" />
+</h1>
+<div class="body skinny minimal container">
+	<div class="content">
+		<h4 class="title">
+			Canceled Account
+		</h4>
+
+		<p class="lead text-center">
+			The Invoiced account for <em>{{company.name}}</em> is canceled. If you wish to reactivate your account, please click the button below to begin the reactivation process.
+		</p>
+
+		<div class="form-group text-center">
+			<a href="{{activateUrl}}" class="btn btn-success btn-lg">
+				Reactivate Account
+			</a>
+		</div>
+		<hr/>
+
+		<div class="form-group">
+			<div class="row">
+				<div class="col-sm-6">
+					<a ui-sref="auth.logout" class="btn btn-link">
+						Sign Out
+					</a>
+				</div>
+				<div class="col-sm-6">
+					<a href="" class="btn btn-link" ng-click="switchCompany()" ng-if="companies.length > 1">
+						Switch Business
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">resizeAppPage();</script>

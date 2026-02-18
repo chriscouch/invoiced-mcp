@@ -1,0 +1,34 @@
+{
+  "title": "Too Many Groupings",
+  "sections": [
+    {
+      "type": "table",
+      "object": "customer",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "name"
+          }
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "state"
+          }
+        },
+        {
+          "field": {
+            "id": "country"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{% trans_default_domain 'customer_portal' %}
+{% import 'customerPortal/paymentMethods/macros.twig' as macros %}
+
+{% if isTestGateway %}
+  <p class="alert alert-warning">
+    <span class="fas fa-flask"></span>
+    Test payment gateway is on! This form will simulate submitting a payment without actually processing a payment &mdash;
+    <a href="https://invoiced.com/docs/testing#ach" target="_blank">Test Account Numbers</a>
+  </p>
+{% endif %}
+
+{{ macros.achForm(achDebitTerms, accountHolderType, address, countries) }}
+
+<script type="text/javascript" src="{{ asset('/js/views/paymentForms/ach.js') }}"></script>

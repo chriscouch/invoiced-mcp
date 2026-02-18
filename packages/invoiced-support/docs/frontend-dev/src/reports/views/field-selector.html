@@ -1,0 +1,67 @@
+<form name="reportParametersForm" ng-submit="add(selectedFields)" class="below0">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title">
+            Select Fields
+            <small>{{('metadata.object_names.'+object)|translate}}</small>
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="report-field-selector">
+            <div class="row">
+                <div ng-class="{'col-sm-6':multiple,'col-sm-12':!multiple}">
+                    <label class="control-label">Available</label>
+                    <div class="searchbar light report-searchbar">
+                        <div class="bar">
+                            <div class="icon"><span class="fas fa-search"></span></div>
+                            <input type="text" class="form-control input-sm" ng-model="search" />
+                            <div class="icon right icon-btn" ng-show="search">
+                                <button type="button" class="btn btn-link" ng-click="search=''">
+                                    <span class="fas fa-times-circle"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="report-field-selector-list">
+                        <div class="report-field" ng-repeat="field in availableFields | searchObject:search:['name','id']">
+                            <a href="" ng-click="selectField(field)">
+                                <div class="arrow" ng-show="multiple">
+                                    <span class="fas fa-plus"></span>
+                                </div>
+                                <div class="arrow" ng-hide="multiple">
+                                    <span class="fas fa-chevron-right"></span>
+                                </div>
+                                {{field.name}}
+                                <small ng-show="field.type === 'join'"><span class="label label-info">Object</span></small>
+                                <small ng-show="field.id.indexOf('metadata') === 0"><span class="label label-default">Custom Field</span></small>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6" ng-show="multiple">
+                    <label class="control-label">Selected</label>
+
+                    <div class="report-field-selector-list">
+                        <div class="empty" ng-if="selectedFields.length === 0">
+                            Click a field on the left to add.
+                        </div>
+                        <div class="report-field" ng-repeat="field in selectedFields">
+                            <a href="" ng-click="deselectField(field)">
+                                <div class="arrow">
+                                    <span class="fas fa-minus"></span>
+                                </div>
+                                {{field.name}}
+                                <small ng-show="field.id.indexOf('metadata') === 0"><span class="label label-default">Custom Field</span></small>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">
+            Add
+        </button>
+    </div>
+</form>

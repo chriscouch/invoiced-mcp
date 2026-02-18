@@ -1,0 +1,42 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
+	<h4 class="modal-title">Assign Sign Up Page</h4>
+</div>
+<div class="modal-body" ng-show="loading">
+	<div class="loading"></div>
+</div>
+<div class="modal-body" ng-hide="loading">
+	<div class="form-group">
+		<div>
+			<label class="control-label">Customer</label>
+		</div>
+		<div>
+			{{customer.name}}
+		</div>
+	</div>
+	<div>
+		<label class="noselect">
+			<input type="checkbox" ng-model="hasSignUpPage" />
+			Customer has a sign up page
+		</label>
+	</div>
+
+	<div ng-show="hasSignUpPage">
+		<div class="form-group">
+			<div class="invoiced-select">
+				<select ng-model="customer.sign_up_page" ng-options="page.id as page.name for page in signUpPages"></select>
+			</div>
+		</div>
+		<div class="form-group">
+			<a href="" class="btn btn-default" ng-click="newSignUpPageModal()">
+				<span class="fas fa-plus"></span>
+				New Sign Up Page
+			</a>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-primary Button" ng-click="save(customer)" ng-disabled="saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+		{{'general.save'|translate}}
+	</button>
+</div>

@@ -1,0 +1,260 @@
+<div class="contents billing-settings">
+	<div class="settings-title-bar">
+		<h2 class="title">
+			<div class="back-link">
+				<a ui-sref="manage.settings.default">
+					<span class="fas fa-arrow-left"></span>
+					{{'general.settings'|translate}}
+				</a>
+			</div>
+			{{'settings.titles.billing'|translate}}
+		</h2>
+
+		<p class="lead">
+			Here you can modify or cancel your Invoiced subscription, update payment information, and see product usage levels.
+		</p>
+	</div>
+
+	<p class="loading" ng-show="loading"></p>
+
+	<div ng-hide="loading">
+		<activate-account-banner></activate-account-banner>
+
+		<div>
+			<div class="row main-row">
+				<div class="col-md-6">
+					<p class="alert alert-danger" ng-show="error">
+						{{error.message}}
+					</p>
+
+					<!-- Subscription -->
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								My Subscription
+							</h4>
+						</div>
+						<div class="panel-body form-horizontal">
+							<!-- Products -->
+							<div class="row" ng-if="company.billing.status != 'trialing' && billingInfo.products.length > 0">
+								<label class="control-label col-sm-4">
+									Products
+								</label>
+								<div class="col-sm-8 form-control-static">
+									<div class="product-list-item" ng-repeat="product in billingInfo.products">{{product}}</div>
+								</div>
+							</div>
+
+							<!-- Status -->
+							<div class="row" ng-hide="company.billing.status == 'active'">
+								<label class="control-label col-sm-4">
+									{{'general.status'|translate}}
+								</label>
+								<div class="col-sm-8 form-control-static">
+									<span class="label label-danger" ng-show="company.billing.status == 'unpaid'">
+										<strong>Unpaid</strong>
+									</span>
+									<span class="label label-danger" ng-show="company.billing.status == 'past_due'">
+										Past Due
+									</span>
+									<span class="label label-warning" ng-show="company.billing.status == 'trialing'">
+										Trialing
+									</span>
+									<span class="label label-success" ng-show="company.billing.status == 'active'">
+										Active
+									</span>
+								</div>
+							</div>
+
+							<!-- Usage Pricing Plans -->
+							<div class="row" ng-if="billingInfo.usage_pricing_plans.length > 0">
+								<label class="control-label col-sm-4">
+									Usage Limits
+								</label>
+								<div class="col-sm-8 form-control-static">
+									<div class="billing-usage-limit" ng-repeat="pricingPlan in billingInfo.usage_pricing_plans">
+										<div class="name">{{pricingPlan.name}}</div>
+										<div class="details">
+											<span ng-show="pricingPlan.threshold > 0">{{pricingPlan.threshold|metricNumber}} included.</span>
+											<span ng-show="pricingPlan.unit_price > 0"><span ng-show="pricingPlan.threshold > 0">Additional</span> <money currency="'usd'" amount="pricingPlan.unit_price"></money> per {{pricingPlan.unit}}</span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Next Invoice -->
+							<div class="row" ng-show="company.billing.status!='trialing'&&billingInfo.next_bill_date>0&&!billingInfo.cancel_at_period_end&&company.billing.provider!='reseller'">
+								<label class="control-label col-sm-4">
+									Next Invoice
+								</label>
+								<div class="col-sm-8 form-control-static">
+									<span ng-show="billingInfo.next_charge_amount"><money amount="billingInfo.next_charge_amount" currency="'usd'"></money> on</span>
+									<company-date date="billingInfo.next_bill_date"></company-date>
+								</div>
+							</div>
+
+							<!-- Discount -->
+							<div class="row" ng-if="billingInfo.discount">
+								<label class="control-label col-sm-4">
+									Discount
+								</label>
+								<div class="col-sm-8 form-control-static" ng-if="billingInfo.discount.origin=='invoiced'">
+									<invoiced-coupon coupon="billingInfo.discount.coupon"></invoiced-coupon>
+								</div>
+							</div>
+
+							<!-- Trial End Date -->
+							<div class="row" ng-show="company.billing.status=='trialing'&&company.trial_ends>0">
+								<label class="control-label col-sm-4">
+									Trial Ends
+								</label>
+								<div class="col-sm-8 form-control-static">
+									<company-date date="company.trial_ends"></company-date>
+								</div>
+							</div>
+
+							<!-- Cancel -->
+							<div class="row" ng-hide="company.billing.provider=='reseller'">
+								<div class="col-sm-8 col-sm-offset-4 form-control-static" ng-hide="billingInfo.cancel_at_period_end">
+									<a href="{{upgradeUrl}}" class="btn btn-success hidden" target="_blank" ng-hide="'not_activated'|hasFeature">
+										Upgrade Account
+									</a>
+									<a ui-sref="manage.settings.cancel" class="btn btn-default">
+										Cancel Account
+									</a>
+								</div>
+								<div class="col-sm-8 col-sm-offset-4 form-control-static" ng-show="billingInfo.cancel_at_period_end">
+									<span class="text-danger">Will cancel on <company-date date="billingInfo.next_bill_date"></company-date></span>
+									<div>
+										<a href="" ng-click="reactivate()" ng-hide="reactivating">Reactivate</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Payment Information -->
+					<div class="panel panel-default billing-credit-card" ng-if="company.billing.status!='trialing'&&company.billing.provider!='null'&&billingInfo.autopay&&company.billing.provider!='reseller'">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								My Payment Information
+							</h4>
+						</div>
+						<div class="panel-body form-horizontal">
+							<div class="row">
+								<label class="control-label col-sm-4" ng-if="billingInfo.source.object=='card'">
+									Card
+								</label>
+								<label class="control-label col-sm-4" ng-if="billingInfo.source.object=='bank_account'">
+									Bank Account
+								</label>
+								<div class="col-sm-8 form-control-static">
+									<span ng-show="billingInfo.source.last4"><span ng-show="billingInfo.source.object=='card'">{{billingInfo.source.type}} ending in </span><span ng-show="billingInfo.source.object=='bank_account'">{{billingInfo.source.bank_name}} *</span><strong>{{billingInfo.source.last4}}</strong></span>
+									<span ng-hide="billingInfo.source.last4"><em>Payment information missing.</em></span>
+									<br/>
+									<a ng-href="{{billingInfo.update_payment_info_url}}" ng-if="billingInfo.update_payment_info_url" target="_blank">
+										<span ng-show="billingInfo.source.last4">Update</span><span ng-hide="billingInfo.source.last4">Add</span> Payment Information
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Invoices -->
+					<div class="panel panel-default" ng-if="billingInfo.billing_history.length > 0&&company.billing.provider!='reseller'">
+						<div class="panel-heading">
+							<h4 class="panel-title">Invoices</h4>
+						</div>
+						
+						<table class="table table-striped search-results-table">
+							<thead>
+								<tr>
+									<th>Date</th>
+									<th class="money-column">Total</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat-start="history in billingInfo.billing_history">
+									<td>
+										<company-date date="history.date"></company-date>
+									</td>
+									<td class="money-column">
+										<money amount="history.amount" currency="'usd'"></money>
+									</td>
+									<td class="mobile-last money-column">
+										<a href="{{history.invoice_url}}" class="btn btn-default btn-sm">
+											<span class="fas fa-arrow-to-bottom"></span>
+											Invoice
+										</a>
+										<span ng-if="history.payment_url && history.error">
+											<a class="btn btn-primary btn-sm" ng-href="{{history.payment_url}}" target="_blank">Pay now</a>
+										</span>
+									</td>
+								</tr>
+								<tr ng-repeat-end ng-if="history.error">
+									<td colspan="3" class="text-danger mobile-last">
+										{{history.error}}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<!-- Current Usage -->
+					<div class="panel panel-default billing-usage">
+						<div class="panel-heading">
+							<h4 class="panel-title">Usage for {{month}}</h4>
+						</div>
+
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-6">
+									<usage-bar amount="billingInfo.usage.no_users" limit="company.billing.quota.no_users" dimension="'users'" usage-pricing-plan="userPricingPlan" options="memberUsageOpts" callback="load()"></usage-bar>
+									<usage-bar amount="billingInfo.usage.money_billed" limit="-1" dimension="'money_billed'" options="moneyBilledUsageOpts" ng-if="'accounts_receivable'|hasFeature"></usage-bar>
+								</div>
+								<div class="col-lg-6">
+									<usage-bar amount="billingInfo.usage.no_customers" limit="company.billing.quota.no_customers" dimension="'customers'" options="customerUsageOpts" ng-if="'accounts_receivable'|hasFeature"></usage-bar>
+									<usage-bar amount="billingInfo.usage.no_invoices" limit="company.billing.quota.no_invoices" dimension="'invoices'" options="invoiceUsageOpts" ng-if="'accounts_receivable'|hasFeature"></usage-bar>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Past Usage -->
+					<div class="panel panel-default billing-usage-history" ng-show="billingInfo.usage_history.length > 0" ng-if="'accounts_receivable'|hasFeature">
+						<div class="panel-heading">
+							<h4 class="panel-title">Accounts Receivable Usage History</h4>
+						</div>
+						<table class="table table-striped search-results-table">
+							<thead>
+								<tr>
+									<th>Month</th>
+									<th class="money-column"># Customers</th>
+									<th class="money-column"># Invoices</th>
+									<th class="money-column">Total Billed (USD)</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="row in billingInfo.usage_history">
+									<td>{{row.month}}</td>
+									<td class="money-column">
+										<span ng-show="row.customers!==undefined">{{row.customers|number}}</span>
+									</td>
+									<td class="money-column">
+										<span ng-show="row.invoices!==undefined">{{row.invoices|number}}</span>
+									</td>
+									<td class="money-column mobile-last">
+										<money currency="'USD'" amount="row.money_billed" ng-show="row.money_billed!==undefined"></money>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>		
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

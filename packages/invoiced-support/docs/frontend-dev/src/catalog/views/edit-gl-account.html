@@ -1,0 +1,62 @@
+<form name="modelForm" ng-submit="save(glAccount)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			<span ng-show="isExisting">Edit</span><span ng-hide="isExisting">New</span> G/L Account
+		</h4>
+	</div>
+	<div class="modal-body form-horizontal">
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<!-- Name -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">Name <span class="required"></span></label>
+			<div class="col-sm-6">
+				<input type="text" placeholder="G/L Account name..." ng-model="glAccount.name" class="form-control" required />
+			</div>
+		</div>
+
+		<!-- Code -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">Code <span class="required"></span></label>
+			<div class="col-sm-4">
+				<input type="text" placeholder="Unique identifier..." ng-model="glAccount.code" class="form-control" required />
+			</div>
+			<div class="col-sm-4 form-control-static">
+				<a href="" tooltip="A unique identifier that represents this G/L account, for internal use only. Allowed characters: a-Z, 0-9">
+					What's this?
+				</a>
+			</div>
+		</div>
+
+		<!-- Parent Account -->
+		<div class="form-group slim">
+			<div class="col-sm-8 col-sm-offset-4">
+				<label class="noselect">
+					<input type="checkbox" ng-model="isSubaccount" />
+					Is a sub-account
+				</label>
+			</div>
+		</div>
+
+		<div class="form-group" ng-if="isSubaccount">
+			<label class="control-label col-sm-4">Parent Account <span class="required"></span></label>
+			<div class="col-sm-6">
+				<select-gl-account ng-model="glAccount.parent_id"></select-gl-account>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" ng-click="saveAndNew()" class="btn btn-default" ng-hide="isExisting" ng-disabled="modelForm.$invalid||saving">
+			Save &amp; New
+		</button>
+		<button type="submit" class="btn btn-primary Button" ng-disabled="modelForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

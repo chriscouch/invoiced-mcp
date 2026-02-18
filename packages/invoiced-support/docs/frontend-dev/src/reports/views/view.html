@@ -1,0 +1,121 @@
+<div class="report-building" ng-show="loading || building">
+	<div class="loading"></div>
+	<div class="content" ng-show="building">Your report is building...</div>
+</div>
+<div class="object-view report-view" ng-hide="loading || building">
+	<div class="title-bar">
+		<!-- Title -->
+		<h2>
+			<div class="back-link">
+				<a ui-sref="manage.reports.list">
+					<span class="fas fa-arrow-left"></span>
+					Reports
+				</a>
+			</div>
+			Report Viewer
+		</h2>
+
+		<!-- Action Buttons -->
+		<div class="report-action-bar">
+			<div class="action" ng-hide="error">
+				<div class="btn-group">
+					<button class="btn btn-default" ng-click="download(report, 'csv')" ng-disabled="downloading">
+						<div><span class="far fa-arrow-to-bottom"></span> CSV</div>
+					</button>
+					<button class="btn btn-default" ng-click="download(report, 'pdf')" ng-disabled="downloading">
+						<div><span class="far fa-arrow-to-bottom"></span> PDF</div>
+					</button>
+				</div>
+			</div>
+			<div class="action">
+				<div class="btn-group">
+					<button type="button" class="btn btn-default" ng-click="refresh(report)" ng-hide="refreshing" tooltip="{{'general.refresh'|translate}}">
+						<span class="fas fa-sync-alt"></span>
+					</button>
+					<a class="btn btn-default" ui-sref="manage.report.edit({id:report.id})" tooltip="{{'general.edit'|translate}}" ng-if="('report_builder'|hasFeature) && report.definition">
+						<span class="fas fa-pencil"></span>
+					</a>
+					<button type="button" class="btn btn-default" ng-click="save(report)" ng-disabled="saving" tooltip="{{'general.save'|translate}}" ng-if="('report_builder'|hasFeature) && report.definition && !savedToReport">
+						<span class="fas fa-save"></span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Report -->
+	<div class="report-holder">
+		<div class="alert alert-danger" ng-show="error">
+			{{error}}
+		</div>
+		<div class="report" ng-hide="error">
+			<div class="title">{{report.title}}</div>
+			<div class="report-parameters">
+				<span class="report-parameter" ng-repeat="parameter in reportParameters">{{parameter.name}}: {{parameter.value}}</span>
+			</div>
+			<div class="report-date">Generated <company-date-time date="report.timestamp"></company-date-time></div>
+
+			<div class="report-section {{section.class}}" ng-repeat="section in report.data" ng-class="{show: !hideSection[$index]}">
+				<div class="report-section-title" ng-show="section.title">
+					<a href="" ng-click="toggleSection($index)">
+						{{section.title}}
+						<span class="fas fa-caret-right closed"></span>
+						<span class="fas fa-caret-down open"></span>
+					</a>
+				</div>
+
+				<div class="report-group type-{{group.type}}" ng-repeat="group in section.groups">
+					<!-- Chart -->
+					<report-chart type="group.chart_type" data="group.data" options="group.options" ng-if="group.type == 'chart'"></report-chart>
+
+					<!-- Key-Value -->
+					<div class="key-value-group" ng-if="group.type == 'keyvalue'">
+						<div class="line clearfix" ng-repeat="line in group.lines">
+							<div class="key">{{line.name}}</div>
+							<div class="value" ng-bind-html="line.value|reportValue"></div>
+						</div>
+					</div>
+
+					<!-- Metrics -->
+					<div class="metric-group" ng-if="group.type == 'metric'">
+						<div class="metric clearfix" ng-repeat="metric in group.metrics">
+							<div class="description">{{metric.name}}</div>
+							<div class="value" ng-bind-html="metric.value|reportValue"></div>
+						</div>
+					</div>
+
+					<!-- Nested Table -->
+					<div class="table-group" ng-if="group.type == 'nested_table'">
+						<report-nested-table table="group"></report-nested-table>
+					</div>
+
+					<!-- Table -->
+					<div class="table-group" ng-if="group.type == 'table'">
+						<table class="table table-striped" ng-class="{'font-large': group.header.length < 4, 'font-medium': group.header.length >= 4 && group.header.length < 8, 'font-small': group.header.length >= 8}">
+							<thead>
+								<tr>
+									<th ng-repeat="name in group.header track by $index">{{name}}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="row in group.rows">
+									<td ng-repeat="value in row track by $index" ng-bind-html="value|reportValue"></td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td ng-repeat="name in group.footer track by $index" ng-bind-html="name|reportValue"></td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+
+					<!-- Financial -->
+					<div class="financial-group" ng-if="group.type == 'financial'">
+						<financial-report data="group"></financial-report>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

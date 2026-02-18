@@ -1,0 +1,178 @@
+<form ng-submit="enable()">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			{{'payment_method.' + method.id|translate}} Payments
+		</h4>
+	</div>
+	<div class="modal-body" ng-if="!hasFeature">
+		<feature-upgrade></feature-upgrade>
+	</div>
+
+	<!-- Account supports all gateways -->
+	<div class="modal-body" ng-if="hasFeature">
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<!-- Step 1: Ask users if they have a payment processor -->
+		<div class="payment-processor-choice-holder" ng-show="showProcessingOptions">
+			<p>
+				How do you want to process payments?
+			</p>
+
+			<div class="has-payment-processor-choice clearfix">
+				<!-- Recommended Processor -->
+				<div class="choice" ng-if="recommendedProcessor">
+					<div class="tile" ng-if="recommendedProcessor === 'flywire_payments'">
+						<div class="title with-logo">
+							<img src="/img/integrations/flywire.svg" alt="Flywire Payments" height="40" />
+						</div>
+						<div class="sub">Accept credit cards, debit cards and ACH direct debit with our integrated payments solution.</div>
+						<div class="action">
+							<a ng-href="{{eligibility.onboarding_url}}" class="btn btn-primary">
+								Sign Up
+							</a>
+						</div>
+					</div>
+					<div class="tile" ng-if="recommendedProcessor === 'flywire'">
+						<div class="title with-logo">
+							<img src="/img/integrations/flywire.svg" alt="Flywire" height="40" />
+						</div>
+						<div class="sub">Accept low-cost payments from customers all over the world, with coverage for over 240 countries, 140 currencies, and 1,200 payment methods. Please contact Invoiced Support to get started.</div>
+					</div>
+					<div class="tile" ng-if="recommendedProcessor === 'stripe'">
+						<div class="title">Enable Payment Processing</div>
+						<div class="sub">
+							Invoiced has partnered with Stripe to securely process payments from your customers. You can begin accepting payments in minutes. Click the Connect with Stripe below to get started.</div>
+						<div class="action">
+							<connect-to-stripe method="method.id"></connect-to-stripe>
+						</div>
+					</div>
+				</div>
+				<div class="choice" ng-if="merchantAccounts.length">
+					<div class="tile">
+						<div class="title">{{'payment_gateways.merchant_account.header'|translate}}</div>
+						<div class="action">
+							<button type="button" class="btn btn-default" ng-click="selectGateway()">
+								{{'payment_gateways.merchant_account.choose'|translate}}
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="choice test" ng-click="useTestGateway()" ng-if="hasTestMode">
+					<div class="tile">
+						<div class="test-mode-gateway"></div>
+						<div class="title">Test Mode</div>
+						<div class="sub">Try out Invoiced without processing live payments.</div>
+						<div class="action">
+							<button type="button" class="btn btn-default" ng-click="useTestGateway()">
+								Enable Test Mode
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Step 2: Payment gateway set up -->
+		<div class="payment-gateway-setup form-horizontal" ng-hide="showProcessingOptions">
+			<p class="required-indicator">
+				<span class="required"></span> {{'general.indicates_required_field'|translate}}
+			</p>
+
+			<!-- Payment Gateway Selector -->
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Payment Gateway
+					<span class="required"></span>
+				</label>
+				<div class="col-sm-7">
+					<div class="loading inline" ng-show="loadingMerchantAccounts && method.gateway!='test'"></div>
+					<div class="form-control-static" ng-show="method.gateway=='test'">
+						Test Mode
+						&mdash;
+						<a href="" ng-click="$parent.showProcessingOptions=true">
+							Change
+						</a>
+					</div>
+					<div ng-hide="method.gateway=='test' || loadingMerchantAccounts">
+						<div class="invoiced-select">
+							<select ng-model="method.merchant_account" ng-options="account as account.list_name for account in merchantAccounts| orderBy:'list_name'"></select>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Payment Method Settings -->
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					{{'payment_method.labels.min_allowed_payment'|translate}}
+				</label>
+				<div class="col-sm-4">
+					<div input-amount ng-model="method.min" currency="company.currency"></div>
+				</div>
+				<div class="col-sm-4 form-control-static">
+					<a href="" tooltip="{{'payment_method.tooltips.min_allowed_payment'|translate}}">
+						<span class="fas fa-question-circle"></span>
+					</a>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					{{'payment_method.labels.max_allowed_payment'|translate}}
+				</label>
+				<div class="col-sm-4">
+					<div input-amount ng-model="method.max" currency="company.currency"></div>
+				</div>
+				<div class="col-sm-4 form-control-static">
+					<a href="" tooltip="{{'payment_method.tooltips.max_allowed_payment'|translate}}">
+						<span class="fas fa-question-circle"></span>
+					</a>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					{{'payment_method.labels.order'|translate}}
+				</label>
+				<div class="col-sm-4">
+					<div class="invoiced-select">
+						<select ng-model="method.order" ng-options="option.value as option.name for option in orderOptions"></select>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group" ng-if="method.id=='credit_card'">
+				<label class="control-label col-sm-4">
+					{{'payment_method.labels.convenience_fee'|translate}}
+				</label>
+				<div class="col-sm-4">
+					<div input-amount ng-model="method.convenience_fee" is-rate="true" min="0" max="4" step="0.01"></div>
+				</div>
+				<div class="col-sm-4 form-control-static">
+					<a href="" tooltip="{{'payment_method.tooltips.convenience_fee'|translate}}">
+						<span class="fas fa-question-circle"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer" ng-hide="showProcessingOptions">
+		<div class="left" ng-show="canGoBack&&method.gateway!='test'">
+			<a href="" ng-click="showProcessingOptions=true">
+				More Options
+			</a>
+		</div>
+		<div class="left" ng-show="method.enabled">
+			<a href="" class="danger" ng-click="disable()" ng-hide="saving">
+				{{'general.disable'|translate}}
+			</a>
+		</div>
+		<button type="submit" class="btn btn-primary Button" ng-disabled="saving||(method.gateway!='test'&&!method.merchant_account)" v-busy="saving" v-busy-label="Saving" v-pressable>
+			<span ng-show="method.enabled">{{'general.save'|translate}}</span>
+			<span ng-hide="method.enabled">{{'general.enable'|translate}}</span>
+		</button>
+	</div>
+</form>

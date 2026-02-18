@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="en-CA" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="133" resname="labels.address_state">
+                <source>State/Province</source>
+                <target>Province</target>
+            </trans-unit>
+            <trans-unit id="134" resname="labels.address_postal_code">
+                <source>Zip/Postal Code</source>
+                <target>Postal Code</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

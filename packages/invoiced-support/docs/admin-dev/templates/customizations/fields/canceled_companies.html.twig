@@ -1,0 +1,38 @@
+{% if field.value|length > 0 %}
+    <table class="table table-sm">
+        <thead class="thead-light">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Created</th>
+                <th>Date Canceled</th>
+                <th>Reason</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for company in field.value %}
+            <tr>
+                <td>
+                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\CanceledCompanyCrudController').setAction('detail').setEntityId(company.getId) }}">
+                        {{ company.getId }}
+                    </a>
+                </td>
+                <td>
+                    {{ company.getName }}
+                </td>
+                <td>{{ company.createdAt|date('n/j/Y') }}</td>
+                <td>
+                    {% if company.getCanceledAt %}
+                        {{ company.getCanceledAt|date('n/j/Y') }}
+                    {% endif %}
+                </td>
+                <td>{{ company.canceledReason }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <div class="empty collection-empty">
+        {{ include('@EasyAdmin/label/empty.html.twig') }}
+    </div>
+{% endif %}

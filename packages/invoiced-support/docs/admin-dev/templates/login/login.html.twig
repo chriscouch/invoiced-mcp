@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Invoiced | Login{% endblock %}
+
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('build/css/auth.css') }}" />
+{% endblock %}
+
+
+{% block body %}
+
+  <div class="login-page">
+    <div id="form" class="form">
+    <img src="{{ asset('/img/logo.png') }}" alt="Invoiced" width="175" style="padding-bottom: 25px">
+    {% if error %}
+      	<div class="error-message">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+  	{% endif %}
+       <form class="login-form" action="{{ path('login_check') }}" method="POST">
+            <input type="text" id="email" name="_email" autocomplete="off" placeholder="email" value="{{ lastUsername }}" />
+            <input type="password" id="password" name="_password" placeholder="password"/>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+            <button type="submit">Login</button>
+            <p class="message">Forgot your password? <a href="{{ path('find_by_email') }}">Reset Password</a></p>
+            <p class="message"><a href="{{ path('saml_login') }}">Sign in with SSO</a></p>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
+

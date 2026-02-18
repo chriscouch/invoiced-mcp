@@ -1,0 +1,35 @@
+# This tests a scenario in which a subscriber is switching
+# from yearly to monthly billing.
+
+#debug: true
+data:
+  - object: plan
+    interval: year
+
+  - object: plan
+    id: yearly-to-monthly
+    interval: month
+
+operations:
+  - operation: create
+    time: 2021-06-01
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-06-01
+        period_end: 2022-05-31T23:59:59Z
+      invoice:
+        date: 2021-06-01
+
+  - operation: edit
+    name: Plan Change
+    time: 2021-06-07
+    parameters:
+      plan: yearly-to-monthly
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-06-07
+        period_end: 2021-07-06T23:59:59Z
+      invoice:
+        date: 2021-06-07

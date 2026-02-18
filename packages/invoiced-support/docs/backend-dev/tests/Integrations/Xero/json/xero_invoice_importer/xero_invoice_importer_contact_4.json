@@ -1,0 +1,44 @@
+{
+  "Contacts": [
+    {
+      "ContactID": "7c913d33-39d5-4a1c-b8b1-e23f5fc999e9",
+      "ContactStatus": "ACTIVE",
+      "ContactNumber": "CUST-0002",
+      "Name": "Sherlock Holmes",
+      "EmailAddress": "sherlock@example.com",
+      "Addresses": [
+        {
+          "AddressType": "STREET"
+        },
+        {
+          "AddressType": "POBOX",
+          "AddressLine1": "1206 Harbour Tower\n                        ",
+          "AddressLine2": "59-65 South Street",
+          "City": "Coppertown",
+          "AttentionTo": "Accounts Dept"
+        }
+      ],
+      "Phones": [
+        {
+          "PhoneType": "DEFAULT",
+          "PhoneNumber": "8004001",
+          "PhoneAreaCode": "01"
+        },
+        {
+          "PhoneType": "DDI"
+        },
+        {
+          "PhoneType": "MOBILE",
+          "PhoneNumber": "7774001",
+          "PhoneAreaCode": "01"
+        },
+        {
+          "PhoneType": "FAX"
+        }
+      ],
+      "UpdatedDateUTC": "\/Date(1518685950940+0000)\/",
+      "IsSupplier": "false",
+      "IsCustomer": "true"
+    }
+  ]
+}

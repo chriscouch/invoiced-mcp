@@ -1,0 +1,56 @@
+<div class="contents">
+	<div class="settings-title-bar">
+		<h2 class="title">
+			<div class="docs-link">
+				<a href="https://docs.invoiced.com/accounts-receivable/emails" target="_blank">
+					{{'general.documentation'|translate}}
+					<span class="fas fa-external-link"></span>
+				</a>
+			</div>
+			<div class="back-link">
+				<a ui-sref="manage.settings.default">
+					<span class="fas fa-arrow-left"></span>
+					{{'general.settings'|translate}}
+				</a>
+			</div>
+			{{'settings.titles.emails'|translate}}
+		</h2>
+
+		<p class="lead">
+			{{'settings.emails.header.text'|translate}}
+		</p>
+
+		<ar-inbox-migration></ar-inbox-migration>
+	</div>
+
+	<ul class="nav nav-tabs">
+		<!-- Tab Links -->
+		<li ui-sref-active="active">
+			<a ui-sref=".templates">
+				{{'settings.emails.header.templates'|translate}}
+			</a>
+		</li>
+		<li ui-sref-active="active" ng-if="'sms'|hasFeature">
+			<a ui-sref=".sms_templates">
+				{{'settings.emails.header.sms_templates'|translate}}
+			</a>
+		</li>
+		<li ui-sref-active="active">
+			<a ui-sref=".triggers">
+				{{'settings.emails.header.triggers'|translate}}
+			</a>
+		</li>
+		<li ui-sref-active="active">
+			<a ui-sref=".delivery">
+				{{'settings.emails.header.delivery'|translate}}
+			</a>
+		</li>
+	</ul>
+
+	<!-- Selected Tab Content -->
+	<div class="tab-content">
+		<div class="tab-pane active">
+			<ui-view/>
+		</div>
+	</div>
+</div>

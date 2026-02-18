@@ -1,0 +1,55 @@
+<!-- Check Lockbox -->
+<p class="loading" ng-show="loading"></p>
+<div ng-hide="loading" class="form-group">
+    <label class="control-label col-sm-2">
+        {{'settings.cash_application.labels.check_lockbox'|translate}}
+    </label>
+    <div class="col-sm-10 form-control-static">
+        <span class="label label-warning" ng-hide="integration.connected">{{'general.not_connected'|translate}}</span>
+        <span class="label label-success" ng-show="integration.connected">{{'general.connected'|translate}}</span>
+    </div>
+</div>
+
+<!-- Short Pay Threshold -->
+<div ng-if="'cash_match'|hasFeature">
+    <hr />
+    <div class="form-group" ng-hide="editShortPay">
+        <label class="control-label col-sm-2">{{'settings.cash_application.labels.short_pay'|translate}}</label>
+        <div class="col-sm-2 form-control-static">
+            <money ng-if="shortPay.units == 'dollars'" amount="shortPay.amount" currency="company.currency"></money>
+            <span ng-if="shortPay.units == 'percent'">{{shortPay.amount}}%</span>
+        </div>
+        <div class="col-sm-4">
+            <button type="button" class="btn btn-success" ng-click="$parent.editShortPay=true" ng-hide="editShortPay">
+                Change
+            </button>
+        </div>
+    </div>
+
+    <form name="lateFeesForm" ng-submit="saveShortPaySettings(shortPay)" ng-show="editShortPay">
+        <div class="form-group">
+            <label class="control-label col-sm-2">
+                {{'settings.cash_application.labels.short_pay'|translate}}
+            </label>
+            <div class="form-control-static col-sm-10">
+                <div class="btn-group btn-radio">
+                    <div class="input-group col-sm-8" popover="{{'settings.cash_application.labels.short_pay_info'|translate}}" popover-trigger="mouseenter" popover-placement="top">
+                        <div ng-model="shortPay.amount" currency="company.currency" is-rate="isPercent" has-selector="true" input-amount></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-8 col-sm-offset-4">
+                <button type="submit" class="btn btn-primary Button" ng-disabled="defaultsForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+                    {{'general.save'|translate}}
+                </button>
+                <button type="button" class="btn btn-default" ng-click="cancelEditShortPay()">
+                    {{'general.cancel'|translate}}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+

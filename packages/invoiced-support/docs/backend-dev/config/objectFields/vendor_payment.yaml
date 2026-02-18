@@ -1,0 +1,64 @@
+fields:
+  amount:
+    name: Amount
+    type: money
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency:
+    name: Currency
+    type: string
+  date:
+    name: Date
+    type: date
+    date_format: "Y-m-d"
+  date_voided:
+    name: Date Voided
+    type: date
+    date_format: "Y-m-d"
+    writable: false
+  expected_arrival_date:
+    name: Expected Arrival Date
+    type: date
+    date_format: "Y-m-d"
+    writable: false
+  id:
+    name: ID
+    type: string
+    writable: false
+  notes:
+    name: Notes
+    type: string
+  number:
+    name: "Payment #"
+    type: string
+  payment_method:
+    name: Payment Method
+    type: string
+  reference:
+    name: Reference
+    type: string
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  vendor:
+    name: Vendor
+    type: join
+  voided:
+    name: Voided
+    type: boolean
+    writable: false
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  vendor_payment_batch:
+    name: Vendor Payment Batch
+    type: join
+    writable: false

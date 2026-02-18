@@ -1,0 +1,41 @@
+{
+  "data": [{
+    "url": "https://invoiced5",
+    "piece_id": 111,
+    "content_type": "image",
+    "tags": [
+      "medium",
+      "test3"
+    ]
+  },{
+    "url": "https://invoiced6",
+    "piece_id": 111,
+    "content_type": "image",
+    "tags": [
+      "test2"
+    ]
+  },{
+    "url": "https://invoiced7",
+    "piece_id": 111,
+    "content_type": "image",
+    "tags": [
+      "bitonal",
+      "medium",
+      "large"
+    ]
+  },{
+    "url": "https://invoiced8",
+    "piece_id": 111,
+    "content_type": "image",
+    "tags": [
+    ]
+  },{
+    "url": "https://invoiced9",
+    "piece_id": 111,
+    "content_type": "image",
+    "tags": [
+      "test1",
+      "test2"
+    ]
+  }]
+}

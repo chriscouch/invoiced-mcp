@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}New document{% endblock %}
+{% block notification %}
+    {% for document in documents %}
+        <p>{{ document.from }} has sent you a document: <a href="{{ dashboardUrl }}/documents/{{ document.id }}?account={{ tenant_id  }}">{{ document.type }} # {{ document.reference }}</a></p>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,55 @@
+<div class="modal-header">
+	<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+	<h4 class="modal-title">
+		Add Bundle
+	</h4>
+</div>
+<div class="modal-body">
+	<p class="loading" ng-show="loading"></p>
+
+	<div class="modal-selector slim" ng-show="!loading&&bundles.length>0">
+		<div class="search">
+			<div class="searchbar light">
+				<div class="bar">
+					<div class="icon"><span class="fas fa-search"></span></div>
+					<input type="text" class="form-control" placeholder="Bundle name or ID..." ng-model="search" tabindex="2000" />
+					<div class="icon right icon-btn" ng-show="search">
+						<button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+							<span class="fas fa-times-circle"></span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="action">
+				<button type="button" class="btn btn-default" ng-click="newBundleModal()" tabindex="2002" ng-if="'catalog.edit'|hasPermission">
+					<span class="fas fa-plus"></span>
+					New
+				</button>
+			</div>
+		</div>
+
+		<div class="bundles-list">
+			<div class="empty" ng-show="results.length===0">
+				Could not find any bundles with a name or ID matching <strong>{{search}}</strong>. <a href="" ng-click="newBundleModal(search)" tabindex="2003" ng-if="'catalog.edit'|hasPermission">Create one.</a>
+			</div>
+
+			<a class="bundle" ng-repeat="bundle in bundles | searchObject:search:['name','id'] | orderBy:'name' as results" ng-click="select(bundle)" tabindex="{{$index + 2003}}">
+				<div class="title">
+					{{bundle.name}}
+				</div>
+				<div class="arrow">
+					<span class="fas fa-chevron-right"></span>
+				</div>
+			</a>
+		</div>
+	</div>
+
+	<p class="empty" ng-show="!loading&&bundles.length==0">
+		You don't have any bundles yet.
+		<span ng-if="'catalog.edit'|hasPermission">
+			<a href="" ng-click="newBundleModal()" tabindex="2003">Create one</a> or <a href="" popover="Bundles are groups of products and services that are billed together." popover-placement="bottom" tabindex="2004">
+				learn more
+			</a>.
+		</span>
+	</p>
+</div>

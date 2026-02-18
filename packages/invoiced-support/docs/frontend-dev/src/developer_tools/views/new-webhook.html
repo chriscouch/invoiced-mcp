@@ -1,0 +1,74 @@
+<form name="modelForm" ng-submit="save(webhook, enabledEvents, selectedEvents)">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			<span ng-hide="webhook.id">New</span><span ng-show="webhook.id">Edit</span> Webhook
+		</h4>
+	</div>
+	<div class="modal-body">
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<div class="form-group">
+			<label class="control-label">Webhook URL</label>
+			<div>
+				<input type="text" class="form-control" ng-model="webhook.url" placeholder="https://example.com/webhook" required />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label">{{'general.enabled'|translate}}</label>
+			<div>
+				<label class="css-switch">
+					<input type="checkbox" ng-checked="webhook.enabled" value="1" ng-model="webhook.enabled" />
+					<span class="slider round"></span>
+					<span class="off">{{'general.off'|translate}}</span>
+					<span class="on">{{'general.on'|translate}}</span>
+				</label>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label">Enabled Events</label>
+			<div class="radio">
+				<label class="noselect">
+					<input type="radio" value="all" ng-model="enabledEvents" />
+					All events
+				</label>
+			</div>
+			<div class="radio">
+				<label class="radio noselect">
+					<input type="radio" value="some" ng-model="enabledEvents" />
+					Select events
+				</label>
+			</div>
+		</div>
+
+		<!-- Events -->
+		<div class="form-group" ng-show="enabledEvents=='some'">
+			<div>
+				<a href="" class="btn btn-link" ng-click="checkAll()" ng-show="noSelectedEvents()">
+					Select all
+				</a>
+				<a href="" class="btn btn-link" ng-click="uncheckAll()" ng-show="atLeastOneSelectedEvent()">
+					Deselect all
+				</a>
+			</div>
+			<div class="row">
+				<div class="col-sm-6" ng-repeat="event in eventTypes">
+					<label class="checkbox-inline noselect">
+						<input type="checkbox" ng-model="selectedEvents[event]" />
+						{{event}}
+					</label>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="modelForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

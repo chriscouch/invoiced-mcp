@@ -1,0 +1,96 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.payment_selection'|trans %}
+{% extends "customerPortal/parentFrame.twig" %}
+{% import 'customerPortal/macros.twig' as macros %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('/js/views/select_payment_amounts.js') }}"></script>
+{% endblock %}
+
+{% block main %}
+    {{ macros.companyLogo() }}
+
+    <div class="title-header payment-selection">
+        <h1>{{ title }}</h1>
+    </div>
+
+    <div class="transactions-list">
+        <form action="{{ path('customer_portal_payment_form', {subdomain: subdomain}) }}" method="post" id="select-payment-amounts-form">
+            <input type="hidden" name="currency" value="{{ currency }}" />
+
+            <table class="table table-invoiced table-select-payment-amounts">
+                <thead class="d-none-xs">
+                    <tr>
+                        <th class="column-invoice-number">
+                            {{ 'labels.document_number'|trans }}
+                        </th>
+                        <th class="column-amount-option">
+                            {{ 'labels.amount_to_pay'|trans }}
+                        </th>
+                        <th class="column-amount money-column">
+                            {{ 'labels.amount'|trans }}
+                        </th>
+                        <th class="column-actions"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for lineItem in lineItems %}
+                    <tr class="payment-item">
+                        <td class="column-invoice-number static-content {% if not lineItem.description %}p-0{% endif %}">
+                            <input type="hidden" name="{{ lineItem.type }}{% if lineItem.hasMultiple %}[]{% endif %}" value="{{ lineItem.clientId }}" />
+                            {{ lineItem.description }}
+                        </td>
+                        <td class="column-amount-option {% if lineItem.options|length == 1 %}static-content{% endif %}">
+                            {% if lineItem.options|length == 1 %}
+                                {% set option = lineItem.options[0] %}
+                                <input type="hidden" name="amount_type[{{ lineItem.type }}][{{ lineItem.clientId }}]" value="{{ option.value }}" class="item-amount-to-pay" data-amount="{% if option.amount %}{{ option.amount|money(option.currency) }}{% endif %}" />
+                                {{ ('labels.' ~ option.name)|trans }}
+                            {% else %}
+                                <select class="form-select item-amount-to-pay {% if lineItem.options|length == 1 %}hidden{% endif %}" name="amount_type[{{ lineItem.type }}][{{ lineItem.clientId }}]">
+                                    {% for option in lineItem.options %}
+                                        <option value="{{ option.value }}" data-amount="{% if option.amount %}{{ option.amount|money(option.currency) }}{% endif %}">{{ ('labels.' ~ option.name)|trans }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% endif %}
+                        </td>
+                        <td class="column-amount money-column static-content item-amount-static hidden"></td>
+                        <td class="column-amount money-column item-amount-input hidden">
+                            <div class="input-amount">
+                                <div class="addon currency-sign">{{ currencySymbol }}</div>
+                                <input type="number" step="any" class="form-control required" name="amount[{{ lineItem.type }}][{{ lineItem.clientId }}]" value="{% if lineItem.prefilledAmount %}{{ lineItem.prefilledAmount.toDecimal() }}{% endif %}" required />
+                            </div>
+                        </td>
+                        <td class="column-actions mobile-last column-right column-right-first static-content">
+                            {% if lineItem.document %}
+                                <a href="{{ lineItem.document.pdf_url }}">
+                                    <span class="fas fa-arrow-to-bottom"></span>
+                                    {{ 'labels.pdf'|trans }}
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="column-invoice-number"></td>
+                        <td class="column-amount-option"></td>
+                        <td class="column-amount money-column"></td>
+                        <td class="column-actions"></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div class="pagination-bar">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-primary pay-selected">
+                            {{ 'buttons.next'|trans }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

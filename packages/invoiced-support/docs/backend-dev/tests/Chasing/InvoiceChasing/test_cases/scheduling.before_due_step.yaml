@@ -1,0 +1,186 @@
+# Tests that "Before due" step
+# - The date used for the ScheduledSend is no earlier than the (issue date + 1 day)
+# - Should not be scheduled if calculated date is in the past
+# - Should be scheduled if calculated date is in the future
+# - Should be canceled if updated, not sent and calculated date is in the past
+#-  Should be uncanceled if updated (was in the past) and new date is in the future
+
+operations:
+
+  # PART 1: Test that no ScheduledSend is created for for the step
+  # and that the calculated date is no earlier than (issue date + 1 day).
+
+  - operation: create
+    mock_time: '2022-01-08 09:31:14' # Time chosen at random
+    data:
+      invoice:
+        date: '2022-01-01 09:31:14'
+        due_date: '2022-01-05 09:31:14'
+        items:
+          - quantity: 1
+            unit_cost: 100
+      delivery:
+        chase_schedule:
+          - trigger: 1
+            options:
+              hour: 8
+              days: 2
+              email: true
+              sms: false
+              letter: false
+    expect:
+      delivery:
+        processed: false
+      delivery_state:
+        - state:
+            - date: '2022-01-03 08:00:00'
+              skipped: true
+              sent:
+                email: false
+      scheduled_sends: []
+
+  - operation: schedule
+    mock_time: '2022-01-08 09:31:14' # Same as previous
+    expect:
+      delivery:
+        processed: true
+      delivery_state:
+        - state:
+            - date: '2022-01-03 08:00:00'
+              skipped: true
+              sent:
+                email: false
+      scheduled_sends: []
+
+    # PART 2: Test that a ScheduledSend is created after the invoice due date is updated to a future date
+    # and the delivery is reprocessed.
+    # NOTE: We update the invoice due date in this test rather than the step option because
+    # updating the test option can only give us a static value since the date is
+    # (invoice due date + days after option). Since we can set the due date to some time in the
+    # future, we update it to prove our test case.
+
+  - operation: edit
+    mock_time: '2022-01-08 09:31:14' # Same as previous
+    data:
+      invoice:
+        due_date: '2022-01-12 09:31:14'
+    expect:
+      delivery:
+        processed: false
+      delivery_state:
+        - state:
+            - date: '2022-01-10 08:00:00'
+              skipped: false
+              sent:
+                email: false
+      scheduled_sends: []
+
+  - operation: schedule
+    mock_time: '2022-01-08 09:31:14' # Same as previous
+    expect:
+      delivery:
+        processed: true
+      delivery_state:
+        - state:
+            - date: '2022-01-10 08:00:00'
+              skipped: false
+              sent:
+                email: false
+      scheduled_sends:
+        - send_after: '2022-01-10 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+
+    # PART 3: Test that the ScheduledSend for the step is canceled when the invoice
+    # due date is updated such that (invoice due date + days after option) is in the past
+    # We update the invoice date for this test case for the same reason as PART 2.
+
+  - operation: edit
+    mock_time: '2022-01-08 09:31:14' # Same as previous
+    data:
+      invoice:
+        due_date: '2022-01-05 09:31:14'
+    expect:
+      delivery:
+        processed: false
+      delivery_state:
+        - state:
+            - date: '2022-01-03 08:00:00'
+              skipped: true
+              sent:
+                email: false
+      scheduled_sends: # hasn't been updated yet
+        - send_after: '2022-01-10 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+
+  - operation: schedule
+    mock_time: '2022-01-08 09:31:14' # Same as previous
+    expect:
+      delivery:
+        processed: true
+      delivery_state:
+        - state:
+            - date: '2022-01-03 08:00:00'
+              skipped: true
+              sent:
+                email: false
+      scheduled_sends:
+        - send_after: '2022-01-03 08:00:00'
+          channel: 0
+          sent: false
+          canceled: true # Should be canceled now
+          skipped: false
+          failed: false
+
+    # PART 4: Test that the ScheduledSend for the step is un-canceled when the invoice date
+    # is updated to cause (invoice due date + days after option) to be in the future.
+    # We update the invoice date in this step instead of the "days after option" for
+    # the same reason as the previous steps.
+
+  - operation: edit
+    mock_time: '2022-01-08 09:31:14' # Same as previous
+    data:
+      invoice:
+        due_date: '2022-01-12 09:31:14'
+    expect:
+      delivery:
+        processed: false
+      delivery_state:
+        - state:
+            - date: '2022-01-10 08:00:00'
+              skipped: false
+              sent:
+                email: false
+      scheduled_sends: # hasn't been updated yet
+        - send_after: '2022-01-03 08:00:00'
+          channel: 0
+          sent: false
+          canceled: true # Should be canceled now
+          skipped: false
+          failed: false
+
+  - operation: schedule
+    mock_time: '2022-01-08 09:31:14' # Same as previous
+    expect:
+      delivery:
+        processed: true
+      delivery_state:
+        - state:
+            - date: '2022-01-10 08:00:00'
+              skipped: false
+              sent:
+                email: false
+      scheduled_sends:
+        - send_after: '2022-01-10 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false

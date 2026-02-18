@@ -1,0 +1,86 @@
+fields:
+  amount: { name: Amount, type: money, summarize: true }
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency: { name: Currency, type: string }
+  date: { name: Date, type: date }
+  failure_reason:
+    name: "Failure Reason"
+    type: string
+    writable: false
+  gateway: { name: "Payment Gateway", type: string }
+  gateway_id: { name: "Transaction ID", type: string }
+  id:
+    name: ID
+    type: string
+    writable: false
+  method:
+    name: Method
+    type: enum
+    values:
+      ach: ACH
+      balance: Balance
+      bank_transfer: Bank Transfer
+      cash: Cash
+      check: Check
+      credit_card: Credit Card
+      direct_debit: Direct Debit
+      online: Online
+      other: Other
+      paypal: PayPal
+      wire_transfer: Wire Transfer
+  notes:
+    name: Notes
+    type: string
+    filterable: false
+  sent: { name: Sent, type: boolean }
+  status:
+    name: Status
+    writable: false
+    type: enum
+    values:
+      failed: Failed
+      pending: Pending
+      succeeded: Succeeded
+  type:
+    name: Transaction Type
+    type: enum
+    values:
+      charge: Charge
+      payment: Payment
+      refund: Refund
+      adjustment: Adjustment
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  bank_account:
+    name: Bank Account
+    type: join
+    parent_type_column: payment_source_type
+    parent_column: payment_source_id
+    filterable: false
+  card:
+    name: Card
+    type: join
+    parent_type_column: payment_source_type
+    parent_column: payment_source_id
+    filterable: false
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  credit_note: { name: "Credit Note", type: join }
+  customer: { name: Customer, type: join, parent_column: customer }
+  estimate: { name: Estimate, type: join }
+  invoice: { name: Invoice, type: join, parent_column: invoice }
+  metadata:
+    name: 'Metadata'
+    type: metadata
+  payment: { name: Payment, type: join }

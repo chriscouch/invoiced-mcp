@@ -1,0 +1,384 @@
+{
+  "version": 1,
+  "title": "Chasing Activity",
+  "sections": [
+    {
+      "title": "Total Actions Per Customer Cadence",
+      "object": "chasing_statistic",
+      "type": "chart",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "chasing_cadence.name"
+          }
+        },
+        {
+          "field": {
+            "function": "count"
+          },
+          "name": "# Actions"
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        },
+        {
+          "field": {
+            "id": "chasing_cadence.id"
+          },
+          "operator": "<>",
+          "value": null
+        },
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "chasing_cadence.name"
+          },
+          "name": null,
+          "expanded": false
+        }
+      ]
+    },
+    {
+      "title": "Total Payments Per Customer Cadence",
+      "object": "chasing_statistic",
+      "type": "chart",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "chasing_cadence.name"
+          }
+        },
+        {
+          "field": {
+            "function": "count"
+          },
+          "name": "# Payments"
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        },
+        {
+          "field": {
+            "id": "chasing_cadence.id"
+          },
+          "operator": "<>",
+          "value": null
+        },
+        {
+          "field": {
+            "id": "payment_responsible"
+          },
+          "operator": "=",
+          "value": 1
+        },
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "chasing_cadence.name"
+          },
+          "name": null,
+          "expanded": false
+        }
+      ]
+    },
+    {
+      "title": "Total Actions Per Customer Cadence Step",
+      "object": "chasing_statistic",
+      "type": "chart",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "chasing_cadence_step.name"
+          }
+        },
+        {
+          "field": {
+            "function": "count"
+          },
+          "name": "# Actions"
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        },
+        {
+          "field": {
+            "id": "chasing_cadence.id"
+          },
+          "operator": "<>",
+          "value": null
+        },
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "chasing_cadence_step.name"
+          },
+          "name": null,
+          "expanded": false
+        }
+      ]
+    },
+    {
+      "title": "Total Payments Per Customer Cadence Step",
+      "object": "chasing_statistic",
+      "type": "chart",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "chasing_cadence_step.name"
+          }
+        },
+        {
+          "field": {
+            "function": "count"
+          },
+          "name": "# Payments"
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        },
+        {
+          "field": {
+            "id": "chasing_cadence.id"
+          },
+          "operator": "<>",
+          "value": null
+        },
+        {
+          "field": {
+            "id": "payment_responsible"
+          },
+          "operator": "=",
+          "value": 1
+        },
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "chasing_cadence_step.name"
+          },
+          "name": null,
+          "expanded": false
+        }
+      ]
+    },
+    {
+      "title": "Total Actions Per Invoice Chasing Step",
+      "object": "chasing_statistic",
+      "type": "chart",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "channel"
+          }
+        },
+        {
+          "field": {
+            "function": "count"
+          },
+          "name": "# Actions"
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        },
+        {
+          "field": {
+            "id": "invoice_chasing_cadence.id"
+          },
+          "operator": "<>",
+          "value": null
+        },
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "channel"
+          },
+          "name": null,
+          "expanded": false
+        }
+      ]
+    },
+    {
+      "title": "Total Payments Per Invoice Chasing Step",
+      "object": "chasing_statistic",
+      "type": "chart",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "channel"
+          }
+        },
+        {
+          "field": {
+            "function": "count"
+          },
+          "name": "# Payments"
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        },
+        {
+          "field": {
+            "id": "invoice_chasing_cadence.id"
+          },
+          "operator": "<>",
+          "value": null
+        },
+        {
+          "field": {
+            "id": "payment_responsible"
+          },
+          "operator": "=",
+          "value": 1
+        },
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "channel"
+          },
+          "name": null,
+          "expanded": false
+        }
+      ]
+    },
+    {
+      "title": "Number of Chasing Actions Until Payment",
+      "object": "chasing_statistic",
+      "type": "chart",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "attempts"
+          }
+        },
+        {
+          "field": {
+            "function": "count"
+          },
+          "name": "# Payments"
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        },
+        {
+          "field": {
+            "id": "payment_responsible"
+          },
+          "operator": "=",
+          "value": 1
+        },
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "attempts"
+          },
+          "name": null,
+          "expanded": false
+        }
+      ]
+    }
+  ]
+}

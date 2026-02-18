@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+    <control>
+        <status>success</status>
+        <senderid>Invoiced</senderid>
+        <controlid>1536529231</controlid>
+        <uniqueid>false</uniqueid>
+        <dtdversion>3.0</dtdversion>
+    </control>
+    <operation>
+        <authentication>
+            <status>success</status>
+            <userid>Guest</userid>
+            <companyid>Invoiced-DEV SE</companyid>
+            <sessiontimestamp>2018-09-09T14:40:32-07:00</sessiontimestamp>
+        </authentication>
+        <result>
+            <status>success</status>
+            <function>readByQuery</function>
+            <controlid>ae96e261-4369-48b7-95ee-e2f311dce97c</controlid>
+            <data listtype="arinvoiceitem" count="2" totalcount="2" numremaining="0" resultId="">
+                <arinvoiceitem>
+                    <ENTRYDESCRIPTION>Some Item</ENTRYDESCRIPTION>
+                    <AMOUNT>50</AMOUNT>
+                    <ITEMNAME></ITEMNAME>
+                </arinvoiceitem>
+                <arinvoiceitem>
+                    <ENTRYDESCRIPTION>Line 2: </ENTRYDESCRIPTION>
+                    <AMOUNT>35</AMOUNT>
+                    <ITEMNAME></ITEMNAME>
+                </arinvoiceitem>
+                <arinvoiceitem>
+                    <ENTRYDESCRIPTION>Discount: </ENTRYDESCRIPTION>
+                    <AMOUNT>-35</AMOUNT>
+                    <ITEMNAME></ITEMNAME>
+                </arinvoiceitem>
+            </data>
+        </result>
+    </operation>
+</response>

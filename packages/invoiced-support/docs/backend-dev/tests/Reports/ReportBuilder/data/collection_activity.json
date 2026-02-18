@@ -1,0 +1,134 @@
+{
+  "title": "Collection Activity",
+  "sections": [
+    {
+      "type": "table",
+      "object": "customer",
+      "title": "Collection Activity",
+      "fields": [
+        {
+          "field": {
+            "id": "name"
+          },
+          "name": "Customer"
+        },
+        {
+          "field": {
+            "id": "parent_customer.name"
+          },
+          "name": "Parent Customer Name"
+        },
+        {
+          "field": {
+            "id": "email"
+          },
+          "name": "Email"
+        },
+        {
+          "field": {
+            "id": "phone"
+          },
+          "name": "Phone"
+        },
+        {
+          "field": {
+            "id": "address1"
+          },
+          "name": "Address 1"
+        },
+        {
+          "field": {
+            "id": "address2"
+          },
+          "name": "Address 2"
+        },
+        {
+          "field": {
+            "id": "city"
+          },
+          "name": "City"
+        },
+        {
+          "field": {
+            "id": "state"
+          },
+          "name": "State"
+        },
+        {
+          "field": {
+            "id": "postal_code"
+          },
+          "name": "Zip Code"
+        },
+        {
+          "name": "# Open Invoices",
+          "field": {
+            "function": "count",
+            "arguments": [
+              {
+                "id": "invoices.id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Avg. Ticket Size",
+          "field": {
+            "function": "avg",
+            "arguments": [
+              {
+                "id": "invoices.total"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Balance",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "invoices.balance"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Latest Note",
+          "field": {
+            "function": "last_value",
+            "arguments": [
+              {
+                "id": "collection_notes.notes"
+              },
+              {
+                "id": "id"
+              },
+              {
+                "id": "collection_notes.customer_id"
+              },
+              {
+                "id": "collection_notes.updated_at"
+              }
+            ]
+          }
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "id"
+          }
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "name"
+          },
+          "ascending": true
+        }
+      ]
+    }
+  ]
+}

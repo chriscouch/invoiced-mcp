@@ -1,0 +1,924 @@
+parameters:
+  default_test_database: mysql://myuser:mypass@127.0.0.1:3306/test
+  env(TEST_DATABASE_URL2): '%env(default:default_test_database:TEST_DATABASE_URL)%'
+
+  app.affinipay_client_id: ap_client_id
+  app.affinipay_secret: ap_client_secret
+  app.api_domain: api.invoiced.localhost
+  app.api_url: http://api.invoiced.localhost:1234
+  app.business_central_client_id: id_test
+  app.business_central_client_secret: key_test
+  app.cache_namespace: invoicedtest
+  app.dashboard_url: http://app.invoiced.localhost:1236
+  app.database_url: '%env(TEST_DATABASE_URL2)%'
+  app.default_from_name: Invoiced Test
+  app.domain: invoiced.localhost
+  app.encryption_key: def0000075627e6d24fc759e8431d16f7fd5465f97403f39b922420984301a0b0726c1c1e96b4b83fbd6879826675fa9043223bef1c3493531661e47543157fe54feb6e6
+  app.freshbooks_client_id: id_test
+  app.gocardless_client_id: gc_client_id
+  app.gocardless_environment: sandbox
+  app.gocardless_oauth_domain: https://connect-sandbox.gocardless.com
+  app.gocardless_verify_domain: https://verify-sandbox.gocardless.com
+  app.google_client_id: id_test
+  app.google_secret: oauth_secret
+  app.inbound_email_domain: test.invoicedmail.com
+  app.intacct_sender_id: test_sender_id
+  app.intacct_sender_password: test_sender_password
+  app.paypal_encrypt_secret: '01234567890123456789012345678912'
+  app.port: 1234
+  app.protocol: http
+  app.quickbooks_client_id: test_client_id
+  app.quickbooks_secret: oauth_secret
+  app.resque_namespace: resque_test
+  app.sage_accounting_client_id: id_test
+  app.slack_client_id: id_test
+  app.slack_client_secret: key_test
+  app.stripe_platform_client_id: ca_test_shared
+  app.stripe_platform_secret: sk_test_shared
+  app.syncserver_host: http://example.com
+  app.tokenization_url: https://tknz.invoiced.localhost:1234
+  app.twilio_account_sid: sid
+  app.twilio_auth_token: auth_token
+  app.twilio_verify_service_sid: test
+  app.wave_client_id: id_test
+  app.xero_client_id: id_test
+  app.xero_secret: oauth_secret
+  app.files_url: https://files.invoiced.localhost:1234
+
+services:
+  App\Core\Authentication\Interfaces\StorageInterface: '@App\Core\Authentication\Storage\InMemoryStorage'
+
+  App\Core\Utils\SentryProcessor: ~
+
+  App\Core\Files\Interfaces\FileCreatorInterface: '@App\Core\Files\Libs\NullFileCreator'
+
+  App\ActivityLog\Interfaces\EventStorageInterface: '@App\ActivityLog\Storage\InMemoryStorage'
+
+  App\Network\Interfaces\DocumentStorageInterface: '@App\Network\DocumentStorage\InMemoryStorage'
+
+  App\Sending\Email\Interfaces\EmailBodyStorageInterface: '@App\Sending\Email\Storage\NullBodyStorage'
+
+  App\Webhooks\Interfaces\PayloadStorageInterface: '@App\Webhooks\Storage\NullStorage'
+
+  ################################
+  # Test service configuration
+  ################################
+
+  # Make services tested in unit tests public.
+  # Normally these should be private but we have
+  # to make an exception to make them accessible in unit tests.
+  test.access_token_auth:
+    alias: App\Core\Authentication\OAuth\AccessTokenAuth
+    public: true
+
+  test.accept_network_invitation:
+    alias: App\Network\Command\AcceptNetworkInvitation
+    public: true
+
+  test.accounting_credit_note_loader:
+    alias: App\Integrations\AccountingSync\Loaders\AccountingCreditNoteLoader
+    public: true
+
+  test.accounting_customer_loader:
+    alias: App\Integrations\AccountingSync\Loaders\AccountingCustomerLoader
+    public: true
+
+  test.accounting_invoice_loader:
+    alias: App\Integrations\AccountingSync\Loaders\AccountingInvoiceLoader
+    public: true
+
+  test.accounting_loader_factory:
+    alias: App\Integrations\AccountingSync\Loaders\AccountingLoaderFactory
+    public: true
+
+  test.accounting_payment_loader:
+    alias: App\Integrations\AccountingSync\Loaders\AccountingPaymentLoader
+    public: true
+
+  test.accounting_write_spool:
+    alias: App\Integrations\AccountingSync\WriteSync\AccountingWriteSpool
+    public: true
+
+  test.accounting_writer_factory:
+    alias: App\Integrations\AccountingSync\Writers\AccountingWriterFactory
+    public: true
+
+  test.accounts_payable_ledger:
+    alias: App\AccountsPayable\Ledger\AccountsPayableLedger
+    public: true
+
+  test.activity_chart:
+    alias: App\Reports\Dashboard\ActivityChart
+    public: true
+
+  test.adyen_payment_webhook:
+    alias: App\EntryPoint\QueueJob\ProcessAdyenChargebackWebhookJob
+    public: true
+
+  test.adyen_payment_authorization_webhook:
+    alias: App\EntryPoint\QueueJob\ProcessAdyenPaymentAuthorizationWebhookJob
+    public: true
+
+  test.adyen_platform_webhook:
+    alias: App\EntryPoint\QueueJob\ProcessAdyenPlatformWebhookJob
+    public: true
+
+  test.adyen_payout_report_handler:
+    alias: App\Integrations\Adyen\ReportHandler\PayoutReportHandler
+    public: true
+
+  test.adyen_save_payment:
+    alias: App\Integrations\Adyen\Operations\SaveAdyenPayment
+    public: true
+
+  test.api_idempotency_key:
+    alias: App\Core\RestApi\Libs\ApiIdempotencyKey
+    public: true
+
+  test.api_key_auth:
+    alias: App\Core\RestApi\Libs\ApiKeyAuth
+    public: true
+
+  test.api_runner:
+    alias: App\Core\RestApi\Libs\ApiRouteRunner
+    public: true
+
+  test.approve_estimate:
+    alias: App\AccountsReceivable\Operations\ApproveEstimate
+    public: true
+
+  test.approve_oauth_application:
+    alias: App\Core\Authentication\OAuth\ApproveOAuthApplication
+    public: true
+
+  test.approve_payment_plan:
+    alias: App\PaymentPlans\Libs\ApprovePaymentPlan
+    public: true
+
+  test.attribute_helper:
+    alias: App\Metadata\Libs\AttributeHelper
+    public: true
+
+  test.attribute_storage:
+    alias: App\Metadata\Storage\AttributeStorage
+    public: true
+
+  test.automation_normalizer:
+    alias: App\Automations\Libs\NormalizerFactory
+    public: true
+
+  test.autopay:
+    alias: App\PaymentProcessing\Operations\AutoPay
+    public: true
+
+  test.bill_create:
+    alias: App\AccountsPayable\Operations\CreateBill
+    public: true
+
+  test.bill_edit:
+    alias: App\AccountsPayable\Operations\EditBill
+    public: true
+
+  test.bill_void:
+    alias: App\AccountsPayable\Operations\VoidBill
+    public: true
+
+  test.bill_subscription:
+    alias: App\SubscriptionBilling\Operations\BillSubscription
+    public: true
+
+  test.billing_system_factory:
+    alias: App\Core\Billing\BillingSystem\BillingSystemFactory
+    public: true
+
+  test.billing_overage_charge_generator:
+    alias: App\Core\Billing\Usage\OverageChargeGenerator
+    public: true
+
+  test.billing_usage_factory:
+    alias: App\Core\Billing\Usage\UsageFactory
+    public: true
+
+  test.build_report_job:
+    alias: App\EntryPoint\QueueJob\BuildReportJob
+    public: true
+
+  test.cache:
+    alias: cache.app
+    public: true
+
+  test.cash_application_matchmaker:
+    alias: App\CashApplication\Libs\CashApplicationMatchmaker
+    public: true
+
+  test.calculate_invoice_chase_times:
+    alias: App\EntryPoint\CronJob\CalculateInvoiceChaseTimes
+    public: true
+
+  test.cancel_subscription:
+    alias: App\SubscriptionBilling\Operations\CancelSubscription
+    public: true
+
+  test.charge_reconciler:
+    alias: App\PaymentProcessing\Reconciliation\ChargeReconciler
+    public: true
+
+  test.chase_invoices:
+    alias: App\EntryPoint\CronJob\ChaseInvoicesLegacy
+    public: true
+
+  test.chasing_planner:
+    alias: App\Chasing\CustomerChasing\CustomerChasingPlanner
+    public: true
+
+  test.chasing_run:
+    alias: App\Chasing\CustomerChasing\CustomerChasingRun
+    public: true
+
+  test.common_email_factory:
+    alias: App\Sending\Email\EmailFactory\CommonEmailFactory
+    public: true
+
+  test.common_email_writer:
+    alias: App\Sending\Email\Libs\CommonEmailWriter
+    public: true
+
+  test.company_address_verification:
+    alias: App\Companies\Verification\AddressVerification
+    public: true
+
+  test.company_email_factory:
+    alias: App\Sending\Email\EmailFactory\CompanyEmailFactory
+    public: true
+
+  test.company_email_verification:
+    alias: App\Companies\Verification\EmailVerification
+    public: true
+
+  test.company_entitlements_manager:
+    alias: App\Companies\Libs\CompanyEntitlementsManager
+    public: true
+
+  test.company_reset:
+    alias: App\Companies\Libs\CompanyReset
+    public: true
+
+  test.company_us_tax_id_verification:
+    alias: App\Companies\Verification\UsTaxIdVerification
+    public: true
+
+  test.create_bank_feed_transaction:
+    alias: App\CashApplication\Operations\CreateBankFeedTransaction
+    public: true
+
+  test.create_company_card:
+    alias: App\AccountsPayable\Operations\CreateCompanyCard
+    public: true
+
+  test.create_echeck:
+    alias: App\AccountsPayable\Operations\CreateECheck
+    public: true
+
+  test.create_subscription:
+    alias: App\SubscriptionBilling\Operations\CreateSubscription
+    public: true
+
+  test.customer_balance_expression_function_provider:
+    alias: App\Automations\Providers\CustomerBalanceExpressionFunctionProvider
+    public: true
+
+  test.customer_merger:
+    alias: App\AccountsReceivable\Libs\CustomerMerger
+    public: true
+
+  test.customer_portal_context:
+    alias: App\CustomerPortal\Libs\CustomerPortalContext
+    public: true
+
+  test.customer_portal_security_checker:
+    alias: App\CustomerPortal\Libs\CustomerPortalSecurityChecker
+    public: true
+
+  test.customer_portal_events:
+    alias: App\CustomerPortal\Libs\CustomerPortalEvents
+    public: true
+
+  test.statsd_client:
+    alias: App\Core\Statsd\StatsdClient
+    public: true
+
+  test.dashboard:
+    alias: App\Reports\Dashboard\Dashboard
+    public: true
+
+  test.dashboard_metric_action_items:
+    alias: App\Reports\DashboardMetrics\ActionItemsMetric
+    public: true
+
+  test.dashboard_metric_collections_efficiency:
+    alias: App\Reports\DashboardMetrics\CollectionsEfficiencyMetric
+    public: true
+
+  test.dashboard_metric_dso:
+    alias: App\Reports\DashboardMetrics\DaysSalesOutstandingMetric
+    public: true
+
+  test.dashboard_metric_expected_payments:
+    alias: App\Reports\DashboardMetrics\ExpectedPaymentsMetric
+    public: true
+
+  test.dashboard_metric_time_to_pay:
+    alias: App\Reports\DashboardMetrics\TimeToPayMetric
+    public: true
+
+  test.dashboard_metric_top_debtors:
+    alias: App\Reports\DashboardMetrics\TopDebtorsMetric
+    public: true
+
+  test.database:
+    alias: Doctrine\DBAL\Connection
+    public: true
+
+  test.decline_network_invitation:
+    alias: App\Network\Command\DeclineNetworkInvitation
+    public: true
+
+  test.delete_company_card:
+    alias: App\AccountsPayable\Operations\DeleteCompanyCard
+    public: true
+
+  test.delete_network_connection:
+    alias: App\Network\Command\DeleteNetworkConnection
+    public: true
+
+  test.delete_payment_info:
+    alias: App\PaymentProcessing\Operations\DeletePaymentInfo
+    public: true
+
+  test.document_email_writer:
+    alias: App\Sending\Email\Libs\DocumentEmailWriter
+    public: true
+
+  test.document_pdf_uploader:
+    alias: App\Core\Files\Libs\DocumentPdfUploader
+    public: true
+
+  test.document_view_tracker:
+    alias: App\AccountsReceivable\Libs\DocumentViewTracker
+    public: true
+
+  test.duplicate_payment_reconciler:
+    alias: App\CashApplication\Libs\DuplicatePaymentsReconciler
+    public: true
+
+  test.edit_subscription:
+    alias: App\SubscriptionBilling\Operations\EditSubscription
+    public: true
+
+  test.edit_user_protected_fields:
+    alias: App\Core\Authentication\Libs\EditProtectedUserFields
+    public: true
+
+  test.email_adapter_factory:
+    alias: App\Sending\Email\Libs\AdapterFactory
+    public: true
+
+  test.email_invoiced_inbox_adapter:
+    alias: App\Sending\Email\Adapter\InvoicedInboxAdapter
+    public: true
+
+  test.email_login_scheme:
+    alias: App\CustomerPortal\Libs\LoginSchemes\EmailLoginScheme
+    public: true
+
+  test.email_open_tracker:
+    alias: App\Sending\Email\Libs\EmailOpenTracker
+    public: true
+
+  test.email_sender:
+    alias: App\Sending\Email\Libs\EmailSender
+    public: true
+
+  test.email_spool:
+    alias: App\Sending\Email\Libs\EmailSpool
+    public: true
+
+  test.email_update:
+    alias: App\Reports\Dashboard\EmailMemberUpdate
+    public: true
+
+  test.encryption_key:
+    alias: Defuse\Crypto\Key
+    public: true
+
+  test.estimate_approval_form_processor:
+    alias: App\AccountsReceivable\Libs\EstimateApprovalFormProcessor
+    public: true
+
+  test.event_dispatcher_interface:
+    alias: Symfony\Contracts\EventDispatcher\EventDispatcherInterface
+    public: true
+
+  test.export_job:
+    alias: App\EntryPoint\QueueJob\MemberACLExportJob
+    public: true
+
+  test.exporter_factory:
+    alias: App\Exports\Libs\ExporterFactory
+    public: true
+
+  test.expired_discount_job:
+    alias: App\EntryPoint\CronJob\DeleteExpiredDiscounts
+    public: true
+
+  test.event_spool:
+    alias: App\ActivityLog\Libs\EventSpool
+    public: true
+
+  test.event_storage:
+    alias: App\ActivityLog\Interfaces\EventStorageInterface
+    public: true
+
+  test.event_writer:
+    alias: App\ActivityLog\Libs\EventWriter
+    public: true
+
+  test.flywire_payments_onboarding:
+    alias: App\Integrations\Adyen\FlywirePaymentsOnboarding
+    public: true
+
+  test.form_factory:
+    alias: Symfony\Component\Form\FormFactoryInterface
+    public: true
+
+  test.garbage_collection_job:
+    alias: App\EntryPoint\CronJob\GarbageCollection
+    public: true
+
+  test.gateway_logger:
+    alias: App\PaymentProcessing\Libs\GatewayLogger
+    public: true
+
+  test.generate_estimate_invoice:
+    alias: App\AccountsReceivable\Operations\GenerateEstimateInvoice
+    public: true
+
+  test.google_login_strategy:
+    alias: App\Core\Authentication\LoginStrategy\GoogleLoginStrategy
+    public: true
+
+  test.import_invoice_pdf_handler:
+    alias: App\Sending\Email\InboundParse\Handlers\ImportInvoicePdfHandler
+    public: true
+
+  test.import_job:
+    alias: App\EntryPoint\QueueJob\ImportJob
+    public: true
+
+  test.importer_factory:
+    alias: App\Imports\Libs\ImporterFactory
+    public: true
+
+  test.inbox_email_handler:
+    alias: App\Sending\Email\InboundParse\Handlers\InboxEmailHandler
+    public: true
+
+  test.initiated_charge_factory:
+    alias: App\PaymentProcessing\Libs\InitiatedChargeFactory
+    public: true
+
+  test.integration_factory:
+    alias: App\Integrations\Libs\IntegrationFactory
+    public: true
+
+  test.intuit_login_strategy:
+    alias: App\Core\Authentication\LoginStrategy\IntuitLoginStrategy
+    public: true
+
+  test.invite_to_network:
+    alias: App\Network\Command\InviteToNetwork
+    public: true
+
+  test.issued_document_notifier:
+    alias: App\AccountsReceivable\Libs\IssuedDocumentNotifier
+    public: true
+
+  test.issued_document_notices:
+    alias: App\EntryPoint\CronJob\IssuedDocumentNotices
+    public: true
+
+  test.late_fee_assessor:
+    alias: App\Chasing\LateFees\LateFeeAssessor
+    public: true
+
+  test.late_fee_job:
+    alias: App\EntryPoint\CronJob\LateFeeJob
+    public: true
+
+  test.list_query_builder_factory:
+    alias: App\Core\ListQueryBuilders\ListQueryBuilderFactory
+    public: true
+
+  test.lock_factory:
+    alias: lock.default.factory
+    public: true
+
+  test.logger_factory:
+    alias: App\Core\Utils\LoggerFactory
+    public: true
+
+  test.login_helper:
+    alias: App\Core\Authentication\Libs\LoginHelper
+    public: true
+
+  test.mailer:
+    alias: App\Core\Mailer\Mailer
+    public: true
+
+  test.mark_estimates_expired:
+    alias: App\EntryPoint\CronJob\MarkEstimatesExpired
+    public: true
+
+  test.mark_invoices_past_due:
+    alias: App\EntryPoint\CronJob\MarkInvoicesPastDue
+    public: true
+
+  test.mark_payment_plan_invoices_past_due:
+    alias: App\EntryPoint\CronJob\MarkPaymentPlanInvoicesPastDue
+    public: true
+
+  test.merchant_account_ledger:
+    alias: App\PaymentProcessing\Reconciliation\MerchantAccountLedger
+    public: true
+
+  test.microsoft_login_strategy:
+    alias: App\Core\Authentication\LoginStrategy\MicrosoftLoginStrategy
+    public: true
+
+  test.model_ubl_transformer:
+    alias: App\Network\Ubl\ModelUblTransformer
+    public: true
+
+  test.new_company_sign_up:
+    alias: App\Companies\Libs\NewCompanySignUp
+    public: true
+
+  test.slack_emitter:
+    alias: App\Notifications\Emitters\SlackEmitter
+    public: true
+
+  test.notification_event_processor_factory:
+    alias: App\Notifications\Libs\NotificationEmailFactory
+    public: true
+
+  test.notification_job:
+    alias: App\EntryPoint\QueueJob\NotificationJob
+    public: true
+
+  test.notification_spool:
+    alias: App\Notifications\Libs\NotificationSpool
+    public: true
+
+  test.oauth_connection_manager:
+    alias: App\Integrations\OAuth\OAuthConnectionManager
+    public: true
+
+  test.oauth_integration_factory:
+    alias: App\Integrations\OAuth\OAuthIntegrationFactory
+    public: true
+
+  test.oauth_server_factory:
+    alias: App\Core\Authentication\OAuth\OAuthServerFactory
+    public: true
+
+  test.onboarding_factory:
+    alias: App\Companies\Onboarding\OnboardingFactory
+    public: true
+
+  test.onboarding_business_type:
+    alias: App\Companies\Onboarding\BusinessTypeStep
+    public: true
+
+  test.onboarding_company_info:
+    alias: App\Companies\Onboarding\CompanyInfoStep
+    public: true
+
+  test.onboarding_email_verification:
+    alias: App\Companies\Onboarding\EmailVerificationStep
+    public: true
+
+  test.onboarding_phone_verification_start:
+    alias: App\Companies\Onboarding\PhoneVerificationStartStep
+    public: true
+
+  test.onboarding_phone_verification_finish:
+    alias: App\Companies\Onboarding\PhoneVerificationFinishStep
+    public: true
+
+  test.onboarding_tax_id:
+    alias: App\Companies\Onboarding\TaxIdStep
+    public: true
+
+  test.overage_biller:
+    alias: App\Core\Billing\Action\BillOverageAction
+    public: true
+
+  test.pause_subscription:
+    alias: App\SubscriptionBilling\Operations\PauseSubscription
+    public: true
+
+  test.payment_flow_manager:
+    alias: App\PaymentProcessing\Libs\PaymentFlowManager
+    public: true
+
+  test.payment_form_processor:
+    alias: App\PaymentProcessing\Forms\PaymentFormProcessor
+    public: true
+
+  test.payment_gateway_factory:
+    alias: App\PaymentProcessing\Gateways\PaymentGatewayFactory
+    public: true
+
+  test.outgoing_email_writer_factory:
+    alias: App\Sending\Email\Libs\OutgoingEmailWriterFactory
+    public: true
+
+  test.payment_flow_reconcile:
+    alias: App\PaymentProcessing\Operations\PaymentFlowReconcile
+    public: true
+
+  test.payment_link_customer_handler:
+    alias: App\CustomerPortal\Command\PaymentLinks\PaymentLinkCustomerHandler
+    public: true
+
+  test.payment_link_invoice_handler:
+    alias: App\CustomerPortal\Command\PaymentLinks\PaymentLinkInvoiceHandler
+    public: true
+
+  test.payment_link_processor:
+    alias: App\CustomerPortal\Command\PaymentLinkProcessor
+    public: true
+
+  test.pay_vendor:
+    alias: App\AccountsPayable\Operations\PayVendor
+    public: true
+
+  test.pay_vendor_payment_batch:
+    alias: App\AccountsPayable\Operations\PayVendorPaymentBatch
+    public: true
+
+  test.payment_method_decorator:
+    alias: App\PaymentProcessing\Libs\PaymentMethodDecorator
+    public: true
+
+  test.payment_method_factory:
+    alias: App\AccountsPayable\PaymentMethods\PaymentMethodFactory
+    public: true
+
+  test.payment_method_view_factory:
+    alias: App\PaymentProcessing\Libs\PaymentMethodViewFactory
+    public: true
+
+  test.paypal_webhook:
+    alias: App\Integrations\PayPal\Libs\PayPalWebhook
+    public: true
+
+  test.plaid_transaction_webhook:
+    alias: App\Integrations\Plaid\Libs\PlaidTransactionWebhook
+    public: true
+
+  test.preset_report_factory:
+    alias: App\Reports\Libs\PresetReportFactory
+    public: true
+
+  test.process_payment:
+    alias: App\PaymentProcessing\Operations\ProcessPayment
+    public: true
+
+  test.process_refund:
+    alias: App\PaymentProcessing\Operations\ProcessRefund
+    public: true
+
+  test.product_installer:
+    alias: App\Core\Entitlements\ProductInstaller
+    public: true
+
+  test.queue:
+    alias: App\Core\Queue\Queue
+    public: true
+
+  test.rate_limiter_ip_login:
+    alias: limiter.ip_login
+    public: true
+
+  test.rate_limiter_username_login:
+    alias: limiter.username_login
+    public: true
+
+  test.redis:
+    alias: app.redis
+    public: true
+
+  test.refund_reconciler:
+    alias: App\PaymentProcessing\Reconciliation\RefundReconciler
+    public: true
+
+  test.renew_contract:
+    alias: App\SubscriptionBilling\Operations\RenewManualContract
+    public: true
+
+  test.report_builder:
+    alias: App\Reports\ReportBuilder\ReportBuilder
+    public: true
+
+  test.report_data_service:
+    alias: App\Reports\ReportBuilder\DataService
+    public: true
+
+  test.report_formatter:
+    alias: App\Reports\ReportBuilder\Formatter
+    public: true
+
+  test.report_storage:
+    alias: App\Reports\Libs\ReportStorage
+    public: true
+
+  test.reset_password:
+    alias: App\Core\Authentication\Libs\ResetPassword
+    public: true
+
+  test.resume_subscription:
+    alias: App\SubscriptionBilling\Operations\ResumeSubscription
+    public: true
+
+  test.quickbooks_desktop_sync_manager:
+    alias: App\Integrations\QuickBooksDesktop\QuickBooksDesktopSyncManager
+    public: true
+
+  test.quickbooks_extractor_factory:
+    alias: App\Integrations\QuickBooksOnline\Extractors\QuickBooksExtractorFactory
+    public: true
+
+  test.quickbooks_transformer_factory:
+    alias: App\Integrations\QuickBooksOnline\Transformers\QuickBooksTransformerFactory
+    public: true
+
+  test.router:
+    alias: App\Sending\Email\InboundParse\Router
+    public: true
+
+  test.send_document:
+    alias: App\Network\Command\SendDocument
+    public: true
+
+  test.send_network_document_queue_job:
+    alias: App\EntryPoint\QueueJob\SendNetworkDocumentQueueJob
+    public: true
+
+  test.send_notifications_job:
+    alias: App\EntryPoint\QueueJob\SendNotificationsJob
+    public: true
+
+  test.schedule_invoice_chasing_job:
+    alias: App\EntryPoint\QueueJob\ScheduleInvoiceChaseSends
+    public: true
+
+  test.scheduled_reports_job:
+    alias: App\EntryPoint\CronJob\ScheduledReportJob
+    public: true
+
+  test.scheduled_sends_job:
+    alias: App\EntryPoint\QueueJob\PerformScheduledSendsJob
+    public: true
+
+  test.search:
+    alias: App\Core\Search\Libs\Search
+    public: true
+
+  test.send_ach_verification_reminders:
+    alias: App\EntryPoint\CronJob\SendAchVerificationReminders
+    public: true
+
+  test.send_billed_soon_notices:
+    alias: App\EntryPoint\CronJob\SendBilledSoonNotices
+    public: true
+
+  test.ses_webhook:
+    alias: App\Sending\Email\Libs\SesWebhook
+    public: true
+
+  test.set_bad_debt:
+    alias: App\AccountsReceivable\Operations\SetBadDebt
+    public: true
+
+  test.sign_in_customer:
+    alias: App\CustomerPortal\Command\SignInCustomer
+    public: true
+
+  test.sign_up_form_processor:
+    alias: App\CustomerPortal\Command\SignUpFormProcessor
+    public: true
+
+  test.sign_up_fraud_detector:
+    alias: App\Companies\Libs\SignUpFraudDetector
+    public: true
+
+  test.start_report_job:
+    alias: App\Reports\Libs\StartReportJob
+    public: true
+
+  test.statement_builder:
+    alias: App\Statements\Libs\StatementBuilder
+    public: true
+
+  test.stripe_billing_webhook:
+    alias: App\Core\Billing\Webhook\StripeBillingWebhook
+    public: true
+
+  test.stripe_connect_webhook:
+    alias: App\Integrations\Stripe\StripeConnectWebhook
+    public: true
+
+  test.tenant:
+    alias: App\Core\Multitenant\TenantContext
+    public: true
+
+  test.tokenization_flow_manager:
+    alias: App\PaymentProcessing\Libs\TokenizationFlowManager
+    public: true
+
+  test.transaction_manager:
+    alias: App\Core\Database\TransactionManager
+    public: true
+
+  test.trigger_automation:
+    alias: App\Automations\TriggerAutomation
+    public: true
+
+  test.twig_renderer_factory:
+    alias: App\Core\Templating\TwigRendererFactory
+    public: true
+
+  test.update_charge_status:
+    alias: App\PaymentProcessing\Operations\UpdateChargeStatus
+    public: true
+
+  test.update_current_month_usage:
+    alias: App\EntryPoint\CronJob\UpdateCurrentMonthUsage
+    public: true
+
+  test.user_context:
+    alias: App\Core\Authentication\Libs\UserContext
+    public: true
+
+  test.user_registration:
+    alias: App\Core\Authentication\Libs\UserRegistration
+    public: true
+
+  test.username_password_login_strategy:
+    alias: App\Core\Authentication\LoginStrategy\UsernamePasswordLoginStrategy
+    public: true
+
+  test.vendor_adjustment_create:
+    alias: App\AccountsPayable\Operations\CreateVendorAdjustment
+    public: true
+
+  test.vendor_adjustment_void:
+    alias: App\AccountsPayable\Operations\VoidVendorAdjustment
+    public: true
+
+  test.vendor_credit_create:
+    alias: App\AccountsPayable\Operations\CreateVendorCredit
+    public: true
+
+  test.vendor_credit_edit:
+    alias: App\AccountsPayable\Operations\EditVendorCredit
+    public: true
+
+  test.vendor_credit_void:
+    alias: App\AccountsPayable\Operations\VoidVendorCredit
+    public: true
+
+  test.vendor_payment_batch_void:
+    alias: App\AccountsPayable\Operations\VoidVendorPaymentBatch
+    public: true
+
+  test.vendor_payment_create:
+    alias: App\AccountsPayable\Operations\CreateVendorPayment
+    public: true
+
+  test.vendor_payment_edit:
+    alias: App\AccountsPayable\Operations\EditVendorPayment
+    public: true
+
+  test.vendor_payment_void:
+    alias: App\AccountsPayable\Operations\VoidVendorPayment
+    public: true
+
+  test.workflow_runner:
+    alias: App\Automations\WorkflowRunner
+    public: true
+
+  test.xero_login_strategy:
+    alias: App\Core\Authentication\LoginStrategy\XeroLoginStrategy
+    public: true

@@ -1,0 +1,48 @@
+{
+  "QueryResponse": {
+    "Customer": [
+      {
+        "Id": "2",
+        "SyncToken": "6",
+        "MetaData": {
+          "CreatedTime": "2016-07-12T11:25:09-07:00",
+          "LastUpdatedTime": "2017-03-04T08:38:37-08:00"
+        },
+        "FullyQualifiedName": "Test",
+        "DisplayName": "Test",
+        "CurrencyRef": {
+          "name": "United States Dollar",
+          "value": "USD"
+        },
+        "PrintOnCheckName": "Test",
+        "Active": true,
+        "PrimaryEmailAddr": {
+          "Address": "test@example.com"
+        },
+        "DefaultTaxCodeRef": {
+          "value": 3
+        },
+        "Taxable": true,
+        "PrimaryPhone": {
+          "FreeFormNumber": "(123) 456-7890"
+        },
+        "BillAddr": {
+          "Id": "2",
+          "Line1": "1234 Main St",
+          "City": "Austin",
+          "CountrySubDivisionCode": "TX",
+          "PostalCode": "123456",
+          "Country": "US"
+        },
+        "Job": false,
+        "BillWithParent": false,
+        "Balance": 0,
+        "BalanceWithJobs": 0,
+        "PreferredDeliveryMethod": "None"
+      }
+    ],
+    "startPosition": 1,
+    "maxResults": 6
+  },
+  "time": "2017-04-30T06:05:32.478-07:00"
+}

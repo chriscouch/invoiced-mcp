@@ -1,0 +1,137 @@
+<div class="loading" ng-show="loading"></div>
+<form name="paymentForm" ng-submit="save(parameters, charges)" ng-hide="loading">
+    <div class="contents send-payment">
+        <div class="title-bar">
+            <h2 class="title">
+                New Payment Batch
+            </h2>
+        </div>
+        <p class="lead">
+            Create a payment batch to finish collecting payments from your customers.
+        </p>
+
+        <p class="required-indicator">
+            <span class="required"></span> {{'general.indicates_required_field'|translate}}
+        </p>
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Name</label>
+                    <div>
+                        <input type="text" class="form-control" ng-model="parameters.name" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Batch #</label>
+                    <div>
+                        <input-document-number ng-model="parameters.number"></input-document-number>
+                    </div>
+                </div>
+            </div>
+            <!-- Select Bank Account / Payment Method -->
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Bank Account <span class="required"></span></label>
+                    <div class="invoiced-select">
+                        <select ng-options="selectedAccount as selectedAccount.name for selectedAccount in payFromOptions | orderBy:'name'" ng-model="parameters.ach_file_format" required></select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3" ng-show="availablePaymentMethods.length > 0">
+                <div class="form-group">
+                    <label class="control-label">Payment Method <span class="required" ng-show="availablePaymentMethods.length > 1"></span></label>
+                    <div class="invoiced-select" ng-show="availablePaymentMethods.length > 1">
+                        <select ng-options="paymentMethod.id as paymentMethod.name for paymentMethod in availablePaymentMethods" ng-model="parameters.payment_method" required></select>
+                    </div>
+                    <div class="form-control-static" ng-show="availablePaymentMethods.length == 1">
+                        {{availablePaymentMethods[0].name}}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Check Options -->
+            <div class="col-md-3" ng-if="parameters.payment_method == 'print_check' || parameters.payment_method == 'echeck'">
+                <div class="form-group">
+                    <label class="control-label">Initial Check Number <span class="required"></span></label>
+                    <div>
+                        <input type="number" class="form-control input-medium" placeholder="#" ng-model="parameters.initial_check_number" required />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3" ng-if="parameters.payment_method == 'print_check'">
+                <div class="form-group">
+                    <label class="control-label">Check Layout <span class="required"></span></label>
+                    <div>
+                        <div class="invoiced-select">
+                            <select ng-model="parameters.check_layout" required>
+                                <option value="CheckOnTop">Check on Top</option>
+                                <option value="ThreePerPage">Three Checks Per Page</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Select Charges to Process -->
+        <div class="payment-items">
+            <h4 class="settings-section-title">Payments to Process</h4>
+            <div class="alert alert-warning" ng-show="charges.length === 0">
+                There are no payments eligible for batch processing.
+            </div>
+
+            <table class="table table-striped search-results-table payment-items-table" ng-show="charges.length">
+                <thead>
+                    <tr>
+                        <th class="checkbox-column"><input type="checkbox" ng-model="checked" ng-change="selectAll(checked)"></th>
+                        <th>Customer</th>
+                        <th>Reference</th>
+                        <th class="date">Date</th>
+                        <th class="money-column">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="line" ng-repeat="charge in charges">
+                        <td class="checkbox-column">
+                            <input type="checkbox" ng-model="charge.checked" ng-checked="charge.checked" />
+                        </td>
+                        <td>
+                            {{charge.customer.name}}
+                        </td>
+                        <td>
+                            {{charge.gateway_id}}
+                        </td>
+                        <td class="date">
+                            <company-date date="charge.created_at"></company-date>
+                        </td>
+                        <td class="money-column">
+                            <money amount="charge.amount" currency="charge.currency"></money>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="text-right">
+                            Total
+                        </td>
+                        <td class="text-right">
+                            <money amount="paymentTotal" currency="currency"></money>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="form-actions" ng-show="charges.length">
+            <button type="submit" class="btn btn-primary Button" ng-disabled="paymentForm.$invalid||saving||!formValid()" v-busy="saving" v-busy-label="Saving" v-pressable>
+                Create
+            </button>
+        </div>
+    </div>
+</form>

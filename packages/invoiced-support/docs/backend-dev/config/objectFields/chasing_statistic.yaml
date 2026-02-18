@@ -1,0 +1,37 @@
+fields:
+  attempts: { name: "# Chasing attempts", type: integer }
+  channel:
+    name: Channel
+    type: enum
+    values:
+      1: Text
+      2: Letter
+      4: Email
+      8: Phone
+      16: Escalation
+  chasing_cadence: { name: "Chasing Cadence", type: join, parent_column: cadence_id }
+  chasing_cadence_step: { name: "Chasing Cadence Step", type: join, parent_column: cadence_step_id }
+  invoice_chasing_cadence: { name: "Invoice Chasing Cadence", type: join, parent_column: cadence_id }
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  customer: { name: Customer, type: join, parent_column: customer_id }
+  date:
+    name: Created Date
+    type: date
+    date_format: "Y-m-d"
+  invoice: { name: Invoice, type: join, parent_column: invoice_id }
+  paid:
+    name: Completed
+    type: date
+    date_format: "Y-m-d"
+  payment_responsible: { name: "Resulted into the payment", type: boolean }
+  type:
+    name: Type
+    type: enum
+    values:
+      1: Customer
+      2: Invoice

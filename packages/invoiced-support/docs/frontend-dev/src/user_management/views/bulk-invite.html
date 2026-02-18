@@ -1,0 +1,28 @@
+<form name="inviteForm" ng-submit="invite(usersToAdd)" class="below0">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title">Bulk Add Users</h4>
+    </div>
+    <div class="modal-body">
+        <p class="alert alert-danger" ng-repeat="error in errors track by $index">
+            {{error}}
+        </p>
+
+        <p>
+            In a spreadsheet create a list of users to invite with the columns: Email Address, First Name, Last Name, and Role. Then copy the list from your spreadsheet and paste into the text box below to add multiple users at once.
+        </p>
+        <p>
+            If an email address is already a user within your company then it will be skipped.
+        </p>
+
+        <!-- Input -->
+        <div class="form-group textarea-4-lines">
+            <textarea class="form-control" ng-model="usersToAdd" expanding-textarea required placeholder="Email Address...&#9;First Name...&#9;Last Name...&#9;Role...&#10;Email Address...&#9;First Name...&#9;Last Name...&#9;Role...&#10;Email Address...&#9;First Name...&#9;Last Name...&#9;Role..."></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-large btn-primary Button" ng-disabled="inviteForm.$invalid||saving" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.add'|translate}}" v-pressable>
+            <span translate>general.add</span>
+        </button>
+    </div>
+</form>

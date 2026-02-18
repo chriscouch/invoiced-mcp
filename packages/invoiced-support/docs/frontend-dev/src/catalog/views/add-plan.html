@@ -1,0 +1,74 @@
+<div class="modal-header">
+	<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+	<h4 class="modal-title">
+		Add Plan<span ng-show="multiple">s</span>
+	</h4>
+</div>
+<div class="modal-body">
+	<p class="loading" ng-show="loading"></p>
+
+	<div class="modal-selector slim" ng-show="!loading&&plans.length>0">
+		<div class="search">
+			<div class="searchbar light">
+				<div class="bar">
+					<div class="icon"><span class="fas fa-search"></span></div>
+					<input type="text" class="form-control" placeholder="Plan name or ID..." ng-model="search" tabindex="2000" />
+					<div class="icon right icon-btn" ng-show="search">
+						<button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+							<span class="fas fa-times-circle"></span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="action">
+				<button type="button" class="btn btn-default" ng-click="newPlanModal()" tabindex="2002" ng-if="'catalog.edit'|hasPermission">
+					<span class="fas fa-plus"></span>
+					New
+				</button>
+			</div>
+		</div>
+
+		<div class="catalog-items-list" ng-class="{multiple: multiple, single: !multiple}">
+			<div class="empty" ng-show="results.length===0">
+				Could not find any plans with a name or ID matching <strong>{{search}}</strong>. <a href="" ng-click="newPlanModal(search)" tabindex="2003" ng-if="'catalog.edit'|hasPermission">Create one.</a>
+			</div>
+
+			<a class="catalog-item" ng-repeat="plan in plans | searchObject:search:['name','id'] | orderBy:'name' | limitTo:100 as results" ng-click="togglePlan(plan)" ng-class="{selected:isSelected(plan)}" tabindex="{{$index + 2003}}" title="ID: {{plan.id}}">
+				<div class="selected">
+					<span class="label label-success">Selected</span>
+				</div>
+				<div class="add">
+					<span class="fas fa-plus"></span>
+				</div>
+				<div class="title">
+					{{plan.name}}
+				</div>
+				<div class="amount">
+					<money amount="plan.amount" currency="plan.currency" ng-show="plan.pricing_mode=='per_unit'"></money>
+					<span ng-show="plan.pricing_mode=='tiered'">Tiered</span>
+					<span ng-show="plan.pricing_mode=='volume'">Volume</span>
+				</div>
+				<div class="arrow">
+					<span class="fas fa-chevron-right"></span>
+				</div>
+			</a>
+		</div>
+	</div>
+
+	<cut-list-label count="results.length" total="(plans | searchObject:search:['name','id']).length"></cut-list-label>
+
+	<p class="empty" ng-show="!loading&&plans.length==0">
+		You don't have any plans yet.
+		<span ng-if="'catalog.edit'|hasPermission">
+			<a href="" ng-click="newPlanModal()" tabindex="2003">Create one</a> or <a href="" popover="Plans are shortcuts to the services and products you frequently offer to customers." popover-placement="bottom" tabindex="2004">
+				learn more
+			</a>.
+		</span>
+	</p>
+</div>
+<div class="modal-footer" ng-show="multiple">
+	<div class="left" ng-show="selected.length>0">
+		<strong>{{selected.length}} selected</strong>
+	</div>
+	<button type="button" class="btn btn-primary Button" ng-disabled="selected.length==0" ng-click="addPlans(selected)" v-pressable tabindex="2500">Add</button>
+</div>

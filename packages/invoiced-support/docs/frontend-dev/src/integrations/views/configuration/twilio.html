@@ -1,0 +1,41 @@
+<form class="form-horizontal" name="twilioForm" ng-submit="save(integration.extra.from_number)">
+    <div class="form-group">
+        <div class="col-sm-8 col-sm-offset-4">
+            <h4 class="settings-section-title">Settings</h4>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-4">
+            Account SID
+        </label>
+        <div class="col-sm-8 form-control-static">
+            {{integration.name}}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-4">
+            From Number
+        </label>
+        <div class="col-sm-3">
+            <div class="invoiced-select" ng-hide="loading">
+                <select ng-model="integration.extra.from_number" ng-options="number.number as number.name for number in numbers" required></select>
+            </div>
+            <div ng-show="loading" class="loading inline"></div>
+        </div>
+        <div class="col-sm-5 help-text">
+            <a href="https://www.twilio.com/console/phone-numbers/search" target="_blank" class="btn btn-link btn-sm">
+                Buy a new number
+            </a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-8 col-sm-offset-4">
+            <button type="submit" class="btn btn-primary Button" ng-disabled="saving||twilioForm.$invalid" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+                <span translate>general.save</span>
+            </button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,23 @@
+{% extends "emails/parent.twig" %}
+{% block title %}E-check sending failed{% endblock %}
+{% block content %}
+	<row>
+		<columns>
+			<p>{{ customer_name }}</p>
+
+			<p>We detected a problem with your account {{ name }}.</p>
+			<p>
+				Please log in to Invoiced and review your account.
+			</p>
+		</columns>
+	</row>
+	<row>
+		<columns>
+			<center>
+				<spacer size="5"></spacer>
+				<button class="radius" href="{{ href }}">Go to Invoiced</button>
+				<spacer size="5"></spacer>
+			</center>
+		</columns>
+	</row>
+{% endblock %}

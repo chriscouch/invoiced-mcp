@@ -1,0 +1,189 @@
+<div class="search-results-holder" ng-class="{'has-filter': filterStr}">
+	<div class="box">
+		<div class="header clearfix">
+			<!-- Title Bar -->
+			<div class="actions" ng-if="'credit_notes.create'|hasPermission">
+				<a ui-sref="manage.imports.new.spreadsheet({type:'credit_note'})" class="btn btn-default hidden-xs hidden-sm" id="credit-notes-page-import-btn" ng-if="'imports.create'|hasPermission">
+					{{'credit_notes.import'|translate}}
+				</a>
+				<a ui-sref="manage.credit_notes.new" class="btn btn-success" id="credit-notes-page-new-credit-note-btn">
+					New Credit Note
+				</a>
+			</div>
+			<h2>
+				<div class="btn-group dropdown" dropdown>
+					<a href="" class="dropdown-toggle" id="credit-notes-page-nav-dropdown" dropdown-toggle>
+						Credit Notes
+						<span class="fas fa-chevron-down"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							<a ui-sref="manage.invoices.browse" id="credit-notes-page-invoices-option">
+								Invoices
+							</a>
+						</li>
+						<li class="active">
+							<a ui-sref="manage.credit_notes.browse" id="credit-notes-page-credit-notes-option">
+								Credit Notes
+							</a>
+						</li>
+						<li ng-if="'estimates'|hasFeature">
+							<a ui-sref="manage.estimates.browse" id="credit-notes-page-estimates-option">
+								Estimates
+							</a>
+						</li>
+						<li ng-if="'payment_plans'|hasFeature">
+							<a ui-sref="manage.payment_plans.browse" id="invoices-page-payment-plans-option">
+								Payment Plans
+							</a>
+						</li>
+					</ul>
+				</div>
+			</h2>
+
+			<!-- Tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+				<li ng-class="{active:filter.status.value=='draft'}">
+					<a href="" id="credit-notes-page-draft-tab" ng-click="addToFilter({status:'draft',sort:'date ASC'})">
+						Drafts
+					</a>
+				</li>
+				<li ng-class="{active:filter.status.value=='open'}">
+					<a href="" id="credit-notes-page-open-tab" ng-click="addToFilter({status:'open',sort:'date ASC'})">
+						Open
+					</a>
+				</li>
+				<li ng-class="{active:filter.status.value=='paid'}">
+					<a href="" id="credit-notes-page-paid-tab" ng-click="addToFilter({status:'paid',sort:'date DESC'})">
+						Paid
+					</a>
+				</li>
+				<li ng-class="{active:filter.status.value!='draft'&&filter.status.value!='open'&&filter.status.value!='paid'}">
+					<a href="" id="credit-notes-page-all-tab" ng-click="addToFilter({status:'',sort:'date DESC'})">
+						All
+					</a>
+				</li>
+
+				<!-- Action Buttons -->
+				<li class="action">
+					<a href="" id="credit-notes-page-filter-credit-notes" ng-click="openFilter()">
+						<div>
+							<span class="fas fa-filter"></span> Filter
+						</div>
+					</a>
+				</li>
+				<li class="action">
+					<filter-dropdown type="credit_note"  saved-filters="savedFilters" apply-filter="applyFilter" filter="filter"></filter-dropdown>
+				</li>
+				<li class="action right dropdown hidden-xs hidden-sm" dropdown>
+					<a href="" class="dropdown-toggle" id="credit-notes-page-export-btn" dropdown-toggle>
+						<div>
+							Export
+							<span class="fas fa-chevron-down"></span>
+						</div>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li>
+							<a href="" ng-click="export('csv', 'document')">
+								<span class="far fa-arrow-to-bottom"></span>
+								CSV
+							</a>
+						</li>
+						<li>
+							<a href="" ng-click="export('csv', 'line_item')">
+								<span class="far fa-arrow-to-bottom"></span>
+								CSV (by line)
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li class="action automation-action right" ng-if="('credit_notes.edit'|hasPermission) && ('automations'|hasFeature)">
+					<div>
+						<a href="" ng-click="automate()" ng-hide="loading||!total_count">
+							<span class="fas fa-bolt"></span>
+							<span class="hidden-xs">Automate</span>
+						</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<!-- Applied Filter -->
+		<div class="applied-filter">
+			<span class="fas fa-filter filter-icon"></span>
+			<strong>{{filterStr}}</strong>
+			<a href="" ng-click="resetFilter()">
+				<span class="fas fa-times-circle"></span>
+			</a>
+		</div>
+
+		<p class="loading" ng-show="loading"></p>
+
+		<!-- No Results :-( -->
+		<div class="empty-table" ng-show="noResults()&&!loading">
+			<div class="icon">
+				<img src="/img/event-icons/credit_note.png" />
+			</div>
+			<span ng-show="usingFilter">
+				No results. <a href="" ng-click="resetFilter()">Reset Filter</a>
+			</span>
+			<span ng-hide="usingFilter">
+				No credit notes.
+			</span>
+		</div>
+		
+		<!-- Data Table -->
+		<div class="custom-table-wrapper">
+			<table class="search-results-table table table-striped credit-notes" id="credit-notes-table" ng-show="creditNotes.length > 0 && !loading">
+				<thead>
+				<tr>
+					<th class="nopadding noborder"></th>
+					<th ng-repeat="column in columns" ng-class="{'custom-column-th-container':$last}">
+						<div ng-class="{'money-column': column.type=='money'}">
+							<column-arrangement-header-cell></column-arrangement-header-cell>
+						</div>
+						<column-arrangement-button type="credit_note" ng-if="$last" all-columns="allColumns" callback="applyColumnArrangement"></column-arrangement-button>
+					</th>
+					<th class="nopadding"></th>
+				</tr>
+			</thead>
+				<tbody>
+				<tr class="clickable" ng-repeat="creditNote in creditNotes" ng-click="goToObject($event,'credit_note',creditNote.id)">
+					<td class="mobile-first visible-xs-block"></td>
+					<td class="credit-note-icon hidden-xs">
+						<div class="icon-col">
+							<a href="" class="credit-note-status-icon danger" tooltip="Voided" tooltip-placement="right" ng-if="creditNote.status=='voided'">
+								<span class="fad fa-minus-circle"></span>
+							</a>
+						</div>
+					</td>
+					<td ng-repeat="column in columns" ng-class="{'title': column.id=='number' || column.id=='customerName', 'light': column.type=='date'}">
+						<a ng-if="column.id=='number'" ui-sref="manage.credit_note.view.summary({id:creditNote.id})"><document-name document="creditNote"></document-name></a>
+						<a ng-if="column.id=='customerName'" ui-sref="manage.customer.view.summary({id:creditNote.customer})">{{creditNote.customerName}}</a>
+						<div ng-if="column.id!='number' && column.id!='customerName'"  ng-class="{'money-column': column.type=='money'}">
+							<column-arrangement-cell column="column" data="creditNote" currency="creditNote.currency"></column-arrangement-cell>
+						</div>
+					</td>
+					<td class="nopadding hover-actions-holder">
+						<div class="hover-actions">
+							<a href="{{creditNote.pdf_url}}?t=0" target="_self" class="btn btn-sm btn-default" tooltip="Download Credit Note" tooltip-placement="left" ng-show="creditNote.pdf_url">
+								<span class="fas fa-arrow-to-bottom"></span>
+							</a>
+							<button type="button" ng-click="issue(creditNote)" class="btn btn-sm btn-primary" tooltip="Issue Credit Note" tooltip-placement="left" ng-if="'credit_notes.edit'|hasPermission" ng-hide="creditNote.status!='draft'">
+								<span class="fas fa-check"></span>
+							</button>
+							<button type="button" class="btn btn-sm btn-danger" ng-click="void(creditNote)" tooltip="Void Credit Note" tooltip-placement="left" ng-if="'credit_notes.void'|hasPermission">
+								<span class="fas fa-trash"></span>
+							</button>
+						</div>
+					</td>
+					<td class="mobile-last visible-xs-block"></td>
+				</tr>
+			</tbody>
+			</table>
+		</div>
+
+		<!-- Pagination -->
+		<pagination-bar total-count="total_count" page-count="page_count" ng-change="goToPage(page, perPage)" ng-model="filter" ng-show="creditNotes.length > 0 && !loading"></pagination-bar>
+	</div>
+</div>

@@ -1,0 +1,229 @@
+<div class="row two-pane">
+    <div class="col-sm-4 left-pane">
+        <div class="details-list vertical">
+            <h4>
+                Vendor Credit Details
+            </h4>
+
+            <!-- Vendor -->
+            <div>
+                <div class="title">Vendor</div>
+                <div class="value">
+                    <a ui-sref="manage.vendor.view.summary({id: vendorCredit.vendor.id})">
+                        {{vendorCredit.vendor.name}}
+                    </a>
+                </div>
+            </div>
+
+            <!-- Date -->
+            <div>
+                <div class="title">Date</div>
+                <div class="value">
+                    <company-date date="vendorCredit.date"></company-date>
+                </div>
+            </div>
+
+            <!-- Workflow -->
+            <div ng-show="vendorCredit.approval_workflow">
+                <div class="title">Workflow</div>
+                <div class="value">
+                    {{vendorCredit.approval_workflow.name}}
+                </div>
+            </div>
+
+            <!-- Source -->
+            <div>
+                <div class="title">Source</div>
+                <div class="value">
+                    {{vendorCredit.source}}
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Approvals -->
+        <div class="panel panel-invoiced light" ng-if="resolutions.length">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    Approvals
+                </h4>
+            </div>
+
+            <table class="table table-striped search-results-table slim transactions">
+                <thead>
+                    <tr>
+                        <th>Resolution</th>
+                        <th>Date</th>
+                        <th>User</th>
+                        <th>Workflow</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="line" ng-repeat="resolution in resolutions">
+                        <td>
+                            {{resolution.type}}
+                        </td>
+                        <td>
+                            <company-date date="resolution.created_at"></company-date>
+                        </td>
+                        <td>
+                            {{resolution.member.user.first_name}} {{resolution.member.user.last_name}}
+                        </td>
+                        <td>
+                            <span ng-show="resolution.approval_workflow_step">
+                                {{resolution.approval_workflow.name}} on step {{resolution.approval_workflow_step.order}}
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-sm-8 right-pane">
+        <!-- Action Items -->
+        <div class="action-items">
+            <!-- Status = PendingApproval -->
+            <div class="action-item info" ng-if="vendorCredit.status == 'PendingApproval' && hasApprovalPermission">
+                <div class="icon"></div>
+                <!-- Ask Approval from Recipient -->
+                <h3>Approval Needed</h3>
+                <p>
+                    Please review this credit note from {{ vendorCredit.vendor.name }} and then approve or reject it.
+                </p>
+
+                <p>
+                    <a href="" class="btn btn-primary" ng-click="approveDocument(vendorCredit)" ng-hide="changingStatus">Approve</a>
+                    <a href="" class="btn btn-default" ng-click="rejectDocument(vendorCredit)" ng-hide="changingStatus">Reject</a>
+                </p>
+            </div>
+
+            <!-- Status = Voided -->
+            <div class="action-item info" ng-if="vendorCredit.status == 'PendingApproval' && !hasApprovalPermission">
+                <div class="icon"></div>
+                <p>
+                    This transaction is waiting for approval.
+                </p>
+            </div>
+
+            <!-- Status = Approved -->
+            <div class="action-item info" ng-if="vendorCredit.status == 'Approved'">
+                <div class="icon"></div>
+                <!-- Rejection Message for Recipient -->
+                <h3>Approved</h3>
+                <p>
+                    You have approved this credit note.
+                </p>
+            </div>
+
+            <!-- Status = Rejected -->
+            <div class="action-item warning" ng-if="vendorCredit.status == 'Rejected'">
+                <div class="icon"></div>
+                <!-- Rejection Message for Recipient -->
+                <h3>Credit Note Rejected</h3>
+                <p>
+                    We have notified the seller that you have rejected this credit note. You can communicate further about this credit note with the seller by sending a message. If there are any credit note corrections then the seller can resubmit the credit note for your approval.
+                </p>
+                <p ng-if="lastRejection">
+                    Reason Given: <strong>{{ lastRejection }}</strong>
+                </p>
+
+                <p>
+                    Has your rejection reason been resolved and are you ready to approve this credit note?
+                </p>
+                <p>
+                    <a href="" class="btn btn-primary" ng-click="approveDocument(vendorCredit)" ng-hide="changingStatus">Approve</a>
+                </p>
+            </div>
+
+            <!-- Status = Voided -->
+            <div class="action-item warning" ng-if="vendorCredit.status == 'Voided'">
+                <div class="icon"></div>
+                <p>
+                    This transaction has been voided.
+                </p>
+            </div>
+        </div>
+
+        <!-- Network Document -->
+        <network-document doc="doc" transactions="transactions" balance="balance" ng-if="doc"></network-document>
+
+        <!-- Line Items -->
+        <div class="panel panel-invoiced light" ng-if="!doc && vendorCredit.line_items.length > 0">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    Line Items
+                </h4>
+            </div>
+            <table class="table slim line-items">
+                <thead>
+                    <tr>
+                        <th class="item">Item</th>
+                        <th class="amount">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="line" ng-repeat="lineItem in vendorCredit.line_items">
+                        <td class="item">
+                            {{lineItem.description}}
+                        </td>
+                        <td class="amount">
+                            <money amount="lineItem.amount" currency="vendorCredit.currency"></money>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <!-- Total -->
+                    <tr class="total">
+                        <td class="title">
+                            {{'general.total'|translate}}
+                        </td>
+                        <td class="amount">
+                            <money amount="vendorCredit.total" currency="vendorCredit.currency"></money>
+                        </td>
+                    </tr>
+
+                    <!-- Payments and Adjustments -->
+                    <tr class="amount-paid" ng-repeat="transaction in transactions">
+                        <td class="title">
+                            <a ui-sref="manage.vendor_adjustment.view.summary({id: transaction.reference})" ng-show="transaction.document_type == 'Adjustment'">
+                                Adjustment
+                                &mdash;
+                                <company-date date="transaction.date"></company-date>
+                            </a>
+                            <a ui-sref="manage.vendor_payment.view.summary({id: transaction.reference})" ng-show="transaction.document_type == 'Payment'">
+                                Payment
+                                &mdash;
+                                <company-date date="transaction.date"></company-date>
+                            </a>
+                            <a ui-sref="manage.bill.view.summary({id: transaction.reference})" ng-show="transaction.document_type == 'Invoice'">
+                                Invoice
+                                &mdash;
+                                <company-date date="transaction.date"></company-date>
+                            </a>
+                            <span ng-show="transaction.document_type != 'Adjustment' && transaction.document_type != 'Payment'">
+                                                {{transaction.document_type}} {{transaction.reference}}
+                                            </span>
+                        </td>
+                        <td class="amount">
+                            <money currency="transaction.currency" amount="transaction.amount * -1"></money>
+                        </td>
+                    </tr>
+
+                    <!-- Balance -->
+                    <tr class="balance" ng-if="balance">
+                        <td class="title">
+                            Balance
+                        </td>
+                        <td class="amount">
+                            <money currency="balance.currency" amount="balance.balance * -1"></money>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- Attachments -->
+        <files document="vendorCredit" attachments="attachments" type="vendor_credit"></files>
+    </div>
+</div>

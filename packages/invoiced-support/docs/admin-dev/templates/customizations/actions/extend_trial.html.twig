@@ -1,0 +1,29 @@
+{% form_theme form with '@EasyAdmin/crud/form_theme.html.twig' %}
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Extend Trial{% endblock %}
+
+{% block body_class 'ea-edit extend-trial-form' %}
+
+{% block main %}
+    {{ form_start(form) }}
+
+    <fieldset>
+        <legend class="with-icon">
+            Extend Trial
+        </legend>
+        <p>
+            When should the free trial for <strong>{{ companyName }}</strong> end?
+        </p>
+        {{ form_widget(form) }}
+    </fieldset>
+
+    <section class="content-footer">
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn">Save</button>
+        </div>
+    </section>
+
+    {{ form_end(form) }}
+
+{% endblock %}

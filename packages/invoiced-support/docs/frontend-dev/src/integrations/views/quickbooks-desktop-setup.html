@@ -1,0 +1,83 @@
+<div class="modal-header">
+	<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+	<h4 class="modal-title">Connect QuickBooks Desktop</h4>
+</div>
+<div class="modal-body">
+	<div ng-hide="generated">
+		<p class="lead">
+			Invoiced can be integrated with QuickBooks Desktop by generating a QuickBooks Web Connector configuration.
+		</p>
+
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<p>
+			<button type="button" class="btn btn-primary" ng-click="generate()" ng-hide="generating">
+				Generate QWC configuration
+			</button>
+		</p>
+	</div>
+
+ 	<div ng-show="generated">
+ 		<h5>Setup Instructions</h5>
+ 		<p>
+ 			1. Install the <a href="https://quickbooks.intuit.com/learn-support/en-us/install-new-products/set-up-quickbooks-web-connector/00/185852" target="_blank" rel="noopener noreferrer">QuickBooks Web Connector</a> application.
+ 		</p>
+
+ 		<p>
+ 			2. Download the .qwc configuration file for syncing with your Invoiced company below.
+ 		</p>
+
+ 		<p>
+ 			3. Open the .qwc file in the QuickBooks Web Connector application and enter in the password.
+ 		</p>
+ 		<br/>
+		<div class="loading inline" ng-show="generating"></div>
+
+		<div class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</div>
+
+	 	<!-- Sync Configuration -->
+		<table class="table table-striped" ng-show="qwcConfig">
+			<thead>
+				<tr>
+					<th colspan="2">
+						Invoiced Sync
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Configuration</td>
+					<td>
+			 			<a ng-href="{{qwcConfig.file}}">
+			 				<span class="fas fa-arrow-to-bottom"></span>
+							invoiced.qwc
+						</a>
+					</td>
+				</tr>
+				<tr>
+					<td>Password</td>
+					<td><code>{{qwcConfig.password}}</code></td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="2"></td>
+				</tr>
+			</tfoot>
+		</table>
+
+		<p class="alert alert-warning" ng-hide="generating">
+	 		<span class="fas fa-exclamation-triangle"></span>
+	 		Save your password before closing this screen! You will not be able to retrieve the password later without generating a new configuration.
+	 	</p>
+	</div>
+</div>
+<div class="modal-footer" ng-show="generated">
+	<button type="button" class="btn btn-primary" ng-click="close()">
+		Done
+	</button>
+</div>

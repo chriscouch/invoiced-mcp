@@ -1,0 +1,114 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.approve_estimate_number'|trans({'%number%': estimate.number}) %}
+{% extends "customerPortal/parentFrameTwoColumn.twig" %}
+
+{% block left %}
+    <div class="main">
+        <form id="approvalForm" class="approve-estimate-form" action="{{ approveUrl }}">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('customer_portal_estimate_approval') }}" />
+
+            <div class="alert bg-danger-soft text-dark border border-danger errors estimate-approval-errors hidden"></div>
+
+            <!-- Billing Information -->
+            {% if verifyBillingInfo %}
+                <div class="form-section nopadding">
+                    <div class="field">
+                        <label class="form-label">{{ 'titles.billing_details'|trans }}</label>
+                        <div>
+                            {{ address|nl2br }}
+                        </div>
+                        <div>
+                            <a href="{{ updateBillingInfoUrl }}">
+                                {{ 'buttons.modify'|trans }}
+                                <span class="fas fa-caret-right"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if hasDeposit %}
+                <!-- Deposit -->
+                <hr/>
+                <div class="form-section nopadding">
+                    <label class="form-label">{{ 'labels.deposit'|trans }}</label>
+                    <div class="description">
+                        {{ 'messages.deposit_payment_required'|trans({'%amount%': deposit|money(estimate.currency)})|raw }}
+                    </div>
+                </div>
+            {% elseif needsPaymentInformation %}
+                <!-- AutoPay Notice -->
+                <hr/>
+                <div class="form-section nopadding">
+                    <label class="form-label">{{ 'labels.payment_information'|trans }}</label>
+                    <div class="description hidden-notitle">
+                        {{ 'messages.must_enroll_in_autopay'|trans }}
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Terms -->
+            {% if terms %}
+                <hr/>
+                <label class="form-label">{{ 'labels.terms'|trans }}</label>
+                <div class="estimate-terms">
+                    {{ terms|nl2br }}
+                </div>
+            {% endif %}
+
+            <!-- Agreement / Initials -->
+            <div class="from-section mt-5">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="approvedCheckbox" value="1" required />
+                    <label class="approve-estimate-checkbox form-check-label noselect" for="approvedCheckbox">
+                        {{ 'messages.terms_i_agree_estimate'|trans }}
+                    </label>
+                </div>
+            </div>
+
+            <div class="from-section initials-holder mt-3 hidden">
+                {{ 'labels.please_initial'|trans }}<br/>
+                <input type="text" class="form-control initials" name="initials" maxlength="10" placeholder="{{ 'labels.initials'|trans }}" required autofocus />
+            </div>
+
+            <div class="row actions mt-3" id="approve-button-row">
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-success payment-button">
+                        {{ 'buttons.approve_estimate'|trans }}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript" src="{{ asset('/js/views/estimate_approval_form2.js') }}"></script>
+
+    <!-- Hidden Translation Strings -->
+    <div id="informationBeingSavedMessage" class="hidden">{{ 'messages.information_being_saved'|trans }}</div>
+{% endblock %}
+
+{% block right %}
+    <h4>{{ 'labels.summary'|trans }}</h4>
+
+    <table class="table payment-summary-lines">
+        <tbody>
+            <tr class="display-item">
+                <td class="description">{{ estimate.number }}</td>
+                <td class="money-amount"></td>
+            </tr>
+        </tbody>
+
+        <!-- Amount -->
+        {% if amount > 0 %}
+            <tfoot>
+                <tr class="payment-amount">
+                    <td class="description">
+                        {{ 'labels.estimate_amount'|trans }}
+                    </td>
+                    <td class="default-payment-amount money-amount">
+                        {{ amount|money(estimate.currency) }}
+                    </td>
+                </tr>
+            </tfoot>
+        {% endif %}
+    </table>
+{% endblock %}

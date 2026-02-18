@@ -1,0 +1,20 @@
+{% trans_default_domain 'customer_portal' %}
+{% extends "customerPortal/parent.twig" %}
+
+{% block content %}
+    <header class="{% if not(company.logo) %}no-logo{% endif %}">
+        <div class="logo-holder">
+            <div class="bar highlight-color-bg"></div>
+            {% if company.logo %}
+                <div class="logo">
+                    <img src="{{ company.logo }}" alt="{{ company.display_name }} Logo" />
+                </div>
+            {% endif %}
+        </div>
+        {% if not(company.logo) or customerPortal.showCompanyName() %}
+            <div class="company">{{ company.display_name }}</div>
+        {% endif %}
+    </header>
+
+    {% block main %}{% endblock %}
+{% endblock %}

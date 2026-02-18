@@ -1,0 +1,51 @@
+fields:
+  amount:
+    name: Amount
+    type: float
+  bill:
+    name: Bill
+    type: join
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency:
+    name: Currency
+    type: string
+  date:
+    name: Date
+    type: date
+  date_voided:
+    name: Date Voided
+    type: date
+    writable: false
+  id:
+    name: ID
+    type: string
+    writable: false
+  notes:
+    name: Notes
+    type: string
+    filterable: false
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  vendor:
+    name: Vendor
+    type: join
+  vendor_credit:
+    name: Vendor Credit
+    type: join
+  voided:
+    name: Voided
+    type: boolean
+    writable: false
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false

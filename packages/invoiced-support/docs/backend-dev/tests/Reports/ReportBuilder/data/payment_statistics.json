@@ -1,0 +1,191 @@
+{
+  "title": "Payment Statistics",
+  "sections": [
+    {
+      "type": "table",
+      "object": "transaction",
+      "title": "Payment Method Performance",
+      "fields": [
+        {
+          "field": {
+            "id": "method"
+          }
+        },
+        {
+          "name": "Avg. Time to Pay (Days)",
+          "field": {
+            "function": "round",
+            "arguments": [
+              {
+                "function": "avg",
+                "arguments": [
+                  {
+                    "formula": [
+                      [
+                        {
+                          "id": "date"
+                        },
+                        "-",
+                        {
+                          "id": "invoice.date"
+                        }
+                      ],
+                      "/",
+                      "86400"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "status"
+          },
+          "value": "succeeded"
+        },
+        {
+          "field": {
+            "id": "currency"
+          },
+          "value": "usd"
+        },
+        {
+          "field": {
+            "id": "type"
+          },
+          "value": [
+            "charge",
+            "payment"
+          ]
+        },
+        {
+          "field": {
+            "id": "invoice.voided"
+          },
+          "operator": "=",
+          "value": false
+        },
+        {
+          "field": {
+            "id": "invoice.paid"
+          },
+          "operator": "=",
+          "value": true
+        },
+        {
+          "field": {
+            "id": "invoice.amount_paid"
+          },
+          "operator": ">",
+          "value": 0
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "method"
+          }
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "object": "transaction",
+      "title": "Payment Term Performance",
+      "fields": [
+        {
+          "field": {
+            "id": "invoice.payment_terms"
+          }
+        },
+        {
+          "name": "Avg. Time to Pay (Days)",
+          "field": {
+            "function": "round",
+            "arguments": [
+              {
+                "formula": [
+                  {
+                    "function": "avg",
+                    "arguments": [
+                      {
+                        "formula": [
+                          [
+                            {
+                              "id": "date"
+                            },
+                            "-",
+                            {
+                              "id": "invoice.date"
+                            }
+                          ],
+                          "/",
+                          "86400"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "status"
+          },
+          "value": "succeeded"
+        },
+        {
+          "field": {
+            "id": "currency"
+          },
+          "value": "usd"
+        },
+        {
+          "field": {
+            "id": "type"
+          },
+          "value": [
+            "charge",
+            "payment"
+          ]
+        },
+        {
+          "field": {
+            "id": "invoice.voided"
+          },
+          "operator": "=",
+          "value": false
+        },
+        {
+          "field": {
+            "id": "invoice.paid"
+          },
+          "operator": "=",
+          "value": true
+        },
+        {
+          "field": {
+            "id": "invoice.amount_paid"
+          },
+          "operator": ">",
+          "value": 0
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "invoice.payment_terms"
+          }
+        }
+      ]
+    }
+  ]
+}

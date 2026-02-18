@@ -1,0 +1,186 @@
+<form name="applyPaymentForm" ng-submit="save(payment, applied, false)" class="apply-payment-form">
+    <div class="panel panel-invoiced light">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <!-- Match Status -->
+                <div class="cashmatch-status" ng-if="'cash_match'|hasFeature">
+                    <div ng-show="matchStatus == 'pending'">
+                        <a href="" tooltip="Looking for matches"><span class="label label-warning">CashMatch AI&trade;</span></a>
+                    </div>
+                    <div ng-show="matchStatus == 'found'">
+                        <a href="" tooltip="Match found"><span class="label label-success">CashMatch AI&trade;</span></a>
+                        <span ng-show="matchCertainty"><span class="fas fa-signal"></span> {{matchCertainty}}%</span>
+                    </div>
+                    <div ng-show="matchStatus == 'remittance_advice'">
+                        <a href="" tooltip="{{'payments.apply.remit_match'|translate}}"><span class="label label-success">CashMatch AI&trade;</span></a>
+                    </div>
+                    <div ng-show="matchStatus == 'none'">
+                        <a href="" tooltip="No matches found"><span class="label label-default">CashMatch AI&trade;</span></a>
+                    </div>
+                </div>
+                {{'payments.apply.title'|translate}}
+            </h4>
+        </div>
+
+        <div class="loading" ng-show="loadingMatches"></div>
+
+        <div class="panel-body" ng-show="!loadingMatches">
+            <p class="alert alert-danger" ng-show="error">
+                {{error.message}}
+            </p>
+
+            <!-- Customer -->
+            <div class="form-group">
+                <label class="control-label">{{'payments.labels.customer'|translate}}</label>
+                <div class="form-control-static" ng-if="customerPreselected">
+                    {{payment.customer.name}}
+                </div>
+                <div class="customer-selector" ng-if="!customerPreselected">
+                    <select-customer ng-model="payment.customer"></select-customer>
+                </div>
+            </div>
+
+            <div class="alert alert-info" ng-show="!customerPreselected&&!payment.customer">
+                {{'payments.apply.select_customer'|translate}}
+            </div>
+
+            <div class="loading" ng-show="loading"></div>
+
+            <div ng-show="!loading&&payment.customer">
+                <!-- Payment Application -->
+                <div class="apply-payment-to-invoices-2">
+                    <div class="payment-application-title">
+                        <label class="control-label">Payment Application</label>
+                    </div>
+
+                    <!-- Application Line Items -->
+                    <table class="table table-striped search-results-table">
+                        <thead>
+                            <tr class="header">
+                                <th>{{'payments.apply.invoice'|translate}}</th>
+                                <th class="invoice-date">Date</th>
+                                <th class="invoice-balance">{{'payments.apply.balance'|translate}}</th>
+                                <th class="amount">Amount Applied</th>
+                                <th class="short-pay noborder">
+                                    <div popover="{{'payments.apply.short_pay_popover'|translate}}" popover-trigger="mouseenter" popover-placement="top">
+                                        {{'payments.apply.short_pay'|translate}}
+                                        <span class="fas fa-info-circle"></span>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- No Outstanding Invoices -->
+                            <tr class="line" ng-if="applied.length==0">
+                                <td colspan="5" class="empty">{{'payments.apply.no_invoices'|translate}}</td>
+                            </tr>
+
+                            <!-- Line Item -->
+                            <tr class="line" ng-repeat-start="($index, line) in applied">
+                                <td ng-if="line.invoice">
+                                    <a href="" ui-sref="manage.invoice.view.summary({id:line.invoice.id})">
+                                        <document-name document="line.invoice"></document-name>
+                                    </a>
+                                </td>
+                                <td ng-if="line.credit">
+                                    {{'payments.apply.credit'|translate}}
+                                    &mdash;
+                                    <a href="" ng-click="deleteLine($index)">
+                                        {{'general.remove'|translate}}
+                                    </a>
+                                </td>
+                                <td ng-if="line.refund">
+                                    {{'payments.apply.refund'|translate}}
+                                    &mdash;
+                                    <a href="" ng-click="deleteLine($index)">
+                                        {{'general.remove'|translate}}
+                                    </a>
+                                </td>
+                                <td class="invoice-date">
+                                    <span ng-if="line.invoice"><company-date date="line.invoice.date"></company-date></span>
+                                </td>
+                                <td class="invoice-balance" ng-class="{'text-danger':line.over}">
+                                    <money amount="line.invoice.balance" currency="line.invoice.currency"></money>
+                                </td>
+                                <td class="amount" ng-class="{'has-error':line.invalid}" ng-if="line.invoice">
+                                    <div ng-required="true" ng-model="line.amount" currency="payment.currency" is-rate="false" input-amount></div>
+                                </td>
+                                <td class="static-amount" ng-if="line.credit || line.refund">
+                                    <money amount="line.amount" currency="payment.currency"></money>
+                                </td>
+                                <td class="short-pay noborder">
+                                    <label ng-if="line.amount > 0 && line.invoice.balance > line.amount">
+                                        <input type="checkbox" ng-model="line.shortPay" />
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr class="line" ng-repeat-end ng-if="line.shortPay && line.shortPayAmount > 0">
+                                <td class="invoice-number noselect">Short Pay Write Off</td>
+                                <td class="invoice-date"></td>
+                                <td class="invoice-balance"></td>
+                                <td></td>
+                                <td class="static-amount noborder"><money amount="line.shortPayAmount" currency="payment.currency"></money></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <!-- Overpayment Alert -->
+                            <tr class="subtotal-line" ng-show="showOverpaymentAlert">
+                                <td colspan="5">
+                                    <span class="fas fa-exclamation-triangle text-danger"></span>
+                                    {{'payments.apply.errors.overpayment_1'|translate}} <strong><money amount="remaining" currency="payment.currency"></money></strong> {{'payments.apply.errors.overpayment_2'|translate}}.
+                                    <span ng-hide="source=='charge'"><a href="" ng-click="addCredit(remaining)">{{'payments.apply.errors.convert_1'|translate}}</a></span>
+                                </td>
+                            </tr>
+
+                            <!-- Total Applied -->
+                            <tr class="subtotal-line">
+                                <td colspan="3" class="subtotal-title">
+                                    {{'payments.apply.total_applied'|translate}}
+                                </td>
+                                <td class="amount">
+                                    <money amount="total" currency="payment.currency"></money>
+                                </td>
+                                <td></td>
+                            </tr>
+
+                            <!-- Remaining Amount -->
+                            <tr class="subtotal-line">
+                                <td colspan="3" class="subtotal-title noborder">
+                                    {{'payments.apply.remaining_balance'|translate}}
+                                </td>
+                                <td class="amount noborder" ng-class="{'has-balance': remaining!=0}">
+                                    <money amount="remaining" currency="payment.currency"></money>
+                                </td>
+                                <td class="noborder"></td>
+                            </tr>
+
+                            <!-- Total Short Pay -->
+                            <tr class="subtotal-line" ng-if="totalShortPay > 0">
+                                <td colspan="3" class="subtotal-title noborder">
+                                    Total Short Pay
+                                </td>
+                                <td class="amount noborder"></td>
+                                <td class="amount noborder">
+                                    <money amount="totalShortPay" currency="payment.currency"></money>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="left" ng-show="hasNextMatch">
+                <a href="" ng-click="nextMatch()">
+                    Reject &amp; Next Match
+                </a>
+            </div>
+            <button type="submit" class="btn btn-primary Button" ng-disabled="paymentForm.$invalid||invalidAmount||total==0||loading||loadingMatches||saving||!payment.customer" v-busy="saving" v-busy-label="{{'payments.apply.buttons.apply'|translate}}" v-busy-text="{{'payments.apply.buttons.apply'|translate}}" v-pressable>
+                <span translate>payments.apply.buttons.apply</span>
+            </button>
+            <button type="button" ng-click="save(payment, applied, true)" class="btn btn-link Button" ng-disabled="paymentForm.$invalid||invalidAmount||total==0||loading||loadingMatches||saving||!payment.customer" v-busy="saving" v-busy-label="{{'payments.apply.buttons.apply_next'|translate}}" v-busy-text="{{'payments.apply.buttons.apply_next'|translate}}" v-pressable>
+                <span translate>payments.apply.buttons.apply_next</span>
+            </button>
+        </div>
+    </div>
+</form>

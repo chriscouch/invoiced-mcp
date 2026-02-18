@@ -1,0 +1,32 @@
+{% apply spaceless|inky_to_html|inline_css(source('@styles/emails/foundation-emails.css'), source('@styles/emails/style.css')) %}
+    <container>
+        <row class="header">
+            <columns>
+                <center>
+                    <a href="{{ dashboardUrl }}">
+                        <img src="{{ absolute_url(asset("/img/logo.png")) }}" width="150" height="38" alt="Invoiced" />
+                    </a>
+                </center>
+            </columns>
+        </row>
+        {% block title_wrapper %}
+            <row>
+                <columns>
+                    <spacer size="35"></spacer>
+                    <h1><center>{% block title %}{% endblock %}</center></h1>
+                    <spacer size="10"></spacer>
+                </columns>
+            </row>
+        {% endblock %}
+{% block content %}{% endblock %}
+        <row class="footer">
+            <columns>
+                <center>
+                    <spacer size="20"></spacer>
+                    <p><a href="https://app.invoiced.com/help">Invoiced Support</a>&nbsp;<a href="https://www.invoiced.com">Learn more about Invoiced</a></p>
+                    <p>{% block email_reason %}You are receiving this email because you or a colleague signed up for a business account on Invoiced.com. This message was sent by Invoiced, Inc.{% endblock %}</p>
+                </center>
+            </columns>
+        </row>
+    </container>
+{% endapply %}

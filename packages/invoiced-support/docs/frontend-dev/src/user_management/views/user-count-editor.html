@@ -1,0 +1,45 @@
+<form name="userCountForm" ng-submit="save()">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			<span>{{ 'settings.members.usage.user_count_editor.change_user_limit' | translate }}</span>
+		</h4>
+	</div>
+	<div class="modal-body form-horizontal">
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<p>Your Invoiced account includes {{ included }} user<span ng-if="included != 1">s</span>. You can purchase additional user seats for <money currency="'usd'" amount="perUserCost"></money> per month.</p>
+
+		<p>{{ 'settings.members.usage.user_count_editor.imperative' | translate }}</p>
+
+		<div class="form-group">
+			<label class="control-label col-sm-3">{{ 'settings.members.usage.labels.current' | translate }}</label>
+			<div class="col-sm-9 form-control-static">
+				{{ originalLimit }} <span ng-if="originalLimit == 1">{{ 'settings.members.usage.user_count_editor.additional_user' | translate }}</span><span ng-if="originalLimit != 1">{{ 'settings.members.usage.user_count_editor.additional_users' | translate }}</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-3">{{ 'settings.members.usage.labels.new' | translate }}</label>
+			<div class="col-sm-9">
+				<div class="col-sm-4 new-user-count-input"> <input type="number" ng-model="newLimit" ng-change="generateCost(newLimit)" class="form-control" required /></div> <div class="vertical-padding">{{ 'settings.members.usage.user_count_editor.additional_user_s' | translate }}</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-3">{{ 'settings.members.usage.labels.cost' | translate }}</label>
+			<div class="col-sm-9 form-control-static">
+				<money currency="'usd'" amount="newTotal"></money>
+				{{ 'settings.members.usage.user_count_editor.per_month' | translate }}
+			</div>
+		</div>
+	</div>
+
+	<div class="modal-footer">
+		<button type="submit" ng-disabled="saving" ng-click="changeUserCount(newLimit)" class="btn btn-primary Button" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+			<span translate>general.save</span>
+		</button>
+	</div>
+</form>

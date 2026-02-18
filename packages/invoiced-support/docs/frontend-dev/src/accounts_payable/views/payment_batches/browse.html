@@ -1,0 +1,125 @@
+<div class="search-results-holder" ng-class="{'has-filter': filterStr}">
+    <div class="box">
+        <div class="header clearfix">
+            <!-- Title Bar -->
+            <h2>
+                <div class="btn-group dropdown" dropdown>
+                    <a href="" class="dropdown-toggle" dropdown-toggle>
+                        {{'account_payable.vendor_payments.vendor_payment_batches' | translate }}
+                        <span class="fas fa-chevron-down"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a ui-sref="manage.vendor_payments.browse">
+                                {{'account_payable.vendor_payments.payments' | translate }}
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a ui-sref="manage.vendor_payment_batches.browse">
+                                {{'account_payable.vendor_payments.vendor_payment_batches' | translate }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </h2>
+            <div class="actions" ng-if="'vendor_payments.create'|hasPermission">
+                <a href="" class="btn btn-success" ui-sref="manage.vendor_payment_batches.new">
+                    {{'account_payable.vendor_payments.send_payment' | translate }}
+                </a>
+            </div>
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs">
+                <li class="action">
+                    <a href="" ng-click="openFilter()">
+                        <div>
+                            <span class="fas fa-filter"></span> Filter
+                        </div>
+                    </a>
+                </li>
+                <li class="action">
+                    <filter-dropdown type="vendor_payment_batch"  saved-filters="savedFilters" apply-filter="applyFilter" filter="filter"></filter-dropdown>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Applied Filter -->
+        <div class="applied-filter" ng-show="filterStr">
+            <span class="fas fa-filter filter-icon"></span>
+            <strong>{{filterStr}}</strong>
+            <a href="" ng-click="resetFilter()">
+                <span class="fas fa-times-circle"></span>
+            </a>
+        </div>
+
+        <p class="loading" ng-show="loading"></p>
+
+        <!-- No Results :-( -->
+        <div class="empty-table" ng-show="noResults()&&!loading">
+            <div class="icon">
+                <img src="/img/event-icons/vendor_payment.png" />
+            </div>
+            No payment batches yet.
+        </div>
+        <!-- Data Table -->
+        <div class="custom-table-wrapper">
+            <table class="search-results-table table table-striped vendor-payments" ng-show="paymentBatches.length > 0 && !loading">
+                <thead>
+                    <tr>
+                        <th>
+                            <a href="" ng-click="toggleSort('number')" ng-class="{down:filter.sort=='number DESC',up:filter.sort=='number ASC'}">
+                                Number
+                                <span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+                                <span class="sort down"><span class="fas fa-sort-amount-up"></span></span>
+                            </a>
+                        </th>
+                        <th>
+                            <a href="" ng-click="toggleSort('name')" ng-class="{down:filter.sort=='name DESC',up:filter.sort=='name ASC'}">
+                                Name
+                                <span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+                                <span class="sort down"><span class="fas fa-sort-amount-up"></span></span>
+                            </a>
+                        </th>
+                        <th>
+                            <a href="" ng-click="toggleSort('created_at')" ng-class="{down:filter.sort=='created_at DESC',up:filter.sort=='created_at ASC'}">
+                                Created At
+                                <span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+                                <span class="sort down"><span class="fas fa-sort-amount-up"></span></span>
+                            </a>
+                        </th>
+                        <th>Payment Method</th>
+                        <th>{{'general.status'|translate}}</th>
+                        <th class="money-column">
+                            <a href="" ng-click="toggleSort('total')" ng-class="{down:filter.sort=='total DESC',up:filter.sort=='total ASC'}">
+                                Total
+                                <span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+                                <span class="sort down"><span class="fas fa-sort-amount-up"></span></span>
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="clickable" ng-repeat="paymentBatch in paymentBatches" ng-click="goToObject($event,'vendor_payment_batch',paymentBatch.id)">
+                        <td class="title mobile-first">
+                            {{paymentBatch.number}}
+                        </td>
+                        <td>{{paymentBatch.name}}</td>
+                        <td>
+                            <company-date date="paymentBatch.created_at"></company-date>
+                        </td>
+                        <td>{{('payment_method.'+paymentBatch.payment_method)|translate}}</td>
+                        <td>
+                            <vendor-payment-batch-status payment-batch="paymentBatch"></vendor-payment-batch-status>
+                        </td>
+                        <td class="money-column mobile-last">
+                            <money currency="paymentBatch.currency" amount="paymentBatch.total"></money>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <pagination-bar total-count="total_count" page-count="page_count" ng-change="goToPage(page, perPage)" ng-model="filter" ng-show="paymentBatches.length > 0 && !loading"></pagination-bar>
+    </div>
+</div>

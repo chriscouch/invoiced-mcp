@@ -1,0 +1,138 @@
+{
+  "version": 1,
+  "title": "Not Billed Yet",
+  "sections": [
+    {
+      "title": "Pending Line Items",
+      "object": "pending_line_item",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "customer.name"
+          },
+          "name": "Customer"
+        },
+        {
+          "name": "# Charges",
+          "field": {
+            "function": "count"
+          }
+        },
+        {
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "quantity"
+              }
+            ]
+          },
+          "name": "Quantity"
+        },
+        {
+          "name": "Total",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "amount"
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "customer.currency"
+          },
+          "value": "$currency"
+        }
+      ],
+      "group": [
+        {
+          "expanded": false,
+          "field": {
+            "id": "customer.id"
+          },
+          "ascending": true
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "customer.name"
+          },
+          "ascending": true
+        }
+      ]
+    },
+    {
+      "title": "Draft Invoices",
+      "object": "invoice",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "name": "Customer",
+          "field": {
+            "id": "customer.name"
+          }
+        },
+        {
+          "name": "# Invoices",
+          "field": {
+            "function": "count"
+          }
+        },
+        {
+          "name": "Total",
+          "field": {
+            "id": "total"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "currency"
+          },
+          "value": "$currency"
+        },
+        {
+          "operator": "=",
+          "value": true,
+          "field": {
+            "id": "draft"
+          }
+        },
+        {
+          "operator": "=",
+          "value": false,
+          "field": {
+            "id": "voided"
+          }
+        }
+      ],
+      "group": [
+        {
+          "expanded": false,
+          "field": {
+            "id": "customer.id"
+          },
+          "ascending": true
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "customer.name"
+          },
+          "ascending": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+# Read the documentation at https://github.com/thephpleague/flysystem-bundle/blob/master/docs/1-getting-started.md
+flysystem:
+  storages:
+    orders.s3:
+      adapter: aws
+      options:
+        client: aws.s3
+        bucket: invoiced-orders-dev
+        prefix: '%app.api_log_env%/'
+        options:
+          streamReads: true

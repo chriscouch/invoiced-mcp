@@ -1,0 +1,54 @@
+{% trans_default_domain 'customer_portal' %}
+{% if subscriptions|length > 0 %}
+    <div id="active-subscriptions-panel" class="card card-account active-subscriptions">
+        <div class="card-header">
+            <h4 class="card-title">
+                {% if addSubscriptionUrl %}
+                    <a href="{{ addSubscriptionUrl }}" class="action">
+                        {{ 'buttons.add'|trans }}
+                    </a>
+                {% endif %}
+                <span>{{ 'subscriptions'|trans({'%count%': subscriptions|length}) }}</span>
+            </h4>
+        </div>
+        <div class="card-body">
+            {% for subscription in subscriptions %}
+                <div class="item item-subscription">
+                    <div class="title plan-name">
+                        <div class="action-link">
+                            {% if canCancelSubscriptions and not(subscription.end_date )%}
+                                <a href="#" data-url="{{ subscription.url }}" class="cancel-subscription" data-confirm-msg="{{ 'messages.are_you_sure'|trans }}">
+                                    {{ 'buttons.cancel'|trans }}
+                                </a>
+                            {% endif %}
+                        </div>
+                        {{ subscription.plan.name }}
+                    </div>
+                    <div class="recurring-total">
+                        {% if subscription.recurring_total > 0 %}
+                            {{ subscription.recurring_total|money(subscription.currency) }}
+                            {{ subscription.plan.interval }}
+                        {% endif %}
+                    </div>
+                    <div class="next-charge-on">
+                        {% if subscription.renews_next and subscription.renews_next_amount > 0 %}
+                            {{ 'next_charge_on'|trans({'%amount%': subscription.renews_next_amount|money(subscription.currency), '%date%': subscription.renews_next })|raw }}
+                        {% endif %}
+                    </div>
+                    {% if subscription.end_date %}
+                        <div class="end-date">
+                            {{ 'ends_on'|trans({'%date%': subscription.end_date}) }}
+                        </div>
+                    {% endif %}
+                    {% for customField in subscription.customFields %}
+                        <div class="custom-field-{{ customField.id }}">
+                            <div class="value">
+                                {{ customField.name }}: {{ customField.value | raw }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}

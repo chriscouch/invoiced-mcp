@@ -1,0 +1,244 @@
+<div class="search-results-holder" ng-class="{'has-filter': filterStr}">
+	<div class="box">
+		<div class="header clearfix">
+			<!-- Title Bar -->
+			<div class="actions" ng-if="'invoices.create'|hasPermission">
+				<a ui-sref="manage.imports.new.spreadsheet({type:'invoice'})" class="btn btn-default hidden-xs hidden-sm" id="invoices-page-import-btn" ng-if="'imports.create'|hasPermission">
+					Import
+				</a>
+				<a ui-sref="manage.invoices.new" class="btn btn-success" id="invoices-page-new-invoice-btn">
+					New Invoice
+				</a>
+			</div>
+			<h2>
+				<div class="btn-group dropdown" dropdown>
+					<a href="" class="dropdown-toggle" id="invoices-page-nav-dropdown" dropdown-toggle>
+						Invoices
+						<span class="fas fa-chevron-down"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li class="active">
+							<a ui-sref="manage.invoices.browse" id="invoices-page-invoice-option">
+								Invoices
+							</a>
+						</li>
+						<li>
+							<a ui-sref="manage.credit_notes.browse" id="invoices-page-credit-notes-option">
+								Credit Notes
+							</a>
+						</li>
+						<li ng-if="'estimates'|hasFeature">
+							<a ui-sref="manage.estimates.browse" id="invoices-page-estimates-option">
+								Estimates
+							</a>
+						</li>
+						<li ng-if="'payment_plans'|hasFeature">
+							<a ui-sref="manage.payment_plans.browse" id="invoices-page-payment-plans-option">
+								Payment Plans
+							</a>
+						</li>
+					</ul>
+				</div>
+			</h2>
+
+			<!-- Tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+				<li ng-class="{active:filter.status.value=='draft'}">
+					<a href="" id="invoices-page-drafts-tab" ng-click="addToFilter({status:'draft',sort:'date ASC'})">
+						Drafts
+					</a>
+				</li>
+				<li ng-class="{active:filter.status.value=='unpaid'}">
+					<a href="" id="invoices-page-outstanding-tab" ng-click="addToFilter({status:'unpaid',sort:'date ASC'})">
+						Outstanding
+					</a>
+				</li>
+				<li ng-class="{active:filter.status.value=='past_due'}">
+					<a href="" id="invoices-page-past-due-tab" ng-click="addToFilter({status:'past_due',sort:'date ASC'})">
+						Past Due
+					</a>
+				</li>
+				<li ng-class="{active:filter.status.value=='paid'}">
+					<a href="" id="invoices-page-paid-tab" ng-click="addToFilter({status:'paid',sort:'date DESC'})">
+						Paid
+					</a>
+				</li>
+				<li ng-class="{active:filter.status.value!='draft'&&filter.status.value!='unpaid'&&filter.status.value!='past_due'&&filter.status.value!='paid'}">
+					<a href="" id="invoices-page-all-tab" ng-click="addToFilter({status:'',sort:'date DESC'})">
+						All
+					</a>
+				</li>
+
+				<!-- Action Buttons -->
+				<li class="action">
+					<a href="" id="invoices-page-filter-invoices" ng-click="openFilter()">
+						<div>
+							<span class="fas fa-filter"></span> Filter
+						</div>
+					</a>
+				</li>
+				<li class="action">
+					<filter-dropdown type="invoice"  saved-filters="savedFilters" apply-filter="applyFilter" filter="filter"></filter-dropdown>
+				</li>
+				<li class="action right dropdown hidden-xs hidden-sm" dropdown>
+					<a href="" class="dropdown-toggle" id="invoices-page-export-btn" dropdown-toggle>
+						<div>
+							Export
+							<span class="fas fa-chevron-down"></span>
+						</div>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li>
+							<a href="" ng-click="export('csv', 'invoice')">
+								<span class="far fa-arrow-to-bottom"></span>
+								CSV
+							</a>
+						</li>
+						<li>
+							<a href="" ng-click="export('csv', 'line_item')">
+								<span class="far fa-arrow-to-bottom"></span>
+								CSV (Line Items)
+							</a>
+						</li>
+						<li>
+							<a href="" ng-click="export('csv', 'payment_plan')">
+								<span class="far fa-arrow-to-bottom"></span>
+								CSV (Installments)
+							</a>
+						</li>
+						<li>
+							<a href="" ng-click="export('pdf', 'invoice')">
+								<span class="far fa-arrow-to-bottom"></span>
+								PDF
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li class="action automation-action right" ng-if="('invoices.edit'|hasPermission) && ('automations'|hasFeature)">
+					<div>
+						<a href="" ng-click="automate()" ng-hide="loading||!total_count">
+							<span class="fas fa-bolt"></span>
+							<span class="hidden-xs">Automate</span>
+						</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<!-- Applied Filter -->
+		<div class="applied-filter">
+			<span class="fas fa-filter filter-icon"></span>
+			<strong>{{filterStr}}</strong>
+			<a href="" ng-click="resetFilter()">
+				<span class="fas fa-times-circle"></span>
+			</a>
+		</div>
+
+		<p class="loading" ng-show="loading"></p>
+
+		<!-- No Results :-( -->
+		<div class="empty-table" ng-show="noResults()&&!loading">
+			<div class="icon">
+				<img src="/img/event-icons/invoice.png" />
+			</div>
+			<span ng-show="usingFilter">
+				No results. <a href="" ng-click="resetFilter()">Reset Filter</a>
+			</span>
+			<span ng-hide="usingFilter">
+				No invoices. <a ui-sref="manage.invoices.new" ng-if="'invoices.create'|hasPermission">Create One</a>
+			</span>
+		</div>
+
+		<!-- Data Table -->
+		<div class="custom-table-wrapper">
+			<table class="search-results-table table table-striped invoices" id="invoices-table" ng-show="invoices.length > 0 && !loading">
+				<thead>
+					<tr>
+						<th class="nopadding noborder"></th>
+						<th class="nopadding noborder"></th>
+						<th ng-repeat="column in columns" ng-class="{'custom-column-th-container':$last}">
+							<div ng-class="{'money-column': column.type=='money'}">
+								<column-arrangement-header-cell></column-arrangement-header-cell>
+							</div>
+							<column-arrangement-button type="invoice" ng-if="$last" all-columns="allColumns" callback="applyColumnArrangement"></column-arrangement-button>
+						</th>
+						<th class="nopadding"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="clickable" ng-repeat="invoice in invoices" ng-click="goToObject($event,'invoice',invoice.id)">
+						<td class="mobile-first visible-xs-block"></td>
+						<td class="age hidden-xs">
+							<invoice-age invoice="invoice"></invoice-age>
+						</td>
+						<td class="invoice-icon hidden-xs">
+							<div class="icon-col" ng-if="invoice.needs_attention&&!invoice.paid">
+								<a href="" class="invoice-status-icon" tooltip="Needs attention" tooltip-placement="right">
+									<span class="fad fa-exclamation"></span>
+								</a>
+							</div>
+							<div class="icon-col" ng-if="!invoice.needs_attention&&invoice.autopay&&!invoice.paid">
+								<a href="" class="invoice-status-icon" tooltip="AutoPay enabled" tooltip-placement="right" ng-if="invoice.status!='pending'&&!invoice.payment_plan">
+									<span class="fad fa-plane-alt"></span>
+								</a>
+								<a href="" class="invoice-status-icon" tooltip="Payment Plan" tooltip-placement="right" ng-if="invoice.status!='pending'&&invoice.payment_plan">
+									<span class="fad fa-calendar"></span>
+								</a>
+								<a href="" class="invoice-status-icon" tooltip="Payment is pending" tooltip-placement="right" ng-if="invoice.status=='pending'">
+									<span class="fad fa-spinner"></span>
+								</a>
+							</div>
+							<div class="icon-col" ng-if="!invoice.needs_attention&&!invoice.autopay">
+								<a href="" class="invoice-status-icon" tooltip="Sent" tooltip-placement="right" ng-if="invoice.status=='sent'&&!invoice.payment_plan">
+									<span class="fad fa-paper-plane"></span>
+								</a>
+								<a href="" class="invoice-status-icon" tooltip="Viewed" tooltip-placement="right" ng-if="invoice.status=='viewed'&&!invoice.payment_plan">
+									<span class="fad fa-eye"></span>
+								</a>
+								<a href="" class="invoice-status-icon" tooltip="Payment Plan" tooltip-placement="right" ng-if="invoice.status!='pending'&&invoice.payment_plan">
+									<span class="fad fa-calendar"></span>
+								</a>
+								<a href="" class="invoice-status-icon" tooltip="Payment is pending" tooltip-placement="right" ng-if="invoice.status=='pending'">
+									<span class="fad fa-spinner"></span>
+								</a>
+							</div>
+						</td>
+						<td ng-repeat="column in columns" ng-class="{'title': column.id=='number' || column.id=='customerName', 'light': column.type=='date'}">
+							<a ng-if="column.id=='number'" ui-sref="manage.invoice.view.summary({id:invoice.id})"><document-name document="invoice"></document-name></a>
+							<a ng-if="column.id=='customerName'" ui-sref="manage.customer.view.summary({id:invoice.customer})">{{invoice.customerName}}</a>
+							<div ng-if="column.id=='expected_payment_date'">
+								<span ng-show="invoice.expected_payment_date"><company-date date="invoice.expected_payment_date.date"></company-date></span>
+							</div>
+							<div ng-if="column.id!='number' && column.id!='customerName' && column.id!='expected_payment_date'" ng-class="{'money-column': column.type=='money'}">
+								<column-arrangement-cell column="column" data="invoice" currency="invoice.currency"></column-arrangement-cell>
+							</div>
+						</td>
+						<td class="nopadding hover-actions-holder">
+							<div class="hover-actions">
+								<a href="{{invoice.pdf_url}}?t=0" target="_self" class="btn btn-sm btn-default" tooltip="Download Invoice" tooltip-placement="left" ng-show="invoice.pdf_url">
+									<span class="fas fa-arrow-to-bottom"></span>
+								</a>
+								<button type="button" ng-click="issue(invoice)" class="btn btn-sm btn-primary" tooltip="Issue Invoice" tooltip-placement="left" ng-if="'invoices.edit'|hasPermission" ng-hide="invoice.status!='draft'">
+									<span class="fas fa-check"></span>
+								</button>
+								<button type="button" ng-click="sendModal(invoice)" class="btn btn-sm btn-primary" tooltip="Send Invoice" tooltip-placement="left" ng-if="hasSendingPermissions" ng-hide="invoice.status=='voided'">
+									<span class="fas fa-paper-plane"></span>
+								</button>
+								<button type="button" class="btn btn-sm btn-success" ng-click="paymentModal(invoice)" tooltip="Receive Payment" tooltip-placement="left" ng-hide="invoice.paid||invoice.closed||invoice.status=='pending'||(invoice.autopay&&invoice.status!='past_due')||invoice.status=='voided'" ng-if="['charges.create', 'payments.create']|hasSomePermissions">
+									<span class="fas fa-dollar-sign"></span>
+								</button>
+								<button type="button" class="btn btn-sm btn-danger" ng-click="void(invoice)" tooltip="Void Invoice" tooltip-placement="left" ng-if="'invoices.void'|hasPermission">
+									<span class="fas fa-trash"></span>
+								</button>
+							</div>
+						</td>
+						<td class="mobile-last visible-xs-block"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- Pagination -->
+		<pagination-bar total-count="total_count" page-count="page_count" ng-change="goToPage(page, perPage)" ng-model="filter" ng-show="invoices.length > 0 && !loading"></pagination-bar>
+	</div>
+</div>

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+function beautify() {
+	find $1 -type f -name "*.js" -exec js-beautify -r {} \;
+}
+
+beautify "src"
+beautify "config"
+beautify "static/js"
+beautify "vendor"
+beautify "src"
+beautify ". -maxdepth 0"

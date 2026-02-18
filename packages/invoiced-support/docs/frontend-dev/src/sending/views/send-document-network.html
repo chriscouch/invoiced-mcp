@@ -1,0 +1,52 @@
+<form name="sendForm" ng-submit="send(invite)">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title">Send Document</h4>
+    </div>
+    <div class="modal-body">
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <div ng-if="customer.network_connection">
+            <!-- Customer -->
+            <div class="form-group">
+                <label class="control-label">Customer</label>
+                <div>
+                    {{customer.name}}
+                </div>
+            </div>
+
+            <!-- Already Sent Warning -->
+            <div class="form-group" ng-show="alreadySent">
+                <p class="alert alert-warning">
+                    <span class="fas fa-exclamation-triangle"></span>
+                    This document has already been sent to your customer. We do not recommend resending the document unless you have modified it. Resending the document will cause the invoice status to be reset to pending approval.
+                </p>
+            </div>
+        </div>
+
+        <!-- Send Invitation -->
+        <div ng-if="!customer.network_connection">
+            <p>
+                This customer is not currently in your business network. This customer needs to join your business network before you can send a document. The document will not be sent until the customer approves you as a vendor in the invitation email.
+            </p>
+
+            <div class="form-group">
+                <label class="control-label">Send Invitation To <span class="required"></span></label>
+                <div>
+                    <input type="text" class="form-control" ng-model="invite.to" required />
+                </div>
+                <div class="help-text">
+                    You can send an invitation to an email address or Invoiced username.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer" ng-if="customer.network_connection || !isInvited">
+        <button type="submit" class="btn btn-primary Button" ng-disabled="sendForm.$invalid||sending" v-busy="sending" v-busy-label="Sending" v-pressable>
+            <span ng-show="alreadySent">Send Again</span>
+            <span ng-hide="alreadySent">Send</span>
+        </button>
+    </div>
+</form>

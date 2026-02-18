@@ -1,0 +1,46 @@
+<div class="modal-header">
+    <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+    <h4 class="modal-title">
+        Mass Automate
+    </h4>
+</div>
+<div class="modal-body">
+    <div ng-show="loading" class="loading"></div>
+    <div ng-hide="loading">
+        <div ng-show="automations.length == 0">
+            <p class="lead">There are no automations for this object type. In order to perform a mass automation, you must create an enabled automation with a <strong>Scheduled</strong> or <strong>Manual</strong> trigger.</p>
+            <a class="btn btn-default" ui-sref="manage.automations.new_workflow" ng-if="'settings.edit'|hasPermission">
+                New Automation
+            </a>
+        </div>
+        <div ng-show="automations.length > 0">
+            <p class="trigger-automation-description">
+                {{('metadata.object_names.'+objectType)|translate}}: <strong>{{count}} selected</strong>
+            </p>
+
+            <a href="" class="select-automation-tile" ng-repeat="automation in automations" ng-click="select(automation)" ng-class="{selected: selectedAutomation == automation.id}">
+                <div class="automation-name">{{automation.name}}</div>
+                <div class="automation-description" ng-show="automation.description">{{automation.description}}</div>
+                <div class="automation-actions" ng-show="selectedAutomation == automation.id">
+                    <div class="automation-action" ng-if="automation.Manual">
+                        <button type="button" class="btn btn-success" ng-click="runAutomation(automation, $index)" ng-disabled="starting">
+                            <span class="fas fa-play"></span>
+                            Run Automation
+                        </button>
+                    </div>
+                    <div class="automation-action" ng-if="automation.Schedule">
+                        <button type="button" class="btn btn-success" ng-click="enroll(automation, $index)" ng-disabled="starting">
+                            <span class="fas fa-plus"></span>
+                            Enroll in Automation
+                        </button>
+                    </div>
+                    <div class="automation-action" ng-if="automation.Schedule">
+                        <button type="button" class="btn btn-default" ng-click="unEnroll(automation, $index)" ng-disabled="starting">
+                            Unenroll from Automation
+                        </button>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

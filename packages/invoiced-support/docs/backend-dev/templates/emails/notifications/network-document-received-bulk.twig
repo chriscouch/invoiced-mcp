@@ -1,0 +1,5 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}New documents{% endblock %}
+{% block notification %}
+    <p>You have been sent <a href="{{ dashboardUrl}}/bills?account={{ tenant_id  }}">{{ count }} new documents</a>.</p>
+{% endblock %}

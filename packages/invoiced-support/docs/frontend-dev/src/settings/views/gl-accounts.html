@@ -1,0 +1,87 @@
+<div class="contents">
+	<div class="settings-title-bar">
+		<h2 class="title">
+			<div class="back-link">
+				<a ui-sref="manage.settings.default">
+					<span class="fas fa-arrow-left"></span>
+					{{'general.settings'|translate}}
+				</a>
+			</div>
+			{{'settings.titles.gl_accounts'|translate}}
+		</h2>
+
+		<p class="lead">
+			You can tell Invoiced about your general ledger accounts in order to assign an account to items. The account mapping can then help with mapping revenue data into your general ledger.
+		</p>
+	</div>
+
+	<p class="alert alert-danger" ng-show="error">
+		{{error.message}}
+	</p>
+
+	<p class="loading" ng-show="loading"></p>
+
+	<div class="panel panel-default settings-panel" ng-hide="loading">
+		<div class="panel-heading">
+			<h4 class="panel-title button-title">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="searchbar light">
+							<div class="bar">
+								<div class="icon"><span class="fas fa-search"></span></div>
+								<input type="text" class="form-control" ng-model="search" tabindex="2000" />
+								<div class="icon right icon-btn" ng-show="search">
+									<button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+										<span class="fas fa-times-circle"></span>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-8 text-right">
+						<button type="button" class="btn btn-success" ng-click="editGlAccountModal()">
+							New Account
+						</button>
+					</div>
+				</div>
+			</h4>
+		</div>
+
+		<!-- No Results -->
+		<div class="list-group" ng-show="results.length === 0">
+			<div class="list-group-item">
+				<div class="empty">No G/L accounts found.</div>
+			</div>
+		</div>
+
+		<!-- Results Table -->
+		<table class="table table-striped search-results-table gl-accounts-settings" ng-show="results.length > 0">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th class="noborder">Code</th>
+					<th class="nopadding"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="glAccount in glAccounts | searchObject:search:['name','code'] | limitTo:100 as results">
+					<td>
+						<div class="indent-{{glAccount.level}}">{{glAccount.name}}</div>
+					</td>
+					<td class="noborder">{{glAccount.code}}</td>
+					<td class="nopadding hover-actions-holder mobile-last mobile-visible">
+						<div class="hover-actions">
+							<button type="button" class="btn btn-default btn-sm" ng-click="editGlAccountModal(glAccount)" tooltip="Edit Account">
+								<span class="fas fa-pencil"></span>
+							</button>
+							<button type="button" class="btn btn-danger btn-sm" ng-click="delete(glAccount)" tooltip="Delete Account" ng-disabled="deleting[glAccount.id]">
+								<span class="fas fa-trash"></span>
+							</button>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<cut-list-label count="results.length" total="(glAccounts | searchObject:search:['name','code']).length"></cut-list-label>
+</div>

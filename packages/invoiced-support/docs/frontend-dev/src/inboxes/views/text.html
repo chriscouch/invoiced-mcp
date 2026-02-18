@@ -1,0 +1,44 @@
+<div class="thread-email">
+    <div class="email-header">
+        <!-- Date -->
+        <div class="email-date">
+            <company-date-time date="text.created_at"></company-date-time>
+        </div>
+
+        <!-- From Icon -->
+        <div class="from-icon">
+            <div class="email-from-icon">
+                <img ng-src="{{companyLogo}}" class="img-circle" ng-if="companyLogo" />
+                <img avatar="avatarOptions" user="text.user" class="img-circle" ng-if="!companyLogo" />
+            </div>
+        </div>
+
+        <!-- From -->
+        <div class="header-line from-line">
+            <span class="value">
+                <span class="named-email-address">
+                    <span class="name">{{companyName}}</span>
+                    <span ng-if="text.sent_by">({{text.sent_by|userName}})</span>
+                </span>
+            </span>
+        </div>
+
+        <!-- Recipient -->
+        <div class="header-line to-line">
+            <span class="name">
+				{{'general.text'|translate}} {{'inboxes.email.to'|translate}}:
+			</span>
+            <span class="value">
+                <span class="named-email-address">
+                    <span class="name" ng-show="text.contact_name">{{text.contact_name}}</span>
+                    <span class="email" ng-show="text.contact_name">&lt;{{text.to}}&gt;</span>
+                    <span class="name" ng-hide="text.contact_name">{{text.to}}</span>
+                </span>
+            </span>
+        </div>
+        <hr/>
+    </div>
+
+    <!-- Text Contents -->
+    <pre class="message plain-text">{{text.message}}</pre>
+</div>

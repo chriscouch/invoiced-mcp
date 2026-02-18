@@ -1,0 +1,52 @@
+{% if field.value|length > 0 %}
+    <table class="table table-sm">
+        <thead class="thead-light">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Created</th>
+            <th>Canceled</th>
+            <th>Role</th>
+            <th>Last Accessed</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for member in field.value %}
+            <tr>
+                <td>
+                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\CompanyCrudController').setAction('detail').setEntityId(member.getTenant.id) }}">
+                        {{ member.getTenant.id }}
+                    </a>
+                </td>
+                <td>{{ member.getTenant.name }}</td>
+                <td>{{ member.getTenant.createdAt|date('n/j/Y') }}</td>
+                <td>
+                    {% if member.getTenant.canceled %}
+                        <span class="badge badge-danger">
+                            Canceled on {{ member.getTenant.canceledAt|date('n/j/Y') }}
+                        </span>
+                    {% elseif not member.getTenant.name %}
+                        <span class="badge badge-primary">Needs Onboarding</span>
+                    {% else %}
+                        <span class="badge badge-success">Active</span>
+                    {% endif %}
+                </td>
+                <td>{{ member.getRole }}</td>
+                <td>
+                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\MemberCrudController').setAction('detail').setEntityId(member.id) }}">
+                        {% if member.getLastAccessed %}
+                            {{ member.getLastAccessed|date('n/j/Y') }}
+                        {% else %}
+                            <span class="badge badge-secondary">Never</span>
+                        {% endif %}
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <div class="empty collection-empty">
+        {{ include('@EasyAdmin/label/empty.html.twig') }}
+    </div>
+{% endif %}

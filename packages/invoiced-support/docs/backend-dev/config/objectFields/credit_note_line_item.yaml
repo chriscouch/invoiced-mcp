@@ -1,0 +1,37 @@
+fields:
+  amount: { name: Amount, type: money, summarize: true }
+  catalog_item: { name: "Item ID", type: string }
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  credit_note: { name: "Credit Note", type: join }
+  description: { name: Description, type: string }
+  discountable: { name: Discountable, type: boolean }
+  id:
+    name: ID
+    type: string
+    writable: false
+  item:
+    name: Item
+    type: join
+    parent_column: catalog_item_id
+    join_column: internal_id
+  metadata: { name: 'Metadata', type: metadata }
+  name: { name: Name, type: string }
+  quantity: { name: Quantity, type: float, summarize: true }
+  taxable: { name: Taxable, type: boolean }
+  type: { name: Type, type: string }
+  unit_cost: { name: "Unit Cost", type: money, summarize: true }
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false

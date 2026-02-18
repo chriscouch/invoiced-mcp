@@ -1,0 +1,67 @@
+mapping:
+  - sourceField: parentCustomer()/id
+    destinationField: parent_customer/id
+
+  - sourceField: parentCustomer()/number
+    destinationField: parent_customer/accountnumber
+
+  - sourceField: parentCustomer()/number
+    destinationField: parent_customer/entityid
+
+  - sourceField: parentCustomer()/name
+    destinationField: parent_customer/companyname
+
+  - sourceField: id
+    destinationField: id
+
+  - sourceField: name
+    destinationField: companyname
+
+  - sourceField: number
+    destinationField: accountnumber
+
+  - sourceField: calculatePrimaryCurrency()
+    destinationField: currencysymbol
+    type: currency
+
+  - sourceField: email
+    destinationField: email
+
+  - sourceField: number
+    destinationField: entityid
+
+  - sourceField: phone
+    destinationField: phone
+
+  - sourceField: attention_to
+    destinationField: attention_to
+
+  - sourceField: address1
+    destinationField: addr1
+
+  - sourceField: address2
+    destinationField: addr2
+
+  - sourceField: city
+    destinationField: city
+
+  - sourceField: state
+    destinationField: state
+
+  - sourceField: country
+    destinationField: country
+    type: country
+
+  - sourceField: postal_code
+    destinationField: zip
+
+  - sourceField: netsuite_id
+    destinationField: netsuite_id
+
+  - sourceField: active
+    destinationField: active
+    type: boolean
+    nullBehavior: keep
+
+  - sourceField: type
+    destinationField: type

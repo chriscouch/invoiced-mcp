@@ -1,0 +1,206 @@
+<div class="row two-pane">
+    <div class="col-sm-4 left-pane">
+        <div class="details-list vertical">
+            <h4>
+                Remittance Advice Details
+            </h4>
+
+            <!-- Created -->
+            <div>
+                <div class="title">{{'general.date'|translate}}</div>
+                <div class="value">
+                    <company-date date="remittanceAdvice.payment_date"></company-date>
+                </div>
+            </div>
+
+            <!-- Customer -->
+            <div ng-show="remittanceAdvice.customer">
+                <div class="title">{{'payments.labels.customer'|translate}}</div>
+                <div class="value">
+                    <a href="/customers/{{remittanceAdvice.customer.id}}">
+                        {{remittanceAdvice.customer.name}}
+                    </a>
+                </div>
+            </div>
+
+            <!-- Gross Amount Paid -->
+            <div ng-if="remittanceAdvice.total_discount">
+                <div class="title">Gross Amount Paid</div>
+                <div class="value">
+                    <money amount="remittanceAdvice.total_gross_amount_paid" currency="remittanceAdvice.currency"></money>
+                </div>
+            </div>
+
+            <!-- Discount -->
+            <div ng-if="remittanceAdvice.total_discount">
+                <div class="title">Discount</div>
+                <div class="value">
+                    <money amount="remittanceAdvice.total_discount" currency="remittanceAdvice.currency"></money>
+                </div>
+            </div>
+
+            <!-- Net Amount Paid -->
+            <div>
+                <div class="title">Net Amount Paid</div>
+                <div class="value">
+                    <money amount="remittanceAdvice.total_net_amount_paid" currency="remittanceAdvice.currency"></money>
+                </div>
+            </div>
+
+            <!-- Payment Method -->
+            <div>
+                <div class="title">Payment Method</div>
+                <div class="value">
+                    {{remittanceAdvice.payment_method|paymentMethodName}}
+                </div>
+            </div>
+
+            <!-- Reference -->
+            <div ng-show="remittanceAdvice.payment_reference">
+                <div class="title">Payment Reference</div>
+                <div class="value">
+                    {{remittanceAdvice.payment_reference}}
+                </div>
+            </div>
+
+            <!-- Status -->
+            <div>
+                <div class="title">Status</div>
+                <div class="value">
+                    {{remittanceAdvice.status}}
+                </div>
+            </div>
+
+            <!-- Payment -->
+            <div ng-show="remittanceAdvice.payment">
+                <div class="title">Payment</div>
+                <div class="value">
+                    <a ui-sref="manage.payment.view.summary({id: remittanceAdvice.payment})">
+                        View Payment
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="details-list vertical notes">
+            <h4>
+                {{'payments.view.notes'|translate}}
+            </h4>
+            <div class="hover-edit">
+                <div ng-show="remittanceAdvice.notes" ng-bind-html="remittanceAdvice.notes|linky:'_blank'|nl2br"></div>
+                <div class="empty" ng-hide="remittanceAdvice.notes">
+                    {{'general.none'|translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-8 right-pane">
+        <!-- Action Items -->
+        <div class="action-items">
+            <!-- Ready to Post -->
+            <div class="action-item suggestion" ng-if="remittanceAdvice.status == 'ReadyToPost'">
+                <div class="icon"></div>
+                <p>
+                    This remittance advice is ready to be posted as a payment.
+                </p>
+                <p ng-if="'payments.create'|hasPermission">
+                    <button type="button" class="btn btn-success" ng-click="postPayment(remittanceAdvice)" ng-disabled="posting" v-busy="posting" v-busy-label="Saving" v-pressable>
+                        Post Payment
+                    </button>
+                </p>
+            </div>
+            <!-- Exception -->
+            <div class="action-item warning" ng-if="remittanceAdvice.status == 'Exception'">
+                <div class="icon"></div>
+                <p>
+                    This remittance advice has one or more exceptions that must be resolved before it can be posted.
+                </p>
+            </div>
+        </div>
+
+        <!-- Lines -->
+        <div class="panel panel-invoiced light" ng-show="remittanceAdvice.lines.length > 0">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <div class="action" ng-if="('payments.edit'|hasPermission) && editable">
+                        <a href="" ng-click="editApplication()" ng-hide="editingApplication">
+                            {{'general.edit'|translate}}
+                        </a>
+                        <a href="" ng-click="cancelEditingApplication()" ng-show="editingApplication">
+                            {{'general.cancel'|translate}}
+                        </a>
+                    </div>
+                    Lines
+                </h4>
+            </div>
+
+            <table class="search-results-table table table-striped slim line-items">
+                <thead>
+                    <tr>
+                        <th>Document</th>
+                        <th>Description</th>
+                        <th class="money-column">Discount</th>
+                        <th class="money-column">Amount Paid</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="remittanceLine in remittanceAdvice.lines">
+                        <td>
+                            <a ui-sref="manage.invoice.view.summary({id:remittanceLine.invoice_id})" ng-if="remittanceLine.invoice_id">
+                                {{remittanceLine.document_number}}
+                            </a>
+                            <a ui-sref="manage.credit_note.view.summary({id:remittanceLine.credit_note_id})" ng-if="remittanceLine.credit_note_id">
+                                {{remittanceLine.document_number}}
+                            </a>
+                            <span ng-if="!remittanceLine.invoice_id && !remittanceLine.credit_note_id">{{remittanceLine.document_number}}</span>
+                        </td>
+                        <td>
+                            <div>{{remittanceLine.description}}</div>
+                            <div ng-if="remittanceLine.exception">
+                                <div>
+                                    <span class="text-danger" ng-show="remittanceLine.exception == 'DocumentDoesNotExist'">
+                                        This document does not exist.
+                                    </span>
+                                    <span class="text-danger" ng-show="remittanceLine.exception == 'DisputeDetected'">
+                                        A dispute item was detected.
+                                    </span>
+                                    <span class="text-danger" ng-show="remittanceLine.exception == 'DiscountTooHigh'">
+                                        The discount taken exceeds the payment terms.
+                                    </span>
+                                    <span class="text-danger" ng-show="remittanceLine.exception == 'DiscountExpired'">
+                                        The discount taken has expired.
+                                    </span>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-primary btn-sm" ng-click="resolveLine(remittanceAdvice, remittanceLine)" ng-hide="resolving">
+                                        Resolve
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="money-column noborder mobile-last">
+                            <money amount="remittanceLine.discount" currency="remittanceAdvice.currency"></money>
+                        </td>
+                        <td class="money-column">
+                            <money amount="remittanceLine.net_amount_paid" currency="remittanceAdvice.currency"></money>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total">
+                        <td colspan="3" class="money-column">
+                            <money amount="remittanceAdvice.total_discount" currency="remittanceAdvice.currency"></money>
+                        </td>
+                        <td class="money-column">
+                            <money amount="remittanceAdvice.total_net_amount_paid" currency="remittanceAdvice.currency"></money>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <files document="payment" attachments="attachments" type="payment" ng-show="loaded.attachments" allow-upload="('payments.edit'|hasPermission) && editable && !remittanceAdvice.voided"></files>
+    </div>
+</div>

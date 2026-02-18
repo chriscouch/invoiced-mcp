@@ -1,0 +1,10 @@
+{
+	"methods": {
+		"paypal": {
+			"currencies": "*"
+		}
+	},
+	"minPayment": {
+		"*": 1
+	}
+}

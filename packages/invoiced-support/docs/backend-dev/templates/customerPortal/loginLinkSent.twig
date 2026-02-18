@@ -1,0 +1,18 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.sign_in_link_sent'|trans %}
+{% extends "customerPortal/parentLogo.twig" %}
+
+{% block main %}
+	<div class="container mt-5">
+		<div class="row">
+			<div class="col-md-6 mx-auto">
+				<div class="card">
+					<h3 class="card-header">{{ 'titles.sign_in_link_sent'|trans }}</h3>
+					<div class="card-body">
+						{{ 'messages.sign_in_link_sent'|trans({'%email%': email})|raw }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+<div class="check-print">
+    <div class="check-date">
+        {{ check.date }}
+    </div>
+    <div class="general">
+        <div class="check-to">
+            {{ check.vendor_name|slice(0, 57) }}
+        </div>
+        <div class="check-amount">
+            {{ check.amount|number_format(2) }}
+        </div>
+    </div>
+    <div class="check-amount-text">
+        {{ check.amount_text }}
+    </div>
+    <div class="address">
+        <p>{{ check.vendor_name|slice(0, 57) }}</p>
+        <p>{{ check.address1 }}</p>
+        {% if check.address2 %}
+            <p>{{ check.address2 }}</p>
+        {% endif %}
+        <p>{{ check.city }}, {{ check.state }} {{ check.postal_code }}</p>
+    </div>
+    <div class="check-memo">
+    </div>
+</div>

@@ -1,0 +1,44 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.successful_payment'|trans %}
+{% extends "customerPortal/parentLogo.twig" %}
+
+{% block main %}
+	<div class="container mt-5">
+		<div class="row">
+			<div class="col-md-6 mx-auto">
+				<div class="card">
+					<h3 class="card-header">{{ 'titles.successful_payment'|trans }}</h3>
+					<div class="card-body">
+						<p class="text-center">
+							{% if pending %}
+								{{ 'messages.payment_pending'|trans({'%amount%': amount|money(currency)})|raw }}
+							{% elseif amount %}
+								{{ 'messages.payment_successful'|trans({'%amount%': amount|money(currency)})|raw }}
+							{% else %}
+								{{ 'messages.payment_expected'|trans }}
+							{% endif %}
+						</p>
+
+						<div class="row mt-5">
+							{% if receiptUrl %}
+								<div class="col-sm-6">
+									<a href="{{ receiptUrl }}" class="btn btn-primary">
+										<span class="fas fa-arrow-to-bottom"></span>
+										{{ 'buttons.download_receipt'|trans }}
+									</a>
+								</div>
+							{% endif %}
+							{% if signedInCustomer and customerPortal.enabled() %}
+								<div class="col-sm-6">
+									<a href="{{ company.url }}" class="btn btn-default">
+										{{ 'buttons.go_to_my_account'|trans }}
+									</a>
+								</div>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

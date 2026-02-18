@@ -1,0 +1,52 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Integration Log Viewer <small>Search Results</small>{% endblock %}
+
+{% block body_class 'ea-index integration-log-viewer' %}
+
+{% block page_actions %}
+    {{ parent() }}
+    <a class="btn" href="{{ ea_url().setRoute('integration_log_viewer') }}">
+        New Search
+    </a>
+{% endblock %}
+
+{% block main %}
+    <div>
+        <span class="fas fa-filter text-secondary"></span>
+        {{ filter }}
+        <span class="fas fa-hashtag text-secondary ms-5"></span>
+        {{ results|length|number_format }} log entries
+    </div>
+
+    <div class="integration-logs pt-3 pb-5 mw-100 table-responsive">
+        {% for result in results %}
+            <div class="integration-log-message row border-top">
+                <div class="title-row col-md-3 ps-3 pb-1 py-3">
+                    <div>
+                        <strong>{{ loop.index|number_format }}.</strong>
+                        <span class="text-muted ms-1">{{ result.timestamp|date('n/j/Y g:i:s a') }}</span>
+                        <span class="ps-3">
+                            <span class="badge {% if result.level == 'DEBUG' %}bg-secondary{% elseif result.level == 'INFO' %}bg-info text-light{% elseif result.level == 'NOTICE' %}bg-primary text-light{% elseif result.level == 'WARNING' %}bg-warning{% elseif result.level == 'NOTICE' %}bg-secondary text-light{% else %}bg-danger text-light{% endif %}">
+                                {{ result.level }}
+                            </span>
+                        </span>
+                    </div>
+                    {% if result.meta.request_id is defined and result.meta.request_id %}
+                        <div class="mt-2 text-muted">
+                            RID: {{ result.meta.request_id }}
+                        </div>
+                    {% endif%}
+                    {% if result.meta.correlation_id is defined %}
+                        <div class="mt-2 text-muted">
+                            CID: {{ result.meta.correlation_id }}
+                        </div>
+                    {% endif%}
+                </div>
+                <div class="log-message col-md-9 bg-light p-3">{{ result.message }}</div>
+            </div>
+        {% else %}
+            <div class="alert alert-secondary">No results found.</div>
+        {% endfor %}
+    </div>
+{% endblock %}

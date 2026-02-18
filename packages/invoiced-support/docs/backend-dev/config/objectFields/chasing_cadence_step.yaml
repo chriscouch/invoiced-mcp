@@ -1,0 +1,16 @@
+fields:
+  action:
+    name: "Action"
+    type: enum
+    values:
+      email: Email
+      sms: SMS
+      phone: Phone
+      mail: Mail
+      escalate: Escalate
+  chasing_cadence: { name: "Chasing Cadence", type: join }
+  id:
+    name: ID
+    type: string
+    writable: false
+  name: { name: Name, type: string }

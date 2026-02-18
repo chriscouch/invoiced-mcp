@@ -1,0 +1,42 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'terms'|trans %}
+{% extends "customerPortal/parentFrameOneColumn.twig" %}
+
+{% block left %}
+	<div class="terms-of-service">
+		<p>By using {{ company.display_name }} Customer Portal and the {{ company.url }} web site ("Service"), a service made possible by Invoiced, Inc. (“Invoiced”), you are agreeing to the following terms and conditions ("Terms of Service").</p>
+
+		<p>Both the Service and Invoiced reserve the right to update and change the Terms of Service at their discretion. Any new features shall be subject to the most current Terms of Service. Continued use of Service after any such changes imply your consent to such changes. You can review the most current version of the Terms of Service at any time at: {{ company.url }}/terms. Violation of any of the terms listed below will result in the immediate termination of your Service account.</p>
+
+		<h3>Account terms</h3>
+		<ul>
+			<li>Accounts registered by automated methods are not permitted and will be deleted immediately without notice.</li>
+			<li>You must provide your legal full name, a valid email address, and any other pertinent information requested in order to complete the signup process.</li>
+			<li>Your login may only be used by one (1) person – a single login shared by multiple people shall not be permitted.</li>
+			<li>You are responsible for maintaining the security of your account and password. Invoiced cannot and will not be liable for any loss of information or security breaches that result from your failure to comply with this security obligation.</li>
+			<li>You are hereby considered fully responsible for all content posted and any and all activity that occurs under your account, even when certain content is posted by others who have access under your account.</li>
+			<li>You may not use the Service and/or Invoiced for any illegal activities. You must not, throughout your use of the Service, violate any applicable laws in your jurisdiction, and this is including but not limited to copyright laws.</li>
+		</ul>
+
+		<h3>Modifications</h3>
+		<ul>
+			<li>Both the Service and Invoiced reserves the right at any time, with or without notice, to modify or discontinue the Service, temporarily or permanently.</li>
+			<li>Invoiced shall not be liable to you or to any third party for any modification, suspension, or discontinuance of the Service.</li>
+		</ul>
+
+		<h3>Copyright and license</h3>
+		<ul>
+			<li>Unless with explicit permission from Invoiced, you agree not to reproduce, duplicate, copy, sell, resell or exploit any portion of the Service, use of the Service, or access to the Service.</li>
+			<li>You must not modify another website so as to falsely imply that it is associated with the Service or Invoiced.</li>
+		</ul>
+
+		<h3>General terms</h3>
+		<ul>
+			<li>We may remove Content and Accounts containing Content that we determine in our sole discretion are violating the terms of service, including but not limited to content deemed unlawful, offensive, threatening, libelous, defamatory, pornographic, explicitly obscene, generally objectionable or violating any party’s intellectual property.</li>
+			<li>Verbal, physical, written or other abuse (including threats of abuse or retribution) of any Invoiced employee, member, or officer will result in immediate account termination and potential criminal charges.</li>
+			<li>You must not transmit any worms, viruses or any other code of a destructive and furtive nature.</li>
+			<li>You expressly understand and agree that Invoiced shall not be liable for any payments and monetary transactions that occur through your use of the Service. You expressly understand and agree that all payments and monetary transactions are handled by the 3rd party payment platforms the Service uses. You agree Invoiced shall not be liable for any issues regarding financial and monetary transactions between you and any other party.</li>
+			<li>The failure of Invoiced to aggressively enforce any right or provision of the Terms of Service shall not be construed as a waiver of such right or provision. The Terms of Service outlines the entire agreement between you and Invoiced and supersedes any prior agreements between you and Invoiced including prior iterations of the Terms of Service.</li>
+		</ul>
+	</div>
+{% endblock %}

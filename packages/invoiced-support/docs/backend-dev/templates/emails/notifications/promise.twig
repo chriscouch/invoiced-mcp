@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}Promise to pay was submitted{% endblock %}
+{% block notification %}
+    {% for promise in promises %}
+        <p><a href="{{ dashboardUrl}}/customers/{{ promise.customer.id  }}?account={{ tenant_id  }}">{{ promise.customer.name }}</a> has made a promise-to-pay for {{ promise.amount | money(promise.currency)}} on <a href="{{ dashboardUrl}}/invoices/{{ promise.invoice.id  }}?account={{ tenant_id  }}">{{ promise.invoice.number }}</a></p>
+    {% endfor %}
+{% endblock %}

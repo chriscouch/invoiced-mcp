@@ -1,0 +1,30 @@
+fields:
+  archived:
+    name: Archived
+    type: boolean
+    writable: false
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency: { name: Currency, type: string }
+  id:
+    name: ID
+    type: string
+  inclusive: { name: Inclusive, type: boolean }
+  is_percent: { name: "Is Percent", type: boolean }
+  metadata: { name: 'Metadata', type: metadata, id_column: internal_id }
+  name: { name: Name, type: string }
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  value: { name: Value, type: float }

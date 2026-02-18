@@ -1,0 +1,11 @@
+{% trans_default_domain 'customer_portal' %}
+
+<div class="mb-3" id="adyen-card-container"></div>
+
+<script id="adyen-card-data" type="text/json">
+  {{ adyenData|json_encode|raw }}
+</script>
+
+<script src="{{ scriptUrl }}" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="{{ stylesheetUrl }}" crossorigin="anonymous" />
+<script type="text/javascript" src="{{ asset('/js/views/paymentForms/cardAdyen.js') }}?t={{ 'now'|date('U') }}"></script>

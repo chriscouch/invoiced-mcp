@@ -1,0 +1,145 @@
+<?php
+
+namespace App\Core\Orm\Driver;
+
+use BackedEnum;
+use DateTimeInterface;
+use JAQB\Query\SelectQuery;
+use App\Core\Orm\Model;
+use App\Core\Orm\Property;
+use App\Core\Orm\Query;
+use App\Core\Orm\Relation\Pivot;
+use App\Core\Orm\Type;
+
+abstract class AbstractDriver implements DriverInterface
+{
+    /**
+     * Marshals a value to storage.
+     */
+    public function serializeValue(mixed $value, ?Property $property): mixed
+    {
+        // encode backed enums as their backing type
+        if ($value instanceof BackedEnum) {
+            return $value->value;
+        }
+
+        // encode datetime objects
+        if ($value instanceof DateTimeInterface) {
+            $format = $property?->date_format;
+            if (!$format) {
+                $format = Type::DATE == $property?->type ? 'Y-m-d' : 'Y-m-d H:i:s';
+            }
+
+            return $value->format($format);
+        }
+
+        // encode arrays/objects as JSON
+        if (is_array($value) || is_object($value)) {
+            return json_encode($value);
+        }
+
+        return $value;
+    }
+
+    /**
+     * Serializes an array of values.
+     */
+    protected function serialize(array $values, Model $model): array
+    {
+        foreach ($values as $k => &$value) {
+            $value = $this->serializeValue($value, $model::definition()->get($k));
+        }
+
+        return $values;
+    }
+
+    /**
+     * Returns a prefixed select statement.
+     */
+    protected function prefixSelect(string $columns, string $tablename): string
+    {
+        $prefixed = [];
+        foreach (explode(',', $columns) as $column) {
+            $prefixed[] = $this->prefixColumn($column, $tablename);
+        }
+
+        return implode(',', $prefixed);
+    }
+
+    /**
+     * Returns a prefixed where statement.
+     */
+    protected function prefixWhere(array $where, string $tablename): array
+    {
+        $return = [];
+        foreach ($where as $key => $condition) {
+            // handles $where[property] = value
+            if (!is_numeric($key)) {
+                $return[] = [$this->prefixColumn($key, $tablename), $condition];
+                // handles $where[] = [property, value, '=']
+            } elseif (is_array($condition)) {
+                $condition[0] = $this->prefixColumn($condition[0], $tablename);
+                $return[] = $condition;
+                // handles raw SQL - do nothing
+            } else {
+                $return[] = [$condition];
+            }
+        }
+
+        return $return;
+    }
+
+    /**
+     * Returns a prefixed sort statement.
+     */
+    protected function prefixSort(array $sort, string $tablename): array
+    {
+        foreach ($sort as &$condition) {
+            $condition[0] = $this->prefixColumn($condition[0], $tablename);
+        }
+
+        return $sort;
+    }
+
+    /**
+     * Prefix columns with tablename that contains only
+     * alphanumeric/underscores/*.
+     */
+    protected function prefixColumn(string $column, string $tablename): string
+    {
+        if ('*' === $column || preg_match('/^[a-z0-9_]+$/i', $column)) {
+            return "$tablename.$column";
+        }
+
+        return $column;
+    }
+
+    /**
+     * Adds where conditions to a select query.
+     */
+    protected function addWhere(Query $query, string $tablename, SelectQuery $dbQuery): void
+    {
+        foreach ($this->prefixWhere($query->getWhere(), $tablename) as $args) {
+            call_user_func_array([$dbQuery, 'where'], $args);
+        }
+    }
+
+    /**
+     * Adds join conditions to a select query.
+     */
+    protected function addJoins(Query $query, string $tablename, SelectQuery $dbQuery): void
+    {
+        foreach ($query->getJoins() as $join) {
+            [$foreignModelClass, $column, $foreignKey, $type] = $join;
+
+            /** @var Model $foreignModel */
+            $foreignModel = $foreignModelClass instanceof Pivot ? $foreignModelClass : new $foreignModelClass();
+            $foreignTablename = $foreignModel->getTablename();
+            $condition = $foreignModelClass instanceof Pivot
+                ? $this->prefixColumn($column, $foreignTablename).'='.$this->prefixColumn($foreignKey, $tablename)
+                : $this->prefixColumn($column, $tablename).'='.$this->prefixColumn($foreignKey, $foreignTablename);
+
+            $dbQuery->join($foreignTablename, $condition, null, $type);
+        }
+    }
+}

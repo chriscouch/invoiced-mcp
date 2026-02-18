@@ -1,0 +1,29 @@
+<feature-upgrade ng-if="!hasFeature"></feature-upgrade>
+<div class="search-results-holder" ng-class="{'has-filter': filterStr}" ng-show="hasFeature">
+	<div class="box">
+		<div class="header clearfix">
+			<!-- Title Bar -->
+			<div class="actions">
+				<a href="" class="btn btn-link" ng-click="openFilter()">
+					<span class="fas fa-filter"></span> Filter
+				</a>
+			</div>
+			<h2>Activity Log</h2>
+
+			<!-- Tabs -->
+			<ul class="nav nav-tabs">
+			</ul>
+		</div>
+
+		<!-- Applied Filter -->
+		<div class="applied-filter" ng-show="filterStr">
+			<span class="fas fa-filter filter-icon"></span>
+			<strong>{{filterStr}}</strong>
+			<a href="" ng-click="clearEventFilter()">
+				<span class="fas fa-times-circle"></span>
+			</a>
+		</div>
+
+		<event-list filter="filter" options="eventOptions"></event-list>
+	</div>
+</div>

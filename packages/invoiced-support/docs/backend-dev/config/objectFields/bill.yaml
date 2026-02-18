@@ -1,0 +1,71 @@
+fields:
+  approval_workflow:
+    name: Approval Workflow
+    type: join
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency:
+    name: Currency
+    type: string
+  date:
+    name: Date
+    type: date
+    date_format: "Y-m-d"
+  date_voided:
+    name: Date Voided
+    type: date
+    writable: false
+  due_date:
+    name: Due Date
+    type: date
+    date_format: "Y-m-d"
+  id:
+    name: ID
+    type: integer
+    writable: false
+  number:
+    name: Number
+    type: string
+  source:
+    name: Source
+    type: enum
+    values:
+      Network: Network
+      Keyed: Keyed
+      Imported: Imported
+    writable: false
+  status:
+    name: Status
+    type: enum
+    values:
+      PendingApproval: Pending Approval
+      Approved: Approved
+      Rejected: Rejected
+      Paid: Paid
+      Voided: Voided
+    writable: false
+  total:
+    name: Total
+    type: money
+    writable: false
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  voided:
+    name: Voided
+    type: boolean
+    writable: false
+  vendor:
+    name: Vendor
+    type: join
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false

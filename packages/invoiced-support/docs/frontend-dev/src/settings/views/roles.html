@@ -1,0 +1,70 @@
+<div class="loading" ng-show="loading"></div>
+
+<div class="panel panel-default settings-panel" ng-hide="loading">
+    <div class="panel-heading">
+        <h4 class="panel-title button-title">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="searchbar light">
+                        <div class="bar">
+                            <div class="icon"><span class="fas fa-search"></span></div>
+                            <input type="text" class="form-control" ng-model="search" tabindex="2000" />
+                            <div class="icon right icon-btn" ng-show="search">
+                                <button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+                                    <span class="fas fa-times-circle"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <button type="submit" class="btn btn-success" ng-click="newRole()">
+                        New Role
+                    </button>
+                </div>
+            </div>
+        </h4>
+    </div>
+
+    <!-- No Results -->
+    <div class="list-group" ng-show="results.length === 0">
+        <div class="list-group-item">
+            <div class="empty">No roles found.</div>
+        </div>
+    </div>
+
+    <!-- Results Table -->
+    <table class="table table-striped search-results-table" ng-show="results.length > 0">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th># Permissions</th>
+                <th class="noborder">Created</th>
+                <th class="nopadding"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="role in roles | searchObject:search:['name'] | orderBy:['name'] | limitTo:100 as results">
+                <td class="nowrap">{{role.name}}</td>
+                <td>{{role.permissions.length}}</td>
+                <td class="light nowrap noborder">
+                    <company-date date="role.created_at"></company-date>
+                </td>
+                <td class="nopadding hover-actions-holder mobile-last mobile-visible">
+                    <div class="hover-actions">
+                        <button type="button" class="btn btn-default btn-sm" ng-click="clone(role)" tooltip="Clone Role">
+                            <span class="fas fa-copy"></span>
+                        </button>
+                        <button type="button" class="btn btn-primary btn-sm" ng-click="edit(role)" tooltip="Edit Role" ng-hide="role.id==='administrator'">
+                            <span class="fas fa-pencil"></span>
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm" ng-click="delete(role)" tooltip="Delete Role" ng-hide="role.id==='administrator'">
+                            <span class="fas fa-trash"></span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<cut-list-label count="results.length" total="(roles | searchObject:search:['name']).length"></cut-list-label>

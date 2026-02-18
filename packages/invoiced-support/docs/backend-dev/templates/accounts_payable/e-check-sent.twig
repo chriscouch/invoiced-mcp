@@ -1,0 +1,18 @@
+{% trans_default_domain 'general' %}
+{% set title='Your check is ready for download' %}
+{% extends "accounts_payable/parent.twig" %}
+
+{% block main %}
+
+    <div class="container-lg container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12 col-xl-10 text-center">
+                <h1 class="mb-3 mt-4">
+                    Your check has been sent to your email address.
+                </h1>
+
+                <p>Please allow few minutes for it to arrive</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

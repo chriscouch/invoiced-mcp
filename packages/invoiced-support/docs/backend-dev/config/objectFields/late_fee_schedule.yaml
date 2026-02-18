@@ -1,0 +1,36 @@
+fields:
+  amount: { name: Amount, type: float }
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  default: { name: Default, type: boolean }
+  enabled: { name: Enabled, type: boolean }
+  grace_period: { name: "Grace Period", type: integer }
+  id:
+    name: ID
+    type: string
+    writable: false
+  is_percent: { name: "Is Percent", type: boolean }
+  last_run:
+    name: "Last Run"
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+  name: { name: Name, type: string }
+  recurring_days: { name: "Recurring Days", type: integer }
+  start_date:
+    name: Start Date
+    type: date
+    date_format: "Y-m-d"
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false

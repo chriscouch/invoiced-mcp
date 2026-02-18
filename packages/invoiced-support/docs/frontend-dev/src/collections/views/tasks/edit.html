@@ -1,0 +1,60 @@
+<form name="taskForm" ng-submit="save(task)">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
+		<h4 class="modal-title"><span ng-show="isNew">New</span><span ng-hide="isNew">Edit</span> Task</h4>
+	</div>
+	<div class="modal-body">
+		<!-- Task -->
+		<div class="form-group">
+			<label class="control-label">Name <span class="required"></span></label>
+			<input type="text" class="form-control" ng-model="task.name" required />
+		</div>
+
+		<!-- Action -->
+		<div class="form-group">
+			<label class="control-label">Action <span class="required"></span></label>
+			<div class="invoiced-select">
+				<select ng-model="task.action">
+					<option value="review">To do</option>
+					<option value="email">Send an email</option>
+					<option value="phone">Phone call</option>
+					<option value="letter">Mail a letter</option>
+				</select>
+			</div>
+		</div>
+
+		<!-- Customer -->
+		<div class="form-group" ng-if="isNew">
+			<label class="control-label">Customer <span class="required"></span></label>
+			<select-customer ng-model="task.customer_id" ng-required="true"></select-customer>
+		</div>
+
+		<!-- Due Date -->
+		<div class="form-group">
+			<label class="control-label">Due Date <span class="required"></span></label>
+			<div class="input-group">
+				<input type="text" class="form-control" ng-model="task.due_date" ui-date="dateOptions" is-open="dpOpened" readonly="readonly" required />
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'dpOpened')">
+						<span class="fas fa-calendar-alt"></span>
+					</button>
+				</span>
+			</div>
+		</div>
+
+		<!-- Assigned To -->
+		<div class="form-group">
+			<label class="control-label">Assigned To</label>
+			<div class="loading inline" ng-show="loading"></div>
+			<div class="invoiced-select" ng-hide="loading">
+				<select ng-model="task.user_id" ng-options="_user as _user.name for _user in users track by _user.id"></select>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<automate-button ng-if="task.id" btn-class="'mx-1'" object-type="'task'" object-id="task.id"></automate-button>
+		<button type="submit" class="btn btn-primary Button" ng-disabled="saving||taskForm.$invalid" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

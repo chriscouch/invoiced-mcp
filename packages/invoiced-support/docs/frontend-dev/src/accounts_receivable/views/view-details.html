@@ -1,0 +1,55 @@
+<div class="modal-header">
+	<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+	<h4 class="modal-title">View Details</h4>
+</div>
+<div class="modal-body">
+	<!-- Timestamp -->
+	<div class="form-group">
+		<label class="control-label">Timestamp</label>
+		<div>
+			<company-date-time date="event.timestamp"></company-date-time>
+		</div>
+	</div>
+
+	<!-- IP -->
+	<div class="form-group">
+		<label class="control-label">IP</label>
+		<div>
+			<a href="https://ipinfo.io/{{event.data.object.ip}}" target="_blank" rel="noopener noreferrer">{{event.data.object.ip}}</a><span ng-show="location"> near <em>{{location}}</em></span>
+		</div>
+	</div>
+
+	<!-- User Agent -->
+	<div class="form-group">
+		<label class="control-label">User Agent</label>
+		<div>
+			{{userAgent}}
+		</div>
+	</div>
+
+	<!-- Object Link -->
+	<div class="form-group" ng-show="estimateId">
+		<label class="control-label">Estimate</label>
+		<div>
+			<a ui-sref="manage.estimate.view.summary({id:estimateId})" class="btn btn-default" ng-click="close()">
+				View
+			</a>
+		</div>
+	</div>
+	<div class="form-group" ng-show="invoiceId">
+		<label class="control-label">Invoice</label>
+		<div>
+			<a ui-sref="manage.invoice.view.summary({id:invoiceId})" class="btn btn-default" ng-click="close()">
+				View
+			</a>
+		</div>
+	</div>
+	<div class="form-group" ng-show="creditNoteId">
+		<label class="control-label">Credit Note</label>
+		<div>
+			<a ui-sref="manage.credit_note.view.summary({id:creditNoteId})" class="btn btn-default" ng-click="close()">
+				View
+			</a>
+		</div>
+	</div>
+</div>

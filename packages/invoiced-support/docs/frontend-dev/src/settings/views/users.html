@@ -1,0 +1,128 @@
+<div class="loading" ng-show="loading"></div>
+
+<div class="row" ng-if="!loading">
+    <div class="col-sm-4">
+        <h4>
+            Your Plan
+        </h4>
+        <usage-bar amount="members.length" limit="company.billing.quota.no_users" dimension="'users'" usage-pricing-plan="userPricingPlan" options="memberUsageOpts" callback="reload()"></usage-bar>
+    </div>
+</div>
+<br/>
+
+<div class="panel panel-default settings-panel" ng-hide="loading">
+    <div class="panel-heading">
+        <h4 class="panel-title button-title">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="searchbar light">
+                        <div class="bar">
+                            <div class="icon"><span class="fas fa-search"></span></div>
+                            <input type="text" class="form-control" ng-model="search" tabindex="2000" />
+                            <div class="icon right icon-btn" ng-show="search">
+                                <button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+                                    <span class="fas fa-times-circle"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <label class="noselect">
+                        <input type="checkbox" ng-model="pendingOnly" />
+                        Show pending only
+                    </label>
+                </div>
+                <div class="col-sm-4 text-right">
+                    <div class="dropdown" dropdown ng-if="members.length < company.billing.quota.no_users || company.billing.quota.no_users <= 0">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-success" ng-click="inviteMemberModal()">
+                                Add User
+                            </button>
+                            <button type="button" class="btn btn-success dropdown-toggle" dropdown-toggle>
+                                <span class="caret"></span>
+                            </button>
+                        </div>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li>
+                                <a href="" ng-click="bulkInviteModal()">
+                                    Bulk Add
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </h4>
+    </div>
+
+    <!-- No Results -->
+    <div class="list-group" ng-show="results.length === 0">
+        <div class="list-group-item">
+            <div class="empty">No users found.</div>
+        </div>
+    </div>
+
+    <!-- Results Table -->
+    <table class="table table-striped search-results-table" ng-show="results.length > 0">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Customer Restrictions</th>
+                <th>
+                    <a href="" tooltip="Two-Factor Authentication">
+                        2FA
+                    </a>
+                </th>
+                <th class="noborder">Last Sign In</th>
+                <th class="nopadding"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="member in members | filter:search | filter:isPending | orderBy:['name'] | limitTo:100 as results">
+                <td>
+                    {{member.name}}
+                    <span class="label label-info" ng-show="member.user.id==currentUser.id">You</span>
+                </td>
+                <td>{{member.user.email}}</td>
+                <td>{{roleName(member.role)}}</td>
+                <td>
+                    <div ng-show="member.restriction_mode == 'custom_field'">
+                        <div><span class="label label-info">Custom Field</span></div>
+                        <div ng-repeat="(fieldId, entry) in member.restrictions">
+                            <code>{{fieldId}} = {{entry.join(', ')}}</code>
+                        </div>
+                    </div>
+                    <span ng-show="member.restriction_mode == 'owner'" class="label label-info">Owned Accounts</span>
+                    <span ng-show="member.restriction_mode == 'none'">&mdash;</span>
+                </td>
+                <td class="hidden-xs">
+                    <span class="label label-success" ng-show="member.user.two_factor_enabled">Yes</span>
+                    <span class="label label-default" ng-hide="member.user.two_factor_enabled || !member.user.registered">No</span>
+                </td>
+                <td class="noborder">
+                    <span ng-show="member.last_accessed > 0"><company-date-time date="member.last_accessed"></company-date-time></span>
+                    <a href="" tooltip="Has not finished setting up user account" ng-hide="member.user.registered">
+                        <span class="label label-warning">{{'general.pending'|translate}}</span>
+                    </a>
+                </td>
+                <td class="nopadding hover-actions-holder mobile-last mobile-visible">
+                    <div class="hover-actions">
+                        <button class="btn btn-default btn-sm" ng-click="resendInvite(member)" ng-hide="member.user.registered||member.user.invite_resent" tooltip="Resend Invite">
+                            <span class="fas fa-paper-plane"></span>
+                        </button>
+                        <button class="btn btn-default btn-sm edit-btn" ng-click="editMember(member)" ng-hide="members.length<=1||member.user.id==currentUser.id" tooltip="Edit User">
+                            <span class="fas fa-pencil"></span>
+                        </button>
+                        <button class="btn btn-danger btn-sm revoke-btn" ng-click="removeMember(member)" ng-disabled="deleting[member.user.id]" ng-hide="members.length<=1||member.user.id==currentUser.id" tooltip="Revoke Access">
+                            <span class="fas fa-trash"></span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<cut-list-label count="results.length" total="(members | filter:search | filter:isPending).length"></cut-list-label>

@@ -1,0 +1,47 @@
+<form class="form-horizontal" name="chartmogulForm" ng-submit="save(integration.extra.enabled)">
+    <div class="form-group">
+        <div class="col-sm-8 col-sm-offset-4">
+            <h4 class="settings-section-title">Settings</h4>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-4">
+            {{'general.enabled'|translate}}
+        </label>
+        <div class="col-sm-8">
+            <toggle ng-model="integration.extra.enabled">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-8 col-sm-offset-4">
+            <button type="submit" class="btn btn-primary Button" ng-disabled="saving||earthClassMailForm.$invalid" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+                <span translate>general.save</span>
+            </button>
+        </div>
+    </div>
+    <hr/>
+
+    <div class="form-group">
+        <label class="control-label col-sm-4">
+            {{'chartmogul.settings.last_sync'|translate}}
+        </label>
+        <div class="col-sm-8 form-control-static" ng-if="!integration.extra.last_sync_attempt">
+            <em>{{'accounting_sync.not_synced_yet'|translate}}</em>
+        </div>
+        <div class="col-sm-8 form-control-static" ng-if="integration.extra.last_sync_attempt > 0">
+            <span class="label label-success" ng-hide="integration.extra.last_sync_error">{{'general.succeeded'|translate}}</span>
+            <span class="label label-danger" ng-show="integration.extra.last_sync_error">{{'general.failed'|translate}}</span>
+            &mdash;
+            <company-date-time date="integration.extra.last_sync_attempt"></company-date-time>
+        </div>
+    </div>
+
+    <div class="form-group" ng-if="integration.extra.last_sync_error">
+        <label class="control-label col-sm-4">
+            {{'accounting_sync.error_message'|translate}}
+        </label>
+        <div class="col-sm-8 form-control-static" ng-bind-html="integration.extra.last_sync_error|nl2br"></div>
+    </div>
+</form>

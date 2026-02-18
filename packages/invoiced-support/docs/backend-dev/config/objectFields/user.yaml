@@ -1,0 +1,9 @@
+fields:
+  email: { name: Email, type: string }
+  first_name: { name: "First Name", type: string }
+  id:
+    name: ID
+    type: string
+    writable: false
+  last_name: { name: "Last Name", type: string }
+  name: { name: "Name", type: string }

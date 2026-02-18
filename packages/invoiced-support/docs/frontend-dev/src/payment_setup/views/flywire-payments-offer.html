@@ -1,0 +1,23 @@
+<div class="flywire-payments-banner clearfix" ng-if="eligibility.eligible">
+    <div class="dismiss">
+        <a href="" ng-click="dismiss()">
+            &times;
+        </a>
+    </div>
+    <div class="logo">
+        <img src="/img/integrations/flywire.svg" alt="Flywire Payments" />
+    </div>
+    <div class="description">
+        <p>Accept credit cards, debit cards and ACH direct debit with our integrated payments solution.</p>
+    </div>
+    <div class="buttons">
+        <div>
+            <a class="btn btn-success" ng-href="{{eligibility.onboarding_url}}">
+                Start Now
+            </a>
+            <a class="btn btn-link learn-more" href="" ng-click="learnMore()">
+                Learn more
+            </a>
+        </div>
+    </div>
+</div>

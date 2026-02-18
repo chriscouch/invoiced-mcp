@@ -1,0 +1,37 @@
+<h1 class="logo">
+	<a href="{{baseUrl}}">
+		<img src="/img/auth-logo@2x.png" width="181" height="46" alt="Invoiced" />
+	</a>
+</h1>
+
+<div class="body skinny minimal container login">
+	<h4 class="title">{{'auth.login_sso.header'|translate}}</h4>
+
+	<div class="alert {{messageClass}}" ng-show="error">{{error.message}}</div>
+	<form name="forgotForm" action="{{ssoConnectUrl}}" method="POST" ng-hide="sent">
+		<div class="form-group">
+            <div class="floating-label-input">
+                <input type="email" ng-model="email" name="email" class="form-control input-lg" autocomplete="username" autofocus required ng-change="applyCookie()" />
+                <span class="floating-label">{{'auth.login_sso.email.label'|translate}}</span>
+            </div>
+		</div>
+
+		<div class="form-group login-options">
+			<label class="remember-me noselect">
+				<input type="checkbox" ng-model="remember" ng-change="applyCookie()"/>
+				<span>{{'auth.login.remember'|translate}}</span>
+			</label>
+		</div>
+
+		<div class="form-group">
+			<button type="submit" class="btn btn2 btn-evergreen btn-block btn-lg" ng-disabled="sending" v-busy="sending" v-busy-label="{{'auth.login_sso.busy'|translate}}" v-busy-text="{{'auth.login_sso.submit'|translate}}" v-pressable>
+				<span translate>auth.login_sso.submit</span>
+			</button>
+		</div>
+	</form>
+	<div class="external-sign-in">
+		<div class="sso-link">
+			<a ui-sref="auth.login">{{'auth.login_sso.return'|translate}}</a>
+		</div>
+	</div>
+</div>

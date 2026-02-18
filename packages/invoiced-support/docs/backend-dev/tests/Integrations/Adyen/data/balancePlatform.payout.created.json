@@ -1,0 +1,108 @@
+{
+  "data": {
+    "balancePlatform": "InvoicedBalancePlatform",
+    "creationDate": "2025-03-25T07:15:50+01:00",
+    "id": "3KA47F66EP1ETPB1",
+    "accountHolder": {
+      "description": "Company # 1",
+      "id": "AH3295L223228N5M2M9P9DCDD",
+      "reference": "1-frazlqhuji"
+    },
+    "amount": {
+      "currency": "USD",
+      "value": 9710
+    },
+    "balanceAccount": {
+      "description": "1 - Default",
+      "id": "BA3295L223228N5M2M9PBDCFG",
+      "reference": "1-frazlqhuji"
+    },
+    "category": "bank",
+    "categoryData": {
+      "priority": "regular",
+      "type": "bank"
+    },
+    "counterparty": {
+      "transferInstrumentId": "SE32CLN22322695M2M9TL95FW"
+    },
+    "description": "Daily",
+    "direction": "outgoing",
+    "paymentInstrument": {
+      "description": "Bank account of InvoicedBalancePlatformVostro_AdyenBankUS vostro balance account",
+      "id": "PI32CQ3223228N5LZRBFWD3LS"
+    },
+    "reason": "approved",
+    "reference": "SWPE423HJ223DJVT5M9F97H5FC43M3",
+    "status": "booked",
+    "type": "bankTransfer",
+    "balances": [
+      {
+        "balance": -9710,
+        "currency": "USD",
+        "received": 0,
+        "reserved": 0
+      }
+    ],
+    "events": [
+      {
+        "bookingDate": "2025-03-25T07:15:46+01:00",
+        "id": "EVJN42CQM224223Q5M9K7HSDJJ7588",
+        "mutations": [
+          {
+            "currency": "USD",
+            "received": -9710
+          }
+        ],
+        "status": "received",
+        "type": "accounting"
+      },
+      {
+        "bookingDate": "2025-03-25T07:15:46+01:00",
+        "id": "EVJN42CQM224223Q5M9K7HSDJK5W2Z",
+        "mutations": [
+          {
+            "currency": "USD",
+            "received": 9710,
+            "reserved": -9710
+          }
+        ],
+        "status": "authorised",
+        "type": "accounting"
+      },
+      {
+        "bookingDate": "2025-03-25T07:15:46+01:00",
+        "id": "EVJN4295G224223Q5M9K7HS5KK4QQ4",
+        "mutations": [
+          {
+            "balance": -9710,
+            "currency": "USD",
+            "received": 0,
+            "reserved": 9710
+          }
+        ],
+        "status": "booked",
+        "transactionId": "EVJN4295G224223Q5M9K7HS5KK4QQ4USD",
+        "type": "accounting",
+        "valueDate": "2025-03-25T07:15:40+01:00"
+      },
+      {
+        "estimatedArrivalTime": "2025-03-26T17:00:00+01:00",
+        "id": "EVTR423H6224PSTZ5M9K7J22DV3FK8",
+        "trackingData": {
+          "estimatedArrivalTime": "2025-03-26T17:00:00+01:00",
+          "type": "estimation"
+        },
+        "type": "tracking",
+        "updateDate": "2025-03-25T07:15:50+01:00"
+      }
+    ],
+    "sequenceNumber": 4,
+    "tracking": {
+      "estimatedArrivalTime": "2025-03-26T17:00:00+01:00",
+      "type": "estimation"
+    }
+  },
+  "environment": "live",
+  "timestamp": "2025-04-06T07:19:36.558Z",
+  "type": "balancePlatform.transfer.created"
+}

@@ -1,0 +1,346 @@
+{% extends '@EasyAdmin/crud/detail.html.twig' %}
+{% set billingProfile=entity.instance %}
+
+{% block content_title %}
+    <div class="fs-6 fw-light text-secondary">Billing Profile # {{ billingProfile.id }}</div>
+    {{ billingProfile.name }}
+{% endblock %}
+
+{% block page_actions %}
+    {{ parent() }}
+    <div class="btn-group ms-2">
+        <button type="button" class="btn btn-dropdown dropdown-toggle last" data-bs-toggle="dropdown">
+            <i class="hidden-xs fa fa-cogs"></i>
+            Actions
+        </button>
+        <div class="dropdown-menu dropdown-menu-end">
+            <a class="dropdown-item" href="{{ ea_url().setRoute('new_purchase_page').set('billing_profile', billingProfile.id).unset('tenant_id') }}">
+                <i class="fa fa-cart-plus"></i> New Purchase Page
+            </a>
+            <a class="dropdown-item" href="{{ ea_url().setRoute('new_order_form').set('billing_profile', billingProfile.id) }}">
+                <i class="fa fa-shopping-cart"></i> New Order
+            </a>
+            {% if is_granted('edit', billingProfile) %}
+                <a class="dropdown-item" href="{{ ea_url().setRoute('new_account_form').set('billing_profile', billingProfile.id) }}">
+                    <i class="fa fa-building"></i> New Company
+                </a>
+            {% endif %}
+            <a class="dropdown-item"
+               href="{{ ea_url().setController('App\\Controller\\Admin\\UsagePricingPlanCrudController').setAction('new').set('billing_profile_id', billingProfile.id).unset('tenant_id').setEntityId(null) }}">
+                <i class="fa fa-plus-circle"></i> Add Usage Pricing Plan
+            </a>
+            <a class="dropdown-item" href="{{ ea_url().setRoute('new_order_form').set('billing_profile', billingProfile.id) }}">
+                <i class="fa fa-shopping-cart"></i> New Order
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ ea_url().setRoute('usage_report', {billingProfileId: billingProfile.id}) }}">
+                <i class="fa fa-file-text-o"></i> Usage Report
+            </a>
+            <a class="dropdown-item"
+               href="{{ ea_url().setController('App\\Controller\\Admin\\BillingProfileCrudController').setAction('disputeEvidence').setEntityId(billingProfile.id) }}">
+                <i class="fa fa-download"></i> Dispute Evidence
+            </a>
+            <a class="dropdown-item"
+               href="{{ ea_url().setController('App\\Controller\\Admin\\BillingProfileCrudController').setAction('respondToDispute').setEntityId(billingProfile.id) }}">
+                <i class="fa fa-circle-exclamation"></i> Respond to Dispute
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block detail_fields %}
+    <div class="row">
+        <div class="col-xxl-4">
+            <!-- Billing Profile Details -->
+            <div class="form-panel">
+                <div class="form-panel-header">
+                    <div class="form-panel-title">
+                        <a href="#panelBillingProfileDetails" data-bs-toggle="collapse" class="form-panel-collapse">
+                            Billing Profile Details
+                        </a>
+                    </div>
+                </div>
+                <div id="panelBillingProfileDetails" class="form-panel-body collapse show">
+                    {{ parent() }}
+                </div>
+            </div>
+
+            <!-- Usage Pricing Plans -->
+            {% set usagePricingPlans=billingProfile.usagePricingPlans %}
+            {% if usagePricingPlans|length > 0 %}
+                <div class="form-panel">
+                    <div class="form-panel-header">
+                        <div class="form-panel-title">
+                            <a href="#panelUsagePricingPlans" data-bs-toggle="collapse" class="form-panel-collapse">
+                                Usage Pricing Plans
+                            </a>
+                        </div>
+                    </div>
+                    <div id="panelUsagePricingPlans" class="form-panel-body collapse show">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th class="text-end">Included</th>
+                                <th class="text-end">Unit Price</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for pricingPlan in billingProfile.usagePricingPlans %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ ea_url().setController('App\\Controller\\Admin\\UsagePricingPlanCrudController').setAction('detail').setEntityId(pricingPlan.getId) }}">
+                                            {{ pricingPlan.usageTypeName }}
+                                        </a>
+                                    </td>
+                                    <td class="text-end">{{ pricingPlan.threshold }}</td>
+                                    <td class="text-end">
+                                        ${{ pricingPlan.unitPrice }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-xxl-8">
+            <!-- Companies -->
+            {% set companies=billingProfile.tenants %}
+            {% if companies|length > 0 %}
+                <div class="form-panel">
+                    <div class="form-panel-header">
+                        <div class="form-panel-title">
+                            <a href="#panelTenants" data-bs-toggle="collapse" class="form-panel-collapse">
+                                Companies
+                                {% if companies|length > 1 %}<span class="badge badge-secondary">{{ companies|length }}</span>{% endif %}
+                            </a>
+                        </div>
+                    </div>
+                    <div id="panelTenants" class="form-panel-body collapse show">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Created</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for company in companies %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ ea_url().setController('App\\Controller\\Admin\\CompanyCrudController').setAction('detail').setEntityId(company.id) }}">
+                                            {{ company.id }}
+                                        </a>
+                                    </td>
+                                    <td>{{ company.name }}</td>
+                                    <td>{{ company.createdAt|date('n/j/Y') }}</td>
+                                    <td>
+                                        {% if company.canceled %}
+                                            <span class="badge badge-danger">
+                                            Canceled on {{ company.canceledAt|date('n/j/Y') }}
+                                        </span>
+                                        {% elseif not company.name %}
+                                            <span class="badge badge-primary">Needs Onboarding</span>
+                                        {% else %}
+                                            <span class="badge badge-success">Active</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Purchase Pages -->
+            {% set purchasePages=billingProfile.purchasePages %}
+            {% if purchasePages|length > 0 %}
+                <div class="form-panel">
+                    <div class="form-panel-header">
+                        <div class="form-panel-title">
+                            <a href="#panelPurchasePages" data-bs-toggle="collapse" class="form-panel-collapse">
+                                Purchase Pages
+                            </a>
+                        </div>
+                    </div>
+                    <div id="panelPurchasePages" class="form-panel-body collapse show">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Type</th>
+                                <th>Company</th>
+                                <th>Sales Rep</th>
+                                <th>Expiration Date</th>
+                                <th>Completed</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for purchasePage in purchasePages %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ ea_url().setController('App\\Controller\\Admin\\PurchasePageCrudController').setAction('detail').setEntityId(purchasePage.id) }}">
+                                            {{ purchasePage.getId }}
+                                        </a>
+                                    </td>
+                                    <td>{{ purchasePage.formattedReason }}</td>
+                                    <td>{% if purchasePage.tenant %}{{ purchasePage.tenant.name }}{% endif %}</td>
+                                    <td>{{ purchasePage.salesRep }}</td>
+                                    <td>{{ purchasePage.expirationDate|date('n/j/Y') }}</td>
+                                    <td>{% if purchasePage.completedAt %}{{ purchasePage.completedAt|date('n/j/Y') }}{% endif %}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Orders -->
+            {% if orders|length > 0 %}
+                <div class="form-panel">
+                    <div class="form-panel-header">
+                        <div class="form-panel-title">
+                            <a href="#panelOrders" data-bs-toggle="collapse" class="form-panel-collapse">
+                                Orders
+                            </a>
+                        </div>
+                    </div>
+                    <div id="panelOrders" class="form-panel-body collapse show">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Customer</th>
+                                <th>Type</th>
+                                <th>Start Date</th>
+                                <th>Sales Rep</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for order in orders %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ ea_url().setController('App\\Controller\\Admin\\OrderCrudController').setAction('detail').setEntityId(order.id) }}">
+                                            {{ order.getFormattedId }}
+                                        </a>
+                                    </td>
+                                    <td>{{ order.customer }}</td>
+                                    <td>{{ order.formattedType }}</td>
+                                    <td>
+                                        {{ order.startDate|date('n/j/Y') }}
+                                    </td>
+                                    <td>{{ order.salesRep }}</td>
+                                    <td>
+                                        {% include 'customizations/fields/order_status.html.twig' with {field: {value: order.status}} %}
+                                    </td>
+                                    <td>
+                                        <a href="{{ ea_url().setController('App\\Controller\\Admin\\OrderCrudController').setAction('downloadOrder').setEntityId(order.id) }}">
+                                            <span class="fa fa-arrow-down"></span>
+                                            Download
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Canceled Companies -->
+            {% set canceledCompanies=billingProfile.canceledCompanies %}
+            {% if canceledCompanies|length > 0 %}
+                <div class="form-panel">
+                    <div class="form-panel-header">
+                        <div class="form-panel-title">
+                            <a href="#panelCanceledCompanies" data-bs-toggle="collapse" class="form-panel-collapse">
+                                Canceled Companies
+                                {% if canceledCompanies|length > 1 %}<span class="badge badge-secondary">{{ canceledCompanies|length }}</span>{% endif %}
+                            </a>
+                        </div>
+                    </div>
+                    <div id="panelCanceledCompanies" class="form-panel-body collapse show">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Created</th>
+                                    <th>Canceled At</th>
+                                    <th>Reason</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for company in canceledCompanies %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ ea_url().setController('App\\Controller\\Admin\\CanceledCompanyCrudController').setAction('detail').setEntityId(company.id) }}">
+                                            {{ company.id }}
+                                        </a>
+                                    </td>
+                                    <td>{{ company.name }}</td>
+                                    <td>{{ company.createdAt|date('n/j/Y') }}</td>
+                                    <td>{{ company.canceledAt|date('n/j/Y') }}</td>
+                                    <td>{{ company.canceledReason }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Billing Line Items -->
+            {% if billingProfileDetails.error is defined %}
+                <div class="alert alert-danger">{{ billingProfileDetails.error }}</div>
+            {% elseif billingProfileDetails.billing_items|length > 0 %}
+                <div class="form-panel">
+                    <div class="form-panel-header">
+                        <div class="form-panel-title">
+                            <a href="#panelBillingItems" data-bs-toggle="collapse" class="form-panel-collapse">
+                                Billing Line Items
+                            </a>
+                        </div>
+                    </div>
+                    <div id="panelBillingItems" class="form-panel-body collapse show">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th class="text-end">Quantity</th>
+                                    <th class="text-end">Unit Cost</th>
+                                    <th class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in billingProfileDetails.billing_items %}
+                                <tr>
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.description }}</td>
+                                    <td class="text-end">{{ item.quantity|number_format }}</td>
+                                    <td class="text-end">${{ item.unit_cost|number_format(2) }}</td>
+                                    <td class="text-end">${{ item.amount|number_format(2) }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="5" class="text-end border-0">${{ billingProfileDetails.total|number_format(2) }}</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

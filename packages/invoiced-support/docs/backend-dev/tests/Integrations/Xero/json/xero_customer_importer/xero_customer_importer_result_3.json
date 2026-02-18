@@ -1,0 +1,29 @@
+{
+  "Contacts": [
+    {
+      "ContactID": "2f4c2a04-ceb1-428f-b7e8-4e423cd7d360",
+      "ContactStatus": "ACTIVE",
+      "Name": "After",
+      "FirstName": "Andrea",
+      "LastName": "Dutchess",
+      "AccountNumber": "1234",
+      "CompanyNumber": "NumberBusiness1234",
+      "EmailAddress": "after@example.com",
+      "SkypeUserName": "skype.dutchess@abclimited.com",
+      "BankAccountDetails": "45465844",
+      "AccountsReceivableTaxType": "INPUT2",
+      "AccountsPayableTaxType": "OUTPUT2",
+      "UpdatedDateUTC": "\/Date(1488391422280+0000)\/",
+      "IsSupplier": false,
+      "IsCustomer": true,
+      "ContactPersons": [
+        {
+          "FirstName": "Blah",
+          "LastName": "Person",
+          "EmailAddress": "blah@example.com",
+          "IncludeInEmails": true
+        }
+      ]
+    }
+  ]
+}

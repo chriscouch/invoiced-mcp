@@ -1,0 +1,69 @@
+<div class="contents">
+	<div class="settings-title-bar">
+		<h2 class="title">
+			<div class="back-link">
+				<a ui-sref="manage.settings.default">
+					<span class="fas fa-arrow-left"></span>
+					{{'general.settings'|translate}}
+				</a>
+			</div>
+			{{'settings.titles.apps'|translate}}
+		</h2>
+
+		<p class="lead">
+			Invoiced supports integration with industry-leading tools and platforms you use every day in order to make your accounting processes seamless and automated.
+		</p>
+	</div>
+
+	<ul class="nav nav-tabs">
+		<li ng-class="{active: tab == 'all'}">
+			<a href="" ng-click="showAll()">
+				Available Apps
+			</a>
+		</li>
+		<li ng-class="{active: tab == 'installed'}">
+			<a href="" ng-click="showInstalled()">
+				Installed Apps
+			</a>
+		</li>
+	</ul>
+
+	<div class="loading" ng-show="loading"></div>
+
+	<div ng-hide="loading">
+		<div class="search" ng-show="tab == 'all'">
+			<div class="searchbar light">
+				<div class="bar">
+					<div class="icon"><span class="fas fa-search"></span></div>
+					<input type="text" class="form-control" placeholder="Find apps..." ng-model="search" />
+					<div class="icon right icon-btn" ng-show="search">
+						<button type="button" class="btn btn-link" ng-click="search=''">
+							<span class="fas fa-times-circle"></span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="app-tiles clearfix">
+			<a ui-sref="manage.settings.app.overview({id: app.id})" class="tile" ng-repeat="app in filteredApps | searchObject:search:['name', 'category']">
+				<div class="logo">
+					<img ng-src="{{app.logo}}" alt="{{app.name}}" />
+				</div>
+				<div class="name">
+					{{app.name}}
+					<span class="on-label" ng-show="app.connected" tooltip="Installed">
+						<span class="fas fa-circle-check"></span>
+					</span>
+				</div>
+				<div class="category">
+					{{app.category}}
+				</div>
+			</a>
+
+			<div class="empty" ng-show="filteredApps.length == 0">
+				You have not installed any apps yet.
+			</div>
+		</div>
+	</div>
+</div>

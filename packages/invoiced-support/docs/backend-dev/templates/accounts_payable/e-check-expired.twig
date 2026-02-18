@@ -1,0 +1,22 @@
+{% trans_default_domain 'general' %}
+{% set title='Your check is ready for download' %}
+{% extends "accounts_payable/parent.twig" %}
+
+{% block main %}
+
+    <div class="container-lg container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12 col-xl-10 text-center">
+                <h1 class="mb-3 mt-4">
+                    Your check download link has expired
+                </h1>
+
+                {% if refreshable %}
+                    <p>Request a new <a href="/checks/{{ hash }}/refresh">link</a>.</p>
+                {% else %}
+                    Please contact customer for assistance.
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,5 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}Invoices were viewed by customers{% endblock %}
+{% block notification %}
+    <p><a href="{{ dashboardUrl}}/alerts?account={{ tenant_id  }}">{{ count }} invoices</a> viewed by customers</p>
+{% endblock %}

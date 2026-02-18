@@ -1,0 +1,28 @@
+<!-- File Attachments -->
+<div class="details-list vertical">
+	<h4>
+		{{'invoices.view.summary.file_attachments'|translate}}
+	</h4>
+	<div class="file-attachments-list deletable">
+		<div>
+			<filepond callback="addedFiles" allow-multiple="allowMultiple"></filepond>
+		</div>
+		<div class="attachment" ng-repeat="attachment in attachments">
+			<button type="button" class="btn btn-sm btn-danger" ng-click="deleteAttachment(attachment)" tooltip="{{'invoices.view.summary.delete_attachment'|translate}}" tooltip-placement="left" ng-if="canDelete">
+				<span class="fas fa-trash"></span>
+			</button>
+			<a class="attachment-link" ng-href="{{attachment.file.url}}" target="_blank" rel="noopener noreferrer">
+				<div class="attachment-image" ng-if="isImage(attachment.file)">
+					<img class="img-responsive" title="{{attachment.file.name}}" ng-src="{{attachment.file.url}}" alt="Preview" />
+				</div>
+				<div class="attachment-non-image" ng-if="!isImage(attachment.file)">
+					<span class="download fas fa-arrow-to-bottom"></span>
+					<span class="name">{{attachment.file.name}}</span>
+				</div>
+			</a>
+		</div>
+	</div>
+	<div ng-show="attachments.length == 0">
+		<div class="empty">{{'general.none'|translate}}</div>
+	</div>
+</div>

@@ -1,0 +1,275 @@
+{% extends "emails/parent.twig" %}
+{% block title %}{{ company }} Update{% endblock %}
+{% block content %}
+	<row>
+		<columns>
+			{# Total Invoiced / Received #}
+			{% if hasAccountsReceivable %}
+				<h3 style="color:#232e38;font-size: 18px;font-weight: normal;">Since {{ sinceStr }}</h3>
+				<hr style="height:0;box-sizing:content-box;margin:0;border-width:1px 0 0;border-style:solid;border-image:none;border-color:#e7e9eb;" />
+		
+				<table width="100%" cellspacing="0" cellpadding="0">
+				  <tr>
+					<td align="center" valign="middle" width="50%" bgcolor="#fff" style="background: #fff; color: #313538; text-decoration: none; font-family: Helvetica, Arial, sans-serif; padding: 20px 0;">
+						<span style="font-size: 18px; line-height:35px;">{{ invoiced }}</span><br>
+						<span style="font-size: 11px;text-transform: uppercase;letter-spacing:1.1px;color:#6a6f73;">Invoiced</span>
+					</td>
+					<td align="center" valign="middle" width="50%" bgcolor="#fff" style="background: #fff; color: #313538; text-decoration: none; font-family: Helvetica, Arial, sans-serif; padding: 20px 0;">
+						<span style="font-size: 18px; line-height:35px;">{{ received }}</span><br>
+						<span style="font-size: 11px;text-transform: uppercase;letter-spacing:1.1px;color:#6a6f73;">Received</span>
+					</td>
+				  </tr>
+				</table>
+				<spacer size="10"></spacer>
+			{% endif %}
+		
+			{# Action Items #}
+			<h3 style="color:#232e38;font-size: 18px;font-weight: normal;">Action Items</h3>
+			<hr style="height:0;box-sizing:content-box;margin:0 0 20px;border-width:1px 0 0;border-style:solid;border-image:none;border-color:#e7e9eb;" />
+			{% if actionItems.count > 0 %}
+				<table width="100%" cellspacing="0" cellpadding="0">
+					<tbody>
+					{% if actionItems.num_open_disputes > 0 %}
+						<tr>
+							<td align="right" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:0 8px 10px;text-align:right;">
+								{{actionItems.num_open_disputes|number_format}}
+							</td>
+							<td align="left" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:0 8px 10px;text-align:left;">
+								<a href="{{ dashboardUrl}}/disputes&amp;account={{ companyId }}">
+									Open payment disputes
+								</a>
+							</td>
+						</tr>
+					{% endif %}
+					{% if actionItems.num_my_todo > 0 %}
+						<tr>
+							<td align="right" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:0 8px 10px;text-align:right;">
+								{{actionItems.num_my_todo|number_format}}
+							</td>
+							<td align="left" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:0 8px 10px;text-align:left;">
+								<a href="{{ dashboardUrl}}/activities?tab=mine&amp;account={{ companyId }}">
+									Tasks due today
+								</a>
+							</td>
+						</tr>
+					{% endif %}
+					{% if actionItems.num_needs_attention > 0 %}
+						<tr>
+							<td align="right" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:0 8px 10px;text-align:right;">
+								{{actionItems.num_needs_attention|number_format}}
+							</td>
+							<td align="left" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:0 8px 10px;text-align:left;">
+								<a href="{{ dashboardUrl}}/invoices?status=unpaid&amp;needs_attention=1&amp;sort=date+ASC&amp;account={{ companyId }}">
+									Invoices need attention
+								</a>
+							</td>
+						</tr>
+					{% endif %}
+					{% if actionItems.num_broken_promises > 0 %}
+						<tr>
+							<td align="right" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:0 8px 10px;text-align:right;">
+								{{actionItems.num_broken_promises|number_format}}
+							</td>
+							<td align="left" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:0 8px 10px;text-align:left;">
+								<a href="{{ dashboardUrl}}/invoices?status=broken_promise&amp;needs_attention=&amp;sort=date+ASC&amp;account={{ companyId }}">
+									Broken promises to pay
+								</a>
+							</td>
+						</tr>
+					{% endif %}
+					{% if actionItems.num_autopay_invoices_missing_payment_info > 0 %}
+						<tr>
+							<td align="right" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:0 8px 10px;text-align:right;">
+								{{actionItems.num_autopay_invoices_missing_payment_info|number_format}}
+							</td>
+							<td align="left" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:0 8px 10px;text-align:left;">
+								<a href="{{ dashboardUrl}}/invoices?autopay=no_payment_info&amp;sort=date+ASC&amp;account={{ companyId }}">
+									AutoPay invoices missing payment information
+								</a>
+							</td>
+						</tr>
+					{% endif %}
+					{% if actionItems.num_unapproved_payment_plans > 0 %}
+						<tr>
+							<td align="right" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:0 8px 10px;text-align:right;">
+								{{actionItems.num_unapproved_payment_plans|number_format}}
+							</td>
+							<td align="left" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:0 8px 10px;text-align:left;">
+								<a href="{{ dashboardUrl}}/payment_plans?status=needs_approval&amp;account={{ companyId }}">
+									Payment plans needing customer approval
+								</a>
+							</td>
+						</tr>
+					{% endif %}
+					{% if actionItems.num_unapplied_payments > 0 %}
+						<tr>
+							<td align="right" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:0 8px 10px;text-align:right;">
+								{{actionItems.num_unapplied_payments|number_format}}
+							</td>
+							<td align="left" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:0 8px 10px;text-align:left;">
+								<a href="{{ dashboardUrl}}/payments?applied=0&amp;voided=0&amp;account={{ companyId }}">
+									Unapplied payments
+								</a>
+							</td>
+						</tr>
+					{% endif %}
+					{% if actionItems.num_open_email_threads > 0 %}
+						<tr>
+							<td align="right" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:0 8px 10px;text-align:right;">
+								{{actionItems.num_open_email_threads|number_format}}
+							</td>
+							<td align="left" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:0 8px 10px;text-align:left;">
+								<a href="{{ dashboardUrl}}/{% if hasAccountsReceivable %}ar_inbox{% else %}ap_inbox{% endif %}?account={{ companyId }}">
+									Open email conversations
+								</a>
+							</td>
+						</tr>
+					{% endif %}
+					{% if actionItems.num_reconciliation_errors > 0 %}
+						<tr>
+							<td align="right" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:0 8px 10px;text-align:right;">
+								{{actionItems.num_reconciliation_errors|number_format}}
+							</td>
+							<td align="left" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:0 8px 10px;text-align:left;">
+								<a href="{{ dashboardUrl}}/settings/apps/{{ actionItems.accounting_system }}/accounting_sync?account={{ companyId }}">
+									Accounting sync errors
+								</a>
+							</td>
+						</tr>
+					{% endif %}
+					</tbody>
+				</table>
+			{% else %}
+				<p>
+					🎉 You're all caught up
+				</p>
+			{% endif %}
+			<spacer size="30"></spacer>
+		
+			{# A/R Aging #}
+			{% if hasAccountsReceivable %}
+				<h3 style="color:#232e38;font-size: 18px;font-weight: normal;">A/R Balance: {{ totalOutstanding }}</h3>
+				<hr style="height:0;box-sizing:content-box;margin:0 0 20px;border-width:1px 0 0;border-style:solid;border-image:none;border-color:#e7e9eb;" />
+
+				{% if aging|length > 0 %}
+					{% for age in aging %}
+						<div style="color:#313538;margin:0 0 15px 0;padding-left: 10px;">
+							<a href="{{ age.link }}">
+								<div style="width:{{ age.width }}%;height:15px;background-color:{{ age.color }};border-radius:4px;margin:0 0 5px 0;"></div>
+								<table width="100%" cellspacing="0" cellpadding="0">
+									<tr>
+										<td align="left" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:0 8px;font-size: 14px;">{{ age.title }}</td>
+										<td align="right" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:0 8px;text-align:right;font-size:14px;">{{ age.value }}</td>
+									</tr>
+								</table>
+							</a>
+						</div>
+					{% endfor %}
+				{% else %}
+					<p>
+						No open invoices
+					</p>
+				{% endif %}
+				<spacer size="30"></spacer>
+			{% endif %}
+		
+			{# KPIs #}
+			{% if hasAccountsReceivable %}
+				<h3 style="color:#232e38;font-size: 18px;font-weight: normal;">KPIs</h3>
+				<hr style="height:0;box-sizing:content-box;margin:0;border-width:1px 0 0;border-style:solid;border-image:none;border-color:#e7e9eb;" />
+				<table width="100%" cellspacing="0" cellpadding="0">
+					<tr>
+						<td align="center" valign="middle" width="50%" bgcolor="#fff" style="background: #fff; color: #313538; text-decoration: none; font-family: Helvetica, Arial, sans-serif; padding: 20px 0;">
+							<span style="font-size: 18px; line-height:35px;">{% if avgTimeToPay >= 0 %}{{ avgTimeToPay|number_format }} day{% if avgTimeToPay != 1 %}s{% endif %}{% else %}-{% endif %}</span><br>
+							<span style="font-size: 11px;text-transform: uppercase;letter-spacing:1.1px;color:#6a6f73;">Time to Pay</span>
+						</td>
+						<td align="center" valign="middle" width="50%" bgcolor="#fff" style="background: #fff; color: #313538; text-decoration: none; font-family: Helvetica, Arial, sans-serif; padding: 20px 0;">
+							<span style="font-size: 18px; line-height:35px;">{% if collectionsEfficiency %}{{ collectionsEfficiency }}{% else %}-{% endif %}</span><br>
+							<span style="font-size: 11px;text-transform: uppercase;letter-spacing:1.1px;color:#6a6f73;">CEI</span>
+						</td>
+					</tr>
+					<tr>
+						<td align="center" valign="middle" width="50%" bgcolor="#fff" style="background: #fff; color: #313538; text-decoration: none; font-family: Helvetica, Arial, sans-serif; padding: 20px 0;">
+							<span style="font-size: 18px; line-height:35px;">{% if daysSalesOutstanding >= 0 %}{{ daysSalesOutstanding|number_format }} day{% if daysSalesOutstanding != 1 %}s{% endif %}{% else %}-{% endif %}</span><br>
+							<span style="font-size: 11px;text-transform: uppercase;letter-spacing:1.1px;color:#6a6f73;">DSO</span>
+						</td>
+						<td align="center" valign="middle" width="50%" bgcolor="#fff" style="background: #fff; color: #313538; text-decoration: none; font-family: Helvetica, Arial, sans-serif; padding: 20px 0;">
+							<span style="font-size: 18px; line-height:35px;">{{ numOutstanding|number_format }}</span><br>
+							<span style="font-size: 11px;text-transform: uppercase;letter-spacing:1.1px;color:#6a6f73;">Open Items</span>
+						</td>
+					</tr>
+					<tr>
+						<td align="center" valign="middle" width="50%" bgcolor="#fff" style="background: #fff; color: #313538; text-decoration: none; font-family: Helvetica, Arial, sans-serif; padding: 20px 0;">
+							<span style="font-size: 18px; line-height:35px;">{{ expectedPayments }}</span><br>
+							<span style="font-size: 11px;text-transform: uppercase;letter-spacing:1.1px;color:#6a6f73;">Expected Payments</span>
+						</td>
+						{% if outstandingEstimates %}
+							<td align="center" valign="middle" width="50%" bgcolor="#fff" style="background: #fff; color: #313538; text-decoration: none; font-family: Helvetica, Arial, sans-serif; padding: 20px 0;">
+								<span style="font-size: 18px; line-height:35px;">{{ outstandingEstimates }}</span><br>
+								<span style="font-size: 11px;text-transform: uppercase;letter-spacing:1.1px;color:#6a6f73;">Open Estimates</span>
+							</td>
+						{% endif %}
+					</tr>
+				</table>
+				<spacer size="10"></spacer>
+			{% endif %}
+
+			{# Top Debtors #}
+			{% if topDebtors|length > 0 %}
+				<h3 style="color:#232e38;font-size: 18px;font-weight: normal;">
+					Top Debtors
+				</h3>
+				<div style="padding-left: 10px;">
+					<table width="100%" cellspacing="0" cellpadding="0">
+						<thead>
+						<tr>
+							<th align="left" width="30" valign="middle" bgcolor="#fff" style="background: #fff;color: #879099;text-decoration:none;font-family: Helvetica, Arial, sans-serif;text-transform:uppercase;padding: 6px 0;font-size:13px;font-weight:normal;border-bottom: 1px solid #e7e9eb;">Age</th>
+							<th align="left" valign="middle" bgcolor="#fff" style="background: #fff;color: #879099;text-decoration:none;font-family: Helvetica, Arial, sans-serif;text-transform:uppercase;padding: 6px 0 6px 16px;font-size:13px;font-weight:normal;border-bottom: 1px solid #e7e9eb;">Customer</th>
+						</tr>
+						</thead>
+						<tbody>
+						{% for account in topDebtors %}
+							<tr>
+								<td align="left" width="30" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:10px 0 0;">
+									<span style="background-color:{{ account.age_color }};border-radius: 500px;color: #fff;display: inline-block;font-size: 12px;height:30px;line-height:30px;width:30px;overflow:hidden;text-align:center;">{{ account.age }}</span>
+								</td>
+								<td align="left" valign="middle" bgcolor="#fff" style="background: #fff;color: #313538;text-decoration:none;font-family: Helvetica, Arial, sans-serif;padding:10px 0 0 16px;">
+									<a href="{{ account.link }}">
+										{{ account.customerName }}
+									</a><br>
+									<span style="color:#5e6a73;font-size:13px;">{{ account.balance }} owed, {{ account.numInvoices|number_format }} item{% if account.numInvoices != 1 %}s{% endif %}</span>
+								</td>
+							</tr>
+						{% endfor %}
+						</tbody>
+					</table>
+				</div>
+		
+				<p style="padding-left: 56px;padding-top:10px;">
+					<a href="{{ viewTopDebtorsUrl }}">
+						View All &rarr;
+					</a>
+				</p>
+				<spacer size="30"></spacer>
+			{% endif %}
+		
+			{# Recent Activity #}
+			{% if activity|length > 0 %}
+				<h3 style="color:#232e38;font-size: 18px;font-weight: normal;">Recent Activity</h3>
+				<hr style="height:0;box-sizing:content-box;margin:0 0 20px;border-width:1px 0 0;border-style:solid;border-image:none;border-color:#e7e9eb;" />
+		
+				{% for message in activity %}
+					<p style="padding-left: 8px; color: #313538;margin:0;padding:0 8px 10px;">
+						{% if message.link %}<a href="{{ message.link }}">{% endif %}
+						{{ message.message|raw }}
+						{% if message.link %}</a>{% endif %}
+					</p>
+				{% endfor %}
+			{% endif %}
+		
+			<p style="margin-top:30px;text-align:center;">
+				<a href="{{ businessSettingsUrl }}">Stop receiving these updates or change how often they're sent</a>
+			</p>
+		</columns>
+	</row>
+{% endblock %}

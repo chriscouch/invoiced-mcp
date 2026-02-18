@@ -1,0 +1,14 @@
+{% extends '@!EasyAdmin/crud/index.html.twig' %}
+
+{% block main %}
+    <div class="mb-3">
+        <span class="d-none d-md-inline">Shortcuts:</span>
+        <div class="btn-group" role="group">
+            <a class="btn btn-sm btn-default" href="{{ ea_url().setController('App\\Controller\\Admin\\CompanyCrudController').setAction('index').set('filters', {canceled: '0'}).setEntityId(null) }}">Active</a>
+            <a class="btn btn-sm btn-default" href="{{ ea_url().setController('App\\Controller\\Admin\\CompanyCrudController').setAction('index').set('filters', {trial_ends: {comparison: '>', value: '0'}}).setEntityId(null) }}">Trialing</a>
+            <a class="btn btn-sm btn-default" href="{{ ea_url().setController('App\\Controller\\Admin\\CompanyCrudController').setAction('index').set('filters', {canceled: '1', fraud: '0'}).setEntityId(null) }}">Canceled</a>
+            <a class="btn btn-sm btn-default" href="{{ ea_url().setController('App\\Controller\\Admin\\CompanyCrudController').setAction('index').set('filters', {fraud: '1'}).setEntityId(null) }}">Fraudulent</a>
+        </div>
+    </div>
+    {{ parent() }}
+{% endblock %}

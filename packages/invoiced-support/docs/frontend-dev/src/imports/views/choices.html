@@ -1,0 +1,16 @@
+<div class="new-import-list">
+    <div class="back">
+        <a ui-sref="manage.imports.browse">
+            <span class="fas fa-chevron-left"></span>
+            {{'imports.previous'|translate}}
+        </a>
+    </div>
+
+    <h5>What do you want to import?</h5>
+    <div class="clearfix">
+        <a ui-sref="{{choice.route}}" class="import-option-tile" ng-repeat="choice in choices" ng-if="!choice.feature || (choice.feature|hasFeature)">
+            <div class="{{choice.iconClass}}"></div>
+            {{choice.name}}
+        </a>
+    </div>
+</div>

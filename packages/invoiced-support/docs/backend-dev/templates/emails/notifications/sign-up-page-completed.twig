@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}Sign up page completed{% endblock %}
+{% block notification %}
+    {% for customer in customers %}
+        <p><a href="{{ dashboardUrl}}/customers/{{ customer.id  }}?account={{ tenant_id  }}">{{ customer.name }}</a> has completed your sign up page{% if customer.sign_up_page %}: {{ customer.sign_up_page.name }}{% endif %}</p>
+    {% endfor %}
+{% endblock %}

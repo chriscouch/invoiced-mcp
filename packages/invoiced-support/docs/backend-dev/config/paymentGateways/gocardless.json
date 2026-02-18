@@ -1,0 +1,18 @@
+{
+  "methods": {
+    "direct_debit": {
+      "currencies": [
+        "aud",
+        "eur",
+        "gbp",
+        "nzd",
+        "sek",
+        "cad",
+        "usd"
+      ]
+    }
+  },
+  "minPayment": {
+    "*": 50
+  }
+}

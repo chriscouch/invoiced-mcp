@@ -1,0 +1,91 @@
+<div class="date-range-picker">
+	<div class="date-selector" ng-if="customPeriod">
+		<input class="form-control" type="text" ng-model="period.start" ui-date="dateOptions" />
+		&mdash;
+		<input class="form-control" type="text" ng-model="period.end" ui-date="dateOptions" />
+		<button type="button" class="btn btn-link btn-sm" ng-click="noCustomRange()">
+			<span class="fas fa-check"></span>
+		</button>
+	</div>
+	<div class="btn-group dropdown filter-btn" dropdown ng-if="!customPeriod">
+		<button type="button" class="btn btn-link period-selector dropdown-toggle" dropdown-toggle>
+			<span class="range-name" ng-bind-html="dateRangeName"></span>
+			<span class="arrow fas fa-chevron-down"></span>
+		</button>
+		<ul class="dropdown-menu dropdown-menu-right">
+			<li ng-class="{active:period.period=='today'}">
+				<a href="" ng-click="shortcut('today')">
+					Today
+				</a>
+			</li>
+			<li ng-class="{active:period.period=='yesterday'}">
+				<a href="" ng-click="shortcut('yesterday')">
+					Yesterday
+				</a>
+			</li>
+			<li ng-class="{active:period.period[0]=='weeks'&&period.period[1]==1}">
+				<a href="" ng-click="selectPeriod(['weeks', 1])">
+					Past week
+				</a>
+			</li>
+			<li ng-class="{active:period.period[0]=='days'&&period.period[1]==30}">
+				<a href="" ng-click="selectPeriod(['days', 30])">
+					Past 30 days
+				</a>
+			</li>
+			<li ng-class="{active:period.period[0]=='years'&&period.period[1]==1}">
+				<a href="" ng-click="selectPeriod(['years', 1])">
+					Past year
+				</a>
+			</li>
+			<li class="divider"></li>
+			<li ng-class="{active:period.period=='this_month'}">
+				<a href="" ng-click="shortcut('this_month')">
+					This month-to-date
+				</a>
+			</li>
+			<li ng-class="{active:period.period=='last_month'}">
+				<a href="" ng-click="shortcut('last_month')">
+					Last month
+				</a>
+			</li>
+			<li ng-class="{active:period.period=='this_quarter'}">
+				<a href="" ng-click="shortcut('this_quarter')">
+					This quarter-to-date
+				</a>
+			</li>
+			<li ng-class="{active:period.period=='last_quarter'}">
+				<a href="" ng-click="shortcut('last_quarter')">
+					Last quarter
+				</a>
+			</li>
+			<li ng-class="{active:period.period=='this_year'}">
+				<a href="" ng-click="shortcut('this_year')">
+					This year-to-date
+				</a>
+			</li>
+			<li ng-class="{active:period.period=='last_year'}">
+				<a href="" ng-click="shortcut('last_year')">
+					Last year
+				</a>
+			</li>
+			<li ng-class="{active:period.period=='all_time'}">
+				<a href="" ng-click="shortcut('all_time')">
+					All dates
+				</a>
+			</li>
+			<li ng-class="{active:period.period=='next_90_days'}">
+				<a href="" ng-click="shortcut('next_90_days')">
+					Next 90 days
+				</a>
+			</li>
+
+			<li class="divider"></li>
+			<li>
+				<a href="" ng-click="useCustomRange()">
+					Pick a date range
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>

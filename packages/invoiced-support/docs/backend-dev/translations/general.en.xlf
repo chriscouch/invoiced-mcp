@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1" resname="payment_methods.ach">
+                <source>ACH</source>
+                <target>ACH</target>
+            </trans-unit>
+            <trans-unit id="2" resname="payment_methods.balance">
+                <source>Balance</source>
+                <target>Balance</target>
+            </trans-unit>
+            <trans-unit id="3" resname="payment_methods.bitcoin">
+                <source>Bitcoin</source>
+                <target>Bitcoin</target>
+            </trans-unit>
+            <trans-unit id="4" resname="payment_methods.cash">
+                <source>Cash</source>
+                <target>Cash</target>
+            </trans-unit>
+            <trans-unit id="5" resname="payment_methods.check">
+                <source>Check</source>
+                <target>Cheque</target>
+            </trans-unit>
+            <trans-unit id="6" resname="payment_methods.credit_card">
+                <source>Card</source>
+                <target>Card</target>
+            </trans-unit>
+            <trans-unit id="7" resname="payment_methods.direct_debit">
+                <source>Direct Debit</source>
+                <target>Direct Debit</target>
+            </trans-unit>
+            <trans-unit id="8" resname="payment_methods.other">
+                <source>Other</source>
+                <target>Other</target>
+            </trans-unit>
+            <trans-unit id="9" resname="payment_methods.paypal">
+                <source>PayPal</source>
+                <target>PayPal</target>
+            </trans-unit>
+            <trans-unit id="10" resname="payment_methods.wire_transfer">
+                <source>Wire Transfer</source>
+                <target>Wire Transfer</target>
+            </trans-unit>
+            <trans-unit id="11" resname="payment_terms.payment_plan">
+                <source>Payment Plan</source>
+                <target>Payment Plan</target>
+            </trans-unit>
+            <trans-unit id="12" resname="payment_terms.autopay">
+                <source>AutoPay</source>
+                <target>AutoPay</target>
+            </trans-unit>
+            <trans-unit id="26" resname="titles.xero_org">
+                <source>Select Xero Organization</source>
+                <target>Select Xero Tenant</target>
+            </trans-unit>
+            <trans-unit id="27" resname="messages.xero_org_lead">
+                <source>Invoiced only supports one Xero organization per account. Please select the tenant you would like to connect.</source>
+                <target>Invoiced only supports one Xero organization per account. Please select the tenant you would like to connect.</target>
+            </trans-unit>
+            <trans-unit id="28" resname="messages.xero_org_label">
+                <source>Select an organization</source>
+                <target>Select an organization</target>
+            </trans-unit>
+            <trans-unit id="u9NQ9im" resname="labels.address_line1">
+                <source>labels.address_line1</source>
+                <target>Address Line 1</target>
+            </trans-unit>
+            <trans-unit id="2PtwTHW" resname="labels.address_line2">
+                <source>labels.address_line2</source>
+                <target>Address Line 2</target>
+            </trans-unit>
+            <trans-unit id="LRthRI_" resname="labels.address_city">
+                <source>labels.address_city</source>
+                <target>City</target>
+            </trans-unit>
+            <trans-unit id="96AtnmA" resname="labels.address_state">
+                <source>labels.address_state</source>
+                <target>State/Province</target>
+            </trans-unit>
+            <trans-unit id="U9p1q3F" resname="labels.address_postal_code">
+                <source>labels.address_postal_code</source>
+                <target>Zip/Postal Code</target>
+            </trans-unit>
+            <trans-unit id="RE__X4i" resname="labels.address_country">
+                <source>labels.address_country</source>
+                <target>Country</target>
+            </trans-unit>
+            <trans-unit id="29" resname="labels.aging_current">
+                <source>labels.aging_current</source>
+                <target>Current</target>
+            </trans-unit>
+            <trans-unit id="30" resname="labels.aging_between_days">
+                <source>labels.aging_between_days</source>
+                <target>%lowerDays% - %upperDays% Days</target>
+            </trans-unit>
+            <trans-unit id="31" resname="labels.aging_between_days">
+                <source>labels.aging_between_days</source>
+                <target>%lowerDays% - %upperDays% Days</target>
+            </trans-unit>
+            <trans-unit id="32" resname="labels.aging_plus_days">
+                <source>labels.aging_plus_days</source>
+                <target>%lowerDays%+ Days</target>
+            </trans-unit>
+            <trans-unit id="33" resname="payment_methods.flywire">
+                <source>Flywire</source>
+                <target>Flywire</target>
+            </trans-unit>
+            <trans-unit id="34" resname="payment_methods.bank_transfer">
+                <source>Bank Transfer</source>
+                <target>Bank Transfer</target>
+            </trans-unit>
+            <trans-unit id="35" resname="payment_methods.online">
+                <source>Alternative Payment Methods</source>
+                <target>Alternative Payment Methods</target>
+            </trans-unit>
+            <trans-unit id="36" resname="payment_methods.affirm">
+                <source>payment_methods.affirm</source>
+                <target>Affirm</target>
+            </trans-unit>
+            <trans-unit id="37" resname="payment_methods.klarna">
+                <source>payment_methods.klarna</source>
+                <target>Klarna</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

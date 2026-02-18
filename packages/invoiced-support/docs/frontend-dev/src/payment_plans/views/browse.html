@@ -1,0 +1,224 @@
+<div class="search-results-holder" ng-class="{'has-filter': filterStr}">
+    <div class="box">
+        <div class="header clearfix">
+            <!-- Title Bar -->
+            <h2>
+                <div class="btn-group dropdown" dropdown>
+                    <a href="" class="dropdown-toggle" id="payment-plans-page-nav-dropdown" dropdown-toggle>
+                        Payment Plans
+                        <span class="fas fa-chevron-down"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a ui-sref="manage.invoices.browse" id="payment-plans-page-invoice-option">
+                                Invoices
+                            </a>
+                        </li>
+                        <li>
+                            <a ui-sref="manage.credit_notes.browse" id="payment-plans-page-credit-notes-option">
+                                Credit Notes
+                            </a>
+                        </li>
+                        <li ng-if="'estimates'|hasFeature">
+                            <a ui-sref="manage.estimates.browse" id="payment-plans-page-estimates-option">
+                                Estimates
+                            </a>
+                        </li>
+                        <li class="active" ng-if="'payment_plans'|hasFeature">
+                            <a ui-sref="manage.payment_plans.browse" id="payment-plans-page-payment-plans-option">
+                                Payment Plans
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </h2>
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li ng-class="{active:filter.status.value=='needs_approval'}">
+                    <a href="" id="payment-plans-page-needs-approval-tab" ng-click="addToFilter({status:'needs_approval',sort:'date ASC'})">
+                        Needs Approval
+                    </a>
+                </li>
+                <li ng-class="{active:filter.status.value=='unpaid'}">
+                    <a href="" id="payment-plans-page-active-tab" ng-click="addToFilter({status:'unpaid',sort:'date ASC'})">
+                        Active
+                    </a>
+                </li>
+                <li ng-class="{active:filter.status.value=='past_due'}">
+                    <a href="" id="payment-plans-page-past-due-tab" ng-click="addToFilter({status:'past_due',sort:'date ASC'})">
+                        Past Due
+                    </a>
+                </li>
+                <li ng-class="{active:filter.status.value=='paid'}">
+                    <a href="" id="payment-plans-page-paid-tab" ng-click="addToFilter({status:'paid',sort:'date ASC'})">
+                        Paid
+                    </a>
+                </li>
+                <li ng-class="{active:!filter.status}">
+                    <a href="" id="payment-plans-page-all-tab" ng-click="addToFilter({payment_plan:'',status:'',sort:'date ASC'})">
+                        All
+                    </a>
+                </li>
+
+                <!-- Action Buttons -->
+                <li class="action">
+                    <a href="" id="payment-plans-page-filter-invoices" ng-click="openFilter()">
+                        <div>
+                            <span class="fas fa-filter"></span> Filter
+                        </div>
+                    </a>
+                </li>
+                <li class="action">
+                    <filter-dropdown type="payment_plan"  saved-filters="savedFilters" apply-filter="applyFilter" filter="filter"></filter-dropdown>
+                </li>
+                <li class="action right dropdown hidden-xs hidden-sm">
+                    <a href="" id="payment-plans-page-export-btn" ng-click="export()">
+                        <div>
+                            <span class="far fa-arrow-to-bottom"></span>
+                            Export
+                        </div>
+                    </a>
+                </li>
+                <li class="action automation-action right" ng-if="('invoices.edit'|hasPermission) && ('automations'|hasFeature)">
+                    <div>
+                        <a href="" ng-click="automate()" ng-hide="loading||!total_count">
+                            <span class="fas fa-bolt"></span>
+                            <span class="hidden-xs">Automate</span>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Applied Filter -->
+        <div class="applied-filter">
+            <span class="fas fa-filter filter-icon"></span>
+            <strong>{{filterStr}}</strong>
+            <a href="" ng-click="resetFilter()">
+                <span class="fas fa-times-circle"></span>
+            </a>
+        </div>
+
+        <p class="loading" ng-show="loading"></p>
+
+        <!-- No Results :-( -->
+        <div class="empty-table" ng-show="noResults()&&!loading">
+            <div class="icon">
+                <img src="/img/event-icons/payment_plan.png" />
+            </div>
+            <span ng-show="usingFilter">
+				No results. <a href="" ng-click="resetFilter()">Reset Filter</a>
+			</span>
+            <span ng-hide="usingFilter">
+				No payment plans.
+			</span>
+        </div>
+
+        <!-- Data Table -->
+        <table class="search-results-table table table-striped invoices" id="payment-plans-table" ng-show="invoices.length > 0 && !loading">
+            <thead>
+                <tr>
+                    <th class="nopadding noborder"></th>
+                    <th class="nopadding noborder"></th>
+                    <th>
+                        <a href="" ng-click="toggleSort('Customers.name')" ng-class="{down:filter.sort=='Customers.name DESC',up:filter.sort=='Customers.name ASC'}">
+                            Customer
+                            <span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+                            <span class="sort down"><span class="fas fa-sort-amount-up"></span></span>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="" ng-click="toggleSort('number')" ng-class="{down:filter.sort=='number DESC',up:filter.sort=='number ASC'}">
+                            Invoice
+                            <span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+                            <span class="sort down"><span class="fas fa-sort-amount-up"></span></span>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="" ng-click="toggleSort('date')" ng-class="{down:filter.sort=='date DESC',up:filter.sort=='date ASC'}">
+                            {{'general.date'|translate}}
+                            <span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+                            <span class="sort down"><span class="fas fa-sort-amount-up"></span></span>
+                        </a>
+                    </th>
+                    <th>
+                        Start Date
+                    </th>
+                    <th>
+                        Next Due Date
+                    </th>
+                    <th class="money-column">
+                        Remaining Installments
+                    </th>
+                    <th class="money-column">
+                        <a href="" ng-click="toggleSort('total')" ng-class="{down:filter.sort=='total DESC',up:filter.sort=='total ASC'}">
+                            {{'general.total'|translate}}
+                            <span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+                            <span class="sort down"><span class="fas fa-sort-amount-up"></span></span>
+                        </a>
+                    </th>
+                    <th class="money-column">
+                        <a href="" ng-click="toggleSort('balance')" ng-class="{down:filter.sort=='balance DESC',up:filter.sort=='balance ASC'}">
+                            {{'general.balance'|translate}}
+                            <span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+                            <span class="sort down"><span class="fas fa-sort-amount-up"></span></span>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="clickable" ng-repeat="invoice in invoices" ng-click="goToObject($event,'invoice',invoice.id)">
+                    <td class="age hidden-xs">
+                        <invoice-age invoice="invoice"></invoice-age>
+                    </td>
+                    <td class="invoice-icon hidden-xs">
+                        <div class="icon-col" ng-if="invoice.autopay&&!invoice.paid">
+                            <a href="" class="invoice-status-icon" tooltip="AutoPay enabled" tooltip-placement="right" ng-if="invoice.status!='pending'">
+                                <span class="fad fa-plane-alt"></span>
+                            </a>
+                            <a href="" class="invoice-status-icon" tooltip="Payment is pending" tooltip-placement="right" ng-if="invoice.status=='pending'">
+                                <span class="fad fa-spinner"></span>
+                            </a>
+                        </div>
+                        <div class="icon-col" ng-if="!invoice.autopay">
+                            <a href="" class="invoice-status-icon" tooltip="Sent" tooltip-placement="right" ng-if="invoice.status=='sent'">
+                                <span class="fad fa-paper-plane"></span>
+                            </a>
+                            <a href="" class="invoice-status-icon" tooltip="Viewed" tooltip-placement="right" ng-if="invoice.status=='viewed'">
+                                <span class="fad fa-eye"></span>
+                            </a>
+                            <a href="" class="invoice-status-icon" tooltip="Payment is pending" tooltip-placement="right" ng-if="invoice.status=='pending'">
+                                <span class="fad fa-spinner"></span>
+                            </a>
+                        </div>
+                    </td>
+                    <td class="mobile-first title">
+                        <a ui-sref="manage.customer.view.summary({id:invoice.customer})">{{invoice.customerName}}</a>
+                    </td>
+                    <td class="title">
+                        <a ui-sref="manage.invoice.view.summary({id:invoice.id})">
+                            <document-name document="invoice"></document-name>
+                        </a>
+                    </td>
+                    <td class="nowrap light"><company-date date="invoice.date"></company-date></td>
+                    <td class="nowrap"><company-date date="invoice.start_date"></company-date></td>
+                    <td class="nowrap">
+                        <span ng-show="invoice.next_installment_date"><company-date date="invoice.next_installment_date"></company-date></span>
+                        <span ng-hide="invoice.next_installment_date">&mdash;</span>
+                    </td>
+                    <td class="nowrap money-column hidden-xs">
+                        <div ng-show="invoice.num_remaining_installments > 0">
+                            {{invoice.num_remaining_installments}}<small> / {{invoice.payment_plan.installments.length}}</small>
+                        </div>
+                    </td>
+                    <td class="nowrap money-column"><money amount="invoice.total" currency="invoice.currency"></money></td>
+                    <td class="nowrap money-column mobile-last"><money amount="invoice.balance" currency="invoice.currency"></money></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <pagination-bar total-count="total_count" page-count="page_count" ng-change="goToPage(page, perPage)" ng-model="filter" ng-show="invoices.length > 0 && !loading"></pagination-bar>
+    </div>
+</div>

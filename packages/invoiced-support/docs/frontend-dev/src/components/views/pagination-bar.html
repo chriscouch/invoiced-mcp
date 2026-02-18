@@ -1,0 +1,60 @@
+<div class="pagination-bar">
+	<div class="row">
+		<div class="col-sm-8">
+			Showing up to
+			<div class="btn-group dropdown" dropdown>
+				<a href="" class="dropdown-toggle" dropdown-toggle>
+					{{filter.per_page}}
+					<span class="fas fa-chevron-down"></span>
+				</a>
+				<ul class="dropdown-menu dropdown-menu-sm">
+					<li ng-class="{active:filter.per_page==10}">
+						<a href="" ng-click="changePerPage(10)">
+							10
+						</a>
+					</li>
+					<li ng-class="{active:filter.per_page==25}">
+						<a href="" ng-click="changePerPage(25)">
+							25
+						</a>
+					</li>
+					<li ng-class="{active:filter.per_page==50}">
+						<a href="" ng-click="changePerPage(50)">
+							50
+						</a>
+					</li>
+					<li ng-class="{active:filter.per_page==100}">
+						<a href="" ng-click="changePerPage(100)">
+							100
+						</a>
+					</li>
+				</ul>
+			</div>
+			of
+			<strong>{{totalCount | number:0}} results.</strong>
+		</div>
+		<div class="col-sm-4 text-right" ng-hide="pageCount==1">
+			<span ng-class="{hidden:filter.page==1}">
+				<button type="button" class="btn btn-link" ng-click="goToPage(page)">
+					<span class="fas fa-angle-double-left"></span>
+				</button>
+			</span>
+			<span ng-class="{hidden:filter.page==1}">
+				<button type="button" class="btn btn-link" ng-click="prevPage()">
+					<span class="fas fa-angle-left"></span>
+				</button>
+			</span>
+			<page-selector page-count="pageCount" ng-change="goToPage(page)" ng-model="filter.page"></page-selector>
+			<span ng-class="{hidden:filter.page>=pageCount}">
+				<button type="button" class="btn btn-link" ng-click="nextPage()">
+					<span class="fas fa-angle-right"></span>
+				</button>
+			</span>
+			<span ng-class="{hidden:filter.page>=pageCount || pageCount>100}">
+				<button type="button" class="btn btn-link" ng-click="goToPage(pageCount)">
+					<span class="fas fa-angle-double-right"></span>
+				</button>
+			</span>
+		</div>
+	</div>
+ </div>

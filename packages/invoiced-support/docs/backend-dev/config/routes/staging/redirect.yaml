@@ -1,0 +1,7 @@
+landing_redirect:
+  path: /
+  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+  host: "%app.domain%"
+  methods: ["GET"]
+  defaults:
+    path: "%app.dashboard_url%"

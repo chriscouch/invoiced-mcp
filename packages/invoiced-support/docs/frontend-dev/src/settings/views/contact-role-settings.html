@@ -1,0 +1,70 @@
+<feature-upgrade ng-if="!hasFeature"></feature-upgrade>
+<p class="alert alert-danger" ng-show="error">
+    {{error.message}}
+</p>
+
+<p class="loading" ng-show="loading"></p>
+<div class="panel panel-default settings-panel" ng-hide="loading" ng-if="hasFeature">
+    <div class="panel-heading">
+        <h4 class="panel-title button-title">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="searchbar light">
+                        <div class="bar">
+                            <div class="icon"><span class="fas fa-search"></span></div>
+                            <input type="text" class="form-control" ng-model="search" tabindex="2000" />
+                            <div class="icon right icon-btn" ng-show="search">
+                                <button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+                                    <span class="fas fa-times-circle"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8 text-right">
+                    <button ng-click="newRole()" class="btn btn-success">
+                        New Role
+                    </button>
+                </div>
+            </div>
+        </h4>
+    </div>
+
+    <!-- No Results -->
+    <div class="list-group" ng-show="results.length === 0">
+        <div class="list-group-item">
+            <div class="empty">No roles found.</div>
+        </div>
+    </div>
+
+    <!-- Results Table -->
+    <table class="table table-striped search-results-table" ng-show="results.length > 0">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th class="noborder">Created</th>
+            <th class="nopadding"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="role in roles | searchObject:search:['name'] as results">
+            <td>
+                {{role.name}}
+            </td>
+            <td class="light nowrap noborder hidden-xs">
+                <company-date date="role.created_at"></company-date>
+            </td>
+            <td class="nopadding hover-actions-holder mobile-last mobile-visible">
+                <div class="hover-actions">
+                    <button class="btn btn-default btn-sm"  ng-click="editRole(role)" tooltip="Edit Role">
+                        <span class="fas fa-pencil"></span>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm" ng-click="delete(role)" tooltip="Role Cadence" ng-hide="deleting[role.id]">
+                        <span class="fas fa-trash"></span>
+                    </button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

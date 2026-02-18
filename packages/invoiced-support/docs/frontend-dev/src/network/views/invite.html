@@ -1,0 +1,40 @@
+<form name="modelForm" ng-submit="invite(to)"  ng-if="'network_invitations'|hasFeature">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title">
+            Invite <span ng-show="customer">Customer</span><span ng-hide="customer">Vendor</span>
+        </h4>
+    </div>
+    <div class="modal-body">
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <p class="required-indicator">
+            <span class="required"></span> {{'general.indicates_required_field'|translate}}
+        </p>
+
+        <div class="form-group">
+            <label class="control-label">Send Invitation To <span class="required"></span></label>
+            <div>
+                <input type="text" class="form-control" ng-model="to" required />
+            </div>
+            <div class="help-text">
+                You can send an invitation to an email address or Invoiced username.
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="left">
+            <a href="" ng-click="assignExistingCustomer(customer)" ng-show="customer">
+                Assign Existing
+            </a>
+            <a href="" ng-click="assignExistingVendor(vendor)" ng-show="vendor">
+                Assign Existing
+            </a>
+        </div>
+        <button type="submit" class="btn btn-primary Button" ng-disabled="modelForm.$invalid||saving" v-busy="saving" v-busy-label="Sending" v-pressable>
+            {{'general.send'|translate}}
+        </button>
+    </div>
+</form>

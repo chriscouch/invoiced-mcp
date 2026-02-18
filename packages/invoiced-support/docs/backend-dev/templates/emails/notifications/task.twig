@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}New task has been assigned to you{% endblock %}
+{% block notification %}
+    {% for task in tasks %}
+        <p>{{ task.name }} was assigned to you{% if task.customer %} for <a href="{{ dashboardUrl}}/customers/{{ task.customer_id }}/collections?account={{ tenant_id  }}">{{ task.customer.name }}</a>{% endif %}</p>
+    {% endfor %}
+{% endblock %}

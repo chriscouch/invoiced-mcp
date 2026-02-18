@@ -1,0 +1,388 @@
+# Tests that unfinished chasing steps are canceled
+# after an invoice has been paid and that those same
+# canceled steps are un-canceled if the invoice is re-opened.
+
+operations:
+  - operation: create
+    mock_time: '2022-01-01 10:33:19' # Time chosen at random, date was not
+    data:
+      invoice:
+        date: '2022-01-01 10:33:19' # Same as create time
+        items:
+          - quantity: 1
+            unit_cost: 100
+      delivery:
+        chase_schedule:
+          - trigger: 0
+            options:
+              hour: 8
+              email: true
+              sms: false
+              letter: false
+          - trigger: 4
+            options:
+              hour: 8
+              date: '2022-01-06 08:00:00'
+              email: true
+              sms: false
+              letter: false
+    expect:
+      delivery_state:
+        - trigger: 0
+          options:
+            hour: 8
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-01 11:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+        - trigger: 4
+          options:
+            hour: 8
+            date: '2022-01-06 08:00:00'
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-06 08:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+      scheduled_sends: []
+
+  - operation: schedule
+    mock_time: '2022-01-01 10:33:19' # Same as previous
+    expect:
+      delivery_state:
+        - trigger: 0
+          options:
+            hour: 8
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-01 11:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+        - trigger: 4
+          options:
+            hour: 8
+            date: '2022-01-06 08:00:00'
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-06 08:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+      scheduled_sends:
+        - send_after: '2022-01-01 11:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+        - send_after: '2022-01-06 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+
+  # Send the "on issue" send
+  - operation: send
+    mock_time: '2022-01-01 11:00:00'
+    expect:
+      delivery_state:
+        - trigger: 0
+          options:
+            hour: 8
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-01 11:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: true
+                sms: false
+                letter: false
+        - trigger: 4
+          options:
+            hour: 8
+            date: '2022-01-06 08:00:00'
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-06 08:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+      scheduled_sends:
+        - send_after: '2022-01-01 11:00:00'
+          channel: 0
+          sent: true
+          canceled: false
+          skipped: false
+          failed: false
+        - send_after: '2022-01-06 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+
+
+  # Remove the invoice line items to make it paid
+
+  - operation: edit
+    mock_time: '2022-01-01 11:01:00' # 1 minute after previous send operation
+    data:
+      invoice:
+        items: []
+    expect:
+      invoice:
+        status: 'paid'
+      delivery:
+        processed: false
+        disabled: true # closing the invoice should disable chasing
+      delivery_state:
+        - trigger: 0
+          options:
+            hour: 8
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-01 11:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: true
+                sms: false
+                letter: false
+        - trigger: 4
+          options:
+            hour: 8
+            date: '2022-01-06 08:00:00'
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-06 08:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+
+  - operation: schedule
+    mock_time: '2022-01-01 11:01:00' # Same as previous
+    expect:
+      delivery_state:
+        - trigger: 0
+          options:
+            hour: 8
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-01 11:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: true
+                sms: false
+                letter: false
+        - trigger: 4
+          options:
+            hour: 8
+            date: '2022-01-06 08:00:00'
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-06 08:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+      scheduled_sends:
+        - send_after: '2022-01-01 11:00:00'
+          channel: 0
+          sent: true
+          canceled: false
+          skipped: false
+          failed: false
+        - send_after: '2022-01-06 08:00:00'
+          channel: 0
+          sent: false
+          canceled: true
+          skipped: false
+          failed: false
+
+ # Re-opening the invoice NOT should cause the send to become un-canceled because the delivery should be
+ # disabled.
+
+  - operation: edit
+    mock_time: '2022-01-01 11:01:00' # Same as previous
+    data:
+      invoice:
+        closed: false
+        paid: false
+        items:
+          - quantity: 1
+            unit_cost: 100
+      delivery:
+        disabled: true
+    expect:
+      invoice:
+        status: 'sent'
+      delivery:
+        processed: false
+      delivery_state:
+        - trigger: 0
+          options:
+            hour: 8
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-01 11:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: true
+                sms: false
+                letter: false
+        - trigger: 4
+          options:
+            hour: 8
+            date: '2022-01-06 08:00:00'
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-06 08:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+
+  - operation: schedule
+    mock_time: '2022-01-01 11:01:00' # Same as previous
+    expect:
+      delivery:
+        disabled: true
+      delivery_state:
+        - trigger: 0
+          options:
+            hour: 8
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-01 11:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: true
+                sms: false
+                letter: false
+        - trigger: 4
+          options:
+            hour: 8
+            date: '2022-01-06 08:00:00'
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-06 08:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+      scheduled_sends:
+        - send_after: '2022-01-01 11:00:00'
+          channel: 0
+          sent: true
+          canceled: false
+          skipped: false
+          failed: false
+        - send_after: '2022-01-06 08:00:00'
+          channel: 0
+          sent: false
+          canceled: true
+          skipped: false
+          failed: false

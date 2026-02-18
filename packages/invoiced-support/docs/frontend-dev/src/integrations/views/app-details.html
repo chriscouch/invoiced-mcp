@@ -1,0 +1,52 @@
+<div class="contents app-details">
+    <div class="app-details-title">
+        <div class="back-link">
+            <a ui-sref="manage.settings.apps">
+                <span class="fas fa-arrow-left"></span>
+                {{'settings.titles.apps'|translate}}
+            </a>
+        </div>
+        <div class="integration-title-logo-holder">
+            <div class="integration-title-logo">
+                <img ng-src="{{integrationDefinition.logo}}" />
+            </div>
+        </div>
+        <h3>
+            {{integrationDefinition.name}} Integration
+        </h3>
+        <div class="supporting-links">
+            <a href="{{integrationDefinition.documentationUrl}}" target="_blank" class="btn btn-default" ng-show="integrationDefinition.documentationUrl">
+                Documentation
+                <span class="fas fa-external-link"></span>
+            </a>
+        </div>
+    </div>
+
+    <p class="alert alert-danger" ng-show="error">
+        {{error.message}}
+    </p>
+
+    <ul class="nav nav-tabs">
+        <li ui-sref-active="active">
+            <a ui-sref="manage.settings.app.overview({id:integrationDefinition.id})">
+                Overview
+            </a>
+        </li>
+        <li ui-sref-active="active" ng-show="integrationDefinition.isAccountingSync && integration.connected">
+            <a ui-sref=".accounting_sync">
+                Accounting Sync
+            </a>
+        </li>
+        <li ui-sref-active="active" ng-show="integrationDefinition.hasConfiguration && integration.connected">
+            <a ui-sref=".configuration">
+                Configuration
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active">
+            <ui-view/>
+        </div>
+    </div>
+</div>

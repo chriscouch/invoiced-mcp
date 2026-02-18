@@ -1,0 +1,620 @@
+
+<div class="invoice-editor">
+	<div class="two-col clearfix">
+		<!-- Header -->
+		<div class="document-title">
+			<span ng-show="options.type=='invoice'">INVOICE</span>
+			<span ng-show="options.type=='estimate'">ESTIMATE</span>
+			<span ng-show="options.type=='credit_note'">CREDIT NOTE</span>
+			<div class="subtitle" ng-show="options.hasNumber">
+				<input-document-number ng-model="invoice.number" ng-tabindex="3"></input-document-number>
+			</div>
+		</div>
+
+		<div class="col contact-info">
+			<div class="from-holder">
+				<!-- Logo -->
+				<div class="logo">
+					<div ng-if="!!company.logo">
+						<img ng-src="{{company.logo}}" alt="Logo" />
+					</div>
+				</div>
+
+				<!-- From -->
+				<div class="contact from">
+					<div class="field">From</div>
+					<div class="value" ng-bind-html="company|address:true:true:showCountry"></div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6">
+					<!-- Bill To -->
+					<div class="contact to" ng-if="options.hasCustomer">
+						<div class="field">Bill To</div>
+						<div class="value" ng-bind-html="invoice.customer|address" ng-if="invoice.customer"></div>
+						<div class="value empty" ng-if="!invoice.customer">
+							<em>Please select a customer</em>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<!-- Ship To -->
+					<div class="contact to" ng-if="options.hasCustomer&&options.hasShipTo">
+						<div class="field">
+							Ship To
+							<a href="" ng-click="addShipping()" ng-show="invoice.ship_to">
+								<span class="fas fa-pencil"></span>
+							</a>
+						</div>
+						<div ng-if="invoice.customer">
+							<div class="value" ng-if="invoice.ship_to">
+								<div ng-bind-html="invoice.ship_to|address"></div>
+							</div>
+							<div class="value" ng-if="!invoice.ship_to">
+								<a href="" class="btn btn-default btn-sm" ng-click="addShipping()">
+									<span class="fas fa-plus"></span>
+									Address
+								</a>
+							</div>
+						</div>
+						<div class="value empty" ng-if="!invoice.customer">
+							<em>Please select a customer</em>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col">
+			<!-- Date -->
+			<div class="input-group addon-input" ng-if="options.hasDate">
+				<div class="field">
+					Date
+				</div>
+				<div class="input-group-addon">
+					<div class="input-group">
+						<input class="form-control" type="text" tabindex="5" ng-model="invoice.date" ui-date="dateOptions" is-open="dpOpened" readonly="readonly" required />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-primary" tabindex="6" ng-click="openDatepicker($event, 'dpOpened')">
+								<span class="fas fa-calendar-alt"></span>
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+
+			<!-- Payment Terms -->
+			<div ng-if="options.hasPaymentTerms">
+				<div class="input-group addon-input payment-terms" ng-class="{'no-input':invoice.inherit_terms}" ng-show="invoice.customer||!options.hasCustomer">
+					<div class="field">
+						Payment Terms
+					</div>
+					<div class="input-group-addon" ng-hide="invoice.inherit_terms">
+						<select-payment-terms ng-model="invoice._payment_terms" tabi="7" allow-new="true" allow-clear="true"></select-payment-terms>
+					</div>
+					<div class="input-group-addon value" ng-show="invoice.inherit_terms">
+						{{invoice.payment_terms}}
+						<a href="" class="edit-payment-terms" ng-hide="invoice.autopay" ng-click="invoice.inherit_terms=false">
+							<span class="fas fa-pencil"></span>
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Due Date -->
+			<div class="input-group addon-input" ng-if="options.hasDueDate" ng-hide="(!invoice.mutable_due_date&&!invoice.due_date)||!invoice.customer" ng-class="{'no-input':!invoice.mutable_due_date}">
+				<div class="field">
+					Due Date
+				</div>
+				<div class="input-group-addon" ng-class="{value:!invoice.mutable_due_date}">
+					<div class="input-group" ng-if="invoice.mutable_due_date">
+						<input class="form-control" type="text" tabindex="15" ng-model="invoice.due_date" ui-date="dateOptions" is-open="dpOpened2" readonly="readonly" />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'dpOpened2')">
+								<span class="fas fa-calendar-alt"></span>
+							</button>
+						</span>
+					</div>
+					<span ng-if="!invoice.mutable_due_date"><company-date date="invoice.due_date"></company-date></span>
+				</div>
+			</div>
+
+			<!-- Payment Date -->
+			<div class="input-group addon-input" ng-if="options.hasPaymentDate" ng-show="invoice.autopay">
+				<div class="field">
+					Payment Date
+				</div>
+				<div class="input-group-addon">
+					<div class="input-group">
+						<input class="form-control" type="text" tabindex="15" ng-model="invoice.next_payment_attempt" ui-date="dateOptions" is-open="dpOpened3" readonly="readonly" />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'dpOpened3')">
+								<span class="fas fa-calendar-alt"></span>
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+
+			<!-- Expiry Date -->
+			<div class="input-group addon-input" ng-if="options.hasExpiryDate">
+				<div class="field">
+					Expires
+				</div>
+				<div class="input-group-addon">
+					<div class="input-group">
+						<input class="form-control" type="text" tabindex="15" ng-model="invoice.expiration_date" ui-date="dateOptions" is-open="dpOpened4" readonly="readonly" />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'dpOpened4')">
+								<span class="fas fa-calendar-alt"></span>
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+
+			<!-- Purchase Order -->
+			<div class="input-group addon-input" ng-if="options.hasPurchaseOrder">
+				<div class="field">
+					Purchase Order
+				</div>
+				<div class="input-group-addon">
+					<input class="form-control" type="text" tabindex="16" ng-model="invoice.purchase_order" />
+				</div>
+			</div>
+
+			<!-- Deposit -->
+			<div class="input-group addon-input no-input" ng-if="options.hasDeposit">
+				<div class="field">
+					Deposit
+				</div>
+				<div class="input-group-addon value">
+					<money amount="invoice.deposit" currency="invoice.currency" ng-show="invoice.deposit > 0"></money>
+					<a href="" ng-click="addDeposit()">
+						<span ng-show="invoice.deposit > 0"><span class="fas fa-pencil"></span></span>
+						<span ng-hide="invoice.deposit > 0"><span class="fas fa-plus"></span>
+						Deposit</span>
+					</a>
+				</div>
+			</div>
+
+			<!-- Custom Fields -->
+			<div class="input-group addon-input"  ng-repeat="field in customFields">
+				<div class="field">
+					{{field.name}}
+				</div>
+				<div class="input-group-addon">
+					<custom-field-input field="field" metadata="invoice.metadata" set-defaults="true" input-tab-index="17"></custom-field-input>
+				</div>
+			</div>
+		</div>
+	</div> 	 
+
+	<!-- Line Items -->
+	<div class="items-holder">
+		<!-- Line Item Table Headers -->
+		<div class="items-table-header">
+			<div class="amount">
+				<label class="control-label">
+					Amount
+				</label>
+			</div>
+			<div class="unit_cost">
+				<label class="control-label">
+					Rate
+				</label>
+			</div>
+			<div class="quantity">
+				<label class="control-label">
+					Quantity
+				</label>
+			</div>
+			<div class="name">
+				<label class="control-label">
+					Item
+				</label>
+			</div>
+		</div>
+
+		<div class="items-table" ui-sortable="sortableOptions" ng-model="invoice.items">
+			<div class="item-row" ng-repeat="(k, item) in invoice.items" ng-class="{blank: item.isBlank}">
+				<div class="main-row clearfix">
+					<!-- Line Item Controls -->
+					<div class="sortable-handle" ng-class="{hidden:invoice.items.length<=2}">
+						<span class="fas fa-grip-lines"></span>
+					</div>
+					<div class="more">
+						<div class="btn-group dropdown" dropdown>
+							<button type="button" class="btn btn-link more-btn dropdown-toggle" dropdown-toggle>
+								<span class="far fa-ellipsis-v"></span>
+							</button>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li class="dropdown-header">
+									Discounts
+								</li>
+								<li ng-class="{active:!item.discountable}">
+									<a href="" ng-click="toggleLineDiscountable(item)">
+										<span class="fas fa-ban"></span>
+										Not Discounted
+									</a>
+								</li>
+								<li ng-show="item.discountable">
+									<a href="" ng-click="addRateModal(item.discounts, 'discount')">
+										<span class="fas fa-plus"></span>
+										Line Discount
+									</a>
+								</li>
+								<li class="danger" ng-show="item.discounts.length > 0">
+									<a href="" ng-click="item.discounts=[]">
+										Remove Discounts
+									</a>
+								</li>
+								<li class="divider"></li>
+								<li class="dropdown-header">
+									Taxes
+								</li>
+								<li ng-class="{active:!item.taxable}">
+									<a href="" ng-click="toggleLineTaxable(item)">
+										<span class="fas fa-ban"></span>
+										Not Taxed
+									</a>
+								</li>
+								<li ng-show="item.taxable">
+									<a href="" ng-click="addRateModal(item.taxes, 'tax')">
+										<span class="fas fa-plus"></span>
+										Line Tax
+									</a>
+								</li>
+								<li class="danger" ng-show="item.taxes.length > 0">
+									<a href="" ng-click="item.taxes=[]">
+										Remove Taxes
+									</a>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<a href="" ng-click="duplicateLineItem(item)">
+										Duplicate Line
+									</a>
+								</li>
+								<li class="danger">
+									<a href="" ng-click="deleteLineItem(item)">
+										Delete Line
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<!-- Main Line Item Fields -->
+					<div class="amount value"><money amount="item.amount" currency="invoice.currency"></money></div>
+					<div class="unit_cost">
+						<div ng-tabindex="20+8*k+3" ng-model="item.unit_cost" currency="invoice.currency" input-amount></div>
+					</div>
+					<div class="quantity">
+						<input type="number" step="any" class="form-control" autocomplete="off" ng-model="item.quantity" tabindex="{{20+8*k+2}}" placeholder="Quantity" />
+					</div>
+					<div class="name" ng-class="{value:!!(item.catalog_item||item.plan)}">
+						<div ng-if="!(item.catalog_item||item.plan)">
+							<input type="text" class="form-control" ng-model="item.name" tabindex="{{20+8*k+1}}" placeholder="Name of product or service..." />
+						</div>
+						<a href=""  tooltip="ID: {{item.catalog_item}}" ng-if="item.catalog_item">
+							{{item.name}}
+						</a>
+						<a href=""  tooltip="Plan ID: {{item.plan}}" ng-if="item.plan && !item.catalog_item">
+							{{item.name}}
+						</a>
+					</div>
+				</div>
+				<div class="details-row clearfix">
+					<!-- Line Item Type -->
+					<div class="type-divider"></div>
+					<div class="type">
+						<div class="btn-group dropdown" dropdown ng-if="!item.catalog_item&&!item.plan">
+							<button type="button" class="btn btn-link dropdown-toggle" ng-class="{none: !item.type}" dropdown-toggle>
+								<span ng-if="item.type">{{item.type|itemTypeName}}</span>
+								<span ng-hide="item.type">No Type</span>
+								<span class="fas fa-chevron-down"></span>
+							</button>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li ng-class="{active:!item.type}">
+									<a href="" ng-click="item.type=''">No Type</a>
+								</li>
+								<li class="divider"></li>
+								<li ng-class="{active:item.type=='product'}">
+									<a href="" ng-click="item.type='product'">Product</a>
+								</li>
+								<li ng-class="{active:item.type=='service'}">
+									<a href="" ng-click="item.type='service'">Service</a>
+								</li>
+								<li ng-class="{active:item.type=='hours'}">
+									<a href="" ng-click="item.type='hours'">Hours</a>
+								</li>
+								<li ng-class="{active:item.type=='days'}">
+									<a href="" ng-click="item.type='days'">Days</a>
+								</li>
+								<li ng-class="{active:item.type=='month'}">
+									<a href="" ng-click="item.type='month'">Month</a>
+								</li>
+								<li ng-class="{active:item.type=='year'}">
+									<a href="" ng-click="item.type='year'">Year</a>
+								</li>
+								<li ng-class="{active:item.type=='expense'}">
+									<a href="" ng-click="item.type='expense'">Expense</a>
+								</li>
+								<li ng-class="{active:item.type=='shipping'}">
+									<a href="" ng-click="item.type='shipping'">Shipping</a>
+								</li>
+							</ul>
+						</div>
+						<item-type ng-if="!!(item.catalog_item||item.plan)" class="item-type" item="item"></item-type>
+					</div>
+
+					<div class="line-rates">
+						<!-- Line Item Discounts -->
+						<span class="not-discounted" ng-if="!item.discountable"><span class="fas fa-ban"></span> Discount</span>
+
+						<span ng-if="item.discounts.length > 0">
+							<span class="title">Disc</span>
+							<span ng-repeat="discount in item.discounts">
+								{{discount.coupon.name}}
+							</span>
+						</span>
+
+						<!-- Line Item Tax -->
+						<span class="not-taxed" ng-if="!item.taxable"><span class="fas fa-ban"></span> Tax</span>
+
+						<span ng-if="item.taxes.length > 0">
+							<span class="title">Tax</span>
+							<span ng-repeat="tax in item.taxes">
+								{{tax.tax_rate.name}}
+							</span>
+						</span>
+					</div>
+
+					<!-- Line Item Description -->
+					<div class="description-divider"></div>
+					<div class="description">
+						<textarea class="form-control" tabindex="{{20+8*k+6}}" ng-model="item.description" placeholder="Optional line description..." expanding-textarea></textarea>
+					</div>
+				</div>
+
+				<div class="custom-field-row clearfix" ng-if="showLineItemCustomFields" ng-repeat="field in lineItemCustomFields">
+					<div class="custom-field">
+						<div class="field-name">
+							<label class="control-label">{{field.name}}</label>
+						</div>
+						<div class="field-value">
+							<custom-field-input field="field" metadata="item.metadata" set-defaults="true" input-tab-index="20+8*k+7" placeholder="'Enter here...'"></custom-field-input>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Add Items from Catalog Buttons (Mobile) -->
+		<div class="catalog-item-btns">
+			<button type="button" class="btn btn-default btn-sm" ng-click="addItem()" tabindex="1000">
+				<span class="fas fa-plus"></span>
+				Item
+			</button>
+			<button type="button" class="btn btn-default btn-sm" ng-click="addBundle()" tabindex="1001" ng-if="'bundles'|hasFeature">
+				<span class="fas fa-plus"></span>
+				Bundle
+			</button>
+			<button type="button" ng-class="{active: showLineItemCustomFields}" class="btn btn-default btn-sm" ng-click="toggleLineItemCustomFieldVisibility()" tabindex="1002" tooltip="{{'invoices.edit.line_items.show_custom_fields'|translate}}" ng-if="lineItemCustomFields.length > 0">
+				<span class="fas fa-ellipsis-h"></span>
+			</button>
+		</div>
+	</div>
+
+	<div class="two-col invoice-footer clearfix">
+		<div class="col left-footer">
+			<!-- Add Items from Catalog Buttons -->
+			<div class="catalog-item-btns">
+				<button type="button" class="btn btn-default btn-sm" ng-click="addItem()" tabindex="1000">
+					<span class="fas fa-plus"></span>
+					Item
+				</button>
+				<button type="button" class="btn btn-default btn-sm" ng-click="addBundle()" tabindex="1001" ng-if="'bundles'|hasFeature">
+					<span class="fas fa-plus"></span>
+					Bundle
+				</button>
+				<button type="button" ng-class="{active: showLineItemCustomFields}" class="btn btn-default btn-sm" ng-click="toggleLineItemCustomFieldVisibility()" tabindex="1002" tooltip="{{'invoices.edit.line_items.show_custom_fields'|translate}}" ng-if="lineItemCustomFields.length > 0">
+					<span class="fas fa-ellipsis-h"></span>
+				</button>
+			</div>
+
+			<!-- Notes -->
+			<div class="notes-holder">
+				<div class="field">
+					Notes
+				</div>
+				<textarea class="notes form-control" placeholder="Notes - any relevant information not already covered" tabindex="2003" ng-model="invoice.notes" expanding-textarea></textarea>
+			</div>
+		</div>
+
+		<!-- Totals -->
+		<div class="col totals-holder">
+			<table class="table totals">
+				<tbody>
+					<!-- Subtotal -->
+					<tr class="subtotal">
+						<td class="title noborder">
+							Subtotal
+						</td>
+						<td class="noborder">
+							<money amount="invoice.subtotal" currency="invoice.currency"></money>
+						</td>
+					</tr>
+
+					<!-- Subtotal Discounts -->
+					<tr class="subtotal-rates" ng-repeat="discount in invoice.discounts track by discount.id" ng-class="{'with-input': !discount.coupon}">
+						<!-- Discount Name -->
+						<td class="title">
+							<!-- Controls -->
+							<div class="controls" ng-hide="discount.from_payment_terms">
+								<a href="" ng-click="setDiscountExpiration(discount)" tooltip="Set expiration date" tabindex="{{1002+parent.$index*50+3*$index+1}}" ng-show="options.hasExpiringDiscounts">
+									<span class="fas fa-clock"></span>
+								</a>
+								<a href="" class="delete" ng-click="deleteRate(discount, 'discounts')" tabindex="{{1002+parent.$index*50+3*$index+2}}" tooltip="Delete this line">
+									<span class="fas fa-times"></span>
+								</a>
+							</div>
+
+							{{discount|appliedRateName:'discounts'}}<span ng-show="discount.coupon&&discount.coupon.is_percent"> ({{discount.coupon.value}}%)</span>
+						</td>
+						<td>
+							<!-- Coupon -->
+							<div ng-show="discount.coupon">
+								<money amount="discount.amount" currency="invoice.currency"></money>
+							</div>
+
+							<!-- Custom Discount -->
+							<div id="custom-rate-{{discount.id}}" ng-model="discount._amount" currency="invoice.currency" ng-tabindex="1002+$parent.$index*50+3*$index" input-amount ng-hide="discount.coupon"></div>
+
+							<!-- Expiry Date -->
+							<div class="valid-until" ng-show="discount.expires">
+								Expires <company-date date="discount.expires"></company-date>
+							</div>
+						</td>
+					</tr>
+
+					<!-- Subtotal Taxes -->
+					<tr class="subtotal-rates" ng-repeat="tax in invoice.taxes track by tax.id" ng-class="{'with-input': !tax.tax_rate}">
+						<!-- Tax Name -->
+						<td class="title">
+							<!-- Controls -->
+							<div class="controls">
+								<a href="" class="delete" ng-click="deleteRate(tax, 'taxes')" tabindex="{{1002+parent.$index*50+3*$index+2}}" tooltip="Delete this line">
+									<span class="fas fa-times"></span>
+								</a>
+							</div>
+
+							{{tax|appliedRateName:'taxes'}}<span ng-show="tax.tax_rate&&tax.tax_rate.is_percent"> ({{tax.tax_rate.value}}%)</span>
+						</td>
+						<td>
+							<!-- Tax Rate -->
+							<div ng-show="tax.tax_rate">
+								<money amount="tax.amount" currency="invoice.currency"></money>
+							</div>
+
+							<!-- Custom Tax -->
+							<div id="custom-rate-{{tax.id}}" ng-model="tax._amount" currency="invoice.currency" ng-tabindex="1002+$parent.$index*50+3*$index" input-amount ng-hide="tax.tax_rate"></div>
+						</td>
+					</tr>
+
+					<!-- Subtotal Shipping -->
+					<tr class="subtotal-rates" ng-repeat="shipping in invoice.shipping track by shipping.id" ng-class="{'with-input': !shipping.shipping_rate}">
+						<!-- Shipping Name -->
+						<td class="title">
+							<!-- Controls -->
+							<div class="controls">
+								<a href="" class="delete" ng-click="deleteRate(shipping, 'shipping')" tabindex="{{1002+parent.$index*50+3*$index+2}}" tooltip="Delete this line">
+									<span class="fas fa-times"></span>
+								</a>
+							</div>
+
+							{{shipping|appliedRateName:'shipping'}}
+						</td>
+						<td>
+							<!-- Shipping Rate -->
+							<div ng-show="shipping.shipping_rate">
+								<money amount="shipping.amount" currency="invoice.currency"></money>
+							</div>
+
+							<!-- Custom Shipping -->
+							<div id="custom-rate-{{shipping.id}}" ng-model="shipping._amount" currency="invoice.currency" ng-tabindex="1002+$parent.$index*50+3*$index" input-amount ng-hide="shipping.shipping_rate"></div>
+						</td>
+					</tr>
+
+					<!-- Add Rate Buttons -->
+					<tr class="rates-btns">
+						<td class="noborder" colspan="2">
+							<button type="button" class="btn btn-default btn-sm" ng-click="addRateModal(invoice.discounts, 'discount', true)" tabindex="2002">
+								<span class="fas fa-plus"></span>
+								Discount
+							</button>
+							<button type="button" class="btn btn-default btn-sm" ng-click="addRateModal(invoice.taxes, 'tax', true)" tabindex="2003">
+								<span class="fas fa-plus"></span>
+								Tax
+							</button>
+							<button type="button" class="btn btn-default btn-sm" ng-click="addShippingAmount()" tabindex="2004" ng-show="'shipping'|hasFeature">
+								<span class="fas fa-plus"></span>
+								Shipping
+							</button>
+						</td>
+					</tr>
+
+					<!-- Discounts (shown only if attached to line items) -->
+					<tr ng-repeat="discount in invoice.rates.discounts" ng-hide="!discount.in_items">
+						<td class="title">
+							{{discount|appliedRateName:'discounts'}}<span ng-show="discount.in_subtotal&&discount.coupon.is_percent"> ({{discount.coupon.value}}%)</span>
+						</td>
+						<td>
+							<money amount="discount.accumulated_total" currency="invoice.currency"></money>
+						</td>
+					</tr>
+
+					<!-- Taxes (shown only if attached to line items) -->
+					<tr ng-repeat="tax in invoice.rates.taxes" ng-hide="!tax.in_items">
+						<td class="title">
+							{{tax|appliedRateName:'taxes'}}<span ng-show="tax.in_subtotal&&tax.tax_rate.is_percent"> ({{tax.tax_rate.value}}%)</span>
+						</td>
+						<td>
+							<money amount="tax.accumulated_total" currency="invoice.currency"></money>
+						</td>
+					</tr>
+
+					<!-- Total -->
+					<tr class="total" ng-show="options.hasTotal">
+						<td class="title">
+							{{'general.total'|translate}}
+						</td>
+						<td>
+							<money amount="invoice.total" currency="invoice.currency"></money>
+						</td>
+					</tr>
+
+					<!-- Amount Paid -->
+					<tr class="amount-paid" ng-show="options.hasAmountPaid">
+						<td class="title">
+							Amount Paid
+						</td>
+						<td>
+							<money amount="invoice.amount_paid" currency="invoice.currency"></money>
+						</td>
+					</tr>
+
+					<!-- Balance -->
+					<tr class="balance" ng-show="options.hasBalance">
+						<td class="title">
+							Balance Due
+						</td>
+						<td>
+							<money amount="invoice.balance" currency="invoice.currency"></money>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- File Attachments -->
+<div class="attachments-holder" ng-if="options.hasAttachments">
+	<h4>Attached Files</h4>
+	<div class="files">
+		<ul class="attachment-list">
+			<li ng-repeat="attachment in invoice.attachments">
+				<a ng-href="{{attachment.file.url}}" target="_blank" rel="noopener noreferrer">
+					{{attachment.file.name}}
+				</a>
+				<button type="button" class="btn btn-link btn-sm" ng-click="deleteAttachment(attachment)">
+					<span class="fas fa-times"></span>
+				</button>
+			</li>
+		</ul>
+		<filepond callback="addedFiles" allow-multiple="true"></filepond>
+	</div>
+</div>

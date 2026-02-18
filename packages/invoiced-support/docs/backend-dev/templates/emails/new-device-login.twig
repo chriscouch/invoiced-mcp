@@ -1,0 +1,25 @@
+{% extends "emails/parent.twig" %}
+
+{% block title %}New Device Login{% endblock %}
+
+{% block content %}
+<row>
+    <columns>
+        <p>Hi {{ username }},</p>
+
+        <p>We noticed your Invoiced account was just signed into from a new device.</p>
+
+        <div style="background: #f9fafb; border-radius: 3px; padding: 15px; border: 1px solid #e7e9eb; margin: 15px 0;">
+            {{ deviceType }}<br>
+            Approximate Location: {{ location }}<br>
+            IP address: {{ ip }}<br>
+            {{ timestamp }}
+        </div>
+
+        <p>Don't recognize this activity? Please <a href="{{ resetPasswordUrl }}">reset your password</a>.</p>
+
+        <p>Best,<br>
+        The team at Invoiced</p>
+    </columns>
+</row>
+{% endblock %}

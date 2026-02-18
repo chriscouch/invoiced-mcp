@@ -1,0 +1,11 @@
+{% extends "emails/parent.twig" %}
+{% block title %}You have assigned documents for approval{% endblock %}
+{% block content %}
+    <row>
+        <columns>
+            {% for bill in bills %}
+                <p><a href="{{ dashboardUrl}}/bills/{{ bill.id }}">{{ bill.number }}</a> was assigned to you for {% if bill.vendor %}{{  bill.vendor }}{% endif %}</p>
+            {% endfor %}
+        </columns>
+    </row>
+{% endblock %}

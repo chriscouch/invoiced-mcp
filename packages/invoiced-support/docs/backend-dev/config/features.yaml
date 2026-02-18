@@ -1,0 +1,80 @@
+# This list indicates which feature flags should be
+# visible to the frontend via the API. Any feature flag
+# not mentioned here will be invisible to the frontend, even if enabled.
+frontend_feature_flags:
+  - accounting_record_edits
+  - accounting_sync
+  - accounts_payable
+  - accounts_receivable
+  - ach
+  - allow_affirm
+  - allow_invoiced_tokenization
+  - amex
+  - ap_plaid # TEMPORARY
+  - api
+  - approval_workflow
+  - ar_inbox
+  - audit_log
+  - automations
+  - autopay
+  - billing_portal
+  - bundles # DEPRECATED
+  - card_payments
+  - cash_application
+  - cash_match
+  - consolidated_invoicing
+  - custom_domain
+  - custom_templates
+  - direct_ach
+  - direct_debit
+  - email_sending
+  - email_whitelabel
+  - enterprise
+  - estimates
+  - estimates_v2
+  - flywire
+  - flywire_invoiced_payments
+  - flywire_only
+  - flywire_surcharging
+  - forecasting
+  - free
+  - gl_accounts
+  - inboxes
+  - intacct
+  - internationalization
+  - invoice_chasing
+  - invoice_distributions # DEPRECATED
+  - invoice_generator
+  - invoice_tags # DEPRECATED
+  - invoice_templates # DEPRECATED
+  - invoiced_payments
+  - legacy_chasing # DEPRECATED
+  - letters
+  - live_chat
+  - metered_billing
+  - multi_currency
+  - netsuite
+  - network
+  - network_invitations
+  - new_trials
+  - not_activated
+  - notifications_v2_default
+  - notifications_v2_individual
+  - payment_links
+  - payment_plans
+  - phone_support
+  - powered_by
+  - recurring_catalog_items # DEPRECATED
+  - report_builder
+  - roles
+  - salesforce
+  - saml
+  - saml1
+  - shipping # DEPRECATED
+  - smart_chasing
+  - sms
+  - subscription_billing
+  - subscription_manual_renewal # DEPRECATED
+  - subscriptions
+  - unlimited_recipients
+  - virtual_terminal

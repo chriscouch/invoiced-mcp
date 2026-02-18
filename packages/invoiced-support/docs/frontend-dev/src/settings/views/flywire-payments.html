@@ -1,0 +1,137 @@
+<div class="object-view flywire-payments">
+    <div ng-show="loading">
+        <div class="loading"></div>
+    </div>
+
+    <div class="row two-pane" ng-hide="loading" ng-if="account">
+        <div class="col-sm-4 left-pane">
+            <!-- Balance -->
+            <div ng-repeat="balance in account.balances">
+                <div class="details-list vertical">
+                    <h4>
+                        Balance
+                    </h4>
+                    <div class="balance-value">
+                        <money amount="balance.balance" currency="balance.currency"></money>
+                    </div>
+                    <div ng-show="balance.showAvailableBalance">
+                        <h5>
+                            Available Balance
+                        </h5>
+                        <div class="balance-available-value">
+                            <money amount="balance.available" currency="balance.currency"></money>
+                        </div>
+                    </div>
+                    <div ng-show="balance.showPendingBalance">
+                        <h5>
+                            Pending Balance
+                        </h5>
+                        <div class="balance-available-value">
+                            <money amount="balance.pending" currency="balance.currency"></money>
+                        </div>
+                    </div>
+                    <div ng-hide="account.statuses.receive_payments === 'enabled'">
+                        <div class="title">Payments</div>
+                        <div class="value">
+                            <span class="label label-danger" ng-show="account.statuses.receive_payments === 'disabled'">Disabled</span>
+                            <span class="label label-warning" ng-show="account.statuses.receive_payments === 'pending'">Pending</span>
+                        </div>
+                    </div>
+                    <div ng-hide="account.statuses.outgoing_payments_status === 'enabled'">
+                        <div class="title">Payouts</div>
+                        <div class="value">
+                            <span class="label label-danger" ng-show="account.statuses.outgoing_payments_status === 'disabled'">Disabled</span>
+                            <span class="label label-warning" ng-show="account.statuses.outgoing_payments_status === 'pending'">Pending</span>
+                        </div>
+                    </div>
+                    <div ng-show="account.withdrawal.next_withdrawal && account.withdrawal.outgoing_pending_amount">
+                        <div class="title">Next Payout</div>
+                        <div class="value">
+                            <money amount="account.withdrawal.outgoing_pending_amount" currency="balance.currency"></money> on
+                            {{ balance.withdrawal.next_withdrawal|formatCompanyDate }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Payout Settings -->
+            <div class="details-list vertical">
+                <h4>
+                    <div class="action">
+                        <a href="{{account.update_uri}}" target="_blank">{{'general.edit'|translate}}</a>
+                    </div>
+                    Payout Settings
+                </h4>
+                <div>
+                    <div class="title">Bank Account</div>
+                    <div class="value" ng-show="account.withdrawal.bank_name">{{ account.withdrawal.bank_name }}</div>
+                    <div class="value" ng-hide="account.withdrawal.bank_name"><em>Not Provided</em></div>
+                </div>
+                <div ng-repeat-end ng-show="account.withdrawal.frequency">
+                    <div class="title">Payout Frequency</div>
+                    <div class="value">
+                        {{ 'settings.invoiced_payments.payout_frequency_'+account.withdrawal.frequency|translate }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8 right-pane">
+            <!-- Action Items -->
+            <div class="action-items">
+                <!-- Action Required -->
+                <div class="action-item warning" ng-if="account.disabled_reasons.length > 0">
+                    <div class="icon"></div>
+                    <p>
+                        Please complete the onboarding process to activate your Flywire Payments account.
+                    </p>
+                    <p ng-show="account.update_uri">
+                        <a href="{{account.update_uri}}" class="btn btn-success" target="_blank">Fix Now</a>
+                    </p>
+                </div>
+
+                <!-- Pending Verification -->
+                <div class="action-item info" ng-if="account.disabled_reasons.length === 0 && account.statuses.receive_payments === 'pending'">
+                    <div class="icon"></div>
+                    <p>
+                        Your account is currently in review. Payment processing will be enabled once review is complete. If we need any additional information to enable your account, then we will request it here.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Adyen Platform Components -->
+            <div class="panel" ng-show="account.component_session">
+                <ul class="nav nav-tabs">
+                    <li ng-class="{active:tab=='transactions'}">
+                        <a href="" ng-click="changeTab('transactions')">
+                            Transactions
+                        </a>
+                    </li>
+                    <li ng-class="{active:tab=='payouts'}">
+                        <a href="" ng-click="changeTab('payouts')">
+                            Payouts
+                        </a>
+                    </li>
+                    <li ng-class="{active:tab=='reporting'}">
+                        <a href="" ng-click="changeTab('reporting')">
+                            Reporting
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="panel-body">
+                    <!-- Payouts -->
+                    <div ng-show="tab=='payouts'">
+                        <div id="payouts-overview-container" class="platform-component-holder"></div>
+                    </div>
+                    <!-- Reporting -->
+                    <div ng-show="tab=='reporting'">
+                        <div id="reports-overview-container" class="platform-component-holder"></div>
+                    </div>
+                    <!-- Transactions -->
+                    <div ng-show="tab=='transactions'">
+                        <div id="transactions-overview-container" class="platform-component-holder"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

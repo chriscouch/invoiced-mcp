@@ -1,0 +1,13 @@
+{
+  "id": 4989263,
+  "name": "Zenwork Co",
+  "tin": "111232317",
+  "status": "TIN Matched",
+  "created_by": "compliancely",
+  "irs_code": 7,
+  "irs_reason": "TIN and Name combination matches IRS EIN records.",
+  "irs_service_status": "RUNNING",
+  "last_irs_check_date": "2023-02-06T09:10:45Z",
+  "created_date": "2023-02-06T09:10:45Z",
+  "updated_date": "2023-02-06T09:10:45Z"
+}

@@ -1,0 +1,57 @@
+mapping:
+  - sourceField: id
+    destinationField: accounting_id
+
+  - sourceField: number
+    destinationField: number
+
+  - sourceField: creditMemoDate
+    destinationField: date
+    type: date_unix
+    timeOfDay: 6
+
+  - sourceField: customerPurchaseOrderReference
+    destinationField: purchase_order
+
+  - sourceField: currencyCode
+    destinationField: currency
+    type: currency
+
+  - sourceField: salesperson
+    destinationField: metadata/salesperson
+
+  - sourceField: pdf
+    destinationField: pdf
+    documentContext: false
+
+  - sourceField: discountAmount
+    destinationField: discount
+    type: float
+
+  - sourceField: totalTaxAmount
+    destinationField: tax
+    type: float
+
+  - sourceField: customerId
+    destinationField: customer/accounting_id
+
+  - sourceField: customerNumber
+    destinationField: customer/number
+
+  - sourceField: customerName
+    destinationField: customer/name
+
+  - sourceField: 'salesCreditMemoLines[]/description'
+    destinationField: 'items[]/name'
+
+  - sourceField: 'salesCreditMemoLines[]/description2'
+    destinationField: 'items[]/description'
+
+  - sourceField: 'salesCreditMemoLines[]/quantity'
+    destinationField: 'items[]/quantity'
+    type: float
+
+  - sourceField: 'salesCreditMemoLines[]/unitPrice'
+    destinationField: 'items[]/unit_cost'
+    type: float
+  # TODO payment terms

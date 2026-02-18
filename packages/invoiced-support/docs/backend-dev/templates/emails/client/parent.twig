@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Invoiced Email</title>
+	</head>
+	<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;margin: 0;padding: 0;background-color: #FAFBFC;width: 100%;">
+		<center>
+			{% if testMode %}
+				<!-- TEST MODE BANNER -->
+				<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;margin: 0;padding: 0;background-color: #ffff00;border-collapse: collapse;width: 100%;">
+					<tr>
+						<td align="center" valign="top" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;margin: 0;font-family: Helvetica, Arial, sans-serif;font-size: 14px;line-height: 150%;width: 100%;border: 0;padding-top: 8px;padding-bottom: 8px;padding-left: 10px;padding-right: 10px;">
+							This is a sandbox account. These are not actual invoices and the system does not process live payments.
+						</td>
+					</tr>
+				</table>
+			{% endif %}
+			<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;margin: 0;padding: 0;background-color: #ffffff;border-collapse: collapse;width: 100%;">
+				<tr>
+					<td align="center" valign="top" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;margin: 0;padding: 20px;width: 100%;border: 0;">
+						<table border="0" cellpadding="0" cellspacing="0" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;max-width: 550px;border: 0;">
+							<tr>
+								<td align="center" valign="top" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+									<!-- BEGIN HEADER -->
+									<table border="0" cellpadding="0" cellspacing="0" width="100%" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;background-color: #ffffff;border: 0;border-collapse: collapse;">
+										<tr>
+											<td valign="top" class="headerContent" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #4E5459;font-family: Helvetica, Arial, sans-serif;font-size: 20px;font-weight: bold;line-height: 100%;padding: 0;text-align: center;vertical-align: middle;">
+											{% if logo %}
+												<img src="{{ logo }}" height="100" style="max-width: 200px;max-height: 100px;-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;-webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;" alt="{{ companyName }}" />
+											{% else %}
+												{{ companyName }}
+											{% endif %}
+											</td>
+										</tr>
+									</table>
+									<!-- END HEADER -->
+								</td>
+							</tr>
+							<tr>
+								<td align="center" valign="top" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+									<!-- BEGIN BODY -->
+									<table border="0" cellpadding="0" cellspacing="0" width="100%" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;background-color: #FFFFFF;border: 0;border-collapse: collapse;">
+										<tr>
+											<td valign="top" class="bodyContent" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #4E5459;font-family: Helvetica, Arial, sans-serif;font-size: 16px;line-height: 150%;padding-top: 20px;padding-right: 0;padding-bottom: 20px;padding-left: 0;text-align: left;">{% block body %}{% endblock %}</td>
+										</tr>
+									</table>
+									<!-- END BODY -->
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+
+			<!-- BEGIN FOOTER -->
+			<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;margin: 0;padding: 0;background-color: #FAFBFC;border-collapse: collapse;width: 100%;border-top: 1px solid #E6E6E6;">
+				<tr>
+					<td align="center" valign="top" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;margin: 0;padding: 20px;width: 100%;border: 0;">
+						<p style="color: #777;font-family: Helvetica, Arial, sans-serif;font-size: 13px;max-width: 500px;margin: 13px auto;">
+							This message was sent by {{ companyNameWithAddress }}. You are receiving this email because you are a customer.
+						</p>
+                        {% if showPoweredBy %}
+							<p style="color: #777;font-family: Helvetica, Arial, sans-serif;font-size: 14px;margin-top: 30px;">
+								<a href="https://invoiced.com/?utm_campaign=powered_by&amp;utm_medium=email&amp;utm_source={% if utm_source is defined %}{{ utm_source }}{% else %}Invoiced{% endif %}&amp;utm_content=footer_logo">
+									<img src="https://invoiced.com/img/emails/logo-footer.png" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;" alt="Invoiced"  width="117" height="30" />
+								</a>
+							</p>
+                        {% endif %}
+					</td>
+				</tr>
+			</table>
+			<!-- END FOOTER -->
+		</center>
+		{% if trackingPixel is defined %}{{ trackingPixel|raw }}{% endif %}
+	</body>
+</html>

@@ -1,0 +1,56 @@
+fields:
+  check_layout:
+    name: Reference
+    type: enum
+    values:
+      1: CheckOnTop
+      2: ThreePerPage
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency:
+    name: Currency
+    type: string
+  id:
+    name: ID
+    type: string
+    writable: false
+  name:
+    name: Name
+    type: string
+  number:
+    name: "Batch #"
+    type: string
+  payment_method:
+    name: Payment Method
+    type: string
+  status:
+    name: Status
+    type: enum
+    values:
+      1: Created
+      2: Processing
+      3: Queued
+      4: Finished
+      5: Voided
+    writable: false
+  total:
+    name: Total
+    type: money
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  member:
+    name: "Created By"
+    type: join
+    writable: false

@@ -1,0 +1,21 @@
+<div class="piece" ng-class="{danger: isNegative, success: isPositive}">
+    <div class="message">
+        <div class="icon" tooltip="{{event.type}}" tooltip-placement="right">
+            <img ng-src="/img/event-icons/{{eventType}}.png" />
+            <div class="operation" ng-if="operationType">
+                <img ng-src="/img/event-icons/{{operationType}}.svg" />
+            </div>
+        </div>
+        <a ng-href="{{href}}" ng-bind-html="message(event)" ng-click="go(event, $event)" ng-if="href"></a>
+        <span ng-if="!href" ng-bind-html="message(event)"></span>
+    </div>
+    <div class="details">
+        <span class="time">{{event.time}}</span>
+        by
+        <span class="person" ng-class="{customer:fromCustomer,automated:fromInvoiced,api:fromApi}">{{name}}</span>
+        &middot;
+        <a ui-sref="manage.event.view({id:event.id})">
+            Details
+        </a>
+    </div>
+</div>

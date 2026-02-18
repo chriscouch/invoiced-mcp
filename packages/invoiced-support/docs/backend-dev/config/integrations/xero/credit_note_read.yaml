@@ -1,0 +1,37 @@
+mapping:
+  - sourceField: CreditNoteID
+    destinationField: accounting_id
+
+  - sourceField: CreditNoteNumber
+    destinationField: number
+    nullBehavior: set
+
+  - sourceField: Contact/ContactID
+    destinationField: customer/accounting_id
+
+  - sourceField: Contact/Name
+    destinationField: customer/name
+
+  - sourceField: CurrencyCode
+    destinationField: currency
+    type: currency
+
+  - sourceField: DateString
+    destinationField: date
+    type: date_unix
+    timeOfDay: 6
+
+  - sourceField: DueDateString
+    destinationField: due_date
+    type: date_unix
+    timeOfDay: 18
+
+  - sourceField: Reference
+    destinationField: purchase_order
+
+  - sourceField: Reference
+    destinationField: metadata/xero_reference
+
+  - sourceField: pdf
+    destinationField: pdf
+    documentContext: false

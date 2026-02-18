@@ -1,0 +1,47 @@
+parameters:
+  app.adyen_client_key: test_Q67NQ6YFWND3XMZVB2D5CDUVUYM34G6J
+  app.adyen_theme_id: ONBT42CLN22322695M2HPTT4M34FQX
+  app.api_domain: api.staging.invoiced.com
+  app.api_url: https://api.staging.invoiced.com
+  app.avalara_environment: sandbox
+  app.cache_namespace: invoicedstaging
+  app.csadmin_url: https://corp.staging.invoicedhq.com
+  app.custom_domain_url: custom.staging.invoiced.com
+  app.dashboard_url: https://app.staging.invoiced.com
+  app.default_from_name: Invoiced Staging
+  app.default_search_backend: elasticsearch
+  app.domain: staging.invoiced.com
+  app.flywire_checkout_url: https://checkout-api.demo.flywire.com/rest/payor/charge
+  app.flywire_doc_verify_url: https://doc-verify.demo.flywire.com/api
+  app.flywire_private_api_url: https://api.demo.flywire.com
+  app.gocardless_environment: sandbox
+  app.inbound_email_domain: staging.invoicedmail.com
+  app.invoiced_sandbox: true
+  #this is not a typo, the staging is pointing to sandbox billing portal, so the tokenization should point there as well
+  app.invoiced_tokenization_url: https://tokenization.staging.invoiced.com
+  app.payments_host: https://payments.staging.invoiced.com/
+  app.plaid_sandbox: true
+  app.port: 443
+  app.protocol: https
+  app.quickbooks_userinfo_url: https://sandbox-accounts.platform.intuit.com/v1/openid_connect/userinfo
+  app.s3_bucket_attachments: invoiced-attachments-staging
+  app.s3_bucket_checks: invoiced-attachments-staging
+  app.s3_bucket_document_pdfs: invoiced-attachments-staging
+  app.s3_bucket_emails: invoiced-email-bodies-staging
+  app.s3_bucket_exports: invoiced-exports-2-staging
+  app.s3_bucket_imports: invoiced-imports-2-staging
+  app.s3_bucket_qwc: invoiced-qwc-staging
+  app.s3_bucket_reports: invoiced-reports-staging
+  app.s3_textract_upload: invoiced-attachments-staging
+  app.s3_bucket_adyen_reports: invoiced-adyen-reports-test
+  app.s3_bucket_documents: invoiced-documents-staging
+  app.s3_bucket_events: invoiced-events-staging
+  app.s3_bucket_region: us-west-2
+  app.s3_bucket_webhooks: invoiced-webhooks-staging
+  app.textract_sns_role: arn:aws:iam::014537778416:role/Invoiced-Textract-Publisher-Role
+  app.textract_sns_topic: arn:aws:sns:us-east-2:014537778416:AmazonTextract-Invoiced-Staging-Invoice-Capture-SNS
+  app.title: Invoiced (Staging)
+  app.files_url: https://files.staging.invoiced.com
+  asset.request_context.secure: true
+  router.request_context.host: 'staging.invoiced.com'
+  router.request_context.scheme: 'https'

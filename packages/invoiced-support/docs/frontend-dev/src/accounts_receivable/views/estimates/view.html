@@ -1,0 +1,118 @@
+<p class="loading" ng-show="loading"></p>
+
+<div class="object-view invoice-summary" ng-hide="loading">
+	<div class="title-bar">
+		<!-- Title -->
+		<h2>
+			{{estimate.name}}
+			<span class="draft-label" ng-show="estimate.draft">Draft</span>
+		</h2>
+		<h3>{{estimate.number}}</h3>
+	</div>
+
+	<ul class="nav nav-tabs">
+		<!-- Tab Links -->
+		<li ui-sref-active="active">
+			<a ui-sref=".summary">
+				{{'tabs.summary'|translate}}
+			</a>
+		</li>
+		<li ui-sref-active="active">
+			<a ui-sref=".messages">
+				{{'inboxes.messages.title'|translate}}
+			</a>
+		</li>
+		<li ui-sref-active="active">
+			<a ui-sref=".history">
+				{{'tabs.history'|translate}}
+			</a>
+		</li>
+
+		<!-- Action Buttons -->
+		<li class="action right dropdown" dropdown>
+			<a href="" class="dropdown-toggle" dropdown-toggle>
+				<span class="actions-label"></span>
+				<span class="fas fa-chevron-down"></span>
+			</a>
+			<ul class="dropdown-menu dropdown-menu-right">
+				<li ng-show="estimate.pdf_url">
+					<a href="{{estimate.pdf_url}}?t=0" target="_self">
+						Download as PDF
+					</a>
+				</li>
+				<li ng-if="'emails.send'|hasPermission" ng-hide="estimate.status=='voided'">
+					<a href="" ng-click="emailModal(estimate)">
+						Send Estimate
+					</a>
+				</li>
+				<li ng-show="estimate.url">
+					<a href="" ng-click="urlModal(estimate.url)" ng-if="'estimates.edit'|hasPermission">
+						Client View URL
+					</a>
+				</li>
+				<li class="divider" ng-hide="estimate.status=='voided'"></li>
+				<li ng-if="'invoices.create'|hasPermission" ng-hide="estimate.status=='voided'">
+					<a href="" ng-click="makeInvoiceFromEstimate(estimate)" ng-hide="saving">
+						Convert to Invoice
+					</a>
+				</li>
+				<li ng-if="'estimates.edit'|hasPermission" ng-hide="estimate.status=='voided'">
+					<a href="" ng-click="markApproved(estimate)" ng-hide="estimate.approved||estimate.closed">
+						Mark as Approved
+					</a>
+				</li>
+				<li ng-if="'estimates.edit'|hasPermission" ng-hide="estimate.status=='voided'">
+					<a href="" ng-click="paymentModal(estimate)" ng-show="!estimate.deposit_paid&&estimate.deposit">
+						Receive Payment
+					</a>
+				</li>
+				<li ng-if="'estimates.edit'|hasPermission" ng-hide="estimate.status=='voided'">
+					<a href="" ng-click="markDepositPaid(estimate, false)" ng-show="estimate.deposit_paid&&estimate.deposit">
+						Unmark Deposit Paid
+					</a>
+				</li>
+				<li ng-if="'estimates.create'|hasPermission">
+					<a ui-sref="manage.estimate.duplicate({id:estimate.id})">
+						{{'general.make_copy'|translate}}
+					</a>
+				</li>
+				<li ng-if="'estimates.edit'|hasPermission" ng-hide="estimate.status=='voided'">
+					<a href="" ng-click="setClosed(false, estimate)" ng-show="estimate.closed">
+						Reopen Estimate
+					</a>
+					<a href="" ng-click="setClosed(true, estimate)" ng-hide="estimate.closed">
+						Close Estimate
+					</a>
+				</li>
+				<li class="divider"></li>
+				<li class="danger" ng-if="'estimates.void'|hasPermission" ng-hide="estimate.status=='voided'">
+					<a href="" ng-click="void(estimate)" ng-hide="deleting">
+						Void Estimate
+					</a>
+				</li>
+				<li class="danger" ng-if="'estimates.delete'|hasPermission">
+					<a href="" ng-click="delete(estimate)" ng-hide="deleting">
+						Delete Estimate
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li class="action right hidden-xs" ng-hide="estimate.closed||estimate.status=='voided'">
+			<a ui-sref="manage.estimate.edit({id:estimate.id})" ng-if="'estimates.edit'|hasPermission">
+				<div>{{'general.edit'|translate}}</div>
+			</a>
+		</li>
+		<li class="action automation-action right" ng-if="'estimates.edit'|hasPermission">
+			<div>
+				<automate-button btn-class="'nav-link-item'" object-type="modelObjectType" object-id="modelId"></automate-button>
+			</div>
+		</li>
+	</ul>
+
+	<!-- Selected Tab Content -->
+	<div class="tab-content">
+		<div class="tab-pane active">
+			<ui-view/>
+		</div>
+	</div>
+</div>

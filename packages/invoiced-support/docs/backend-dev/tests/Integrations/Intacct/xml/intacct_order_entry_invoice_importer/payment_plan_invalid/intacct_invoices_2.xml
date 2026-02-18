@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+    <control>
+        <status>success</status>
+        <senderid>Invoiced</senderid>
+        <controlid>1536529230</controlid>
+        <uniqueid>false</uniqueid>
+        <dtdversion>3.0</dtdversion>
+    </control>
+    <operation>
+        <authentication>
+            <status>success</status>
+            <userid>Guest</userid>
+            <companyid>Invoiced-DEV SE</companyid>
+            <sessiontimestamp>2018-09-09T14:40:31-07:00</sessiontimestamp>
+        </authentication>
+        <result>
+            <status>success</status>
+            <function>read</function>
+            <controlid>b23ee05d-17b7-44d8-a569-598f7802e9a9</controlid>
+            <data listtype="sodocument" count="1">
+                <sodocument>
+                    <RECORDNO>2456</RECORDNO>
+                    <PRRECORDKEY>4567</PRRECORDKEY>
+                    <DOCNO>INV-3090</DOCNO>
+                    <CURRENCY>USD</CURRENCY>
+                    <WHENPOSTED>2017-01-12</WHENPOSTED>
+                    <WHENDUE>2017-02-11</WHENDUE>
+                    <TRX_TOTALPAID>2.51</TRX_TOTALPAID>
+                    <TERM>
+                        <NAME>NET 30</NAME>
+                    </TERM>
+                    <MESSAGE>Testing</MESSAGE>
+                    <PONUMBER>PO-123456789012345678901234567890</PONUMBER>
+                    <CONTRACTID>483</CONTRACTID>
+                    <CUSTREC>2</CUSTREC>
+                    <CUSTVENDID>self::$customer->number</CUSTVENDID>
+                    <CUSTVENDNAME>self::$customer->name</CUSTVENDNAME>
+                    <SHIPTO>
+                        <PRINTAS>Bojangle Jones</PRINTAS>
+                        <MAILADDRESS>
+                            <ADDRESS1>1234 Main St</ADDRESS1>
+                            <ADDRESS2></ADDRESS2>
+                            <CITY>Austin</CITY>
+                            <STATE>TX</STATE>
+                            <ZIP>78701</ZIP>
+                            <COUNTRYCODE>US</COUNTRYCODE>
+                        </MAILADDRESS>
+                    </SHIPTO>
+                    <SODOCUMENTENTRIES>
+                        <sodocumententry>
+                            <ITEMDESC>Marketing guides: </ITEMDESC>
+                            <QUANTITY>5.5</QUANTITY>
+                            <UIPRICE>72</UIPRICE>
+                            <UIVALUE>396</UIVALUE>
+                            <TRX_PRICE>144</TRX_PRICE>
+                            <TRX_VALUE>792</TRX_VALUE>
+                            <MULTIPLIER>1</MULTIPLIER>
+                            <REVRECSTARTDATE>2022-01-01</REVRECSTARTDATE>
+                        </sodocumententry>
+                        <sodocumententry>
+                            <ITEMDESC>Contract discount test</ITEMDESC>
+                            <QUANTITY>10.1234</QUANTITY>
+                            <UIPRICE>72</UIPRICE>
+                            <UIVALUE>721.31</UIVALUE>
+                            <TRX_PRICE>144</TRX_PRICE>
+                            <TRX_VALUE>1442.62</TRX_VALUE>
+                            <MULTIPLIER>2</MULTIPLIER>
+                        </sodocumententry>
+                    </SODOCUMENTENTRIES>
+                </sodocument>
+            </data>
+        </result>
+    </operation>
+</response>

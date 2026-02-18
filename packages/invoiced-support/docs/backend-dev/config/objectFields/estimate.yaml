@@ -1,0 +1,94 @@
+fields:
+  approved: { name: "Approved By", type: string }
+  closed: { name: Closed, type: boolean }
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency: { name: Currency, type: string }
+  customer:
+    name: Customer
+    type: join
+    parent_column: customer
+    writable: false
+  date: { name: Date, type: date }
+  date_voided:
+    name: "Date Voided"
+    type: date
+    writable: false
+  deposit: { name: Deposit, type: money, summarize: true }
+  deposit_paid: { name: "Deposit Paid", type: boolean }
+  draft: { name: Draft, type: boolean }
+  expiration_date: { name: "Expiration Date", type: date }
+  id:
+    name: ID
+    type: string
+    writable: false
+    filterable: false
+  invoice:
+    name: Invoice
+    type: join
+    writable: false
+  metadata:
+    name: 'Metadata'
+    type: metadata
+  name: { name: "Estimate Name", type: string }
+  notes:
+    name: Notes
+    type: string
+    filterable: false
+  number: { name: "Estimate #", type: string }
+  payment_terms: { name: "Payment Terms", type: string }
+  purchase_order: { name: "Purchase Order", type: string }
+  sent: { name: Sent, type: boolean }
+  ship_to:
+    name: Ship To
+    type: join
+    parent_column: id
+    join_column: estimate_id
+    join_object: shipping_detail
+    filterable: false
+  status:
+    name: Status
+    writable: false
+    type: enum
+    values:
+      invoiced: Invoiced
+      approved: Approved
+      declined: Declined
+      expired: Expired
+      viewed: Viewed
+      sent: Sent
+      not_sent: Not Sent
+      draft: Draft
+      voided: Voided
+  subtotal:
+    name: Subtotal
+    type: money
+    summarize: true
+    writable: false
+  total:
+    name: Total
+    type: money
+    summarize: true
+    writable: false
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  viewed:
+    name: Viewed
+    type: boolean
+    writable: false
+  voided:
+    name: Voided
+    type: boolean
+    writable: false

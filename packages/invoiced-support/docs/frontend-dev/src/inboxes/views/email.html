@@ -1,0 +1,99 @@
+<div class="thread-email" ng-class="{collapsed:collapsed}">
+	<div class="email-header">
+		<!-- Collapse Button -->
+		<div class="action">
+			<a href="" class="btn btn-default btn-sm" ng-class="{active:collapsed}" ng-click="collapsed = !collapsed" tooltip="Minimize">
+				<span class="fas fa-ellipsis-h"></span>
+			</a>
+		</div>
+
+		<!-- Date -->
+		<div class="email-date">
+			<company-date-time date="email.date"></company-date-time>
+		</div>
+
+		<!-- Viewed -->
+		<div class="viewed" ng-show="email.opens > 0">
+			<span class="fas fa-eye"></span>
+			Viewed
+		</div>
+
+		<!-- Complaint -->
+		<div class="complaint" ng-show="email.complaint">
+			<a href="" tooltip="The recipient reported this as spam">
+				<span class="fas fa-diamond-exclamation"></span>
+				Reported
+			</a>
+		</div>
+
+		<!-- Bounced -->
+		<div class="bounced" ng-show="email.bounce">
+			<a href="" tooltip="This email could not be delivered">
+				<span class="fas fa-xmark-to-slot"></span>
+				Bounced
+			</a>
+		</div>
+
+		<!-- From Icon -->
+		<div class="from-icon">
+			<div class="email-from-icon" ng-if="thread.customer_id && email.incoming">
+				<customer-icon customer="thread.customer_id"></customer-icon>
+			</div>
+			<email-from-icon customer="thread.customer_id" email="email" ng-if="!thread.customer_id || !email.incoming"></email-from-icon>
+		</div>
+
+		<!-- From -->
+		<div class="header-line from-line">
+			<span class="value">
+				<named-email-address address="email.from"></named-email-address>
+				<span ng-if="email.sent_by">({{email.sent_by|userName}})</span>
+			</span>
+		</div>
+
+		<!-- Recipients -->
+		<div class="header-line to-line" ng-if="email.to.length">
+			<span class="name" ng-if="toLabel">
+				{{'metadata.object_names.inbox_email'|translate}} {{'inboxes.email.to'|translate}}:
+			</span>
+			<span class="name" ng-if="!toLabel">
+				{{'inboxes.email.to'|translate}}:
+			</span>
+			<span class="value" ng-repeat="to in email.to">
+				<named-email-address address="to"></named-email-address>
+			</span>
+			<span class="value" ng-repeat="cc in email.cc">
+				<named-email-address address="cc"></named-email-address>
+			</span>
+			<span class="value" ng-show="email.bcc.length > 0">
+				{{'inboxes.email.bcc'|translate}}:
+				<span class="value" ng-repeat="bcc in email.bcc">
+					<named-email-address address="bcc"></named-email-address>
+				</span>
+			</span>
+		</div>
+		<hr/>
+	</div>
+
+	<!-- Preview (for collapsed state) -->
+	<div class="preview">{{email.preview}}</div>
+
+	<!-- HTML Message (Preferred) -->
+	<div class="message rich-text" ng-if="email.message">
+		<html-email content="email.message"></html-email>
+	</div>
+
+	<!-- Plain Text Message -->
+	<pre class="message plain-text" ng-if="!email.message">{{email.text}}</pre>
+
+	<!-- File Attachments -->
+	<div class="file-attachments" ng-show="email.attachments.length > 0">
+		<ul class="attachment-list">
+			<li ng-repeat="attachment in email.attachments">
+				<a ng-href="{{attachment.file.url}}" target="_blank" rel="noopener noreferrer">
+					<span class="fas fa-arrow-to-bottom"></span>
+					{{attachment.file.name}}
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>

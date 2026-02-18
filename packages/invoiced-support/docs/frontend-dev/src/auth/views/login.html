@@ -1,0 +1,89 @@
+<h1 class="logo">
+	<a href="{{baseUrl}}">
+		<img src="/img/auth-logo@2x.png" width="181" height="46" alt="{{'general.invoiced'|translate}}" />
+	</a>
+</h1>
+
+<div class="body skinny minimal container login">
+	<h4 class="title">
+		<span ng-show="timeOfDay=='morning'">{{'auth.login.header_morning'|translate}}</span>
+		<span ng-show="timeOfDay=='afternoon'">{{'auth.login.header_afternoon'|translate}}</span>
+		<span ng-show="timeOfDay=='evening'">{{'auth.login.header_evening'|translate}}</span>
+		<span ng-show="timeOfDay=='other'">{{'auth.login.header'|translate}}</span>
+	</h4>
+
+	<div class="alert alert-danger" ng-show="error">
+		{{error.message}}
+	</div>
+
+	<p class="text-danger" ng-show="attemptsRemaining > 0 && attemptsRemaining <= 3">
+		{{'auth.login.remaining'|translate}} : {{attemptsRemaining}}
+	</p>
+
+	<form name="loginForm" ng-submit="login(email, password, remember)">
+		<div class="form-group">
+            <div class="floating-label-input">
+                <input type="email" ng-model="email" class="form-control input-lg" autocomplete="username" autofocus required />
+                <span class="floating-label">{{'general.email'|translate}}</span>
+            </div>
+		</div>
+		<div class="form-group">
+            <div class="floating-label-input">
+                <input type="password" ng-model="password" class="form-control input-lg" autocomplete="current-password" required />
+                <span class="floating-label">{{'general.password'|translate}}</span>
+            </div>
+		</div>
+		<div class="form-group login-options">
+			<div class="row">
+				<div class="col-xs-6">
+					<label class="remember-me noselect">
+						<input type="checkbox" ng-model="remember" />
+						<span>{{'auth.login.remember'|translate}}</span>
+					</label>
+				</div>
+				<div class="col-xs-6 forgot">
+					<a ui-sref="auth.forgot({email:email})">{{'auth.login.forgot'|translate}}</a>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<button type="submit" class="btn btn-block btn2 btn-evergreen Button btn-lg" ng-disabled="signingIn" v-busy="signingIn" v-busy-label="{{'auth.login.signing_in'|translate}}" v-busy-text="{{'auth.login.signin'|translate}}" v-pressable>
+				<span translate>auth.login.signin</span>
+			</button>
+		</div>
+	</form>
+	<div class="external-sign-in">
+		<div class="button google">
+			<a ng-href="{{googleSignInUrl}}">
+				<img src="/img/google-sign-in@2x.png" alt="{{'auth.login.google'|translate}}" height="46" width="191" />
+			</a>
+		</div>
+
+		<div class="button intuit">
+			<a ng-href="{{intuitSignInUrl}}">
+				<img src="/img/intuit-sign-in.png" alt="{{'auth.login.intuit'|translate}}" height="41" width="185" />
+			</a>
+		</div>
+
+		<div class="button microsoft">
+			<a ng-href="{{microsoftSignInUrl}}">
+				<img src="/img/microsoft-sign-in.svg" alt="{{'auth.login.microsoft'|translate}}" height="35" width="185" />
+			</a>
+		</div>
+
+		<div class="button xero">
+			<a class="btn xero-sso-btn" ng-href="{{xeroSignInUrl}}">
+				<img src="/img/integrations/xero.png" alt="Xero" />
+				{{'auth.login.xero'|translate}}
+			</a>
+		</div>
+
+		<div class="sso-link">
+			<a ui-sref="auth.sso({email:email})">{{'auth.login.sso'|translate}}</a>
+		</div>
+	</div>
+</div>
+
+<div class="body skinny minimal container secondary" ng-if="signUpUrl">
+	Don't have an account? <a href="{{signUpUrl}}">{{'auth.login.signup'|translate}}</a>
+</div>

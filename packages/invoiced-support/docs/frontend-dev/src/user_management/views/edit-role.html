@@ -1,0 +1,215 @@
+<form name="modelForm" ng-submit="save(role)">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title">
+            <span ng-hide="role.id">New</span><span ng-show="role.id">Edit</span> Role
+        </h4>
+    </div>
+    <div class="modal-body">
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <div class="form-group">
+            <label class="control-label">Role Name</label>
+            <input type="text" class="form-control input-large" ng-model="role.name"/>
+        </div>
+
+        <!-- Permissions -->
+        <div class="form-group">
+            <div class="check-all-events">
+                <a href="" class="btn btn-default" ng-click="checkAll()" ng-show="noSelectedEvents()">
+                    Select all
+                </a>
+                <a href="" class="btn btn-default" ng-click="uncheckAll()" ng-show="atLeastOneSelectedEvent()">
+                    Deselect all
+                </a>
+            </div>
+        </div>
+        <section  ng-if="'accounts_receivable'|hasFeature">
+            <h4>Accounts Receivable</h4>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="control-label">Customer Permissions</label>
+                    <div class="event-split" ng-repeat="permission in permissions | filter:{'group':'Customers'}">
+                        <label class="form-control-static permission-label noselect">
+                            <input type="checkbox" ng-model="selectedPermissions[permission.id]" />
+                            {{permission.name}} <a href="" tooltip="{{permission.description}}"><span class="fas fa-question-circle"></span></a>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label">Invoice Permissions</label>
+                    <div class="event-split" ng-repeat="permission in permissions | filter:{'group':'Invoices'}">
+                        <label class="form-control-static permission-label noselect">
+                            <input type="checkbox" ng-model="selectedPermissions[permission.id]" />
+                            {{permission.name}} <a href="" tooltip="{{permission.description}}"><span class="fas fa-question-circle"></span></a>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label">Payment Permissions</label>
+                    <div class="event-split" ng-repeat="permission in permissions | filter:{'group':'Payments'}">
+                        <label class="form-control-static permission-label noselect">
+                            <input type="checkbox" ng-model="selectedPermissions[permission.id]" />
+                            {{permission.name}} <a href="" tooltip="{{permission.description}}"><span class="fas fa-question-circle"></span></a>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="control-label">Estimate Permissions</label>
+                    <div class="event-split" ng-repeat="permission in permissions | filter:{'group':'Estimates'}">
+                        <label class="form-control-static permission-label noselect">
+                            <input type="checkbox" ng-model="selectedPermissions[permission.id]" />
+                            {{permission.name}} <a href="" tooltip="{{permission.description}}"><span class="fas fa-question-circle"></span></a>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label">Credit Note Permissions</label>
+                    <div class="event-split" ng-repeat="permission in permissions | filter:{'group':'CreditNotes'}">
+                        <label class="form-control-static permission-label noselect">
+                            <input type="checkbox" ng-model="selectedPermissions[permission.id]" />
+                            {{permission.name}} <a href="" tooltip="{{permission.description}}"><span class="fas fa-question-circle"></span></a>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label">Settings Permissions</label>
+                    <div class="event-split" ng-repeat="permission in permissions | filter:{'group':'Settings'}">
+                        <label class="form-control-static permission-label noselect">
+                            <input type="checkbox" ng-model="selectedPermissions[permission.id]" />
+                            {{permission.name}} <a href="" tooltip="{{permission.description}}"><span class="fas fa-question-circle"></span></a>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="control-label">Subscriptions Permissions</label>
+                    <div class="event-split" ng-repeat="permission in permissions | filter:{'group':'Subscriptions'}">
+                        <label class="form-control-static permission-label noselect">
+                            <input type="checkbox" ng-model="selectedPermissions[permission.id]" />
+                            {{permission.name}} <a href="" tooltip="{{permission.description}}"><span class="fas fa-question-circle"></span></a>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label">Sending Permissions</label>
+                    <div class="event-split" ng-repeat="permission in permissions | filter:{'group':'Sending'}">
+                        <label class="form-control-static permission-label noselect">
+                            <input type="checkbox" ng-model="selectedPermissions[permission.id]" />
+                            {{permission.name}} <a href="" tooltip="{{permission.description}}"><span class="fas fa-question-circle"></span></a>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label">Notes Permissions</label>
+                    <div class="event-split" ng-repeat="permission in permissions | filter:{'group':'SystemNotes'}">
+                        <label class="form-control-static permission-label noselect">
+                            <input type="checkbox" ng-model="selectedPermissions[permission.id]" />
+                            {{permission.name}} <a href="" tooltip="{{permission.description}}"><span class="fas fa-question-circle"></span></a>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="control-label">Tasks Permissions</label>
+                    <div class="event-split" ng-repeat="permission in permissions | filter:{'group':'Tasks'}">
+                        <label class="form-control-static permission-label noselect">
+                            <input type="checkbox" ng-model="selectedPermissions[permission.id]" />
+                            {{permission.name}} <a href="" tooltip="{{permission.description}}"><span class="fas fa-question-circle"></span></a>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label">Credit Permissions</label>
+                    <div class="event-split" ng-repeat="permission in permissions | filter:{'group':'Credits'}">
+                        <label class="form-control-static permission-label noselect">
+                            <input type="checkbox" ng-model="selectedPermissions[permission.id]" />
+                            {{permission.name}} <a href="" tooltip="{{permission.description}}"><span class="fas fa-question-circle"></span></a>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label">Account Permissions</label>
+                    <div class="event-split" ng-repeat="permission in permissions | filter:{'group':'Accounts'}">
+                        <label class="form-control-static permission-label noselect">
+                            <input type="checkbox" ng-model="selectedPermissions[permission.id]" />
+                            {{permission.name}} <a href="" tooltip="{{permission.description}}"><span class="fas fa-question-circle"></span></a>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="control-label">Reporting Permissions</label>
+                    <div class="event-split" ng-repeat="permission in permissions | filter:{'group':'Reporting'}">
+                        <label class="form-control-static permission-label noselect">
+                            <input type="checkbox" ng-model="selectedPermissions[permission.id]" />
+                            {{permission.name}} <a href="" tooltip="{{permission.description}}"><span class="fas fa-question-circle"></span></a>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label">Importing Permissions</label>
+                    <div class="event-split" ng-repeat="permission in permissions | filter:{'group':'Importing'}">
+                        <label class="form-control-static permission-label noselect">
+                            <input type="checkbox" ng-model="selectedPermissions[permission.id]" />
+                            {{permission.name}} <a href="" tooltip="{{permission.description}}"><span class="fas fa-question-circle"></span></a>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label">Comments Permissions</label>
+                    <div class="event-split" ng-repeat="permission in permissions | filter:{'group':'Comments'}">
+                        <label class="form-control-static permission-label noselect">
+                            <input type="checkbox" ng-model="selectedPermissions[permission.id]" />
+                            {{permission.name}} <a href="" tooltip="{{permission.description}}"><span class="fas fa-question-circle"></span></a>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section  ng-if="'accounts_payable'|hasFeature">
+            <h4>Accounts Payable</h4>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="control-label">Vendors Permissions</label>
+                    <div class="event-split" ng-repeat="permission in permissions | filter:{'group':'Vendors'}">
+                        <label class="form-control-static permission-label noselect">
+                            <input type="checkbox" ng-model="selectedPermissions[permission.id]" />
+                            {{permission.name}} <a href="" tooltip="{{permission.description}}"><span class="fas fa-question-circle"></span></a>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label">Bills Permissions</label>
+                    <div class="event-split" ng-repeat="permission in permissions | filter:{'group':'Bills'}">
+                        <label class="form-control-static permission-label noselect">
+                            <input type="checkbox" ng-model="selectedPermissions[permission.id]" />
+                            {{permission.name}} <a href="" tooltip="{{permission.description}}"><span class="fas fa-question-circle"></span></a>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label">Vendor Payment Permissions</label>
+                    <div class="event-split" ng-repeat="permission in permissions | filter:{'group':'VendorPmnts'}">
+                        <label class="form-control-static permission-label noselect">
+                            <input type="checkbox" ng-model="selectedPermissions[permission.id]" />
+                            {{permission.name}} <a href="" tooltip="{{permission.description}}"><span class="fas fa-question-circle"></span></a>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary Button" ng-disabled="modelForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+            {{'general.save'|translate}}
+        </button>
+    </div>
+</form>

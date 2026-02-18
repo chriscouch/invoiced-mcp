@@ -1,0 +1,1482 @@
+bill:
+  name: Bills
+  supportedOperations: ['create', 'update', 'upsert', 'void']
+  added_fields:
+    vendor:
+      name: Vendor
+      type: string
+      relationship:
+        object: vendor
+        fields:
+          - number
+          - name
+    description:
+      name: Item Description
+      type: string
+    amount:
+      name: Item Amount
+      type: float
+
+contact:
+  name: Contacts
+  supportedOperations: ['create', 'update', 'upsert', 'delete']
+  aliases:
+    customer:
+      - customer_name
+    account_number:
+      - customer_number
+      - account_number
+      - 'account_#'
+      - external_id
+      - customer_id
+    email:
+      - email_address
+    address1:
+      - address
+      - billing_address_1
+    address2:
+      - billing_address_2
+    city:
+      - billing_city
+    state:
+      - province
+      - billing_state_province
+      - state_territory
+      - territory
+    postal_code:
+      - zip
+      - zip_code
+      - zip_code_post_code
+      - billing_zip
+    country:
+      - billing_country
+    phone:
+      - phone_number
+      - phone_no
+    primary:
+      - billing_contact
+      - primary
+
+  added_fields:
+    customer:
+      name: Customer Name
+      type: string
+    account_number:
+      name: 'Account #'
+      type: string
+    role:
+      name: Role
+      type: string
+      relationship:
+        object: contact_role
+        fields:
+          - name
+
+  customerFieldMapping:
+    customer: name
+    account_number: number
+
+coupon:
+  name: Coupons
+  supportedOperations: ['create', 'update', 'upsert', 'delete']
+  aliases:
+    currency:
+      - txn_currency
+
+credit_balance_adjustment:
+  name: Credit Balance Adjustments
+  customFieldType: transaction
+  supportedOperations: ['create']
+  aliases:
+    customer:
+      - customer_name
+    account_number:
+      - customer_number
+      - account_number
+      - 'account_#'
+      - external_id
+    email:
+      - email_address
+    address1:
+      - address
+      - billing_address_1
+    address2:
+      - billing_address_2
+    state:
+      - province
+      - billing_state_province
+      - state_territory
+      - territory
+    postal_code:
+      - zip
+      - zip_code
+      - zip_code_post_code
+      - billing_zip
+    phone:
+      - phone_number
+      - phone_no
+    currency:
+      - txn_currency
+  added_fields:
+    customer:
+      name: Customer Name
+      type: string
+    account_number:
+      name: 'Account #'
+      type: string
+    customer_id:
+      name: Customer ID
+      type: string
+    email:
+      name: Customer Email
+      type: string
+    address1:
+      name: Customer Address Line 1
+      type: string
+    address2:
+      name: Customer Address Line 2
+      type: string
+    city:
+      name: Customer City
+      type: string
+    state:
+      name: Customer State
+      type: string
+    postal_code:
+      name: Customer Postal Code
+      type: string
+    country:
+      name: Customer Country
+      type: string
+    phone:
+      name: Customer Phone
+      type: string
+  customerFieldMapping:
+    customer_id: id
+    customer: name
+    account_number: number
+    email: email
+    address1: address1
+    address2: address2
+    city: city
+    state: state
+    postal_code: postal_code
+    country: country
+    phone: phone
+
+credit_note:
+  name: Credit Notes
+  customFieldType: credit_note
+  hasLineItemCustomFields: true
+  supportedOperations: ['create', 'update', 'upsert', 'delete', 'void']
+  aliases:
+    customer:
+      - customer_name
+    account_number:
+      - customer_number
+      - account_number
+      - 'account_#'
+      - external_id
+    email:
+      - email_address
+    address1:
+      - address
+      - billing_address_1
+    address2:
+      - billing_address_2
+    state:
+      - province
+      - billing_state_province
+      - state_territory
+      - territory
+    postal_code:
+      - zip
+      - zip_code
+      - zip_code_post_code
+      - billing_zip
+    phone:
+      - phone_number
+      - phone_no
+    currency:
+      - txn_currency
+    number:
+      - credit_note_number
+      - credit_note_no
+      - 'credit_note_#'
+      - document_number
+    purchase_order:
+      - po_num
+      - po_number
+      - reference_number
+      - po_check_number
+    catalog_item:
+      - item_id
+    starting_balance:
+      - amount_due
+      - balance
+      - amount_remaining
+
+  added_fields:
+    customer:
+      name: Customer Name
+      type: string
+    account_number:
+      name: 'Account #'
+      type: string
+    customer_id:
+      name: Customer ID
+      type: string
+    email:
+      name: Customer Email
+      type: string
+    address1:
+      name: Customer Address Line 1
+      type: string
+    address2:
+      name: Customer Address Line 2
+      type: string
+    city:
+      name: Customer City
+      type: string
+    state:
+      name: Customer State
+      type: string
+    postal_code:
+      name: Customer Postal Code
+      type: string
+    country:
+      name: Customer Country
+      type: string
+    phone:
+      name: Customer Phone
+      type: string
+    item:
+      name: Item Name
+      type: string
+    quantity:
+      name: Quantity
+      type: float
+    unit_cost:
+      name: Unit Cost
+      type: float
+    catalog_item:
+      name: Item ID
+      type: string
+    type:
+      name: Item Type
+      type: string
+    description:
+      name: Item Description
+      type: string
+    discount:
+      name: Discount
+      type: float
+    tax:
+      name: Tax
+      type: float
+    starting_balance:
+      name: Starting Balance
+      type: float
+    accounting_id:
+      name: Accounting ID
+      type: string
+    accounting_system:
+      name: Accounting System
+      type: string
+  customerFieldMapping:
+    customer_id: id
+    customer: name
+    account_number: number
+    email: email
+    address1: address1
+    address2: address2
+    city: city
+    state: state
+    postal_code: postal_code
+    country: country
+    phone: phone
+
+customer:
+  name: Customers
+  customFieldType: customer
+  supportedOperations: ['create', 'update', 'upsert', 'delete']
+  aliases:
+    number:
+      - customer_number
+      - account_number
+      - 'account_#'
+      - external_id
+      - customer_id
+    name:
+      - customer_name
+    email:
+      - email_address
+    payment_terms:
+      - payment_term
+      - terms
+    address1:
+      - address
+      - billing_address_1
+    address2:
+      - billing_address_2
+    city:
+      - billing_city
+    state:
+      - province
+      - billing_state_province
+      - state_territory
+      - territory
+    postal_code:
+      - zip
+      - zip_code
+      - zip_code_post_code
+      - billing_zip
+    country:
+      - billing_country
+    phone:
+      - phone_number
+      - phone_no
+    owner:
+      - account_owner
+      - account_manager
+    cc_gateway:
+      - credit_card_gateway
+    currency:
+      - txn_currency
+  added_fields:
+    owner:
+      name: Owner
+      type: string
+    chasing_cadence:
+      name: Chasing Cadence
+      type: string
+    next_chase_step:
+      name: Next Chase Step
+      type: string
+    ach_gateway:
+      name: ACH Gateway
+      type: string
+    cc_gateway:
+      name: Credit Card Gateway
+      type: string
+    late_fee_schedule:
+      name: Late Fee Schedule
+      type: string
+    accounting_id:
+      name: Accounting ID
+      type: string
+    accounting_system:
+      name: Accounting System
+      type: string
+
+estimate:
+  name: Estimates
+  customFieldType: estimate
+  hasLineItemCustomFields: true
+  supportedOperations: ['create', 'update', 'upsert', 'delete', 'void']
+  aliases:
+    customer:
+      - customer_name
+    account_number:
+      - customer_number
+      - account_number
+      - 'account_#'
+      - external_id
+    email:
+      - email_address
+    address1:
+      - address
+      - billing_address_1
+    address2:
+      - billing_address_2
+    state:
+      - province
+      - billing_state_province
+      - state_territory
+      - territory
+    postal_code:
+      - zip
+      - zip_code
+      - zip_code_post_code
+      - billing_zip
+    phone:
+      - phone_number
+      - phone_no
+    currency:
+      - txn_currency
+    number:
+      - estimate_number
+      - estimate_no
+      - 'estimate_#'
+      - document_number
+    payment_terms:
+      - payment_term
+      - terms
+    purchase_order:
+      - po_num
+      - po_number
+      - reference_number
+      - po_check_number
+  added_fields:
+    customer:
+      name: Customer Name
+      type: string
+    account_number:
+      name: 'Account #'
+      type: string
+    customer_id:
+      name: Customer ID
+      type: string
+    email:
+      name: Customer Email
+      type: string
+    address1:
+      name: Customer Address Line 1
+      type: string
+    address2:
+      name: Customer Address Line 2
+      type: string
+    city:
+      name: Customer City
+      type: string
+    state:
+      name: Customer State
+      type: string
+    postal_code:
+      name: Customer Postal Code
+      type: string
+    country:
+      name: Customer Country
+      type: string
+    phone:
+      name: Customer Phone
+      type: string
+    item:
+      name: Item Name
+      type: string
+    quantity:
+      name: Quantity
+      type: float
+    unit_cost:
+      name: Unit Cost
+      type: float
+    type:
+      name: Item Type
+      type: string
+    description:
+      name: Item Description
+      type: string
+    discount:
+      name: Discount
+      type: float
+    tax:
+      name: Tax
+      type: float
+    ship_to.name:
+      name: Shipping Name
+      type: string
+    ship_to.attention_to:
+      name: Shipping Attention To
+      type: string
+    ship_to.address1:
+      name: Shipping Address1
+      type: string
+    ship_to.address2:
+      name: Shipping Address2
+      type: string
+    ship_to.city:
+      name: Shipping City
+      type: string
+    ship_to.state:
+      name: Shipping State
+      type: string
+    ship_to.postal_code:
+      name: Shipping Postal Code
+      type: string
+    ship_to.country:
+      name: Shipping Country
+      type: string
+  customerFieldMapping:
+    customer_id: id
+    customer: name
+    account_number: number
+    email: email
+    address1: address1
+    address2: address2
+    city: city
+    state: state
+    postal_code: postal_code
+    country: country
+    phone: phone
+
+invoice:
+  name: Invoices
+  customFieldType: invoice
+  hasLineItemCustomFields: true
+  supportedOperations: ['create', 'update', 'upsert', 'delete', 'void']
+  aliases:
+    customer:
+      - customer_name
+    account_number:
+      - customer_number
+      - account_number
+      - 'account_#'
+      - external_id
+    email:
+      - email_address
+    address1:
+      - address
+      - billing_address_1
+    address2:
+      - billing_address_2
+    state:
+      - province
+      - billing_state_province
+      - state_territory
+      - territory
+    postal_code:
+      - zip
+      - zip_code
+      - zip_code_post_code
+      - billing_zip
+    phone:
+      - phone_number
+      - phone_no
+    currency:
+      - txn_currency
+    number:
+      - invoice_number
+      - invoice_no
+      - 'invoice_#'
+      - document_number
+    due_date:
+      - date_due
+      - due_date_receive_by
+    purchase_order:
+      - po_num
+      - po_number
+      - reference_number
+      - po_check_number
+    payment_terms:
+      - payment_term
+      - terms
+    catalog_item:
+      - item_id
+    starting_balance:
+      - amount_due
+      - balance
+      - amount_remaining
+  added_fields:
+    customer:
+      name: Customer Name
+      type: string
+    account_number:
+      name: 'Account #'
+      type: string
+    customer_id:
+      name: Customer ID
+      type: string
+    email:
+      name: Customer Email
+      type: string
+    address1:
+      name: Customer Address Line 1
+      type: string
+    address2:
+      name: Customer Address Line 2
+      type: string
+    city:
+      name: Customer City
+      type: string
+    state:
+      name: Customer State
+      type: string
+    postal_code:
+      name: Customer Postal Code
+      type: string
+    country:
+      name: Customer Country
+      type: string
+    phone:
+      name: Customer Phone
+      type: string
+    item:
+      name: Item Name
+      type: string
+    quantity:
+      name: Quantity
+      type: float
+    unit_cost:
+      name: Unit Cost
+      type: float
+    catalog_item:
+      name: Item ID
+      type: string
+    type:
+      name: Item Type
+      type: string
+    description:
+      name: Item Description
+      type: string
+    discount:
+      name: Discount
+      type: float
+    tax:
+      name: Tax
+      type: float
+    payment_plan_start_date:
+      name: Payment Plan Start Date
+      type: date
+    ship_to.name:
+      name: Shipping Name
+      type: string
+    ship_to.attention_to:
+      name: Shipping Attention To
+      type: string
+    ship_to.address1:
+      name: Shipping Address1
+      type: string
+    ship_to.address2:
+      name: Shipping Address2
+      type: string
+    ship_to.city:
+      name: Shipping City
+      type: string
+    ship_to.state:
+      name: Shipping State
+      type: string
+    ship_to.postal_code:
+      name: Shipping Postal Code
+      type: string
+    ship_to.country:
+      name: Shipping Country
+      type: string
+    starting_balance:
+      name: Starting Balance
+      type: float
+    chasing_cadence:
+      name: Chasing Cadence
+      type: string
+    chasing_disabled:
+      name: Chasing Disabled
+      type: boolean
+    invoice_email_contacts:
+      name: Invoice Email Contacts
+      type: string
+    accounting_id:
+      name: Accounting ID
+      type: string
+    accounting_system:
+      name: Accounting System
+      type: string
+  customerFieldMapping:
+    customer_id: id
+    customer: name
+    account_number: number
+    email: email
+    address1: address1
+    address2: address2
+    city: city
+    state: state
+    postal_code: postal_code
+    country: country
+    phone: phone
+
+item:
+  name: Items
+  supportedOperations: ['create', 'update', 'upsert', 'delete']
+  aliases:
+    currency:
+      - txn_currency
+  added_fields:
+    accounting_id:
+      name: Accounting ID
+      type: string
+    accounting_system:
+      name: Accounting System
+      type: string
+
+payment_source:
+  name: Payment Sources
+  supportedOperations: ['create']
+  aliases:
+    customer:
+      - customer_name
+    account_number:
+      - customer_number
+      - account_number
+      - 'account_#'
+      - external_id
+    country:
+      - billing_country
+    currency:
+      - txn_currency
+    merchant_account_id:
+      - gateway_configuration_id
+  fields:
+    customer:
+      name: Customer Name
+      type: string
+    account_number:
+      name: 'Account #'
+      type: string
+    customer_id:
+      name: Customer ID
+      type: string
+    type:
+      name: Source Type
+      type: string
+    gateway:
+      name: Gateway
+      type: string
+    gateway_id:
+      name: Gateway ID
+      type: string
+    gateway_customer:
+      name: Gateway Customer ID
+      type: string
+    brand:
+      name: Card Brand
+      type: string
+    last4:
+      name: Last 4
+      type: string
+    exp_month:
+      name: Expiration Month
+      type: string
+    exp_year:
+      name: Expiration Year
+      type: string
+    funding:
+      name: Card Funding
+      type: string
+    bank_name:
+      name: Bank Name
+      type: string
+    routing_number:
+      name: 'Routing #'
+      type: string
+    country:
+      name: Country
+      type: string
+    currency:
+      name: Currency
+      type: string
+    merchant_account_id:
+      name: Gateway Configuration ID
+      type: string
+  customerFieldMapping:
+    customer_id: id
+    customer: name
+    account_number: number
+
+payment_source_remap:
+  name: Payment Source Remap
+  supportedOperations: ['update']
+  aliases:
+    type:
+      - source_type
+    current_gateway_id:
+      - original_gateway_id
+    merchant_account_id:
+      - new_gateway_configuration_id
+    new_gateway_id:
+      - new_gateway_id
+    new_gateway_customer:
+      - new_gateway_customer_id
+  fields:
+    type:
+      name: Source Type
+      type: string
+    current_gateway_id:
+      name: Original Gateway ID
+      type: string
+    merchant_account_id:
+      name: New Gateway Configuration ID
+      type: string
+    new_gateway_id:
+      name: New Gateway ID
+      type: string
+    new_gateway_customer:
+      name: New Gateway Customer ID
+      type: string
+    account_number:
+      name: Account Number
+      type: string
+
+payment:
+  name: Payments
+  customFieldType: payment
+  supportedOperations: ['create', 'update', 'upsert', 'void']
+  aliases:
+    customer:
+      - customer_name
+    account_number:
+      - customer_number
+      - account_number
+      - 'account_#'
+      - external_id
+    email:
+      - email_address
+    address1:
+      - address
+      - billing_address_1
+    address2:
+      - billing_address_2
+    state:
+      - province
+      - billing_state_province
+      - state_territory
+      - territory
+    postal_code:
+      - zip
+      - zip_code
+      - zip_code_post_code
+      - billing_zip
+    phone:
+      - phone_number
+      - phone_no
+    currency:
+      - txn_currency
+    reference:
+      - check_no
+      - check_number
+      - 'check_#'
+      - transaction_id
+    type:
+      - applied_to
+    credit_note:
+      - 'credit_note_#'
+      - credit_note_no
+      - credit_note_number
+    estimate:
+      - 'estimate_#'
+      - estimate_no
+      - estimate_number
+    invoice:
+      - 'invoice_#'
+      - invoice_no
+      - invoice_number
+    amount_applied:
+      - applied_amount
+    ach_sender_id:
+      - ach_sender_id
+  added_fields:
+    customer:
+      name: Customer Name
+      type: string
+    account_number:
+      name: 'Account #'
+      type: string
+    customer_id:
+      name: Customer ID
+      type: string
+    email:
+      name: Customer Email
+      type: string
+    address1:
+      name: Customer Address Line 1
+      type: string
+    address2:
+      name: Customer Address Line 2
+      type: string
+    city:
+      name: Customer City
+      type: string
+    state:
+      name: Customer State
+      type: string
+    postal_code:
+      name: Customer Postal Code
+      type: string
+    country:
+      name: Customer Country
+      type: string
+    phone:
+      name: Customer Phone
+      type: string
+    type:
+      name: Applied To
+      type: string
+    document_type:
+      name: Document Type
+      type: string
+    credit_note:
+      name: 'Credit Note #'
+      type: string
+    estimate:
+      name: 'Estimate #'
+      type: string
+    invoice:
+      name: 'Invoice #'
+      type: string
+    amount_applied:
+      name: Applied Amount
+      type: float
+    accounting_id:
+      name: Accounting ID
+      type: string
+    accounting_system:
+      name: Accounting System
+      type: string
+  customerFieldMapping:
+    customer_id: id
+    customer: name
+    account_number: number
+    email: email
+    address1: address1
+    address2: address2
+    city: city
+    state: state
+    postal_code: postal_code
+    country: country
+    phone: phone
+
+pending_line_item:
+  name: Pending Line Items
+  supportedOperations: ['create']
+  aliases:
+    customer:
+      - customer_name
+    account_number:
+      - customer_number
+      - account_number
+      - 'account_#'
+      - external_id
+    email:
+      - email_address
+    address1:
+      - address
+      - billing_address_1
+    address2:
+      - billing_address_2
+    state:
+      - province
+      - billing_state_province
+      - state_territory
+      - territory
+    postal_code:
+      - zip
+      - zip_code
+      - zip_code_post_code
+      - billing_zip
+    phone:
+      - phone_number
+      - phone_no
+    catalog_item:
+      - item_id
+  added_fields:
+    customer:
+      name: Customer Name
+      type: string
+    account_number:
+      name: 'Account #'
+      type: string
+    customer_id:
+      name: Customer ID
+      type: string
+    email:
+      name: Customer Email
+      type: string
+    address1:
+      name: Customer Address Line 1
+      type: string
+    address2:
+      name: Customer Address Line 2
+      type: string
+    city:
+      name: Customer City
+      type: string
+    state:
+      name: Customer State
+      type: string
+    postal_code:
+      name: Customer Postal Code
+      type: string
+    country:
+      name: Customer Country
+      type: string
+    phone:
+      name: Customer Phone
+      type: string
+    discount:
+      name: Discount
+      type: float
+    tax:
+      name: Tax
+      type: float
+  customerFieldMapping:
+    customer_id: id
+    customer: name
+    account_number: number
+    email: email
+    address1: address1
+    address2: address2
+    city: city
+    state: state
+    postal_code: postal_code
+    country: country
+    phone: phone
+
+plan:
+  name: Plans
+  supportedOperations: ['create', 'update', 'upsert', 'delete']
+  aliases:
+    currency:
+      - txn_currency
+    catalog_item:
+      - item
+      - item_id
+
+remittance_advice:
+  name: Remittance Advice
+  supportedOperations: ['create']
+  aliases:
+    customer:
+      - customer_name
+    account_number:
+      - customer_number
+      - account_number
+      - 'account_#'
+      - external_id
+    email:
+      - email_address
+    address1:
+      - address
+      - billing_address_1
+    address2:
+      - billing_address_2
+    state:
+      - province
+      - billing_state_province
+      - state_territory
+      - territory
+    postal_code:
+      - zip
+      - zip_code
+      - zip_code_post_code
+      - billing_zip
+    phone:
+      - phone_number
+      - phone_no
+    currency:
+      - txn_currency
+    payment_date:
+      - date
+    payment_reference:
+      - reference
+      - check_no
+      - check_number
+      - 'check_#'
+      - transaction_id
+    document_number:
+      - invoice
+      - invoice_number
+    discount:
+      - discount_taken
+    net_amount_paid:
+      - amount_paid
+  added_fields:
+    customer:
+      name: Customer Name
+      type: string
+    account_number:
+      name: 'Account #'
+      type: string
+    customer_id:
+      name: Customer ID
+      type: string
+    email:
+      name: Customer Email
+      type: string
+    address1:
+      name: Customer Address Line 1
+      type: string
+    address2:
+      name: Customer Address Line 2
+      type: string
+    city:
+      name: Customer City
+      type: string
+    state:
+      name: Customer State
+      type: string
+    postal_code:
+      name: Customer Postal Code
+      type: string
+    country:
+      name: Customer Country
+      type: string
+    phone:
+      name: Customer Phone
+      type: string
+    document_number:
+      name: Document Number
+      type: string
+    description:
+      name: Description
+      type: string
+    gross_amount_paid:
+      name: Gross Amount Paid
+      type: float
+    net_amount_paid:
+      name: Net Amount Paid
+      type: float
+    discount:
+      name: Discount Taken
+      type: float
+  customerFieldMapping:
+    customer_id: id
+    customer: name
+    account_number: number
+    email: email
+    address1: address1
+    address2: address2
+    city: city
+    state: state
+    postal_code: postal_code
+    country: country
+    phone: phone
+
+subscription:
+  name: Subscriptions
+  customFieldType: subscription
+  supportedOperations: ['create']
+  aliases:
+    customer:
+      - customer_name
+    account_number:
+      - customer_number
+      - account_number
+      - 'account_#'
+      - external_id
+    email:
+      - email_address
+    address1:
+      - address
+      - billing_address_1
+    address2:
+      - billing_address_2
+    state:
+      - province
+      - billing_state_province
+      - state_territory
+      - territory
+    postal_code:
+      - zip
+      - zip_code
+      - zip_code_post_code
+      - billing_zip
+    phone:
+      - phone_number
+      - phone_no
+    cycles:
+      - num_billing_cycles
+    discounts:
+      - coupon
+      - coupons
+      - discount
+  added_fields:
+    customer:
+      name: Customer Name
+      type: string
+    account_number:
+      name: 'Account #'
+      type: string
+    customer_id:
+      name: Customer ID
+      type: string
+    email:
+      name: Customer Email
+      type: string
+    address1:
+      name: Customer Address Line 1
+      type: string
+    address2:
+      name: Customer Address Line 2
+      type: string
+    city:
+      name: Customer City
+      type: string
+    state:
+      name: Customer State
+      type: string
+    postal_code:
+      name: Customer Postal Code
+      type: string
+    country:
+      name: Customer Country
+      type: string
+    phone:
+      name: Customer Phone
+      type: string
+    plan:
+      name: Plan ID
+      type: string
+    start_date:
+      name: Start Date
+      type: date
+    cycles:
+      name: '# Billing Cycles'
+      type: integer
+    quantity:
+      name: Quantity
+      type: float
+    amount:
+      name: Amount
+      type: amount
+    bill_in:
+      name: Bill In
+      type: string
+    bill_in_advance_days:
+      name: Bill In Advance Days
+      type: integer
+    paused:
+      name: Paused
+      type: boolean
+    prorate:
+      name: Prorate
+      type: boolean
+    snap_to_nth_day:
+      name: Bill On Day
+      type: integer
+    description:
+      name: Line Description
+      type: string
+    discounts:
+      name: Coupon
+      type: string
+    contract_renewal_mode:
+      name: Contract Renewal Mode
+      type: string
+    contract_renewal_cycles:
+      name: Contract Renewal Cycles
+      type: integer
+    ship_to.name:
+      name: Shipping Name
+      type: string
+    ship_to.attention_to:
+      name: Shipping Attention To
+      type: string
+    ship_to.address1:
+      name: Shipping Address1
+      type: string
+    ship_to.address2:
+      name: Shipping Address2
+      type: string
+    ship_to.city:
+      name: Shipping City
+      type: string
+    ship_to.state:
+      name: Shipping State
+      type: string
+    ship_to.postal_code:
+      name: Shipping Postal Code
+      type: string
+    ship_to.country:
+      name: Shipping Country
+      type: string
+  customerFieldMapping:
+    customer_id: id
+    customer: name
+    account_number: number
+    email: email
+    address1: address1
+    address2: address2
+    city: city
+    state: state
+    postal_code: postal_code
+    country: country
+    phone: phone
+
+tax_rate:
+  name: Tax Rates
+  supportedOperations: ['create', 'update', 'upsert', 'delete']
+  aliases:
+    currency:
+    - txn_currency
+
+transaction:
+  name: Transactions
+  customFieldType: transaction
+  supportedOperations: ['create']
+  aliases:
+    invoice_number:
+      - invoice_number
+      - invoice_no
+      - 'invoice_#'
+    customer:
+      - customer_name
+    account_number:
+      - customer_number
+      - account_number
+      - 'account_#'
+      - external_id
+    email:
+      - email_address
+    address1:
+      - address
+      - billing_address_1
+    address2:
+      - billing_address_2
+    state:
+      - province
+      - billing_state_province
+      - state_territory
+      - territory
+    postal_code:
+      - zip
+      - zip_code
+      - zip_code_post_code
+      - billing_zip
+    phone:
+      - phone_number
+      - phone_no
+    currency:
+      - txn_currency
+    gateway_id:
+      - check_no
+      - check_number
+      - 'check_#'
+      - transaction_id
+  added_fields:
+    invoice_number:
+      name: 'Invoice #'
+      type: string
+    invoice:
+      name: Invoice ID
+      type: string
+    customer:
+      name: Customer Name
+      type: string
+    account_number:
+      name: 'Account #'
+      type: string
+    customer_id:
+      name: Customer ID
+      type: string
+    email:
+      name: Customer Email
+      type: string
+    address1:
+      name: Customer Address Line 1
+      type: string
+    address2:
+      name: Customer Address Line 2
+      type: string
+    city:
+      name: Customer City
+      type: string
+    state:
+      name: Customer State
+      type: string
+    postal_code:
+      name: Customer Postal Code
+      type: string
+    country:
+      name: Customer Country
+      type: string
+    phone:
+      name: Customer Phone
+      type: string
+  customerFieldMapping:
+    customer_id: id
+    customer: name
+    account_number: number
+    email: email
+    address1: address1
+    address2: address2
+    city: city
+    state: state
+    postal_code: postal_code
+    country: country
+    phone: phone
+
+vendor:
+  name: Vendors
+  supportedOperations: ['create', 'update', 'upsert', 'delete']
+  aliases:
+    number:
+      - vendor_number
+      - account_number
+      - 'account_#'
+      - external_id
+      - vendor_id
+    name:
+      - vendor_name
+    email:
+      - email_address
+    address1:
+      - address
+      - billing_address_1
+    address2:
+      - billing_address_2
+    city:
+      - billing_city
+    state:
+      - province
+      - billing_state_province
+      - state_territory
+      - territory
+    postal_code:
+      - zip
+      - zip_code
+      - zip_code_post_code
+      - billing_zip
+    country:
+      - billing_country
+  added_fields:
+    approval_workflow:
+      name: Approval Workflow
+      type: string
+      relationship:
+        object: approval_workflow
+        fields:
+          - name
+
+vendor_credit:
+  name: Vendor Credits
+  supportedOperations: ['create', 'update', 'upsert', 'void']
+  added_fields:
+    vendor:
+      name: Vendor
+      type: string
+      relationship:
+        object: vendor
+        fields:
+          - number
+          - name
+    description:
+      name: Item Description
+      type: string
+    amount:
+      name: Item Amount
+      type: float
+
+vendor_payment:
+  name: Vendor Payments
+  supportedOperations: ['create', 'update', 'upsert', 'void']
+  added_fields:
+    vendor:
+      name: Vendor
+      type: string
+      relationship:
+        object: vendor
+        fields:
+          - number
+          - name
+    bill:
+      name: Bill
+      type: string
+    vendor_credit:
+      name: Vendor Credit
+      type: string
+    amount_applied:
+      name: Applied Amount
+      type: float
+    type:
+      name: Applied To
+      type: string
+
+
+

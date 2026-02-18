@@ -1,0 +1,19 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.subscription_canceled'|trans %}
+{% extends "customerPortal/parentFrameOneColumn.twig" %}
+
+{% block left %}
+	<div class="main">
+		<p>
+            {{ 'messages.subscription_canceled'|trans }}
+		</p>
+
+		{% if signedInCustomer and customerPortal.enabled() %}
+			<div class="row actions">
+				<div class="col-sm-6">
+					<a href="{{ company.url }}" class="btn btn-link btn-block">{{ 'buttons.go_to_my_account'|trans }}</a>
+				</div>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}

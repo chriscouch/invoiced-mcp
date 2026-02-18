@@ -1,0 +1,43 @@
+fields:
+  assignment_conditions: { name: "Assignment Conditions", type: string }
+  assignment_mode:
+    name: "Assignment Mode"
+    type: enum
+    values:
+      none: None
+      default: Default
+      conditions: Conditional
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  frequency:
+    name: Frequency
+    type: enum
+    values:
+      daily: Daily
+      day_of_week: Day of Week
+      day_of_month: Day of Month
+  id:
+    name: ID
+    type: string
+    writable: false
+  last_run: { name: "Last Run", type: datetime }
+  min_balance: { name: "Min Balance", type: float }
+  name: { name: Name, type: string }
+  next_run: { name: "Next Run", type: datetime }
+  paused: { name: Paused, type: boolean }
+  run_date: { name: "Run Date", type: integer }
+  time_of_day: { name: "Time Of Day", type: integer }
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false

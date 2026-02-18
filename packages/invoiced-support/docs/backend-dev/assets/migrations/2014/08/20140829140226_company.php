@@ -1,0 +1,72 @@
+<?php
+
+use Phinx\Migration\AbstractMigration;
+
+final class Company extends AbstractMigration
+{
+    public function change()
+    {
+        $table = $this->table('Companies');
+        $table->addColumn('name', 'string')
+            ->addColumn('creator_id', 'integer', ['null' => true, 'default' => null])
+            ->addColumn('getting_started', 'boolean', ['default' => true])
+            ->addColumn('fraud', 'boolean')
+            ->addColumn('email', 'string')
+            ->addColumn('verified_email', 'boolean', ['default' => true])
+            ->addColumn('type', 'enum', ['values' => ['company', 'person']])
+            ->addColumn('address1', 'string', ['null' => true, 'default' => null, 'length' => 1000])
+            ->addColumn('address2', 'string', ['null' => true, 'default' => null])
+            ->addColumn('city', 'string', ['null' => true, 'default' => null])
+            ->addColumn('state', 'string', ['null' => true, 'default' => null])
+            ->addColumn('postal_code', 'string', ['null' => true, 'default' => null])
+            ->addColumn('address_extra', 'text')
+            ->addColumn('currency', 'string', ['length' => 3])
+            ->addColumn('decimal_format', 'integer', ['length' => 2])
+            ->addColumn('date_format', 'string', ['length' => 10])
+            ->addColumn('show_currency_code', 'boolean')
+            ->addColumn('time_zone', 'string', ['length' => 50])
+            ->addColumn('language', 'string', ['default' => 'en', 'length' => 2])
+            ->addColumn('logo', 'string', ['length' => 50])
+            ->addColumn('digest_frequency', 'string', ['length' => 5, 'null' => true, 'default' => null])
+            ->addColumn('digest_email', 'text', ['null' => true, 'default' => null])
+            ->addColumn('next_digest', 'integer')
+            ->addColumn('test_mode', 'boolean')
+            ->addColumn('plan', 'string', ['length' => 50])
+            ->addColumn('stripe_customer', 'string', ['length' => 50])
+            ->addColumn('not_charged', 'boolean')
+            ->addColumn('past_due', 'boolean')
+            ->addColumn('renews_next', 'integer', ['null' => true])
+            ->addColumn('trial_ends', 'integer', ['null' => true, 'default' => null])
+            ->addColumn('last_trial_reminder', 'integer', ['null' => true, 'default' => null])
+            ->addColumn('canceled', 'boolean')
+            ->addColumn('canceled_at', 'integer', ['null' => true, 'default' => null])
+            ->addColumn('canceled_reason', 'string')
+            ->addColumn('trial_started', 'integer', ['null' => true, 'default' => null])
+            ->addColumn('converted_at', 'integer', ['null' => true, 'default' => null])
+            ->addColumn('converted_from', 'string')
+            ->addColumn('bcc', 'string')
+            ->addColumn('username', 'string')
+            ->addColumn('custom_domain', 'string', ['null' => true, 'default' => null])
+            ->addColumn('highlight_color', 'string', ['default' => '#4B94D9'])
+            ->addColumn('sso_key_enc', 'string', ['length' => 296])
+            ->addColumn('country', 'string', ['length' => 2, 'null' => true, 'default' => null])
+            ->addColumn('tax_id', 'string', ['null' => true, 'default' => null])
+            ->addColumn('referred_by', 'string')
+            ->addColumn('pipedrive_deal_id', 'integer', ['null' => true, 'default' => null])
+            ->addColumn('email_verification_token', 'string', ['length' => 24, 'null' => true, 'default' => null])
+            ->addColumn('last_overage_notification', 'integer', ['default' => null, 'null' => true])
+            ->addColumn('search_last_reindexed', 'integer')
+            ->addTimestamps()
+            ->addIndex(['username'])
+            ->addIndex('custom_domain')
+            ->addIndex(['stripe_customer'])
+            ->addIndex('email_verification_token')
+            ->addIndex('pipedrive_deal_id')
+            ->addForeignKey('creator_id', 'Users', 'id', ['delete' => 'SET NULL', 'update' => 'CASCADE'])
+            ->create();
+
+        $this->table('Users')
+            ->addForeignKey('default_company_id', 'Companies', 'id', ['delete' => 'SET NULL', 'update' => 'CASCADE'])
+            ->update();
+    }
+}

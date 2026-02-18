@@ -1,0 +1,99 @@
+<div class="loading" ng-show="loading"></div>
+<div ng-hide="loading">
+    <div ng-show="integrationDefinition.explainer">
+        <h4>Introduction</h4>
+        <p>{{integrationDefinition.explainer|nl2br}}</p>
+    </div>
+
+    <!-- Documentation Installation -->
+    <div ng-show="integrationDefinition.installation == 'see_documentation'">
+        <h4>How to Install</h4>
+        <div ng-if="integrationDefinition.hasFeature">
+            <p>Please see the <a href="{{integrationDefinition.documentationUrl}}" target="_blank">documentation</a> for instructions on how to install this integration.</p>
+            <p ng-show="integrationDefinition.installUrl"><a href="{{integrationDefinition.installUrl}}" target="_blank" class="btn btn-primary">Install</a></p>
+        </div>
+        <feature-upgrade upgrade-class="'inline-upgrade'" ng-if="!integrationDefinition.hasFeature"></feature-upgrade>
+    </div>
+
+    <!-- In-App Installation -->
+    <div ng-show="integrationDefinition.installation == 'in_app'">
+        <h4>How to Install</h4>
+        <div ng-hide="integration.connected">
+            <!-- Avalara -->
+            <div ng-if="integrationDefinition.id=='avalara'">
+                <connect-to-avalara></connect-to-avalara>
+            </div>
+            <!-- Business Central -->
+            <div ng-if="integrationDefinition.id=='business_central'">
+                <connect-to-business-central></connect-to-business-central>
+            </div>
+            <!-- ChartMogul -->
+            <div ng-if="integrationDefinition.id=='chartmogul'">
+                <connect-to-chartmogul></connect-to-chartmogul>
+            </div>
+            <!-- Earth Class Mail -->
+            <div ng-if="integrationDefinition.id=='earth_class_mail'">
+                <connect-to-earth-class-mail></connect-to-earth-class-mail>
+            </div>
+            <!-- FreshBooks -->
+            <div ng-if="integrationDefinition.id=='freshbooks'">
+                <connect-to-freshbooks></connect-to-freshbooks>
+            </div>
+            <!-- Intacct -->
+            <div ng-if="integrationDefinition.id=='intacct'">
+                <connect-to-intacct></connect-to-intacct>
+            </div>
+            <!-- Lob -->
+            <div ng-if="integrationDefinition.id=='lob'">
+                <connect-to-lob></connect-to-lob>
+            </div>
+            <!-- NetSuite -->
+            <div ng-if="integrationDefinition.id=='netsuite'">
+                <connect-to-netsuite></connect-to-netsuite>
+            </div>
+            <!-- QuickBooks Online -->
+            <div ng-if="integrationDefinition.id=='quickbooks_online'">
+                <connect-to-quickbooks></connect-to-quickbooks>
+            </div>
+            <!-- QuickBooks Desktop -->
+            <div ng-if="integrationDefinition.id=='quickbooks_desktop'">
+                <connect-to-quickbooks-desktop callback="installedQuickBooksDesktop()"></connect-to-quickbooks-desktop>
+            </div>
+            <!-- Sage Accounting -->
+            <div ng-if="integrationDefinition.id=='sage_accounting'">
+                <connect-to-sage-accounting></connect-to-sage-accounting>
+            </div>
+            <!-- Slack -->
+            <div ng-if="integrationDefinition.id=='slack'">
+                <add-to-slack></add-to-slack>
+            </div>
+            <!-- Twilio -->
+            <div ng-if="integrationDefinition.id=='twilio'">
+                <connect-to-twilio></connect-to-twilio>
+            </div>
+            <!-- Wave -->
+            <div ng-if="integrationDefinition.id=='wave'">
+                <connect-to-wave></connect-to-wave>
+            </div>
+            <!-- Xero -->
+            <div ng-if="integrationDefinition.id=='xero'">
+                <connect-to-xero></connect-to-xero>
+            </div>
+        </div>
+
+        <div ng-show="integration.connected">
+            <p>
+                <span class="label label-success">Installed</span>
+            </p>
+
+            <!-- Manage Connection -->
+            <div ng-show="integrationDefinition.canDisconnect">
+                <br/>
+                <hr/>
+                <a href="" ng-click="disconnect()" class="btn btn-danger btn-sm" ng-hide="disconnecting">
+                    Delete App
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

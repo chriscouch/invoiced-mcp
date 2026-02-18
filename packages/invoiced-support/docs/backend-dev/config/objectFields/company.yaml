@@ -1,0 +1,33 @@
+fields:
+  address1: { name: "Address Line 1", type: string }
+  address2: { name: "Address Line 2", type: string }
+  city: { name: City, type: string }
+  country: { name: Country, type: string }
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency: { name: Currency, type: string }
+  email: { name: Email, type: string }
+  id:
+    name: ID
+    type: string
+    writable: false
+  language: { name: Language, type: string }
+  name: { name: Name, type: string }
+  nickname: { name: Nickname, type: string }
+  phone: { name: Phone, type: string }
+  postal_code: { name: "Postal Code", type: string }
+  state: { name: State, type: string }
+  tax_id: { name: Tax, type: string }
+  type:
+    name: Type
+    type: enum
+    values:
+      company: Company
+      government: Government
+      non_profit: Non-Profit
+      person: Individual
+  username: { name: Username, type: string }
+  website: { name: Website, type: string }

@@ -1,0 +1,25 @@
+<suitelet scriptid="customscript_invd_attach_contacts">
+  <description>Attach/Detach contacts to the customer</description>
+  <isinactive>F</isinactive>
+  <name>Invoiced - Attach Contacts Client Script</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <notifyuser>F</notifyuser>
+  <scriptfile>[/SuiteBundles/Bundle 265184/src/UpdateContactsSuitelet.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_invd_attach_contacts">
+      <allemployees>F</allemployees>
+      <allpartners>F</allpartners>
+      <allroles>T</allroles>
+      <audslctrole></audslctrole>
+      <eventtype>POST</eventtype>
+      <isdeployed>T</isdeployed>
+      <isonline>F</isonline>
+      <loglevel>DEBUG</loglevel>
+      <runasrole></runasrole>
+      <status>RELEASED</status>
+      <title>Invoiced - Attach Contacts Client Script</title>
+    </scriptdeployment>
+  </scriptdeployments>
+</suitelet>

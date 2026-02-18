@@ -1,0 +1,121 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.faq'|trans %}
+{% extends "customerPortal/parentFrameOneColumn.twig" %}
+
+{% block left %}
+	<div class="faq">
+		<ol class="numbered toc">
+			<li><a href="#faq-1">What is this site?</a></li>
+			<li><a href="#faq-3">Is this customer portal secure?</a></li>
+			<li><a href="#faq-4">How do I sign in?</a></li>
+			<li><a href="#faq-5">How do I view my invoice(s)?</a></li>
+			<li><a href="#faq-6">How do I pay my invoice(s)?</a></li>
+			<li><a href="#faq-7">How do I add my bank account or credit card?</a></li>
+			<li><a href="#faq-8">How do I sign up for AutoPay?</a></li>
+			<li><a href="#faq-9">How do I access my historic invoices?</a></li>
+			<li><a href="#faq-10">How do I update my contact information?</a></li>
+			<li><a href="#faq-11">How do I view an account statement?</a></li>
+		</ol>
+
+		<a id="faq-1"></a>
+		<h3>What is this site?</h3>
+		<p>
+			This site is the customer portal for <em>{{ company.display_name }}</em> where customers can view and pay invoices, manage their billing information, and access their entire account history.
+		</p>
+
+		<a id="faq-3"></a>
+		<h3>Is this customer portal secure?</h3>
+		<p>
+			Yes, every page on this site is served using an encrypted connection with Transport Layer Security (TLS). This customer portal is operated by Invoiced, a PCI Level 1 service provider.
+		</p>
+
+		<a id="faq-4"></a>
+		<h3>How do I sign in?</h3>
+		<p>
+			When you click on an invoice or statement link from an email from us then you will automatically be signed in.
+		</p>
+		<p>
+			You may also sign in using an email address that we have associated with your customer profile in our billing system. After entering your email address on the sign in page you will receive an email with a sign in button. If you have any problems signing in then please contact us.
+		</p>
+		<p>
+			<img src="{{ asset('/img/billing-portal/screenshots/sign-in.png') }}" alt="Sign In" class="img-responsive" />
+		</p>
+		<p>
+			<img src="{{ asset('/img/billing-portal/screenshots/my-account.png') }}" alt="My Account" class="img-responsive" />
+		</p>
+
+		<a id="faq-5"></a>
+		<h3>How do I view my invoice(s)?</h3>
+		<p>
+			You can view an invoice when you receive an email from the customer portal by clicking the <strong>View Invoice</strong> button. This will jump you into the customer portal and take you to the correct invoice.
+		</p>
+		<p>
+			If you are signed in to the customer portal you can also click on any invoice # to be taken to that invoice.
+		</p>
+		<p>
+			<img src="{{ asset('/img/billing-portal/screenshots/view-invoice.png') }}" alt="View Invoice" class="img-responsive" />
+		</p>
+
+		<a id="faq-6"></a>
+		<h3>How do I pay my invoice(s)?</h3>
+		<p>
+			When viewing an invoice you can click the <strong>Pay Invoice</strong> button. If an invoice does not have a pay button then it is not eligible for payments. This can happen for a variety of reasons, such as a pending payment or if AutoPay is enabled.
+		</p>
+		<p>
+			<img src="{{ asset('/img/billing-portal/screenshots/pay-invoice.png') }}" alt="Pay Invoice" class="img-responsive" />
+		</p>
+
+		<a id="faq-7"></a>
+		<h3>How do I add my bank account or credit card?</h3>
+		<p>
+			In the customer portal you can go to the My Account page in order to add your bank account or credit card in the <strong>Payment Method</strong> section.
+		</p>
+		<p>
+			Also, when paying invoices you can check a box on the payment form if you wish to save your payment method for use in the future.
+		</p>
+		<p>
+			<img src="{{ asset('/img/billing-portal/screenshots/add-payment-method.png') }}" alt="Add Payment Method" class="img-responsive" />
+		</p>
+
+		<a id="faq-8"></a>
+		<h3>How do I sign up for AutoPay?</h3>
+		<p>
+			You can enroll in AutoPay by going to the <strong>My Account</strong> page and clicking on <strong>Enroll in AutoPay</strong>. You will then be asked to enter in your payment method. Please be aware that this option will only be available if we have enabled AutoPay for your account.
+		</p>
+		<p>
+			When AutoPay is engaged then your payment method on file (card or bank account) will be charged automatically when there is a new invoice.
+		</p>
+
+		<a id="faq-9"></a>
+		<h3>How do I access my historic invoices?</h3>
+		<p>
+			You can see all of your transactions on the <strong>Activity</strong> page, including invoices, estimates, credit notes, and payments. On the Activity page you can download document PDFs, select multiple invoices to pay, filter transactions by status and date range, and look up transactions by invoice #.
+		</p>
+		<p>
+			<img src="{{ asset('/img/billing-portal/screenshots/activity.png') }}" alt="Activity Page" class="img-responsive" />
+		</p>
+
+		<a id="faq-10"></a>
+		<h3>How do I update my contact information?</h3>
+		<p>
+			You can update your contact information, including email address and mailing address, on the <strong>Billing Details</strong> page.
+		</p>
+		<p>
+			<img src="{{ asset('/img/billing-portal/screenshots/update-contact-info.png') }}" alt="Update Contact Information" class="img-responsive" />
+		</p>
+
+		<a id="faq-11"></a>
+		<h3>How do I view an account statement?</h3>
+		<p>
+			You can view your current and past account statements from the <strong>Statements</strong> page. On this page you can see your latest statement as well as statements from previous months. The Open Item statement allows you to see all outstanding invoices and credit notes.
+		</p>
+		<p>
+			<img src="{{ asset('/img/billing-portal/screenshots/account-statement.png') }}" alt="Account Statement" class="img-responsive" />
+		</p>
+
+		<h3>Have any questions?</h3>
+		<p>
+			Please <a href="#" class="mailto-bp">contact us</a> with any further questions.
+		</p>
+	</div>
+{% endblock %}

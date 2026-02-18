@@ -1,0 +1,65 @@
+<p class="loading" ng-show="loading"></p>
+
+<div class="object-view payment-summary" ng-hide="loading">
+	<div class="title-bar">
+		<h2>{{modelTitle}}</h2>
+		<h3 ng-show="transaction.customer">{{transaction.customer.name}}</h3>
+	</div>
+
+	<ul class="nav nav-tabs">
+		<!-- Tab Links -->
+		<li ui-sref-active="active">
+			<a ui-sref=".summary">
+				{{'tabs.summary'|translate}}
+			</a>
+		</li>
+		<li ui-sref-active="active">
+			<a ui-sref=".history">
+				{{'tabs.history'|translate}}
+			</a>
+		</li>
+
+		<!-- Action Buttons -->
+		<li class="action right dropdown" ng-show="transaction.status=='succeeded'" dropdown>
+			<a href="" class="dropdown-toggle" dropdown-toggle>
+				<span class="actions-label"></span>
+				<span class="fas fa-chevron-down"></span>
+			</a>
+			<ul class="dropdown-menu dropdown-menu-right">
+				<li ng-if="transaction.pdf_url">
+					<a href="{{transaction.pdf_url}}?t=0" target="_self">
+						Download as PDF
+					</a>
+				</li>
+				<li ng-if="('payments.edit'|hasPermission) && editable" ng-hide="transaction.status=='failed'||(transaction.type!='payment'&&transaction.type!='charge')||(transaction.type=='charge'&&transaction.method=='balance')||markingAsFailed||refunded>0">
+					<a href="" ng-click="markFailed(transaction)">
+						Mark as Failed
+					</a>
+				</li>
+				<li class="divider" ng-show="transaction.type=='payment'||transaction.type=='adjustment'||(transaction.type=='charge'&&transaction.method=='balance')"></li>
+				<li class="danger"  ng-if="'payments.delete'|hasPermission" ng-show="transaction.type=='payment'||transaction.type=='adjustment'||(transaction.type=='charge'&&transaction.method=='balance')">
+					<a href="" ng-click="delete(transaction)" ng-hide="deleting">
+						Delete {{modelTitle}}
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li class="action right" ng-show="isRefundable" ng-if="('refunds.create'|hasPermission) && editable">
+			<a href="" ng-click="refund(transaction)">
+				<div>Refund</div>
+			</a>
+		</li>
+		<li class="action right" ng-if="('payments.edit'|hasPermission) && editable">
+			<a href="" ng-click="editModal(transaction)">
+				<div>{{'general.edit'|translate}}</div>
+			</a>
+		</li>
+	</ul>
+
+	<!-- Selected Tab Content -->
+	<div class="tab-content">
+		<div class="tab-pane active">
+			<ui-view/>
+		</div>
+	</div>
+</div>

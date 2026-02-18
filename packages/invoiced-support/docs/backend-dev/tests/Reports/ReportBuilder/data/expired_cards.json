@@ -1,0 +1,166 @@
+{
+  "title": "Expired Cards",
+  "sections": [
+    {
+      "type": "table",
+      "object": "card",
+      "title": "Cards Expired",
+      "fields": [
+        {
+          "field": {
+            "id": "customer.name"
+          },
+          "name": "Customer"
+        },
+        {
+          "field": {
+            "id": "gateway"
+          },
+          "name": "Payment Gateway"
+        },
+        {
+          "field": {
+            "id": "brand"
+          }
+        },
+        {
+          "field": {
+            "id": "last4"
+          }
+        },
+        {
+          "field": {
+            "id": "exp_month"
+          }
+        },
+        {
+          "field": {
+            "id": "exp_year"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "operator": "or",
+          "value": [
+            {
+              "operator": "and",
+              "value": [
+                {
+                  "field": {
+                    "id": "exp_month"
+                  },
+                  "operator": "<",
+                  "value": 5
+                },
+                {
+                  "field": {
+                    "id": "exp_year"
+                  },
+                  "operator": "=",
+                  "value": 2021
+                }
+              ]
+            },
+            {
+              "field": {
+                "id": "exp_year"
+              },
+              "operator": "<",
+              "value": 2021
+            }
+          ]
+        },
+        {
+          "field": {
+            "id": "chargeable"
+          },
+          "value": true
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "exp_year"
+          },
+          "ascending": true
+        },
+        {
+          "field": {
+            "id": "exp_month"
+          },
+          "ascending": true
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "object": "card",
+      "title": "Cards Expiring Soon",
+      "fields": [
+        {
+          "field": {
+            "id": "customer.name"
+          },
+          "name": "Customer"
+        },
+        {
+          "field": {
+            "id": "brand"
+          }
+        },
+        {
+          "field": {
+            "id": "last4"
+          }
+        },
+        {
+          "field": {
+            "id": "exp_month"
+          }
+        },
+        {
+          "field": {
+            "id": "exp_year"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "exp_month"
+          },
+          "operator": "=",
+          "value": 5
+        },
+        {
+          "field": {
+            "id": "exp_year"
+          },
+          "operator": "=",
+          "value": 2021
+        },
+        {
+          "field": {
+            "id": "chargeable"
+          },
+          "value": true
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "exp_year"
+          },
+          "ascending": true
+        },
+        {
+          "field": {
+            "id": "exp_month"
+          },
+          "ascending": true
+        }
+      ]
+    }
+  ]
+}

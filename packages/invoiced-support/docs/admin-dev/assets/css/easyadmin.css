@@ -1,0 +1,107 @@
+:root {
+    --color-primary: #009e74;
+    --sidebar-menu-active-item-border-color: transparent;
+    --link-color: #009e74;
+    --link-hover-color: #10806f;
+    --fieldset-bg: none;
+    --border-width: 0;
+    --table-selected-cell-bg: #f0f7f5;
+    --bs-primary-rgb: 0, 158, 116;
+}
+
+.form-check-input:checked {
+    background-color: var(--color-primary);
+}
+
+.form-switch .form-check-input:checked {
+    border-color: var(--color-primary);
+}
+
+.page-item.active .page-link {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.logo img,
+.responsive-logo img {
+    max-height: 30px;
+}
+
+.logo .subbrand,
+.responsive-logo .subbrand {
+    color: var(--color-primary);
+    font-size: 0.9rem;
+}
+
+.content-header-title .avatar {
+    width: 40px;
+    height: 40px;
+    -webkit-border-radius: 500px;
+    -moz-border-radius: 500px;
+    border-radius: 500px;
+    overflow: hidden;
+    float: left;
+    margin: 0 15px 0 0;
+}
+
+.content-header-title .avatar img {
+    max-height: 100%;
+    min-width: 100%;
+}
+
+.content-header-title .badges {
+    margin-top: 8px;
+}
+
+.content-header-title .badges.with-avatar {
+    margin-top: 8px;
+    margin-left: 55px;
+}
+
+.content-header .page-actions .btn + .btn-group {
+    margin-left: 10px;
+}
+
+table.volume-table,
+.volume-table th,
+.volume-table td {
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+.sql-console .content-wrapper,
+.integration-log-viewer .content-wrapper {
+    grid-template-columns: minmax(0, 1fr) var(--resize-handler-width);
+}
+
+#sql_console_sql {
+    max-width: 100%;
+    height: 10rem;
+}
+
+.integration-logs .title-row {
+    font-size: 12px;
+}
+
+.integration-logs .log-message {
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
+}
+
+.new-purchase-page .accordion-button {
+    display: none;
+}
+
+.new-purchase-page .form-group.field-collection .accordion-item .form-group legend.col-form-label,
+.new-purchase-page .form-group.field-collection .accordion-item .form-group > label {
+    width: 30%;
+}
+
+fieldset {
+    background: transparent;
+}
+
+.form-widget .form-help {
+    color: var(--text-color);
+}

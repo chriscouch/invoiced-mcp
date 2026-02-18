@@ -1,0 +1,46 @@
+<form name="cardForm" ng-submit="save()">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title">
+            Add Card
+        </h4>
+    </div>
+    <div class="modal-body">
+        <p class="alert alert-danger" ng-show="error">
+            {{error}}
+        </p>
+
+        <p class="required-indicator">
+            <span class="required"></span> {{'general.indicates_required_field'|translate}}
+        </p>
+
+        <div class="stripe-credit-card-form">
+            <div class="form-group">
+                <label class="control-label">
+                    Card Details
+                    <span class="required"></span>
+                </label>
+                <div>
+                    <div id="stripe-card-element" class="stripe-card-element"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">
+                Cardholder Name
+                <span class="required"></span>
+            </label>
+            <div>
+                <input type="text" class="form-control" ng-model="cardholderName" required />
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary" ng-disabled="cardForm.$invalid||saving">
+                {{'general.add'|translate}}
+            </button>
+        </div>
+    </div>
+</form>

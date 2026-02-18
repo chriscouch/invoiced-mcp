@@ -1,0 +1,40 @@
+{% extends "network/parent.twig" %}
+{% if invitedAsCustomer %}
+    {% set title = 'Vendor Approved' %}
+{% else %}
+    {% set title = 'Customer Approved' %}
+{% endif %}
+{% block bodyClass %}border-top border-top-3 border-primary{% endblock %}
+{% block main %}
+    <div class="container py-6">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-6 text-center">
+                <h6 class="mb-4">
+                    <img src="{{ asset("/img/logo.png") }}" width="137" height="35" alt="Invoiced" />
+                </h6>
+
+                <div class="card p-5">
+                    <h1 class="mb-3">
+                        {{ title }}
+                    </h1>
+
+                    <p class="mb-5 text-secondary">
+                        {{ fromName }} has invited you to join their business network on Invoiced.
+                    </p>
+
+                    {% if error %}
+                        <div class="text-danger">{{ error }}</div>
+                    {% else %}
+                        <p>
+                            {% if invitedAsCustomer %}
+                                You have approved {{ fromName }} as a vendor. You can now receive invoices from and send payments to this vendor.
+                            {% else %}
+                                You have approved {{ fromName }} as a customer. You can now send invoices from and receive payments to this customer.
+                            {% endif %}
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

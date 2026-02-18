@@ -1,0 +1,49 @@
+/*
+ ------
+ Variables
+ ------
+*/
+
+/* Brand Colors */
+@evergreen: #009E74;
+@mint: #A0D4AD;
+@pine: #0E7162;
+@storm: #034752;
+@space: #ffffff;
+@coral: #FF8575;
+
+/* Colors */
+@darkGray: #4E5459;
+@borderColor: #E6E6E6;
+@linkColor: @evergreen;
+@linkHoverColor: @pine;
+
+/* Theme Overrides */
+.border-primary {
+    border-color: @evergreen !important;
+}
+
+.btn-primary {
+    background-color: @evergreen;
+    border-color: @evergreen;
+
+    &:hover,
+    &:focus,
+    &:active {
+        background-color: @pine;
+        border-color: @pine;
+    }
+}
+
+a {
+    color: @evergreen;
+}
+
+a:hover {
+    color: @pine;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: @evergreen;
+}

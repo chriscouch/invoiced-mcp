@@ -1,0 +1,24 @@
+{% extends "customerPortal/parentFrame.twig" %}
+{% import 'customerPortal/macros.twig' as macros %}
+
+{% block main %}
+    {{ macros.companyLogo() }}
+
+    <div class="title-header-one-column mt-5">
+        {% if backUrl is defined and backUrl %}
+            <div class="mx-auto px-3 text-center text-lg-start back">
+                <a href="{{ backUrl }}">
+                    <span class="fas fa-arrow-left"></span>
+                </a>
+            </div>
+        {% endif %}
+
+        <h1 class="fs-2 text-center text-lg-start px-3 mt-0 mx-auto">{{ title }}</h1>
+    </div>
+
+    <div class="column-layout-holder">
+        <div class="one-column-layout p-4 mb-5 mx-auto box-shadow rounded bg-white">
+            {% block left %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

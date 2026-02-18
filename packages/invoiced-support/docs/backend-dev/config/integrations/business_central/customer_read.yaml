@@ -1,0 +1,42 @@
+mapping:
+  - sourceField: id
+    destinationField: accounting_id
+
+  - sourceField: displayName
+    destinationField: name
+
+  - sourceField: number
+    destinationField: number
+
+  - sourceField: email
+    destinationField: emails
+    type: email_list
+
+  - sourceField: type
+    destinationField: type
+
+  - sourceField: addressLine1
+    destinationField: address1
+
+  - sourceField: addressLine2
+    destinationField: address2
+
+  - sourceField: city
+    destinationField: city
+
+  - sourceField: state
+    destinationField: state
+
+  - sourceField: postalCode
+    destinationField: postal_code
+
+  - sourceField: country
+    destinationField: country
+    type: country
+
+  - sourceField: taxRegistrationNumber
+    destinationField: tax_id
+
+  - sourceField: currencyCode
+    destinationField: currency
+    type: currency

@@ -1,0 +1,28 @@
+{% extends "emails/parent.twig" %}
+{% block title %}Your Invoiced Trial{% endblock %}
+{% block content %}
+	<row>
+		<columns>
+			{# The greeting and company identifying information was removed because it was often a vector for spam sign ups to insert links #}
+			<p>We are writing to inform you that your free trial on Invoiced has ended. It was our pleasure to have you as a member during this period.</p>
+
+			<p>If you wish to continue using Invoiced then you must choose a plan and enter a valid credit card.</p>
+		</columns>
+	</row>
+	<row>
+		<columns>
+			<center>
+				<spacer size="5"></spacer>
+				<button class="radius" href="{{ dashboardUrl }}">Activate Subscription</button>
+				<spacer size="5"></spacer>
+			</center>
+		</columns>
+	</row>
+	<row>
+		<columns>
+			<p>As always, if you have any questions or concerns we are here to help. Drop us a line!</p>
+
+			<p>Best,<br >Team at Invoiced</p>
+		</columns>
+	</row>
+{% endblock %}

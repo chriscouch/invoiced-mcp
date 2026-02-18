@@ -1,0 +1,11 @@
+{% if testMode %}This is a sandbox account. These are not actual invoices and the system does not process live payments.
+
+{% endif %}Hello,
+
+We received your request to connect your bank account ending in {{ last4 }}. Thank you.
+
+In order to make payments with this bank account you must first prove that you are authorized to use it. We have issued 2 small deposits to your account to prove ownership.
+
+The micro-deposits will take 2-5 business days to show up on your statement. The statement description for these deposits will be <strong>AMNTS:</strong> and then the value of the two micro-deposits that were sent. We kindly ask that you visit the link below to confirm these deposits once they appear on your statement.
+
+Confirm Deposits: {{ verifyUrl }}

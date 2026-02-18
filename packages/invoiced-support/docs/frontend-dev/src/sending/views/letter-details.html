@@ -1,0 +1,119 @@
+<div class="modal-header">
+	<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+	<h4 class="modal-title">Letter Details</h4>
+</div>
+<div class="modal-body form-horizontal">
+	<div ng-show="loading" class="loading"></div>
+	<div ng-show="!loading&&!letter">
+		<p class="empty">
+			Sorry, we could not find this letter.
+		</p>
+	</div>
+	<div ng-hide="loading||!letter">
+		<!-- Recipient -->
+		<div class="form-group">
+			<label class="control-label col-sm-3">Recipient</label>
+			<div class="col-sm-9 form-control-static" ng-bind-html="letter.to|nl2br"></div>
+		</div>
+
+		<!-- Sent -->
+		<div class="form-group">
+			<label class="control-label col-sm-3">Sent On</label>
+			<div class="col-sm-9 form-control-static">
+				<company-date-time date="letter.created_at"></company-date-time>
+			</div>
+		</div>
+
+		<!-- Expected Delivery Date -->
+		<div class="form-group" ng-show="letter.expected_delivery_date">
+			<label class="control-label col-sm-3">Expected Delivery</label>
+			<div class="col-sm-9 form-control-static">
+				<company-date date="letter.expected_delivery_date"></company-date>
+			</div>
+		</div>
+
+		<!-- Object Link -->
+		<div class="form-group" ng-show="customerId">
+			<label class="control-label col-sm-3">Customer</label>
+			<div class="col-sm-9">
+				<a ui-sref="manage.customer.view.summary({id:customerId})" class="btn btn-default" ng-click="close()">
+					View
+				</a>
+			</div>
+		</div>
+		<div class="form-group" ng-show="estimateId">
+			<label class="control-label col-sm-3">Estimate</label>
+			<div class="col-sm-9">
+				<a ui-sref="manage.estimate.view.summary({id:estimateId})" class="btn btn-default" ng-click="close()">
+					View
+				</a>
+			</div>
+		</div>
+		<div class="form-group" ng-show="creditNoteId">
+			<label class="control-label col-sm-3">Credit Note</label>
+			<div class="col-sm-9">
+				<a ui-sref="manage.credit_note.view.summary({id:creditNoteId})" class="btn btn-default" ng-click="close()">
+					View
+				</a>
+			</div>
+		</div>
+		<div class="form-group" ng-show="invoiceId">
+			<label class="control-label col-sm-3">Invoice</label>
+			<div class="col-sm-9">
+				<a ui-sref="manage.invoice.view.summary({id:invoiceId})" class="btn btn-default" ng-click="close()">
+					View
+				</a>
+			</div>
+		</div>
+		<div class="form-group" ng-show="paymentId">
+			<label class="control-label col-sm-3">Payment</label>
+			<div class="col-sm-9">
+				<a ui-sref="manage.payment.view.summary({id:paymentId})" class="btn btn-default" ng-click="close()">
+					View
+				</a>
+			</div>
+		</div>
+
+		<!-- Tracking Events -->
+		<div ng-show="letter.detail.tracking_events.length > 0">
+			<hr/>
+			<div class="form-group">
+				<label class="control-label col-sm-3">Tracking</label>
+				<div class="col-sm-9">
+					<ul class="letter-tracking-events">
+						<li class="tracking-event" ng-repeat="trackingEvent in letter.detail.tracking_events">
+							<div class="number">
+								{{$index + 1}}.
+							</div>
+							<div class="name">
+								{{trackingEvent.name}}:
+								{{trackingEvent.location}}
+							</div>
+							<div class="time">
+								{{trackingEvent.time | date:'MMM d, y h:mm a'}}
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<hr/>
+
+		<!-- Download -->
+		<div class="form-group">
+			<label class="control-label col-sm-3">Preview</label>
+			<div class="col-sm-9">
+				<a ng-href="{{letter.detail.url}}" class="btn btn-default">
+					View Letter
+				</a>
+			</div>
+		</div>
+
+		<!-- Thumbnails -->
+		<div class="form-group" ng-show="letter.detail.thumbnails">
+			<div class="col-sm-9 col-sm-offset-3">
+				<img ng-src="{{thumbnail.medium}}" class="img-responsive" width="100" ng-repeat="thumbnail in letter.detail.thumbnails" />
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,14 @@
+<span ng-if="value === undefined || value === null">
+
+</span>
+<span ng-if="value !== undefined && value !== null">
+    <span ng-if="type=='boolean'">
+        <span ng-if="value">{{'general.true'|translate}}</span>
+        <span ng-if="value === false">{{'general.false'|translate}}</span>
+    </span>
+    <span ng-if="type=='date'"><company-date date="value"></company-date></span>
+    <span ng-if="type=='datetime'"><company-date-time date="value"></company-date-time></span>
+    <span ng-if="type=='enum'" class="{{enumClass}}">{{getEnumValue(column, value)}}</span>
+    <span ng-if="type=='money'"><money amount="value" currency="currency"></money></span>
+    <span ng-if="['boolean', 'date', 'datetime', 'enum', 'money'].indexOf(type) == -1">{{value}}</span>
+</span>

@@ -1,0 +1,39 @@
+monolog:
+    handlers:
+        main:
+            type: fingers_crossed
+            action_level: warning
+            buffer_size: 30
+            handler: sentry
+        sentry:
+            type: service
+            id: sentry.monolog.handler
+            level: warning
+        console:
+            type: console
+            process_psr_3_messages: false
+            channels: ["!event", "!doctrine", "!console", "!resque"]
+            console_formatter_options:
+                date_format: Y-m-d H:i:s
+                format: "[%%datetime%%] %%start_tag%%%%level_name%%%%end_tag%% <comment>[%%channel%%]</> %%message%%%%context%%%%extra%%\n"
+        deprecation:
+            type: stream
+            path: "%kernel.logs_dir%/%kernel.environment%.deprecations.log"
+        deprecation_filter:
+            type: filter
+            handler: deprecation
+            max_level: info
+            channels: ["php"]
+        resque_stderr:
+            type: stream
+            path: "php://stderr"
+            level: warning
+            channels: ["resque"]
+            bubble: false
+            formatter: 'monolog.formatter.json'
+        resque_stdout:
+            type: stream
+            path: "php://stdout"
+            level: notice
+            channels: ["resque"]
+            formatter: 'monolog.formatter.json'

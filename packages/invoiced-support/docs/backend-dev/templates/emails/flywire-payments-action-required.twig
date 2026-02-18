@@ -1,0 +1,59 @@
+{% extends "emails/parent.twig" %}
+{% block title %}Action Required{% endblock %}
+{% block content %}
+    <row>
+        <columns>
+            <p>Hi {{name}},</p>
+
+            <p>We’re excited that you’ve started with <strong>Flywire Payments</strong>, and you’re just one quick step away from fully unlocking faster, global payments inside Invoiced. 🚀</p>
+
+            <spacer size="20"></spacer>
+            <h5>What’s happening?</h5>
+            <p>Our compliance team needs a few final details to verify your business. Until this is complete, payouts may pause, and new transactions could be declined. Below is a summary of the types of information that we're obligated to collect from your business.</p>
+
+            <spacer size="10"></spacer>
+            <hr/>
+            <table>
+                <thead>
+                    <tr>
+                        <th><em>Required Item</em></th>
+                        <th><em>Why We Need It</em></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="2"><spacer size="5"></spacer></td></tr>
+                    <tr>
+                        <td><strong>Business Verification Docs</strong> <br/>(e.g., Articles of Inc., Tax ID)</td>
+                        <td>Regulatory-required KYC/AML checks</td>
+                    </tr>
+                    <tr><td colspan="2"><spacer size="5"></spacer></td></tr>
+                    <tr>
+                        <td><strong>Bank Account Confirmation</strong> <br/>(void check or letter)</td>
+                        <td>Ensure funds go to the right place</td>
+                    </tr>
+                    <tr><td colspan="2"><spacer size="5"></spacer></td></tr>
+                    <tr>
+                        <td><strong>Controller/Owner ID</strong> <br/>(driver’s license or passport)</td>
+                        <td>Identity verification</td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr/>
+
+            <spacer size="20"></spacer>
+            <h5>How to complete</h5>
+            <p>Sign in to Invoiced and click <strong>Settings &rarr; Payments &rarr; Account &rarr; Fix Now</strong>.</p>
+
+            <p>Follow the prompts under "<strong>Set up your account</strong>" &mdash; verified checkmarks or "in review" statuses mean you’re done.</p>
+
+            <p>We’ll email you a confirmation as soon as we review your docs (usually within 24 hrs).</p>
+
+            <p>Need a hand? Reply here or start a chat in-app—our onboarding specialists are ready to help.</p>
+
+            <spacer size="10"></spacer>
+            <p>Happy invoicing,</p>
+
+            <p><strong>The Invoiced Team</strong></p>
+        </columns>
+    </row>
+{% endblock %}

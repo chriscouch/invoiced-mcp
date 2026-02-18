@@ -1,0 +1,38 @@
+<form name="subscriptionForm" ng-submit="save(contractRenewalIntervalCount, contractRenewalInterval)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			Renew Contract
+		</h4>
+	</div>
+	<div class="modal-body form-horizontal">
+		<p>
+			How long should this contract be renewed for?
+		</p>
+
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<div>
+			<label class="control-label">Renewal Term</label>
+			<div>
+				<div class="row no-margin">
+					<div class="col-xs-6">
+						<input type="number" class="form-control" ng-model="contractRenewalIntervalCount" required />
+					</div>
+					<div class="col-xs-6">
+						<div class="invoiced-select">
+							<select name="interval" ng-model="contractRenewalInterval" ng-options="row.value as row.name for row in contractRenewalOptions"></select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="subscriptionForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			Renew
+		</button>
+	</div>
+</form>

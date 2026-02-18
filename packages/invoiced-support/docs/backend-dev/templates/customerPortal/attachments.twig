@@ -1,0 +1,36 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.attachments'|trans %}
+{% extends "customerPortal/parentFrame.twig" %}
+
+{% block main %}
+    <div class="title-header">
+        <h1>{{ 'titles.attachments'|trans }}</h1>
+    </div>
+
+    <div class="transactions-list">
+        <table class="table table-invoiced mobile-stack">
+            <thead>
+                <tr>
+                    <th>{{ 'labels.name'|trans }}</th>
+                    <th>{{ 'labels.date'|trans }}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for attachment in attachments %}
+                <tr>
+                    <td>{{ attachment.file.name }}</td>
+                    <td>{{ attachment.date }}</td>
+                    <td class="column-actions mobile-last">
+                        <a class="attachment" href="{{ attachment.file.url }}" target="_blank" rel="noopener noreferrer" title="{{ 'download'|trans }}">
+                            <span class="fas fa-arrow-to-bottom"></span>
+                            {{ 'download'|trans }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+

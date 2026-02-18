@@ -1,0 +1,16 @@
+{% trans_default_domain 'customer_portal' %}
+
+<div class="alert bg-danger-soft text-dark border border-danger errors flywire-errors hidden"></div>
+
+<script class="register-payment-method" id="{{ jsonId }}" type="text/json">
+  {{ paymentMethodValues|json_encode|raw }}
+</script>
+
+<div class="p-3 border border-2 rounded text-secondary mb-5">
+	<span class="fas fa-arrow-turn-right me-2"></span>
+	{{ 'messages.flywire_payment_info_next_step'|trans }}
+</div>
+
+{% block header %}
+	<script type="text/javascript" src="{{ asset('/js/views/paymentForms/flywire.js') }}"></script>
+{% endblock %}

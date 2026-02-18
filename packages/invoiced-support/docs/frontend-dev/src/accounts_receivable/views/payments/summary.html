@@ -1,0 +1,633 @@
+<div class="row two-pane">
+    <div class="col-sm-4 left-pane">
+        <div class="details-list vertical">
+            <h4>
+                {{'payments.view.details'|translate}}
+            </h4>
+
+            <!-- Payment Date -->
+            <div>
+                <div class="title">{{'general.date'|translate}}</div>
+                <div class="value">
+                    <company-date date="payment.date"></company-date>
+                </div>
+            </div>
+
+            <!-- Customer -->
+            <div ng-show="payment.customer">
+                <div class="title">{{'payments.labels.customer'|translate}}</div>
+                <div class="value">
+                    <a href="/customers/{{payment.customer.id}}">
+                        {{payment.customer.name}}
+                    </a>
+                </div>
+            </div>
+
+            <!-- Amount -->
+            <div>
+                <div class="title">{{'general.amount'|translate}}</div>
+                <div class="value">
+                    <money amount="payment.amount" currency="payment.currency"></money>
+                    <span ng-hide="payment.currency == company.currency">{{payment.currency | uppercase}}</span>
+                </div>
+            </div>
+
+            <!-- Balance -->
+            <div ng-hide="payment.applied || payment.voided">
+                <div class="title">{{'payments.labels.balance'|translate}}</div>
+                <div class="value">
+                    <money amount="payment.balance" currency="payment.currency"></money>
+                    <span ng-hide="payment.currency == company.currency">{{payment.currency | uppercase}}</span>
+                </div>
+            </div>
+
+            <!-- Status -->
+            <div ng-show="payment.voided || !payment.applied">
+                <div class="title">{{'general.status'|translate}}</div>
+                <div class="value">
+                    <span class="label label-danger" ng-if="payment.voided">{{'payments.status.voided'|translate}}</span>
+                    <span class="label label-default" ng-if="!payment.voided && !payment.applied">{{'payments.status.not_applied'|translate}}</span>
+                </div>
+            </div>
+
+            <div ng-hide="payment.charge || payment.flywire_payment">
+                <!-- Payment Method -->
+                <div>
+                    <div class="title">{{'payments.labels.method'|translate}}</div>
+                    <div class="value">
+                        {{payment.method|paymentMethodName}}
+                    </div>
+                </div>
+
+                <!-- Reference -->
+                <div ng-if="payment.reference&&payment.method!=='check'&&payment.method!=='credit_card'&&payment.method!=='ach'">
+                    <div class="title">{{'transactions.labels.reference'|translate}}</div>
+                    <div class="value">
+                        {{payment.reference}}
+                    </div>
+                </div>
+
+                <!-- Transaction ID -->
+                <div ng-if="payment.reference&&(payment.method=='credit_card'||payment.method=='ach')">
+                    <div class="title">{{'transactions.labels.transaction_id'|translate}}</div>
+                    <div class="value">
+                        {{payment.reference}}
+                    </div>
+                </div>
+
+                <!-- Check # -->
+                <div ng-if="payment.reference&&payment.method=='check'">
+                    <div class="title">{{'payments.labels.check_no'|translate}}</div>
+                    <div class="value">
+                        {{payment.reference}}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Source -->
+            <div ng-show="sourceName">
+                <div class="title">{{'payments.labels.source'|translate}}</div>
+                {{sourceName}}
+            </div>
+
+            <!-- Metadata -->
+            <div class="metadata" ng-repeat="(key, value) in payment.metadata">
+                <div class="title"><metadata-name field-id="key" object-type="'payment'"></metadata-name></div>
+                <div class="value">
+                    <metadata-value field-id="key" object-type="'payment'" value="value"></metadata-value>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flywire -->
+        <div class="details-list vertical charge-details" ng-if="payment.flywire_payment">
+            <h4>
+                <div class="action" ng-show="isRefundable" ng-if="('refunds.create'|hasPermission)">
+                    <a href="" ng-click="refund(payment.charge)">
+                        Refund
+                    </a>
+                </div>
+                <img src="/img/integrations/flywire.svg" height="28" alt="Flywire" />
+            </h4>
+
+            <!-- Initiated -->
+            <div>
+                <div class="title">{{'general.initiated'|translate}}</div>
+                <div class="value">
+                    <company-date-time date="payment.flywire_payment.initiated_at"></company-date-time>
+                </div>
+            </div>
+
+            <!-- Status -->
+            <div>
+                <div class="title">{{'general.status'|translate}}</div>
+                <div class="value">
+                    <span class="label label-warning" ng-show="payment.flywire_payment.status == 'initiated'">Initiated</span>
+                    <span class="label label-info" ng-show="payment.flywire_payment.status == 'processed'">Processed</span>
+                    <span class="label label-success" ng-show="payment.flywire_payment.status == 'guaranteed'">Guaranteed</span>
+                    <span class="label label-success" ng-show="payment.flywire_payment.status == 'delivered'">Delivered</span>
+                    <span class="label label-danger" ng-show="payment.flywire_payment.status == 'failed'">Failed</span>
+                    <span class="label label-danger" ng-show="payment.flywire_payment.status == 'canceled'">Canceled</span>
+                    <span class="label label-danger" ng-show="payment.flywire_payment.status == 'reversed'">Reversed</span>
+                </div>
+            </div>
+
+            <!-- Expiration Date -->
+            <div ng-hide="!payment.flywire_payment.expiration_date || payment.flywire_payment.status == 'processed' || payment.flywire_payment.status == 'guaranteed' || payment.flywire_payment.status == 'delivered'">
+                <div class="title">Expiration Date</div>
+                <div class="value">
+                    <company-date-time date="payment.flywire_payment.expiration_date"></company-date-time>
+                </div>
+            </div>
+
+            <!-- Payment Method -->
+            <div ng-show="payment.flywire_payment.payment_method_type == 'bank_transfer' || payment.flywire_payment.payment_method_brand || payment.flywire_payment.payment_method_last4">
+                <div class="title">Payment Method</div>
+                <div class="value">
+                    <card-icon brand="payment.flywire_payment.payment_method_brand" ng-if="payment.flywire_payment.payment_method_brand"></card-icon>
+                    <span ng-show="payment.flywire_payment.payment_method_type == 'bank_transfer'">Bank Transfer</span>
+                    <span ng-show="payment.flywire_payment.payment_method_type == 'direct_debit'">Direct Debit</span>
+                    <span ng-show="payment.flywire_payment.payment_method_last4">
+                        *{{payment.flywire_payment.payment_method_last4}}
+                    </span>
+                    <span ng-show="payment.flywire_payment.payment_method_card_expiration">
+                        (expires {{payment.flywire_payment.payment_method_card_expiration}})
+                    </span>
+                </div>
+            </div>
+
+            <!-- Transaction ID -->
+            <div>
+                <div class="title">Flywire Payment ID (PID)</div>
+                <div class="value">
+                    {{payment.flywire_payment.payment_id}}
+                </div>
+            </div>
+
+            <!-- Amount -->
+            <div>
+                <div class="title">Paid</div>
+                <div class="value">
+                    <span ng-hide="payment.flywire_payment.currency_from == payment.flywire_payment.currency_to && payment.flywire_payment.amount_from == payment.flywire_payment.amount_to">
+                        <money amount="payment.flywire_payment.amount_from" currency="payment.flywire_payment.currency_from"></money>
+                        <span ng-hide="payment.flywire_payment.currency_from == payment.flywire_payment.currency_to">{{payment.flywire_payment.currency_from | uppercase}}</span>
+                        &rarr;
+                    </span>
+                    <money amount="payment.flywire_payment.amount_to" currency="payment.flywire_payment.currency_to"></money>
+                    <span ng-hide="payment.flywire_payment.currency_from == payment.flywire_payment.currency_to">{{payment.flywire_payment.currency_to | uppercase}}</span>
+                </div>
+            </div>
+
+            <!-- Disbursements -->
+            <div ng-repeat="payout in payouts">
+                <div class="title">Disbursement</div>
+                <div class="value">
+                    <a ui-sref="manage.flywire_disbursement.view({id:payout.disbursement_id})">
+                        {{payout.disbursement.disbursement_id}}
+                    </a>
+                </div>
+            </div>
+
+            <!-- Refund State -->
+            <div ng-show="payment.charge.amount_refunded > 0">
+                <div class="title">{{'payments.labels.state'|translate}}</div>
+                <div class="value">
+                    <span class="label label-default" ng-show="net > 0">Partial Refund</span>
+                    <span class="label label-default" ng-hide="net > 0">Refunded</span>
+                </div>
+            </div>
+
+            <!-- Amount Refunded -->
+            <div ng-show="payment.charge.amount_refunded > 0">
+                <div class="title">Refunded</div>
+                <div class="value text-danger">
+                    <money amount="payment.charge.amount_refunded" currency="payment.charge.currency"></money>
+                    <span ng-hide="payment.charge.currency == company.currency">{{payment.charge.currency | uppercase}}</span>
+                </div>
+            </div>
+
+            <!-- Net Amount -->
+            <div ng-show="payment.charge.amount>0&&net!=payment.charge.amount">
+                <div class="title">Net</div>
+                <div class="value">
+                    <money amount="net" currency="payment.charge.currency"></money>
+                    <span ng-hide="payment.charge.currency == company.currency">{{payment.charge.currency | uppercase}}</span>
+                </div>
+            </div>
+
+            <!-- Cancellation Reason -->
+            <div ng-show="payment.flywire_payment.cancellation_reason">
+                <div class="title">Cancellation Reason</div>
+                <div class="value text-danger">
+                    {{payment.flywire_payment.cancellation_reason}}
+                </div>
+            </div>
+
+            <!-- Failure Reason -->
+            <div ng-show="payment.flywire_payment.reason">
+                <div class="title">Failure Reason</div>
+                <div class="value text-danger">
+                    {{payment.flywire_payment.reason}}
+                </div>
+            </div>
+        </div>
+
+        <!-- Charge (Non-Flywire) -->
+        <div class="details-list vertical charge-details" ng-if="payment.charge && !payment.flywire_payment">
+            <h4>
+                <div class="action" ng-show="isRefundable" ng-if="('refunds.create'|hasPermission)">
+                    <a href="" ng-click="refund(payment.charge)">
+                        Refund
+                    </a>
+                </div>
+                <img src="/img/integrations/flywire.svg" height="28" alt="Flywire" ng-show="payment.charge.gateway == 'flywire_payments'" />
+                <span ng-hide="payment.charge.gateway == 'flywire_payments'">
+                    {{'payments.view.charge'|translate}}
+                </span>
+            </h4>
+
+            <!-- Initiated -->
+            <div>
+                <div class="title">{{'general.initiated'|translate}}</div>
+                <div class="value">
+                    <company-date-time date="payment.charge.created_at"></company-date-time>
+                </div>
+            </div>
+
+            <!-- Status -->
+            <div ng-show="payment.charge.status!='succeeded'">
+                <div class="title">{{'payments.labels.state'|translate}}</div>
+                <div class="value">
+                    <transaction-status transaction="payment.charge"></transaction-status>
+                </div>
+            </div>
+
+            <div ng-show="payment.charge.amount_refunded > 0">
+                <div class="title">{{'payments.labels.state'|translate}}</div>
+                <div class="value">
+                    <span class="label label-default" ng-show="net > 0">Partial Refund</span>
+                    <span class="label label-default" ng-hide="net > 0">Refunded</span>
+                </div>
+            </div>
+
+            <!-- Payment Method -->
+            <div ng-hide="payment.charge.payment_source">
+                <div class="title">{{'payments.labels.method'|translate}}</div>
+                <div class="value">
+                    {{payment.method|paymentMethodName}}
+                </div>
+            </div>
+
+            <!-- Payment Source -->
+            <div ng-show="payment.charge.payment_source">
+                <div class="title">{{'payments.labels.method'|translate}}</div>
+                <div class="value">
+                    <detailed-payment-source-icon source="payment.charge.payment_source"></detailed-payment-source-icon>
+                    <transaction-source source="payment.charge.payment_source"></transaction-source>
+                </div>
+            </div>
+
+            <!-- Transaction ID -->
+            <div>
+                <div class="title">{{payment.charge.gateway|gatewayName}} Transaction ID</div>
+                <div class="value">
+                    {{payment.charge.gateway_id}}
+                </div>
+            </div>
+
+            <!-- GoCardless link -->
+            <div ng-if="payment.charge.gateway=='gocardless'">
+                <div class="title">GoCardless Payment</div>
+                <div class="value">
+                    <a href="{{gocardlessDashboardUrl}}/payments/{{payment.charge.gateway_id}}" target="_blank" rel="noopener noreferrer">
+                        View on GoCardless
+                    </a>
+                </div>
+            </div>
+
+            <!-- Stripe link -->
+            <div ng-if="payment.charge.gateway=='stripe'">
+                <div class="title">Stripe Charge</div>
+                <div class="value">
+                    <a href="{{stripeDashboardUrl}}/payments/{{payment.charge.gateway_id}}" target="_blank" rel="noopener noreferrer">
+                        View on Stripe
+                    </a>
+                </div>
+            </div>
+
+            <!-- Amount -->
+            <div>
+                <div class="title">Paid</div>
+                <div class="value">
+                    <money amount="payment.charge.amount" currency="payment.charge.currency"></money>
+                    <span ng-hide="payment.charge.currency == company.currency">{{payment.charge.currency | uppercase}}</span>
+                </div>
+            </div>
+
+            <!-- Amount Refunded -->
+            <div ng-show="payment.charge.amount_refunded > 0">
+                <div class="title">Refunded</div>
+                <div class="value text-danger">
+                    <money amount="payment.charge.amount_refunded" currency="payment.charge.currency"></money>
+                    <span ng-hide="payment.charge.currency == company.currency">{{payment.charge.currency | uppercase}}</span>
+                </div>
+            </div>
+
+            <!-- Net Amount -->
+            <div ng-show="payment.charge.amount>0&&net!=payment.charge.amount">
+                <div class="title">Net</div>
+                <div class="value">
+                    <money amount="net" currency="payment.charge.currency"></money>
+                    <span ng-hide="payment.charge.currency == company.currency">{{payment.charge.currency | uppercase}}</span>
+                </div>
+            </div>
+
+            <!-- Failure Reason -->
+            <div ng-show="payment.charge.status == 'failed' && payment.charge.failure_message">
+                <div class="title">Failure Reason</div>
+                <div class="value text-danger">
+                    {{payment.charge.failure_message}}
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="details-list vertical notes">
+            <h4>
+                <div class="action" ng-if="('payments.edit'|hasPermission) && notesEditable" ng-hide="payment.voided">
+                    <a href="" ng-click="editNotes(payment)" ng-hide="editingNotes">
+                        {{'general.edit'|translate}}
+                    </a>
+                    <a href="" ng-click="saveNotes(payment, newNotes)" ng-show="editingNotes&&!saving">
+                        {{'general.save'|translate}}
+                    </a>
+                    <a href="" ng-click="cancelNotesEdit()" ng-show="editingNotes&&!saving">
+                        {{'general.cancel'|translate}}
+                    </a>
+                </div>
+                {{'payments.view.notes'|translate}}
+            </h4>
+            <div class="hover-edit">
+                <div ng-show="!editingNotes&&payment.notes" ng-bind-html="payment.notes|linky:'_blank'|nl2br"></div>
+                <div class="empty" ng-hide="editingNotes||payment.notes">
+                    {{'general.none'|translate}}
+                </div>
+                <div class="textarea-2-lines" ng-show="editingNotes">
+                    <textarea class="form-control" ng-model="newNotes" placeholder="{{'payments.view.notes_placeholder'|translate}}" expanding-textarea></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accounting Sync Status -->
+        <sync-status synced-object="syncedObject" editable="notesEditable" object-type="'payment'"></sync-status>
+
+        <!-- Bank Feed Transaction -->
+        <div class="details-list vertical" ng-if="payment.bank_feed_transaction">
+            <h4>
+                Bank Feed Transaction
+            </h4>
+
+            <!-- Bank Account Name -->
+            <div ng-show="payment.bank_account_name">
+                <div class="title">Bank Account</div>
+                <div class="value">
+                    {{payment.bank_account_name}}
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div>
+                <div class="title">Description</div>
+                <div class="value">
+                    {{payment.bank_feed_transaction.description}}
+                </div>
+            </div>
+
+            <!-- Merchant Name -->
+            <div ng-show="payment.bank_feed_transaction.merchant_name">
+                <div class="title">Merchant Name</div>
+                <div class="value">
+                    {{payment.bank_feed_transaction.merchant_name}}
+                </div>
+            </div>
+
+            <!-- Check Number -->
+            <div ng-show="payment.bank_feed_transaction.check_number">
+                <div class="title">Check Number</div>
+                <div class="value">
+                    {{payment.bank_feed_transaction.check_number}}
+                </div>
+            </div>
+
+            <!-- Payment Reference -->
+            <div ng-show="payment.bank_feed_transaction.payment_reference_number">
+                <div class="title">Payment Reference</div>
+                <div class="value">
+                    {{payment.bank_feed_transaction.payment_reference_number}}
+                </div>
+            </div>
+
+            <!-- ACH Sender ID -->
+            <div ng-show="payment.bank_feed_transaction.payment_ppd_id">
+                <div class="title">ACH Sender ID</div>
+                <div class="value">
+                    {{payment.bank_feed_transaction.payment_ppd_id}}
+                </div>
+            </div>
+
+            <!-- Payee -->
+            <div ng-show="payment.bank_feed_transaction.payment_payee">
+                <div class="title">Payee</div>
+                <div class="value">
+                    {{payment.bank_feed_transaction.payment_payee}}
+                </div>
+            </div>
+
+            <!-- By Order Of -->
+            <div ng-show="payment.bank_feed_transaction.payment_by_order_of">
+                <div class="title">By Order Of</div>
+                <div class="value">
+                    {{payment.bank_feed_transaction.payment_by_order_of}}
+                </div>
+            </div>
+
+            <!-- Payer -->
+            <div ng-show="payment.bank_feed_transaction.payment_payer">
+                <div class="title">Payer</div>
+                <div class="value">
+                    {{payment.bank_feed_transaction.payment_payer}}
+                </div>
+            </div>
+
+            <!-- Payment Method -->
+            <div ng-show="payment.bank_feed_transaction.payment_method">
+                <div class="title">Payment Method</div>
+                <div class="value">
+                    {{payment.bank_feed_transaction.payment_method}}
+                </div>
+            </div>
+
+            <!-- Payment Processor -->
+            <div ng-show="payment.bank_feed_transaction.payment_processor">
+                <div class="title">Payment Processor</div>
+                <div class="value">
+                    {{payment.bank_feed_transaction.payment_processor}}
+                </div>
+            </div>
+
+            <!-- Payment Reason -->
+            <div ng-show="payment.bank_feed_transaction.payment_reason">
+                <div class="title">Payment Reason</div>
+                <div class="value">
+                    {{payment.bank_feed_transaction.payment_reason}}
+                </div>
+            </div>
+
+            <!-- Payment Channel -->
+            <div ng-show="payment.bank_feed_transaction.payment_channel">
+                <div class="title">Payment Channel</div>
+                <div class="value">
+                    {{payment.bank_feed_transaction.payment_channel}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-8 right-pane">
+        <!-- Action Items -->
+        <div class="action-items">
+            <!-- Executed -->
+            <div class="action-item success" ng-if="!payment.voided && payment.applied">
+                <div class="icon"></div>
+                <p>
+                    {{'payments.view.notices.applied'|translate}}
+                </p>
+            </div>
+        </div>
+
+        <div class="action-items" ng-if="payment.charge.disputed">
+            <!-- Executed -->
+            <div ng-class="{
+                'action-item': true,
+                'success': ['Won'].indexOf(payment.charge.disputed.status) != -1,
+                'info': ['Accepted'].indexOf(payment.charge.disputed.status) != -1,
+                'suggestion': ['Pending', 'Responded'].indexOf(payment.charge.disputed.status) != -1,
+                'warning': ['Unresponded', 'Undefended', 'Expired', 'Lost'].indexOf(payment.charge.disputed.status) != -1
+            }">
+                <div class="icon"></div>
+                <p>
+                    {{'payments.view.notices.dispute'|translate}}
+                </p>
+
+                <p ng-if="
+                    !savingDispute && (
+                        payment.charge.disputed.status == 'Responded' ||
+                        payment.charge.disputed.status == 'Unresponded' ||
+                        payment.charge.disputed.status == 'Pending' ||
+                        payment.charge.disputed.status == 'Undefended' ||
+                        payment.charge.disputed.status == 'Expired'
+                    )
+                ">
+                    <a href="" class="btn btn-primary" ng-click="defendDispute()"  ng-if="
+                                !payment.charge.disputed.defense_reason && (
+                                    payment.charge.disputed.status == 'Unresponded' ||
+                                    payment.charge.disputed.status == 'Undefended' ||
+                                    payment.charge.disputed.status == 'Expired'
+                                )
+                            ">
+                        {{'payments.view.actions.defend_dispute'|translate}}
+                    </a>
+                    <a href="" class="btn btn-default" ng-click="acceptDispute()">
+                        {{'payments.view.actions.accept_dispute'|translate}}
+                    </a>
+                    <a href=""  class="btn btn-primary" ng-click="uploadDisputeDocument()" ng-if="payment.charge.disputed.defense_reason">
+                        {{'payments.view.actions.upload_dispute_documents'|translate}}
+                    </a>
+                    <a href=""  class="btn btn-danger" ng-click="removeDisputeDocument()"  ng-if="
+                                payment.charge.disputed.defense_reason && (
+                                    payment.charge.disputed.status == 'Responded' ||
+                                    payment.charge.disputed.status == 'Pending'
+                                )
+                            ">
+                        {{'payments.view.actions.remove_dispute_documents'|translate}}
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Apply Payment (Unapplied Payments Only) -->
+        <apply-payment ng-if="('payments.edit'|hasPermission) && editable && payment.applied_to.length === 0 && !payment.voided" payment="payment" done="apply(loadNext)"></apply-payment>
+
+        <!-- Payment Application (Applied and Partially Applied Payments) -->
+        <div class="panel panel-invoiced light" ng-show="payment.applied_to.length > 0">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <div class="action" ng-if="('payments.edit'|hasPermission) && editable">
+                        <a href="" ng-click="editApplication()" ng-hide="editingApplication">
+                            {{'general.edit'|translate}}
+                        </a>
+                        <a href="" ng-click="cancelEditingApplication()" ng-show="editingApplication">
+                            {{'general.cancel'|translate}}
+                        </a>
+                    </div>
+                    {{'payments.view.applied_to'|translate}}
+                </h4>
+            </div>
+
+            <!-- View Payment Application -->
+            <table class="search-results-table table table-striped slim" ng-if="!editingApplication">
+                <thead>
+                    <tr>
+                        <th>{{'transactions.labels.document'|translate}}</th>
+                        <th>{{'transactions.labels.origin'|translate}}</th>
+                        <th class="money-column noborder">{{'general.amount'|translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="appliedTo in payment.applied_to">
+                        <td>
+                            <a ui-sref="manage.invoice.view.summary({id:appliedTo.invoice})" ng-if="appliedTo._invoice">
+                                <document-name document="appliedTo._invoice"></document-name>
+                            </a>
+                            <a ui-sref="manage.credit_note.view.summary({id:appliedTo.credit_note})" ng-if="appliedTo.type == 'document_adjustment' && appliedTo.creditNote">
+                                <document-name document="appliedTo.creditNote"></document-name>
+                            </a>
+                            <a ui-sref="manage.estimate.view.summary({id:appliedTo.estimate})" ng-if="appliedTo._estimate">
+                                <document-name document="appliedTo._estimate"></document-name>
+                            </a>
+                            <span ng-if="appliedTo.type === 'credit' || (appliedTo.type === 'credit_note' && !appliedTo.document_type)">
+                                {{'transactions.transaction_types.credit' | translate }}
+                            </span>
+                            <span ng-if="appliedTo.type === 'convenience_fee'">
+                                {{'transactions.transaction_types.convenience_fee' | translate }}
+                            </span>
+                        </td>
+                        <td>
+                            <a ui-sref="manage.credit_note.view.summary({id:appliedTo.credit_note})" ng-if="appliedTo.type != 'document_adjustment' && appliedTo.creditNote">
+                                <document-name document="appliedTo.creditNote"></document-name>
+                            </a>
+                            <span ng-if="appliedTo.type === 'applied_credit'">
+                                {{'transactions.transaction_types.credit' | translate }}
+                            </span>
+                            <span ng-if="appliedTo.type === 'document_adjustment'">
+                                {{'transactions.transaction_types.document_adjustment' | translate }}
+                            </span>
+                            <span ng-if="appliedTo.type !== 'applied_credit' && appliedTo.type !== 'credit_note' && appliedTo.type !== 'document_adjustment'">
+                                <span ng-show="appliedTo.type === 'credit' && !appliedTo.document_type">{{'transactions.transaction_types.overpayment' | translate }}</span>
+                                <span ng-hide="appliedTo.type === 'credit' && !appliedTo.document_type">&mdash;</span>
+                            </span>
+                        </td>
+                        <td class="money-column noborder mobile-last">
+                            <money amount="appliedTo.amount" currency="payment.currency"></money>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Edit Payment Application -->
+            <edit-applied-to ng-if="editingApplication" payment="payment" done="apply(loadNext)"></edit-applied-to>
+        </div>
+
+        <files document="payment" attachments="attachments" type="payment" ng-show="loaded.attachments" allow-upload="('payments.edit'|hasPermission) && editable && !payment.voided"></files>
+    </div>
+</div>

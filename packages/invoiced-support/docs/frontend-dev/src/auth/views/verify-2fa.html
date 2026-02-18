@@ -1,0 +1,37 @@
+<h1 class="logo">
+	<a href="{{baseUrl}}">
+		<img src="/img/auth-logo@2x.png" width="181" height="46" alt="Invoiced" />
+	</a>
+</h1>
+
+<div class="body skinny minimal container verify-2fa">
+	<h4 class="title">Please enter your 2FA token</h4>
+
+	<p class="lead">
+		You can get this token from the Authy mobile app.
+	</p>
+	<p ng-hide="sentSms">
+		<a href="" ng-click="sms()">Request an SMS instead</a>
+	</p>
+	<p class="text-success" ng-show="sentSms">
+		A two-factor verification token was sent to you via SMS.
+	</p>
+
+	<div class="alert alert-danger" ng-show="error">
+		{{error.message}}
+	</div>
+
+	<form name="verifyForm" ng-submit="verify(token)">
+		<div class="form-group">
+            <div class="floating-label-input">
+                <input type="text" ng-model="token" class="form-control input-lg" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" autofocus required />
+                <span class="floating-label">Authy Token</span>
+            </div>
+		</div>
+		<div class="form-group">
+			<button type="submit" class="btn btn-block btn2 btn-evergreen Button btn-lg" ng-disabled="verifying" v-busy="verifying" v-busy-label="Verifying" v-pressable>
+				Sign In
+			</button>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,180 @@
+fields:
+  amount_credited:
+    name: "Applied Credits"
+    type: money
+    summarize: true
+    writable: false
+  amount_written_off:
+    name: "Bad Debt Written Off"
+    type: money
+    summarize: true
+    writable: false
+  amount_paid:
+    name: "Amount Paid"
+    type: money
+    summarize: true
+    writable: false
+  attempt_count:
+    name: "Attempt Count"
+    type: integer
+    writable: false
+  autopay:
+    name: AutoPay
+    type: boolean
+  balance:
+    name: Balance
+    type: money
+    summarize: true
+    writable: false
+  closed:
+    name: Closed
+    type: boolean
+  consolidated:
+    name: Consolidated
+    type: boolean
+    writable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency:
+    name: Currency
+    type: string
+  date: { name: Date, type: date }
+  date_bad_debt:
+    name: "Date Bad Debt"
+    type: date
+    writable: false
+  date_paid:
+    name: "Date Paid"
+    type: date
+    writable: false
+  date_voided:
+    name: "Date Voided"
+    type: date
+    writable: false
+  draft: { name: Draft, type: boolean }
+  due_date: { name: "Due Date", type: date }
+  id:
+    name: ID
+    type: string
+    writable: false
+  late_fees: { name: "Late Fees", type: boolean }
+  name: { name: "Invoice Name", type: string }
+  needs_attention:
+    name: "Needs Attention"
+    type: boolean
+    writable: false
+  next_payment_attempt: { name: "AutoPay Payment Date", type: date }
+  notes:
+    name: Notes
+    type: string
+    filterable: false
+  number: { name: "Invoice #", type: string }
+  paid:
+    name: Paid
+    type: boolean
+    writable: false
+  payment_terms: { name: "Payment Terms", type: string }
+  purchase_order: { name: "Purchase Order", type: string }
+  sent: { name: Sent, type: boolean }
+  status:
+    name: Status
+    writable: false
+    type: enum
+    values:
+      bad_debt: Bad Debt
+      disputed: Disputed
+      draft: Draft
+      not_sent: Not Sent
+      paid: Paid
+      past_due: Past Due
+      pending: Pending
+      sent: Sent
+      viewed: Viewed
+      voided: Voided
+  subtotal:
+    name: Subtotal
+    type: money
+    summarize: true
+    writable: false
+  total:
+    name: Total
+    type: money
+    summarize: true
+    writable: false
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  viewed:
+    name: Viewed
+    type: boolean
+    writable: false
+  voided:
+    name: Voided
+    type: boolean
+    writable: false
+  bank_account:
+    name: Bank Account
+    type: join
+    parent_type_column: payment_source_type
+    parent_column: payment_source_id
+    writable: false
+    filterable: false
+  card:
+    name: Card
+    type: join
+    parent_type_column: payment_source_type
+    parent_column: payment_source_id
+    writable: false
+    filterable: false
+  collection_notes:
+    name: Notes
+    type: join
+    parent_column: id
+    join_object: note
+    join_column: invoice_id
+    writable: false
+    filterable: false
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  customer:
+    name: Customer
+    type: join
+    parent_column: customer
+    writable: false
+  payment_plan:
+    name: Payment Plan
+    type: join
+    parent_column: payment_plan_id
+    join_column: id
+    writable: false
+    filterable: false
+  promise_to_pay:
+    name: Promise-to-Pay
+    type: join
+    parent_column: id
+    join_column: invoice_id
+    writable: false
+    filterable: false
+  metadata:
+    name: 'Metadata'
+    type: metadata
+  ship_to:
+    name: Ship To
+    type: join
+    parent_column: id
+    join_column: invoice_id
+    join_object: shipping_detail
+    filterable: false
+  subscription:
+    name: Subscription
+    type: join
+    writable: false

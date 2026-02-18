@@ -1,0 +1,5 @@
+{% trans_default_domain 'customer_portal' %}
+{% set metaDescription='View your credit note from ' ~ document.billFrom.name ~ ' securely online, download a copy, and make payments.' %}
+{% set documentNumberTitle='titles.credit_note_number'|trans({'%number%': document.number}) %}
+{% set documentFromTitle='titles.credit_note_from'|trans({'%fromName%': document.billFrom.name|slice(0, 50)}) %}
+{% extends "customerPortal/document.twig" %}

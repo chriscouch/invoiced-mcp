@@ -1,0 +1,115 @@
+<form name="emailForm" ng-submit="send(options)">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">Send {{options.title}}</h4>
+	</div>
+	<div class="modal-body send-email-form">
+		<div class="line" ng-show="error">
+			<p class="alert alert-danger">
+				{{error.message}}
+			</p>
+		</div>
+
+		<!-- Recipients -->
+		<div class="line">
+			<label class="control-label">To</label>
+			<div class="recipients">
+				<div class="line-element">
+					<div class="recipients-list clearfix" ng-hide="loading">
+						<div class="recipient" ng-repeat="contact in contacts">
+							<input type="checkbox" id="contact-{{contact.id}}" ng-model="to[contact.id]" />
+							<label for="contact-{{contact.id}}" tooltip="{{contact.email}}">
+								{{contact.name}}
+							</label>
+						</div>
+						<div class="recipient text-danger" ng-hide="contacts.length>0">
+							Missing email address
+						</div>
+						<div class="recipient" ng-hide="contacts.length>0" ng-if="'customers.edit'|hasPermission">
+							<a href="" ng-click="editCustomerModal()">
+								Edit Customer
+							</a>
+						</div>
+						<div class="recipient" ng-show="contacts.length>0" ng-if="'customers.edit'|hasPermission">
+							<a href="" ng-click="addContactModal()">
+								<span class="fas fa-plus"></span> Add Contact
+							</a>
+						</div>
+					</div>
+					<div class="loading inline" ng-show="loading"></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- BCC -->
+		<div class="line">
+			<label class="control-label">
+				BCC
+				<a class="hidden-xs" href="" tooltip="Up to 5 addresses, comma-separated">
+					<span class="fas fa-question-circle"></span>
+				</a>
+			</label>
+			<div class="bcc-input">
+				<div class="line-element">
+					<input type="text" ng-model="options.bcc" class="form-control" />
+				</div>
+			</div>
+			<div class="send-copy-to-me">
+				<button type="button" class="btn btn-link" ng-click="copyMe()">Send a copy to me</button>
+			</div>
+		</div>
+
+		<!-- Subject -->
+		<div class="line">
+			<label class="control-label">
+				Subject
+				<a class="hidden-xs" href="" tooltip="The placeholders are filled in after you click Send">
+					<span class="fas fa-question-circle"></span>
+				</a>
+			</label>
+			<div class="subject-input">
+				<div class="line-element">
+					<div class="loading inline" ng-show="loadingTemplates"></div>
+					<input type="text" class="form-control" ng-model="options.subject" ng-hide="loadingTemplates" />
+				</div>
+			</div>
+		</div>
+
+		<!-- Message -->
+		<div class="line">
+			<label class="control-label">
+				Message
+				<a class="hidden-xs" href="" tooltip="The placeholders are filled in after you click Send">
+					<span class="fas fa-question-circle"></span>
+				</a>
+			</label>
+			<div class="message">
+				<div class="line-element">
+					<div class="loading inline" ng-show="loadingTemplates"></div>
+					<textarea class="form-control top-padded" ng-model="options.message" ng-hide="loadingTemplates" expanding-textarea></textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer send-email-form-footer">
+		<div class="left noselect" ng-hide="loadingTemplates || emailTemplates.length === 0">
+			<!-- Template -->
+			<div class="dropdown" dropdown>
+				<a href="" class="dropdown-toggle" dropdown-toggle>
+					Apply Template
+				</a>
+				<ul class="dropdown-menu">
+					<li ng-class="{active:options.template==template.id}" ng-repeat="template in emailTemplates">
+						<a href="" ng-click="applyTemplate(template)">
+							<span class="fas fa-check" ng-show="options.template==template.id"></span>
+							{{template.name}}
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary Button" ng-disabled="emailForm.$invalid||saving||!valid()" v-busy="saving" v-busy-label="Sending" v-pressable>
+			Send
+		</button>
+	</div>
+</form>

@@ -1,0 +1,104 @@
+{
+  "manifest_version": "0.3",
+  "name": "invoiced-support",
+  "display_name": "Invoiced Support",
+  "version": "1.0.0",
+  "description": "Enhanced Invoiced MCP server with support workflows, prompts, and documentation",
+  "long_description": "The complete Invoiced support toolkit for Claude. Includes all 156 billing tools plus:\n\n- **Guided Workflows**: Slash commands for common support tasks\n- **Documentation**: Built-in troubleshooting guides and API reference\n- **Best Practices**: Collections strategies and billing recommendations\n\n### Available Prompts\n- `/diagnose-payment` - Troubleshoot payment issues\n- `/collection-strategy` - Create collection plans\n- `/customer-health` - Account health check\n- `/ar-aging` - Analyze accounts receivable\n- `/troubleshoot-invoice` - Debug invoice problems\n- `/manage-subscription` - Subscription lifecycle help",
+  "author": {
+    "name": "Invoiced",
+    "url": "https://invoiced.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Invoiced/mcp-server"
+  },
+  "homepage": "https://invoiced.com",
+  "documentation": "https://developer.invoiced.com/api",
+  "support": "https://support.invoiced.com",
+  "license": "MIT",
+  "keywords": [
+    "billing",
+    "invoicing",
+    "support",
+    "collections",
+    "accounts receivable",
+    "troubleshooting"
+  ],
+  "server": {
+    "type": "node",
+    "entry_point": "src/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/src/index.js"],
+      "env": {
+        "INVOICED_API_KEY": "${user_config.api_key}",
+        "INVOICED_SANDBOX": "${user_config.sandbox}"
+      }
+    }
+  },
+  "tools_generated": true,
+  "prompts": [
+    {
+      "name": "diagnose-payment",
+      "description": "Diagnose payment issues for an invoice",
+      "arguments": ["invoice_id"],
+      "text": "Please help me diagnose payment issues for invoice ${arguments.invoice_id}. Use get_invoice to retrieve the invoice details, check payment history with list_payments, review the customer's payment sources, and identify any issues preventing payment."
+    },
+    {
+      "name": "collection-strategy",
+      "description": "Create a collection strategy for overdue invoices",
+      "arguments": ["customer_id", "min_days_overdue"],
+      "text": "Create a collection strategy for overdue invoices. Use list_invoices with status=past_due to find overdue invoices. Categorize by age (1-30, 31-60, 61-90, 90+ days), prioritize by amount, and create an action plan with recommended next steps."
+    },
+    {
+      "name": "customer-health",
+      "description": "Comprehensive health check for a customer account",
+      "arguments": ["customer_id"],
+      "text": "Perform a comprehensive health check for customer ${arguments.customer_id}. Get customer details, check credit balance, review payment sources, analyze invoice history, examine payment behavior, check subscriptions, and provide a risk assessment with recommendations."
+    },
+    {
+      "name": "ar-aging",
+      "description": "Generate and analyze accounts receivable aging report",
+      "arguments": [],
+      "text": "Generate and analyze an accounts receivable aging report. Use generate_report with type AgingDetail or AgingSummary. Analyze by aging bucket, calculate key metrics like DSO, identify top customers by balance, and provide collection recommendations."
+    },
+    {
+      "name": "troubleshoot-invoice",
+      "description": "Troubleshoot invoice issues",
+      "arguments": ["invoice_id", "issue_type"],
+      "text": "Troubleshoot issues with invoice ${arguments.invoice_id}. Get invoice details, check status, verify data accuracy, review events for history, check related payments and credit notes, then diagnose the issue and recommend a solution."
+    },
+    {
+      "name": "manage-subscription",
+      "description": "Help with subscription management tasks",
+      "arguments": ["subscription_id", "action"],
+      "text": "Help me manage subscription ${arguments.subscription_id}. Get current subscription state, review billing history and payments, and help with the requested action (upgrade, downgrade, cancel, pause, or review)."
+    }
+  ],
+  "user_config": {
+    "api_key": {
+      "type": "string",
+      "title": "Invoiced API Key",
+      "description": "Your Invoiced API key. Find it in Settings > Developers > API Keys in your Invoiced dashboard.",
+      "required": true,
+      "sensitive": true
+    },
+    "sandbox": {
+      "type": "boolean",
+      "title": "Use Sandbox Environment",
+      "description": "Enable this to use the Invoiced sandbox environment for testing.",
+      "required": false,
+      "default": false
+    }
+  },
+  "compatibility": {
+    "platforms": ["darwin", "win32"],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  },
+  "privacy_policies": [
+    "https://www.invoiced.com/privacy"
+  ]
+}

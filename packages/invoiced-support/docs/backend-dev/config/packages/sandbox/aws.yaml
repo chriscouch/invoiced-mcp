@@ -1,0 +1,14 @@
+aws:
+  version: latest
+  CloudWatch:
+    region: us-west-1
+  CloudWatchLogs:
+    region: us-west-1
+  DynamoDb:
+    region: us-west-1
+  S3:
+    region: us-east-2
+  Ses:
+    region: us-west-1
+  # Credentials are provided by the instance IAM role or env variables
+  credentials: '@Aws\PsrCacheAdapter'

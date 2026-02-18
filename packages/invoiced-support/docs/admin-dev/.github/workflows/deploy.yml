@@ -1,0 +1,179 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - production
+      - sandbox
+      - dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    env:
+      APP_ENV: prod
+      DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+      GITHUB_JOB_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      REPO_NAME: ${{ github.event.repository.name }}
+      SENTRY_WEBHOOK: ${{ secrets.SENTRY_WEBHOOK }}
+
+    steps:
+      - name: Determine environment
+        uses: iamtheyammer/branch-env-vars@v1.1.2
+        with:
+          bevActionOnNoRef: error
+          AWS_REGION: |
+            production:us-east-2
+            sandbox:us-west-1
+            dev:us-west-2
+          DOCKER_ENV: |
+            production:production
+            sandbox:sandbox
+            dev:staging
+          ECS_CLUSTER: |
+            production:InvoicedProduction
+            sandbox:InvoicedSandbox
+            dev:InvoicedStaging
+
+      - uses: actions/checkout@v2
+
+      - name: Start deploy notification
+        run: .github/deploy/start.sh
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        id: cache
+        with:
+          path: |
+            ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Get npm cache directory
+        id: npm-cache
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+
+      - name: Cache node dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: |
+          composer install --no-dev --no-interaction --optimize-autoloader --no-progress --no-scripts
+          composer dump-autoload --optimize --no-dev --classmap-authoritative
+          composer dump-env prod --empty
+          yarn install
+
+      - name: Compile assets
+        run: |
+          bin/console assets:install
+          bin/console cache:clear --no-debug
+          yarn encore production
+          rm -rf .env .env.local tests
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build and push csadmin-nginx container
+        uses: docker/build-push-action@v2.6.1
+        with:
+          file: docker/nginx/Dockerfile
+          context: .
+          push: true
+          tags: ${{ steps.login-ecr.outputs.registry }}/csadmin-nginx:${{ env.DOCKER_ENV }}
+          cache-from: type=gha,scope=csadmin-nginx
+          cache-to: type=gha,scope=csadmin-nginx,mode=max
+
+      - name: Build and push csadmin container
+        uses: docker/build-push-action@v2.6.1
+        with:
+          file: docker/php/Dockerfile
+          context: .
+          build-args: PHP_ENVIRONMENT=production
+          push: true
+          tags: ${{ steps.login-ecr.outputs.registry }}/csadmin:${{ env.DOCKER_ENV }}
+          cache-from: type=gha,scope=csadmin
+          cache-to: type=gha,scope=csadmin,mode=max
+
+      - name: Make ECS http task definition JSON
+        run: |
+          bin/console deploy:ecs-task-definition http ${{ env.DOCKER_ENV }} > task-definition.http.json
+
+      - name: Deploy ECS HTTP service
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: task-definition.http.json
+          service: CSAdmin
+          cluster: ${{ env.ECS_CLUSTER }}
+
+      - name: Make ECS console task definition JSON
+        run: |
+          bin/console deploy:ecs-task-definition console ${{ env.DOCKER_ENV }} > task-definition.console.json
+
+      - name: Deploy ECS console task
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        id: ecs-console
+        with:
+          task-definition: task-definition.console.json
+
+      - name: Database migrations
+        run: |
+          NETWORK_CONFIG=$(<ecs/console/network-configuration.${{ env.DOCKER_ENV }}.json)
+          MIGRATE_COMMAND=$(<ecs/console/migrate-command.json)
+          TASK_ARN=`aws ecs run-task \
+            --cluster ${{ env.ECS_CLUSTER }} \
+            --task-definition ${{ steps.ecs-console.outputs.task-definition-arn }} \
+            --launch-type FARGATE \
+            --network-configuration "$NETWORK_CONFIG" \
+            --overrides "$MIGRATE_COMMAND" | jq -r '.tasks[0].taskArn' | sed 's~.*task/${{ env.ECS_CLUSTER }}/~~'`
+          echo "Watch progress in the Amazon ECS console: https://${{ env.AWS_REGION }}.console.aws.amazon.com/ecs/v2/clusters/${{ env.ECS_CLUSTER }}/tasks/$TASK_ARN/logs"
+
+      - name: Install cron jobs
+        run: |
+          CRON_JOBS=$(<ecs/cron/cron-jobs.${{ env.DOCKER_ENV }}.json)
+          aws events put-rule \
+            --schedule-expression "cron(0 0 * * ? *)" --name CSAdminDailyTasks
+          aws events put-targets \
+            --rule "CSAdminDailyTasks" \
+            --targets "$CRON_JOBS"
+
+      - name: Successful deploy notification
+        run: .github/deploy/succeeded.sh
+
+      - name: Failed Notification
+        run: .github/deploy/failed.sh
+        if: ${{ failure() }} # Pick up events if the job fails.

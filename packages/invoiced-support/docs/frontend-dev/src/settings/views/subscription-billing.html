@@ -1,0 +1,59 @@
+<feature-upgrade ng-if="!('subscriptions'|hasFeature)"></feature-upgrade>
+<div class="contents form-horizontal" ng-show="'subscriptions'|hasFeature">
+    <div class="settings-title-bar">
+        <h2 class="title">
+            <div class="docs-link">
+                <a href="https://docs.invoiced.com/subscription-billing" target="_blank">
+                    {{'general.documentation'|translate}}
+                    <span class="fas fa-external-link"></span>
+                </a>
+            </div>
+            <div class="back-link">
+                <a ui-sref="manage.settings.default">
+                    <span class="fas fa-arrow-left"></span>
+                    {{'general.settings'|translate}}
+                </a>
+            </div>
+            {{'settings.titles.subscription_billing'|translate}}
+        </h2>
+
+        <p class="lead">
+            Here you can change the behavior of the subscription billing system.
+        </p>
+    </div>
+
+    <p class="alert alert-danger" ng-show="error">
+        {{error.message}}
+    </p>
+
+    <div class="form-group">
+        <div class="col-sm-8 col-sm-offset-4">
+            <h4 class="settings-section-title">Settings</h4>
+        </div>
+    </div>
+
+    <!-- Subscription Nonpayment -->
+    <div class="form-group">
+        <label class="control-label col-sm-4">After subscription nonpayment</label>
+        <div class="col-sm-3">
+            <div class="invoiced-select">
+                <select ng-model="settings.after_subscription_nonpayment" ng-change="saveSetting('after_subscription_nonpayment', settings.after_subscription_nonpayment)">
+                    <option value="do_nothing">Do nothing</option>
+                    <option value="cancel">Cancel the subscription</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-4 help-block">
+            What should Invoiced do after the final AutoPay attempt on a subscription has been exhausted?
+        </div>
+    </div>
+
+    <!-- Draft Subscription Invoices -->
+    <div class="form-group">
+        <label class="control-label col-sm-4">{{'settings.general.draft_subscription'|translate}}</label>
+        <div class="col-sm-3">
+            <toggle ng-model="settings.subscription_draft_invoices" ng-change="saveSetting('subscription_draft_invoices', value)"></toggle>
+        </div>
+        <div class="col-sm-4 help-block">{{'settings.general.draft_subscription_help'|translate}}</div>
+    </div>
+</div>

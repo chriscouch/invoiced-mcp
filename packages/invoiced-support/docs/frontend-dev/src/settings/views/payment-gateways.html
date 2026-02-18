@@ -1,0 +1,76 @@
+<div class="loading" ng-show="loading"></div>
+
+<div class="panel panel-default" ng-hide="loading">
+    <!-- Panel Top Row -->
+    <div class="panel-heading">
+        <h4 class="panel-title button-title">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="searchbar light">
+                        <div class="bar">
+                            <div class="icon"><span class="fas fa-search"></span></div>
+                            <input type="text" class="form-control" ng-model="search" tabindex="2000" />
+                            <div class="icon right icon-btn" ng-show="search">
+                                <button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+                                    <span class="fas fa-times-circle"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h4>
+    </div>
+
+    <!-- No Results -->
+    <div class="list-group" ng-show="results.length === 0">
+        <div class="list-group-item">
+            <div class="empty">No payment gateway configurations.</div>
+        </div>
+    </div>
+
+    <!-- Results Table -->
+    <table class="table table-striped search-results-table" ng-show="results.length > 0">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Gateway</th>
+                <th>Defaults</th>
+                <th class="noborder">Created</th>
+                <th class="nopadding"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="merchantAccount in merchantAccounts | searchObject:search:['name','gateway_id','gateway'] | orderBy:['name'] as results">
+                <td>
+                    <div ng-hide="merchantAccount.name">{{merchantAccount.gateway_id}}</div>
+                    <div ng-show="merchantAccount.name">
+                        {{merchantAccount.name}}
+                        <a href="" class="id-tooltip" tooltip="{{merchantAccount.gateway_id}}">
+                            <span class="fas fa-hashtag"></span>
+                        </a>
+                    </div>
+                </td>
+                <td class="nowrap">{{merchantAccount.gateway|gatewayName}}</td>
+                <td>
+                    <div ng-show="merchantAccount.usedByPaymentMethods.length > 0">
+                        <a href="" ng-repeat="paymentMethod in merchantAccount.usedByPaymentMethods" tooltip="Default gateway for this payment method">
+                            <span class="label label-info">{{('payment_method.' + paymentMethod.id)|translate}} Default</span>
+                        </a>
+                    </div>
+                </td>
+                <td class="light nowrap noborder"><company-date date="merchantAccount.created_at"></company-date></td>
+                <td class="nopadding hover-actions-holder mobile-last mobile-visible">
+                    <div class="hover-actions">
+                        <a href="" class="btn btn-default btn-sm" ng-click="edit(merchantAccount)" tooltip="Edit Payment Gateway" ng-hide="merchantAccount.gateway == 'invoiced'">
+                            <span class="fas fa-pencil"></span>
+                        </a>
+                        <a href="" class="btn btn-danger btn-sm" ng-click="delete(merchantAccount)" ng-hide="merchantAccount.gateway == 'invoiced' || merchantAccount.gateway == 'flywire_payments' || merchantAccount.gateway == 'flywire' || merchantAccount.usedByPaymentMethods.length > 0 || deleting" tooltip="Delete Payment Gateway">
+                            <span class="fas fa-trash"></span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

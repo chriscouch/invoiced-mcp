@@ -1,0 +1,297 @@
+{% trans_default_domain 'customer_portal' %}
+
+{% macro cardForm(hasBillingAddress, address, countries, splitNames) %}
+    <div class="alert bg-danger-soft text-dark border border-danger errors invoiced-card-errors hidden"></div>
+
+    <!-- Credit Card Information -->
+    <div class="row two-column-row">
+        <div class="col-lg-6">
+            <div class="form-section">
+                <label class="section-label">
+                    {{ 'labels.please_enter_card'|trans }}
+                </label>
+
+                <div class="credit-card-holder">
+                    <div class="credit-card">
+                        <div class="line">
+                            <div class="input-card-number input">
+                                <input type="tel" class="form-control cc-num required" autocomplete="cc-number" autocorrect="off" spellcheck="off" autocapitalize="off" placeholder="•••• •••• •••• ••••" />
+                                <span class="type"></span>
+                                <span class="icon">
+                                    <span class="far fa-credit-card"></span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="line">
+                            <div class="input-split">
+                                <div class="input-expiry input">
+                                    <input type="tel" class="form-control cc-exp required" autocomplete="cc-exp" autocorrect="off" spellcheck="off" autocapitalize="off" placeholder="MM / YY" />
+                                    <span class="icon">
+                                        <span class="far fa-calendar"></span>
+                                    </span>
+                                </div>
+                                <div class="input-cvc input">
+                                    <input type="tel" class="form-control cc-cvc required" autocomplete="cc-csc" autocorrect="off" spellcheck="off" autocapitalize="off" placeholder="123" />
+                                    <span class="icon">
+                                        <span class="far fa-lock"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-logos">
+                            <img src="{{ asset("/img/billing-portal/card-logos.png") }}" width="150" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if hasBillingAddress %}
+            <div class="col-lg-6">
+
+                <!-- Billing Address -->
+                <div class="form-section">
+                    <label class="section-label">
+                        {{ 'labels.please_billing_address'|trans }}
+                    </label>
+                    <div class="billing-address address billing">
+                        {% if splitNames %}
+                            <div class="line">
+                                <div class="input-card-holder-first-name input no-icon">
+                                    <input type="text" class="form-control cc-first_name required" placeholder="{{ 'labels.first_name'|trans }}" value="{{ address.first_name }}" />
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="input-card-holder-last-name input no-icon">
+                                    <input type="text" class="form-control cc-last_name required" placeholder="{{ 'labels.last_name'|trans }}" value="{{ address.last_name }}" />
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="line">
+                                <div class="input-card-holder-name input no-icon">
+                                    <input type="text" class="form-control cc-name required" placeholder="{{ 'labels.cardholder_name'|trans }}" value="{{ address.name }}" />
+                                </div>
+                            </div>
+                        {% endif  %}
+
+                        <div class="line">
+                            <div class="input-address-line1 input no-icon">
+                                <input type="text" class="form-control cc-address1 billing-address1 required" placeholder="{{ 'labels.address_line1'|trans }}" value="{{ address.address1 }}" />
+                            </div>
+                        </div>
+
+                        <div class="line">
+                            <div class="input-split split-4060">
+                                <div class="input-address-city input no-icon">
+                                    <input type="text" class="form-control cc-city billing-city" placeholder="{{ 'labels.address_city'|trans }}" value="{{ address.city }}" />
+                                </div>
+                                <div class="input-address-state input no-icon">
+                                    <div class="state-select hidden">
+                                        <select class="form-select"></select>
+                                    </div>
+                                    <input type="text" class="form-control state-text cc-state billing-state required" placeholder="{{ 'labels.address_state'|trans }}" value="{{ address.state }}" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="line">
+                            <div class="input-split split-4060">
+                                <div class="input-address-zip input no-icon">
+                                    <input type="text" class="form-control cc-postal-code billing-postal-code" placeholder="{{ 'labels.address_postal_code'|trans }}" value="{{ address.postal_code }}" />
+                                </div>
+
+                                <div class="input-address-country input no-icon">
+                                    <select class="form-select country-selector billing cc-country billing-country" data-section="billing">
+                                        {% for country in countries %}
+                                            <option value="{{ country.code }}"{% if country.code == address.country %} selected="selected"{% endif %}>{{ country.country }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro achForm(achDebitTerms, accountHolderType, address, countries, splitNames, accountType) %}
+    <div class="ach-payment-form">
+        <div class="alert bg-danger-soft text-dark border border-danger errors invoiced-ach-errors hidden"></div>
+
+        <div class="form-section">
+            <div class="row two-column-row">
+                <div class="col-lg-6">
+                    {% if splitNames %}
+                            <div class="field slim mb-3">
+                                <label class="form-label">{{ 'labels.account_holder_first_name'|trans }}</label>
+                                <div>
+                                    <input type="text" class="form-control ach-first_name required" placeholder="{{ 'labels.first_name'|trans }}" value="{{ address.first_name }}" />
+                                </div>
+                            </div>
+                            <div class="field slim mb-3">
+                                <label class="form-label">{{ 'labels.account_holder_last_name'|trans }}</label>
+                                <div>
+                                    <input type="text" class="form-control ach-last_name required" placeholder="{{ 'labels.last_name'|trans }}" value="{{ address.last_name }}" />
+                                </div>
+                            </div>
+                    {% else %}
+                        <div class="field slim mb-3">
+                            <label class="form-label">{{ 'labels.account_holder_name'|trans }}</label>
+                            <div>
+                                <input type="text" class="form-control required" id="account_holder_name" placeholder="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+                            </div>
+                        </div>
+                    {% endif  %}
+                </div>
+                <div class="col-lg-6">
+                    <div class="field slim mb-3">
+                        <label class="form-label">{{ 'labels.type'|trans }}</label>
+                        <div class="form-control-static">
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input account_holder_type" name="ach_account_holder_type" value="individual" {% if accountHolderType == 'individual' %}checked="checked"{% endif%} id="achInvoicedIndividual" />
+                                <label class="form-check-label noselect" for="achInvoicedIndividual">
+                                    {{ 'labels.individual'|trans }}
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input account_holder_type" name="ach_account_holder_type" value="company" {% if accountHolderType == 'company' %}checked="checked"{% endif%} id="achInvoicedCompany" />
+                                <label class="form-check-label noselect" for="achInvoicedCompany">
+                                    {{ 'labels.company'|trans }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    {% if splitNames %}
+                        <div class="field slim mb-3">
+                            <label class="form-label">{{ 'labels.account_type'|trans }}</label>
+                            <div class="form-control-static">
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" class="form-check-input account_type" name="ach_account_type" value="CHECKING" {% if accountType == 'CHECKING' %}checked="checked"{% endif%} id="achInvoicedChecking" />
+                                    <label class="form-check-label noselect" for="achInvoicedChecking">
+                                        {{ 'labels.checking'|trans }}
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" class="form-check-input account_type" name="ach_account_type" value="SAVING" {% if accountType == 'SAVING' %}checked="checked"{% endif%} id="achInvoicedSaving" />
+                                    <label class="form-check-label noselect" for="achInvoicedSaving">
+                                        {{ 'labels.saving'|trans }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    {%  endif %}
+                </div>
+            </div>
+
+            <div class="row two-column-row">
+                <div class="col-lg-6">
+                    <div class="field slim mb-3">
+                        <label class="form-label">{{ 'labels.routing_number'|trans }}</label>
+                        <div>
+                            <input type="text" class="form-control required" id="routing_number" placeholder="ex. 110000000" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <!-- Needed for spacing -->
+                </div>
+            </div>
+
+            <div class="row two-column-row">
+                <div class="col-lg-6">
+                    <div class="field slim mb-3 ach-field-confirm">
+                        <label class="form-label">{{ 'labels.bank_account_number'|trans }}</label>
+                        <div>
+                            <input type="text" class="form-control required" id="account_number" placeholder="ex. 000123456789" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="field slim mb-3">
+                        <label class="form-label">{{ 'labels.confirm_bank_account_number'|trans }}</label>
+                        <div>
+                            <input type="text" class="form-control required" id="account_number_confirm" placeholder="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instructions -->
+            <div class="ach-check-instructions">
+                <p class="font-sm">
+                    <a href="#collapseAchInstructions" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseAchInstructions">
+                        <span class="fas fa-question-circle"></span>
+                        {{ 'messages.where_do_i_find_account_routing'|trans }}
+                    </a>
+                </p>
+
+                <div class="instructions collapse pb-5" id="collapseAchInstructions">
+                    <img src="{{ asset('/img/billing-portal/ach-check.png') }}" class="img-responsive" />
+                </div>
+            </div>
+
+            <!-- Billing Address -->
+            <label class="section-label">
+                {{ 'labels.please_billing_address'|trans }}
+            </label>
+            <div class="address ach mt-3 mb-5">
+                <div class="row two-column-row">
+                    <div class="col-lg-6">
+                        <div class="field">
+                            <label class="form-label">{{ 'labels.address_line1'|trans }}</label>
+                            <input type="text" class="form-control ach-address1 required" value="{{ address.address1 }}" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row two-column-row">
+                    <div class="col-lg-4">
+                        <div class="field">
+                            <label class="form-label">{{ 'labels.address_city'|trans }}</label>
+                            <input type="text" class="form-control ach-city" value="{{ address.city }}" />
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="field">
+                            <label class="form-label">{{ 'labels.address_state'|trans }}</label>
+                            <div class="state-select hidden">
+                                <select class="form-select"></select>
+                            </div>
+                            <input type="text" class="form-control state-text ach-state required" value="{{ address.state }}" />
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="field">
+                            <label class="form-label">{{ 'labels.address_postal_code'|trans }}</label>
+                            <input type="text" class="form-control ach-postal-code" value="{{ address.postal_code }}" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row two-column-row">
+                    <div class="col-lg-6">
+                        <div class="field">
+                            <label class="form-label">{{ 'labels.address_country'|trans }}</label>
+                            <select class="form-select country-selector ach ach-country" data-section="ach">
+                                {% for country in countries %}
+                                    <option value="{{ country.code }}"{% if country.code == address.country %} selected="selected"{% endif %}>{{ country.country }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terms -->
+            {% if achDebitTerms %}
+                <div class="ach-debit-terms">
+                    {{ achDebitTerms|raw }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}

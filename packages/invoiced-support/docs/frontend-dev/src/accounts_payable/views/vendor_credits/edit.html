@@ -1,0 +1,116 @@
+<div class="loading" ng-show="loading"></div>
+<form name="modelForm" ng-submit="save(vendorCredit)" ng-hide="loading">
+    <div class="contents bill-editor">
+        <div class="title-bar">
+            <h2 class="title">
+                <span ng-show="vendorCredit.id">Edit Vendor Credit</span>
+                <span ng-hide="vendorCredit.id">New Vendor Credit</span>
+            </h2>
+        </div>
+
+        <p class="required-indicator">
+            <span class="required"></span> {{'general.indicates_required_field'|translate}}
+        </p>
+        <p class="alert alert-danger" ng-show="error">
+            {{error}}
+        </p>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Vendor <span class="required"></span></label>
+                    <div>
+                        <picklist type="'vendor'" ng-model="vendorCredit.vendor" allow-new="true" required="true"></picklist>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Credit Note # <span class="required"></span></label>
+                    <div>
+                        <input type="text" class="form-control" ng-model="vendorCredit.number" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Date <span class="required"></span></label>
+                    <div>
+                        <div class="input-group">
+                            <input class="form-control" type="text" ng-model="vendorCredit.date" ui-date="dateOptions" is-open="dpOpened" readonly="readonly" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'dpOpened')">
+                                    <span class="fas fa-calendar-alt"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3" ng-show="'multi_currency'|hasFeature">
+                <div class="form-group">
+                    <label class="control-label">Currency <span class="required"></span></label>
+                    <div>
+                        <currency-selector ng-model="vendorCredit.currency"></currency-selector>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Line Items -->
+        <div class="bill-line-items">
+            <h4 class="settings-section-title">Line Items <span class="required"></span></h4>
+            <table class="table table-striped search-results-table">
+                <thead>
+                    <tr>
+                        <th class="col-description">Description</th>
+                        <th class="col-amount money-column">Amount</th>
+                        <th class="col-actions"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="line" ng-repeat="lineItem in vendorCredit.line_items">
+                        <td class="col-description">
+                            <input type="text" class="form-control" ng-model="lineItem.description" required />
+                        </td>
+                        <td class="col-amount money-column">
+                            <input class="form-control" type="text" currency-input ng-model="lineItem.amount" currency="vendorCredit.currency" required="true" />
+                        </td>
+                        <td class="col-actions">
+                            <button type="button" class="btn btn-link" ng-click="removeLineItem(vendorCredit, $index)">
+                                <span class="fas fa-trash"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="text-right">
+                            Total
+                        </td>
+                        <td class="text-right">
+                            <money amount="vendorCreditTotal" currency="vendorCredit.currency"></money>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr class="add-line-item">
+                        <td colspan="3">
+                            <button type="button" class="btn btn-default" ng-click="addLineItem(vendorCredit)">
+                                <span class="fas fa-plus"></span>
+                                Line Item
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" ng-disabled="modelForm.$invalid||saving">
+                <span ng-show="vendorCredit.id">{{'general.save'|translate}}</span>
+                <span ng-hide="vendorCredit.id">{{'general.create'|translate}}</span>
+            </button>
+            <invoice-capture ng-hide="vendorCredit.id" document="vendorCredit"></invoice-capture>
+        </div>
+    </div>
+</form>

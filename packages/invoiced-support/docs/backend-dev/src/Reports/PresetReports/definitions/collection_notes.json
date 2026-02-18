@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "title": "Collection Notes",
+  "sections": [
+    {
+      "type": "table",
+      "object": "note",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "created_at"
+          },
+          "name": "Date"
+        },
+        {
+          "field": {
+            "id": "member.user.name"
+          },
+          "name": "Created By"
+        },
+        {
+          "field": {
+            "id": "invoice.number"
+          },
+          "name": "Invoice #"
+        },
+        {
+          "field": {
+            "id": "notes"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "created_at"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        }
+      ],
+      "group": [
+        {
+          "name": "Customer",
+          "field": {
+            "id": "customer.name"
+          },
+          "ascending": true,
+          "expanded": true
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "created_at"
+          },
+          "ascending": false
+        }
+      ]
+    }
+  ]
+}

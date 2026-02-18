@@ -1,0 +1,35 @@
+{% extends "emails/parent.twig" %}
+{% block title %}Action Required: Payment Failed{% endblock %}
+{% block content %}
+      <row>
+            <columns>
+                  <p>Hi {{ company }},</p>
+
+                  <p>There was a problem with the most recent charge to your credit card for your Invoiced subscription.  We understand that as a busy person you have tons of other priorities so we would like to help you resolve this as quickly as possible.</p>
+
+                  <p>
+                        Charge Description: {{ description }}<br>
+                        Card: {{ card_type }} ends in {{ card_last4 }} (expires {{ card_expires }})<br>
+                        Amount: ${{ amount }}<br>
+                        Reason: {{ error_message }}
+                  </p>
+
+                  <p>
+                        We will attempt to charge your card on file up to 4 times until successful according to the following schedule:<br>
+                        First Retry: 3 days after previous attempt<br>
+                        Second Retry: 5 days after previous attempt<br>
+                        Third Retry: 7 days after previous attempt
+                  </p>
+
+                  <p>After the final failed payment attempt your Invoiced subscription will be automatically canceled.</p>
+
+                  <p>If you need to change the credit card on file then you can do this in <a href="https://app.invoiced.com/settings/billing">Settings > Billing</a> on invoiced.com. Your payment will be retried with the updated card according to the retry schedule above.</p>
+
+                  <p>If you want to cancel your subscription then you can do this on the <a href="https://app.invoiced.com/settings/cancel">Cancel page</a> in Settings > Billing. Your account will be instantly canceled once you confirm your password.</p>
+
+                  <p>We are here to help. Please contact us at support@invoiced.com if you have any questions or concerns.</p>
+
+                  <p>Best regards,<br> The team at Invoiced</p>
+            </columns>
+      </row>
+{% endblock %}

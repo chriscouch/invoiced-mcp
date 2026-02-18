@@ -1,0 +1,200 @@
+table {
+    border-collapse: collapse;
+}
+
+td {
+    padding: 0;
+}
+
+.container {
+    padding: 0 20px;
+    line-height: 14pt;
+}
+
+.title-bar {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 11pt;
+}
+
+.logo {
+    display: table-cell;
+    vertical-align: bottom;
+    max-width: 33%;
+}
+
+.logo img {
+    text-align: left;
+    max-width: 250px;
+    max-height: 100px;
+    border-radius: 4px;
+}
+
+.title-bar .title {
+    display: table-cell;
+    vertical-align: bottom;
+    text-align: center;
+}
+
+.title-bar .text {
+    text-align: left;
+    font-weight: bold;
+}
+
+.title-bar .invoice-number {
+    width: 33%;
+    display: table-cell;
+    text-align: right;
+    vertical-align: bottom;
+}
+
+.spacer {
+    width: 100%;
+    border-bottom: 1px solid #65d8bf;
+    margin: 12px 0;
+}
+
+.context-holder {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.contact-from {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.context {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.context-table {
+    width: 100%;
+}
+
+.context-table .value {
+    width: 150px;
+}
+
+.address-holder {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.contact-to {
+    display: table-cell;
+    word-wrap: break-word;
+    width: 45%;
+}
+
+.contact-to .field {
+    font-weight: bold;
+    padding-bottom: 1px;
+}
+
+.items-holder {
+    margin: 12px 0 0;
+}
+
+.items {
+    width: 100%;
+}
+
+.items thead {
+    font-weight: normal;
+}
+
+.items th {
+    padding: 5px 15px;
+    border-bottom: 1px solid #c4cdd5;
+}
+
+.items td {
+    padding: 5px 15px;
+    border-bottom: 1px solid #dfe3e8;
+}
+
+.item .details {
+    color: #5e6a73;
+    font-size: 7pt;
+}
+
+.item .unit_cost,
+.item .amount,
+.money-column {
+    text-align: right;
+}
+
+.item .name {
+    width: 50%;
+}
+
+.item .quantity {
+    width: 15%;
+}
+
+.totals {
+    width: 100%;
+    text-align: right;
+}
+
+.totals td {
+    padding: 5px;
+    font-size: 10pt;
+    padding-right: 14px;
+}
+
+.highlight td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.totals-holder {
+    width: 36%;
+    float: right;
+    margin-top: 5px;
+    margin-bottom: 25px;
+}
+
+.footer {
+    background-color: #f5f6f9;
+    width: 58%;
+    float: left;
+    margin: 20px 5px 0 0;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.footer .notes-holder,
+.footer .terms-holder {
+    margin: 5px;
+    font-size: 9pt;
+}
+
+.footer .field,
+.bolder {
+    font-weight: bold;
+}
+
+.hidden {
+    visibility: hidden;
+    clear: both;
+    width: 100%;
+}
+
+.top-border td {
+    border-top: 1px solid #3d4c59;
+}
+
+.top-border-2 td {
+    border-top: 2px solid #3d4c59;
+}

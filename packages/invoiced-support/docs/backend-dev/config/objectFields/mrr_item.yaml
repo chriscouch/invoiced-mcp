@@ -1,0 +1,50 @@
+fields:
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  credit_note:
+    name: Credit Note
+    type: join
+  customer:
+    name: Customer
+    type: join
+  date:
+    name: Date
+    type: date
+    date_format: "Y-m-d"
+  discount:
+    name: Discount
+    type: money
+  id:
+    name: ID
+    type: string
+    writable: false
+  invoice:
+    name: Invoice
+    type: join
+  item:
+    name: Item
+    type: join
+    join_column: internal_id
+  line_item:
+    name: Line Item
+    type: join
+  month:
+    name: Month
+    type: date_month
+  mrr:
+    name: MRR
+    type: money
+  partial_month:
+    name: Partial Month
+    type: boolean
+  plan:
+    name: Plan
+    type: join
+    join_column: internal_id
+  subscription:
+    name: Subscription
+    type: join

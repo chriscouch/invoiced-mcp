@@ -1,0 +1,4 @@
+<span ng-if="transaction.type=='charge'||transaction.type=='payment'">{{'transactions.transaction_types.payment' | translate }}</span>
+<span ng-if="transaction.type=='adjustment'&&transaction.amount<0">{{'transactions.transaction_types.credit' | translate }}</span>
+<span ng-if="transaction.type=='adjustment'&&transaction.amount>=0">{{'transactions.transaction_types.adjustment' | translate }}</span>
+<span ng-if="transaction.type=='refund'">{{'transactions.transaction_types.refund' | translate }}</span>

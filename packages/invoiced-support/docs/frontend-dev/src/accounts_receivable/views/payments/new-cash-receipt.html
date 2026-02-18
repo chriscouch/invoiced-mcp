@@ -1,0 +1,128 @@
+<form name="paymentForm" ng-submit="save(payment, applyForm)" class="below0">
+    <p class="required-indicator">
+        <span class="required"></span> {{'general.indicates_required_field'|translate}}
+    </p>
+    <p class="alert alert-danger" ng-show="error">
+        {{error.message}}
+    </p>
+
+    <div class="row">
+        <!-- Customer -->
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label">{{'transactions.customer'|translate}} <span class="required"></span></label>
+                <div class="form-control-static" ng-if="customerPreselected">
+                    {{payment.customer.name}}
+                </div>
+                <div ng-if="!customerPreselected">
+                    <select-customer ng-model="payment.customer"></select-customer>
+                </div>
+            </div>
+        </div>
+
+        <!-- Currency -->
+        <div class="col-sm-4" ng-if="('multi_currency'|hasFeature) && !applyForm.itemPreselected">
+            <div class="form-group">
+                <label class="control-label">{{'payments.edit.labels.currency'|translate}} <span class="required"></span></label>
+                <div>
+                    <currency-selector ng-model="payment.currency" required></currency-selector>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Payment Method -->
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label">Method <span class="required"></span></label>
+                <div>
+                    <payment-method-selector ng-model="payment.method"></payment-method-selector>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Date -->
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label">{{'transactions.new_payment.received_on'|translate}} <span class="required"></span></label>
+                <div>
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="payment.date" ui-date="dateOptions" is-open="dpOpened" readonly="readonly" required />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'dpOpened')">
+                                <span class="fas fa-calendar-alt"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Amount -->
+        <div class="col-sm-4">
+            <div class="form-group" ng-class="{'has-error':applyForm.invalidAmount}">
+                <label class="control-label">Amount Received <span class="required"></span></label>
+                <div>
+                    <input class="form-control" type="text" currency-input ng-model="payment.amount" currency="payment.currency" required="required" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr/>
+
+    <!-- Card Warning -->
+    <p class="alert alert-warning" ng-show="payment.method=='credit_card'">
+        <span class="fas fa-info-circle"></span>
+        {{'transactions.new_payment.card_warning'|translate}}
+    </p>
+
+    <!-- ACH Warning -->
+    <p class="alert alert-warning" ng-show="payment.method=='ach'">
+        <span class="fas fa-info-circle"></span>
+        {{'transactions.new_payment.ach_warning'|translate}}
+    </p>
+
+    <div class="row">
+        <!-- Reference -->
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label" ng-show="payment.method=='check'">{{'payments.labels.check_no'|translate}}</label>
+                <label class="control-label" ng-show="payment.method=='credit_card'||payment.method=='ach'">{{'transactions.labels.transaction_id'|translate}}</label>
+                <label class="control-label" ng-show="payment.method!=='check'&&payment.method!=='credit_card'&&payment.method!=='ach'">{{'transactions.labels.reference'|translate}}</label>
+                <div>
+                    <input class="form-control" type="text" ng-model="payment.reference" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label">{{'transactions.notes'|translate}}</label>
+                <div>
+                    <textarea ng-model="payment.notes" expanding-textarea class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Fields -->
+    <div class="row" ng-show="customFields.length > 0">
+        <div class="col-sm-6"  ng-repeat="field in customFields">
+            <label class="control-label">{{field.name}}</label>
+            <div>
+                <custom-field-input field="field" metadata="payment.metadata"></custom-field-input>
+            </div>
+        </div>
+    </div>
+    <hr/>
+
+    <!-- Payment Application -->
+    <apply-receive-payment payment="payment" form="applyForm"></apply-receive-payment>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary Button" ng-disabled="!applyForm.creditsValid||!applyForm.linesValid||paymentForm.$invalid||applyForm.invalidAmount||applyForm.remaining!=0||applyForm.loading||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+            <span>{{'general.create'|translate}}</span>
+        </button>
+    </div>
+</form>

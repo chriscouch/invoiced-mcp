@@ -1,0 +1,200 @@
+# Tests that if two scheduled sends occur on the same day
+# in a single chasing schedule, they will both be sent
+# if their roles are different.
+
+operations:
+  - operation: create
+    mock_time: '2022-01-01 18:01:54' # Time chosen at random, date was not
+    data:
+      invoice:
+        date: '2022-01-01 18:01:54' # Same as create time
+        items:
+          - quantity: 1
+            unit_cost: 100
+      delivery:
+        # Notice that the absolute dates are the same, but their hour option is different.
+        # This is likely to be the case when created via the Dashboard because the date
+        # value picked uses the current time (time it was picked)
+        chase_schedule:
+          - trigger: 4
+            options:
+              hour: 8
+              role: 1 # role does not have to exist for this test to operate
+              date: '2022-01-06 18:01:54'
+              email: true
+              sms: false
+              letter: false
+          - trigger: 4
+            options:
+              hour: 9
+              role: 2 # role does not have to exist for this test to operate
+              date: '2022-01-06 18:01:54'
+              email: true
+              sms: false
+              letter: false
+    expect:
+      delivery_state:
+        - trigger: 4
+          options:
+            hour: 8
+            role: 1
+            date: '2022-01-06 18:01:54'
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-06 08:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+        - trigger: 4
+          options:
+            hour: 9
+            role: 2
+            date: '2022-01-06 18:01:54'
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-06 09:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+      scheduled_sends: []
+
+  - operation: schedule
+    mock_time: '2022-01-01 18:01:54' # Same as previous
+    expect:
+      scheduled_sends:
+        - send_after: '2022-01-06 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+        - send_after: '2022-01-06 09:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+
+  - operation: send
+    mock_time: '2022-01-06 08:00:00' # Time of the first send
+    expect:
+      delivery_state:
+        - trigger: 4
+          options:
+            hour: 8
+            date: '2022-01-06 18:01:54'
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-06 08:00:00'
+              skipped: false
+              failures:
+                email: 'Contact information is missing.'
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+        - trigger: 4
+          options:
+            hour: 9
+            date: '2022-01-06 18:01:54'
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-06 09:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+      scheduled_sends:
+        - send_after: '2022-01-06 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: true
+        - send_after: '2022-01-06 09:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+
+  - operation: send
+    mock_time: '2022-01-06 09:00:00' # Time of the second send
+    expect:
+      delivery_state:
+        - trigger: 4
+          options:
+            hour: 8
+            date: '2022-01-06 18:01:54'
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-06 08:00:00'
+              skipped: false
+              failures:
+                email: 'Contact information is missing.'
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+        - trigger: 4
+          options:
+            hour: 9
+            date: '2022-01-06 18:01:54'
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-06 09:00:00'
+              skipped: false
+              failures:
+                email: 'Contact information is missing.'
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+      scheduled_sends:
+        - send_after: '2022-01-06 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: true
+        - send_after: '2022-01-06 09:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: true

@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "title": "Convenience Fees",
+  "sections": [
+    {
+      "type": "table",
+      "object": "transaction",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "customer.name"
+          },
+          "name": "Customer"
+        },
+        {
+          "field": {
+            "id": "date"
+          }
+        },
+        {
+          "field": {
+            "id": "method"
+          }
+        },
+        {
+          "field": {
+            "id": "payment.charge.gateway"
+          }
+        },
+        {
+          "field": {
+            "id": "payment.charge.gateway_id"
+          }
+        },
+        {
+          "name": "Payment Amount",
+          "field": {
+            "id": "payment.amount"
+          }
+        },
+        {
+          "name": "Convenience Fee",
+          "field": {
+            "id": "amount"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "status"
+          },
+          "value": "succeeded"
+        },
+        {
+          "field": {
+            "id": "notes"
+          },
+          "value": "Convenience Fee"
+        },
+        {
+          "field": {
+            "id": "currency"
+          },
+          "value": "$currency"
+        },
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "date"
+          },
+          "ascending": false
+        }
+      ]
+    }
+  ]
+}

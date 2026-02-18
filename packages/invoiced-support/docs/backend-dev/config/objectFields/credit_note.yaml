@@ -1,0 +1,92 @@
+fields:
+  amount_applied_to_invoice:
+    name: "Amount Applied To Invoice"
+    type: money
+    summarize: true
+    writable: false
+  amount_credited:
+    name: "Amount Credited"
+    type: money
+    summarize: true
+    writable: false
+  balance:
+    name: Balance
+    type: money
+    summarize: true
+    writable: false
+  closed: { name: Closed, type: boolean }
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency: { name: Currency, type: string }
+  customer:
+    name: Customer
+    type: join
+    parent_column: customer
+    writable: false
+  date: { name: Date, type: date }
+  date_voided:
+    name: "Date Voided"
+    type: date
+    writable: false
+  draft: { name: Draft, type: boolean }
+  id:
+    name: ID
+    type: string
+    writable: false
+  metadata:
+    name: 'Metadata'
+    type: metadata
+  name: { name: "Credit Note Name", type: string }
+  notes:
+    name: Notes
+    type: string
+    filterable: false
+  number: { name: "Credit Note #", type: string }
+  paid:
+    name: Paid
+    type: boolean
+    writable: false
+  purchase_order: { name: "Purchase Order", type: string }
+  sent: { name: Sent, type: boolean }
+  status:
+    name: Status
+    writable: false
+    type: enum
+    values:
+      draft: Draft
+      open: Open
+      paid: Paid
+      closed: Closed
+      voided: Voided
+  subtotal:
+    name: Subtotal
+    type: money
+    summarize: true
+    writable: false
+  total:
+    name: Total
+    type: money
+    summarize: true
+    writable: false
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  viewed:
+    name: Viewed
+    type: boolean
+    writable: false
+  voided:
+    name: Voided
+    type: boolean
+    writable: false

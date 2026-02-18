@@ -1,0 +1,403 @@
+<div class="loading inline" ng-show="loading"></div>
+<div ng-show="!loading">
+	<form class="form-horizontal" name="settingsForm" ng-submit="save(syncProfile)">
+		<div class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</div>
+
+		<!-- Sync Behavior -->
+		<div class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-12">
+				<h4 class="settings-section-title">{{'intacct.data_flow'|translate}}</h4>
+			</div>
+		</div>
+		<table class="table search-results-table">
+			<thead>
+				<tr>
+					<th></th>
+					<th class="text-center">{{'intacct.read_from_intacct'|translate}}</th>
+					<th class="text-center">{{'intacct.write_to_intacct'|translate}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>{{'intacct.customers'|translate}}</td>
+					<td class="text-center">
+						<toggle ng-model="syncProfile.read_customers"></toggle>
+					</td>
+					<td class="text-center">
+						<toggle ng-model="syncProfile.write_customers"></toggle>
+					</td>
+				</tr>
+				<tr>
+					<td>{{'intacct.invoices'|translate}}</td>
+					<td class="text-center">
+						<toggle ng-model="syncProfile.read_invoices"></toggle>
+					</td>
+					<td class="text-center">
+						<toggle ng-model="syncProfile.write_invoices"></toggle>
+					</td>
+				</tr>
+				<tr>
+					<td>{{'intacct.payments'|translate}}</td>
+					<td class="text-center">
+						<toggle ng-model="syncProfile.read_payments"></toggle>
+					</td>
+					<td class="text-center">
+						<toggle ng-model="syncProfile.write_payments"></toggle>
+					</td>
+				</tr>
+				<tr>
+					<td>{{'intacct.ar_adjustments'|translate}}</td>
+					<td class="text-center">
+						<toggle ng-model="syncProfile.read_ar_adjustments"></toggle>
+					</td>
+					<td class="text-center">
+						<span>&mdash;</span>
+					</td>
+				</tr>
+				<tr>
+					<td>{{'intacct.credit_notes'|translate}}</td>
+					<td class="text-center">
+						<toggle ng-model="syncProfile.read_credit_notes"></toggle>
+					</td>
+					<td class="text-center">
+						<toggle ng-model="syncProfile.write_credit_notes"></toggle>
+					</td>
+				</tr>
+				<tr>
+					<td>{{'intacct.convenience_fees'|translate}}</td>
+					<td class="text-center">
+						<span>&mdash;</span>
+					</td>
+					<td class="text-center">
+						<toggle ng-model="syncProfile.write_convenience_fees"></toggle>
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="3"></td>
+				</tr>
+			</tfoot>
+		</table>
+
+		<div class="form-group">
+			<div class="col-sm-4 col-sm-offset-3">
+				<h4 class="settings-section-title">{{'intacct.additional_settings'|translate}}</h4>
+			</div>
+		</div>
+
+		<div class="form-group" ng-show="integration.name.indexOf('|') > 0">
+			<div class="col-sm-4 col-sm-offset-3">
+				<label class="noselect">
+					<input type="checkbox" ng-model="syncProfile.customer_top_level" />
+					{{'intacct.customer_top_level'|translate}}
+				</label>
+			</div>
+		</div>
+
+		<div class="alert alert-danger" ng-show="salesDocumentError && syncProfile.read_invoices">
+			{{salesDocumentError.message}}
+		</div>
+
+		<div class="form-group" ng-if="!loading && syncProfile.read_invoices">
+			<label class="control-label col-sm-3">{{'intacct.invoice_types'|translate}}</label>
+			<div class="col-sm-8">
+				<input type="hidden" ng-model="syncProfile.invoice_types" ui-select2="select2OptionsInvoice" />
+			</div>
+			<div class="col-sm-8 col-sm-offset-3 form-control-static">
+				{{'intacct.select_invoice_definitions'|translate}}
+			</div>
+		</div>
+
+		<div class="form-group" ng-if="!loading && syncProfile.read_credit_notes">
+			<label class="control-label col-sm-3">{{'intacct.credit_note_types'|translate}}</label>
+			<div class="col-sm-8">
+				<input type="hidden" ng-model="syncProfile.credit_note_types" ui-select2="select2OptionsCreditNote" />
+			</div>
+			<div class="col-sm-8 col-sm-offset-3 form-control-static">
+				{{'intacct.select_credit_note_definitions'|translate}}
+			</div>
+		</div>
+
+		<div class="form-group" ng-show="syncProfile.read_invoices || syncProfile.read_credit_notes">
+			<div class="col-sm-4 col-sm-offset-3">
+				<label class="noselect">
+					<input type="checkbox" ng-model="syncProfile.read_invoices_as_drafts" />
+					{{'intacct.import_as_draft'|translate}}
+				</label>
+			</div>
+			<div class="col-sm-4">
+				{{'intacct.import_as_draft_info'|translate}}
+			</div>
+		</div>
+
+		<div class="form-group" ng-show="syncProfile.read_invoices || syncProfile.read_credit_notes">
+			<div class="col-sm-4 col-sm-offset-3">
+				<label class="noselect">
+					<input type="checkbox" ng-model="syncProfile.read_pdfs" />
+					{{'intacct.import_pdfs'|translate}}
+				</label>
+			</div>
+			<div class="col-sm-4">
+				{{'intacct.import_pdfs_info'|translate}}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-3">
+				{{'accounting_sync.date_range'|translate}}
+			</label>
+			<div class="col-sm-9">
+				<label class="noselect form-control-static">
+					<input type="checkbox" ng-model="syncAllInvoices" />
+					{{'accounting_sync.all_invoices'|translate}}
+				</label>
+				<div ng-if="!syncAllInvoices">
+					<div>{{'accounting_sync.only_invoices_on_after'|translate}}: <span class="required"></span></div>
+					<div class="input-group input-medium">
+						<input type="text" class="form-control" ng-model="syncProfile.invoice_start_date" ui-date="dateOptions" is-open="dpOpened" readonly="readonly" required />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'dpOpened')">
+								<span class="fas fa-calendar-alt"></span>
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group" ng-show="syncProfile.read_invoices">
+			<div class="col-sm-offset-3 col-sm-9">
+				<label class="noselect form-control-static">
+					<input type="checkbox" ng-model="hasLocationIdFilter" />
+					{{'intacct.only_invoices_with_location'|translate}}
+				</label>
+			</div>
+		</div>
+
+		<div ng-if="syncProfile.read_invoices && hasLocationIdFilter">
+			<div class="form-group">
+				<label class="control-label col-sm-3">
+					{{'intacct.location_id'|translate}}
+				</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" ng-model="syncProfile.invoice_location_id_filter" />
+				</div>
+			</div>
+		</div>
+
+		<!-- Mapping -->
+		<div ng-if="!loading && syncProfile.write_payments">
+			<div class="form-group">
+				<div class="col-sm-12">
+					<h4 class="settings-section-title">Payment Accounts</h4>
+				</div>
+			</div>
+
+			<table class="table table-striped search-results-table">
+				<thead>
+					<tr>
+						<th>{{'general.payment_method'|translate}}</th>
+						<th ng-show="hasMultiCurrency">{{'general.currency'|translate}}</th>
+						<th ng-show="merchantAccounts.length > 0">{{'general.payment_gateway'|translate}}</th>
+						<th>Type</th>
+						<th>Account</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="rule in syncProfile.payment_accounts">
+						<td>
+							<label class="noselect">
+								<input type="checkbox" ng-model="rule.no_method" />
+								Any
+							</label>
+							<payment-method-selector ng-model="rule.method" ng-if="!rule.no_method"></payment-method-selector>
+						</td>
+						<td ng-show="hasMultiCurrency">
+							<label class="noselect">
+								<input type="checkbox" ng-model="rule.no_currency" />
+								Any
+							</label>
+							<currency-selector ng-model="rule.currency" ng-if="!rule.no_currency"></currency-selector>
+						</td>
+						<td ng-show="merchantAccounts.length > 0">
+							<label class="noselect">
+								<input type="checkbox" ng-model="rule.no_merchant_account" />
+								Any
+							</label>
+							<div class="invoiced-select" ng-if="!rule.no_merchant_account">
+								<select ng-model="rule.merchant_account" ng-options="merchantAccount.id as merchantAccount.name for merchantAccount in merchantAccounts | orderBy:'name'">
+									<option value="">{{'general.none'|translate}}<option>
+								</select>
+							</div>
+						</td>
+						<td>
+							<div class="invoiced-select">
+								<select ng-model="rule.intacct_type">
+									<option value="bank_account">Bank Account</option>
+									<option value="undeposited_funds">Undeposited Funds</option>
+								</select>
+							</div>
+						</td>
+						<td ng-if="rule.intacct_type == 'bank_account'">
+							<input type="hidden" ng-model="rule.intacct_bank_account" ui-select2="select2OptionsBankAccount" required />
+						</td>
+						<td ng-if="rule.intacct_type == 'undeposited_funds'">
+							<input type="hidden" ng-model="rule.intacct_undeposited_funds_account" ui-select2="select2OptionsGlAccount" required />
+						</td>
+						<td>
+							<button type="button" class="btn btn-link" ng-click="deletePaymentAccount($index)">
+								<span class="fas fa-times"></span>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="{{hasMultiCurrency + (merchantAccounts.length > 0?1:0) + 4}}">
+							<button type="button" class="btn btn-link" ng-click="addPaymentAccount()">
+								<span class="fas fa-plus"></span>
+								Rule
+							</button>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+			<hr/>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-4 col-sm-offset-3">
+				<h4 class="settings-section-title">{{'intacct.accounts'|translate}}</h4>
+			</div>
+		</div>
+
+		<div class="form-group" ng-if="!loading && syncProfile.write_invoices">
+			<label class="control-label col-sm-3">{{'intacct.item_account'|translate}} <span class="required"></span></label>
+			<div class="col-sm-4" ng-if="!loading">
+				<input type="hidden" ng-model="syncProfile.item_account" ui-select2="select2OptionsGlAccount" required />
+			</div>
+			<div class="col-sm-5 form-control-static">
+				{{'intacct.item_account_help'|translate}}
+			</div>
+		</div>
+
+		<div class="form-group" ng-if="!loading && syncProfile.write_convenience_fees">
+			<label class="control-label col-sm-3">{{'intacct.convenience_fee_account'|translate}} <span class="required"></span></label>
+			<div class="col-sm-4" ng-if="!loading">
+				<input type="hidden" ng-model="syncProfile.convenience_fee_account" ui-select2="select2OptionsGlAccount" required />
+			</div>
+			<div class="col-sm-5 form-control-static">
+				{{'intacct.convenience_fee_help'|translate}}
+			</div>
+		</div>
+
+
+		<div ng-if="(syncProfile.write_invoices || syncProfile.write_convenience_fees)">
+			<hr/>
+			<div class="form-group">
+				<div class="col-sm-4 col-sm-offset-3">
+					<h4 class="settings-section-title">{{'intacct.item_dimensions'|translate}}</h4>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group" ng-if="syncProfile.write_invoices">
+			<label class="control-label col-sm-3">
+				{{'intacct.send_item_id'|translate}}
+			</label>
+			<div class="col-sm-4">
+				<toggle ng-model="syncProfile.map_catalog_item_to_item_id"></toggle>
+			</div>
+			<div class="col-sm-5 form-control-static">
+				{{'intacct.send_item_id_help'|translate}}
+			</div>
+		</div>
+
+		<div class="form-group" ng-if="(syncProfile.write_invoices || syncProfile.write_convenience_fees)">
+			<div class="col-sm-offset-3 col-sm-4">
+				<label class="noselect form-control-static">
+					<input type="checkbox" ng-model="$parent.hasLineItemDimensions" />
+					{{'intacct.set_line_item_dimensions'|translate}}
+				</label>
+			</div>
+		</div>
+
+		<div ng-if="(syncProfile.write_invoices || syncProfile.write_convenience_fees) && hasLineItemDimensions">
+			<div class="form-group">
+				<label class="control-label col-sm-3">
+					{{'intacct.location_id'|translate}}
+				</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" ng-model="syncProfile.item_location_id" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-3">
+					{{'intacct.department_id'|translate}}
+				</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" ng-model="syncProfile.item_department_id" />
+				</div>
+			</div>
+		</div>
+
+		<div ng-if="syncProfile.write_payments">
+			<hr/>
+			<div class="form-group">
+				<div class="col-sm-4 col-sm-offset-3">
+					<h4 class="settings-section-title">{{'intacct.overpayment_dimensions'|translate}}</h4>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group" ng-if="syncProfile.write_payments">
+			<div class="col-sm-offset-3 col-sm-4">
+				<label class="noselect form-control-static">
+					<input type="checkbox" ng-model="$parent.hasOverpaymentDimensions" />
+					{{'intacct.set_overpayment_dimensions'|translate}}
+				</label>
+			</div>
+		</div>
+
+		<div ng-if="syncProfile.write_payments && hasOverpaymentDimensions">
+			<div class="form-group">
+				<label class="control-label col-sm-3">
+					{{'intacct.location_id'|translate}}
+				</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" ng-model="syncProfile.overpayment_location_id" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-3">
+					{{'intacct.department_id'|translate}}
+				</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" ng-model="syncProfile.overpayment_department_id" />
+				</div>
+			</div>
+		</div>
+
+		<br/>
+		<div class="form-group form-actions">
+			<div class="col-sm-offset-3 col-sm-9">
+				<button type="submit" class="btn btn-primary" ng-disabled="saving||settingsForm.$invalid">
+					{{'general.save'|translate}}
+				</button>
+				<button type="button" ng-click="connect()" class="btn btn-default">
+					{{'accounting_sync.modify_credentials'|translate}}
+				</button>
+			</div>
+		</div>
+	</form>
+</div>

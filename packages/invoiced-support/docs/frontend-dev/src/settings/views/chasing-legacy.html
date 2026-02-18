@@ -1,0 +1,133 @@
+<p class="loading" ng-show="loading"></p>
+
+<form name="chaseSettingsForm" ng-submit="save()" class="form-horizontal nomargin" ng-hide="loading">
+	<div class="contents">
+		<div class="settings-title-bar">
+			<div class="docs-link">
+				<a href="https://docs.invoiced.com/accounts-receivable/chasing/chasing-legacy" target="_blank">
+					{{'general.documentation'|translate}}
+					<span class="fas fa-external-link"></span>
+				</a>
+			</div>
+			<h2 class="title">
+				<div class="back-link">
+					<a ui-sref="manage.settings.default">
+						<span class="fas fa-arrow-left"></span>
+						{{'general.settings'|translate}}
+					</a>
+				</div>
+				{{'settings.titles.chasing_legacy'|translate}}
+			</h2>
+
+			<p class="lead">
+				Invoiced can automate chasing outstanding invoices by sending payment reminders to your customers according your schedule.
+			</p>
+		</div>
+
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<div class="allow-chasing-toggle">
+			<div class="form-group">
+				<label class="control-label col-sm-3">Allow Chasing</label>
+				<div class="col-sm-9">
+					<toggle ng-model="allowChasing" ng-change="toggleChasing()"></toggle>
+				</div>
+			</div>
+		</div>
+
+		{{chaseScheduule}}
+		<div ng-if="allowChasing">
+			<div class="chase-schedule">
+				<h4>Chasing Schedule</h4>
+				<div class="lines">
+					<div class="line {{step.type}}" ng-repeat="(i, step) in chaseSchedule" ng-class="{editing: editingStep[i]}" ng-click="editStep(i, $event)">
+						<div class="delete">
+							<button type="button" class="btn btn-link" ng-click="deleteStep(i, $event)">
+								<span class="fas fa-times"></span>
+							</button>
+						</div>
+						<div class="num">
+							{{(i + 1)}}.
+						</div>
+						<div class="icon {{step.action}}">
+							<span class="fas fa-paper-plane" ng-show="step.action=='email'"></span>
+							<span class="fas fa-flag" ng-show="step.action=='flag'"></span>
+						</div>
+
+						<div class="view" ng-hide="editingStep[i]">
+							{{step.description}}
+							<a href="" class="edit-btn" ng-click="editStep(i, $event)">
+								<span class="fas fa-pencil"></span>
+							</a>
+						</div>
+						<div class="editor" ng-show="editingStep[i]">
+							<div class="type">
+								<div class="invoiced-select">
+									<select ng-model="step.type">
+										<option value="issued">When issued</option>
+										<option value="before_due_date">Before the due date</option>
+										<option value="on_due_date">On the due date</option>
+										<option value="after_due_date">After the due date</option>
+										<option value="repeat">Repeating</option>
+									</select>
+								</div>
+							</div>
+							<div class="options">
+								<div class="when" ng-if="step.type=='issued'">
+									On the issue date
+								</div>
+								<div class="when" ng-if="step.type=='before_due_date'">
+									<input type="number" class="form-control num-days" ng-model="step.value" required />
+									days before the due date
+								</div>
+								<div class="when" ng-if="step.type=='on_due_date'">
+									On the due date
+								</div>
+								<div class="when" ng-if="step.type=='after_due_date'">
+									<input type="number" class="form-control num-days" ng-model="step.value" required />
+									days after the due date
+								</div>
+								<div class="when" ng-if="step.type=='repeat'">
+									Every
+									<input type="number" class="form-control num-days" ng-model="step.value" required />
+									days
+								</div>
+								<div class="action">
+									<div class="invoiced-select input-medium">
+										<select ng-model="step.action">
+											<option value="email">Send a reminder</option>
+											<option value="flag">Flag the invoice</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="done">
+								<button type="button" class="btn btn-default" ng-click="doneEditingStep(i, $event)">
+									Done
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="empty" ng-show="chaseSchedule.length === 0">
+					Add steps to have Invoiced automatically schedule follow ups with customers.
+				</div>
+
+				<div class="add-step">
+					<button type="button" class="btn btn-default btn-lg" ng-click="addStep($event)">
+						<span class="fas fa-plus"></span> Step
+					</button>
+				</div>
+
+				<div class="form-actions">
+					<button type="submit" class="btn btn-primary Button" ng-disabled="chaseSettingsForm.$pristine||chaseSettingsForm.$invalid||saving" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+						<span translate>general.save</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

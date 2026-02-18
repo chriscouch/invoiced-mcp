@@ -1,0 +1,91 @@
+<form name="modelForm" ng-submit="add(trigger)" class="below0">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title">
+            Add Trigger
+        </h4>
+    </div>
+    <div class="modal-body">
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <p class="required-indicator">
+            <span class="required"></span> {{'general.indicates_required_field'|translate}}
+        </p>
+
+        <div class="form-group">
+            <label class="control-label">When <span class="required"></span></label>
+            <div>
+                <div class="invoiced-select">
+                    <select ng-model="trigger.trigger_type" ng-options="trigger.id as trigger.name for trigger in allowedTriggers"></select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="trigger.trigger_type=='Event'">
+            <label class="control-label">Event <span class="required"></span></label>
+            <div>
+                <div class="invoiced-select">
+                    <select ng-model="trigger.event_type" ng-options="eventType.id as eventType.name for eventType in eventTypes"></select>
+                </div>
+            </div>
+        </div>
+
+
+        <section ng-show="trigger.trigger_type=='Schedule'">
+            <div class="form-group" style="line-height: 30px;">
+                Repeat every
+                &nbsp;
+                <input style="width: 4em; display: inline-block; float: none;" type="number" class="form-control input-sm col-sm-1" placeholder="Interval"  ng-model="schedule.interval"  ng-change="updateSchedule()">
+                &nbsp;
+                <div class="invoiced-select" style="display: inline-block; line-height: 1.3;">
+                    <select ng-model="schedule.freq" ng-options="frequency.id as frequency.name for frequency in freqOptions" ng-change="updateFrequency()"></select>
+                </div>
+            </div>
+
+
+            <div class="form-group" ng-if="showSection('DAILY') || showSection('WEEKLY')">
+                <label class="control-label">Repeat on</label>
+                <div>
+                    <input type="hidden" ng-model="schedule.byweekday" multiple="multiple"  ui-select2="weekDayOptions"  ng-change="updateSchedule()" />
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="showSection('MONTHLY')">
+                <label class="control-label">Months</label>
+                <div>
+                    <input type="hidden" ng-model="schedule.bymonth" multiple="multiple"  ui-select2="months"  ng-change="updateSchedule()" />
+                </div>
+                <label class="control-label">Day of the month</label>
+                <div>
+                    <input type="text" class="form-control input-sm" placeholder="1,2,3...31"  ng-model="schedule.bymonthday"  ng-change="updateSchedule()">
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="!showSection('HOURLY')">
+                <label class="control-label">Hours</label>
+                <div>
+                    <input type="text" class="form-control input-sm" placeholder="1,2,3...24"  ng-model="schedule.byhour"  ng-change="updateSchedule()">
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="examples.length">
+                <label class="control-label">Example schedule:</label>
+                <table class="search-results-table table table-striped">
+                <tr ng-repeat="example in examples track by $index">
+                    <td ng-show="$index < 10">{{example|formatCompanyDateTime}}</td>
+                </tr>
+                <tr ng-show="examples.length > 10">
+                    <td>...</td>
+                </tr>
+                </table>
+            </div>
+        </section>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary Button" ng-disabled="modelForm.$invalid||saving||examples.length==0" v-busy="saving" v-busy-label="Saving" v-pressable>
+            {{'general.save'|translate}}
+        </button>
+    </div>
+</form>

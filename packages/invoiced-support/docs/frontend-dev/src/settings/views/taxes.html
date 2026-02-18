@@ -1,0 +1,55 @@
+<div class="contents">
+	<div class="settings-title-bar">
+		<h2 class="title">
+			<div class="docs-link">
+				<a href="https://docs.invoiced.com/accounts-receivable/sales-tax" target="_blank">
+					{{'general.documentation'|translate}}
+					<span class="fas fa-external-link"></span>
+				</a>
+			</div>
+			<div class="back-link">
+				<a ui-sref="manage.settings.default">
+					<span class="fas fa-arrow-left"></span>
+					{{'general.settings'|translate}}
+				</a>
+			</div>
+			{{'settings.titles.taxes'|translate}}
+		</h2>
+
+		<p class="lead">
+			These settings control how Invoiced handles taxation. You can create tax rates that can be applied to line items and subtotals, as well as tax rules that apply tax rates based on a customer's location.
+		</p>
+	</div>
+
+	<div class="loading" ng-show="loading"></div>
+
+	<div ng-show="taxCalculator == 'avalara'">
+		<p class="alert alert-info">
+			<span class="fas fa-info-circle"></span>
+			Avalara is handling your tax calculation. You can manage your Avalara integration in the <a ui-sref="manage.settings.app.configuration({id: 'avalara'})">Avalara settings</a>.
+		</p>
+	</div>
+
+	<div ng-show="taxCalculator == 'invoiced'">
+		<ul class="nav nav-tabs">
+			<!-- Tab Links -->
+			<li ui-sref-active="active">
+				<a ui-sref=".rates">
+					Tax Rates
+				</a>
+			</li>
+			<li ui-sref-active="active">
+				<a ui-sref=".rules">
+					Tax Rules
+				</a>
+			</li>
+		</ul>
+
+		<!-- Selected Tab Content -->
+		<div class="tab-content">
+			<div class="tab-pane active">
+				<ui-view/>
+			</div>
+		</div>
+	</div>
+</div>

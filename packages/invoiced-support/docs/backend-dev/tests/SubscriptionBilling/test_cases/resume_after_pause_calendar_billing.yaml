@@ -1,0 +1,36 @@
+data:
+  - object: plan
+    interval: week
+    interval_count: 1
+    amount: 500
+
+operations:
+  - operation: create
+    time: 2023-11-03
+    parameters:
+      start_date: 2023-11-06
+      bill_in_advance_days: 3
+      snap_to_nth_day: 1
+    assertions:
+      subscription:
+        renews_next: 2023-11-10
+        period_start: 2023-11-06
+        period_end: 2023-11-12T23:59:59
+
+  - operation: pause
+    name: Subscription Pause
+    time: 2023-11-03
+    assertions:
+      subscription:
+        renews_next: 2023-11-10
+
+  - operation: resume
+    name: Subscription Resume
+    time: 2023-11-03
+    parameters:
+      period_end: 2023-11-12T23:59:59
+    assertions:
+      subscription:
+        renews_next: 2023-11-10
+        period_start: 2023-11-06
+        period_end: 2023-11-12T23:59:59

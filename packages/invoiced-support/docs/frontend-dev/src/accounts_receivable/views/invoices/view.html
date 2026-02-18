@@ -1,0 +1,152 @@
+<p class="loading" ng-show="loading"></p>
+
+<div class="object-view invoice-summary" ng-hide="loading">
+	<div class="title-bar">
+		<!-- Balance -->
+		<div class="balance" ng-show="invoice.balance > 0">
+			<div class="owes" ng-class="{'past-due':invoice.status=='past_due'}">
+				<span class="balance-label">{{'general.balance'|translate}}</span>
+				<span class="amount"><money amount="invoice.balance" currency="invoice.currency"></money></span>
+			</div>
+			<div class="bar">
+				<invoice-balance-bar invoice="invoice" max="invoice.balance"></invoice-balance-bar>
+			</div>
+		</div>
+
+		<!-- Title -->
+		<h2>
+			{{invoice.name}}
+			<span class="draft-label" ng-show="invoice.draft">Draft</span>
+		</h2>
+		<h3>{{invoice.number}}</h3>
+	</div>
+
+	<ul class="nav nav-tabs">
+		<!-- Tab Links -->
+		<li ui-sref-active="active">
+			<a ui-sref=".summary">
+				{{'tabs.summary'|translate}}
+			</a>
+		</li>
+		<li ui-sref-active="active">
+			<a ui-sref=".messages">
+				{{'inboxes.messages.title'|translate}}
+			</a>
+		</li>
+		<li ui-sref-active="active">
+			<a ui-sref=".history">
+				{{'tabs.history'|translate}}
+			</a>
+		</li>
+
+		<!-- Action Buttons -->
+		<li class="action dropdown right" dropdown>
+			<a href="" class="dropdown-toggle" dropdown-toggle>
+				<span class="actions-label"></span>
+				<span class="fas fa-chevron-down"></span>
+			</a>
+			<ul class="dropdown-menu dropdown-menu-right">
+				<li ng-show="invoice.pdf_url">
+					<a href="{{invoice.pdf_url}}?t=0" target="_self">
+						Download as PDF
+					</a>
+				</li>
+				<li ng-show="invoice.csv_url">
+					<a href="{{invoice.csv_url}}?for_company=1&t=0" target="_self">
+						Download as CSV
+					</a>
+				</li>
+				<li ng-if="hasSendingPermissions && invoice.status != 'voided'">
+					<a href="" ng-click="sendModal(invoice)">
+						Send Invoice
+					</a>
+				</li>
+				<li ng-if="('invoices.edit'|hasPermission)" ng-show="invoice.url">
+					<a href="" ng-click="urlModal(invoice.url)">
+						Client View URL
+					</a>
+				</li>
+				<li class="divider" ng-show="invoice.status!='voided'"></li>
+				<li ng-if="['payments.create','charges.create']|hasSomePermissions" ng-hide="invoice.paid||invoice.closed||invoice.status=='pending'||(invoice.autopay&&invoice.status!='past_due')||invoice.status == 'voided'">
+					<a href="" ng-click="paymentModal(invoice)">
+						Receive Payment
+					</a>
+				</li>
+				<li ng-if="'invoices.edit'|hasPermission" ng-hide="invoice.status == 'voided' || hidePaymentPlan">
+					<a href="" ng-click="addPaymentPlan(invoice)">
+						Add Payment Plan
+					</a>
+				</li>
+				<li ng-if="('autopay'|hasFeature) && ('invoices.edit'|hasPermission)" ng-hide="invoice.closed||invoice.paid||invoice.status=='voided'">
+					<a href="" ng-click="setAutoPay(false, invoice, paymentPlan)" ng-show="invoice.autopay">
+						Disable AutoPay
+					</a>
+					<a href="" ng-click="setAutoPay(true, invoice, paymentPlan)" ng-hide="invoice.autopay">
+						Enable AutoPay
+					</a>
+				</li>
+				<li ng-if="('credit_notes.create'|hasPermission) && editable" ng-hide="invoice.status == 'voided'">
+					<a ui-sref="manage.credit_notes.newWithInvoice({invoice:invoice.id})">
+						Issue Credit Note
+					</a>
+				</li>
+				<li ng-if="('invoices.create'|hasPermission) && editable">
+					<a ui-sref="manage.invoice.duplicate({id:invoice.id})">
+						{{'general.make_copy'|translate}}
+					</a>
+				</li>
+				<li ng-if="'invoices.edit'|hasPermission" ng-hide="invoice.status=='sent'||invoice.status=='viewed'||invoice.closed||invoice.paid||invoice.status=='voided'">
+					<a href="" ng-click="markSent(true,invoice)">
+						Mark Sent
+					</a>
+				</li>
+				<li ng-if="'invoices.edit'|hasPermission" ng-hide="!('legacy_chasing'|hasFeature)||invoice.paid||(invoice.autopay&&invoice.status!='past_due')||invoice.status == 'voided'">
+					<a href="" ng-click="setChase(false, invoice)" ng-show="invoice.chase&&!invoice.closed">
+						Stop Chasing
+					</a>
+					<a href="" ng-click="setChase(true, invoice)" ng-show="!invoice.chase&&!invoice.closed">
+						Enable Chasing
+					</a>
+				</li>
+				<li ng-if="('invoices.edit'|hasPermission) && editable" ng-hide="invoice.status == 'voided' || invoice.status == 'bad_debt'">
+					<a href="" ng-click="setClosed(false, invoice)" ng-show="invoice.closed">
+						Reopen Invoice
+					</a>
+				</li>
+				<li class="divider"></li>
+				<li class="danger" ng-if="('invoices.edit'|hasPermission) && editable" ng-hide="invoice.balance== 0 || invoice.draft || invoice.status == 'voided' || hasActionItem('bad_debt') || deleting">
+					<a href="" ng-click="setBadDebt(invoice)" ng-hide="deleting">
+						{{'invoices.view.bad_debt'|translate}}
+					</a>
+				</li>
+				<li class="danger" ng-if="('invoices.void'|hasPermission) && editable" ng-hide="invoice.status=='voided' || deleting">
+					<a href="" ng-click="void(invoice)" ng-hide="deleting">
+						Void Invoice
+					</a>
+				</li>
+				<li class="danger" ng-if="'invoices.delete'|hasPermission" ng-hide="deleting">
+					<a href="" ng-click="delete(invoice)">
+						Delete Invoice
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li class="action right hidden-xs" ng-hide="invoice.closed||invoice.status=='voided'" ng-if="('invoices.edit'|hasPermission) && editable">
+			<a ui-sref="manage.invoice.edit({id:invoice.id})">
+				<div>{{'general.edit'|translate}}</div>
+			</a>
+		</li>
+		<li class="action automation-action right" ng-if="'invoices.edit'|hasPermission">
+			<div>
+				<automate-button btn-class="'nav-link-item'" object-type="modelObjectType" object-id="modelId"></automate-button>
+			</div>
+		</li>
+	</ul>
+
+	<!-- Selected Tab Content -->
+	<div class="tab-content">
+		<div class="tab-pane active">
+			<ui-view/>
+		</div>
+	</div>
+</div>

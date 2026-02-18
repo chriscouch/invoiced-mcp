@@ -1,0 +1,184 @@
+<div class="contents form-horizontal">
+	<div class="title-bar">
+		<h2 class="title">
+			<img avatar="avatarOptions" user="user" class="img-circle" />
+			My Account
+		</h2>
+	</div>
+	<br/>
+
+	<section ng-if="!fromSSO">
+		<!-- Email -->
+		<div ng-hide="editEmail">
+			<div class="form-group slim">
+				<label class="control-label col-md-4">Email</span></label>
+				<div class="col-md-8 form-control-static">
+					{{user.email}}<br/>
+					<a href="" ng-click="editEmail=true">Change Email Address</a>
+				</div>
+			</div>
+		</div>
+		<div ng-show="editEmail">
+			<form class="form-horizontal" name="emailForm" ng-submit="updateEmail(current_password, newEmail)">
+				<p class="alert alert-danger" ng-show="emailError">
+					{{emailError.message}}
+				</p>
+				<div class="form-group">
+					<label class="control-label col-md-4">Current Password</label>
+					<div class="col-md-4">
+						<input class="form-control" type="password" ng-model="current_password" autocomplete="current-password" required />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-4">New Email Address</label>
+					<div class="col-md-4">
+						<input class="form-control" type="email" ng-model="newEmail" required />
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-4 col-md-offset-4">
+						<button type="submit" ng-disabled="emailForm.$pristine||emailForm.$invalid||savingEmail" class="btn btn-large btn-primary Button" v-busy="savingEmail" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+							<span translate>general.save</span>
+						</button>
+						<button type="button" class="btn btn-default" ng-click="editEmail=false">
+							{{'general.cancel'|translate}}
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<br/>
+
+		<!-- Password -->
+		<div ng-hide="editPassword">
+			<div class="form-group slim">
+				<label class="control-label col-md-4">Password</span></label>
+				<div class="col-md-8 form-control-static">
+					******<br/>
+					<a href="" ng-click="editPassword=true">Change Password</a>
+				</div>
+			</div>
+		</div>
+		<div ng-show="editPassword">
+			<form class="form-horizontal" name="passwordForm" ng-submit="updatePassword(current_password,password1,password2)">
+				<p class="alert alert-danger" ng-show="passwordError" ng-bind-html="passwordError.message|nl2br"></p>
+				<div class="form-group">
+					<label class="control-label col-md-4">Current Password</label>
+					<div class="col-md-4">
+						<input class="form-control" type="password" ng-model="current_password" autocomplete="current-password" required />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-4">New Password</label>
+					<div class="col-md-4">
+						<input class="form-control" type="password" ng-model="password1" autocomplete="new-password" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-4">Confirm New Password</label>
+					<div class="col-md-4">
+						<input class="form-control" type="password" ng-model="password2" autocomplete="new-password" />
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-4 col-md-offset-4">
+						<button type="submit" ng-disabled="passwordForm.$pristine||passwordForm.$invalid||savingPassword" class="btn btn-large btn-primary Button" v-busy="savingPassword" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+							<span translate>general.save</span>
+						</button>
+						<button type="button" class="btn btn-default" ng-click="editPassword=false">
+							{{'general.cancel'|translate}}
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<br/>
+
+		<!-- Two-Factor Authentication -->
+		<div class="form-group slim">
+			<label class="control-label col-md-4">Two-Factor Authentication</span></label>
+			<div class="col-md-8 form-control-static" ng-show="twoFactorEnabled">
+				<span class="label label-success">{{'general.on'|translate}}</span>
+				&mdash;
+				<a href="" ng-click="disable2fa()">{{'general.disable'|translate}}</a>
+			</div>
+			<div class="col-md-8 form-control-static" ng-hide="twoFactorEnabled">
+				<span class="label label-danger">{{'general.off'|translate}}</span>
+				&mdash;
+				<a href="" ng-click="enable2fa()">{{'general.enable'|translate}}</a>
+			</div>
+		</div>
+		<br/>
+	</section>
+
+	<!-- Profile -->
+	<div ng-hide="editProfile">
+		<div class="form-group slim">
+			<label class="control-label col-md-4">Name</span></label>
+			<div class="col-md-8 form-control-static">
+				{{user.name}}<br/>
+			</div>
+		</div>
+
+		<div class="form-group slim">
+			<label class="control-label col-md-4">Default Company</span></label>
+			<div class="col-md-8 form-control-static">
+				{{defaultCompany._name}}<br/>
+				<a href="" ng-click="editProfile=true">Change Profile</a>
+			</div>
+		</div>
+	</div>
+	<div ng-show="editProfile">
+		<form class="form-horizontal" name="profileForm" ng-submit="updateProfile(firstName, lastName, defaultCompanyId)">
+			<p class="alert alert-danger" ng-show="profileError">
+				{{profileError.message}}
+			</p>
+
+			<div class="form-group">
+				<label class="control-label col-md-4">First Name</span></label>
+				<div class="col-md-4">
+					<input class="form-control" type="text" ng-model="firstName" required />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-md-4">Last Name</label>
+				<div class="col-md-4">
+					<input class="form-control" type="text" ng-model="lastName" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-md-4">Default Company</label>
+				<div class="col-md-4">
+					<div class="invoiced-select">
+						<select ng-options="c.id as c._name for c in companies" ng-model="defaultCompanyId"></select>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-4 col-md-offset-4">
+					<button type="submit" ng-disabled="profileForm.$pristine||profileForm.$invalid||savingProfile" class="btn btn-large btn-primary Button" v-busy="savingProfile" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+						<span translate>general.save</span>
+					</button>
+					<button type="button" class="btn btn-default" ng-click="editProfile=false">
+						{{'general.cancel'|translate}}
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<br/>
+
+	<!-- Account Activity -->
+	<p class="alert alert-danger" ng-show="activityError">
+		{{activityError.message}}
+	</p>
+
+	<div class="form-group slim" ng-show="lastActivity && !fromSSO">
+		<label class="control-label col-md-4">Last Account Activity</span></label>
+		<div class="col-md-8 form-control-static">
+			<a href="" ng-click="accountActivity(activity)">
+				{{lastActivity}}
+			</a>
+		</div>
+	</div>
+</div>

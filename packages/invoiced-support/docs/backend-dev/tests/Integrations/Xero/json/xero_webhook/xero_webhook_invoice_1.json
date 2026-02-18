@@ -1,0 +1,85 @@
+{
+  "Invoices": [
+    {
+      "Type": "ACCREC",
+      "Contact": {
+        "ContactID": "bd2270c3-8706-4c11-9cfb-000b551c3f51",
+        "ContactStatus": "ACTIVE",
+        "Name": "Test",
+        "FirstName": "Andrea",
+        "LastName": "Dutchess",
+        "CompanyNumber": "NumberBusiness1234",
+        "EmailAddress": "test@example.com",
+        "SkypeUserName": "skype.dutchess@abclimited.com",
+        "BankAccountDetails": "45465844",
+        "TaxNumber": "1234567",
+        "AccountsReceivableTaxType": "INPUT2",
+        "AccountsPayableTaxType": "OUTPUT2",
+        "Addresses": [
+          {
+            "AddressType": "POBOX",
+            "AddressLine1": "1234 Main St",
+            "City": "Austin",
+            "PostalCode": "123456",
+            "Region": "TX",
+            "Country": "US",
+            "AttentionTo": "Andrea"
+          },
+          {
+            "AddressType": "STREET"
+          }
+        ],
+        "Phones": [
+          {
+            "PhoneType": "DEFAULT",
+            "PhoneNumber": "456-7890",
+            "PhoneAreaCode": "123",
+            "PhoneCountryCode": "1"
+          },
+          {
+            "PhoneType": "FAX"
+          },
+          {
+            "PhoneType": "MOBILE"
+          },
+          {
+            "PhoneType": "DDI"
+          }
+        ],
+        "UpdatedDateUTC": "\/Date(1488391422280+0000)\/",
+        "IsSupplier": false,
+        "IsCustomer": true,
+        "DefaultCurrency": "USD"
+      },
+      "Date": "\/Date(1518685950940+0000)\/",
+      "DueDate": "\/Date(1518685950940+0000)\/",
+      "DateString": "2017-01-30T00:00:00",
+      "DueDateString": "2017-02-05T00:00:00",
+      "Status": "AUTHORISED",
+      "LineAmountTypes": "Inclusive",
+      "LineItems": [
+        {
+          "ItemCode": "12",
+          "Description": "Marketing guides",
+          "Quantity": "4.0000",
+          "UnitAmount": "99.00",
+          "TaxType": "OUTPUT",
+          "TaxAmount": "30.18",
+          "LineAmount": "396.00",
+          "AccountCode": "200",
+          "LineItemID": "8dd05881-be4a-4765-b95e-cce0d7395f9f"
+        }
+      ],
+      "SubTotal": "365.82",
+      "TotalTax": "30.18",
+      "Total": "396.00",
+      "UpdatedDateUTC": "\/Date(1518685950940+0000)\/",
+      "CurrencyCode": "USD",
+      "InvoiceID": "fee88eea-f2aa-4a71-a372-33d6d83d3c45",
+      "Reference": "Ref MK815",
+      "AmountDue": "393.49",
+      "AmountPaid": "1.51",
+      "AmountCredited": "1.00"
+    }
+  ]
+}

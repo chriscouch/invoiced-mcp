@@ -1,0 +1,5 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}Subscriptions have been canceled{% endblock %}
+{% block notification %}
+    <p><a href="{{ dashboardUrl}}/alerts?account={{ tenant_id  }}">{{ count }} Subscriptions</a> have been canceled due to non payment</p>
+{% endblock %}

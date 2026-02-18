@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+    <style type="text/css" >{{ css }}</style>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+<body>
+<div id="title">{{ title }}</div>
+
+<div class="report-parameters">
+    {% for parameter in parameters %}
+        <span class="report-parameter">{{ parameter.name }}: {{ parameter.value }}</span>
+    {% endfor %}
+</div>
+<div class="report-date">Generated {{ timestamp }}</div>
+
+{% for section in sections %}
+<div class="section {{ section.getClass() }}">
+    {% set sectionTitle=section.getTitle() %}
+    {% if sectionTitle %}<h3>{{ sectionTitle }}</h3>{% endif %}
+    {% for group in section.getGroups() %}
+        {% if group.getType() == 'chart' %}
+            <div class="chart">Charts not supported in PDF</div>
+        {% elseif group.getType() == 'keyvalue' %}
+            <div class="key-value">
+                {% for line in group.getLines() %}
+                <div class="row clearfix">
+                    <div class="key">{{ line.name }}</div>
+                    <div class="value">{{ line.value.formatted ?? line.value|nl2br }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        {% elseif group.getType() == 'metric' %}
+            {% for metric in group.getMetrics() %}
+                <div class="metric clearfix">
+                    <div class="description">{{ metric.name }}</div>
+                    <div class="value">{{ metric.value.formatted ?? metric.value }}</div>
+                </div>
+            {% endfor %}
+        {% elseif group.getType() == 'nested_table' %}
+            <div class="nested-table">
+                <table>
+                    <tbody>
+                    {{ _self.nestedTable(group) }}
+                    </tbody>
+                </table>
+            </div>
+        {% elseif group.getType() == 'financial' %}
+            <div class="financial-report">
+                <table>
+                    <thead>
+                        <tr>
+                            {% for column in group.getColumns() %}
+                                <th class="type-{{ column.getType().value }}">{{ column.getName() }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for row in group.getRows() %}
+                        {{ _self.financialReportRow(row, group.getColumns(), 0) }}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div>Unsupported type: {{ group.getType() }}</div>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endfor %}
+</body>
+</html>
+
+{% macro nestedTable(group) %}
+    {% set columns = group.getColumns() %}
+    {% set groupHeader = group.getGroupHeader() %}
+    {% if groupHeader %}
+        <tr class="section-group-header">
+            <td colspan="{{ columns|length }}">
+                <div class="name">{{ groupHeader.name }}</div>
+                <div class="value">{{ groupHeader.value.formatted ?? groupHeader.value }}</div>
+            </td>
+        </tr>
+    {% endif %}
+    {% set header = group.getHeader() %}
+    {% if header %}
+        <tr class="section-header">
+            {% for val in header %}
+                <th>{{ val.formatted ?? val }}</th>
+            {% endfor %}
+        </tr>
+    {% else %}
+        <tr class="section-header">
+            {% for column in columns %}
+                <th>{{ column.name }}</th>
+            {% endfor %}
+        </tr>
+    {% endif %}
+    {% for row in group.getRows() %}
+        {% if row.getType is defined %}
+            {{ _self.nestedTable(row) }}
+        {% else %}
+            <tr>
+                {% for val in row %}
+                    <td>{{ val.formatted ?? val|nl2br }}</td>
+                {% endfor %}
+            </tr>
+        {% endif %}
+    {% endfor %}
+    {% set footer = group.getFooter() %}
+    {% if footer %}
+        <tr class="section-footer">
+            {% for val in footer %}
+                <td>{{ val.formatted ?? val|nl2br }}</td>
+            {% endfor %}
+        </tr>
+    {% endif %}
+{% endmacro %}
+
+{% macro financialReportRow(row, columns, level) %}
+    {% if row is iterable %}
+        {{ _self.financialReportTableRow(row, columns, level, 'row-data') }}
+    {% else %}
+        {{ _self.financialReportTableRow(row.getHeader(), columns, level, 'row-header') }}
+        {% for row2 in row.getRows() %}
+            {{ _self.financialReportRow(row2, columns, level + 1) }}
+        {% endfor %}
+        {{ _self.financialReportTableRow(row.getSummary(), columns, level, 'row-summary') }}
+    {% endif %}
+{% endmacro %}
+
+{% macro financialReportTableRow(colData, columns, level, rowClass) %}
+    {% if colData|length > 0 %}
+        <tr class="no-stripe {{ rowClass }} level-{{ level }}">
+            {% for val in colData %}
+                <td class="type-{{ columns[loop.index - 1].getType().value }}">{{ val.formatted ?? val|nl2br }}</td>
+            {% endfor %}
+        </tr>
+    {% endif %}
+{% endmacro %}

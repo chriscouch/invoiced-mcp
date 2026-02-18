@@ -1,0 +1,131 @@
+{% trans_default_domain 'customer_portal' %}
+{% extends "customerPortal/parent.twig" %}
+{% set signedInUser = customerPortal.getSignedInUser %}
+{% set signedInEmail = customerPortal.getSignedInEmail %}
+
+{% block content %}
+	<!-- Hamburger -->
+	<div class="bun toggle-drawer">
+		<div class="hamburger">
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+	</div>
+
+	<div id="customer-portal-frame" class="clearfix">
+		<!-- Navigation -->
+		<div id="left-navbar" class="drawers scrollable">
+			<div class="left-drawer">
+				<div class="bar highlight-color-bg"></div>
+
+				<div class="company-name {% if not(company.logo) %}no-logo{% endif %}">
+					<div class="logo-holder">
+						{% if company.logo %}
+							<div class="logo">
+								<img src="{{ company.logo }}" alt="{{ company.display_name }} Logo" />
+							</div>
+						{% endif %}
+					</div>
+					{% if not(company.logo) or customerPortal.showCompanyName() %}
+						<div class="company">{{ company.display_name }}</div>
+					{% endif %}
+				</div>
+
+				{% set showCustomerPortalMenu = signedInCustomer and customerPortal.enabled %}
+				{% if showCustomerPortalMenu %}
+					<div id="customer-name-label" class="customer-name">
+						{{ signedInCustomer.name }}
+							<a href="/customers" class="ms-3 customer-switcher-btn" data-bs-toggle="tooltip" data-bs-title="{{ 'titles.select_customer'|trans }}">
+								<span class="fas fa-arrow-up-right"></span>
+							</a>
+					</div>
+					<ul class="nav flex-column">
+						{% set currentPage = app.request.get('_route') %}
+						<li class="nav-item nav-home">
+							<a id="my-account-nav-btn" class="nav-btn {% if currentPage == "customer_portal_account" %}active{% endif %}" href="/account">
+								<div class="icon">
+									<img src="{{ asset('/img/billing-portal/nav-icons/home.svg') }}" />
+								</div>
+								{{ 'titles.my_account'|trans }}
+							</a>
+						</li>
+						<li class="nav-item nav-activity">
+							<a id="activity-nav-btn" class="nav-btn {% if currentPage in ['customer_portal_list_invoices', 'customer_portal_view_invoice', 'customer_portal_list_estimates', 'customer_portal_view_estimate', 'customer_portal_list_credit_notes', 'customer_portal_view_credit_note', 'customer_portal_list_payments'] %}active{% endif %}" href="{% if currentPage == 'customer_portal_view_estimate' %}/estimates{% elseif currentPage == 'customer_portal_view_credit_note' %}/credit_notes{% else %}/invoices{% endif %}">
+								<div class="icon">
+									<img src="{{ asset('/img/billing-portal/nav-icons/activity.svg') }}" />
+								</div>
+								{{ 'titles.activity'|trans }}
+							</a>
+						</li>
+						{% if attachmentCount %}
+							<li class="nav-item nav-contact-info">
+								<a id="billing-details-nav-btn" class="nav-btn {% if currentPage == 'customer_portal_attachments' %}active{% endif%}" href="/attachments/{{ signedInCustomer.client_id }}">
+									<div class="icon">
+										<img src="{{ asset('/img/billing-portal/nav-icons/documents.svg') }}" />
+									</div>
+									{{ 'titles.attachments'|trans }}
+								</a>
+							</li>
+						{% endif %}
+						<li class="nav-item nav-statements">
+							<a id="statements-nav-btn" class="nav-btn {% if currentPage == 'customer_portal_statement' %}active{% endif %}" href="/statements/{{ signedInCustomer.client_id }}">
+								<div class="icon">
+									<img src="{{ asset('/img/billing-portal/nav-icons/statements.svg') }}" />
+								</div>
+								{{ 'titles.statements'|trans }}
+							</a>
+						</li>
+						{% if settings.allow_billing_portal_profile_changes %}
+							<li class="nav-item nav-contact-info">
+								<a id="billing-details-nav-btn" class="nav-btn {% if currentPage == 'customer_portal_billing_info_form' %}active{% endif%}" href="/billingInfo/{{ signedInCustomer.client_id }}">
+									<div class="icon">
+										<img src="{{ asset('/img/billing-portal/nav-icons/billing-details.svg') }}" />
+									</div>
+									{{ 'titles.billing_details'|trans }}
+								</a>
+							</li>
+						{% endif %}
+					</ul>
+				{% endif %}
+
+				<div class="footer">
+					{% set signedInUser = customerPortal.getSignedInUser %}
+					{% set signedInEmail = customerPortal.getSignedInEmail %}
+					{% if signedInUser %}
+						<div id="signed-in-user-name" class="user-name">
+							{{ signedInUser.name(true) }}
+						</div>
+					{% elseif signedInEmail %}
+						<div id="signed-in-email-name" class="user-name">
+							{{ signedInEmail }}
+						</div>
+					{% endif %}
+					{% if signedInCustomer %}
+						<div class="links">
+							<a id="logout-link" href="/logout">
+								<span class="fas fa-power-off me-2"></span>
+								{{ 'buttons.sign_out'|trans }}
+							</a>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+
+		<!-- Main Content View -->
+		<div id="page">
+			<div class="scrollable">
+				<div class="client-main clearfix">
+					<div class="test-mode-bar">{{ 'messages.sandbox_account'|trans }}</div>
+					{% block main %}{% endblock %}
+					{% include 'customerPortal/footer.twig' %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block test_mode_bar %}{% endblock %}
+{% block footer %}{% endblock %}

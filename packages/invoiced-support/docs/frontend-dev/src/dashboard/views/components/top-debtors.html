@@ -1,0 +1,45 @@
+<div class="loading" ng-show="loading"></div>
+<div class="dashboard-component-top-debtors" ng-show="!loading">
+    <div class="actions">
+        <a href="/customers?hasBalance=1" ng-show="topDebtors.length > 0">
+            {{'general.view_all'|translate}}
+        </a>
+    </div>
+    <h4>
+        Top Debtors
+    </h4>
+    <table class="table table-top-debtors">
+        <thead>
+            <tr>
+                <th class="age">Age</th>
+                <th class="name">Customer</th>
+                <th class="num-invoices">Open Items</th>
+                <th class="balance-num">{{'general.balance'|translate}}</th>
+                <th class="balance"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="account in topDebtors">
+                <td class="age">
+                    <age-bubble age="account.age" past-due="account.pastDue"></age-bubble>
+                </td>
+                <td class="name">
+                    <a ui-sref="manage.customer.view.summary({id:account.customer})">
+                        {{account.customerName}}
+                    </a>
+                </td>
+                <td class="num-invoices">
+                    {{account.numInvoices | number:0}}
+                </td>
+                <td class="balance-num">
+                    <money amount="account.balance" currency="account.currency"></money>
+                </td>
+                <td class="balance">
+                    <invoice-balance-bar invoice="account" max="outstandingMax"></invoice-balance-bar>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="empty" ng-hide="topDebtors.length">No debtors</div>
+</div>

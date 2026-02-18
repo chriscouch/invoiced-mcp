@@ -1,0 +1,4 @@
+framework:
+  session:
+    name: Invoiced-invoicedcom
+    cookie_secure: true

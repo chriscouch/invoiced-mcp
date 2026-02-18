@@ -1,0 +1,99 @@
+<div class="contents">
+	<div class="settings-title-bar">
+		<h2 class="title">
+			<div class="back-link">
+				<a ui-sref="manage.settings.default">
+					<span class="fas fa-arrow-left"></span>
+					{{'general.settings'|translate}}
+				</a>
+			</div>
+			{{'settings.titles.items'|translate}}
+		</h2>
+
+		<p class="lead">
+			Your items list represents the products and services you bill to customers. Here you can add and manage items. When drafting invoices you can then add items with a few clicks.
+		</p>
+	</div>
+
+	<p class="alert alert-danger" ng-show="error">
+		{{error.message}}
+	</p>
+
+	<p class="loading" ng-show="loading"></p>
+
+	<div class="panel panel-default settings-panel" ng-hide="loading">
+		<div class="panel-heading">
+			<h4 class="panel-title button-title">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="searchbar light">
+							<div class="bar">
+								<div class="icon"><span class="fas fa-search"></span></div>
+								<input type="text" class="form-control" ng-model="search" tabindex="2000" />
+								<div class="icon right icon-btn" ng-show="search">
+									<button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+										<span class="fas fa-times-circle"></span>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-8 text-right">
+						<a ui-sref="manage.imports.new.spreadsheet({type:'item'})" class="btn btn-default hidden-xs" ng-if="'imports.create'|hasPermission">
+							Import
+						</a>
+						<button type="button" class="btn btn-success" ng-click="editItemModal()">
+							New Item
+						</button>
+					</div>
+				</div>
+			</h4>
+		</div>
+
+		<!-- No Results -->
+		<div class="list-group" ng-show="results.length === 0">
+			<div class="list-group-item">
+				<div class="empty">No items found.</div>
+			</div>
+		</div>
+
+		<!-- Results Table -->
+		<table class="table table-striped search-results-table" ng-show="results.length > 0">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Type</th>
+					<th class="money-column noborder">Price</th>
+					<th class="nopadding"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in items | searchObject:search:['name','id'] | orderBy:'name' | limitTo:100 as results">
+					<td>
+						{{item.name}}
+						<a href="" class="id-tooltip" tooltip="{{item.id}}">
+							<span class="fas fa-hashtag"></span>
+						</a>
+					</td>
+					<td><item-type item="item"></item-type></td>
+					<td class="noborder money-column">
+						<span ng-show="item.currency">
+							<money amount="item.unit_cost" currency="item.currency" precision="settings.unit_cost_precision"></money>
+						</span>
+					</td>
+					<td class="nopadding hover-actions-holder mobile-last mobile-visible">
+						<div class="hover-actions">
+							<button type="button" class="btn btn-default btn-sm" ng-click="editItemModal(item)" tooltip="Edit Item">
+								<span class="fas fa-pencil"></span>
+							</button>
+							<button type="button" class="btn btn-danger btn-sm" ng-click="delete(item)" tooltip="Delete Item" ng-disabled="deleting[item.id]">
+								<span class="fas fa-trash"></span>
+							</button>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<cut-list-label count="results.length" total="(items | searchObject:search:['name','id']).length"></cut-list-label>
+</div>

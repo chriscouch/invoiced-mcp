@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}Email thread has been assigned to you{% endblock %}
+{% block notification %}
+    {% for thread in threads %}
+        <p>Conversation "<a href="{{ dashboardUrl}}/inboxes/thread/{{ thread.id  }}?id={{ thread.inbox_id  }}&account={{ tenant_id  }}">{{ thread.name }}</a>" has been assigned to you</p>
+    {% endfor %}
+{% endblock %}

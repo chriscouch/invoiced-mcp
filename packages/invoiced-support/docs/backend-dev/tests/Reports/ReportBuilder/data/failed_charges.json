@@ -1,0 +1,127 @@
+{
+  "sections": [
+    {
+      "type": "table",
+      "object": "charge",
+      "title": "Failed Charges",
+      "fields": [
+        {
+          "field": {
+            "id": "created_at"
+          },
+          "name": "Date"
+        },
+        {
+          "field": {
+            "id": "customer.name"
+          },
+          "name": "Customer"
+        },
+        {
+          "field": {
+            "id": "gateway"
+          }
+        },
+        {
+          "field": {
+            "id": "gateway_id"
+          }
+        },
+        {
+          "field": {
+            "id": "card.brand"
+          }
+        },
+        {
+          "field": {
+            "id": "card.last4"
+          }
+        },
+        {
+          "field": {
+            "id": "bank_account.last4"
+          }
+        },
+        {
+          "field": {
+            "id": "amount"
+          }
+        },
+        {
+          "field": {
+            "id": "failure_message"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "status"
+          },
+          "value": "failed"
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "created_at"
+          },
+          "ascending": false
+        }
+      ]
+    },
+    {
+      "type": "chart",
+      "chart_type": "bar",
+      "object": "charge",
+      "title": "Failed Charges",
+      "fields": [
+        {
+          "name": "Month",
+          "field": {
+            "function": "date_format",
+            "arguments": [
+              {
+                "id": "created_at"
+              },
+              "%b %Y"
+            ]
+          }
+        },
+        {
+          "name": "Failed Charges",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "amount"
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "status"
+          },
+          "value": "failed"
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "function": "date_format",
+            "arguments": [
+              {
+                "id": "created_at"
+              },
+              "%b %Y"
+            ]
+          },
+          "ascending": false
+        }
+      ]
+    }
+  ]
+}

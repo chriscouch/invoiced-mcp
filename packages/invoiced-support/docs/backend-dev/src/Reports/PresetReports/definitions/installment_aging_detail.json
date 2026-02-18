@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "title": "Installment Aging Detail",
+  "sections": [
+    {
+      "type": "table",
+      "object": "payment_plan_installment",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "invoice.number"
+          }
+        },
+        {
+          "name": "Installment Due Date",
+          "field": {
+            "id": "date"
+          }
+        },
+        {
+          "field": {
+            "id": "balance"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "invoice.paid"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "invoice.voided"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "invoice.closed"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "invoice.draft"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "invoice.currency"
+          },
+          "value": "$currency"
+        },
+        {
+          "field": {
+            "id": "balance"
+          },
+          "operator": ">",
+          "value": 0
+        },
+        {
+          "field": {
+            "id": "invoice.date"
+          },
+          "operator": "<=",
+          "value": "$now"
+        }
+      ],
+      "group": [
+        {
+          "name": "Customer",
+          "field": {
+            "id": "invoice.customer.name"
+          },
+          "ascending": true,
+          "expanded": true
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "date"
+          },
+          "ascending": true
+        }
+      ]
+    }
+  ]
+}

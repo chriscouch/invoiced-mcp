@@ -1,0 +1,24 @@
+mapping:
+  - sourceField: Id
+    destinationField: accounting_id
+
+  - sourceField: CustomerRef/value
+    destinationField: customer/accounting_id
+
+  - sourceField: CustomerRef/name
+    destinationField: customer/name
+
+  - sourceField: TxnDate
+    destinationField: date
+    type: date_unix
+    timeOfDay: 6
+
+  - sourceField: PaymentRefNum
+    destinationField: reference
+
+  - sourceField: CurrencyRef/value
+    destinationField: currency
+    type: currency
+
+  - sourceField: PrivateNote
+    destinationField: notes

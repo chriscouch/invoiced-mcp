@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "title": "Customer Portal Adoption",
+  "sections": [
+    {
+      "type": "table",
+      "object": "customer_portal_event",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "event"
+          },
+          "name": "Action"
+        },
+        {
+          "name": "Unique Customers",
+          "field": {
+            "function": "count_distinct",
+            "arguments": [
+              {
+                "id": "customer.id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Total Events",
+          "field": {
+            "function": "count"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "timestamp"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        }
+      ],
+      "group": [
+        {
+          "name": "Action",
+          "field": {
+            "id": "event"
+          }
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "event"
+          },
+          "ascending": true
+        }
+      ]
+    }
+  ]
+}

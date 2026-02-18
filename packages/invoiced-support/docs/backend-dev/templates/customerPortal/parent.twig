@@ -1,0 +1,94 @@
+{% trans_default_domain 'customer_portal' %}
+{% import 'customerPortal/macros.twig' as macros %}
+<!DOCTYPE html>
+<html class="billing-portal v2 {% if company.test_mode %}test-mode{% endif %} {% if withInvoiceBar is defined %}with-invoice-bar{% endif %}">
+	<head>
+	    <title>{% if title %}{{ title }} - {{ company.display_name }}{% else %}{{ company.display_name }}{% endif %}</title>
+	    
+	    <meta charset="utf-8"/>
+	    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+		<meta name="robots" content="noindex,nofollow" />
+
+	    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('/apple-icon-57x57.png') }}"/>
+	    <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('/apple-icon-60x60.png') }}"/>
+	    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('/apple-icon-72x72.png') }}"/>
+	    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('/apple-icon-76x76.png') }}"/>
+	    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('/apple-icon-114x114.png') }}"/>
+	    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('/apple-icon-120x120.png') }}"/>
+	    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('/apple-icon-144x144.png') }}"/>
+	    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('/apple-icon-152x152.png') }}"/>
+	    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('/apple-icon-180x180.png') }}"/>
+	    <link rel="icon" type="image/png" sizes="192x192"  href="{{ asset('/android-icon-192x192.png') }}"/>
+	    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('/favicon-32x32.png') }}"/>
+	    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('/favicon-96x96.png') }}"/>
+	    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('/favicon-16x16.png') }}"/>
+	    <link rel="manifest" href="{{ asset('/manifest.json') }}"/>
+	    <meta name="msapplication-TileColor" content="#ffffff"/>
+	    <meta name="msapplication-TileImage" content="{{ asset('/ms-icon-144x144.png') }}"/>
+	    <meta name="theme-color" content="#ffffff"/>	
+
+		{% block stylesheets %}
+			<link href="{{ asset("/dashkit/css/theme.bundle.css") }}" rel="stylesheet" type="text/css" />
+			<link rel="stylesheet" href="{{ asset('/css/styles.css') }}"/>
+			<link rel="stylesheet" href="/_css"/>
+			<style type="text/css">
+				.highlight-color-bg { background: {{ company.highlight_color }} !
+			important; }
+				.highlight-color-color { color: {{ company.highlight_color }} !
+			important; }
+				.highlight-color-border { border-color: {{ company.highlight_color }} !
+			important; }
+			</style>
+		{% endblock %}
+
+		{% block javascripts %}
+			<script type="text/javascript" src="{{ asset('/js/jquery.min.js') }}"></script>
+			<script type="text/javascript" src="{{ asset('/js/config.js') }}"></script>
+			<script type="text/javascript" src="{{ asset('/js/customer_portal.js') }}"></script>
+			<script src="https://kit.fontawesome.com/18a755f2ec.js" crossorigin="anonymous"></script>
+		{% endblock %}
+	</head>
+	<body>
+		<div id="content">
+			{% block test_mode_bar %}
+				<div class="test-mode-bar">{{ 'messages.sandbox_account'|trans }}</div>
+			{% endblock %}
+
+			{% block content %}{% endblock %}
+
+			{% block footer %}{% include 'customerPortal/footer.twig' %}{% endblock %}
+		</div>
+		{% block content_post %}
+			{{ macros.changeLanguageModal() }}
+		{% endblock %}
+
+		<!-- Javascript Disabled Error -->
+		<noscript>
+			<div id="noscript" class="highlight-color-bg"><div class="message">{{ 'messages.javascript_disabled'|trans }}</div></div>
+		</noscript>
+
+		<div id="customerPortalLanguage" class="hidden">
+			{{ currentLanguage|json_encode(constant('JSON_HEX_TAG') b-or constant('JSON_HEX_AMP') b-or constant('JSON_UNESCAPED_SLASHES')) }}
+		</div>
+		{% if pageData is defined %}
+			<div id="customerPortalPageData" class="hidden">
+				{{ pageData|json_encode(constant('JSON_HEX_TAG') b-or constant('JSON_HEX_AMP') b-or constant('JSON_UNESCAPED_SLASHES')) }}
+			</div>
+		{% endif %}
+		{% if signedInCustomer %}
+			<div id="heapUserId" data-id="{{ signedInCustomer.id }}"></div>
+		{% endif %}
+
+		{% if googleAnalyticsId %}
+			<div id="gaid" data-id="{{ googleAnalyticsId }}"></div>
+			{% if googleAnalyticsEvents is defined %}
+				{% for event in googleAnalyticsEvents %}
+					<div class="gaev" data-category="{{ event.category }}" data-label="{{ event.label }}" data-action="{{ event.action }}"></div>
+				{% endfor %}
+			{% endif %}
+		{% endif %}
+
+		{# Always run the customer's javascript last so that errors do not block the page #}
+		<script type="text/javascript" src="/_js"></script>
+	</body>
+</html>

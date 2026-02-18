@@ -1,0 +1,20 @@
+mapping:
+  - sourceField: id
+    destinationField: accounting_id
+
+  - sourceField: name
+    destinationField: name
+
+  - sourceField: email
+    destinationField: emails
+    type: email_list
+
+  - sourceField: notes
+    destinationField: notes
+
+  - sourceField: tax_number
+    destinationField: tax_id
+
+  - sourceField: currency/id
+    destinationField: currency
+    type: currency

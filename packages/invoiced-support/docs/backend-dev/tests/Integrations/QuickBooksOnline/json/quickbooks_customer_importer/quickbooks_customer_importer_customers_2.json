@@ -1,0 +1,34 @@
+{
+  "QueryResponse": {
+    "Customer": [
+      {
+        "Id": "3",
+        "SyncToken": "6",
+        "MetaData": {
+          "CreatedTime": "2016-07-12T11:25:09-07:00",
+          "LastUpdatedTime": "2017-03-04T08:38:37-08:00"
+        },
+        "FullyQualifiedName": "Test 2",
+        "DisplayName": "Test 2",
+        "PrintOnCheckName": "Test 2",
+        "Active": true,
+        "DefaultTaxCodeRef": {
+          "value": 3
+        },
+        "ParentRef": {
+          "value": "2"
+        },
+        "Taxable": true,
+        "Job": false,
+        "BillWithParent": false,
+        "Balance": 0,
+        "BalanceWithJobs": 0,
+        "PreferredDeliveryMethod": "None",
+        "Notes": "Test note"
+      }
+    ],
+    "startPosition": 1,
+    "maxResults": 6
+  },
+  "time": "2017-04-30T06:05:32.478-07:00"
+}

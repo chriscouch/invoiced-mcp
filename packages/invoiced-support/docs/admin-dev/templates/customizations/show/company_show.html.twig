@@ -1,0 +1,899 @@
+{% extends '@EasyAdmin/crud/detail.html.twig' %}
+{% set company=entity.instance %}
+{% set billingProfile = company.billingProfile %}
+{% set featureOverrides = company.features %}
+
+{% block content_title %}
+    {% set logo = company.getLogo %}
+    {% if logo %}
+        <div class="avatar"><img src="{{ logo }}"/></div>
+    {% endif %}
+    <div class="fs-6 fw-light text-secondary">Company # {{ company.getId }}</div>
+    {{ company.getName }}
+    <div class="badges {% if logo %}with-avatar{% endif %}">
+        {% if 'needs_fraud_review' in featureOverrides %}<span class="badge badge-primary">Fraud Risk - Needs Review</span>{% endif %}
+        {% if 'needs_onboarding' in featureOverrides %}<span class="badge badge-primary">Needs Onboarding</span>{% endif %}
+        {% if company.fraud %}<span class="badge badge-danger">Fraudulent</span>{% endif %}
+        {% if company.testMode %}<span class="badge badge-warning">Test Mode</span>{% endif %}
+        {% if company.trialEnds and not company.canceled %}
+            {% if company.isExpiredTrial%}
+                <span class="badge badge-danger">Trial Ended</span>
+            {% else %}
+                <span class="badge badge-primary">Trialing</span>
+            {% endif %}
+        {% endif %}
+        {% if 'not_activated' in featureOverrides %}<span class="badge badge-danger">Not Activated</span>{% endif %}
+        {% if billingProfile and billingProfile.pastDue %}<span class="badge badge-danger">Past Due</span>{% endif %}
+        {% if company.canceled %}<span class="badge badge-danger">Canceled</span>{% endif %}
+        {% if company.deletionAt %}<span class="badge badge-danger">Deletion after {{ company.deletionAt|date('n/j/Y') }}</span>{% endif %}
+    </div>
+{% endblock %}
+
+{% block page_actions %}
+    {{ parent() }}
+    {% if is_granted('edit', company) %}
+        <div class="btn-group ms-2">
+            {% if isTempMember %}
+                <a class="btn btn-danger"
+                   href="{{ ea_url().setController('App\\Controller\\Admin\\CompanyCrudController').setAction('leaveCompany').setEntityId(company.id) }}">
+                    <span class="fa fa-user-times"></span> Leave Company
+                </a>
+            {% endif %}
+            {% if not isMember %}
+                <a class="btn"
+                   href="{{ ea_url().setController('App\\Controller\\Admin\\CompanyCrudController').setAction('joinCompany').setEntityId(company.id) }}">
+                    <span class="fa fa-user-plus"></span> Join Company
+                </a>
+            {% endif %}
+            {% if isMember %}
+                <a class="btn" target="_blank" href="{{ dashboardUrl }}">
+                    Open
+                    <i class="fa fa-external-link"></i>
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <div class="btn-group ms-2">
+        <button type="button" class="btn btn-dropdown dropdown-toggle last" data-bs-toggle="dropdown">
+            <i class="hidden-xs fa fa-cogs"></i>
+            Actions
+        </button>
+        <div class="dropdown-menu dropdown-menu-end">
+            {% if company.trialEnds %}
+                <a class="dropdown-item"
+                   href="{{ ea_url().setController('App\\Controller\\Admin\\CompanyCrudController').setAction('extendTrial').setEntityId(company.id) }}">
+                    <i class="fa fa-plus-circle"></i> Extend Trial
+                </a>
+            {% endif %}
+            <a class="dropdown-item" href="{{ ea_url().setRoute('new_purchase_page').set('tenant_id', company.id).unset('billing_profile') }}">
+                <i class="fa fa-cart-plus"></i> Purchase Page
+            </a>
+            {% if is_granted('edit', company) %}
+                <a class="dropdown-item"
+                   href="{{ ea_url().setController('App\\Controller\\Admin\\InstalledProductCrudController').setAction('addProduct').set('tenant_id', company.getId).setEntityId(null) }}">
+                    <i class="fa fa-plus-circle"></i> Add Product
+                </a>
+                <a class="dropdown-item"
+                   href="{{ ea_url().setController('App\\Controller\\Admin\\FeatureCrudController').setAction('new').set('tenant_id', company.getId).setEntityId(null) }}">
+                    <i class="fa fa-plus-circle"></i> Add Feature
+                </a>
+                <a class="dropdown-item"
+                   href="{{ ea_url().setController('App\\Controller\\Admin\\CompanyNoteCrudController').setAction('new').set('tenant_id', company.getId).setEntityId(null) }}">
+                    <i class="fa fa-plus-circle"></i> Add Note
+                </a>
+                {% if 'accounts_receivable' in companyDetails.features %}
+                    <a class="dropdown-item"
+                       href="{{ ea_url().setController('App\\Controller\\Admin\\MerchantAccountCrudController').setAction('new').set('tenant_id', company.id).setEntityId(null) }}">
+                        <i class="fa fa-money-bill-alt"></i> Add Payment Gateway
+                    </a>
+                    {% endif %}
+                <a class="dropdown-item"
+                   href="{{ ea_url().setController('App\\Controller\\Admin\\QuotaCrudController').setAction('new').set('tenant_id', company.getId).setEntityId(null) }}">
+                    <i class="fa fa-plus-circle"></i> Add Quota
+                </a>
+                <a class="dropdown-item"
+                   href="{{ ea_url().setController('App\\Controller\\Admin\\UsagePricingPlanCrudController').setAction('new').set('tenant_id', company.getId).unset('billing_profile_id').setEntityId(null) }}">
+                    <i class="fa fa-plus-circle"></i> Add Usage Pricing Plan
+                </a>
+                <a class="dropdown-item"
+                   href="{{ ea_url().setController('App\\Controller\\Admin\\CompanyCrudController').setAction('setPaymentPricing').setEntityId(company.id) }}">
+                    <i class="fa fa-money-bill"></i> Set Payment Pricing
+                </a>
+                <a class="dropdown-item"
+                   href="{{ ea_url().setController('App\\Controller\\Admin\\CompanyCrudController').setAction('exportData').setEntityId(company.id) }}">
+                    <i class="fa fa-file-export"></i> Export Data
+                </a>
+            {% endif %}
+            <div class="dropdown-divider"></div>
+            {% if billingProfile %}
+                <a class="dropdown-item" href="{{ ea_url().setRoute('usage_report', {billingProfileId: billingProfile.id}) }}">
+                    <i class="fa fa-file-text-o"></i> Usage Report
+                </a>
+            {% endif %}
+            <a class="dropdown-item" href="https://invoicedsupport.zendesk.com/agent/search/1?type=ticket&q=custom_field_1500014839901%3A{% if invoiced_environment == 'production' %}production{% else %}sandbox{% endif %}%20custom_field_1500014896422%3A{{ company.id }}" target="_blank">
+                <i class="fa fa-question-circle"></i> View Support Tickets
+            </a>
+            {% if is_granted('edit', company) %}
+                <a class="dropdown-item" href="{{ ea_url().setRoute('api_log_viewer').set('tenantId', company.id) }}">
+                    <i class="fa fa-terminal"></i> View API Logs
+                </a>
+                <a class="dropdown-item" href="{{ ea_url().setRoute('payment_log_viewer').set('tenantId', company.id) }}">
+                    <i class="fa fa-cash-register"></i> View Payment Logs
+                </a>
+                <a class="dropdown-item" href="{{ ea_url().setRoute('integration_log_viewer').set('tenantId', company.id) }}">
+                    <i class="fa fa-network-wired"></i> View Integration Logs
+                </a>
+            {% endif %}
+            {% if not company.fraud and is_granted('edit', company) %}
+                <div class="dropdown-divider"></div>
+                {% if company.canceled %}
+                    <a class="dropdown-item"
+                       href="{{ ea_url().setController('App\\Controller\\Admin\\CompanyCrudController').setAction('reactivateCompany').setEntityId(company.getId) }}">
+                        <i class="fa fa-circle-play"></i> Reactivate Company
+                    </a>
+                {% else %}
+                    <a class="dropdown-item"
+                       href="{{ ea_url().setController('App\\Controller\\Admin\\CompanyCrudController').setAction('cancelCompany').setEntityId(company.getId) }}">
+                        <i class="fa fa-ban"></i> Cancel Company
+                    </a>
+                {% endif %}
+
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item"
+                   href="{{ ea_url().setController('App\\Controller\\Admin\\CompanyCrudController').setAction('markCompanyFraudulent').setEntityId(company.id) }}">
+                    <i class="fa fa-radiation"></i> Mark Fraudulent
+                </a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block detail_fields %}
+    {% if isTempMember %}
+        <div>
+            <div class="alert alert-info py-2 border rounded d-inline-block">
+                You have temporary access to this company until <strong>{{ isTempMember|date('n/j/Y g:i a') }}</strong>.
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="form-panel">
+        <div class="form-panel-header">
+            <div class="form-panel-title">
+                <a href="#panelBusinessProfile" data-bs-toggle="collapse" class="form-panel-collapse">
+                    Business Profile
+                </a>
+            </div>
+        </div>
+        <div id="panelBusinessProfile" class="form-panel-body collapse show">
+            <div class="row">
+                <div class="col-lg-4">
+                    <dl class="datalist">
+                        <div class="data-row">
+                            <dt>Email</dt>
+                            <dd>
+                                <a href="mailto:{{ company.email }}">{{ company.email }}</a>
+                            </dd>
+                        </div>
+                        {% if company.phone %}
+                            <div class="data-row">
+                                <dt>Phone</dt>
+                                <dd>
+                                    <a href="tel:{{ company.phone }}">{{ company.phone }}</a>
+                                </dd>
+                            </div>
+                        {% endif %}
+                        {% if company.website %}
+                            <div class="data-row">
+                                <dt>Website</dt>
+                                <dd>
+                                    <a href="{{ company.website }}" target="_blank">{{ company.website }}</a>
+                                </dd>
+                            </div>
+                        {% endif %}
+                        <div class="data-row">
+                            <dt>Username</dt>
+                            <dd>
+                                {% if companyDetails.features is defined and 'billing_portal' in companyDetails.features %}
+                                    <a href="{{ company.viewCustomerPortal }}" target="_blank">{{ company.username }}</a>
+                                {% else %}
+                                    {{ company.username }}
+                                {% endif %}
+                            </dd>
+                        </div>
+                        {% if company.customDomain %}
+                            {{ _self.dl_field('Custom Domain', company.customDomain) }}
+                        {% endif %}
+                        {% if company.creator %}
+                            <div class="data-row">
+                                <dt>Created By</dt>
+                                <dd>
+                                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\UserCrudController').setAction('detail').setEntityId(company.creator.id) }}">
+                                        {{ company.creator }}
+                                    </a>
+                                </dd>
+                            </div>
+                        {% endif %}
+                        {% if company.marketingAttribution %}
+                            <div class="data-row">
+                                <dt>Marketing Attribution</dt>
+                                <dd>
+                                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\MarketingAttributionCrudController').setAction('detail').setEntityId(company.marketingAttribution.id) }}">
+                                        {{ company.marketingAttribution.utmSource }}
+                                        /
+                                        {{ company.marketingAttribution.utmMedium }}
+                                    </a>
+                                </dd>
+                            </div>
+                        {% endif %}
+                        {{ _self.dl_field('Time Created', company.createdAt|date('n/j/Y g:i:s a')) }}
+                        {{ _self.dl_field('Last Updated', company.updatedAt|date('n/j/Y g:i:s a')) }}
+                    </dl>
+                </div>
+                <div class="col-lg-4">
+                    <dl class="datalist">
+                        {{ _self.dl_field('Entity Type', company.type) }}
+                        {{ _self.dl_field('Legal Name', company.name) }}
+                        {% if company.nickname %}
+                            {{ _self.dl_field('DBA', company.nickname) }}
+                        {% endif %}
+                        {% if company.industry %}
+                            {{ _self.dl_field('Industry', company.industry) }}
+                        {% endif %}
+                        <div class="data-row">
+                            <dt>Localization</dt>
+                            <dd>
+                                Currency: {{ company.currency|upper }}<br/>
+                                Locale: {{ company.language }}-{{ company.country }}<br/>
+                                Time Zone: {{ company.timeZone }}
+                            </dd>
+                        </div>
+                        <div class="data-row">
+                            <dt>Address</dt>
+                            <dd>
+                                <a href="https://www.google.com/maps/search/{{ company.address|url_encode }}"
+                                   target="_blank">
+                                    {{ company.address|nl2br }}
+                                </a>
+                            </dd>
+                        </div>
+                        {% if company.taxId %}
+                            {{ _self.dl_field('Tax ID', company.taxId) }}
+                        {% endif %}
+                    </dl>
+                </div>
+                <div class="col-lg-4">
+                    <dl class="datalist">
+                        {% if billingProfile %}
+                            <div class="data-row">
+                                <dt>Billing Profile</dt>
+                                <dd>
+                                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\BillingProfileCrudController').setAction('detail').setEntityId(billingProfile.id) }}">
+                                        {{ billingProfile.name }}
+                                    </a>
+                                    {% if billingProfile.billingSystem == 'invoiced' %}
+                                        on <a href="https://app.invoiced.com/customers/{{ billingProfile.invoicedCustomer }}" target="_blank">Invoiced</a>
+                                    {% elseif billingProfile.billingSystem == 'reseller' %}
+                                        as a <a href="https://app.invoiced.com/customers/{{ billingProfile.invoicedCustomer }}" target="_blank">Reseller</a>
+                                    {% elseif billingProfile.billingSystem == 'stripe' %}
+                                        on <a href="https://dashboard.stripe.com/customers/{{ billingProfile.stripeCustomer }}" target="_blank">Stripe</a>
+                                    {% else %}
+                                        (Not Billed)
+                                    {% endif %}
+                                </dd>
+                            </div>
+                        {% endif %}
+                        {% if company.trialStarted %}
+                            {{ _self.dl_field('Trial Start Date', company.trialStarted|date('n/j/Y g:i:s a')) }}
+                        {% endif %}
+                        {% if company.trialEnds %}
+                            {{ _self.dl_field('Trial End Date', company.trialEnds|date('n/j/Y g:i:s a')) }}
+                        {% endif %}
+                        {% if company.canceledAt %}
+                            {{ _self.dl_field('Cancel Date', company.canceledAt|date('n/j/Y g:i:s a')) }}
+                        {% endif %}
+                        {% if company.canceledReason %}
+                            {{ _self.dl_field('Reason For Canceling', company.canceledReason) }}
+                        {% endif %}
+
+                        <!-- Product Pricing Plans -->
+                        <div class="data-row">
+                            <dt>Product Pricing Plans</dt>
+                            <dd>
+                                {% set productPricingPlans = company.latestProductPricingPlans %}
+                                {% if productPricingPlans|length > 0 %}
+                                    <table class="table table-sm">
+                                        <thead class="thead-light">
+                                        <tr>
+                                            <th>Product</th>
+                                            <th class="text-end">Price</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for pricingPlan in productPricingPlans %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\ProductPricingPlanCrudController').setAction('detail').setEntityId(pricingPlan.getId) }}">
+                                                        {{ pricingPlan.product.name }}
+                                                    </a>
+                                                </td>
+                                                <td class="text-end">
+                                                    ${{ pricingPlan.price|number_format() }}
+                                                    {% if pricingPlan.annual %}/year{% else %}/month{% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% else %}
+                                    <span class="badge badge-secondary">Empty</span>
+                                {% endif %}
+                            </dd>
+                        </div>
+
+                        <!-- Usage Pricing Plans -->
+                        <div class="data-row">
+                            <dt>Usage Pricing Plans</dt>
+                            <dd>
+                                {% if company.usagePricingPlans|length > 0 %}
+                                    <table class="table table-sm">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Type</th>
+                                                <th class="text-end">Included</th>
+                                                <th class="text-end">Unit Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for pricingPlan in company.usagePricingPlans %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\UsagePricingPlanCrudController').setAction('detail').setEntityId(pricingPlan.getId) }}">
+                                                        {{ pricingPlan.usageTypeName }}
+                                                    </a>
+                                                </td>
+                                                <td class="text-end">{{ pricingPlan.threshold }}</td>
+                                                <td class="text-end">
+                                                    ${{ pricingPlan.unitPrice }}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% else %}
+                                    <span class="badge badge-secondary">Empty</span>
+                                {% endif %}
+                            </dd>
+                        </div>
+
+                        <!-- Verification Status -->
+                        {% if companyDetails.verification is defined %}
+                            <div class="data-row">
+                                <dt>Verification Status</dt>
+                                <dd>
+                                    <div>
+                                        Email:
+                                        {% if companyDetails.verification.email == 'verified' %}
+                                            <span class="badge badge-success"><i class="fa-solid fa-check"></i> Verified</span>
+                                        {% else %}
+                                            <span class="badge badge-danger">Not Verified</span>
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        Phone:
+                                        {% if companyDetails.verification.phone == 'verified' %}
+                                            <span class="badge badge-success"><i class="fa-solid fa-check"></i> Verified</span>
+                                        {% else %}
+                                            <span class="badge badge-danger">Not Verified</span>
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        Address:
+                                        {% if companyDetails.verification.address == 'verified' %}
+                                            <span class="badge badge-success"><i class="fa-solid fa-check"></i> Verified</span>
+                                        {% else %}
+                                            <span class="badge badge-danger">Not Verified</span>
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        Tax ID:
+                                        {% if companyDetails.verification.tax_id == 'verified' %}
+                                            <span class="badge badge-success"><i class="fa-solid fa-check"></i> Verified</span>
+                                        {% else %}
+                                            <span class="badge badge-danger">Not Verified</span>
+                                        {% endif %}
+                                    </div>
+                                </dd>
+                            </div>
+                        {% endif %}
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Users -->
+        <div class="col-lg-4">
+            <div class="form-panel">
+                <div class="form-panel-header d-flex justify-content-between">
+                    <div class="form-panel-title fs-4 fw-bolder">
+                        Users
+                    </div>
+                    <div class="pt-1">
+                        <a href="{{ ea_url().setController('App\\Controller\\Admin\\MemberCrudController').setAction('index').set('filters', {tenant_id: {comparison: '=', value: company.id}}).setEntityId(null) }}" class="btn btn-link btn-sm">
+                            View All
+                            ({{ company.numUsers }})
+                        </a>
+                    </div>
+                </div>
+                <div class="form-panel-body">
+                    {% if company.companyMembers|length > 0 %}
+                        <table class="table table-sm">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Role</th>
+                                    <th>Last Accessed</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for member in company.companyMembers %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ ea_url().setController('App\\Controller\\Admin\\UserCrudController').setAction('detail').setEntityId(member.getUser.id) }}">
+                                            {{ member.getUser.getFullName }}
+                                        </a>
+                                    </td>
+                                    <td>{{ member.getRole }}</td>
+                                    <td>
+                                        <a href="{{ ea_url().setController('App\\Controller\\Admin\\MemberCrudController').setAction('detail').setEntityId(member.id) }}">
+                                            {% if member.getLastAccessed %}
+                                                {{ member.getLastAccessed|date('n/j/Y') }}
+                                            {% else %}
+                                                <span class="badge badge-secondary">Never</span>
+                                            {% endif %}
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="empty collection-empty">
+                            {{ include('@EasyAdmin/label/empty.html.twig') }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings -->
+        <div class="col-lg-4">
+            <div class="form-panel">
+                <div class="form-panel-header">
+                    <div class="form-panel-title">
+                        <a href="#panelSettings" data-bs-toggle="collapse" class="form-panel-collapse">
+                            Settings
+                        </a>
+                    </div>
+                </div>
+                <div id="panelSettings" class="form-panel-body collapse show">
+                    <table class="table table-sm">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Type</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if 'accounts_payable' in companyDetails.features %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ ea_url().setController('App\\Controller\\Admin\\AccountsPayableSettingsCrudController').setAction('detail').setEntityId(company.id) }}">
+                                            Accounts Payable
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            {% if 'accounts_receivable' in companyDetails.features %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ ea_url().setController('App\\Controller\\Admin\\AccountsReceivableSettingsCrudController').setAction('detail').setEntityId(company.id) }}">
+                                            Accounts Receivable
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            {% if 'cash_application' in companyDetails.features %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ ea_url().setController('App\\Controller\\Admin\\CashApplicationSettingsCrudController').setAction('detail').setEntityId(company.id) }}">
+                                            Cash Application
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            {% if 'billing_portal' in companyDetails.features %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ ea_url().setController('App\\Controller\\Admin\\CustomerPortalSettingsCrudController').setAction('detail').setEntityId(company.id) }}">
+                                            Customer Portal
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            {% if 'flywire_invoiced_payments' in companyDetails.features %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ ea_url().setController('App\\Controller\\Admin\\AdyenAccountCrudController').setAction('detail').setEntityId(adyenAccountId) }}">
+                                            Flywire Payments Account
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            {% if 'subscription_billing' in companyDetails.features %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ ea_url().setController('App\\Controller\\Admin\\SubscriptionBillingSettingsCrudController').setAction('detail').setEntityId(company.id) }}">
+                                            Subscription Billing
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Integrations -->
+        <div class="col-lg-4">
+            <div class="form-panel">
+                <div class="form-panel-header">
+                    <div class="form-panel-title">
+                        <a href="#panelIntegrations" data-bs-toggle="collapse" class="form-panel-collapse">
+                            Integrations
+                        </a>
+                    </div>
+                </div>
+                <div id="panelIntegrations" class="form-panel-body collapse show">
+                    {% if integrations|length > 0 %}
+                        <table class="table table-sm">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Integration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for integration in integrations %}
+                                    <tr>
+                                        <td>
+                                            {% if integration.link %}
+                                                <a href="{{ integration.link }}">
+                                                    {{ integration.name }}
+                                                </a>
+                                            {% else %}
+                                                {{ integration.name }}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="empty collection-empty">
+                            {{ include('@EasyAdmin/label/empty.html.twig') }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if 'accounts_receivable' in companyDetails.features %}
+        <div class="row">
+            <!-- Payment Gateways -->
+            <div class="col-lg-6">
+                <div class="form-panel">
+                    <div class="form-panel-header">
+                        <div class="form-panel-title">
+                            <a href="#panelGateways" data-bs-toggle="collapse" class="form-panel-collapse">
+                                Payment Gateways
+                            </a>
+                        </div>
+                    </div>
+                    <div id="panelGateways" class="form-panel-body collapse show">
+                        {% if company.merchantAccounts|length > 0 %}
+                            <table class="table table-sm">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Gateway</th>
+                                        <th>ID</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for merchantAccount in company.activeMerchantAccounts %}
+                                    <tr>
+                                        <td>
+                                            <a href="{{ ea_url().setController('App\\Controller\\Admin\\MerchantAccountCrudController').setAction('detail').setEntityId(merchantAccount.getId) }}">
+                                                {{ merchantAccount.getName }}
+                                                {% if merchantAccount.deleted %}<span class="badge badge-danger">deleted</span>{% endif %}
+                                            </a>
+                                        </td>
+                                        <td>{{ merchantAccount.getGateway }}</td>
+                                        <td>{{ merchantAccount.getGatewayId }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <div class="empty collection-empty">
+                                {{ include('@EasyAdmin/label/empty.html.twig') }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- A/R Usage -->
+            <div class="col-lg-6">
+                <div class="form-panel">
+                    <div class="form-panel-header">
+                        <div class="form-panel-title">
+                            <a href="#panelUsage" data-bs-toggle="collapse" class="form-panel-collapse">
+                                Usage
+                            </a>
+                        </div>
+                    </div>
+                    <div id="panelUsage" class="form-panel-body collapse show">
+                        {% set recentUsage=company.getRecentUsage %}
+                        {% if recentUsage|length > 0 %}
+                            <table class="table table-sm">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Month</th>
+                                        <th class="text-end">$ Billed</th>
+                                        <th class="text-end"># Customers</th>
+                                        <th class="text-end"># Invoices</th>
+                                        <th class="text-end">Overages</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for usage in recentUsage %}
+                                    <tr>
+                                        <td>{{ usage.month|date('M Y') }}</td>
+                                        <td class="text-end">
+                                            {% if usage.billedVolume %}
+                                                <a href="{{ ea_url().setController('App\\Controller\\Admin\\BilledVolumeCrudController').setAction('detail').setEntityId(usage.billedVolume.id) }}">
+                                                    ${{ usage.billedVolume.getCount()|number_format() }}
+                                                    {% if usage.billedVolume.doNotBill %}<span class="badge badge-danger">Not Billed</span>{% endif %}
+                                                </a>
+                                            {% else %}
+                                                &mdash;
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-end">
+                                            {% if usage.customerVolume %}
+                                                <a href="{{ ea_url().setController('App\\Controller\\Admin\\CustomerVolumeCrudController').setAction('detail').setEntityId(usage.customerVolume.id) }}">
+                                                    {{ usage.customerVolume.getCount()|number_format() }}
+                                                    {% if usage.customerVolume.doNotBill %}<span class="badge badge-danger">Not Billed</span>{% endif %}
+                                                </a>
+                                            {% else %}
+                                                &mdash;
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-end">
+                                            {% if usage.invoiceVolume %}
+                                                <a href="{{ ea_url().setController('App\\Controller\\Admin\\InvoiceVolumeCrudController').setAction('detail').setEntityId(usage.invoiceVolume.id) }}">
+                                                    {{ usage.invoiceVolume.getCount()|number_format() }}
+                                                    {% if usage.invoiceVolume.doNotBill %}<span class="badge badge-danger">Not Billed</span>{% endif %}
+                                                </a>
+                                            {% else %}
+                                                &mdash;
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-end">
+                                            {% if usage.overageCharge %}
+                                                <a href="{{ ea_url().setController('App\\Controller\\Admin\\OverageChargeController').setAction('detail').setEntityId(usage.overageCharge.getId) }}">
+                                                    ${{ usage.overageCharge.getTotal()|number_format() }}
+                                                </a>
+                                            {% else %}
+                                                &mdash;
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td></td>
+                                        <td class="text-end">
+                                            <a href="{{ ea_url().setController('App\\Controller\\Admin\\BilledVolumeCrudController').setAction('index').set('filters', {tenant_id: {comparison: '=', value: company.id}}).setEntityId(null) }}" class="btn btn-link btn-sm">
+                                                View All
+                                                <span class="fa fa-caret-right"></span>
+                                            </a>
+                                        </td>
+                                        <td class="text-end">
+                                            <a href="{{ ea_url().setController('App\\Controller\\Admin\\CustomerVolumeCrudController').setAction('index').set('filters', {tenant_id: {comparison: '=', value: company.id}}).setEntityId(null) }}" class="btn btn-link btn-sm">
+                                                View All
+                                                <span class="fa fa-caret-right"></span>
+                                            </a>
+                                        </td>
+                                        <td class="text-end">
+                                            <a href="{{ ea_url().setController('App\\Controller\\Admin\\InvoiceVolumeCrudController').setAction('index').set('filters', {tenant_id: {comparison: '=', value: company.id}}).setEntityId(null) }}" class="btn btn-link btn-sm">
+                                                View All
+                                                <span class="fa fa-caret-right"></span>
+                                            </a>
+                                        </td>
+                                        <td class="text-end">
+                                            <a href="{{ ea_url().setController('App\\Controller\\Admin\\OverageChargeCrudController').setAction('index').set('filters', {tenant_id: {comparison: '=', value: company.getId}}).setEntityId(null) }}" class="btn btn-link btn-sm">
+                                                View All
+                                                <span class="fa fa-caret-right"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        {% else %}
+                            <div class="empty collection-empty">
+                                {{ include('@EasyAdmin/label/empty.html.twig') }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Account Entitlements -->
+    <div class="form-panel pb-5">
+        <div class="form-panel-header">
+            <div class="form-panel-title">
+                <a href="#panelEntitlements" data-bs-toggle="collapse" class="form-panel-collapse">
+                    Account Entitlements
+                </a>
+            </div>
+        </div>
+        <div id="panelEntitlements" class="form-panel-body collapse show">
+            {% if companyDetails.error is defined %}
+                <div class="alert alert-danger">{{ companyDetails.error }}</div>
+            {% endif %}
+            <div class="row">
+                <div class="col-lg-6">
+                    <dl class="datalist">
+                        {% set installedProducts = company.installedProducts %}
+                        {% if installedProducts|length > 0 %}
+                            <div class="data-row">
+                                <dt>Products</dt>
+                                <dd>
+                                    <div class="row m-0 p-0">
+                                        {% for installedProduct in installedProducts %}
+                                            <div class="col-sm-6 m-0 p-0">
+                                                <a href="{{ ea_url().setController('App\\Controller\\Admin\\InstalledProductCrudController').setAction('detail').setEntityId(installedProduct.id) }}">
+                                                    {{ installedProduct.product.name }}
+                                                </a>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </dd>
+                            </div>
+                        {% endif %}
+
+                        <!-- Quotas -->
+                        <div class="data-row">
+                            <dt>Quotas</dt>
+                            <dd>
+                                {% if company.quotas|length > 0 %}
+                                    <table class="table table-sm">
+                                        <thead class="thead-light">
+                                        <tr>
+                                            <th>Dimension</th>
+                                            <th class="text-end">Limit</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for quota in company.quotas %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\QuotaCrudController').setAction('detail').setEntityId(quota.getId) }}">
+                                                        {{ quota.name }}
+                                                    </a>
+                                                </td>
+                                                <td class="text-end">{{ quota.limit }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% else %}
+                                    <span class="badge badge-secondary">Empty</span>
+                                {% endif %}
+                            </dd>
+                        </div>
+
+                        <!-- Feature Overrides -->
+                        {% if featureOverrides|length > 0 %}
+                            <div class="data-row">
+                                <dt>Feature Overrides</dt>
+                                <dd>
+                                    {% for feature in featureOverrides %}
+                                        <a class="me-2" href="{{ ea_url().setController('App\\Controller\\Admin\\FeatureCrudController').setAction('detail').setEntityId(feature.getId) }}">
+                                            <span class="badge fs-6 {{ feature.enabled == '1' ? 'badge-success' : 'badge-danger' }}">
+                                                {{ feature.getFeature }}:
+                                                {{ feature.enabled ? 'Enabled' : 'Disabled' }}
+                                            </span>
+                                        </a>
+                                    {% endfor %}
+                                </dd>
+                            </div>
+                        {% endif %}
+                    </dl>
+                </div>
+                <div class="col-lg-6">
+                    <dl class="datalist">
+                        <!-- All Company Features -->
+                        {% if companyDetails.features is defined %}
+                            <div class="data-row">
+                                <dt>Features</dt>
+                                <dd>
+                                    <div class="row m-0 p-0">
+                                        {% for feature in companyDetails.features|sort %}
+                                            <div class="col-sm-6 m-0 p-0">{{ feature }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </dd>
+                            </div>
+                        {% endif %}
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="form-panel pb-5">
+        <div class="form-panel-header">
+            <div class="form-panel-title">
+                <a href="#panelNotes" data-bs-toggle="collapse" class="form-panel-collapse">
+                    Notes
+                </a>
+            </div>
+        </div>
+        <div id="panelNotes" class="form-panel-body collapse show">
+            {% if company.notes|length > 0 %}
+                <table class="table table-sm">
+                    <thead class="thead-light">
+                        <tr>
+                            <th class="text-nowrap">Date</th>
+                            <th class="text-nowrap">Created By</th>
+                            <th class="ps-3">Note</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for note in company.notes %}
+                        <tr>
+                            <td class="text-nowrap">
+                                <a href="{{ ea_url().setController('App\\Controller\\Admin\\CompanyNoteCrudController').setAction('detail').setEntityId(note.getId) }}">
+                                    {{ note.createdAt|date('n/j/Y g:i:s a') }}
+                                </a>
+                            </td>
+                            <td class="text-nowrap">{{ note.createdBy }}</td>
+                            <td class="fs-6 ps-3 font-monospace">{{ note.note|nl2br }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <span class="badge badge-secondary">Empty</span>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% macro dl_field(name, value) %}
+    <div class="data-row">
+        <dt>{{ name }}</dt>
+        <dd>{{ value }}</dd>
+    </div>
+{% endmacro %}

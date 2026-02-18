@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="en-US" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="5" resname="payment_methods.check">
+                <source>Check</source>
+                <target>Check</target>
+            </trans-unit>
+            <trans-unit id="24" resname="messages.wepay_start">
+                <source>Getting a payment processor is easy with Invoiced Payments. Powered by Chase, Invoiced Payments offers competitive rates for handling credit card, debit card, and ACH transactions. Complete the form below to get started.</source>
+                <target>Getting a payment processor is easy with Invoiced Payments. Powered by Chase, Invoiced Payments offers competitive rates for handling credit card, debit card, and ACH transactions. Complete the form below to get started.</target>
+            </trans-unit>
+            <trans-unit id="133" resname="labels.address_state">
+                <source>State/Province</source>
+                <target>State</target>
+            </trans-unit>
+            <trans-unit id="134" resname="labels.address_postal_code">
+                <source>Zip/Postal Code</source>
+                <target>Zip Code</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

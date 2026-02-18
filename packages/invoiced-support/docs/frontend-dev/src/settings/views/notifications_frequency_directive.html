@@ -1,0 +1,23 @@
+<div class="notification-settings">
+	<div class="notification-setting" ng-repeat="notification in notifications">
+		<div class="notification-title">
+			{{('notifications.events.' + notification.id)|translate}}
+		</div>
+		<div class="notification-frequency">
+			<div class="invoiced-select" ng-show="enableSelection">
+				<select ng-model="notification.frequency" ng-change="saveNotification(notification.notification_type, notification.frequency)">
+					<option value="never">{{'notifications.never'|translate}}</option>
+					<option value="instantly">{{'notifications.frequencies.instant'|translate}}</option>
+					<option value="daily">{{'notifications.frequencies.day'|translate}}</option>
+					<option value="weekly">{{'notifications.frequencies.week'|translate}}</option>
+				</select>
+			</div>
+			<div ng-show="!enableSelection">
+				<span ng-show="notification.frequency == 'never'">{{'notifications.never'|translate}}</span>
+				<span ng-show="notification.frequency == 'instantly'">{{'notifications.frequencies.instant'|translate}}</span>
+				<span ng-show="notification.frequency == 'daily'">{{'notifications.frequencies.day'|translate}}</span>
+				<span ng-show="notification.frequency == 'weekly'">{{'notifications.frequencies.week'|translate}}</span>
+			</div>
+		</div>
+	</div>
+</div>

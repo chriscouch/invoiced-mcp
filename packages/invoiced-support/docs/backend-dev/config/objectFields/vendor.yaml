@@ -1,0 +1,55 @@
+fields:
+  active: { name: Active, type: boolean }
+  address1:
+    name: "Address Line 1"
+    type: string
+  address2:
+    name: "Address Line 2"
+    type: string
+  approval_workflow:
+    name: 'Approval Workflow'
+    type: join
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  city:
+    name: City
+    type: string
+  country:
+    name: Country
+    type: string
+  email:
+    name: "Email Address"
+    type: string
+  id:
+    name: ID
+    type: string
+    writable: false
+  name: { name: Name, type: string }
+  number: { name: Number, type: string }
+  postal_code:
+    name: "Postal Code"
+    type: string
+  state:
+    name: State
+    type: string
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  network_connection:
+    name: 'Business Profile'
+    type: join
+    parent_column: network_connection_id
+    join_through_tablename: NetworkConnections
+    join_through_column: vendor_id
+    writable: false

@@ -1,0 +1,17 @@
+mapping:
+  - sourceField: ContactID
+    destinationField: accounting_id
+
+  - sourceField: Name
+    destinationField: name
+
+  - sourceField: EmailAddress
+    destinationField: emails
+    type: email_list
+
+  - sourceField: DefaultCurrency
+    destinationField: currency
+    type: currency
+
+  - sourceField: TaxNumber
+    destinationField: tax_id

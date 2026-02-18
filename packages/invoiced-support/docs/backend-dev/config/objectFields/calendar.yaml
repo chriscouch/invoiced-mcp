@@ -1,0 +1,5 @@
+fields:
+  date:
+    name: Date
+    type: date
+    date_format: "Y-m-d"

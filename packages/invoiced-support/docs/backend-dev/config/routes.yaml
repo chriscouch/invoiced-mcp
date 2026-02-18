@@ -1,0 +1,10 @@
+controllers:
+  resource: ../src/EntryPoint/Controller/
+  type: attribute
+
+www_redirect:
+  path: /{req}
+  controller: App\EntryPoint\Controller\RedirectController::redirect
+  host: "%app.domain%"
+  requirements:
+    req: .*

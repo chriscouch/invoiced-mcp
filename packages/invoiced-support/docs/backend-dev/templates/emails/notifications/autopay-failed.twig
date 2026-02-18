@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}AutoPay failed{% endblock %}
+{% block notification %}
+    {% for charge in charges %}
+        <p>AutoPay failed for <a href="{{ dashboardUrl}}/customers/{{ charge.customer_id  }}?account={{ tenant_id  }}">{{ charge.customer.name  }}</a> ({{ charge.amount | money(charge.currency)}}): {{ charge.failure_message }}</p>
+    {% endfor %}
+{% endblock %}

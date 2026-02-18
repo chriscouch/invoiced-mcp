@@ -1,0 +1,119 @@
+<div class="contents form-horizontal">
+    <div class="settings-title-bar">
+        <h2 class="title">
+            <div class="docs-link">
+                <a href="https://docs.invoiced.com/accounts-receivable/payment-terms" target="_blank">
+                    {{'general.documentation'|translate}}
+                    <span class="fas fa-external-link"></span>
+                </a>
+            </div>
+            <div class="back-link">
+                <a ui-sref="manage.settings.default">
+                    <span class="fas fa-arrow-left"></span>
+                    {{'general.settings'|translate}}
+                </a>
+            </div>
+            {{'settings.titles.payment_terms'|translate}}
+        </h2>
+
+        <p class="lead">
+            Payment terms establish the timeframe in which a customer must pay. You can also add early discounts to payment terms to encourage early payments.
+        </p>
+    </div>
+
+    <div class="loading" ng-show="loading"></div>
+
+    <p class="alert alert-danger" ng-show="error">
+        {{error.message}}
+    </p>
+
+    <div class="panel panel-default settings-panel" ng-hide="loading">
+        <div class="panel-heading">
+            <h4 class="panel-title button-title">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="searchbar light">
+                            <div class="bar">
+                                <div class="icon"><span class="fas fa-search"></span></div>
+                                <input type="text" class="form-control" ng-model="search" tabindex="2000" />
+                                <div class="icon right icon-btn" ng-show="search">
+                                    <button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+                                        <span class="fas fa-times-circle"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 text-right">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-success" ng-click="edit(null)">
+                                {{'general.new'|translate}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </h4>
+        </div>
+
+        <!-- No Results -->
+        <div class="list-group" ng-show="results.length === 0">
+            <div class="list-group-item">
+                <div class="empty">{{'settings.payment_terms.empty'|translate}}</div>
+            </div>
+        </div>
+
+        <!-- Results Table -->
+        <table class="table table-striped search-results-table" ng-show="results.length > 0">
+            <thead>
+                <tr>
+                    <th>{{'settings.payment_terms.name'|translate}}</th>
+                    <th>{{'settings.payment_terms.due_in_days'|translate}}</th>
+                    <th>{{'settings.payment_terms.early_discount'|translate}}</th>
+                    <th class="nopadding"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="paymentTerm in paymentTerms | searchObject:search:['name'] | orderBy:['name'] as results">
+                    <td>
+                        {{paymentTerm.name}}
+                        <a href="" tooltip="New invoices will have these payment terms by default." ng-show="paymentTerm.default">
+                            <span class="label label-info">{{'general.default'|translate}}</span>
+                        </a>
+                        <span class="label label-danger" ng-hide="paymentTerm.active">{{'general.inactive'|translate}}</span>
+                    </td>
+                    <td class="nowrap">
+                        <span ng-show="paymentTerm.due_in_days !== null">{{paymentTerm.due_in_days}} days</span>
+                        <span class="label label-default" ng-hide="paymentTerm.due_in_days !== null">{{'general.never'|translate}}</span>
+                    </td>
+                    <td>
+                        <span ng-hide="paymentTerm.discount_expires_in_days">&mdash;</span>
+                        <span ng-show="paymentTerm.discount_expires_in_days">
+                            <span ng-show="paymentTerm.discount_is_percent">{{paymentTerm.discount_value}}%</span>
+                            <money ng-hide="paymentTerm.discount_is_percent" amount="paymentTerm.discount_value" currency="currency"></money>
+                            within {{paymentTerm.discount_expires_in_days}} days
+                        </span>
+                    </td>
+                    <td class="nopadding hover-actions-holder mobile-last mobile-visible">
+                        <div class="hover-actions">
+                            <a class="btn btn-default btn-sm" ng-click="duplicate(paymentTerm)" tooltip="{{'general.duplicate'|translate}}">
+                                <span class="fas fa-copy"></span>
+                            </a>
+                            <a class="btn btn-default btn-sm" ng-click="edit(paymentTerm)" tooltip="{{'general.edit'|translate}}">
+                                <span class="fas fa-pencil"></span>
+                            </a>
+                            <a href="" class="btn btn-default btn-sm" ng-click="makeDefault(paymentTerm, false)" ng-show="paymentTerm.default && !deleting" tooltip="{{'settings.payment_terms.unset_default'|translate}}">
+                                <span class="far fa-star"></span>
+                            </a>
+                            <a href="" class="btn btn-default btn-sm" ng-click="makeDefault(paymentTerm, true)" ng-show="!paymentTerm.default && paymentTerm.active && !deleting" tooltip="{{'settings.payment_terms.make_default'|translate}}">
+                                <span class="fas fa-star"></span>
+                            </a>
+                            <a class="btn btn-danger btn-sm revoke-btn" ng-click="delete(paymentTerm)" ng-disabled="deleting" tooltip="{{'general.delete'|translate}}" ng-hide="paymentTerm.num_customers > 0">
+                                <span class="fas fa-trash"></span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

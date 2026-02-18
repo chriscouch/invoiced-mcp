@@ -1,0 +1,19 @@
+{
+  "Contacts": [
+    {
+      "ContactID": "4ec12cb8-3cd5-4e93-a598-b120e26f72e9",
+      "ContactStatus": "ACTIVE",
+      "Name": "Test 2",
+      "FirstName": "Andrea",
+      "LastName": "Dutchess",
+      "CompanyNumber": "NumberBusiness1234",
+      "SkypeUserName": "skype.dutchess@abclimited.com",
+      "BankAccountDetails": "45465844",
+      "AccountsReceivableTaxType": "INPUT2",
+      "AccountsPayableTaxType": "OUTPUT2",
+      "UpdatedDateUTC": "\/Date(1488391422280+0000)\/",
+      "IsSupplier": false,
+      "IsCustomer": true
+    }
+  ]
+}

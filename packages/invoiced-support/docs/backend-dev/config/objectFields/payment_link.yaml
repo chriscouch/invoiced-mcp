@@ -1,0 +1,45 @@
+fields:
+  after_completion_url:
+    name: After Completion URL
+    type: string
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  customer:
+    name: Customer
+    type: join
+  deleted:
+    name: Deleted
+    type: boolean
+  deleted_at:
+    name: Deleted At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  id:
+    name: ID
+    type: string
+    writable: false
+  reusable:
+    name: Reusable
+    type: boolean
+  status:
+    name: Status
+    type: enum
+    values:
+      active: Active
+      completed: Completed
+      deleted: Deleted
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false

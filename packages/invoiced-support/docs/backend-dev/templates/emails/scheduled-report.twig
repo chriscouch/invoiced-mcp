@@ -1,0 +1,21 @@
+{% extends "emails/parent.twig" %}
+{% block title %}{{ reportName }}{% endblock %}
+{% block content %}
+    <row>
+        <columns>
+            <p>Hi {{ name }},</p>
+
+            <p>A new <strong>{{ reportName }}</strong> scheduled report has been generated.</p>
+        </columns>
+    </row>
+    <row>
+        <columns>
+            <center>
+                <spacer size="5"></spacer>
+                <button class="radius" href="{{ url }}">View Report</button>
+                <span class="text-muted">This link is valid for 7 days.</span>
+                <spacer size="5"></spacer>
+            </center>
+        </columns>
+    </row>
+{% endblock %}

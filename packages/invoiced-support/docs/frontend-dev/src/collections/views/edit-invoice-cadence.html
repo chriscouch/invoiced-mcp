@@ -1,0 +1,49 @@
+<feature-upgrade ng-if="!hasFeature"></feature-upgrade>
+<p class="loading" ng-show="loading"></p>
+
+<form name="invoiceCadenceForm" ng-submit="save(cadence)" ng-hide="loading">
+    <div class="contents invoice-cadence-form" ng-show="hasFeature">
+        <div class="settings-title-bar">
+            <h2 class="title">
+                <div class="back-link">
+                    <a ui-sref="manage.settings.chasing.invoices">
+                        <span class="fas fa-arrow-left"></span>
+                        {{'settings.titles.chasing'|translate}}
+                    </a>
+                </div>
+                <span ng-show="isExisting">Edit Invoice Cadence</span>
+                <span ng-hide="isExisting">New Invoice Cadence</span>
+            </h2>
+        </div>
+
+        <p class="info alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <p class="info required-indicator">
+            <span class="required"></span> {{'general.indicates_required_field'|translate}}
+        </p>
+
+        <!-- Basic -->
+        <div class="invoice-chase basic">
+            <!-- Name -->
+            <div class="form-group">
+                <label class="control-label">Name <span class="required"></span></label>
+                <input type="text" class="form-control input-large" ng-model="cadence.name" required />
+            </div>
+        </div>
+
+        <!-- Steps -->
+        <div class="invoice-chase schedule">
+            <h4 class="settings-section-title">Schedule</h4>
+            <invoice-cadence-editor chase-schedule="chaseSchedule" change-handler="onChaseScheduleChange" ng-if="!loading"/>
+        </div>
+
+        <div>
+            <!-- Save Button -->
+            <button type="submit" class="btn btn-primary Button" ng-disabled="invoiceCadenceForm.$invalid||saving||cadence.steps.length==0" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+                <span translate>general.save</span>
+            </button>
+        </div>
+    </div>
+</form>

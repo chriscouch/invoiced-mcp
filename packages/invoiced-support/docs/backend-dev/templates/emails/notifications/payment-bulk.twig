@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}Payments received{% endblock %}
+{% block notification %}
+    {% for payment in payments %}
+        <p><a href="{{ dashboardUrl}}/alerts?account={{ tenant_id  }}">{{ payment.cnt }} Payments</a> were received totaling {{ payment.amount | money(payment.currency)}}</p>
+    {% endfor %}
+{% endblock %}

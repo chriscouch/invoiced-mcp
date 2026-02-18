@@ -1,0 +1,44 @@
+<form name="loginForm" ng-submit="login(email, password, remember)">
+	<div class="modal-header">
+		<h4 class="modal-title">Login Required</h4>
+	</div>
+	<div class="modal-body">
+		<p class="lead">Your session has expired.</p>
+
+		<div class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</div>
+
+		<p class="text-danger" ng-show="attemptsRemaining > 0 && attemptsRemaining <= 3">
+			Remaining sign in attempts before your account is locked out temporarily: {{attemptsRemaining}}
+		</p>
+
+		<div class="form-group">
+			<label class="placeholder">Email</label>
+			<input type="email" ng-model="email" class="form-control input-lg" placeholder="Email" autocomplete="username" tabindex="1" autofocus required />
+		</div>
+		<div class="form-group">
+			<label class="placeholder">Password</label>
+			<input type="password" ng-model="password" class="form-control input-lg" placeholder="Password" autocomplete="current-password" tabindex="2" required />
+		</div>
+		<div class="form-group login-options">
+			<label class="remember-me noselect">
+				<input type="checkbox" ng-model="remember" tabindex="3" />
+				<span>Remember Me</span>
+			</label>
+		</div>
+		<div class="form-group slim">
+			<button type="submit" class="btn btn-primary btn-lg btn-block Button" ng-disabled="loginForm.$invalid||signingIn" v-busy="signingIn" v-busy-label="Signing In" v-pressable tabindex="5">
+				Login
+			</button>
+		</div>
+	</div>
+	<div class="external-sign-in">
+		<div class="button google">
+			<a ng-href="{{googleSignInUrl}}" tabindex="6">
+				<img src="/img/google-sign-in@2x.png" alt="Sign in with Google" height="46" width="191" />
+			</a>
+		</div>
+
+	</div>
+</form>

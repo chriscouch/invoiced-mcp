@@ -1,0 +1,30 @@
+{% extends "auth/parent.twig" %}
+
+{% block main %}
+
+<h1 class="logo">
+	<a href="/">
+		<img src="{{ asset("/img/logo.png") }}" width="137" height="35" alt="Invoiced" />
+	</a>
+</h1>
+
+<div class="auth-page container">
+	<h4 class="title">Sign in failed</h4>
+
+	<p class="alert alert-danger">
+		{{ reason }}
+	</p>
+
+	<p>
+		<a href="/" class="btn w-100 btn-primary btn-lg">
+			Return to Invoiced
+		</a>
+        {% if retryUrl is defined %}
+		    <a href="{{ retryUrl }}" class="btn w-100 btn-link">
+			    Try again
+		    </a>
+	    {% endif %}
+	</p>
+</div>
+
+{% endblock %}

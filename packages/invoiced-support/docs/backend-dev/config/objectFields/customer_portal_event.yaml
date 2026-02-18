@@ -1,0 +1,36 @@
+fields:
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  customer: { name: Customer, type: join }
+  event:
+    name: Event
+    type: enum
+    values:
+      1: Login
+      2: View Invoice
+      3: View Estimate
+      4: View Credit Note
+      6: Send Message
+      7: Download File
+      8: Update Contact Info
+      9: Add Payment Method
+      10: Approve Estimate
+      11: Approve Payment Plan
+      12: Complete Sgn Up Page
+      13: Promise-to-Pay
+      14: AutoPay Enrollment
+      15: Submit Payment
+      16: Complete Payment Link
+      17: Complete Sgn Up page - Disabled Payment Methods
+  id:
+    name: ID
+    type: string
+    writable: false
+  timestamp:
+    name: Timestamp
+    type: datetime
+    date_format: "Y-m-d H:i:s"

@@ -1,0 +1,97 @@
+<form name="lineForm" ng-submit="save(line)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			<span ng-show="isExisting">Edit</span><span ng-hide="isExisting">New</span> Pending Line Item
+		</h4>
+	</div>
+	<div class="modal-body form-horizontal" ng-if="!hasFeature">
+		<feature-upgrade></feature-upgrade>
+	</div>
+	<div class="modal-body form-horizontal" ng-if="hasFeature">
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<div class="form-group" ng-if="!line.catalog_item">
+			<label class="control-label col-sm-3">Name <span class="required"></span></label>
+			<div class="col-sm-8">
+				<input type="text" placeholder="Item name..." ng-model="line.name" class="form-control" required />
+			</div>
+		</div>
+
+		<div class="form-group" ng-if="line.catalog_item">
+			<label class="control-label col-sm-3">Name</label>
+			<div class="col-sm-6 form-control-static">
+				{{line.name}}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-3">Quantity <span class="required"></span></label>
+			<div class="col-sm-2">
+				<input type="number" step="any" autocomplete="off" placeholder="Numbers only" class="form-control" required ng-model="line.quantity" />
+			</div>
+		</div>
+
+
+		<div class="form-group">
+			<label class="control-label col-sm-3">Unit Cost <span class="required"></span></label>
+			<div class="col-sm-3">
+				<div name="value" ng-required="true" ng-model="line.unit_cost" currency="currency" is-rate="false" has-selector="false" input-amount></div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-3">Description</label>
+			<div class="col-sm-8">
+				<textarea class="form-control" ng-model="line.description" placeholder="Optional item description..." expanding-textarea></textarea>
+			</div>
+		</div>
+
+		<div class="form-group" ng-if="!line.catalog_item">
+			<label class="control-label col-sm-3">Type</label>
+			<div class="col-sm-3">
+				<item-type-selector ng-model="line.type"></item-type-selector>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-8 col-sm-offset-3 form-control-static">
+				<editable-rates-list line="line" currency="currency"></editable-rates-list>
+
+				<button type="button" class="btn btn-default" ng-click="addRateModal(line.taxes, 'tax')">
+					<span class="fas fa-plus"></span>
+					Tax
+				</button>
+				<button type="button" class="btn btn-default" ng-click="addRateModal(line.discounts, 'discount')">
+					<span class="fas fa-plus"></span>
+					Discount
+				</button>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-3">Amount</label>
+			<div class="col-sm-8 form-control-static">
+				<money amount="amount" currency="currency"></money>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer" ng-if="hasFeature">
+		<div class="left">
+			<a href="" ng-click="selectItem(line)" ng-hide="line.catalog_item">
+				Select from catalog
+			</a>
+			<a href="" class="danger" ng-click="removeItem(line)" ng-show="line.catalog_item">
+				Remove item
+			</a>
+		</div>
+		<button type="submit" class="btn btn-primary Button" ng-disabled="lineForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

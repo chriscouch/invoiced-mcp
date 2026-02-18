@@ -1,0 +1,305 @@
+<div class="contents form-horizontal">
+	<div class="settings-title-bar">
+		<h2 class="title">
+			<div class="docs-link">
+				<a href="https://docs.invoiced.com/dev" target="_blank">
+					{{'general.documentation'|translate}}
+					<span class="fas fa-external-link"></span>
+				</a>
+			</div>
+			<div class="back-link">
+				<a ui-sref="manage.settings.default">
+					<span class="fas fa-arrow-left"></span>
+					{{'general.settings'|translate}}
+				</a>
+			</div>
+			{{'settings.titles.developers'|translate}}
+		</h2>
+
+		<p class="lead">
+			Here you can manage the settings for the integrations that you build with your Invoiced account.
+		</p>
+	</div>
+
+	<feature-upgrade ng-if="!('api'|hasFeature)"></feature-upgrade>
+	<div ng-show="'api'|hasFeature">
+		<!-- API Keys -->
+		<p class="loading inline" ng-show="loadingApiKeys"></p>
+		<p class="alert alert-warning hidden-xs" ng-show="isProduction">
+			<span class="fas fa-info-circle"></span>
+			<strong>Testing out an integration?</strong>
+			Sign up for a test account on <a href="https://sandbox.invoiced.com" target="_blank">sandbox.invoiced.com</a>.
+		</p>
+		<div class="panel panel-default settings-panel" ng-hide="loadingApiKeys">
+			<div class="panel-heading">
+				<h4 class="panel-title button-title">
+					<div class="row">
+						<div class="col-sm-4">
+							API Keys
+						</div>
+						<div class="col-sm-5 col-sm-offset-3 text-right">
+							<button type="button" class="btn btn-success" ng-click="newApiKeyModal()">
+								New API Key
+							</button>
+						</div>
+					</div>
+				</h4>
+			</div>
+
+			<!-- No Results -->
+			<div class="list-group" ng-show="apiKeys.length === 0">
+				<div class="list-group-item">
+					<div class="empty">No API keys created yet.</div>
+				</div>
+			</div>
+
+			<!-- Results Table -->
+			<table class="table table-striped search-results-table api-keys" ng-show="apiKeys.length > 0">
+				<thead>
+					<tr>
+						<th>Description</th>
+						<th class="api-secret">Secret</th>
+						<th>Created</th>
+						<th class="noborder">Last Used</th>
+						<th class="nopadding"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="apiKey in apiKeys">
+						<td>{{apiKey.description}}</td>
+						<td class="api-secret">
+							<div>
+								<a href="" ng-click="showApiKeySecret[apiKey.id]=true" ng-hide="showApiKeySecret[apiKey.id]">{{'general.show'|translate}}</a>
+								<a href="" ng-click="showApiKeySecret[apiKey.id]=false" ng-show="showApiKeySecret[apiKey.id]">{{'general.hide'|translate}}</a>
+							</div>
+							<div ng-show="showApiKeySecret[apiKey.id]"><code>{{apiKey.secret}}</code></div>
+						</td>
+						<td class="light nowrap">
+							<company-date date="apiKey.created_at"></company-date>
+						</td>
+						<td class="noborder nowrap">
+							<span ng-show="apiKey.last_used"><company-date date="apiKey.last_used"></company-date></span>
+							<span class="text-danger" ng-hide="apiKey.last_used">&mdash;</span>
+						</td>
+						<td class="nopadding hover-actions-holder mobile-last mobile-visible">
+							<div class="hover-actions">
+								<button class="btn btn-danger btn-sm" ng-click="removeApiKey(apiKey)" ng-disabled="deletingApiKey[apiKey.id]" tooltip="Delete API Key">
+									<span class="fas fa-trash"></span>
+								</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>
+
+		<!-- Publishable Key -->
+		<div class="form-group">
+			<div class="col-xs-8">
+				<h4 class="settings-section-title">Invoiced.js Publishable Key</h4>
+			</div>
+		</div>
+		<p style="max-width: 750px;">
+			Your publishable key allows you to use the invoiced.js widget on your website to securely collect payment information from customers. Learn more in the <a href="https://docs.invoiced.com/dev/payment-info" target="_blank">collecting payment information documentation</a>.
+		</p>
+		<p>
+			<button type="button" class="btn btn-default" ng-click="showPublishableKey=true" ng-hide="showPublishableKey">Show Publishable Key</button>
+			<button type="button" class="btn btn-default" ng-click="showPublishableKey=false" ng-show="showPublishableKey">Hide Publishable Key</button>
+		</p>
+		<p class="well" ng-show="showPublishableKey">{{invoicedJsPublishableKey}}</p>
+		<hr/>
+
+		<!-- Magic Links -->
+		<div ng-if="'billing_portal'|hasFeature">
+			<div class="form-group">
+				<div class="col-xs-8">
+					<h4 class="settings-section-title">Magic Links</h4>
+				</div>
+			</div>
+			<p style="max-width: 750px;">
+				Magic Links allow customers to seamlessly jump into your customer portal from your app or website without requiring additional authentication. Learn more in the <a href="https://docs.invoiced.com/dev/single-sign-on" target="_blank">Magic Links documentation</a>.
+			</p>
+			<p>
+				<button type="button" class="btn btn-default" ng-click="showSsoKey=true" ng-hide="showSsoKey">Show Magic Link Key</button>
+				<button type="button" class="btn btn-default" ng-click="showSsoKey=false" ng-show="showSsoKey">Hide Magic Link Key</button>
+			</p>
+			<p class="well" ng-show="showSsoKey">{{company.sso_key}}</p>
+			<hr/>
+		</div>
+
+		<!-- Webhooks -->
+		<p class="loading inline" ng-show="loadingWebhooks"></p>
+		<div class="panel panel-default settings-panel" ng-hide="loadingWebhooks">
+			<div class="panel-heading">
+				<h4 class="panel-title button-title">
+					<div class="row">
+						<div class="col-sm-4">
+							Webhooks
+							<small>
+								<a href="https://docs.invoiced.com/dev/webhooks" target="_blank">
+									Documentation
+								</a>
+							</small>
+						</div>
+						<div class="col-sm-5 col-sm-offset-3 text-right">
+							<a class="btn btn-default" ui-sref="manage.webhook_attempts.browse">
+								{{'webhooks.logs'|translate}}
+							</a>
+							<button type="button" class="btn btn-success" ng-click="newWebhookModal()">
+								New Webhook
+							</button>
+						</div>
+					</div>
+				</h4>
+			</div>
+
+			<!-- No Results -->
+			<div class="list-group" ng-show="webhooks.length === 0">
+				<div class="list-group-item">
+					<div class="empty">No webhooks created yet.</div>
+				</div>
+			</div>
+
+			<!-- Results Table -->
+			<table class="table table-striped search-results-table webhooks" ng-show="webhooks.length > 0">
+				<thead>
+					<tr>
+						<th>Description</th>
+						<th class="api-secret">Secret</th>
+						<th>{{'general.status'|translate}}</th>
+						<th>Events</th>
+						<th class="noborder">Created</th>
+						<th class="nopadding"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="webhook in webhooks">
+						<td>{{webhook.url}}</td>
+						<td class="api-secret">
+							<div>
+								<a href="" ng-click="showWebhookSecret[webhook.id]=true" ng-hide="showWebhookSecret[webhook.id]">{{'general.show'|translate}}</a>
+								<a href="" ng-click="showWebhookSecret[webhook.id]=false" ng-show="showWebhookSecret[webhook.id]">{{'general.hide'|translate}}</a>
+							</div>
+							<div ng-show="showWebhookSecret[webhook.id]"><code>{{webhook.secret}}</code></div>
+						</td>
+						<td>
+							<span class="label label-danger" ng-hide="webhook.enabled">Disabled</span>
+							<span class="label label-success" ng-show="webhook.enabled">{{'general.enabled'|translate}}</span>
+						</td>
+						<td>
+							<span ng-show="webhookEventType(webhook)=='all'">All Events</span>
+							<span ng-show="webhookEventType(webhook)=='some'">Specific Events</span>
+						</td>
+						<td class="light nowrap noborder">
+							<company-date date="webhook.created_at"></company-date>
+						</td>
+						<td class="nopadding hover-actions-holder mobile-last mobile-visible">
+							<div class="hover-actions">
+								<button class="btn btn-default btn-sm" ng-click="editWebhook(webhook)" tooltip="Edit Webhook">
+									<span class="fas fa-pencil"></span>
+								</button>
+								<button class="btn btn-danger btn-sm" ng-click="deleteWebhook(webhook)" ng-disabled="deletingWebhook[webhook.id]" tooltip="Delete Webhook">
+									<span class="fas fa-trash"></span>
+								</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr/>
+
+		<!-- OAuth Applications -->
+		<p class="loading inline" ng-show="loadingOAuthApplications"></p>
+		<div class="panel panel-default settings-panel" ng-hide="loadingOAuthApplications">
+			<div class="panel-heading">
+				<h4 class="panel-title button-title">
+					<div class="row">
+						<div class="col-sm-4">
+							OAuth Applications
+							<small>
+								<a href="https://docs.invoiced.com/dev/oauth" target="_blank">
+									Documentation
+								</a>
+							</small>
+						</div>
+						<div class="col-sm-5 col-sm-offset-3 text-right">
+							<button type="button" class="btn btn-success" ng-click="newOAuthApplicationModal()">
+								New Application
+							</button>
+						</div>
+					</div>
+				</h4>
+			</div>
+
+			<!-- No Results -->
+			<div class="list-group" ng-show="oauthApplications.length === 0">
+				<div class="list-group-item">
+					<div class="empty">No OAuth applications created yet.</div>
+				</div>
+			</div>
+
+			<!-- Results Table -->
+			<table class="table table-striped search-results-table oauth-applications" ng-show="oauthApplications.length > 0">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Client ID</th>
+						<th class="api-secret">Client Secret</th>
+						<th>Redirect URIs</th>
+						<th class="noborder">Created</th>
+						<th class="nopadding"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="oauthApplication in oauthApplications">
+						<td>{{oauthApplication.name}}</td>
+						<td><code>{{oauthApplication.identifier}}</code></td>
+						<td class="api-secret">
+							<div>
+								<a href="" ng-click="showOAuthApplicationSecret[oauthApplication.id]=true" ng-hide="showOAuthApplicationSecret[oauthApplication.id]">{{'general.show'|translate}}</a>
+								<a href="" ng-click="showOAuthApplicationSecret[oauthApplication.id]=false" ng-show="showOAuthApplicationSecret[oauthApplication.id]">{{'general.hide'|translate}}</a>
+							</div>
+							<div ng-show="showOAuthApplicationSecret[oauthApplication.id]"><code>{{oauthApplication.secret}}</code></div>
+						</td>
+						<td>
+							<div ng-repeat="uri in oauthApplication.redirect_uris">
+								{{uri}}
+							</div>
+						</td>
+						<td class="light nowrap noborder">
+							<company-date date="oauthApplication.created_at"></company-date>
+						</td>
+						<td class="nopadding hover-actions-holder mobile-last mobile-visible">
+							<div class="hover-actions">
+								<button class="btn btn-default btn-sm" ng-click="editOAuthApplication(oauthApplication)" tooltip="Edit Application">
+									<span class="fas fa-pencil"></span>
+								</button>
+								<button class="btn btn-danger btn-sm" ng-click="deleteOAuthApplication(oauthApplication)" ng-disabled="deletingOAuthApplication[oauthApplication.id]" tooltip="Delete Application">
+									<span class="fas fa-trash"></span>
+								</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<!-- Data -->
+	<div ng-if="company.test_mode">
+		<hr/>
+		<div class="form-group">
+			<div class="col-xs-8">
+				<h4 class="settings-section-title">Data</h4>
+			</div>
+		</div>
+
+		<p>
+			<button type="button" class="btn btn-danger Button" ng-click="clearData(company)" ng-disabled="clearingData" v-busy="clearingData" v-busy-label="Deleting" v-pressable>
+				Delete all test data
+			</button>
+		</p>
+	</div>
+</div>

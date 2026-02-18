@@ -1,0 +1,53 @@
+fields:
+  amount: { name: Amount, type: money, summarize: true }
+  amount_refunded: { name: "Amount Refunded", type: money, summarize: true }
+  bank_account:
+    name: "Bank Account"
+    type: join
+    parent_type_column: payment_source_type
+    parent_column: payment_source_id
+  card:
+    name: "Card"
+    type: join
+    parent_type_column: payment_source_type
+    parent_column: payment_source_id
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency: { name: Currency, type: string }
+  customer: { name: Customer, type: join }
+  description: { name: Description, type: string }
+  disputed: { name: Disputed, type: boolean }
+  failure_message: { name: "Failure Message", type: string }
+  gateway: { name: "Payment Gateway", type: string }
+  gateway_id: { name: "Transaction ID", type: string }
+  id:
+    name: ID
+    type: string
+    writable: false
+  merchant_account_transaction:
+    name: Merchant Account Transaction
+    type: join
+  payment: { name: Payment, type: join }
+  receipt_email: { name: "Receipt Email", type: string }
+  refunded: { name: Refunded, type: boolean }
+  status:
+    name: Status
+    type: enum
+    values:
+      failed: Failed
+      pending: Pending
+      succeeded: Succeeded
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false

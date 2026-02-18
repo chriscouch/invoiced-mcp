@@ -1,0 +1,501 @@
+<div class="contents form-horizontal">
+    <div class="settings-title-bar">
+        <h2 class="title">
+            <div class="back-link">
+                <a ui-sref="manage.settings.default">
+                    <span class="fas fa-arrow-left"></span>
+                    {{'general.settings' | translate}}
+                </a>
+            </div>
+            {{'settings.titles.accounts_receivable' | translate}}
+        </h2>
+
+        <p class="lead">
+            Here you can change the behavior of several core A/R features.
+        </p>
+    </div>
+
+    <p class="alert alert-danger" ng-show="error">
+        {{error.message}}
+    </p>
+
+    <!-- Defaults -->
+    <div>
+        <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-4">
+                <h4 class="settings-section-title">Defaults</h4>
+            </div>
+            <div class="col-sm-4">
+                <button type="button" class="btn btn-success" ng-click="editDefaults=true" ng-hide="editDefaults">
+                    Change
+                </button>
+            </div>
+        </div>
+
+        <p class="loading" ng-show="loadingSettings"></p>
+
+        <div ng-hide="editDefaults||loadingSettings">
+            <div class="form-group">
+                <label class="control-label col-sm-4">Customer Entity Type</label>
+                <div class="col-sm-2 form-control-static">
+                    {{'entity_type.' + settings.default_customer_type|translate}}
+                </div>
+            </div>
+
+            <div class="form-group" ng-show="'legacy_chasing'|hasFeature">
+                <label class="control-label col-sm-4">Chasing</label>
+                <div class="col-sm-2 form-control-static">
+                    <span class="label label-success" ng-show="
+                    settings.chase_new_invoices">{{'general.on' | translate}}</span>
+                    <span class="label label-danger"
+                          ng-hide="settings.chase_new_invoices">{{'general.off' | translate}}</span>
+                </div>
+            </div>
+        </div>
+
+        <form name="defaultsForm" ng-submit="saveSettings(settings)" ng-show="editDefaults">
+            <!-- Customer Entity Type -->
+            <div class="form-group">
+                <label class="control-label col-sm-4">Customer Entity Type</label>
+                <div class="col-sm-4">
+                    <div class="invoiced-select">
+                        <select ng-model="settings.default_customer_type">
+                            <option value="company">Business</option>
+                            <option value="government">Government</option>
+                            <option value="person">Individual</option>
+                            <option value="non_profit">Non-Profit</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chasing -->
+            <div class="form-group" ng-show="'legacy_chasing'|hasFeature">
+                <label class="control-label col-sm-4">Chasing</label>
+                <div class="col-sm-2">
+                    <toggle ng-model="settings.chase_new_invoices"></toggle>
+                </div>
+                <div class="col-sm-6 help-block">
+                    This setting enables or disables chasing for new invoices. If you use chasing then you will also want to
+                    set up a schedule in the <a ui-sref="manage.settings.chasing_legacy">Chasing Settings</a>.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-8 col-sm-offset-4">
+                    <button type="submit" class="btn btn-primary Button" ng-disabled="defaultsForm.$invalid||saving"
+                            v-busy="saving" v-busy-label="{{'general.saving'|translate}}"
+                            v-busy-text="{{'general.save'|translate}}" v-pressable>
+                        <span translate>general.save</span>
+                    </button>
+                    <button type="button" class="btn btn-default" ng-click="cancelEditDefaults()" ng-show="editDefaults">
+                        {{'general.cancel' | translate}}
+                    </button>
+                </div>
+            </div>
+        </form>
+        <hr/>
+    </div>
+
+    <!-- Automatic Numbering -->
+    <div class="form-group">
+        <div class="col-sm-4 col-sm-offset-4">
+            <h4 class="settings-section-title">Automatic Numbering</h4>
+        </div>
+        <div class="col-sm-4">
+            <button type="button" class="btn btn-success" ng-click="editAutoNumbering=true" ng-hide="editAutoNumbering">
+                Change
+            </button>
+        </div>
+    </div>
+
+    <p class="loading" ng-show="loadingAutoNumbering"></p>
+
+    <div ng-hide="editAutoNumbering||loadingAutoNumbering">
+        <div class="form-group">
+            <label class="control-label col-sm-4">Account Numbers</label>
+            <div class="col-sm-8 form-control-static">
+                <span class="label label-info">Next</span> {{next_customer_number_full}}
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="'estimates'|hasFeature">
+            <label class="control-label col-sm-4">Estimate Numbers</label>
+            <div class="col-sm-8 form-control-static">
+                <span class="label label-info">Next</span> {{next_estimate_number_full}}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-4">Invoice Numbers</label>
+            <div class="col-sm-8 form-control-static">
+                <span class="label label-info">Next</span> {{next_invoice_number_full}}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-4">Credit Note Numbers</label>
+            <div class="col-sm-8 form-control-static">
+                <span class="label label-info">Next</span> {{next_credit_note_number_full}}
+            </div>
+        </div>
+    </div>
+
+    <form name="autoNumberingForm" ng-submit="saveAutoNumbering()" ng-show="editAutoNumbering">
+        <!-- Account Numbers -->
+        <div class="form-group">
+            <label class="control-label col-sm-4">Account Numbers</label>
+            <div class="col-sm-2 form-control-static">
+                <div>Prefix</div>
+                <input type="text" class="form-control" ng-model="customer_no_prefix"/>
+            </div>
+            <div class="col-sm-2 form-control-static">
+                <div>Next Number</div>
+                <input type="text" class="form-control" ng-model="next_customer_number"/>
+            </div>
+        </div>
+
+        <!-- Estimate Numbers -->
+        <div class="form-group" ng-show="'estimates'|hasFeature">
+            <label class="control-label col-sm-4">Estimate Numbers</label>
+            <div class="col-sm-2 form-control-static">
+                <div>Prefix</div>
+                <input type="text" class="form-control" ng-model="estimate_no_prefix"/>
+            </div>
+            <div class="col-sm-2 form-control-static">
+                <div>Next Number</div>
+                <input type="text" class="form-control" ng-model="next_estimate_number"/>
+            </div>
+        </div>
+
+        <!-- Invoice Numbers -->
+        <div class="form-group">
+            <label class="control-label col-sm-4">Invoice Numbers</label>
+            <div class="col-sm-2 form-control-static">
+                <div>Prefix</div>
+                <input type="text" class="form-control" ng-model="invoice_no_prefix"/>
+            </div>
+            <div class="col-sm-2 form-control-static">
+                <div>Next Number</div>
+                <input type="text" class="form-control" ng-model="next_invoice_number"/>
+            </div>
+        </div>
+
+        <!-- Credit Note Numbers -->
+        <div class="form-group">
+            <label class="control-label col-sm-4">Credit Note Numbers</label>
+            <div class="col-sm-2 form-control-static">
+                <div>Prefix</div>
+                <input type="text" class="form-control" ng-model="credit_note_no_prefix"/>
+            </div>
+            <div class="col-sm-2 form-control-static">
+                <div>Next Number</div>
+                <input type="text" class="form-control" ng-model="next_credit_note_number"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-8 col-sm-offset-4">
+                <button type="submit" class="btn btn-primary Button"
+                        ng-disabled="autoNumberingForm.$invalid||autoNumberingForm.$pristine||saving" v-busy="saving"
+                        v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}"
+                        v-pressable>
+                    <span translate>general.save</span>
+                </button>
+                <button type="button" class="btn btn-default" ng-click="editAutoNumbering=false"
+                        ng-show="editAutoNumbering">
+                    {{'general.cancel' | translate}}
+                </button>
+            </div>
+        </div>
+    </form>
+    <hr/>
+
+    <div class="form-group">
+        <div class="col-sm-8 col-sm-offset-4">
+            <h4 class="settings-section-title">Settings</h4>
+        </div>
+    </div>
+
+    <!-- Invoices -->
+    <div class="form-group">
+        <label class="control-label col-sm-4">Unit Cost Precision</label>
+        <div class="col-sm-4">
+            <div class="invoiced-select">
+                <select ng-model="settings.unit_cost_precision"
+                        ng-change="saveSetting('unit_cost_precision', settings.unit_cost_precision)">
+                    <option value="">Default</option>
+                    <option value="2">2 digits</option>
+                    <option value="3">3 digits</option>
+                    <option value="4">4 digits</option>
+                    <option value="5">5 digits</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Credits -->
+    <div class="form-group">
+        <label class="control-label col-sm-4">Apply Credits to New Invoices</label>
+        <div class="col-sm-2">
+            <toggle ng-model="settings.auto_apply_credits"
+                    ng-change="saveSetting('auto_apply_credits', value)"></toggle>
+        </div>
+        <div class="col-sm-4 col-sm-offset-2 help-block">
+            Automatically applies any open credits that a customer has when a new invoice is issued.
+        </div>
+    </div>
+
+    <!-- Estimates Addon -->
+    <div class="form-group">
+        <label class="control-label col-sm-4">Enable Estimates</label>
+        <div class="col-sm-8">
+            <toggle ng-model="features.estimates" ng-change="toggleFeature('estimates', value)"></toggle>
+        </div>
+    </div>
+    <hr/>
+
+    <!-- AutoPay -->
+    <div class="form-group" ng-show="('autopay'|hasFeature)">
+        <div class="col-sm-4 col-sm-offset-4">
+            <h4 class="settings-section-title">AutoPay</h4>
+        </div>
+        <div class="col-sm-4">
+            <button type="button" class="btn btn-success" ng-click="editAutoPay=true" ng-hide="editAutoPay">
+                Change
+            </button>
+        </div>
+    </div>
+
+    <!-- AutoPay Default -->
+    <div class="form-group" ng-hide="!('autopay'|hasFeature) || editAutoPay">
+        <label class="control-label col-sm-4">AutoPay Default</label>
+        <div class="col-sm-4 form-control-static">
+                <span class="label label-danger"
+                      ng-show="settings.default_collection_mode=='manual'">{{'general.off' | translate}}</span>
+            <span class="label label-success"
+                  ng-show="settings.default_collection_mode=='auto'">{{'general.on' | translate}}</span>
+        </div>
+        <div class="col-sm-4 form-control-static">
+            <a href="" popover-title="AutoPay"
+               popover="AutoPay will automatically charge your customer each time an invoice is issued. AutoPay requires that your customer has payment information on file. When disabled your customer can pay invoices with any payment method you accept.">What
+                is this?</a>
+        </div>
+    </div>
+
+    <!-- AutoPay Delay -->
+    <div class="form-group" ng-hide="!('autopay'|hasFeature) || editAutoPay">
+        <label class="control-label col-sm-4">AutoPay Payment Date</label>
+        <div class="form-control-static col-sm-4">+{{settings.autopay_delay_days}} days</div>
+    </div>
+
+    <!-- AutoPay Retry Schedule -->
+    <div class="form-group" ng-hide="!('autopay'|hasFeature) || editAutoPay">
+        <label class="control-label col-sm-4">AutoPay Retry Schedule</label>
+        <div class="form-control-static col-sm-8" ng-show="settings.payment_retry_schedule.length === 0">No retry
+            attempts after first failed payment
+        </div>
+        <div class="form-control-static col-sm-8">
+            <div ng-repeat="day in settings.payment_retry_schedule track by $index">Retry {{day}}
+                {{day === 1 ? "day" : "days"}} after last failed payment
+            </div>
+        </div>
+    </div>
+
+    <!-- AutoPay Form -->
+    <form name="autoPayForm" ng-submit="saveAutoPay(settings)" ng-show="('autopay'|hasFeature) && editAutoPay">
+        <!-- AutoPay Default -->
+        <div class="form-group">
+            <label class="control-label col-sm-4">AutoPay Default</label>
+            <div class="col-sm-4">
+                <toggle ng-model="autoPay"></toggle>
+            </div>
+            <div class="col-sm-4 form-control-static">
+                <a href="" popover-title="AutoPay"
+                   popover="AutoPay will automatically charge your customer each time an invoice is issued. AutoPay requires that your customer has payment information on file. When disabled your customer can pay invoices with any payment method you accept.">What
+                    is this?</a>
+            </div>
+        </div>
+
+        <!-- AutoPay Delay Form -->
+        <div class="form-group">
+            <label class="control-label col-sm-4">AutoPay Payment Date</label>
+            <div class="col-sm-4">
+                <div class="invoiced-select">
+                    <select ng-model="settings.autopay_delay_days"
+                            ng-options="entry.amount as entry.name for entry in autoPayOptions"></select>
+                </div>
+            </div>
+            <div class="col-sm-4 help-block">
+                How many days after the invoice issue date should AutoPay payments be processed? If you change this
+                setting it will only apply to newly issued AutoPay invoices going forward.
+            </div>
+        </div>
+
+        <!-- AutoPay Retry Schedule Form -->
+        <div class="form-group">
+            <label class="control-label col-sm-4">AutoPay Retry Schedule</label>
+            <div class="col-sm-8">
+                <div class="autopay-row-setting" ng-repeat="day in settings.payment_retry_schedule track by $index">
+                    Retry
+                    <div class="invoiced-select autopay-select-setting">
+                        <select ng-model="settings.payment_retry_schedule[$index]"
+                                ng-options="entry.amount as entry.name for entry in paymentRetryOptions">
+                        </select>
+                    </div>
+                    after last failed payment
+                    <button type="button" class="btn btn-link" ng-show="$last"
+                            ng-click="settings.payment_retry_schedule.pop()" tooltip="Delete Retry Attempt">
+                        <span class="fas fa-times"></span>
+                    </button>
+                </div>
+                <div class="row form-control-static" ng-show="settings.payment_retry_schedule.length === 0">No retry
+                    attempts after first failed payment
+                </div>
+                <div ng-if="settings.payment_retry_schedule.length < 4">
+                    <button type="button" class="btn btn-default" ng-click="settings.payment_retry_schedule.push({})">
+                        <span class="fas fa-plus"></span>
+                        Retry Attempt
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-8 col-sm-offset-4">
+                <button type="submit" class="btn btn-primary Button" ng-disabled="defaultsForm.$invalid||saving"
+                        v-busy="saving" v-busy-label="{{'general.saving'|translate}}"
+                        v-busy-text="{{'general.save'|translate}}" v-pressable>
+                    <span translate>general.save</span>
+                </button>
+                <button type="button" class="btn btn-default" ng-click="cancelEditAutoPay()" ng-show="editAutoPay">
+                    {{'general.cancel' | translate}}
+                </button>
+            </div>
+        </div>
+    </form>
+    <hr ng-if="('autopay'|hasFeature)"/>
+
+    <!-- Aging -->
+    <div class="form-group">
+        <div class="col-sm-4 col-sm-offset-4">
+            <h4 class="settings-section-title">Aging</h4>
+        </div>
+        <div class="col-sm-4">
+            <button type="button" class="btn btn-success" ng-click="editAging=true" ng-hide="editAging">
+                Change
+            </button>
+        </div>
+    </div>
+
+    <!-- Aging Date -->
+    <div class="form-group" ng-hide="editAging">
+        <label class="control-label col-sm-4">Aging Date</label>
+        <div class="form-control-static col-sm-4">
+            <span ng-show="settings.aging_date == 'due_date'">Due Date</span>
+            <span ng-show="settings.aging_date == 'date'">Date</span>
+        </div>
+    </div>
+
+    <!-- Aging Ranges -->
+    <div class="form-group" ng-hide="editAging">
+        <label class="control-label col-sm-4">Aging Ranges</label>
+        <div class="form-control-static col-sm-4">
+            <div ng-if="settings.aging_buckets[0] == -1">Current</div>
+            <div ng-if="settings.aging_buckets[0] == 0">0 to {{settings.aging_buckets[1] - 1}} days</div>
+            <div ng-repeat="x in settings.aging_buckets" ng-if="!($last) && !($first)">{{x}} to
+                {{settings.aging_buckets[$index + 1] - 1}} days
+            </div>
+            <div>{{settings.aging_buckets[settings.aging_buckets.length - 1]}}+ days</div>
+        </div>
+    </div>
+
+    <!-- Aging Form -->
+    <form name="agingForm" ng-submit="saveAging(settings)" ng-show="editAging">
+
+        <!-- Aging Date Form -->
+        <div class="form-group">
+            <label class="control-label col-sm-4">Aging Date</label>
+            <div class="col-sm-4">
+                <div class="invoiced-select">
+                    <select ng-change="updateAgingBuckets(settings)" ng-model="settings.aging_date">
+                        <option value="date">Date</option>
+                        <option value="due_date">Due Date</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aging Ranges Form -->
+        <div class="form-group">
+            <label class="control-label col-sm-4">Aging Ranges</label>
+            <div class="col-sm-5">
+                <table class="table search-results-table table-aging-setting">
+                    <thead>
+                    <tr>
+                        <th>Begin</th>
+                        <th>End</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="settings.aging_date == 'due_date'">
+                        <td class="static-elem">Current</td>
+                        <td></td>
+                        <td class="button-placeholder"></td>
+                    </tr>
+                    <tr>
+                        <td class="static-elem">0</td>
+                        <td class="static-elem">
+                            {{settings.aging_date == 'due_date' ? settings.aging_buckets[2] - 1 : settings.aging_buckets[1] - 1}}
+                        </td>
+                        <td class="button-placeholder"></td>
+                    </tr>
+                    <tr ng-repeat="bucket in settings.aging_buckets track by $index"
+                        ng-if="![-1, 0].includes(settings.aging_buckets[$index])">
+                        <td>
+                            <input type="number" min="1" class="form-control input-small"
+                                   ng-model="settings.aging_buckets[$index]"/>
+                        </td>
+                        <td class="static-elem">
+                            <span ng-show="!$last && settings.aging_buckets[$index + 1] > 0">{{settings.aging_buckets[$index + 1] - 1}}</span>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-link" ng-show="$index > 3 && $last"
+                                    ng-click="settings.aging_buckets.pop()" tooltip="Delete Range">
+                                <span class="fas fa-times"></span>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div ng-if="settings.aging_buckets.length < 6">
+                    <button type="button" class="btn btn-default" ng-click="settings.aging_buckets.push({})">
+                        <span class="fas fa-plus"></span>
+                        Range
+                    </button>
+                </div>
+                <div class="alert alert-danger" ng-show="error">
+                    {{error}}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-8 col-sm-offset-4">
+                <button type="submit" class="btn btn-primary Button" ng-disabled="defaultsForm.$invalid||saving"
+                        v-busy="saving" v-busy-label="{{'general.saving'|translate}}"
+                        v-busy-text="{{'general.save'|translate}}" v-pressable>
+                    <span translate>general.save</span>
+                </button>
+                <button type="button" class="btn btn-default" ng-click="cancelEditAging()" ng-show="editAging">
+                    {{'general.cancel' | translate}}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

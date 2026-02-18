@@ -1,0 +1,75 @@
+{
+  "title": "Multi-Entity Invoice",
+  "sections": [
+    {
+      "type": "table",
+      "object": "invoice",
+      "title": "Multi-Entity Invoice",
+      "multi_entity": true,
+      "fields": [
+        {
+          "field": {
+            "id": "company.name"
+          },
+          "name": "Entity"
+        },
+        {
+          "name": "# Invoices",
+          "field": {
+            "function": "count",
+            "arguments": [
+              {
+                "id": "id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Total",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "total"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Open Balance",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "balance"
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "currency"
+          },
+          "value": "usd"
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "company.name"
+          },
+          "ascending": true
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "company.name"
+          }
+        }
+      ]
+    }
+  ]
+}

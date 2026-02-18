@@ -1,0 +1,74 @@
+mapping:
+  - sourceField: id
+    destinationField: accounting_id
+
+  - sourceField: invoice_number
+    destinationField: number
+
+  - sourceField: create_date
+    destinationField: date
+    type: date_unix
+    timeOfDay: 6
+
+  - sourceField: due_date
+    destinationField: due_date
+    type: date_unix
+    timeOfDay: 18
+
+  - sourceField: po_number
+    destinationField: purchase_order
+
+  - sourceField: currency_code
+    destinationField: currency
+    type: currency
+
+  - sourceField: notes
+    destinationField: notes
+
+  - sourceField: terms
+    destinationField: payment_terms
+
+  # Customer
+  - sourceField: customerid
+    destinationField: customer/accounting_id
+
+  - sourceField: organization
+    destinationField: customer/name
+
+  # Ship To
+  - sourceField: organization
+    destinationField: ship_to/name
+
+  - sourceField: street
+    destinationField: ship_to/address1
+
+  - sourceField: street2
+    destinationField: ship_to/address2
+
+  - sourceField: city
+    destinationField: ship_to/city
+
+  - sourceField: country
+    destinationField: ship_to/country
+    type: country
+
+  - sourceField: province
+    destinationField: ship_to/state
+
+  - sourceField: code
+    destinationField: ship_to/postal_code
+
+  # Line Items
+  - sourceField: 'lines[]/name'
+    destinationField: 'items[]/name'
+
+  - sourceField: 'lines[]/description'
+    destinationField: 'items[]/description'
+
+  - sourceField: 'lines[]/qty'
+    destinationField: 'items[]/quantity'
+    type: float
+
+  - sourceField: 'lines[]/unit_cost/amount'
+    destinationField: 'items[]/unit_cost'
+    type: float

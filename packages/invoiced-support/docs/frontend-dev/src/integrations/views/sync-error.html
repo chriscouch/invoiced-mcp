@@ -1,0 +1,49 @@
+<div class="modal-header">
+    <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+    <h4 class="modal-title">
+        Sync Error Details
+    </h4>
+</div>
+<div class="modal-body">
+    <!-- Timestamp -->
+    <div class="form-group">
+        <label class="control-label">
+            Timestamp
+        </label>
+        <div>
+            <company-date-time date="reconciliationError.created_at"></company-date-time>
+        </div>
+        <div ng-if="reconciliationError.retried_at">
+            <a href="" tooltip="{{reconciliationError.retried_at|formatCompanyDateTime}}">
+                <span class="label label-default">{{'accounting_sync.retry_pending'|translate}}</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Level -->
+    <div class="form-group">
+        <label class="control-label">Level</label>
+        <div>
+            <span class="label label-danger" ng-show="reconciliationError.level == 'error'">{{'general.error'|translate}}</span>
+            <span class="label label-warning" ng-show="reconciliationError.level == 'warning'">{{'general.warning'|translate}}</span>
+        </div>
+    </div>
+
+    <!-- Error Message -->
+    <div class="form-group" ng-show="reconciliationError.message">
+        <label class="control-label">
+            Error Message
+        </label>
+        <div ng-bind-html="reconciliationError.message|nl2br"></div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="left">
+        <a href="" ng-click="ignore()" class="danger" ng-hide="saving">
+            {{'general.ignore'|translate}}
+        </a>
+    </div>
+    <button type="button" class="btn btn-primary" ng-click="retry()" ng-if="!reconciliationError.retried_at" ng-hide="saving">
+        {{'general.retry'|translate}}
+    </button>
+</div>

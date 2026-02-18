@@ -1,0 +1,182 @@
+<div class="search-results-holder" ng-class="{'has-filter': filterStr}">
+    <div class="box">
+        <div class="header clearfix">
+            <!-- Title Bar -->
+            <div class="actions" ng-if="['charges.create', 'payments.create']|hasSomePermissions">
+                <a ui-sref="manage.imports.start.payment" class="btn btn-default hidden-xs hidden-sm" ng-if="'imports.create'|hasPermission">
+                    {{'general.import'|translate}}
+                </a>
+                <a href="" class="btn btn-success" ng-click="newPaymentModal()">
+                    {{'transactions.labels.receive_payment' | translate }}
+                </a>
+            </div>
+            <h2>
+                <div class="btn-group dropdown" dropdown>
+                    <a href="" class="dropdown-toggle" id="nav-dropdown" dropdown-toggle>
+                        {{'payments.title'|translate}}
+                        <span class="fas fa-chevron-down"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a ui-sref="manage.flywire_disbursements.browse" ng-if="'flywire'|hasFeature">
+                                Disbursements
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a ui-sref="manage.payments.browse" id="payments-option">
+                                {{'payments.title'|translate}}
+                            </a>
+                        </li>
+                        <li>
+                            <a ui-sref="manage.remittance_advices.browse" id="remittance-advice-option">
+                                Remittance Advice
+                            </a>
+                        </li>
+                        <li>
+                            <a ui-sref="manage.customer_payment_batches.browse" ng-if="'direct_ach'|hasFeature">
+                                Payment Batches
+                            </a>
+                        </li>
+                        <li>
+                            <a ui-sref="manage.transactions.browse" id="transactions-option">
+                                {{'transactions.title'|translate}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </h2>
+
+            <div class="alert alert-info transactions-list-notice" ng-show="suggestTransactions">
+                Don't see the payment you are looking for? <a href="{{transactionUrl}}">Go to the Transactions list &rarr;</a>
+            </div>
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li ng-class="{active:filter.voided!='1'&&filter.applied=='0'}">
+                    <a href="" ng-click="addToFilter({voided:'0', applied:'0', sort:'date DESC'})">
+                        {{'payments.tabs.unapplied'|translate}}
+                    </a>
+                </li>
+                <li ng-class="{active:filter.voided=='1'||filter.applied!='0'}">
+                    <a href="" ng-click="addToFilter({voided:'', applied:'', sort:'date DESC'})">
+                        {{'payments.tabs.all'|translate}}
+                    </a>
+                </li>
+
+                <li class="action">
+                    <a href="" ng-click="openFilter()">
+                        <div>
+                            <span class="fas fa-filter"></span> {{'filter.title'|translate}}
+                        </div>
+                    </a>
+                </li>
+                <li class="action">
+                    <filter-dropdown type="payment"  saved-filters="savedFilters" apply-filter="applyFilter" filter="filter"></filter-dropdown>
+                </li>
+                <li class="action right hidden-xs hidden-sm">
+                    <a href="" ng-click="export()">
+                        <div>
+                            <span class="far fa-arrow-to-bottom"></span>
+                            {{'transactions.labels.export' | translate }}
+                        </div>
+                    </a>
+                </li>
+                <li class="action automation-action right" ng-if="('subscriptions.edit'|hasPermission) && ('automations'|hasFeature)">
+                    <div>
+                        <a href="" ng-click="automate()" ng-hide="loading||!total_count">
+                            <span class="fas fa-bolt"></span>
+                            <span class="hidden-xs">Automate</span>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Applied Filter -->
+        <div class="applied-filter" ng-show="filterStr">
+            <span class="fas fa-filter filter-icon"></span>
+            <strong>{{filterStr}}</strong>
+            <a href="" ng-click="resetFilter()">
+                <span class="fas fa-times-circle"></span>
+            </a>
+        </div>
+
+        <p class="loading" ng-show="loading"></p>
+
+        <!-- No Results :-( -->
+        <div class="empty-table" ng-show="noResults()&&!loading">
+            <div class="icon">
+                <img src="/img/event-icons/transaction.png" />
+            </div>
+            <span ng-show="usingFilter">
+				{{'general.no_results'|translate}} <a href="" ng-click="resetFilter()">{{'filter.reset'|translate}}</a>
+			</span>
+            <span ng-hide="usingFilter">
+				{{'payments.no_results'|translate}} <a href="" ng-click="newPaymentModal()" ng-if="['charges.create', 'payments.create']|hasSomePermissions">{{'general.create_one'|translate}}</a>
+			</span>
+        </div>
+
+        <!-- Data Table -->
+        <div class="custom-table-wrapper">
+            <table class="search-results-table table table-striped transactions" ng-show="payments.length > 0 && !loading">
+            <thead>
+            <tr>
+                <th ng-repeat="column in columns" ng-class="{'custom-column-th-container':$last}">
+                    <div ng-class="{'money-column': column.type=='money'}">
+                        <column-arrangement-header-cell></column-arrangement-header-cell>
+                    </div>
+                    <column-arrangement-button type="payment" ng-if="$last" all-columns="allColumns" callback="applyColumnArrangement"></column-arrangement-button>
+                </th>
+                <th class="nopadding"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="clickable" ng-repeat="payment in payments" ng-click="goToObject($event,'payment',payment.id)">
+                <td class="mobile-first visible-xs-block"></td>
+                <td ng-repeat="column in columns" ng-class="{'title': column.id=='date' || column.id=='customerName', 'status': column.id=='status'}">
+                    <a ng-if="column.id=='customerName'" ui-sref="manage.customer.view.summary({id:payment.customer})">{{payment.customerName}}</a>
+                    <a ng-if="column.id=='date'" ui-sref="manage.payment.view.summary({id:payment.id})">{{payment.date|formatCompanyDate}}</a>
+                    <div ng-if="column.id=='method'">
+                        <span ng-if="payment.charge.payment_source">
+                            <detailed-payment-source-icon source="payment.charge.payment_source"></detailed-payment-source-icon>
+                            <transaction-source source="payment.charge.payment_source" short="true"></transaction-source>
+                        </span>
+                        <span ng-hide="payment.charge.payment_source">{{payment.method|paymentMethodName}}</span>
+                    </div>
+                    <span ng-if="column.id=='reference'" ng-hide="payment.charge">{{payment.reference}}</span>
+                    <span ng-if="column.id=='source'">{{payment|paymentSourceName}}</span>
+                    <div ng-if="column.id=='status'" class="status">
+                        <span class="label label-danger" ng-if="payment.voided">{{'payments.status.voided'|translate}}</span>
+                        <span class="label label-success" ng-if="!payment.voided && payment.applied">{{'payments.status.applied'|translate}}</span>
+                        <span class="label label-default" ng-if="!payment.voided && !payment.applied">{{'payments.status.not_applied'|translate}}</span>
+                        <span class="label label-success" ng-if="!payment.voided && !payment.applied && payment.matched">{{'payments.status.matched'|translate}}</span>
+                    </div>
+                    <money ng-if="column.id=='balance'" amount="payment.balance" currency="payment.currency" ng-hide="payment.balance <= 0 || payment.voided"></money>
+
+                    <div ng-if="['balance', 'status', 'reference', 'method', 'customerName', 'source', 'date'].indexOf(column.id)===-1"  ng-class="{'money-column': column.type=='money'}">
+                        <column-arrangement-cell column="column" data="payment" currency="payment.currency"></column-arrangement-cell>
+                    </div>
+                </td>
+
+                <td class="nopadding hover-actions-holder">
+                    <div class="hover-actions">
+                        <a href="{{payment.pdf_url}}?t=0" target="_self" class="btn btn-sm btn-default" tooltip="Download Receipt" tooltip-placement="left" ng-show="payment.pdf_url">
+                            <span class="fas fa-arrow-to-bottom"></span>
+                        </a>
+                        <button type="button" ng-click="sendReceipt(payment)" class="btn btn-sm btn-primary" tooltip="Send Receipt" tooltip-placement="left" ng-show="payment.pdf_url" ng-if="'emails.send'|hasPermission">
+                            <span class="fas fa-paper-plane"></span>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-danger" ng-click="void(payment)" tooltip="{{'payments.tooltips.void'|translate}}" tooltip-placement="left" ng-if="('payments.delete'|hasPermission)&&!payment.voided">
+                            <span class="fas fa-trash"></span>
+                        </button>
+                    </div>
+                </td>
+                <td class="mobile-last visible-xs-block"></td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+        <!-- Pagination -->
+        <pagination-bar total-count="total_count" page-count="page_count" ng-change="goToPage(page, perPage)" ng-model="filter" ng-show="payments.length > 0 && !loading"></pagination-bar>
+    </div>
+</div>

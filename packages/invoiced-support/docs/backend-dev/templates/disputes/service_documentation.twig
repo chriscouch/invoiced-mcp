@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Service Documentation</title>
+    <style type="text/css">
+        body {
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Service Documentation</h1>
+
+    {% if company %}
+        <h2>Customer's Contact Information</h2>
+        <p>{{ company.address }}<br/>
+        Email: {{ company.email }}<br/>
+        {% if company.phone %}Phone: {{ company.phone }}<br/>{% endif %}
+        {% if company.website %}Website: {{ company.website }}<br/>{% endif %}
+        {% if company.tax_id %}Tax ID: {{ company.tax_id }}<br/>{% endif %}
+        {% if company.industry %}Industry: {{ company.industry }}<br/>{% endif %}
+        Subscription Purchase Date: {{ company.created_at|date('F j, Y') }}<br/>
+        Invoiced Customer Portal URL: {{ company.url }}</p>
+    {% endif %}
+
+    <h2>Account Users</h2>
+    <ul>{% for user in users %}<li>{{ user.name(true) }}, {{ user.email }}{% if user.created_at > 0 %}, registered on {{ user.created_at|date('F j, Y') }}{% endif %}{% if user.ip %}, IP address: {{ user.ip }}{% endif %}</li>
+        {% endfor %}</ul>
+
+    {% if numInvoices > 0 %}
+        <h2>Invoiced Usage Evidence</h2>
+        <p>Processed {{ numInvoices|number_format }} invoices totalling {{ invoiceAmount }}:</p>
+        <ul>{% for invoice in invoices %}<li>Invoice # {{ invoice.number }} for {{ invoice.total }} billed to {{ invoice.customerName }}</li>
+        {% endfor %}<li>* Only showing most recent activity. Older activity truncated for brevity.</li>
+        </ul>
+    {% endif %}
+</body>
+</html>

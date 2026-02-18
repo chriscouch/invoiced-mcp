@@ -1,0 +1,15 @@
+<form ng-submit="search(query)">
+	<button type="button" class="close" ng-click="close()">
+		<span class="fas fa-times"></span>
+	</button>
+	<div class="main">
+		<div class="search-input">
+			<input type="text" class="form-control" placeholder="Search Invoiced..." ng-model="query" autocapitalize="off" autocorrect="off" autocomplete="off" />
+		</div>
+		<div class="action">
+			<button type="submit" class="btn btn-primary btn-lg submit">
+				Search
+			</button>
+		</div>
+	</div>
+</form>

@@ -1,0 +1,331 @@
+{% extends '@EasyAdmin/crud/detail.html.twig' %}
+{% set order=entity.instance %}
+
+{% block content_title %}
+    <div class="fs-6 fw-light text-secondary">Order # {{ order.getFormattedId }}</div>
+    {{ order.customer }}
+    <div class="badges">
+        {% include 'customizations/fields/order_status.html.twig' with {field: {value: order.status}} %}
+    </div>
+{% endblock %}
+
+{% block detail_fields %}
+
+    {% if order.status == 'missing_info' %}
+        <div class="alert alert-danger">
+            This order has incomplete information.
+            <div>
+                <a href="{{ ea_url().setRoute('new_account_for_order', {order: order.id}) }}" class="btn btn-light">
+                    Add missing information
+                </a>
+            </div>
+        </div>
+    {% endif %}
+
+
+    <!-- Order Details -->
+    <div class="form-panel">
+        <div class="form-panel-header">
+            <div class="form-panel-title">
+                <a href="#panelOrderDetails" data-bs-toggle="collapse" class="form-panel-collapse">
+                    Order Details
+                </a>
+            </div>
+        </div>
+        <div id="panelOrderDetails" class="form-panel-body collapse show">
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="datalist">
+                        {% if billingProfile %}
+                            <div class="data-row">
+                                <dt>Billing Profile</dt>
+                                <dd>
+                                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\BillingProfileCrudController').setAction('detail').setEntityId(billingProfile.id) }}">
+                                        {{ billingProfile.name }}
+                                    </a>
+                                    {% if billingProfile.billingSystem == 'invoiced' %}
+                                        on <a href="https://app.invoiced.com/customers/{{ billingProfile.invoicedCustomer }}" target="_blank">Invoiced</a>
+                                    {% elseif billingProfile.billingSystem == 'reseller' %}
+                                        as a <a href="https://app.invoiced.com/customers/{{ billingProfile.invoicedCustomer }}" target="_blank">Reseller</a>
+                                    {% elseif billingProfile.billingSystem == 'stripe' %}
+                                        on <a href="https://dashboard.stripe.com/customers/{{ billingProfile.stripeCustomer }}" target="_blank">Stripe</a>
+                                    {% else %}
+                                        (Not Billed)
+                                    {% endif %}
+                                </dd>
+                            </div>
+                        {% endif %}
+                        {% if not billingProfile or billingProfile.name != order.customer %}
+                            <div class="data-row">
+                                <dt>Customer</dt>
+                                <dd>{{ order.customer }}</dd>
+                            </div>
+                        {% endif %}
+                        <div class="data-row">
+                            <dt>Sales Representative</dt>
+                            <dd>{{ order.salesRep }}</dd>
+                        </div>
+                        <div class="data-row">
+                            <dt>Order Type</dt>
+                            <dd>{{ order.formattedType }}</dd>
+                        </div>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <dl class="datalist">
+                        <div class="data-row">
+                            <dt>Order Date</dt>
+                            <dd>{{ order.date|date('n/j/Y') }}</dd>
+                        </div>
+                        <div class="data-row">
+                            <dt>Start Date</dt>
+                            <dd>{{ order.startDate|date('n/j/Y') }}</dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Account -->
+    {% if order.type == 'new_account' or order.type == 'new_account_reseller' or order.type == 'new_account_sow' %}
+        <div class="form-panel">
+            <div class="form-panel-header">
+                <div class="form-panel-title">
+                    <a href="#panelNewAccount" data-bs-toggle="collapse" class="form-panel-collapse">
+                        New Company
+                    </a>
+                </div>
+            </div>
+            <div id="panelNewAccount" class="form-panel-body collapse show">
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="datalist">
+                            <div class="data-row">
+                                <dt>Changeset</dt>
+                                <dd>
+                                    {% if not changeset %}
+                                        <span class="badge badge-secondary">None</span>
+                                    {% else %}
+                                        {{ changeset|nl2br }}
+                                    {% endif %}
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+
+                    <div class="col-md-4">
+                        <dl class="datalist">
+                            <div class="data-row">
+                                <dt>Created Company</dt>
+                                <dd>
+                                    {% if order.createdTenant %}
+                                        <a href="{{ ea_url().setController('App\\Controller\\Admin\\CompanyCrudController').setAction('detail').setEntityId(order.createdTenant) }}">{{ order.createdTenant }}</a>
+                                    {% else %}
+                                        <span class="badge badge-secondary">None created</span>
+                                    {% endif %}
+                                </dd>
+                            </div>
+                            {% if order.recurringAmount %}
+                                <div class="data-row">
+                                    <dt>Recurring Total</dt>
+                                    <dd>
+                                        {{ order.recurringAmount|format_currency('USD') }}
+                                        {{ order.recurringInterval }}
+                                    </dd>
+                                </div>
+                            {% endif %}
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Statement of Work -->
+    {% if order.type == 'sow' or order.type == 'new_account_sow' %}
+        <div class="form-panel">
+            <div class="form-panel-header">
+                <div class="form-panel-title">
+                    <a href="#panelSow" data-bs-toggle="collapse" class="form-panel-collapse">
+                        Statement of Work
+                    </a>
+                </div>
+            </div>
+            <div id="panelSow" class="form-panel-body collapse show">
+                <div class="row">
+                    <div class="col-md-4">
+                        <dl class="datalist">
+                            <div class="data-row">
+                                <dt>Statement of Work Total</dt>
+                                <dd>{{ order.sowAmount|format_currency('USD') }}</dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- New Style Change Order -->
+    {% if order.type == 'add_product' or order.type == 'remove_product' or order.type == 'user_count_change' or order.type == 'cancel_entity' or order.type == 'usage_pricing_plan_change' or order.type == 'billing_interval_change' %}
+        <div class="form-panel">
+            <div class="form-panel-header">
+                <div class="form-panel-title">
+                    <a href="#panelChangeOrder" data-bs-toggle="collapse" class="form-panel-collapse">
+                        Change Order
+                    </a>
+                </div>
+            </div>
+            <div id="panelChangeOrder" class="form-panel-body collapse show">
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="datalist">
+                            {% if order.type == 'add_product' or order.type == 'remove_product' or order.type == 'user_count_change' or order.type == 'add_product' or order.type == 'cancel_entity' or order.type == 'usage_pricing_plan_change' %}
+                                <div class="data-row">
+                                    <dt>Tenant ID</dt>
+                                    <dd>
+                                        <a href="{{ ea_url().setController('App\\Controller\\Admin\\CompanyCrudController').setAction('detail').setEntityId(order.tenantId) }}">{{ order.tenantId }}</a>
+                                    </dd>
+                                </div>
+                            {% endif %}
+                            {% if order.type == 'billing_interval_change' %}
+                                <div class="data-row">
+                                    <dt>Billing Interval</dt>
+                                    <dd>
+                                        {{ order.billingIntervalName }}
+                                    </dd>
+                                </div>
+                            {% endif %}
+                            {% if order.type == 'usage_pricing_plan_change' %}
+                                <div class="data-row">
+                                    <dt>Usage Pricing Plans</dt>
+                                    <dd>
+                                        {{ order.usagePricingPlans|json_encode }}
+                                    </dd>
+                                </div>
+                            {% endif %}
+                            {% if order.type == 'user_count_change' %}
+                                <div class="data-row">
+                                    <dt>New User Count</dt>
+                                    <dd>
+                                        {{ order.newUserCount }}
+                                    </dd>
+                                </div>
+                            {% endif %}
+                            {% if order.type == 'add_product' %}
+                                <div class="data-row">
+                                    <dt>Products</dt>
+                                    <dd>
+                                        {{ order.productPricingPlans|json_encode }}
+                                    </dd>
+                                </div>
+                            {% endif %}
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Change Order -->
+    {% if order.type == 'change_order' %}
+        <div class="form-panel">
+            <div class="form-panel-header">
+                <div class="form-panel-title">
+                    <a href="#panelChangeOrder" data-bs-toggle="collapse" class="form-panel-collapse">
+                        Change Order
+                    </a>
+                </div>
+            </div>
+            <div id="panelChangeOrder" class="form-panel-body collapse show">
+                <div class="row">
+                    <div class="col-md-4">
+                        <dl class="datalist">
+                            <div class="data-row">
+                                <dt>Change</dt>
+                                <dd>{{ order.formattedChangeOrderType }}</dd>
+                            </div>
+                        </dl>
+                    </div>
+                    <div class="col-md-4">
+                        <dl class="datalist">
+                            <div class="data-row">
+                                <dt>Requires Account Modification</dt>
+                                <dd>
+                                    {% if order.isEntitlementChange %}
+                                        <span class="badge badge-success">Yes</span>
+                                    {% else %}
+                                        <span class="badge badge-danger">No</span>
+                                    {% endif %}
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                    <div class="col-md-4">
+                        <dl class="datalist">
+                            <div class="data-row">
+                                <dt>Requires Billing Modification</dt>
+                                <dd>
+                                    {% if order.isBillingChange %}
+                                        <span class="badge badge-success">Yes</span>
+                                    {% else %}
+                                        <span class="badge badge-danger">No</span>
+                                    {% endif %}
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Fulfillment -->
+    {% if order.status != 'canceled' %}
+        <div class="form-panel">
+            <div class="form-panel-header">
+                <div class="form-panel-title">
+                    <a href="#panelFulfillment" data-bs-toggle="collapse" class="form-panel-collapse">
+                        Fulfillment
+                    </a>
+                </div>
+            </div>
+            <div id="panelFulfillment" class="form-panel-body collapse show">
+                <div class="row">
+                    {% if order.status == 'complete' %}
+                        <div class="col-md-4">
+                            <dl class="datalist">
+                                <div class="data-row">
+                                    <dt>Date Fulfilled</dt>
+                                    <dd>{{ order.dateFulfilled|date('n/j/Y') }}</dd>
+                                </div>
+                            </dl>
+                        </div>
+                        <div class="col-md-4">
+                            <dl class="datalist">
+                                <div class="data-row">
+                                    <dt>Fulfilled By</dt>
+                                    <dd>{{ order.fulfilledBy }}</dd>
+                                </div>
+                            </dl>
+                        </div>
+                    {% else %}
+                        <div class="col-md-8">
+                            {% if order.status == 'open' and (order.type == 'new_account' or order.type == 'new_account_sow' or order.type == 'new_account_reseller') %}
+                                <div class="text-success">
+                                    This order will be provisioned on {{ order.startDate|date('n/j/Y') }}.
+                                </div>
+                            {% else %}
+                                <div class="text-warning">
+                                    This order has not been fulfilled yet.
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,29 @@
+<div class="dropdown saved-filter-menu" dropdown>
+    <a href="" class="dropdown-toggle" dropdown-toggle>
+        {{ 'ui.filters.dd_title' | translate }}
+    </a>
+
+    <ul class="dropdown-menu">
+        <li class="saved-filter" ng-repeat="filter in savedFilters">
+            <div class="filter-actions" ng-if="filter.creator == member.id || (filter.creator == null && member.role == 'administrator')">
+                <a href="" ng-click="editNamedFilter(filter)">
+                    <span class="fas fa-pencil"></span>
+                </a>
+                <a href="" ng-click="deleteNamedFilter(filter)">
+                    <span class="fas fa-trash"></span>
+                </a>
+            </div>
+            <a href="" ng-click="applyNamedFilter(filter)" title="{{filter.name}}">
+                {{filter.name}}
+                <span class="far fa-lock private-icon" ng-show="filter.private"></span>
+            </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+            <a href="" ng-click="createNamedFilter(type)">
+                <span class="fas fa-plus"></span>
+                {{'ui.filters.create'|translate}}
+            </a>
+        </li>
+    </ul>
+</div>

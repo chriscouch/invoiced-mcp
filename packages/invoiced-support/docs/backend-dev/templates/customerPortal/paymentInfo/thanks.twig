@@ -1,0 +1,19 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.verified_bank_account_thank_you'|trans %}
+{% extends "customerPortal/parentFrameOneColumn.twig" %}
+
+{% block left %}
+	<div class="main">
+		<p>
+			{{ 'messages.payment_method_updated'|trans }}
+		</p>
+
+		<div class="row actions">
+			{% if not(customer.autopay) and paymentUrl %}
+				<div class="col-sm-6">
+					<a href="{{ paymentUrl }}" class="btn btn-primary">{{ 'buttons.pay_now'|trans }}</a>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,182 @@
+<div class="dark-bg">
+	<p class="loading" ng-show="loading"></p>
+
+	<div class="contents large" ng-hide="loading">
+		<form name="modelForm" ng-submit="save(invoice)" class="form-horizontal">
+			<div class="title-bar">
+				<div class="btns" ng-hide="invoice.draft">
+					<button type="submit" id="invoices-page-top-save-invoice" class="btn btn-primary Button" ng-disabled="modelForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+						Save Invoice
+					</button>
+				</div>
+				<div class="btns" ng-show="invoice.draft">
+					<button type="submit" id="invoices-page-top-save-invoice-draft" class="btn btn-default Button" ng-disabled="modelForm.$invalid||saving||issuing" v-busy="saving&&!issuing" v-busy-label="Saving" v-pressable>
+						Save as Draft
+					</button>
+					<button type="button" id="invoices-page-top-save-issue-invoice" class="btn btn-success Button" ng-click="issue(invoice)" ng-disabled="modelForm.$invalid||saving||issuing" v-busy="issuing" v-busy-label="Saving" v-pressable ng-if="'invoices.issue'|hasPermission">
+						Save and Issue
+					</button>
+				</div>
+				<h2 class="title">
+					<a ui-sref="manage.invoice.view.summary({id:modelId})" ng-show="modelTitle" class="btn btn-link">
+						<span class="fas fa-arrow-left"></span>
+					</a>
+					<span ng-show="modelTitle">Edit Invoice</span>
+					<span ng-hide="modelTitle">New Invoice</span>
+					<span ng-show="invoice.draft" class="draft-label hidden-xs">Draft</span>
+				</h2>
+			</div>
+
+			<p class="required-indicator">
+				<span class="required"></span> {{'general.indicates_required_field'|translate}}
+			</p>
+
+			<div class="invoice-editor-controls form-horizontal clearfix">
+				<div class="main">
+					<!-- Customer -->
+					<div class="bill-to" ng-if="!modelTitle">
+						<label class="control-label">Customer <span class="required"></span></label>
+						<div class="customer-selector">
+							<select-customer id="select-customer" ng-model="invoice.customer" allow-new="true" tabi="1" is-required="true"></select-customer>
+						</div>
+					</div>
+
+					<!-- Options -->
+					<div class="options-btns">
+						<!-- Apply Template -->
+						<div class="btn-group dropdown apply-template-btn hidden-xs" ng-show="templates.length>0&&!modelTitle" dropdown>
+							<a class="btn btn-default dropdown-toggle" dropdown-toggle>
+								Apply Template
+								<span class="fas fa-chevron-down"></span>
+							</a>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li ng-repeat="template in templates">
+									<a href="" ng-click="applyTemplate(invoice, template)">
+										{{template.name}}
+									</a>
+								</li>
+							</ul>
+						</div>
+
+						<button type="button" id="invoice-options-dropdown" class="btn btn-link btn-lg" ng-click="optionsVisible=!optionsVisible">
+							Options
+							<span ng-show="optionsVisible"><span class="fas fa-chevron-up"></span></span>
+							<span ng-hide="optionsVisible"><span class="fas fa-chevron-down"></span></span>
+						</button>
+					</div>
+				</div>
+
+				<!-- Invoice Options -->
+				<div class="options" ng-show="optionsVisible">
+					<div class="form-group">
+						<label class="control-label col-sm-3">Title</label>
+						<div class="col-sm-4">
+							<input type="text" id="invoice-title" class="form-control" ng-model="invoice.name" />
+						</div>
+					</div>
+
+					<div class="form-group" ng-if="hasTags">
+						<label class="control-label col-sm-3">Tags</label>
+						<div class="col-sm-6">
+							<invoice-tags ng-model="invoice.tags"></invoice-tags>
+						</div>
+					</div>
+
+					<div class="form-group" ng-show="'multiple_themes'|hasFeature">
+						<label class="control-label col-sm-3">Theme <span class="required"></span></label>
+						<div class="col-sm-3">
+							<theme-selector ng-model="invoice.theme" ng-change="changeTheme(theme)"></theme-selector>
+						</div>
+					</div>
+
+					<div class="form-group" ng-if="hasMultiCurrency">
+						<label class="control-label col-sm-3">{{'general.currency'|translate}} <span class="required"></span></label>
+						<div class="col-sm-3">
+							<currency-selector ng-model="invoice.currency" required></currency-selector>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-sm-3">Late Fees</label>
+						<div class="col-sm-9">
+							<toggle ng-model="invoice.late_fees"></toggle>
+						</div>
+					</div>
+					
+					<div class="form-group" ng-show="'legacy_chasing'|hasFeature">
+						<label class="control-label col-sm-3">Chasing</label>
+						<div class="col-sm-9">
+							<toggle ng-model="invoice.chase"></toggle>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-sm-3">Allowed Payments</label>
+						<div class="col-sm-9 form-control-static">
+							<allowed-payment-methods ng-model="invoice.disabled_payment_methods"></allowed-payment-methods>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="control-label col-sm-3">Calculate Taxes</label>
+						<div class="col-sm-9">
+							<toggle ng-model="invoice.calculate_taxes"></toggle>
+						</div>
+					</div>
+
+					<div class="form-group" ng-show="loaded.merchantAccounts && merchantAccounts.length > 2 && !invoice.autopay && !invoice.id">
+						<label class="control-label col-sm-3">Payment Gateway</label>
+						<div class="col-sm-4">
+							<div class="invoiced-select">
+								<select ng-options="account.id as account.list_name for account in merchantAccounts | orderBy:'list_name'" ng-model="selectedMerchantAccount"></select>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group" ng-show="pdfOptions.length > 1">
+						<label class="control-label col-sm-3">Invoice PDF</label>
+						<div class="col-sm-4">
+							<div class="invoiced-select">
+								<select ng-options="option.id as option.name for option in pdfOptions" ng-model="selectedPdf"></select>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Alerts -->
+				<div class="alert alert-success" ng-show="invoice.customer.autopay&&invoice.draft&&invoice.autopay">	
+					Your customer will be automatically charged once you issue this invoice.
+					<button type="button" class="btn btn-link btn-sm" ng-click="switchToManual(invoice)">
+						Turn off AutoPay
+					</button>
+				</div>
+				<div class="alert alert-warning" ng-show="invoice.customer.autopay&&invoice.draft&&!invoice.autopay">
+					Your customer supports being charged automatically when you issue this invoice.
+					<button type="button" class="btn btn-link btn-sm" ng-click="switchToAuto(invoice)">
+						Turn on AutoPay
+					</button>
+				</div>
+			</div>
+
+			<editable-invoice invoice="invoice" company="company" options="invoiceOptions" new-attachment="newAttachment(attachment)"></editable-invoice>
+
+			<div class="title-bar">
+				<div class="btns" ng-hide="invoice.draft">
+					<button type="submit" id="invoices-page-bottom-save-invoice" class="btn btn-primary Button" id="save-invoice" tabindex="3000" ng-disabled="modelForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+						Save Invoice
+					</button>
+				</div>
+				<div class="btns" ng-show="invoice.draft">
+					<button type="submit" id="invoices-page-bottom-save-invoice-draft" class="btn btn-default Button" tabindex="3000" ng-disabled="modelForm.$invalid||saving||issuing" v-busy="saving&&!issuing" v-busy-label="Saving" v-pressable>
+						Save as Draft
+					</button>
+					<button type="button" id="invoices-page-bottom-save-issue-invoice" class="btn btn-success Button" tabindex="3001" ng-click="issue(invoice)" ng-disabled="modelForm.$invalid||saving||issuing" v-busy="issuing" v-busy-label="Saving" v-pressable ng-if="'invoices.issue'|hasPermission">
+						Save and Issue
+					</button>
+				</div>
+				<h2>&nbsp;</h2>
+			</div>
+			<br/>
+		</form>
+	</div>
+</div>

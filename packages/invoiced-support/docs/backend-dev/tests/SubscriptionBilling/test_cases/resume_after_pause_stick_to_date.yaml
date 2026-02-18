@@ -1,0 +1,41 @@
+# This tests a scenario in which a subscriber is switching
+# from yearly to monthly billing.
+
+#debug: true
+data:
+  - object: plan
+    id: week
+    interval: week
+
+operations:
+  - operation: create
+    time: 2023-04-21
+    parameters:
+      start_date: 2023-04-21
+      snap_to_nth_day: 1
+      bill_in_advance_days: 3
+    assertions:
+      subscription:
+        renews_next: 2023-04-21
+        period_start: 2023-04-21
+        period_end: 2023-04-23T23:59:59Z
+
+  - operation: pause
+    name: Subscription Pause
+    time: 2023-04-21
+    assertions:
+      subscription:
+        renews_next: 2023-04-21
+        period_start: 2023-04-21
+        period_end: 2023-04-23T23:59:59Z
+
+  - operation: resume
+    name: Subscription Resume
+    time: 2023-04-21
+    parameters:
+      period_end: 2023-05-08T05:59:59Z
+    assertions:
+      subscription:
+        renews_next: 2023-05-12
+        period_start: 2023-05-08
+        period_end: 2023-05-14T23:59:59Z

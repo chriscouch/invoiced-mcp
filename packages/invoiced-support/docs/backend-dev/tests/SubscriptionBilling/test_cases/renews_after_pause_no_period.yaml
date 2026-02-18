@@ -1,0 +1,60 @@
+# This tests a scenario in which a subscriber is switching
+# from yearly to monthly billing.
+
+#debug: true
+data:
+  - object: plan
+    id: month_3
+    interval: month
+
+operations:
+  - operation: create
+    time: 2022-09-21
+    parameters:
+      start_date: 2021-07-21
+      plan: month_3
+
+  - operation: pause
+    name: Subscription Pause
+    time: 2021-07-21
+    assertions:
+      subscription:
+        renews_next: 2021-08-21
+        contract_period_start: 2021-07-21
+        contract_period_end: 2021-08-21
+        period_start: 2021-07-21
+        period_end: 2021-08-20T23:59:59Z
+
+  - operation: resume
+    name: Subscription Resume Same day
+    time: 2021-07-21
+    assertions:
+      subscription:
+        renews_next: 2021-08-21
+        contract_period_start: 2021-07-21
+        contract_period_end: 2021-08-21
+        period_start: 2021-07-21
+        period_end: 2021-08-20T23:59:59Z
+
+
+  - operation: pause
+    name: Subscription Pause 2
+    time: 2021-07-21
+    assertions:
+      subscription:
+        renews_next: 2021-08-21
+        contract_period_start: 2021-07-21
+        contract_period_end: 2021-08-21
+        period_start: 2021-07-21
+        period_end: 2021-08-20T23:59:59Z
+
+  - operation: resume
+    name: Subscription Resume After month and one day
+    time: 2021-08-22
+    assertions:
+      subscription:
+        renews_next: 2021-08-22
+        contract_period_start: 2021-08-22
+        contract_period_end: 2021-09-22
+        period_start: 2021-08-22
+        period_end: 2021-09-21T23:59:59Z

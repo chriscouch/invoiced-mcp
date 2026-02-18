@@ -1,0 +1,212 @@
+{
+  "version": 1,
+  "title": "Communications",
+  "sections": [
+    {
+      "title": "",
+      "object": "inbox_email",
+      "type": "metric",
+      "multi_entity": false,
+      "fields": [
+        {
+          "name": "Emails Received",
+          "field": {
+            "function": "count"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "operator": "=",
+          "value": true,
+          "field": {
+            "id": "incoming"
+          }
+        },
+        {
+          "operator": "between",
+          "value": "$dateRange",
+          "field": {
+            "id": "date"
+          }
+        }
+      ],
+      "group": [],
+      "sort": []
+    },
+    {
+      "title": "Outgoing Emails",
+      "object": "inbox_email",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "name": "Sent By",
+          "field": {
+            "id": "member.user.name"
+          }
+        },
+        {
+          "field": {
+            "function": "count"
+          },
+          "name": "# Emails"
+        },
+        {
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "opens"
+              }
+            ]
+          },
+          "name": "# Opens"
+        }
+      ],
+      "filter": [
+        {
+          "operator": "=",
+          "value": false,
+          "field": {
+            "id": "incoming"
+          }
+        },
+        {
+          "operator": "between",
+          "value": "$dateRange",
+          "field": {
+            "id": "date"
+          }
+        }
+      ],
+      "group": [
+        {
+          "expanded": false,
+          "field": {
+            "id": "member.user.id"
+          },
+          "ascending": true
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "member.user.last_name"
+          },
+          "ascending": true
+        },
+        {
+          "field": {
+            "id": "member.user.first_name"
+          },
+          "ascending": true
+        }
+      ]
+    },
+    {
+      "title": "Outgoing Letters",
+      "object": "letter",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "name": "Sent By",
+          "field": {
+            "id": "member.user.name"
+          }
+        },
+        {
+          "name": "# Letters",
+          "field": {
+            "function": "count"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "operator": "between",
+          "value": "$dateRange",
+          "field": {
+            "id": "created_at"
+          }
+        }
+      ],
+      "group": [
+        {
+          "expanded": false,
+          "field": {
+            "id": "member.user.id"
+          },
+          "ascending": true
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "member.user.last_name"
+          },
+          "ascending": true
+        },
+        {
+          "field": {
+            "id": "member.user.first_name"
+          },
+          "ascending": true
+        }
+      ]
+    },
+    {
+      "title": "Outgoing Text Messages",
+      "object": "text_message",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "name": "Sent By",
+          "field": {
+            "id": "member.user.name"
+          }
+        },
+        {
+          "name": "# Text Messages",
+          "field": {
+            "function": "count"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "operator": "between",
+          "value": "$dateRange",
+          "field": {
+            "id": "created_at"
+          }
+        }
+      ],
+      "group": [
+        {
+          "expanded": false,
+          "field": {
+            "id": "member.user.id"
+          },
+          "ascending": true
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "member.user.last_name"
+          },
+          "ascending": true
+        },
+        {
+          "field": {
+            "id": "member.user.first_name"
+          },
+          "ascending": true
+        }
+      ]
+    }
+  ]
+}

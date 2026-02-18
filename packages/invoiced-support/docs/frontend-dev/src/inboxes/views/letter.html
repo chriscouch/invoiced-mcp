@@ -1,0 +1,91 @@
+<div class="thread-email">
+    <div class="email-header">
+        <!-- Date -->
+        <div class="email-date">
+            <company-date-time date="letter.created_at"></company-date-time>
+        </div>
+
+        <!-- From Icon -->
+        <div class="from-icon">
+            <div class="email-from-icon">
+                <img ng-src="{{companyLogo}}" class="img-circle" ng-if="companyLogo" />
+                <img avatar="avatarOptions" user="letter.user" class="img-circle" ng-if="!companyLogo" />
+            </div>
+        </div>
+
+        <!-- From -->
+        <div class="header-line from-line letter-from-line">
+            <span class="value">
+                <span class="named-email-address">
+                    <span class="name">{{companyName}}</span>
+                    <span ng-if="letter.sent_by">({{letter.sent_by|userName}})</span>
+                </span>
+            </span>
+        </div>
+    </div>
+
+    <div class="letter-details col-sm-12">
+        <!-- Details -->
+        <div class="letter-info col-sm-5">
+            <!-- Recipient -->
+            <div>
+                <label class="control-label">{{'inboxes.threads.letter_to'|translate}}</label>
+                <div ng-bind-html="letter.to|nl2br"></div>
+            </div>
+
+            <br/>
+
+            <!-- Tracking -->
+            <div>
+                <label class="control-label">{{'general.tracking'|translate}}</label>
+                <!-- Expected Delivery -->
+                <div>
+                    <span class="name">{{'general.expected_delivery'|translate}}:</span>
+                    <span class="value">{{letter.expected_delivery_date|formatCompanyDate}}</span>
+                </div>
+
+                <!-- Tracking Events -->
+                <div ng-show="letter.detail.tracking_events.length > 0">
+                    <ul class="letter-tracking-events">
+                        <li class="tracking-event" ng-repeat="trackingEvent in letter.detail.tracking_events">
+                            <div class="number">
+                                {{$index + 1}}.
+                            </div>
+                            <div class="name">
+                                {{trackingEvent.name}}:
+                                {{trackingEvent.location}}
+                            </div>
+                            <div class="time">
+                                {{trackingEvent.time | date:'MMM d, y h:mm a'}}
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thumbnails -->
+        <div class="letter-thumbnails col-sm-7" ng-show="letter.detail.thumbnails">
+            <div class="preview">
+                <label class="control-label">{{'general.preview'|translate}}</label>
+            </div>
+            <div class="thumbnail-item" ng-repeat="thumbnail in letter.detail.thumbnails">
+                <img ng-src="{{thumbnail.medium}}" class="img-responsive" width="100" />
+            </div>
+        </div>
+    </div>
+
+    <!-- File Attachments -->
+    <div class="file-attachments">
+        <ul class="attachment-list">
+            <li>
+                <a ng-href="{{letter.detail.url}}" target="_blank" rel="noopener noreferrer">
+                    <span>
+                        <span class="fas fa-arrow-to-bottom"></span>
+                    </span>
+                    {{'inboxes.threads.mailed_letter'|translate}}
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

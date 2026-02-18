@@ -1,0 +1,56 @@
+<div class="search-results-holder">
+    <div class="box">
+        <div class="header clearfix">
+            <!-- Title Bar -->
+            <h2>{{'webhooks.logs'|translate}}</h2>
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs">
+                <li>&nbsp;</li>
+            </ul>
+        </div>
+
+        <p class="loading" ng-show="loading"></p>
+
+        <!-- No Results :-( -->
+        <div class="empty-table" ng-show="noResults()&&!loading">
+            {{'general.no_results'|translate}}
+        </div>
+
+        <!-- Data Table -->
+        <table class="search-results-table table table-striped webhook-attempts" ng-show="attempts.length > 0 && !loading">
+            <thead>
+            <tr>
+                <th>Event</th>
+                <th>URL</th>
+                <th>Timestamp</th>
+                <th>{{'general.status'|translate}}</th>
+                <th>Last Status Code</th>
+                <th>Last Attempt</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="clickable" ng-repeat="attempt in attempts" ng-click="goEvent(attempt.event_id)">
+                <td class="title"><a ui-sref="manage.event.view({id:attempt.event_id})">{{attempt.payload.type}}</a></td>
+                <td>{{attempt.url}}</td>
+                <td class="nowrap light"><company-date-time date="attempt.created_at"></company-date-time></td>
+                <td class="status">
+                    <span class="label label-danger" ng-show="attempt.status=='failed'">{{'general.failed'|translate}}</span>
+                    <span class="label label-default" ng-show="attempt.status=='not_attempted'">Not Attempted</span>
+                    <span class="label label-default" ng-show="attempt.status=='retry_pending'">Retry Pending</span>
+                    <span class="label label-success" ng-show="attempt.status=='succeeded'">{{'general.succeeded'|translate}}</span>
+                </td>
+                <td>
+                    <code ng-show="attempt.last_status_code">{{attempt.last_status_code}}</code>
+                </td>
+                <td class="nowrap light mobile-last">
+                    <span ng-show="attempt.last_attempt"><company-date-time date="attempt.last_attempt"></company-date-time></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <pagination-bar total-count="total_count" page-count="page_count" ng-change="goToPage(page, perPage)" ng-model="filter" ng-show="attempts.length > 0 && !loading"></pagination-bar>
+    </div>
+</div>

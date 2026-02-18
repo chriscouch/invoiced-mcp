@@ -1,0 +1,418 @@
+<div class="loading" ng-show="loading"></div>
+
+<div class="object-view" ng-hide="loading">
+	<div class="title-bar">
+		<h2>Search Results</h2>
+		<h3>{{query}}</h3>
+	</div>
+
+	<!-- Navigation -->
+	<ul class="nav nav-tabs">
+		<li ng-class="{active:object=='contact'}" ng-if="'accounts_receivable'|hasFeature">
+			<a href="" ng-click="selectObject('contact')">
+				Contacts
+				<span class="badge">
+					{{results.contact.length}}
+				</span>
+			</a>
+		</li>
+		<li ng-class="{active:object=='credit_note'}" ng-if="'accounts_receivable'|hasFeature">
+			<a href="" ng-click="selectObject('credit_note')">
+				Credit Notes
+				<span class="badge">
+					{{results.credit_note.length}}
+				</span>
+			</a>
+		</li>
+		<li ng-class="{active:object=='customer'}" ng-if="'accounts_receivable'|hasFeature">
+			<a href="" ng-click="selectObject('customer')">
+				Customers
+				<span class="badge">
+					{{results.customer.length}}
+				</span>
+			</a>
+		</li>
+		<li ng-class="{active:object=='estimate'}" ng-if="'estimates'|hasFeature">
+			<a href="" ng-click="selectObject('estimate')">
+				Estimates
+				<span class="badge">
+					{{results.estimate.length}}
+				</span>
+			</a>
+		</li>
+		<li ng-class="{active:object=='invoice'}" ng-if="'accounts_receivable'|hasFeature">
+			<a href="" ng-click="selectObject('invoice')">
+				Invoices
+				<span class="badge">
+					{{results.invoice.length}}
+				</span>
+			</a>
+		</li>
+		<li ng-class="{active:object=='payment'}" ng-if="'accounts_receivable'|hasFeature">
+			<a href="" ng-click="selectObject('payment')">
+				Payments
+				<span class="badge">
+					{{results.payment.length}}
+				</span>
+			</a>
+		</li>
+		<li ng-class="{active:object=='subscription'}" ng-if="'subscriptions'|hasFeature">
+			<a href="" ng-click="selectObject('subscription')">
+				Subscriptions
+				<span class="badge">
+					{{results.subscription.length}}
+				</span>
+			</a>
+		</li>
+		<li ng-class="{active:object=='vendor'}" ng-if="'accounts_payable'|hasFeature">
+			<a href="" ng-click="selectObject('vendor')">
+				Vendors
+				<span class="badge">
+					{{results.vendor.length}}
+				</span>
+			</a>
+		</li>
+	</ul>
+
+	<div class="tab-content">
+		<div class="tab-pane active">
+			<div class="row">
+				<div class="col-sm-12">
+					<!-- Contacts -->
+					<div class="panel panel-invoiced" ng-if="object=='contact'">
+						<div class="panel-body" ng-show="results.contact.length == 0">
+							<div class="empty">
+								No contacts found.
+							</div>
+						</div>
+						<table class="search-results-table table table-striped" ng-show="results.contact.length > 0">
+							<thead>
+								<tr>
+									<th>
+										Contact
+									</th>
+									<th>
+										Email
+									</th>
+									<th>
+										Phone
+									</th>
+									<th>
+										Customer
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="clickable" ng-repeat="contact in results.contact" ng-click="goToObject('contact', contact)">
+									<td class="title">
+										<a ui-sref="manage.customer.view.summary({id:contact._customer})">
+											{{contact.name}}
+										</a>
+									</td>
+									<td>
+										{{contact.email}}
+									</td>
+									<td>
+										{{contact.phone|formatPhoneNumber}}
+									</td>
+									<td class="mobile-last">
+										{{contact.customer.name}}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<!-- Credit Notes -->
+					<div class="panel panel-invoiced" ng-if="object=='credit_note'">
+						<div class="panel-body" ng-show="results.credit_note == 0">
+							<div class="empty">
+								No matches found.
+							</div>
+						</div>
+						<table class="search-results-table table table-striped" ng-show="results.credit_note.length > 0">
+							<thead>
+							<tr>
+								<th>
+									Credit Note
+								</th>
+								<th>
+									Customer
+								</th>
+								<th>
+									Date
+								</th>
+								<th class="money-column">
+									{{'general.total'|translate}}
+								</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr class="clickable" ng-repeat="creditNote in results.credit_note" ng-click="goToObject('credit_note', creditNote)">
+								<td class="title">
+									<a ui-sref="manage.credit_note.view.summary({id:creditNote.id})">
+										{{creditNote.number}}
+										<small ng-show="creditNote.name">{{creditNote.name}}</small>
+									</a>
+								</td>
+								<td>
+									{{creditNote.customer.name}}
+								</td>
+								<td class="light">
+									<company-date date="creditNote.date"></company-date>
+								</td>
+								<td class="money-column mobile-last">
+									<money amount="creditNote.total" currency="creditNote.currency"></money>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<!-- Customers -->
+					<div class="panel panel-invoiced" ng-if="object=='customer'">
+						<div class="panel-body" ng-show="results.customer.length == 0">
+							<div class="empty">
+								No matches found.
+							</div>
+						</div>
+						<table class="search-results-table table table-striped" ng-show="results.customer.length > 0">
+							<thead>
+								<tr>
+									<th>
+										Customer
+									</th>
+									<th>
+										Account #
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="clickable" ng-repeat="customer in results.customer" ng-click="goToObject('customer', customer)">
+									<td class="title">
+										<a ui-sref="manage.customer.view.summary({id:customer.id})">
+											{{customer.name}}
+										</a>
+									</td>
+									<td class="mobile-last">
+										{{customer.number}}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<!-- Estimates -->
+					<div class="panel panel-invoiced" ng-if="object=='estimate'">
+						<div class="panel-body" ng-show="results.estimate.length == 0">
+							<div class="empty">
+								No matches found.
+							</div>
+						</div>
+						<table class="search-results-table table table-striped" ng-show="results.estimate.length > 0">
+							<thead>
+							<tr>
+								<th>
+									Estimate
+								</th>
+								<th>
+									Customer
+								</th>
+								<th>
+									Date
+								</th>
+								<th class="money-column">
+									{{'general.total'|translate}}
+								</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr class="clickable" ng-repeat="estimate in results.estimate" ng-click="goToObject('estimate', estimate)">
+								<td class="title">
+									<a ui-sref="manage.estimate.view.summary({id:estimate.id})">
+										{{estimate.number}}
+										<small ng-show="estimate.name">{{estimate.name}}</small>
+									</a>
+								</td>
+								<td>
+									{{estimate.customer.name}}
+								</td>
+								<td class="light">
+									<company-date date="estimate.date"></company-date>
+								</td>
+								<td class="money-column mobile-last">
+									<money amount="estimate.total" currency="estimate.currency"></money>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<!-- Invoices -->
+					<div class="panel panel-invoiced" ng-if="object=='invoice'">
+						<div class="panel-body" ng-show="results.invoice == 0">
+							<div class="empty">
+								No matches found.
+							</div>
+						</div>
+						<table class="search-results-table table table-striped" ng-show="results.invoice.length > 0">
+							<thead>
+								<tr>
+									<th>
+										Invoice
+									</th>
+									<th>
+										Customer
+									</th>
+									<th>
+										Date
+									</th>
+									<th class="money-column">
+										{{'general.total'|translate}}
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="clickable" ng-repeat="invoice in results.invoice" ng-click="goToObject('invoice', invoice)">
+									<td class="title">
+										<a ui-sref="manage.invoice.view.summary({id:invoice.id})">
+											{{invoice.number}}
+											<small ng-show="invoice.name">{{invoice.name}}</small>
+										</a>
+									</td>
+									<td>
+										{{invoice.customer.name}}
+									</td>
+									<td class="light">
+										<company-date date="invoice.date"></company-date>
+									</td>
+									<td class="money-column mobile-last">
+										<money amount="invoice.total" currency="invoice.currency"></money>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<!-- Payments -->
+					<div class="panel panel-invoiced" ng-if="object=='payment'">
+						<div class="panel-body" ng-show="results.payment.length == 0">
+							<div class="empty">
+								No matches found.
+							</div>
+						</div>
+						<table class="search-results-table table table-striped" ng-show="results.payment.length > 0">
+							<thead>
+								<tr>
+									<th>
+										Amount
+									</th>
+									<th>
+										Date
+									</th>
+									<th>
+										Customer
+									</th>
+									<th>
+										Method
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="clickable" ng-repeat="payment in results.payment" ng-click="goToObject('payment', payment)">
+									<td class="title money">
+										<a ui-sref="manage.payment.view.summary({id:payment.id})">
+											<money amount="payment.amount" currency="payment.currency"></money>
+										</a>
+									</td>
+									<td class="light">
+										<company-date date="payment.date"></company-date>
+									</td>
+									<td>
+										{{payment.customer.name}}
+									</td>
+									<td class="mobile-last">
+										{{payment.method|paymentMethodName}}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<!-- Subscriptions -->
+					<div class="panel panel-invoiced" ng-if="object=='subscription'">
+						<div class="panel-body" ng-show="results.subscription.length == 0">
+							<div class="empty">
+								No matches found.
+							</div>
+						</div>
+						<table class="search-results-table table table-striped" ng-show="results.subscription.length > 0">
+							<thead>
+								<tr>
+									<th>
+										Customer
+									</th>
+									<th>
+										Plan
+									</th>
+									<th class="money-column">
+										Amount
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="clickable" ng-repeat="subscription in results.subscription" ng-click="goToObject('subscription', subscription)">
+									<td class="title">
+										<a ui-sref="manage.subscription.view.summary({id:subscription.id})">
+											{{subscription.customer.name}}
+										</a>
+									</td>
+									<td>
+										{{subscription.plan.name}}
+									</td>
+									<td class="mobile-last money-column">
+										<money currency="subscription.plan.currency" amount="subscription.recurring_total"></money>
+										{{subscription.plan.interval_count|recurringFrequency:subscription.plan.interval}}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<!-- Vendors -->
+					<div class="panel panel-invoiced" ng-if="object=='vendor'">
+						<div class="panel-body" ng-show="results.vendor.length == 0">
+							<div class="empty">
+								No matches found.
+							</div>
+						</div>
+						<table class="search-results-table table table-striped" ng-show="results.vendor.length > 0">
+							<thead>
+								<tr>
+									<th>
+										Vendor
+									</th>
+									<th>
+										Vendor #
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="clickable" ng-repeat="vendor in results.vendor" ng-click="goToObject('vendor', vendor)">
+									<td class="title">
+										<a ui-sref="manage.vendor.view.summary({id:vendor.id})">
+											{{vendor.name}}
+										</a>
+									</td>
+									<td class="mobile-last">
+										{{vendor.number}}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

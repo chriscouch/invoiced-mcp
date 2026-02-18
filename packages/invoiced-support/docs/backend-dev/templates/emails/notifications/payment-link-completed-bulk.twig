@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}New payment link completions{% endblock %}
+{% block notification %}
+    {% for session in sessions %}
+        <p><a href="{{ dashboardUrl }}/alerts?account={{ tenant_id  }}">{{ session.cnt }} customers completed a payment link</a></p>
+    {% endfor %}
+{% endblock %}

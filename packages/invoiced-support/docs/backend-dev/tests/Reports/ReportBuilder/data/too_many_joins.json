@@ -1,0 +1,62 @@
+{
+  "title": "Too Many Joins",
+  "sections": [
+    {
+      "type": "table",
+      "object": "customer",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "bank_account.id"
+          }
+        },
+        {
+          "field": {
+            "id": "card.id"
+          }
+        },
+        {
+          "field": {
+            "id": "estimate.id"
+          }
+        },
+        {
+          "field": {
+            "id": "chasing_cadence.id"
+          }
+        },
+        {
+          "field": {
+            "id": "company.id"
+          }
+        },
+        {
+          "field": {
+            "id": "late_fee_schedule.id"
+          }
+        },
+        {
+          "field": {
+            "id": "credit_note.id"
+          }
+        },
+        {
+          "field": {
+            "id": "member.user.id"
+          }
+        },
+        {
+          "field": {
+            "id": "note.id"
+          }
+        },
+        {
+          "field": {
+            "id": "invoice.id"
+          }
+        }
+      ]
+    }
+  ]
+}

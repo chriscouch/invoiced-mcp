@@ -1,0 +1,110 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
+	<h4 class="modal-title">Date Formats</h4>
+</div>
+<div class="modal-body">
+	<p>
+		Date format strings include alphabetic characters, which are translated according to the tables below.
+		Non-alphabetic characters (i.e. dots, slashes) translate into themselves.
+	</p>
+	<p><em>You can learn about more date characters <a href="https://php.net/date" target="_blank" rel="noopener noreferrer">here</a>.</em></p>
+	<br/>
+	
+	<h4>Example Format Strings</h4>
+	Month/Day/Year: <strong>05/17/2014</strong>
+	<pre>m/d/Y</pre>
+	Day/Month/Year: <strong>17/05/2014</strong>
+	<pre>d/m/Y</pre>
+	Month Day, Year: <strong>May 17, 2014</strong>
+	<pre>F j, Y</pre>
+	<br/>
+	
+	<h4>Days</h4>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Character</th>
+				<th>Description</th>
+				<th>Example</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><strong>j</strong></td>
+				<td>Day of the month without leading zeros</td>
+				<td>1 to 31</td>
+			</tr>
+			<tr>
+				<td><strong>d</strong></td>
+				<td>Day of the month, 2 digits with leading zeros</td>
+				<td>01 to 31</td>
+			</tr>
+			<tr>
+				<td><strong>l</strong></td>
+				<td>A full textual representation of the day of the week</td>
+				<td>Sunday through Saturday</td>
+			</tr>
+			<tr>
+				<td><strong>D</strong></td>
+				<td>A textual representation of a day, three letters</td>
+				<td>Mon through Sun</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<h4>Months</h4>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Character</th>
+				<th>Description</th>
+				<th>Example</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><strong>n</strong></td>
+				<td>Numeric representation of a month, without leading zeros</td>
+				<td>1 through 12</td>
+			</tr>
+			<tr>
+				<td><strong>m</strong></td>
+				<td>Numeric representation of a month, with leading zeros</td>
+				<td>01 through 12</td>
+			</tr>
+			<tr>
+				<td><strong>F</strong></td>
+				<td>A full textual representation of a month, such as January or March</td>
+				<td>January through December</td>
+			</tr>
+			<tr>
+				<td><strong>M</strong></td>
+				<td>A short textual representation of a month, three letters</td>
+				<td>Jan through Dec</td>
+			</tr>
+		</tbody>
+	</table>			
+	
+	<h4>Years</h4>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Character</th>
+				<th>Description</th>
+				<th>Example</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><strong>Y</strong></td>
+				<td>A full numeric representation of a year, 4 digits</td>
+				<td>1999 or 2003</td>
+			</tr>
+			<tr>
+				<td><strong>y</strong></td>
+				<td>A two digit representation of a year</td>
+				<td>99 or 03</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

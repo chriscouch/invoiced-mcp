@@ -1,0 +1,196 @@
+<form name="contactForm" ng-submit="save(contact)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			<span ng-show="contact.id">Edit</span><span ng-hide="contact.id">New</span> Contact<br/>
+			<small>{{customer.name}}</small>
+		</h4>
+	</div>
+	<div class="modal-body">
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<!-- Name -->
+				<div class="form-group">
+					<label class="control-label">Name <span class="required"></span></label>
+					<div>
+						<input type="text" ng-model="contact.name" class="form-control" required />
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<!-- Contact Role -->
+				<div class="form-group">
+					<label class="control-label">Role</label>
+					<div ng-show="loadingContactRoles"><span class="loading"></span></div>
+					<div class="invoiced-select" ng-hide="loadingContactRoles">
+						<select ng-model="contact.role" ng-options="option.id as option.name for option in contactRoles">
+							<option value="">{{'general.none'|translate}}<option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<!-- Title -->
+				<div class="form-group">
+					<label class="control-label">Job Title</label>
+					<div>
+						<input type="text" ng-model="contact.title" class="form-control" />
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<!-- Department -->
+				<div class="form-group">
+					<label class="control-label">Department</label>
+					<div>
+						<input type="text" ng-model="contact.department" class="form-control" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<hr/>
+		<div class="row">
+			<div class="col-sm-12">
+				<h4>Contact Information</h4>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<!-- Email -->
+				<div class="form-group">
+					<label class="control-label">Email</label>
+					<div>
+						<div class="input-group">
+							<span class="input-group-addon">
+								<span class="fas fa-envelope"></span>
+							</span>
+							<input type="email" class="form-control" ng-model="contact.email" />
+						</div>
+					</div>
+				</div>
+
+				<!-- Default Contact -->
+				<div class="form-group">
+					<label class="noselect">
+						<input type="checkbox" ng-checked="contact.primary==1" ng-model="contact.primary" value="1" />
+						Default
+						<em tooltip="Contacts who are set as default will receive email notifications.">
+							<span class="fas fa-info-circle"></span>
+						</em>
+					</label>
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<!-- Phone -->
+				<div class="form-group">
+					<label class="control-label">Phone</label>
+					<div>
+						<div class="input-group">
+							<span class="input-group-addon">
+								<span class="fas fa-phone"></span>
+							</span>
+							<input type="text" class="form-control" ng-model="contact.phone" />
+						</div>
+					</div>
+				</div>
+
+				<!-- SMS Enabled -->
+				<div class="form-group" ng-if="contact.phone">
+					<label class="noselect">
+						<input type="checkbox" ng-model="contact.sms_enabled" />
+						Can receive text messages
+					</label>
+					<p class="text-muted">
+						<span class="fas fa-info-circle"></span>
+						Please make sure you have the contact's consent to send text messages before turning this on.
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Address -->
+		<hr/>
+		<div class="row">
+			<div class="col-sm-12">
+				<h4>
+					Address
+					<address-validator object="contact"></address-validator>
+				</h4>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="control-label">{{'address.address1'|translate}}</label>
+					<div>
+						<input type="text" ng-model="contact.address1" class="form-control" />
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="control-label">{{'address.address2'|translate}}</label>
+					<div>
+						<input type="text" ng-model="contact.address2" class="form-control" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label class="control-label">{{cityLabel}}</label>
+					<div>
+						<input type="text" ng-model="contact.city" class="form-control"  />
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label class="control-label">{{stateLabel}}</label>
+					<div>
+						<state-selector ng-model="contact.state" country="contact.country" is-required="false"></state-selector>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label class="control-label">{{postalCodeLabel}}</label>
+					<div>
+						<input type="text" ng-model="contact.postal_code" class="form-control" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="control-label">Country</label>
+					<div>
+						<country-selector ng-model="contact.country" is-required="false" ng-change="changeCountry(country)"></country-selector>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="contactForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

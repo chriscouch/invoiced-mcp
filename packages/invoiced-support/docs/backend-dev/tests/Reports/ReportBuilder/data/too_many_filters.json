@@ -1,0 +1,85 @@
+{
+  "title": "Too Many Filters",
+  "sections": [
+    {
+      "type": "table",
+      "object": "customer",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "name"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "name"
+          },
+          "value": "test"
+        },
+        {
+          "field": {
+            "id": "name"
+          },
+          "value": "test"
+        },
+        {
+          "field": {
+            "id": "name"
+          },
+          "value": "test"
+        },
+        {
+          "field": {
+            "id": "name"
+          },
+          "value": "test"
+        },
+        {
+          "field": {
+            "id": "name"
+          },
+          "value": "test"
+        },
+        {
+          "field": {
+            "id": "name"
+          },
+          "value": "test"
+        },
+        {
+          "field": {
+            "id": "name"
+          },
+          "value": "test"
+        },
+        {
+          "field": {
+            "id": "name"
+          },
+          "value": "test"
+        },
+        {
+          "field": {
+            "id": "name"
+          },
+          "value": "test"
+        },
+        {
+          "field": {
+            "id": "name"
+          },
+          "value": "test"
+        },
+        {
+          "field": {
+            "id": "name"
+          },
+          "value": "test"
+        }
+      ]
+    }
+  ]
+}

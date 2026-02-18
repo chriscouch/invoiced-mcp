@@ -1,0 +1,137 @@
+{
+  "title": "Too Many Sections",
+  "sections": [
+    {
+      "type": "table",
+      "object": "customer",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "name"
+          }
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "object": "customer",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "name"
+          }
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "object": "customer",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "name"
+          }
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "object": "customer",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "name"
+          }
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "object": "customer",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "name"
+          }
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "object": "customer",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "name"
+          }
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "object": "customer",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "name"
+          }
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "object": "customer",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "name"
+          }
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "object": "customer",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "name"
+          }
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "object": "customer",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "name"
+          }
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "object": "customer",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "name"
+          }
+        }
+      ]
+    }
+  ]
+}

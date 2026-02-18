@@ -1,0 +1,15 @@
+{% extends "emails/parent.twig" %}
+{% block title %}Account Canceled{% endblock %}
+{% block content %}
+<row>
+    <columns>
+        <p>Hi {{ company }},</p>
+
+        <p>We are writing to inform you that your Invoiced account has been canceled. Thank you for being a customer. Should you need our service again we would love to have you back.</p>
+
+        <p>Please note that we quit storing your data after 90 days. Until then you may sign in to reactivate your account should you change your mind. You can also message us at support@invoiced.com if you need your data exported.</p>
+
+        <p>Best,<br> The team at Invoiced</p>
+    </columns>
+</row>
+{% endblock %}

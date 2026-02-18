@@ -1,0 +1,143 @@
+{
+  "result": {
+    "verdict": {
+      "inputGranularity": "SUB_PREMISE",
+      "validationGranularity": "PREMISE",
+      "geocodeGranularity": "SUB_PREMISE",
+      "addressComplete": true,
+      "hasInferredComponents": true
+    },
+    "address": {
+      "formattedAddress": "5301 Southwest Parkway #470, Austin, TX 78735-8985, USA",
+      "postalAddress": {
+        "regionCode": "US",
+        "languageCode": "en",
+        "postalCode": "78735-8985",
+        "administrativeArea": "TX",
+        "locality": "Austin",
+        "addressLines": [
+          "5301 Southwest Pkwy #470"
+        ]
+      },
+      "addressComponents": [
+        {
+          "componentName": {
+            "text": "5301"
+          },
+          "componentType": "street_number",
+          "confirmationLevel": "CONFIRMED"
+        },
+        {
+          "componentName": {
+            "text": "Southwest Parkway",
+            "languageCode": "en"
+          },
+          "componentType": "route",
+          "confirmationLevel": "CONFIRMED"
+        },
+        {
+          "componentName": {
+            "text": "#470",
+            "languageCode": "en"
+          },
+          "componentType": "subpremise",
+          "confirmationLevel": "CONFIRMED"
+        },
+        {
+          "componentName": {
+            "text": "Austin",
+            "languageCode": "en"
+          },
+          "componentType": "locality",
+          "confirmationLevel": "CONFIRMED"
+        },
+        {
+          "componentName": {
+            "text": "TX",
+            "languageCode": "en"
+          },
+          "componentType": "administrative_area_level_1",
+          "confirmationLevel": "CONFIRMED"
+        },
+        {
+          "componentName": {
+            "text": "78735"
+          },
+          "componentType": "postal_code",
+          "confirmationLevel": "CONFIRMED"
+        },
+        {
+          "componentName": {
+            "text": "USA",
+            "languageCode": "en"
+          },
+          "componentType": "country",
+          "confirmationLevel": "CONFIRMED"
+        },
+        {
+          "componentName": {
+            "text": "8985"
+          },
+          "componentType": "postal_code_suffix",
+          "confirmationLevel": "CONFIRMED",
+          "inferred": true
+        }
+      ]
+    },
+    "geocode": {
+      "location": {
+        "latitude": 30.242188,
+        "longitude": -97.8424531
+      },
+      "plusCode": {
+        "globalCode": "862465R5+V2"
+      },
+      "bounds": {
+        "low": {
+          "latitude": 30.242188,
+          "longitude": -97.8424531
+        },
+        "high": {
+          "latitude": 30.242188,
+          "longitude": -97.8424531
+        }
+      },
+      "placeId": "ChIJ4QpNzLNLW4YRFDvaTcbdZxU",
+      "placeTypes": [
+        "subpremise"
+      ]
+    },
+    "metadata": {
+      "business": true,
+      "poBox": false
+    },
+    "uspsData": {
+      "standardizedAddress": {
+        "firstAddressLine": "5301 SOUTHWEST PKWY # 470",
+        "cityStateZipAddressLine": "AUSTIN TX 78735-8985",
+        "city": "AUSTIN",
+        "state": "TX",
+        "zipCode": "78735",
+        "zipCodeExtension": "8985"
+      },
+      "deliveryPointCode": "99",
+      "deliveryPointCheckDigit": "2",
+      "dpvConfirmation": "S",
+      "dpvFootnote": "AACC",
+      "dpvCmra": "N",
+      "dpvVacant": "N",
+      "dpvNoStat": "Y",
+      "carrierRoute": "C033",
+      "carrierRouteIndicator": "D",
+      "postOfficeCity": "AUSTIN",
+      "postOfficeState": "TX",
+      "fipsCountyCode": "453",
+      "county": "TRAVIS",
+      "elotNumber": "0063",
+      "elotFlag": "A",
+      "addressRecordType": "H",
+      "defaultAddress": true
+    }
+  },
+  "responseId": "b596962e-55f4-4d38-9000-4694aa1a7f58"
+}

@@ -1,0 +1,73 @@
+<div class="credit-card-holder">
+	<div ng-show="testMode">
+		<button type="button" class="btn btn-block btn-link btn-sm" ng-click="testCard()">
+			Use Test Card
+		</button>
+	</div>
+
+	<div class="credit-card">
+		<div class="line">
+			<div class="input-card-number input">
+				<input id="card-number" type="tel" class="form-control cc-num" autocomplete="cc-number" autocorrect="off" spellcheck="off" autocapitalize="off" placeholder="Card number" ng-model="card.number" ng-change="changeCardNumber()" required />
+				<span class="type" ng-class="cardType"></span>
+				<span class="icon">
+					<span class="far fa-credit-card"></span>
+				</span>
+			</div>
+		</div>
+
+		<div class="line">
+			<div class="input-split">
+				<div class="input-expiry input">
+					<input id="cc-expiration-date" type="tel" class="form-control cc-exp" autocomplete="cc-exp" autocorrect="off" spellcheck="off" autocapitalize="off" placeholder="MM / YY" ng-model="card.expiry" ng-change="changeExpiry()" required />
+					<span class="icon">
+						<span class="far fa-calendar"></span>
+					</span>
+				</div>
+				<div class="input-cvc input">
+					<input id="cc-cvc" type="tel" class="form-control cc-cvc" autocomplete="cc-csc" autocorrect="off" spellcheck="off" autocapitalize="off" placeholder="CVC" ng-model="card.cvc" required />
+					<span class="icon">
+						<span class="far fa-lock"></span>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="billing-address" ng-if="options.requestAddress">
+		<div class="line">
+			<div class="input-card-holder-name input no-icon">
+				<input id="cardholder-name" type="text" class="form-control" placeholder="Cardholder Name" ng-model="card.name" required />
+			</div>
+		</div>
+
+		<div class="line">
+			<div class="input-address-line1 input no-icon">
+				<input id="cardholder-address" type="text" class="form-control" placeholder="Address" ng-model="card.address_line1" required />
+			</div>
+		</div>
+
+		<div class="line">
+			<div class="input-split split-4060">
+				<div class="input-address-city input no-icon">
+					<input id="cardholder-address-city" type="text" class="form-control" placeholder="{{cityLabel}}" ng-model="card.address_city" />
+				</div>
+				<div class="input-address-state input no-icon">
+					<state-selector id="cardholder-state-dropdown" ng-model="card.address_state" country="card.address_country" placeholder="stateLabel" is-required="true"></state-selector>
+				</div>
+			</div>
+		</div>
+
+		<div class="line">
+			<div class="input-split split-4060">
+				<div class="input-address-zip input no-icon">
+					<input id="cardholder-address-zip" type="text" class="form-control" placeholder="{{postalCodeLabel}}" ng-model="card.address_zip" />
+				</div>
+
+				<div class="input-address-country input no-icon">
+					<country-selector id="cardholder-country-dropdown" ng-model="card.address_country" is-required="true" ng-change="changeCountry(country)"></country-selector>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

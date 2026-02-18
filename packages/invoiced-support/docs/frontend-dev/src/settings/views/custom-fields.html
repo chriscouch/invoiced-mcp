@@ -1,0 +1,103 @@
+<div class="contents">
+	<div class="settings-title-bar">
+		<h2 class="title">
+			<div class="docs-link">
+				<a href="https://docs.invoiced.com/accounts-receivable/custom-fields" target="_blank">
+					{{'general.documentation'|translate}}
+					<span class="fas fa-external-link"></span>
+				</a>
+			</div>
+			<div class="back-link">
+				<a ui-sref="manage.settings.default">
+					<span class="fas fa-arrow-left"></span>
+					{{'general.settings'|translate}}
+				</a>
+			</div>
+			{{'settings.titles.custom_fields'|translate}}
+		</h2>
+
+		<p class="lead">
+			Custom fields let you add fields to the data schema for Invoiced object types.
+		</p>
+	</div>
+
+	<p class="alert alert-danger" ng-show="error">
+		{{error.message}}
+	</p>
+
+	<p class="loading" ng-show="loading"></p>
+
+	<div class="panel panel-default settings-panel" ng-hide="loading">
+		<div class="panel-heading">
+			<h4 class="panel-title button-title">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="searchbar light">
+							<div class="bar">
+								<div class="icon"><span class="fas fa-search"></span></div>
+								<input type="text" class="form-control" ng-model="search" tabindex="2000" />
+								<div class="icon right icon-btn" ng-show="search">
+									<button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+										<span class="fas fa-times-circle"></span>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-5 col-sm-offset-3 text-right">
+						<button type="button" class="btn btn-success" ng-click="editCustomFieldModal()">
+							New Custom Field
+						</button>
+					</div>
+				</div>
+			</h4>
+		</div>
+
+		<!-- No Results -->
+		<div class="list-group" ng-show="results.length === 0">
+			<div class="list-group-item">
+				<div class="empty">No custom fields found.</div>
+			</div>
+		</div>
+
+		<!-- Results Table -->
+		<table class="table table-striped search-results-table" ng-show="results.length > 0">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Object</th>
+					<th>Type</th>
+					<th class="noborder">Visibility</th>
+					<th class="nopadding"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="customField in customFields | searchObject:search:['name','id','object','type'] as results">
+					<td>
+						{{customField.name}}
+						<a href="" class="id-tooltip" tooltip="{{customField.id}}"><span class="fas fa-hashtag"></span></a>
+					</td>
+					<td>
+						{{'metadata.object_names.' + customField.object|translate}}
+					</td>
+					<td>{{'metadata.field_types.' + customField.type|translate}}</td>
+					<td class="noborder">
+						<a href="" ng-show="customField.external" tooltip="Customers can see this field">
+							<span class="label label-info">Visible</span>
+						</a>
+					</td>
+					<td class="nopadding hover-actions-holder mobile-last mobile-visible">
+						<div class="hover-actions">
+							<button type="button" class="btn btn-default btn-sm" ng-click="editCustomFieldModal(customField)" tooltip="Edit Custom Field">
+								<span class="fas fa-pencil"></span>
+							</button>
+							<button type="button" class="btn btn-danger btn-sm" ng-click="delete(customField)" ng-disabled="deleting[customField.internal_id]" tooltip="Delete Custom Field">
+								<span class="fas fa-trash"></span>
+							</button>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

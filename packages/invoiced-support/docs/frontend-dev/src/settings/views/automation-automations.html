@@ -1,0 +1,90 @@
+<p class="loading" ng-show="loading"></p>
+<div class="panel panel-default settings-panel" ng-hide="loading">
+	<div class="panel-heading">
+		<h4 class="panel-title button-title">
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="searchbar light">
+						<div class="bar">
+							<div class="icon"><span class="fas fa-search"></span></div>
+							<input type="text" class="form-control" ng-model="search" tabindex="2000" />
+							<div class="icon right icon-btn" ng-show="search">
+								<button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+									<span class="fas fa-times-circle"></span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-8 text-right">
+					<a ui-sref="manage.automations.new_workflow" class="btn btn-success">
+						New Automation
+					</a>
+				</div>
+			</div>
+		</h4>
+	</div>
+
+	<!-- No Results -->
+	<div class="list-group" ng-show="results.length === 0">
+		<div class="list-group-item">
+			<div class="empty">No automations found.</div>
+		</div>
+	</div>
+
+	<!-- Results Table -->
+	<table class="table table-striped search-results-table" ng-show="results.length > 0">
+		<thead>
+		<tr>
+			<th>Name</th>
+			<th>Type</th>
+			<th>Created</th>
+			<th>{{'general.status'|translate}}</th>
+			<th class="nopadding"></th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="workflow in workflows | searchObject:search:['name'] as results">
+			<td>
+				{{workflow.name}}
+				<a href="" tooltip="{{workflow.description}}" ng-show="workflow.description">
+					<span class="fas fa-info-circle"></span>
+				</a>
+				<span class="label label-default" ng-show="workflow.draft_version">Draft In Progress</span>
+			</td>
+			<td>
+				{{('metadata.object_names.'+workflow.object_type)|translate}}
+			</td>
+			<td class="light nowrap">
+				<company-date date="workflow.created_at"></company-date>
+			</td>
+			<td class="nowrap">
+				<span class="label label-success" ng-show="workflow.enabled">Enabled</span>
+				<span class="label label-warning" ng-hide="workflow.enabled">Disabled</span>
+			</td>
+			<td class="nopadding hover-actions-holder mobile-last mobile-visible">
+				<div class="hover-actions">
+					<a class="btn btn-default btn-sm" ng-href="{{workflow.enrollments}}" tooltip="Show enrollments" ng-if="workflow.enrollments">
+						<span class="fas fa-filter"></span>
+					</a>
+					<a class="btn btn-default btn-sm" ui-sref="manage.automations.duplicate_workflow({id:workflow.id})" tooltip="Duplicate Workflow">
+						<span class="fas fa-copy"></span>
+					</a>
+					<a class="btn btn-default btn-sm" ui-sref="manage.automations.builder({id:workflow.id})" tooltip="Edit Workflow">
+						<span class="fas fa-pencil"></span>
+					</a>
+					<a href="" class="btn btn-default btn-sm" ng-click="setEnabled(workflow, false)" ng-hide="!workflow.enabled || deleting[workflow.id]" tooltip="Disable Workflow">
+						<span class="fas fa-pause"></span>
+					</a>
+					<a href="" class="btn btn-primary btn-sm" ng-click="setEnabled(workflow, true)" ng-show="!workflow.enabled && workflow.current_version && !deleting[workflow.id]" tooltip="Enable Workflow">
+						<span class="fas fa-play"></span>
+					</a>
+					<button type="button" class="btn btn-danger btn-sm" ng-click="delete(workflow)" tooltip="Delete Workflow" ng-hide="deleting[workflow.id]">
+						<span class="fas fa-trash"></span>
+					</button>
+				</div>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</div>

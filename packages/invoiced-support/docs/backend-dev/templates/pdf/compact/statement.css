@@ -1,0 +1,180 @@
+table {
+    border-collapse: collapse;
+}
+
+td {
+    padding: 0;
+}
+
+.container {
+    padding: 0 20px;
+    line-height: 14pt;
+    word-wrap: break-word;
+}
+
+.table-cell {
+    display: table-cell;
+}
+
+.logo img {
+    max-width: 200px;
+    max-height: 30px;
+    margin: 0;
+    vertical-align: bottom;
+}
+
+.title-bar {
+    display: table;
+    width: 100%;
+    font-size: 11pt;
+}
+
+.title-bar div {
+    width: 33%;
+}
+
+.title-bar .title {
+    display: table-cell;
+    text-align: center;
+    vertical-align: bottom;
+}
+
+.spacer {
+    width: 100%;
+    border-bottom: 1px solid #65d8bf;
+    margin: 10px 0;
+}
+
+.context-holder {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8pt;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.contact-from {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.contact-from .field,
+.contact-to .field,
+.bolder {
+    font-weight: bold;
+}
+
+.context {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+    float: right;
+}
+
+.context-table {
+    width: 100%;
+}
+
+.context-table .value {
+    width: 110px;
+}
+
+.contact.to {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 0 5px;
+}
+
+.contact.to .field {
+    font-weight: bold;
+    padding-bottom: 1px;
+}
+
+.items-holder {
+    margin: 15px 0 2px;
+}
+
+.items {
+    width: 100%;
+    font-size: 8pt;
+    line-height: 8pt;
+    table-layout: fixed;
+}
+
+.narrow {
+    width: 15%;
+}
+
+.items thead {
+    font-weight: normal;
+}
+
+.items th {
+    padding: 4px 15px;
+    border-bottom: 1px solid #c4cdd5;
+}
+
+.items td {
+    padding: 4px 15px;
+    border-bottom: 1px solid #dfe3e8;
+}
+
+.item .details {
+    color: #5e6a73;
+    font-size: 6pt;
+    padding-left: 10px;
+}
+
+.item .unit_cost,
+.item .amount,
+.money-column {
+    text-align: right;
+}
+
+.item .name {
+    width: 50%;
+}
+
+.totals {
+    width: 100%;
+    text-align: right;
+}
+
+.totals td {
+    padding: 2px;
+    font-size: 8pt;
+    padding-right: 15px;
+}
+
+.totals-holder {
+    width: 33.3%;
+    float: right;
+    margin-top: 3px;
+    margin-bottom: 25px;
+}
+
+.hidden {
+    visibility: hidden;
+    clear: both;
+    width: 100%;
+    height: 1px;
+}
+
+.title-bar .customer-name {
+    display: table-cell;
+    text-align: right;
+    vertical-align: bottom;
+}
+
+.border-top-2 td {
+    border-top: 2px solid #3d4c59;
+}
+
+.left {
+    text-align: left;
+}
+
+.top {
+    vertical-align: top;
+}

@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "title": "Refunds",
+  "sections": [
+    {
+      "type": "table",
+      "object": "refund",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "charge.customer.name"
+          },
+          "name": "Customer"
+        },
+        {
+          "field": {
+            "id": "created_at"
+          },
+          "name": "Timestamp"
+        },
+        {
+          "field": {
+            "id": "charge.card.brand"
+          }
+        },
+        {
+          "field": {
+            "id": "charge.card.last4"
+          }
+        },
+        {
+          "field": {
+            "id": "charge.bank_account.bank_name"
+          }
+        },
+        {
+          "field": {
+            "id": "charge.bank_account.last4"
+          }
+        },
+        {
+          "field": {
+            "id": "gateway"
+          }
+        },
+        {
+          "field": {
+            "id": "gateway_id"
+          }
+        },
+        {
+          "field": {
+            "id": "amount"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "status"
+          },
+          "value": "succeeded"
+        },
+        {
+          "field": {
+            "id": "currency"
+          },
+          "value": "$currency"
+        },
+        {
+          "field": {
+            "id": "created_at"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "created_at"
+          },
+          "ascending": false
+        }
+      ]
+    }
+  ]
+}

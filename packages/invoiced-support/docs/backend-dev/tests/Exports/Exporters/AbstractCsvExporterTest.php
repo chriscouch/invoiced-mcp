@@ -1,0 +1,63 @@
+<?php
+
+namespace App\Tests\Exports\Exporters;
+
+use App\Exports\Exporters\AbstractCsvExporter;
+use App\Exports\Interfaces\ExporterInterface;
+use App\Exports\Libs\ExportStorage;
+use App\Exports\Models\Export;
+use App\Tests\AppTestCase;
+use Mockery;
+
+abstract class AbstractCsvExporterTest extends AppTestCase
+{
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+        self::hasCompany();
+    }
+
+    abstract protected function getExporter(ExportStorage $storage): ExporterInterface;
+
+    protected function getExporterById(string $id, ExportStorage $storage): AbstractCsvExporter
+    {
+        $exporter = self::getService('test.exporter_factory')->get($id);
+        $exporter->setStorage($storage);
+
+        return $exporter;
+    }
+
+    protected function getExport(): Export
+    {
+        $export = new Export();
+        $export->name = 'Test';
+        $export->status = Export::PENDING;
+        $export->type = 'test';
+        $export->saveOrFail();
+
+        return $export;
+    }
+
+    protected function verifyBuild(string $expected, array $options = [], int $expectedRecords = 1): void
+    {
+        $storage = Mockery::mock(ExportStorage::class);
+        $result = '';
+        $storage->shouldReceive('persist')
+            ->andReturnUsing(function (Export $export, string $filename, string $tmpFilename) use (&$result) {
+                $result = (string) file_get_contents($tmpFilename);
+
+                return '';
+            });
+
+        $export = $this->getExport();
+        $exporter = $this->getExporter($storage);
+        $exporter->build($export, $options);
+
+        $this->assertEquals($expected, $result);
+
+        $this->assertEquals('succeeded', $export->status);
+        $this->assertEquals('', $export->message);
+        $this->assertEquals($expectedRecords, $export->total_records);
+        $this->assertEquals($expectedRecords, $export->position);
+    }
+}

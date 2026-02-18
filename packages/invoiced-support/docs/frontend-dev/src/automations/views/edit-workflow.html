@@ -1,0 +1,64 @@
+<feature-upgrade ng-if="!('automations'|hasFeature)"></feature-upgrade>
+<p class="loading" ng-show="loading"></p>
+
+<form name="workflowForm" ng-submit="save(workflow)" ng-hide="loading">
+	<div class="contents" ng-show="'automations'|hasFeature">
+		<div class="settings-title-bar">
+			<h2 class="title">
+				<div class="back-link">
+					<a ui-sref="manage.settings.automation.list">
+						<span class="fas fa-arrow-left"></span>
+						{{'settings.titles.automations'|translate}}
+					</a>
+				</div>
+				<span ng-show="isExisting">Edit Automation</span>
+				<span ng-hide="isExisting">New Automation</span>
+			</h2>
+		</div>
+
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+
+		<div class="form-horizontal">
+			<!-- Name -->
+			<div class="form-group">
+				<label class="control-label col-sm-4">Name <span class="required"></span></label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" ng-model="workflow.name" required />
+				</div>
+			</div>
+
+			<!-- Description -->
+			<div class="form-group">
+				<label class="control-label col-sm-4">Description</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" ng-model="workflow.description" />
+				</div>
+			</div>
+
+			<!-- Object Type -->
+			<div class="form-group" ng-if="!isExisting">
+				<label class="control-label col-sm-4">Workflow Type <span class="required"></span></label>
+				<div class="col-sm-3">
+					<div class="invoiced-select">
+						<select ng-options="objectType.object as objectType.name for objectType in objectTypes" ng-model="workflow.object_type"></select>
+					</div>
+				</div>
+			</div>
+
+			<!-- Save Button -->
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4">
+					<button type="submit" class="btn btn-primary Button" ng-disabled="workflowForm.$invalid||saving" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+						<span translate>general.save</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

@@ -1,0 +1,46 @@
+<form name="modelForm" ng-submit="save(connection)">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title">
+            Match Vendor to Network
+        </h4>
+    </div>
+    <div class="modal-body">
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <p class="required-indicator">
+            <span class="required"></span> {{'general.indicates_required_field'|translate}}
+        </p>
+
+        <p class="lead">If your vendor has already joined your business network then you can match this vendor with the existing connection in your network.</p>
+
+        <div class="form-group">
+            <label class="control-label">Vendor</label>
+            <div>
+                {{vendor.name}}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Network Connection <span class="required"></span></label>
+            <div>
+                <div class="invoiced-select">
+                    <select ng-options="c as c.name for c in connections" ng-model="connection" required></select>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="connection">
+            <p>@{{connection.username}}</p>
+            <p ng-bind-html="connection|address:false"></p>
+            <p>{{connection.email}}</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary Button" ng-disabled="modelForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+            {{'general.save'|translate}}
+        </button>
+    </div>
+</form>

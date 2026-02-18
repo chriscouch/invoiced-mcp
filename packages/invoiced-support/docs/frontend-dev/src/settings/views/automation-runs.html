@@ -1,0 +1,55 @@
+<p class="loading" ng-show="loading"></p>
+<div class="panel panel-default settings-panel" ng-hide="loading">
+	<!-- No Results -->
+	<div class="list-group" ng-show="runs.length === 0">
+		<div class="list-group-item">
+			<div class="empty">No automation runs found.</div>
+		</div>
+	</div>
+
+	<!-- Results Table -->
+	<table class="table table-striped search-results-table" ng-show="runs.length > 0">
+		<thead>
+		<tr>
+			<th>Workflow</th>
+			<th>Version</th>
+			<th>Date</th>
+			<th>{{'general.status'|translate}}</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="run in runs | searchObject:search:['name'] as results" class="clickable" ng-click="details(run)">
+			<td>
+				{{run.workflow_version.automation_workflow.name}}
+			</td>
+			<td>
+				{{run.workflow_version.version}}
+			</td>
+			<td class="light nowrap">
+				<company-date-time date="run.created_at"></company-date-time>
+			</td>
+			<td class="nowrap">
+				<span class="label label-success" ng-if="run.result == 2">Success</span>
+				<span class="label label-warning" ng-if="run.result == 1">Pending</span>
+				<span class="label label-danger" ng-if="run.result == 3">Error</span>
+			</td>
+		</tr>
+		</tbody>
+		<tfoot>
+		<tr class="invoice-pagination">
+			<td colspan="5">
+				<div class="controls">
+					<div class="btn-group">
+						<button type="button" class="btn btn-link btn-sm" ng-click="prevPage()" ng-show="page > 1">
+							<span class="fas fa-angle-left"></span>
+						</button>
+						<button type="button" class="btn btn-link btn-sm" ng-click="nextPage()" ng-show="perPage === runs.length">
+							<span class="fas fa-angle-right"></span>
+						</button>
+					</div>
+				</div>
+			</td>
+		</tr>
+		</tfoot>
+	</table>
+</div>

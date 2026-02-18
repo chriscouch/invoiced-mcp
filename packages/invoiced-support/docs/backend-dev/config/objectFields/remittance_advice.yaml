@@ -1,0 +1,67 @@
+fields:
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency: { name: Currency, type: string }
+  id:
+    name: ID
+    type: string
+    writable: false
+  notes: { name: Notes, type: string }
+  payment_date:
+    name: Payment Date
+    type: date
+    date_format: "Y-m-d"
+  payment_method:
+    name: Payment Method
+    type: enum
+    values:
+      ach: ACH
+      balance: Balance
+      bank_transfer: Bank Transfer
+      cash: Cash
+      check: Check
+      credit_card: Credit Card
+      direct_debit: Direct Debit
+      online: Online
+      other: Other
+      paypal: PayPal
+      wire_transfer: Wire Transfer
+  status:
+    name: Status
+    type: enum
+    values:
+      ReadyToPost: ReadyToPost
+      Exception: Exception
+      Posted: Posted
+  payment_reference: { name: Payment Reference, type: string }
+  total_gross_amount_paid:
+    name: Total Gross Amount Paid
+    type: money
+    summarize: true
+    writable: false
+  total_discount:
+    name: Total Discount
+    type: money
+    summarize: true
+    writable: false
+  total_net_amount_paid:
+    name: Total Net Amount Paid
+    type: money
+    summarize: true
+    writable: false
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  customer: { name: Customer, type: join }
+  invoice: { name: Invoice, type: join }

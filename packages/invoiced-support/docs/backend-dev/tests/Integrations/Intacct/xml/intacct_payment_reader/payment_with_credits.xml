@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+    <control>
+        <status>success</status>
+        <senderid>Invoiced</senderid>
+        <controlid>1620757805</controlid>
+        <uniqueid>false</uniqueid>
+        <dtdversion>3.0</dtdversion>
+    </control>
+    <operation>
+        <authentication>
+            <status>success</status>
+            <userid>Guest</userid>
+            <companyid>Invoiced-DEV SE</companyid>
+            <locationid></locationid>
+            <sessiontimestamp>2021-05-11T18:30:05+00:00</sessiontimestamp>
+            <sessiontimeout>2021-05-12T06:30:05+00:00</sessiontimeout>
+        </authentication>
+        <result>
+            <status>success</status>
+            <function>read</function>
+            <controlid>dafc04be-edea-4d4a-8ee1-143fefa08b7e</controlid>
+            <data listtype="arpayment" count="1">
+                <arpayment>
+                    <RECORDNO>0000</RECORDNO>
+                    <CUSTOMERID>C-191919</CUSTOMERID>
+                    <CUSTOMERNAME>Test Customer</CUSTOMERNAME>
+                    <STATE></STATE>
+                    <CURRENCY>USD</CURRENCY>
+                    <RECEIPTDATE>2021-09-01</RECEIPTDATE>
+                    <DOCNUMBER>P-0000</DOCNUMBER>
+                    <RECORDID></RECORDID>
+                    <PAYMENTTYPE>Printed Check</PAYMENTTYPE>
+                    <INVOICES>
+                        <RECORD>1991</RECORD>
+                        <APPLIEDAMOUNT>50</APPLIEDAMOUNT>
+                        <RECORDID>INV-068468</RECORDID>
+                    </INVOICES>
+                    <INVOICES>
+                        <RECORD>1992</RECORD>
+                        <APPLIEDAMOUNT>150</APPLIEDAMOUNT>
+                        <RECORDID>INV-5408</RECORDID>
+                    </INVOICES>
+                    <INVOICES>
+                        <RECORD>1993</RECORD>
+                        <APPLIEDAMOUNT>50</APPLIEDAMOUNT>
+                        <RECORDID>INV-0564</RECORDID>
+                    </INVOICES>
+                    <CREDITS>
+                        <RECORD>1994</RECORD>
+                        <RECORDTYPE>ri</RECORDTYPE>
+                        <APPLIEDAMOUNT>100</APPLIEDAMOUNT>
+                        <RECORDID>CN-05408504</RECORDID>
+                    </CREDITS>
+                    <CREDITS>
+                        <RECORD>1995</RECORD>
+                        <RECORDTYPE>ra</RECORDTYPE>
+                        <APPLIEDAMOUNT>100</APPLIEDAMOUNT>
+                        <RECORDID>CN-354064</RECORDID>
+                    </CREDITS>
+                    <CREDITS>
+                        <RECORD>1995</RECORD>
+                        <RECORDTYPE>rr</RECORDTYPE>
+                        <APPLIEDAMOUNT>10</APPLIEDAMOUNT>
+                        <RECORDID>1234</RECORDID>
+                    </CREDITS>
+                    <CREDITS>
+                        <RECORD>1996</RECORD>
+                        <RECORDTYPE>rp</RECORDTYPE>
+                        <APPLIEDAMOUNT>20</APPLIEDAMOUNT>
+                        <RECORDID></RECORDID>
+                    </CREDITS>
+                </arpayment>
+            </data>
+        </result>
+    </operation>
+</response>

@@ -1,0 +1,244 @@
+.header,
+.logo-header {
+    width: 100%;
+    border-radius: 4px;
+    color: white;
+    display: table;
+    table-layout: fixed;
+    margin-bottom: 30px;
+}
+
+.header .title {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: left;
+    font-size: 25pt;
+    padding-left: 35px;
+}
+
+.header-holder-context {
+    display: table;
+    border-radius: 4px;
+    width: 90%;
+}
+
+.logo-holder {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.logo-holder img {
+    border-radius: 4px;
+    max-width: 200px;
+    height: auto;
+    max-height: 100px;
+    width: auto;
+}
+
+.header-holder {
+    display: table-cell;
+    width: 67%;
+    vertical-align: middle;
+}
+
+.left-header,
+.right-header {
+    text-align: center;
+    display: table-cell;
+    width: 33%;
+}
+
+.left-header {
+    vertical-align: middle;
+    font-size: 25pt;
+}
+
+.right-header {
+    padding: 25px 35px;
+    vertical-align: middle;
+    font-size: 10pt;
+    line-height: 14.5pt;
+    text-align: right;
+}
+
+.contact-from {
+    padding: 25px 35px;
+    float: right;
+    font-size: 10pt;
+    line-height: 14.5pt;
+    text-align: right;
+}
+
+.address-holder {
+    display: inline-block;
+    text-align: right;
+}
+
+.context-holder {
+    display: inline-block;
+    padding-left: 35px;
+    line-height: 14.5pt;
+    max-width: 69.9%;
+    vertical-align: top;
+    word-wrap: break-word;
+}
+
+.contact-to:first-child {
+    margin-right: 35px;
+}
+
+.contact-to {
+    float: left;
+    margin-bottom: 20px;
+    word-wrap: break-word;
+    max-width: 200px;
+}
+
+.contact-to .field {
+    margin-bottom: 5px;
+    color: #879099;
+}
+
+.fields-holder .value {
+    margin-bottom: 5px;
+}
+
+.fields-holder .field,
+.invoice-number-holder .field {
+    color: #879099;
+}
+
+.fields-holder {
+    float: right;
+    text-align: right;
+    overflow: hidden;
+    line-height: 14.5pt;
+    padding-right: 35px;
+    max-width: 30%;
+}
+
+.highlight .field {
+    margin-top: 15px;
+}
+
+.highlight .value {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 24pt;
+    margin-bottom: 14px;
+}
+
+.bolder {
+    font-weight: bold;
+}
+
+.invoice-number-holder {
+    margin-bottom: 14px;
+}
+
+.spacer {
+    margin-left: 2.75%;
+    width: 94.5%;
+    border-bottom: 3px solid #879099;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.items-holder {
+    margin: 10px 0 20px 4.25%;
+    width: 91.5%;
+}
+
+.money-column,
+.item .unit_cost,
+.item .amount,
+.right-align {
+    text-align: right;
+}
+
+.items {
+    width: 100%;
+}
+
+.items td,
+.items th {
+    color: inherit;
+}
+
+.items thead tr th {
+    color: #879099;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #dfe3e8;
+}
+
+.items tbody tr:nth-child(odd) {
+    background-color: #f5f6f9;
+}
+
+.items tbody tr:last-child td {
+    border-bottom: 1px solid #dfe3e8;
+}
+
+.items tfoot .top-border-enabled td:nth-child(2),
+.items tfoot .top-border-enabled td:nth-child(3),
+.border-top {
+    border-top: 1px solid #3d4c59;
+}
+
+.border-top-2 {
+    border-top: 2px solid #3d4c59;
+}
+
+.details {
+    font-size: 8pt;
+    color: #5e6a73;
+}
+
+.total {
+    width: 33%;
+    float: right;
+}
+
+.spacer-row,
+.spacer-row td {
+    height: 3pt;
+}
+
+.footer {
+    float: left;
+    width: 57%;
+    margin: 7px 15px 0 35px;
+    line-height: 14pt;
+}
+
+.footer .field {
+    color: #879099;
+}
+
+.footer .value {
+    padding-bottom: 35px;
+}
+
+.paid-stamp {
+    position: fixed;
+    padding: 3px;
+    top: 100px;
+    right: 210px;
+    color: #e35c44;
+    border: 8px solid #e35c44;
+    font-size: 40pt;
+    -webkit-transform: rotate(30deg);
+}
+
+.hidden {
+    visibility: hidden;
+    width: 100%;
+    height: 1px;
+}
+
+.logo img {
+    max-width: 200px;
+    max-height: 150px;
+}

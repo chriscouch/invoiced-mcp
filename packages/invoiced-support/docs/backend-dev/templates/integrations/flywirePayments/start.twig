@@ -1,0 +1,144 @@
+{% trans_default_domain 'general' %}
+{% set title = 'Flywire Payments' %}
+{% extends "integrations/parent.twig" %}
+{% block main %}
+    <nav class="navbar navbar-expand-lg bg-white border-light mb-5">
+        <div class="container px-5">
+            <a class="navbar-brand" href="#">
+                <img src="{{ asset("/img/flywire.svg") }}" alt="Flywire Payments" class="mh-100" />
+            </a>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mt-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ dashboardUrl }}">Exit</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container bg-white card border py-5 mb-5">
+        <div class="px-5 mb-5">
+            <h1>Get Started with Flywire Payments</h1>
+            <p class="fs-3">Accepting payments on Invoiced is easy with Flywire Payments. As an Invoiced client you have access to built-in payment processing and competitive rates for credit card, debit card, and ACH payments. Complete the form below to get started.</p>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 px-5 py-5">
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+                {{ form_row(form.industryCode) }}
+                {% if form.phone is defined %}
+                    {{ form_row(form.phone) }}
+                {% endif %}
+
+                <!-- ToS Agreement -->
+                <div class="mt-5 fs-3">
+                    {{ form_row(form.agree)|replace({'LINK': '<a href="https://www.invoiced.com/legal/merchant-services-addendum" target="_blank">Merchant Services Terms of Service</a>'})|raw }}
+                </div>
+
+                <div class="form-actions mt-4">
+                    <button type="submit" class="btn btn-success btn-lg">
+                        Next
+                    </button>
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+            <div class="col-lg-6">
+                <div class="card shadow-none bg-light-soft rounded border">
+                    <div class="card-body">
+                        <h6 class="text-center text-body-secondary my-4 display-4">
+                            Payment Processing Fees
+                        </h6>
+
+                        <div class="mb-3">
+                            <ul class="list-group list-group-flush fs-3">
+                                <li class="list-group-item d-flex align-items-center justify-content-between px-0 py-2">
+                                    <span>Credit and debit cards</span>
+                                    <span class="text-success fw-bold">{% if pricing.card_interchange_passthrough %}Cost + {% endif %}{{ pricing.card_variable_fee|number_format(2) }}%{% if pricing.card_fixed_fee %} + {{ pricing.card_fixed_fee|money }}{% endif %}</span>
+                                </li>
+                                {% if pricing.card_international_added_variable_fee %}
+                                    <li class="list-group-item d-flex align-items-center justify-content-between px-0 py-2">
+                                        <span>International cards</span>
+                                        <span class="text-success fw-bold">+ {{ pricing.card_international_added_variable_fee|number_format(2) }}%</span>
+                                    </li>
+                                {% endif %}
+                                {% if pricing.amex_interchange_variable_markup %}
+                                    <li class="list-group-item d-flex align-items-center justify-content-between px-0 py-2">
+                                        <span>American Express</span>
+                                        <span class="text-success fw-bold">+ {{ pricing.amex_interchange_variable_markup|number_format(2) }}%</span>
+                                    </li>
+                                {% endif %}
+                                {% if pricing.ach_fixed_fee %}
+                                    <li class="list-group-item d-flex align-items-center justify-content-between px-0 py-2">
+                                        <span>ACH direct debit</span>
+                                        <span class="text-success fw-bold">{{ pricing.ach_fixed_fee|money }}</span>
+                                    </li>
+                                {% endif %}
+                                {% if pricing.ach_variable_fee %}
+                                    <li class="list-group-item d-flex align-items-center justify-content-between px-0 py-2">
+                                        <span>ACH direct debit</span>
+                                        <span class="text-success fw-bold">{{ pricing.ach_variable_fee|number_format(2) }}%{% if pricing.ach_max_fee %} (max {{ pricing.ach_max_fee|money }}){% endif %}</span>
+                                    </li>
+                                {% endif %}
+                                <li class="list-group-item d-flex align-items-center justify-content-between px-0 fs-4 pt-4 pb-3 text-secondary fw-bolder">
+                                    Other Fees
+                                </li>
+                                <li class="list-group-item d-flex align-items-center justify-content-between px-0 py-2">
+                                    <span>Chargeback</span>
+                                    <span class="text-success fw-bold">{{ pricing.chargeback_fee|money }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="px-5">
+            <div class="row mt-5 mb-3 border-top pt-5">
+                <div class="col-12">
+                    <h2 class="display-4 text-center">FAQs</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>
+                        What is Flywire Payments?
+                    </h3>
+                    <p class="text-body-secondary">
+                        Flywire Payments is a dedicated payment processor that consolidates authorization and settlement into one integrated service. This integrated approach streamlines the payment process for businesses, consolidating multiple services.
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <h3>
+                        What types of payment methods does Flywire Payments offer?
+                    </h3>
+                    <p class="text-body-secondary">
+                        Flywire Payments supports most international countries and payment methods such as ACH Direct Debit (U.S. only), credit cards, and debit cards - allowing customers to pay through the customer payment portal.
+                    </p>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <h3>
+                        Is the Flywire Payments secure?
+                    </h3>
+                    <p class="text-body-secondary">
+                        Yes, Flywire Payments prioritizes security by implementing the latest data protection measures, including PCI, SOC1 Type II, and SOC2 Type II.
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <h3>
+                        How much does Flywire Payments cost?
+                    </h3>
+                    <p class="text-body-secondary">
+                        There are no monthly fees or setup fees associated with Flywire Payments. You only pay a transaction fee when you process a successful payment.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

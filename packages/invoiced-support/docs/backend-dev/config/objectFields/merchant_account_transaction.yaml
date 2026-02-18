@@ -1,0 +1,73 @@
+fields:
+  amount:
+    name: Amount
+    type: money
+    summarize: true
+  available_on:
+    name: Available On
+    type: date
+    date_format: "Y-m-d"
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: 'Y-m-d H:i:s'
+    writable: false
+  currency:
+    name: Currency
+    type: string
+  description:
+    name: Description
+    type: string
+  fee:
+    name: Fee
+    type: money
+    summarize: true
+  fee_details:
+    name: Fee Details
+    type: string
+  id:
+    name: ID
+    type: string
+    writable: false
+  merchant_account:
+    name: Merchant Account
+    type: join
+  net:
+    name: Net
+    type: money
+    summarize: true
+  payout:
+    name: Payout
+    type: join
+  reference:
+    name: Reference
+    type: string
+  source_id:
+    name: Source
+    type: string
+  source_type:
+    name: Source Type
+    type: string
+  type:
+    name: Type
+    type: enum
+    values:
+      1: Payment
+      2: Payout
+      3: Payout Reversal
+      4: Fee
+      5: Refund
+      6: Dispute
+      7: Dispute Reversal
+      8: Adjustment
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: 'Y-m-d H:i:s'
+    writable: false

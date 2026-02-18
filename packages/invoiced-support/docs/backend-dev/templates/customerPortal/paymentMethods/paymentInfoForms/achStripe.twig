@@ -1,0 +1,15 @@
+{% trans_default_domain 'customer_portal' %}
+
+<div class="alert bg-danger-soft text-dark border border-danger errors stripe-ach-errors hidden"></div>
+<div class="mb-3" id="stripe-ach-payment-element"></div>
+
+<script id="stripe-ach-publishable-key" type="text/json">
+  {{ publishableKey|json_encode|raw }}
+</script>
+<script id="stripe-ach-client-secret" type="text/json">
+  {{ clientSecret|json_encode|raw }}
+</script>
+<script id="stripe-ach-default-values" type="text/json">
+  {{ defaultValues|json_encode|raw }}
+</script>
+<script type="text/javascript" src="{{ asset('/js/views/paymentInfoForms/achStripe.js') }}"></script>

@@ -1,0 +1,57 @@
+<form class="form-horizontal" name="lobForm" ng-submit="save(integration.extra.return_envelopes, integration.extra.use_color, integration.extra.custom_envelope)">
+    <div class="form-group">
+        <div class="col-sm-8 col-sm-offset-4">
+            <h4 class="settings-section-title">Settings</h4>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-4">
+            Include Return Envelopes
+        </label>
+        <div class="col-sm-3">
+            <toggle ng-model="integration.extra.return_envelopes"></toggle>
+        </div>
+        <div class="col-sm-3 help-text">
+            <a href="" tooltip="When enabled this will include a return envelope in mailed letters">
+                <span class="fas fa-question-circle"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-4">
+            Print In Color
+        </label>
+        <div class="col-sm-3">
+            <toggle ng-model="integration.extra.use_color"></toggle>
+        </div>
+        <div class="col-sm-4 help-text">
+            <a href="" tooltip="When enabled letters will be printed as color pages instead of black & white">
+                <span class="fas fa-question-circle"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-4">
+            Custom Envelope ID
+        </label>
+        <div class="col-sm-3">
+            <input type="text" class="form-control" ng-model="integration.extra.custom_envelope" />
+        </div>
+        <div class="col-sm-3 help-text">
+            <a href="" tooltip="Fill this in if you use Lob's custom envelope feature">
+                <span class="fas fa-question-circle"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-5 col-sm-offset-4">
+            <button type="submit" class="btn btn-primary Button" ng-disabled="saving||lobForm.$invalid" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+                <span translate>general.save</span>
+            </button>
+        </div>
+    </div>
+</form>

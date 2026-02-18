@@ -1,0 +1,299 @@
+<div class="contents">
+	<div class="settings-title-bar">
+		<h2 class="title">
+			<img avatar="avatarOptions" user="user" class="img-circle" />
+			{{'settings.titles.notifications'|translate}}
+		</h2>
+
+		<p class="lead">
+			Set up alerts to get notified about activity for <strong>{{company.name}}</strong>.
+		</p>
+	</div>
+
+	<p class="loading" ng-show="loading"></p>
+
+	<div ng-hide="loading">
+		<ul class="nav nav-tabs" ng-if="'settings.edit'|hasPermission">
+			<li ng-class="{active:$parent.tab=='user_notification_settings'}" ng-show="newNotifications">
+				<a href="" ng-click="$parent.tab='user_notification_settings'">
+					{{'notifications.my_notifications'|translate}}
+				</a>
+			</li>
+			<li ng-class="{active:$parent.tab=='me'}" ng-show="!newNotifications">
+				<a href="" ng-click="$parent.tab='me'">
+					{{'notifications.my_notifications'|translate}}
+				</a>
+			</li>
+			<li ng-class="{active:$parent.tab=='slack'}" ng-show="slackConnected">
+				<a href="" ng-click="$parent.tab='slack'">
+					{{'notifications.slack_notifications'|translate}}
+				</a>
+			</li>
+			<li ng-class="{active:$parent.tab=='company'}" ng-show="canEditDefaults">
+				<a href="" ng-click="$parent.tab='company'">
+					{{'notifications.company_notification_settings'|translate}}
+				</a>
+			</li>
+		</ul>
+		<div class="tab-content">
+			<!-- My Notifications -->
+			<div class="tab-pane form-horizontal" ng-class="{active:tab=='me'}">
+				<div class="alert alert-info" ng-show="!newNotifications && enableIndividualV2Rollout">
+					{{'notifications.switch'|translate}}<br /><br />
+					<a href="" ng-click="upgradeNotifications()" class="btn btn-primary Button" ng-disabled="upgrading" v-busy="upgrading" v-busy-label="{{'general.saving'|translate}}" v-busy-text="Upgrade Now" v-pressable>
+						{{'notifications.switch_text'|translate}}
+					</a>
+				</div>
+
+				<div class="panel panel-default settings-panel">
+					<div class="panel-heading">
+						<h4 class="panel-title button-title">
+							<div class="row">
+								<div class="col-sm-6">
+									My Notifications
+								</div>
+								<div class="col-sm-6 text-right">
+									<button type="button" class="btn btn-success" ng-click="addRule('email')">
+										Add Rule
+									</button>
+								</div>
+							</div>
+						</h4>
+					</div>
+
+					<!-- Results Table -->
+					<table class="table table-striped search-results-table">
+						<thead>
+							<tr>
+								<th>Event</th>
+								<th class="noborder">{{'general.enabled'|translate}}</th>
+								<th class="nopadding"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="notification in myNotifications">
+								<td>{{('events.'+notification.event)|translate}}</td>
+								<td>
+									<span class="label label-default" ng-show="notification.enabled">{{'general.on'|translate}}</span>
+									<span class="label label-danger" ng-hide="notification.enabled">{{'general.off'|translate}}</span>
+								</td>
+								<td class="nopadding hover-actions-holder mobile-last mobile-visible">
+									<div class="hover-actions">
+										<button type="button" class="btn btn-sm btn-default" ng-click="editRule(notification)" tooltip="{{'general.edit'|translate}}">
+											<span class="fas fa-pencil"></span>
+										</button>
+										<button type="button" class="btn btn-sm btn-success" ng-click="enableRule(notification)" tooltip="{{'general.enable'|translate}}" ng-hide="notification.enabled">
+											<span class="fas fa-bell-on"></span>
+										</button>
+										<button type="button" class="btn btn-sm btn-default" ng-click="disableRule(notification)" tooltip="{{'general.disable'|translate}}" ng-show="notification.enabled">
+											<span class="fas fa-bell-slash"></span>
+										</button>
+										<button type="button" class="btn btn-sm btn-danger" ng-click="deleteRule(notification)" tooltip="{{'general.delete'|translate}}">
+											<span class="fas fa-trash"></span>
+										</button>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									{{'notifications.summary'|translate}}
+									<a href="" tooltip="{{'notifications.summary_tooltip'|translate}}">
+										<span class="fas fa-question-circle"></span>
+									</a>
+								</td>
+								<td>
+									<div class="invoiced-select">
+										<select ng-model="member.email_update_frequency" ng-change="saveMember(member, 'email_update_frequency', member.email_update_frequency)">
+											<option value="">{{'notifications.never'|translate}}</option>
+											<option value="day">{{'notifications.daily'|translate}}</option>
+											<option value="week">{{'notifications.weekly'|translate}}</option>
+											<option value="month">{{'notifications.monthly'|translate}}</option>
+										</select>
+									</div>
+								</td>
+								<td class="nopadding"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<!-- Slack Notifications -->
+			<div class="tab-pane" ng-class="{active:tab=='slack'}" ng-if="'settings.edit'|hasPermission">
+				<div class="panel panel-default settings-panel">
+					<div class="panel-heading">
+						<h4 class="panel-title button-title">
+							<div class="row">
+								<div class="col-sm-6">
+									Slack Notifications
+								</div>
+								<div class="col-sm-6 text-right">
+									<button type="button" class="btn btn-success" ng-click="addRule('slack')">
+										Add Rule
+									</button>
+								</div>
+							</div>
+						</h4>
+					</div>
+
+					<!-- No Results -->
+					<div class="list-group" ng-show="slackNotifications.length === 0">
+						<div class="list-group-item">
+							<div class="empty">No Slack notification rules, yet.</div>
+						</div>
+					</div>
+
+					<!-- Results Table -->
+					<table class="table table-striped search-results-table" ng-show="slackNotifications.length > 0">
+						<thead>
+							<tr>
+								<th>Event</th>
+								<th class="noborder">{{'general.enabled'|translate}}</th>
+								<th class="nopadding"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="notification in slackNotifications">
+								<td>{{('events.'+notification.event)|translate}}</td>
+								<td class="noborder">
+									<span class="label label-default" ng-show="notification.enabled">{{'general.on'|translate}}</span>
+									<span class="label label-danger" ng-hide="notification.enabled">{{'general.off'|translate}}</span>
+								</td>
+								<td class="nopadding hover-actions-holder mobile-last mobile-visible">
+									<div class="hover-actions">
+										<button type="button" class="btn btn-sm btn-default" ng-click="editRule(notification)" tooltip="{{'general.edit'|translate}}">
+											<span class="fas fa-pencil"></span>
+										</button>
+										<button type="button" class="btn btn-sm btn-success" ng-click="enableRule(notification)" tooltip="{{'general.enable'|translate}}" ng-hide="notification.enabled">
+											<span class="fas fa-bell-on"></span>
+										</button>
+										<button type="button" class="btn btn-sm btn-default" ng-click="disableRule(notification)" tooltip="{{'general.disable'|translate}}" ng-show="notification.enabled">
+											<span class="fas fa-bell-slash"></span>
+										</button>
+										<button type="button" class="btn btn-sm btn-danger" ng-click="deleteRule(notification)" tooltip="{{'general.delete'|translate}}">
+											<span class="fas fa-trash"></span>
+										</button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<!-- User Notifications settings -->
+			<div class="tab-pane form-horizontal" ng-class="{active:tab=='user_notification_settings'}" ng-show="newNotifications">
+				<div class="form-group">
+					<div class="col-md-9 col-md-offset-3">
+						<h4 class="settings-section-title">Notification Settings</h4>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-md-3">
+						{{'notifications.summary'|translate}}
+					</label>
+					<div class="col-md-3">
+						<div class="invoiced-select input-medium">
+							<select ng-model="member.email_update_frequency" ng-change="saveMember(member, 'email_update_frequency', member.email_update_frequency)">
+								<option value="">{{'notifications.never'|translate}}</option>
+								<option value="day">{{'notifications.daily'|translate}}</option>
+								<option value="week">{{'notifications.weekly'|translate}}</option>
+								<option value="month">{{'notifications.monthly'|translate}}</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-3 help-text">
+						{{'notifications.summary_tooltip'|translate}}
+					</div>
+				</div>
+
+				<div class="form-group" ng-show="'accounts_receivable'|hasFeature">
+					<label class="control-label col-md-3">
+						{{'notifications.subscribe_all'|translate}}
+					</label>
+					<div class="col-md-3">
+						<toggle ng-show="canManageOwnSettings" ng-model="member.subscribe_all" ng-change="saveMember(member, 'subscribe_all', value)"></toggle>
+						<span class="label label-danger" ng-show="!canManageOwnSettings && !member.subscribe_all">{{'general.off'|translate}}</span>
+						<span class="label label-success ng-hide" ng-show="!canManageOwnSettings && member.subscribe_all">{{'general.on'|translate}}</span>
+					</div>
+					<div class="col-md-3 help-text">
+						When enabled, you will receive notifications for all customers. If disabled, you can watch the customers you want to receive notifications about.
+					</div>
+				</div>
+				<hr/>
+
+				<!-- Individual Notification Types -->
+				<div ng-repeat="category in myNotificationsNew">
+					<div class="form-group">
+						<div class="col-md-12">
+							<h4 class="settings-section-title">
+								{{('notifications.categories.' + category.name)|translate}}
+							</h4>
+						</div>
+					</div>
+
+					<notification-frequency notifications="category.notifications" save-notification="saveUserNotification" enable-selection="canManageOwnSettings"></notification-frequency>
+				</div>
+			</div>
+
+			<!-- Company Notifications settings -->
+			<div class="tab-pane form-horizontal" ng-class="{active:tab=='company'}">
+				<div ng-if="!('notifications_v2_default'|hasFeature) && !hideMigrateSettings">
+					<div class="form-group">
+						<div class="col-md-9 col-md-offset-3">
+							<h4 class="settings-section-title">Migrate to New Notification System</h4>
+						</div>
+					</div>
+
+					<p class="alert alert-info">
+						{{'notifications.switch'|translate}}
+					</p>
+
+					<div class="form-group">
+						<label class="control-label col-md-3">
+							{{'notifications.company_notification_individual'|translate}}
+						</label>
+						<div class="col-md-2">
+							<toggle ng-model="enableIndividualV2Rollout" ng-change="changeIndividual()"></toggle>
+						</div>
+						<div class="col-md-5 help-text">
+							{{'notifications.company_notification_individual_tooltip'|translate}}
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-9 col-md-offset-3">
+							<h4>- OR- </h4>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-md-9 col-md-offset-3">
+							<button type="button" class="btn btn-primary Button" ng-disabled="converting" v-busy="converting" v-busy-label="{{'notifications.company_notification_converting'|translate}}" v-busy-text="{{'notifications.company_notification_convert_all'|translate}}" v-pressable ng-click="convert()">
+								Migrate All Users Now
+							</button>
+						</div>
+					</div>
+					<hr/>
+				</div>
+
+				<p>
+					New users will inherit these notification settings. Also, users that do not have permission to manage their own notifications will utilize these notification settings.
+				</p>
+
+				<!-- Company Notification Types -->
+				<div ng-repeat="category in companyNotifications">
+					<div class="form-group">
+						<div class="col-md-12">
+							<h4 class="settings-section-title">
+								{{('notifications.categories.' + category.name)|translate}}
+							</h4>
+						</div>
+					</div>
+
+					<notification-frequency notifications="category.notifications" save-notification="saveCompanyNotification" enable-selection="true"></notification-frequency>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

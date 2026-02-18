@@ -1,0 +1,193 @@
+# Tests that "Absolute date" step
+# - Should not be scheduled if days date is in the past
+# - Should be scheduled if date is in the future
+# - Should be canceled if updated, not sent and date is in the past
+#-  Should be uncanceled if updated (was in the past) and new date is in the future
+
+operations:
+
+    # PART 1: Test that no ScheduledSend is created for an absolute date step in the past
+
+  - operation: create
+    mock_time: '2022-01-06 09:31:14' # Time chosen at random
+    data:
+      invoice:
+        date: '2022-01-06 09:31:14' # Created at time
+        items:
+          - quantity: 1
+            unit_cost: 100
+      delivery:
+        chase_schedule:
+          - trigger: 4
+            options:
+              hour: 8
+              date: '2022-01-04 09:31:14' # past date
+              email: true
+              sms: false
+              letter: false
+    expect:
+      delivery:
+        processed: false
+      delivery_state:
+        - state:
+            - date: '2022-01-04 08:00:00'
+              skipped: true
+              sent:
+                email: false
+      scheduled_sends: []
+
+  - operation: schedule
+    mock_time: '2022-01-06 09:31:14' # Same as previous
+    expect:
+      delivery:
+        processed: true
+      delivery_state:
+        - state:
+            - date: '2022-01-04 08:00:00'
+              skipped: true
+              sent:
+                email: false
+      scheduled_sends: []
+
+    # PART 2: Test that a ScheduledSend is created after the date is updated to a future date and
+    # the delivery is reprocessed.
+
+  - operation: edit
+    mock_time: '2022-01-06 09:31:14' # Same as previous
+    data:
+      delivery:
+        chase_schedule:
+          - id: 0 # Ids do not refer to actual step ids in the integration test. They refer to an index in the previous chase schedule.
+            trigger: 4
+            options:
+              hour: 8
+              date: '2022-01-08 09:31:14' # updated to future date
+              email: true
+              sms: false
+              letter: false
+    expect:
+      delivery:
+        processed: false
+      delivery_state:
+        - state:
+            - date: '2022-01-08 08:00:00'
+              skipped: false
+              sent:
+                email: false
+      scheduled_sends: []
+
+  - operation: schedule
+    mock_time: '2022-01-06 09:31:14' # Same as previous
+    expect:
+      delivery:
+        processed: true
+      delivery_state:
+        - state:
+            - date: '2022-01-08 08:00:00'
+              skipped: false
+              sent:
+                email: false
+      scheduled_sends:
+        - send_after: '2022-01-08 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+
+    # PART 3: Test that the ScheduledSend for the absolute step is canceled when the step is updated
+    # with a date in the past
+
+  - operation: edit
+    mock_time: '2022-01-06 09:31:14' # Same as previous
+    data:
+      delivery:
+        chase_schedule:
+          - id: 0
+            trigger: 4
+            options:
+              hour: 8
+              date: '2022-01-04 09:31:14' # past date
+              email: true
+              sms: false
+              letter: false
+    expect:
+      delivery:
+        processed: false
+      delivery_state:
+        - state:
+            - date: '2022-01-04 08:00:00'
+              skipped: true
+              sent:
+                email: false
+
+  - operation: schedule
+    mock_time: '2022-01-06 09:31:14' # Same as previous
+    expect:
+      delivery:
+        processed: true
+      delivery_state:
+        - state:
+            - date: '2022-01-04 08:00:00'
+              skipped: true
+              sent:
+                email: false
+      scheduled_sends:
+        - send_after: '2022-01-04 08:00:00'
+          channel: 0
+          sent: false
+          canceled: true
+          skipped: false
+          failed: false
+
+    # PART 4: Test that the ScheduledSend for the absolute step is un-canceled when the step is updated
+    # with a date in the future
+
+  - operation: edit
+    mock_time: '2022-01-06 09:31:14' # Same as previous
+    data:
+      delivery:
+        chase_schedule:
+          - id: 0 # Ids do not refer to actual step ids in the integration test. They refer to an index in the previous chase schedule.
+            trigger: 4
+            options:
+              hour: 8
+              date: '2022-01-08 09:31:14'
+              email: true
+              sms: false
+              letter: false
+    expect:
+      delivery:
+        processed: false
+      delivery_state:
+        - state:
+            - date: '2022-01-08 08:00:00'
+              skipped: false # no longer skipped even though the ScheduledSend hasn't been uncancelled yet via processing
+              sent:
+                email: false
+      scheduled_sends:
+        - send_after: '2022-01-04 08:00:00' # same value before processing
+          channel: 0
+          sent: false
+          canceled: true # still canceled before processing
+          skipped: false
+          failed: false
+
+  - operation: schedule
+    mock_time: '2022-01-06 09:31:14' # Same as previous
+    expect:
+      delivery:
+        processed: true
+      delivery_state:
+        - state:
+            - date: '2022-01-08 08:00:00'
+              skipped: false
+              sent:
+                email: false
+      scheduled_sends:
+        - send_after: '2022-01-08 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false

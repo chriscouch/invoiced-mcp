@@ -1,0 +1,13 @@
+<!-- Special variation for American Express because they are picky -->
+<div ng-if="('amex'|hasFeature)">
+	<div class="coupon-name">American Express 40% off Discount</div>
+</div>
+<div ng-if="!('amex'|hasFeature)">
+	<div class="coupon-name">{{coupon.name}}</div>
+	<div class="coupon-details">
+		<span ng-show="coupon.percent_off">{{coupon.percent_off}}%</span>
+		<span ng-show="coupon.amount_off">${{coupon.amount_off/100}}</span>
+		off
+		<span ng-show="coupon.duration=='forever'"> forever</span><span ng-show="coupon.duration=='repeating'"> for {{coupon.duration_in_months}} months</span><span ng-show="coupon.duration=='once'"> once</span>
+	</div>
+</div>

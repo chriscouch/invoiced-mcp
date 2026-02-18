@@ -1,0 +1,74 @@
+{% extends "auth/parent.twig" %}
+{% set title='Approve ' ~ application.name %}
+
+{% block main %}
+
+    <h1 class="logo">
+        <a href="/">
+            <img src="{{ asset("/img/logo.png") }}" width="137" height="35" alt="Invoiced" />
+        </a>
+    </h1>
+
+    <div class="auth-page container">
+        <h4 class="title fs-3">{{ application.name }}</h4>
+
+        <p>
+            <strong>{{ application.name }}</strong> wants access to your Invoiced Account.
+        </p>
+
+        <hr/>
+        <p>This app requests these permissions:</p>
+        <ul class="bulleted">
+            {% for scope in scopes %}
+                <li>
+                    {% set scopeId = scope.identifier %}
+                    {% if scopeId == 'accounts_receivable' %}
+                        Read and write your accounts receivable data
+                    {% elseif scopeId == 'openid' %}
+                        View your profile
+                    {% elseif scopeId == 'read' %}
+                        Read your data
+                    {% elseif scopeId == 'read_write' %}
+                        Read and write your data
+                    {% else %}
+                        {{ scopeId }}
+                    {% endif %}
+                </li>
+            {% else %}
+                <li>View your profile</li>
+            {% endfor %}
+        </ul>
+        <hr/>
+
+        <form method="post">
+            {% if tenants|length > 1 %}
+                <p>Which company would you like to connect?</p>
+                <div class="form-group">
+                    <select class="form-control" name="tenantId">
+                        {% for tenant in tenants %}
+                            <option value="{{ tenant.id }}">{{ tenant.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <br/>
+            {% elseif tenants|length == 1 %}
+                <input type="hidden" name="tenantId" value="{{ tenants.0.id }}"
+            {% endif %}
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('oauth_approve') }}" />
+            <div class="d-flex justify-content-between">
+                <div>
+                    <button type="submit" name="action" value="deny" class="btn btn-white btn-block">
+                        Cancel
+                    </button>
+                </div>
+                <div>
+                    <button type="submit" name="action" value="approve" class="btn btn-primary btn-block">
+                        Approve
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

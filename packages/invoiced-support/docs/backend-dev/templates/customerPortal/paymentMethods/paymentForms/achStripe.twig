@@ -1,0 +1,10 @@
+{% trans_default_domain 'customer_portal' %}
+<p>In order to submit an ACH payment you must first connect and verify a bank account.</p>
+
+<div class="row actions">
+    <div class="col-sm-12">
+        <a href="{{ path('customer_portal_update_payment_info_form', {id: clientId, method: methodId, subdomain: subdomain}) }}" class="btn btn-primary payment-button">
+            {{ 'labels.add_bank_account'|trans }}
+        </a>
+    </div>
+</div>

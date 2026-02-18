@@ -1,0 +1,215 @@
+<div class="loading" ng-show="loading"></div>
+<form name="modelForm" ng-submit="save(paymentLink)" ng-hide="loading">
+	<div class="contents bill-editor">
+		<div class="title-bar">
+			<h2 class="title">
+				<span ng-show="paymentLink.id">Edit Payment Link</span>
+				<span ng-hide="paymentLink.id">New Payment Link</span>
+			</h2>
+		</div>
+
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+		<p class="alert alert-danger" ng-show="error">
+			{{error}}
+		</p>
+
+		<div class="row">
+			<div class="col-md-3">
+				<div class="form-group">
+					<label class="control-label">Customer</label>
+					<div>
+						<picklist type="'customer'" ng-model="paymentLink.customer" allow-new="true" is-required="false" allow-clear="true"></picklist>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="form-group">
+					<label class="control-label">Reusable</label>
+					<div>
+						<toggle ng-model="paymentLink.reusable"></toggle>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="form-group">
+					<label class="control-label">
+						Link Template
+						<a href="" tooltip="The payment link has no items and the amount is entered by the user.">
+							<span class="fas fa-info-circle"></span>
+						</a>
+					</label>
+					<div>
+						<toggle ng-model="paymentLink.link_template"></toggle>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3" ng-show="'multi_currency'|hasFeature">
+				<div class="form-group">
+					<label class="control-label">Currency <span class="required"></span></label>
+					<div>
+						<currency-selector ng-model="paymentLink.currency"></currency-selector>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Line Items -->
+		<div class="bill-line-items" ng-if="!paymentLink.link_template">
+			<h4 class="settings-section-title">Line Items <span class="required"></span></h4>
+			<table class="table table-striped search-results-table">
+				<thead>
+				<tr>
+					<th class="col-description">Description</th>
+					<th class="col-amount money-column">Amount</th>
+					<th class="col-actions"></th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr class="line" ng-repeat="lineItem in paymentLink.items">
+					<td class="col-description">
+						<input type="text" class="form-control" ng-model="lineItem.description" required />
+					</td>
+					<td class="col-amount money-column">
+						<input class="form-control" type="text" currency-input ng-model="lineItem.amount" currency="paymentLink.currency" required="true" />
+					</td>
+					<td class="col-actions">
+						<button type="button" class="btn btn-link" ng-click="removeLineItem(paymentLink, $index)" ng-show="paymentLink.items.length > 1">
+							<span class="fas fa-trash"></span>
+						</button>
+					</td>
+				</tr>
+				</tbody>
+				<tfoot>
+				<tr>
+					<td class="text-right">
+						Total
+					</td>
+					<td class="text-right">
+						<money amount="paymentLinkTotal" currency="paymentLink.currency"></money>
+					</td>
+					<td></td>
+				</tr>
+				<tr class="add-line-item">
+					<td colspan="3">
+						<button type="button" class="btn btn-default" ng-click="addLineItem(paymentLink)">
+							<span class="fas fa-plus"></span>
+							Line Item
+						</button>
+					</td>
+				</tr>
+				</tfoot>
+			</table>
+		</div>
+
+		<hr/>
+		<div class="row">
+			<div class="col-md-12">
+				<h3>Advanced Settings</h3>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-3">
+				<div class="form-group">
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="control-label">Collect</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-6 form-control-static">
+							Billing Address
+						</div>
+						<div class="col-xs-6">
+							<toggle ng-model="paymentLink.collect_billing_address"></toggle>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-6 form-control-static">
+							Shipping Address
+						</div>
+						<div class="col-xs-6">
+							<toggle ng-model="paymentLink.collect_shipping_address"></toggle>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-6 form-control-static">
+							Phone Number
+						</div>
+						<div class="col-xs-6">
+							<toggle ng-model="paymentLink.collect_phone_number"></toggle>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Custom Fields -->
+			<div class="col-md-3">
+				<div class="form-group slim">
+					<label class="control-label">Custom Fields</label>
+					<div>
+						<div class="payment-link-custom-fields">
+							<div class="selected-custom-fields" ng-class="{'count-1':paymentLink.fields.length==1}" ui-sortable="sortableOptions" ng-model="paymentLink.fields">
+								<div class="custom-field" ng-repeat="field in paymentLink.fields">
+									<div class="delete">
+										<a href="" ng-click="removeField(paymentLink, $index)">
+											<span class="fas fa-times"></span>
+										</a>
+									</div>
+									<div class="sortable-handle" ng-class="{hidden:paymentLink.fields.length==1}">
+										<span class="fas fa-grip-lines"></span>
+									</div>
+									<div class="title">
+										{{('metadata.object_names.'+field.object_type)|translate}}: <code>{{field.custom_field_id}}</code>
+									</div>
+								</div>
+							</div>
+							<div class="new-custom-field dropdown" dropdown>
+								<button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle>
+									<span class="fas fa-plus"></span> Custom Field
+								</button>
+								<ul class="dropdown-menu">
+									<li>
+										<a href="" ng-click="addField(paymentLink, 'customer')">
+											Customer Field
+										</a>
+									</li>
+									<li>
+										<a href="" ng-click="addField(paymentLink, 'invoice')">
+											Invoice Field
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="form-group">
+					<label class="control-label">Terms of Service URL</label>
+					<div>
+						<input class="form-control" type="text" ng-model="paymentLink.terms_of_service_url" />
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="form-group">
+					<label class="control-label">Redirect URL After Complete</label>
+					<div>
+						<input class="form-control" type="text" ng-model="paymentLink.after_completion_url" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary" ng-disabled="modelForm.$invalid||saving">
+				<span ng-show="paymentLink.id">{{'general.save'|translate}}</span>
+				<span ng-hide="paymentLink.id">{{'general.create'|translate}}</span>
+			</button>
+		</div>
+	</div>
+</form>

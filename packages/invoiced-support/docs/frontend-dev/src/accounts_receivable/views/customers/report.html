@@ -1,0 +1,137 @@
+<div class="dashboard">
+	<p class="loading" ng-hide="!loading && loaded.dashboard"></p>
+	<div ng-if="!loading && loaded.dashboard">
+		<div class="row">
+			<div class="col-md-7">
+				<!-- Activity Chart -->
+				<div class="box">
+					<activity-chart period="period" style="'bar'" customer="customer" currency="currency"></activity-chart>
+				</div>
+			</div>
+
+			<div class="col-md-5">
+				<!-- Metrics -->
+				<div class="metrics customer-metrics clearfix">
+					<dashboard-time-to-pay context="dashboardContext" options="timeToPayOptions"></dashboard-time-to-pay>
+
+					<dashboard-collections-efficiency context="dashboardContext" options="ceiOptions"></dashboard-collections-efficiency>
+
+					<dashboard-days-sales-outstanding context="dashboardContext" options="dsoOptions"></dashboard-days-sales-outstanding>
+
+					<div class="metric" ng-if="'subscriptions'|hasFeature">
+						<div class="description">
+							<a href="" tooltip="Monthly Recurring Revenue">
+								MRR
+							</a>
+						</div>
+						<div class="value">
+							<money amount="dashboard.mrr" currency="dashboard.currency"></money>
+						</div>
+					</div>
+
+					<div class="metric">
+						<div class="description">
+							Open Invoices
+						</div>
+						<div class="value">
+							{{dashboard.num_invoices_outstanding | number:0}}
+						</div>
+					</div>
+
+					<dashboard-expected-payments context="dashboardContext" options="epOptions"></dashboard-expected-payments>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="box debt-breakdown" ng-hide="dashboard.total_invoices_outstanding == 0">
+					<!-- Aging Bar -->
+					<aging-breakdown aging="aging" currency="dashboard.currency"></aging-breakdown>
+
+					<div class="row">
+						<div class="col-md-6">
+							<!-- Aging -->
+							<div class="aging" ng-show="dashboard.total_invoices_outstanding>0">
+								<h4>
+									A/R Aging
+								</h4>
+
+								<table class="table table-aging">
+									<thead>
+										<tr>
+											<th class="age">Age</th>
+											<th class="count">Open Items</th>
+											<th class="balance">{{'general.total'|translate}}</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="entry in aging">
+											<td class="age">
+												<a href="/invoices?status=unpaid&amp;sort=date+ASC&amp;{{dashboard.aging_date}}={{dateRange(entry)}}&amp;currency={{dashboard.currency}}&amp;customer={{customer.id}}">
+													<span class="aging-color age-severity-{{entry.severity}}"></span>
+													{{entry.title}}
+												</a>
+											</td>
+											<td class="count">
+												{{entry.count | number:0}}
+											</td>
+											<td class="balance">
+												<money amount="entry.amount" currency="dashboard.currency"></money>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<!-- Outstanding Invoices -->
+							<div class="section outstanding-invoices">
+								<div class="actions">
+									<a href="/invoices?status=unpaid&amp;sort=date+ASC&amp;customer={{customer.id}}" ng-show="dashboard.outstanding.length>0">
+										{{'general.view_all'|translate}}
+									</a>
+								</div>
+								<h4>
+									Outstanding Invoices
+								</h4>
+								<table class="table table-outstanding-invoices" ng-show="dashboard.outstanding.length>0">
+									<thead>
+										<tr>
+											<th>Age</th>
+											<th>Invoice #</th>
+											<th class="balance">{{'general.balance'|translate}}</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="invoice in dashboard.outstanding">
+											<td class="age">
+												<invoice-age invoice="invoice"></invoice-age>
+											</td>
+											<td class="name">
+												<a ui-sref="manage.invoice.view.summary({id:invoice.id})">
+													<document-name document="invoice"></document-name>
+												</a>
+											</td>
+											<td class="balance-num">
+												<money amount="invoice.balance" currency="dashboard.currency"></money>
+											</td>
+											<td class="balance">
+												<invoice-balance-bar invoice="invoice" max="outstandingMax"></invoice-balance-bar>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<p class="empty" ng-show="dashboard.outstanding.length==0">
+									No open invoices currently.
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

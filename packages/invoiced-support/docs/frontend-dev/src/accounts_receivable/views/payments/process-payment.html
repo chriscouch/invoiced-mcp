@@ -1,0 +1,168 @@
+<feature-upgrade ng-if="!('virtual_terminal'|hasFeature)"></feature-upgrade>
+<div ng-if="'virtual_terminal'|hasFeature">
+    <form name="paymentForm" ng-submit="processPayment(payment, applyForm)" class="below0">
+        <p class="required-indicator">
+            <span class="required"></span> {{'general.indicates_required_field'|translate}}
+        </p>
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <div class="row">
+            <!-- Customer -->
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label">{{'transactions.customer'|translate}} <span class="required"></span></label>
+                    <div class="form-control-static" ng-if="customerPreselected">
+                        {{payment.customer.name}}
+                    </div>
+                    <div ng-if="!customerPreselected">
+                        <select-customer ng-model="payment.customer"></select-customer>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Currency -->
+            <div class="col-sm-4">
+                <div class="form-group" ng-if="('multi_currency'|hasFeature) && !applyForm.itemPreselected">
+                    <label class="control-label">{{'payments.edit.labels.currency'|translate}} <span class="required"></span></label>
+                    <div>
+                        <currency-selector ng-model="payment.currency" required></currency-selector>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <div class="loading" ng-show="loading"></div>
+        <div ng-show="!loading">
+            <div class="row">
+                <!-- Payment Method -->
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label">Pay With <span class="required"></span></label>
+                        <div>
+                            <div class="invoiced-select">
+                                <select ng-model="$parent.payWith"  ng-options="source.key as source.description for source in paymentSources">
+                                    <option value="{{source.key}}" ng-repeat="source in paymentSources">{{source.description}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Amount -->
+                <div class="col-sm-4">
+                    <div class="form-group" ng-class="{'has-error':applyForm.invalidAmount}">
+                        <label class="control-label">Payment Amount <span class="required"></span></label>
+                        <div>
+                            <input class="form-control" type="text" currency-input ng-model="payment.amount" currency="payment.currency" required="required" />
+                        </div>
+                        <div>
+                            <span class="text-warning padded-label line-item-rate" ng-if="convenienceFee">{{'transactions.new_payment.convenience_fee'|translate:{fee: convenienceFee} }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row">
+                <!-- Payment Info (Card) -->
+                <div class="col-sm-6" ng-if="payWith=='credit_card'">
+                    <div class="form-group">
+                        <label class="control-label">{{'transactions.card'|translate}} <span class="required"></span></label>
+                        <div>
+                            <div ng-show="acceptsCreditCards && acceptsCreditCards != 'flywire' && acceptsCreditCards != 'flywire_payments'">
+                                <credit-card card="$parent.$parent.card" options="{'requestAddress':true,'allowTestCard':false}"></credit-card>
+
+                                <div class="checkbox noselect">
+                                    <label>
+                                        <input type="checkbox" ng-model="$parent.$parent.vaultMethod" />
+                                        Save for later
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="alert alert-warning" ng-hide="acceptsCreditCards">
+                                {{'transactions.new_payment.card_alert'|translate}}
+                            </div>
+                            <div class="alert alert-warning" ng-hide="acceptsCreditCards != 'flywire' && acceptsCreditCards != 'flywire_payments'">
+                                {{'payment_method.warnings.card'|translate}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Info (ACH) -->
+                <div class="col-sm-6" ng-if="payWith=='ach'">
+                    <div class="form-group">
+                        <label class="control-label">{{'transactions.bank_account'|translate}} <span class="required"></span></label>
+                        <div>
+                            <div ng-show="acceptsACH && acceptsACH != 'gocardless' && acceptsACH != 'stripe'">
+                                <bank-account bank-account="$parent.$parent.bankAccount"></bank-account>
+
+                                <div class="checkbox noselect">
+                                    <label>
+                                        <input type="checkbox" ng-model="$parent.$parent.vaultMethod" />
+                                        {{'transactions.new_payment.save_for_later'|translate}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="alert alert-warning" ng-hide="acceptsACH">
+                                {{'transactions.new_payment.ach_alert'|translate}}
+                            </div>
+                            <div class="alert alert-warning" ng-hide="acceptsACH != 'invoiced' && acceptsACH != 'gocardless' && acceptsACH != 'stripe'">
+                                {{'payment_method.warnings.payment_bank'|translate}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Require a CVC code for saved cards (optional) -->
+                <div class="col-sm-6" ng-if="requiresCvc()">
+                    <div class="form-group">
+                        <label class="control-label">{{'transactions.cvc'|translate}} <span class="required"></span></label>
+                        <div>
+                            <input type="tel" class="form-control" autocomplete="cc-csc" autocorrect="off" spellcheck="off" autocapitalize="off" placeholder="123" ng-model="$parent.$parent.cvc" required />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Receipt Email -->
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">{{'transactions.receipt'|translate}}</label>
+                        <div>
+                            <input type="text" class="form-control" ng-model="$parent.receiptEmail" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notes -->
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">{{'transactions.notes'|translate}}</label>
+                        <div>
+                            <textarea ng-model="payment.notes" expanding-textarea class="form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Fields -->
+                <div class="col-sm-6"  ng-repeat="field in customFields">
+                    <label class="control-label">{{field.name}}</label>
+                    <div>
+                        <custom-field-input field="field" metadata="payment.metadata"></custom-field-input>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+
+            <!-- Payment Application -->
+            <apply-receive-payment payment="payment" form="applyForm"></apply-receive-payment>
+        </div>
+        <div class="modal-footer" ng-if="'virtual_terminal'|hasFeature">
+            <button type="submit" class="btn btn-primary Button" ng-disabled="paymentForm.$invalid||applyForm.invalidAmount||!applyForm.linesValid||!applyForm.creditsValid||applyForm.remaining!=0||loading||applyForm.loading||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+                <span>{{'transactions.process'|translate}}</span>
+            </button>
+        </div>
+    </form>
+</div>

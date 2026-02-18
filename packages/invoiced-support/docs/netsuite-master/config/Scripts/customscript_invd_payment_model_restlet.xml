@@ -1,0 +1,22 @@
+<restlet scriptid="customscript_invd_payment_model_restlet">
+  <description>Payments from Invoiced</description>
+  <isinactive>F</isinactive>
+  <name>Invoiced - Payments from Invoiced</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <notifyuser>F</notifyuser>
+  <scriptfile>[/SuiteBundles/Bundle 265184/src/PaymentsModelScriptlet.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_invd_payment_model_restlet">
+      <allemployees>F</allemployees>
+      <allpartners>F</allpartners>
+      <allroles>T</allroles>
+      <audslctrole></audslctrole>
+      <isdeployed>T</isdeployed>
+      <loglevel>ERROR</loglevel>
+      <status>RELEASED</status>
+      <title>Invoiced - Payments from Invoiced</title>
+    </scriptdeployment>
+  </scriptdeployments>
+</restlet>

@@ -1,0 +1,25 @@
+mapping:
+  - sourceField: RECORDNO
+    destinationField: accounting_id
+
+  - sourceField: NAME
+    destinationField: name
+
+  - sourceField: CUSTOMERID
+    destinationField: number
+
+  - sourceField: CURRENCY
+    destinationField: currency
+    type: currency
+
+  - sourceField: TAXID
+    destinationField: tax_id
+
+  - sourceField: PARENTKEY
+    destinationField: parent_customer/accounting_id
+
+  - sourceField: PARENTNAME
+    destinationField: parent_customer/name
+
+  - sourceField: PARENTID
+    destinationField: parent_customer/number

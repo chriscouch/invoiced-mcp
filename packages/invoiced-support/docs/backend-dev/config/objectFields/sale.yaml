@@ -1,0 +1,41 @@
+fields:
+  balance: { name: Balance, type: money, summarize: true }
+  closed: { name: Closed, type: boolean }
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency: { name: Currency, type: string }
+  customer: { name: Customer, type: join, parent_column: customer }
+  date: { name: Date, type: date }
+  date_voided: { name: "Date Voided", type: date }
+  draft: { name: Draft, type: boolean }
+  due_date: { name: "Due Date", type: date }
+  id:
+    name: ID
+    type: string
+    writable: false
+  metadata: { name: 'Metadata', type: metadata }
+  name: { name: Name, type: string }
+  notes: { name: Notes, type: string }
+  number: { name: "Document #", type: string }
+  paid: { name: Paid, type: boolean }
+  purchase_order: { name: "Purchase Order", type: string }
+  sent: { name: Sent, type: boolean }
+  status: { name: Status, type: string }
+  subtotal: { name: Subtotal, type: money, summarize: true }
+  total: { name: Total, type: money, summarize: true }
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  viewed: { name: Viewed, type: boolean }
+  voided: { name: Voided, type: boolean }

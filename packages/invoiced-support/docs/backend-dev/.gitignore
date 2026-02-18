@@ -1,0 +1,90 @@
+### Sensitive Files
+id_rsa_deploy
+secrets.php
+*.pem
+
+### Dependencies
+/composer.phar
+/vendor
+/node_modules
+/public/node_modules
+
+### Auto-generated Files
+/assets/automation_fields.php
+/assets/countries.php
+/assets/features.php
+/assets/import_fields.php
+/assets/integrations.php
+/assets/object_fields.php
+/assets/plans.php
+/assets/products.php
+/assets/report_fields.php
+/assets/static.assets.json
+/assets/version.php
+/build
+/public/css/auth.css
+/public/css/docs.css
+/public/css/error.css
+/public/css/home.css
+/public/css/integrations.css
+/public/css/network.css
+/public/css/styles.css
+/public/js/auth.js
+/public/js/config.js
+/public/js/customer_portal.js
+/public/js/defaultTemplates.js
+/public/js/docs.js
+/public/js/jquery-ui-i18n.js
+/public/js/locale.js
+/public/js/views
+/public/static
+
+### Local files
+/phpunit.xml
+/invoiced-docs
+/blog
+/phpstan.neon
+
+### PhpStorm
+/.idea
+
+### Sublime
+*.sublime-workspace
+
+### Dev Setup - Vagrant + Puppet
+.vagrant
+/puppet
+/logs
+
+### Junk Files
+/temp
+._.DS_Store
+Thumbs.db 
+Desktop.ini
+.DS_Store
+.php_cs.cache
+-d
+-u
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> symfony/web-server-bundle ###
+/.web-server-pid
+###< symfony/web-server-bundle ###
+/http-client.private.env.json
+
+CLAUDE.md

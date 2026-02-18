@@ -1,0 +1,204 @@
+parameters:
+  # All jobs are scheduled in UTC
+  app.cron_jobs:
+
+    # Continuous Jobs
+
+    - class: App\EntryPoint\CronJob\UpdateStatsDMetrics
+      schedule: "* * * * *"
+
+    - class: App\EntryPoint\CronJob\EnqueueInvoiceChaseScheduling
+      schedule: "* * * * *"
+
+    - class: App\EntryPoint\CronJob\MarkInvoicesPastDue
+      schedule: "* * * * *"
+
+    - class: App\EntryPoint\CronJob\MarkPaymentPlanInvoicesPastDue
+      schedule: "* * * * *"
+
+    - class: App\EntryPoint\CronJob\MarkEstimatesExpired
+      schedule: "* * * * *"
+
+    - class: App\EntryPoint\CronJob\IssuedDocumentNotices
+      schedule: "* * * * *"
+
+    - class: App\EntryPoint\CronJob\MarkPromiseToPayBroken
+      schedule: "* * * * *"
+
+      # Hourly Jobs (must run at a specific minute)
+
+    - class: App\EntryPoint\CronJob\ProcessScheduledSends
+      schedule: "0 * * * *"
+
+    - class: App\EntryPoint\CronJob\StartScheduledCadences
+      schedule: "0 * * * *"
+
+    - class: App\EntryPoint\CronJob\ScheduledReportJob
+      schedule: "0 * * * *"
+
+    - class: App\EntryPoint\CronJob\MrrSyncCronJob
+      schedule: "0 * * * *"
+
+    - class: App\EntryPoint\CronJob\ReplayInitiatedCharge
+      schedule: "*/30 * * * *"
+
+    - class: App\EntryPoint\CronJob\RetryReconciliationErrors
+      schedule: "*/30 * * * *"
+
+    - class: App\EntryPoint\CronJob\NotificationEventInstantJob
+      schedule: "*/5 * * * *"
+
+    - class: App\EntryPoint\CronJob\CalculateInvoiceChaseTimes
+      schedule: "20 * * * *"
+
+    - class: App\EntryPoint\CronJob\ChaseInvoicesLegacy
+      schedule: "35 * * * *"
+
+    - class: App\EntryPoint\CronJob\BillSubscriptions
+      schedule: "10 * * * *"
+
+    - class: App\EntryPoint\CronJob\AutoPay
+      schedule: "15 * * * *"
+
+    - class: App\EntryPoint\CronJob\ChartMogulSyncs
+      schedule: "*/15 * * * *"
+
+    - class: App\EntryPoint\CronJob\EarthClassMailSync
+      schedule: "*/15 * * * *"
+
+    - class: App\EntryPoint\CronJob\QuickBooksOnlineSync
+      schedule: "*/15 * * * *"
+
+    - class: App\EntryPoint\CronJob\BusinessCentralSync
+      schedule: "*/15 * * * *"
+
+    - class: App\EntryPoint\CronJob\FreshbooksSync
+      schedule: "*/15 * * * *"
+
+    - class: App\EntryPoint\CronJob\SageAccountingSync
+      schedule: "*/15 * * * *"
+
+    - class: App\EntryPoint\CronJob\XeroSync
+      schedule: "*/15 * * * *"
+
+    - class: App\EntryPoint\CronJob\AutomationJob
+      schedule: "1 * * * *"
+
+
+      # Hourly Jobs (can run at any minute)
+
+    - class: App\EntryPoint\CronJob\SendTrialReminders
+      schedule: "0 * * * *"
+
+    - class: App\EntryPoint\CronJob\StripeSync
+      schedule: "4 * * * *"
+
+    - class: App\EntryPoint\CronJob\MarkFailedExports
+      schedule: "8 * * * *"
+
+    - class: App\EntryPoint\CronJob\MarkFailedImports
+      schedule: "16 * * * *"
+
+    - class: App\EntryPoint\CronJob\MarkPromiseToPayBroken
+      schedule: "24 * * * *"
+
+    - class: App\EntryPoint\CronJob\DeleteExpiredDiscounts
+      schedule: "32 * * * *"
+
+    - class: App\EntryPoint\CronJob\WebhookRetries
+      schedule: "40 * * * *"
+
+    - class: App\EntryPoint\CronJob\UpdatePendingCharges
+      schedule: "48 * * * *"
+
+    - class: App\EntryPoint\CronJob\PaymentIntegrationsHealth
+      schedule: "52 */6 * * *"
+
+    - class: App\EntryPoint\CronJob\IntacctSync
+      schedule: "56 * * * *"
+
+      # Daily Jobs
+
+    - class: App\EntryPoint\CronJob\DeleteCanceledCompanies
+      schedule: "31 5 * * *"
+
+    - class: App\EntryPoint\CronJob\DeleteExpiredTrialCompanies
+      schedule: "1 6 * * *"
+
+    - class: App\EntryPoint\CronJob\CancelInactiveAccounts
+      schedule: "0 0 * * *"
+
+    - class: App\EntryPoint\CronJob\UpdateCurrentMonthUsage
+      schedule: "30 0 * * *"
+
+    - class: App\EntryPoint\CronJob\SendAchVerificationReminders
+      schedule: "15 0 * * *"
+
+    - class: App\EntryPoint\CronJob\SendBilledSoonNotices
+      schedule: "15 0 * * *"
+
+    - class: App\EntryPoint\CronJob\CleanElasticsearchIndexes
+      schedule: "0 1 * * *"
+
+    - class: App\EntryPoint\CronJob\RefreshQuickBooksAccessTokens
+      schedule: "0 0 * * *"
+
+    - class: App\EntryPoint\CronJob\LateFeeJob
+      schedule: "45 0 * * *"
+
+    - class: App\EntryPoint\CronJob\SendMemberDailyUpdates
+      schedule: "0 13 * * *"
+
+    - class: App\EntryPoint\CronJob\SendInvitationReminders
+      schedule: "0 14 * * *"
+
+    - class: App\EntryPoint\CronJob\NotificationEventDailyJob
+      schedule: "0 8 * * *"
+
+    - class: App\EntryPoint\CronJob\FlywireSync
+      schedule: "0 0 * * *"
+
+    - class: App\EntryPoint\CronJob\SyncLeadsToHubSpot
+      schedule: "0 0 * * *"
+
+    - class: App\EntryPoint\CronJob\BillingAuditCronJob
+      schedule: "0 14 * * *"
+
+    - class: App\EntryPoint\CronJob\AdyenCustomDomains
+      schedule: "0 0 * * *"
+
+    - class: App\EntryPoint\CronJob\SendFlywirePaymentOnboardingReminders
+      schedule: "0 15 * * *"
+
+    - class: App\EntryPoint\CronJob\AdyenTopUpByNumberOfDaysCronJob
+      schedule: "0 20 * * *"
+
+    - class: App\EntryPoint\CronJob\MerchantTransactionsNotSettledNotificationCronJob
+      schedule: "0 10 * * *"
+
+    - class: App\EntryPoint\CronJob\RetryUnprocessedAdyenReports
+      schedule: "0 0,12 * * *"
+
+    - class: App\EntryPoint\CronJob\DisputesResolutionCronJob
+      schedule: "0 10 * * *"
+      # Weekly Jobs
+
+    - class: App\EntryPoint\CronJob\SendMemberWeeklyUpdates
+      schedule: "0 13 * * 1"
+
+    - class: App\EntryPoint\CronJob\NotificationEventWeeklyJob
+      schedule: "0 8 * * 1"
+
+    - class: App\EntryPoint\CronJob\APReminderCronJob
+      schedule: "0 4 * * 1"
+
+      # Monthly Jobs
+
+    - class: App\EntryPoint\CronJob\GarbageCollection
+      schedule: "30 1 1 * *"
+
+    - class: App\EntryPoint\CronJob\BillUsageJob
+      schedule: "5 8 1 * *"
+
+    - class: App\EntryPoint\CronJob\SendMemberMonthlyUpdates
+      schedule: "0 13 1 * *"

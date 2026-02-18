@@ -1,0 +1,31 @@
+{
+  "title": "Multi Level Join",
+  "sections": [
+    {
+      "title": "Customers",
+      "object": "customer",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "owner.user.name"
+          }
+        },
+        {
+          "field": {
+            "id": "owner.last_accessed"
+          }
+        }
+      ],
+      "filter": [],
+      "group": [],
+      "sort": []
+    }
+  ]
+}

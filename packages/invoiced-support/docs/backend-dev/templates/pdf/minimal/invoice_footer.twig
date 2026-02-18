@@ -1,0 +1,8 @@
+{% if invoice.terms %}
+    <div class="footer">
+        <div class="field">{% if theme.use_translations %}{{ trans('labels.terms') }}{% else %}{{ theme.terms_title }}{% endif %}</div>
+        <div class="terms">{{ invoice.terms|nl2br }}</div>
+    </div>
+{% endif %}
+
+<div class="page-number"><br>PAGE <span class="wk-page"></span> OF <span class="wk-topage"></span></div>

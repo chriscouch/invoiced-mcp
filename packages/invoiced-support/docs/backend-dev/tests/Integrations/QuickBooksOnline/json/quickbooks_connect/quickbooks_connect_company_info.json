@@ -1,0 +1,10 @@
+{
+  "CompanyInfo": {
+    "Id": "1",
+    "CompanyName": "Test",
+    "Country": "US",
+    "_domain": "QBO",
+    "_sparse": false
+  },
+  "time": "2017-04-30T07:04:30.461-07:00"
+}

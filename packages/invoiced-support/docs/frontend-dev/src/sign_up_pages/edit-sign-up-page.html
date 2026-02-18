@@ -1,0 +1,328 @@
+<form name="modelForm" ng-submit="save(page)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			<span ng-show="isExisting">Edit</span><span ng-hide="isExisting">New</span> Sign Up Page
+		</h4>
+	</div>
+	<div class="modal-body form-horizontal">
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<!-- Page Name -->
+		<div class="form-group">
+			<label class="control-label col-sm-3">Name <span class="required"></span></label>
+			<div class="col-sm-7">
+				<input type="text" placeholder="Page name..." ng-model="page.name" class="form-control" required />
+			</div>
+		</div>
+
+		<!-- Page Type -->
+		<div class="form-group">
+			<label class="control-label col-sm-3">Type <span class="required"></span></label>
+			<div class="col-sm-6">
+			    <div class="btn-group btn-radio">
+			        <label class="btn" ng-model="page.type" btn-radio="'recurring'" ng-if="hasSubscriptions">{{'settings.sign_up_pages.type.recurring'|translate}}</label>
+			        <label class="btn" ng-model="page.type" btn-radio="'autopay'">{{'settings.sign_up_pages.type.autopay'|translate}}</label>
+			    </div>
+			</div>
+		</div>
+		<hr/>
+
+		<!-- Recurring Purchase Options -->
+		<div ng-show="page.type=='recurring'">
+			<!-- Plans -->
+			<div class="form-group slim">
+				<label class="control-label col-sm-3">Plans <span class="required"></span></label>
+				<div class="col-sm-9">
+					<div class="sign-up-page-plans">
+						<div class="selected-plans" ng-class="{'count-1':page.plans.length==1}" ui-sortable="sortableOptions" ng-model="page.plans">
+							<div class="plan" ng-repeat="plan in page.plans">
+								<div class="delete">
+									<a href="" ng-click="deletePlan(page, plan)">
+										<span class="fas fa-times" />
+									</a>
+								</div>
+								<div class="sortable-handle" ng-class="{hidden:page.plans.length==1}">
+									<span class="fas fa-grip-lines"></span>
+								</div>
+								<div class="title">
+									<strong>{{plan.name}}</strong>:
+									<money amount="plan.amount" currency="plan.currency" ng-show="plan.pricing_mode=='per_unit'"></money>
+									<span ng-show="plan.pricing_mode=='tiered'">Tiered</span>
+									<span ng-show="plan.pricing_mode=='volume'">Volume</span>
+									{{plan.interval_count|recurringFrequency:plan.interval}}
+								</div>
+							</div>
+						</div>
+						<div class="row new-plan" ng-if="newPlanLine">
+							<div class="col-xs-9 pl-0">
+								<select-plan ng-model="$parent.newPlan" create-new="newPlanClicked" filter="plansFilter"></select-plan>
+							</div>
+							<div class="col-xs-3 pl-0">
+								<a href="" class="btn btn-default" ng-click="triggerNewPlan($event, 'newPlanClicked')" ng-if="'catalog.edit'|hasPermission">
+									New Plan
+								</a>
+								<a href="" class="btn btn-default" ng-click="$parent.newPlanLine=false" ng-show="page.plans.length > 0">
+									{{'general.cancel'|translate}}
+								</a>
+							</div>
+						</div>
+						<div class="new-plan" ng-if="!newPlanLine">
+							<button type="button" class="btn btn-default" ng-click="$parent.newPlanLine=true">
+								<span class="fas fa-plus"></span> Plan
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Addons -->
+			<div class="form-group slim">
+				<label class="control-label col-sm-3">Addons</label>
+				<div class="col-sm-9">
+					<div class="sign-up-page-addons" ui-sortable="sortableOptions" ng-model="addons">
+						<div class="sign-up-page-addon" ng-repeat="addon in addons">
+							<div class="delete">
+								<a href="" ng-click="removeAddon(page, $index)">
+									<span class="fas fa-times" />
+								</a>
+							</div>
+							<div class="sortable-handle" ng-class="{hidden:addons.length==1}">
+								<span class="fas fa-grip-lines"></span>
+							</div>
+							<div class="title" ng-if="addon.catalog_item">
+								<strong>{{addon.catalog_item.name}}</strong>:
+								<money amount="addon.catalog_item.unit_cost" currency="addon.catalog_item.currency"></money>
+							</div>
+							<div class="title" ng-if="addon.plan">
+								<strong>{{addon.plan.name}}</strong>:
+								<money amount="addon.plan.amount" currency="addon.plan.currency"></money>
+								{{addon.plan.interval_count|recurringFrequency:addon.plan.interval}}
+							</div>
+							<div class="type">
+								<label class="noselect">
+									<input type="checkbox" ng-model="addon.has_quantity" />
+									Allow customers to specify a quantity
+								</label>
+							</div>
+							<div class="options">
+								<label class="noselect" ng-if="!addon.plan && supportsItems">
+									<input type="checkbox" ng-model="addon.recurring" /> Recurring
+								</label>
+								<label class="noselect">
+									<input type="checkbox" ng-model="addon.required" /> Required
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="new-sign-up-page-addon">
+						<button type="button" class="btn btn-default" ng-click="addRecurringAddon(page)">
+							<span class="fas fa-plus"></span>
+							Recurring Addon
+						</button>
+						<button type="button" class="btn btn-default" ng-click="addOneTimeAddon(page)">
+							<span class="fas fa-plus"></span>
+							One-Time Charge
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Taxes -->
+			<div class="form-group slim">
+				<label class="control-label col-sm-3">Taxes</label>
+				<div class="col-sm-8">
+					<editable-rates-list line="page.taxes" currency="currency" options="rateListOptions"></editable-rates-list>
+					<button type="button" class="btn btn-default" ng-click="addRateModal(page.taxes, 'tax')">
+						<span class="fas fa-plus"></span>
+						Tax
+					</button>
+				</div>
+			</div>
+
+			<!-- Quantity -->
+			<div class="form-group slim">
+				<div class="col-sm-9 col-sm-offset-3 form-control-static">
+					<label class="noselect">
+						<input type="checkbox" ng-model="page.has_quantity" />
+						Allow customers to specify a quantity
+					</label>
+				</div>
+			</div>
+
+			<!-- Trial Period -->
+			<div class="form-group slim">
+				<div class="col-sm-9 col-sm-offset-3 form-control-static">
+					<label class="noselect">
+						<input type="checkbox" ng-model="hasTrial" />
+						Include a free trial period
+					</label>
+				</div>
+			</div>
+
+			<div class="form-group slim" ng-if="hasTrial">
+				<label class="control-label col-sm-3">Duration <span class="required"></span></label>
+				<div class="col-sm-3">
+					<div class="input-group">
+						<input type="number" class="form-control" ng-model="page.trial_period_days" required />
+						<span class="input-group-addon">days</span>
+					</div>
+				</div>
+			</div>
+
+			<!-- Calendar Billing -->
+			<div class="form-group slim">
+				<div class="col-sm-9 col-sm-offset-3 form-control-static">
+					<label class="noselect">
+						<input type="checkbox" ng-model="calendarBilling" />
+						Renew subscriptions on specific day of month
+					</label>
+				</div>
+			</div>
+
+			<div class="form-group" ng-if="calendarBilling">
+				<label class="control-label col-sm-3">
+					Day of month
+				</label>
+				<div class="col-sm-3">
+					<div class="invoiced-select">
+						<select ng-model="page.snap_to_nth_day" ng-options="n.value as n.name for n in nthDayOptions"></select>
+					</div>
+				</div>
+			</div>
+
+			<!-- Coupon Code -->
+			<div class="form-group slim">
+				<div class="col-sm-9 col-sm-offset-3 form-control-static">
+					<label class="noselect">
+						<input type="checkbox" ng-model="page.has_coupon_code" />
+						Allow customers to use coupon codes
+					</label>
+				</div>
+			</div>
+			<hr/>
+		</div>
+
+		<!-- Custom Fields -->
+		<div class="form-group slim">
+			<label class="control-label col-sm-3">Custom Fields</label>
+			<div class="col-sm-9">
+				<div class="sign-up-page-custom-fields">
+					<div class="selected-custom-fields" ng-class="{'count-1':page.custom_fields.length==1}" ui-sortable="sortableOptions" ng-model="page.custom_fields">
+						<div class="custom-field" ng-repeat="customField in page.custom_fields">
+							<div class="delete">
+								<a href="" ng-click="deleteCustomField(page, customField)">
+									<span class="fas fa-times" />
+								</a>
+							</div>
+							<div class="sortable-handle" ng-class="{hidden:page.custom_fields.length==1}">
+								<span class="fas fa-grip-lines"></span>
+							</div>
+							<div class="title">
+								<strong>{{customField.name}}</strong>
+							</div>
+						</div>
+					</div>
+					<div class="new-custom-field">
+						<button type="button" class="btn btn-default" ng-click="addCustomField(page)">
+							<span class="fas fa-plus"></span> Custom Field
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr/>
+
+		<!-- Header Text -->
+		<div class="form-group slim">
+			<label class="control-label col-sm-3">Options</label>
+			<div class="col-sm-9 form-control-static">
+				<label class="noselect">
+					<input type="checkbox" ng-model="hasHeaderText" />
+					Display custom text at top of page
+				</label>
+			</div>
+		</div>
+
+		<div class="form-group slim" ng-if="hasHeaderText">
+			<label class="control-label col-sm-3">Header Text <span class="required"></span></label>
+			<div class="col-sm-8 textarea-2-lines">
+				<textarea ng-model="page.header_text" class="form-control" placeholder="Enter any instructions for your customer here..." required expanding-textarea></textarea>
+			</div>
+		</div>
+
+		<!-- Billing Address -->
+		<div class="form-group slim">
+			<div class="col-sm-8 col-sm-offset-3 form-control-static">
+				<label class="noselect">
+					<input type="checkbox" ng-model="page.billing_address" />
+					Ask for billing address
+				</label>
+			</div>
+		</div>
+
+		<!-- Shipping Address -->
+		<div class="form-group slim">
+			<div class="col-sm-9 col-sm-offset-3 form-control-static">
+				<label class="noselect">
+					<input type="checkbox" ng-model="page.shipping_address" />
+					Ask for shipping address
+				</label>
+			</div>
+		</div>
+
+		<!-- Terms of Service -->
+		<div class="form-group slim">
+			<div class="col-sm-8 col-sm-offset-3 form-control-static">
+				<label class="noselect">
+					<input type="checkbox" ng-model="hasToS" />
+					Require sign ups to accept my Terms of Service
+				</label>
+			</div>
+		</div>
+
+		<div class="form-group slim" ng-if="hasToS">
+			<label class="control-label col-sm-3">ToS URL <span class="required"></span></label>
+			<div class="col-sm-8">
+				<input type="text" placeholder="https://example.com/terms" ng-model="page.tos_url" class="form-control" required />
+			</div>
+		</div>
+
+		<!-- Thank You Page -->
+		<div class="form-group slim">
+			<div class="col-sm-8 col-sm-offset-3 form-control-static">
+				<label class="noselect">
+					<input type="checkbox" ng-model="hasThankYou" />
+					Send new sign ups to my thank you page
+				</label>
+			</div>
+		</div>
+
+		<div class="form-group slim" ng-if="hasThankYou">
+			<label class="control-label col-sm-3">Redirect URL <span class="required"></span></label>
+			<div class="col-sm-8">
+				<input type="text" placeholder="https://example.com/thankyou" ng-model="page.thanks_url" class="form-control" required />
+			</div>
+		</div>
+
+		<!-- Allow Multiple Subscriptions -->
+		<div class="form-group slim" ng-show="page.type=='recurring'">
+			<div class="col-sm-8 col-sm-offset-3 form-control-static">
+				<label class="noselect">
+					<input type="checkbox" ng-model="page.allow_multiple_subscriptions" />
+					Allow sign ups to purchase additional subscriptions
+				</label>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="saving || !page.name || !page.type || (page.type == 'recurring' && !page.plans.length)" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

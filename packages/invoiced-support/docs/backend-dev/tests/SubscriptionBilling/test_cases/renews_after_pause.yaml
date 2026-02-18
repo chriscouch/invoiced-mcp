@@ -1,0 +1,104 @@
+# This tests a scenario in which a subscriber is switching
+# from yearly to monthly billing.
+
+#debug: true
+data:
+  - object: plan
+    id: month_1
+    interval: month
+
+operations:
+  - operation: create
+    time: 2022-09-21
+    parameters:
+      start_date: 2021-07-21
+      plan: month_1
+      paused: true
+    assertions:
+      subscription:
+        status: paused
+
+#resume of current date
+  - operation: resume
+    name: Subscription Resume
+    time: 2021-09-21
+    assertions:
+      subscription:
+        status: active
+        renews_next: 2021-09-21
+
+  - operation: bill
+    name: Bill one
+    time: 2022-09-21
+    assertions:
+      invoice:
+        date: 2021-09-21
+      subscription:
+        renews_next: 2021-10-21
+        contract_period_start: 2021-09-21
+        contract_period_end: 2021-10-21
+        period_start: 2021-09-21
+        period_end: 2021-10-20T23:59:59Z
+
+  - operation: bill
+    name: Bill two
+    time: 2021-09-21
+    assertions:
+      invoice: null
+      subscription:
+        renews_next: 2021-10-21
+        contract_period_start: 2021-09-21
+        contract_period_end: 2021-10-21
+        period_start: 2021-09-21
+        period_end: 2021-10-20T23:59:59Z
+
+  - operation: bill
+    name: Bill three
+    time: 2021-10-21
+    assertions:
+      invoice:
+        date: 2021-10-21
+      subscription:
+        renews_next: 2021-11-21
+        contract_period_start: 2021-10-21
+        contract_period_end: 2021-11-21
+        period_start: 2021-10-21
+        period_end: 2021-11-20T23:59:59Z
+
+#pause and resume 9 days forward
+  - operation: pause
+    name: Subscription Pause 2
+    time: 2021-10-21
+    assertions:
+      subscription:
+        renews_next: 2021-11-21
+        contract_period_start: 2021-10-21
+        contract_period_end: 2021-11-21
+        period_start: 2021-10-21
+        period_end: 2021-11-20T23:59:59Z
+  #renews in the last day of the month
+  - operation: resume
+    name: Subscription Resume 2
+    time: 2021-10-21
+    parameters:
+      period_end: 2021-11-30
+    assertions:
+      subscription:
+        renews_next: 2021-11-30
+        contract_period_start: 2021-10-30
+        contract_period_end: 2021-11-30
+        period_start: 2021-10-30
+        period_end: 2021-11-29T23:59:59Z
+
+  - operation: bill
+    name: Bill four
+    time: 2021-11-30
+    assertions:
+      invoice:
+        date: 2021-11-30
+      subscription:
+        renews_next: 2021-12-31
+        contract_period_start: 2021-10-30
+        contract_period_end: 2021-12-30
+        period_start: 2021-11-30
+        period_end: 2021-12-30T23:59:59Z

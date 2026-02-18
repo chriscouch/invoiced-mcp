@@ -1,0 +1,93 @@
+<p class="loading" ng-show="loading"></p>
+
+<div class="panel panel-default" ng-hide="loading">
+    <div class="panel-heading">
+        <h4 class="panel-title button-title">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="searchbar light">
+                        <div class="bar">
+                            <div class="icon"><span class="fas fa-search"></span></div>
+                            <input type="text" class="form-control" ng-model="search" tabindex="2000" />
+                            <div class="icon right icon-btn" ng-show="search">
+                                <button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+                                    <span class="fas fa-times-circle"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8 text-right">
+                    <button type="button" class="btn btn-success" ng-click="addBankAccount()" ng-hide="openingPlaid">
+                        {{'settings.cash_application.buttons.add_bank_account'|translate}}
+                    </button>
+                </div>
+            </div>
+        </h4>
+    </div>
+
+    <!-- No Results -->
+    <div class="list-group" ng-show="results.length === 0">
+        <div class="list-group-item">
+            <div class="empty">{{'general.no_results'|translate}}</div>
+        </div>
+    </div>
+
+    <!-- Results Table -->
+    <table class="table table-striped search-results-table" ng-show="results.length > 0">
+        <thead>
+            <tr>
+                <th>Institution</th>
+                <th>Account Name</th>
+                <th>{{'general.status'|translate}}</th>
+                <th>Features</th>
+                <th>Sync Start Date</th>
+                <th>{{'settings.cash_application.labels.last_fetched'|translate}}</th>
+                <th class="nopadding"></th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="bankAccount in bankAccounts | searchObject:search:['institution_name', 'account_last4'] | orderBy:['id'] as results">
+            <td>
+                <img src="/img/icons/bank_account.png" height="21" />
+                {{bankAccount.plaid_link.institution_name}}
+            </td>
+            <td>
+                {{bankAccount.plaid_link.account_name}} xxx{{bankAccount.plaid_link.account_last4}}
+            </td>
+            <td>
+                <div class="text-danger" ng-show="bankAccount.plaid_link.needs_update">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Action Required
+                    <div>
+                        <a class="btn btn-success btn-sm" href="" ng-click="upgradePlaidLink(bankAccount)" ng-hide="upgradeLoading">
+                            Fix
+                        </a>
+                    </div>
+                </div>
+                <div ng-hide="bankAccount.plaid_link.needs_update">
+                    <span class="label label-success">Connected</span>
+                </div>
+            </td>
+            <td>
+                Bank Feed
+            </td>
+            <td>
+                <span ng-show="bankAccount.data_starts_at">{{bankAccount.data_starts_at|formatCompanyDate}}</span>
+            </td>
+            <td>
+                {{bankAccount.last_retrieved_data_at}}
+            </td>
+            <td class="nopadding hover-actions-holder mobile-last mobile-visible">
+                <div class="hover-actions">
+                    <button type="button" class="btn btn-default btn-sm" ng-click="pullTransactions(bankAccount)" tooltip="{{'settings.cash_application.tooltip.pull'|translate}}">
+                        <span class="icon fas fa-sync-alt"></span>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm" ng-click="delete(bankAccount, $index)" ng-disabled="deleting[bankAccount.id]" tooltip="{{'settings.cash_application.tooltip.delete'|translate}}">
+                        <span class="fas fa-trash"></span>
+                    </button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

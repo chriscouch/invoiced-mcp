@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}Refund reversals were applied{% endblock %}
+{% block notification %}
+    {% for refund in refunds %}
+        <p><a href="{{ dashboardUrl}}/alerts?account={{ tenant_id  }}">{{ refund.cnt }} refunds were reversed</a></p>
+    {% endfor %}
+{% endblock %}

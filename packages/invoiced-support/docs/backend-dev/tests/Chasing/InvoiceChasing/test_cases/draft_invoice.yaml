@@ -1,0 +1,94 @@
+# Tests InvoiceDeliveries are not processed until an invoice
+# moves from draft status to non-draft status.
+
+operations:
+  - operation: create
+    mock_time: '2022-01-01 14:32:45' # Time chose at random, date was not
+    data:
+      invoice:
+        draft: true
+        date: '2022-01-01 14:32:45' # should be same as time created
+        items:
+          - quantity: 1
+            unit_cost: 100
+      delivery:
+        chase_schedule:
+          - trigger: 0
+            options:
+              hour: 8
+              email: true
+              sms: false
+              letter: false
+    expect:
+      invoice:
+        draft: true
+      delivery:
+        processed: false
+
+  - operation: schedule
+    mock_time: '2022-01-01 14:33:45' # 1 minute after create step
+    expect:
+      delivery:
+        processed: true # the delivery should be processed without creating scheduled sends
+      delivery_state:
+        - trigger: 0
+          options:
+            hour: 8
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-01 15:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+      scheduled_sends: []
+
+  # Move invoice from draft state to open state
+  - operation: edit
+    mock_time: '2022-01-02 14:33:45' # A day later from the created step
+    data:
+      invoice:
+        draft: false
+    expect:
+      invoice:
+        draft: false
+      delivery:
+        processed: false
+
+  - operation: schedule
+    mock_time: '2022-01-02 14:35:45' # 1 minute after moved from draft to open
+    expect:
+      delivery:
+        processed: true
+      delivery_state:
+        - trigger: 0
+          options:
+            hour: 8
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-02 15:00:00' # NOTICE: this is not the same as it was previously because the invoice was previously a draft.
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+      scheduled_sends:
+        - send_after: '2022-01-02 15:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false

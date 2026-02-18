@@ -1,0 +1,40 @@
+# This tests a scenario in which a subscriber is
+#resuming trialing subscription
+
+#debug: true
+data:
+  - object: plan
+    id: month
+    interval: month
+
+operations:
+  - operation: create
+    time: 2022-02-15
+    parameters:
+      start_date: 2022-02-18
+      plan: month
+    assertions:
+      subscription:
+        period_start: 2022-02-15
+        renews_next: 2022-02-18
+        start_date: 2022-02-18
+
+  - operation: pause
+    name: Subscription Pause
+    time: 2022-02-15
+    assertions:
+      subscription:
+        period_start: 2022-02-15
+        renews_next: 2022-02-18
+        start_date: 2022-02-18
+
+  - operation: resume
+    name: Subscription Resume Same Day
+    time: 2022-02-15
+    parameters:
+      period_end: 2022-02-18
+    assertions:
+      subscription:
+        period_start: 2022-02-15
+        renews_next: 2022-02-18
+        start_date: 2022-02-18

@@ -1,0 +1,161 @@
+{
+  "QueryResponse": {
+    "startPosition": 1,
+    "maxResults": 1,
+    "Invoice": [
+      {
+        "Id": "165",
+        "SyncToken": "3",
+        "MetaData": {
+          "CreateTime": "2016-07-12T11:32:57-07:00",
+          "LastUpdatedTime": "2017-01-12T10:36:48-08:00"
+        },
+        "DocNumber": "INV-0264",
+        "TxnDate": "2015-12-04",
+        "CurrencyRef": {
+          "name": "United States Dollar",
+          "value": "USD"
+        },
+        "Line": [
+          {
+            "Id": "4",
+            "LineNum": 1,
+            "Amount": -55.00,
+            "DetailType": "SalesItemLineDetail",
+            "SalesItemLineDetail": {
+              "ItemRef": {
+                "name": "Some Item",
+                "value": "45"
+              },
+              "UnitPrice": -54.9999384,
+              "Qty": 1.0,
+              "TaxCodeRef": {
+                "value": "TAX"
+              }
+            }
+          },
+          {
+            "Id": "5",
+            "LineNum": 2,
+            "Amount": 110.00,
+            "DetailType": "SalesItemLineDetail",
+            "SalesItemLineDetail": {
+              "ItemRef": {
+                "name": "Line 2",
+                "value": "46"
+              },
+              "UnitPrice": 109.9998768,
+              "Qty": 1.0,
+              "TaxCodeRef": {
+                "value": "TAX"
+              }
+            }
+          },
+          {
+            "Id": "6",
+            "LineNum": 3,
+            "Amount": 1.00,
+            "DetailType": "SalesItemLineDetail",
+            "SalesItemLineDetail": {
+              "ItemRef": {
+                "name": "Line 3",
+                "value": "46"
+              },
+              "TaxCodeRef": {
+                "value": "TAX"
+              }
+            }
+          },
+          {
+            "Id": "7",
+            "LineNum": 4,
+            "Amount": 1.00,
+            "DetailType": "DescriptionOnly",
+            "Description": "Line 4",
+            "DescriptionLineDetail": {
+              "ClassRef": {
+                "name": "Louisville",
+                "value": "300000000000781137"
+              },
+              "ServiceDate": "2015-12-04",
+              "TaxCodeRef": {
+                "value": "TAX"
+              }
+            }
+          },
+          {
+            "Amount": 55.00,
+            "DetailType": "SubTotalLineDetail",
+            "SubTotalLineDetail": {}
+          },
+          {
+            "Amount": 5.00,
+            "DetailType": "DiscountLineDetail",
+            "DiscountLineDetail": {
+              "PercentBased": false,
+              "DiscountAccountRef": {
+                "name": "Discounts given",
+                "value": "86"
+              }
+            }
+          }
+        ],
+        "TxnTaxDetail": {
+          "TxnTaxCodeRef": {
+            "value": "3"
+          },
+          "TotalTax": 0,
+          "TaxLine": [
+            {
+              "Amount": 0.00,
+              "DetailType": "TaxLineDetail",
+              "TaxLineDetail": {
+                "TaxRateRef": {
+                  "value": "2"
+                },
+                "PercentBased": true,
+                "TaxPercent": 0,
+                "NetAmountTaxable": 55.00
+              }
+            }
+          ]
+        },
+        "CustomerRef": {
+          "name": "Test 2",
+          "value": "2"
+        },
+        "SalesTermRef": {
+          "value": "6"
+        },
+        "DueDate": "2015-12-07",
+        "TotalAmt": 85.00,
+        "ApplyTaxAfterDiscount": false,
+        "PrintStatus": "NotSet",
+        "EmailStatus": "NotSet",
+        "Balance": 85.00,
+        "Deposit": 0,
+        "AllowIPNPayment": false,
+        "AllowOnlinePayment": false,
+        "AllowOnlineCreditCardPayment": false,
+        "AllowOnlineACHPayment": false,
+        "BillAddr": {
+          "Id": "2",
+          "Country": "US"
+        },
+        "CustomField": [
+          {
+            "DefinitionId": "1",
+            "Name": "Crew #",
+            "Type": "StringType"
+          },
+          {
+            "DefinitionId": "2",
+            "Name": "SalesRep",
+            "Type": "StringType"
+          }
+        ]
+      }
+    ]
+  },
+  "time": "2021-01-03T10:38:50.01-07:00"
+}

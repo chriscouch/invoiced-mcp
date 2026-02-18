@@ -1,0 +1,116 @@
+<feature-upgrade ng-if="!('approval_workflow'|hasFeature)"></feature-upgrade>
+<p class="loading" ng-show="loading"></p>
+
+<form name="workflowForm" ng-submit="save()" ng-hide="loading">
+    <div class="contents medium" ng-show="'approval_workflow'|hasFeature">
+        <div class="settings-title-bar">
+            <h2 class="title">
+                <div class="back-link">
+                    <a ui-sref="manage.settings.approval_workflows">
+                        <span class="fas fa-arrow-left"></span>
+                        {{'settings.titles.approval_workflow'|translate}}
+                    </a>
+                </div>
+                <span ng-hide="workflow.id">{{'settings.approval_workflows.new'|translate}}</span>
+                <span ng-show="workflow.id">{{'settings.approval_workflows.edit'|translate}}</span>
+            </h2>
+        </div>
+
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <p class="required-indicator">
+            <span class="required"></span> {{'general.indicates_required_field'|translate}}
+        </p>
+
+        <!-- Name -->
+        <div class="form-group">
+            <label class="control-label">Name <span class="required"></span></label>
+            <input type="text" class="form-control input-large" ng-model="workflow.name" required />
+        </div>
+        <br/>
+
+        <!-- Conditions -->
+        <div class="pull-right">
+            <button type="button" class="btn btn-default" ng-click="addPath()">
+                {{'settings.approval_workflows.add_condition'|translate}}
+            </button>
+        </div>
+        <h4 class="control-label no-margin">Conditions</h4>
+        <div class="row" ng-repeat="(key, point) in workflow.paths  track by $index">
+            <div ng-hide="key == 1 && isSinglePath()">
+                <hr/>
+                <div class="row">
+                    <div class="pl-0 col-md-3">
+                        <label class="control-label">{{'settings.approval_workflows.from'|translate}}</label>
+                        <div class="col-md-12 pl-0 ">
+                            <money amount="point.min_boundary" currency="company.currency"></money>
+                        </div>
+                    </div>
+                    <div ng-if="!$last" class="pr-0 col-md-4">
+                        <label class="control-label">{{'settings.approval_workflows.to'|translate}}</label>
+                        <input class="form-control" type="text" currency-input ng-model="workflow.paths[key].max_boundary" currency="company.currency" />
+                    </div>
+                </div>
+
+                <div ng-show="$first && !isSinglePath()" class="row">
+                    <label class="control-label">{{'settings.approval_workflows.auto_approve'|translate}}</label>
+                    <input type="checkbox" ng-model="workflowForm.autoapprove" />
+                </div>
+
+                <div ng-if="!$first || !workflowForm.autoapprove">
+                    <h5 class="control-label">Steps</h5>
+                    <div class="row">
+                        <div class="pl-0 pr-0 col-md-1">
+                            <label class="control-label">#</label>
+                        </div>
+                        <div class="pl-0  col-md-3">
+                            <label class="control-label">{{'settings.approval_workflows.minimum_approvers'|translate}}</label>
+                        </div>
+                        <div class="pl-0 col-md-4">
+                            <label class="control-label">{{'settings.approval_workflows.members'|translate}}</label>
+                        </div>
+                        <div class="pl-0 pr-0 col-md-4">
+                            <label class="control-label">{{'settings.approval_workflows.roles'|translate}}</label>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-repeat="(keystep, _) in point.steps  track by $index">
+                        <div class="pl-0 pr-0 form-group col-md-1">
+                            <label class="control-label">{{$index + 1}}</label>
+                            <button type="button" class="btn btn-link" ng-click="deleteStep(key, keystep)" ng-show="!$first">
+                                <span class="fas fa-times"></span>
+                            </button>
+                        </div>
+                        <div class="pl-0 form-group col-md-3">
+                            <input type="text" class="form-control input-large" ng-model="point.steps[keystep].minimum_approvers" required />
+                        </div>
+                        <div class="pl-0 form-group col-md-4">
+                            <input type="hidden" ng-model="point.steps[keystep].members" multiple="multiple"  ui-select2="selectMembers" />
+                        </div>
+                        <div class="pl-0 form-group pr-0 col-md-4">
+                            <input type="hidden" ng-model="point.steps[keystep].roles" ui-select2="selectRoles" multiple="multiple" />
+                        </div>
+
+                    </div>
+
+                    <button type="button" class="btn btn-default btn-sm" ng-click="addStep(point)">
+                        {{'settings.approval_workflows.add_step'|translate}}
+                    </button>
+                    <button ng-show="$middle" type="button" class="btn btn-default btn-sm" ng-click="removeCondition(key)">
+                        {{'settings.approval_workflows.remove_condition'|translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+        <hr/>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary Button" ng-disabled="workflowForm.$invalid||saving||invdlidParts" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+                <span translate ng-hide="filter.id">general.create</span>
+                <span translate ng-show="filter.id">general.update</span>
+            </button>
+        </div>
+    </div>
+</form>

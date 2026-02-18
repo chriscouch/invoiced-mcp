@@ -1,0 +1,50 @@
+{
+  "Item": {
+    "Id": "206",
+    "SyncToken": "0",
+    "MetaData": {
+      "CreateTime": "2019-11-19T12:07:18-08:00",
+      "LastUpdatedTime": "2019-11-19T12:07:18-08:00"
+    },
+    "Name": "Single Line Item Bundle",
+    "Active": true,
+    "FullyQualifiedName": "Single Line Item Bundle",
+    "Taxable": false,
+    "UnitPrice": "0",
+    "Type": "Group",
+    "PurchaseCost": "0",
+    "TrackQtyOnHand": false,
+    "PrintGroupedItems": false,
+    "ItemGroupDetail": {
+      "ItemGroupLine": [
+        {
+          "ItemRef": {
+            "_name": "Amazon Echo",
+            "_type": "Service",
+            "__text": "58"
+          },
+          "Qty": "1"
+        },
+        {
+          "ItemRef": {
+            "_name": "blah",
+            "_type": "Service",
+            "__text": "44"
+          },
+          "Qty": "1"
+        },
+        {
+          "ItemRef": {
+            "_name": "blahasdf",
+            "_type": "Service",
+            "__text": "45"
+          },
+          "Qty": "1"
+        }
+      ]
+    },
+    "_domain": "QBO",
+    "_sparse": false
+  },
+  "time": "2019-11-19T12:15:54.629-08:00"
+}

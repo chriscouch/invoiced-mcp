@@ -1,0 +1,59 @@
+<div class="loading" ng-show="loading"></div>
+<div class="dashboard-component-bills-by-status" ng-show="!loading">
+    <h4>
+        Bills by Status
+    </h4>
+    <table class="table">
+        <thead>
+            <th class="name">Status</th>
+            <th class="count"># Bills</th>
+            <th class="total">{{'general.total'|translate}}</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="name">
+                    <a href="/bills?status=PendingApproval">
+                        Needs Approval
+                    </a>
+                </td>
+                <td class="count">{{byStatus.PendingApproval.count}}</td>
+                <td class="total">
+                    <money currency="currency" amount="byStatus.PendingApproval.amount"></money>
+                </td>
+            </tr>
+            <tr>
+                <td class="name">
+                    <a href="/bills?status=Approved">
+                        Approved
+                    </a>
+                </td>
+                <td class="count">{{byStatus.Approved.count}}</td>
+                <td class="total">
+                    <money currency="currency" amount="byStatus.Approved.amount"></money>
+                </td>
+            </tr>
+            <tr>
+                <td class="name">
+                    <a href="/bills?status=Rejected">
+                        Rejected
+                    </a>
+                </td>
+                <td class="count">{{byStatus.Rejected.count}}</td>
+                <td class="total">
+                    <money currency="currency" amount="byStatus.Rejected.amount"></money>
+                </td>
+            </tr>
+            <tr>
+                <td class="name">
+                    <a href="/bills?status=Paid">
+                        Paid
+                    </a>
+                </td>
+                <td class="count">{{byStatus.Paid.count}}</td>
+                <td class="total">
+                    <money currency="currency" amount="byStatus.Paid.amount"></money>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

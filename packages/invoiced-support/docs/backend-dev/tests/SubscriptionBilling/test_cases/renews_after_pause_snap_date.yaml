@@ -1,0 +1,104 @@
+# This tests a scenario in which a subscriber is switching
+# from yearly to monthly billing.
+
+#debug: true
+data:
+  - object: plan
+    id: month_4
+    interval: month
+
+operations:
+  - operation: create
+    time: 2022-09-21
+    parameters:
+      start_date: 2021-07-21
+      plan: month_4
+      snap_to_nth_day: 5
+    assertions:
+      subscription:
+        renews_next: 2021-08-05
+        contract_period_start: 2021-07-21
+        contract_period_end: 2021-09-05
+        period_start: 2021-07-21
+        period_end: 2021-08-04T23:59:59Z
+        start_date: 2021-07-21
+      invoice:
+        date: 2021-07-21
+
+  - operation: pause
+    name: Subscription Pause
+    time: 2021-07-21
+    assertions:
+      subscription:
+        renews_next: 2021-08-05
+        contract_period_start: 2021-07-21
+        contract_period_end: 2021-09-05
+        period_start: 2021-07-21
+        period_end: 2021-08-04T23:59:59Z
+        start_date: 2021-07-21
+
+  - operation: resume
+    name: Subscription Resume Same Day
+    time: 2021-07-21
+    parameters:
+      period_end: 2021-07-21
+    assertions:
+      subscription:
+        renews_next: 2021-08-05
+        contract_period_start: 2021-07-21
+        contract_period_end: 2021-09-05
+        period_start: 2021-07-21
+        period_end: 2021-08-04T23:59:59Z
+        start_date: 2021-07-21
+
+  - operation: pause
+    name: Subscription Pause 2
+    time: 2021-07-21
+    assertions:
+      subscription:
+        renews_next: 2021-08-05
+        contract_period_start: 2021-07-21
+        contract_period_end: 2021-09-05
+        period_start: 2021-07-21
+        period_end: 2021-08-04T23:59:59Z
+        start_date: 2021-07-21
+
+  - operation: resume
+    name: Subscription Resume next iteration day
+    time: 2021-07-21
+    parameters:
+      period_end: 2021-09-04
+    assertions:
+      subscription:
+        renews_next: 2021-09-05
+        contract_period_start: 2021-07-21
+        contract_period_end: 2021-09-05
+        period_start: 2021-08-05
+        period_end: 2021-09-04T23:59:59Z
+        start_date: 2021-07-21
+
+  - operation: pause
+    name: Subscription Pause 3
+    time: 2021-07-21
+    assertions:
+      subscription:
+        renews_next: 2021-09-05
+        contract_period_start: 2021-07-21
+        contract_period_end: 2021-09-05
+        period_start: 2021-08-05
+        period_end: 2021-09-04T23:59:59Z
+        start_date: 2021-07-21
+
+
+  - operation: resume
+    name: Subscription Resume 2 months later
+    time: 2021-07-28
+    parameters:
+      period_end: 2021-11-28
+    assertions:
+      subscription:
+        renews_next: 2021-12-05
+        contract_period_start: 2021-09-05
+        contract_period_end: 2021-12-05
+        period_start: 2021-11-05
+        period_end: 2021-12-04T23:59:59Z

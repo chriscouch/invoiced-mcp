@@ -1,0 +1,42 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}
+    Usage Report <small># {{ billingProfileId }}</small>
+{% endblock %}
+
+{% block main %}
+    {% if error is defined %}
+        <p class="alert alert-danger">{{ error }}</p>
+    {% else %}
+        <table class="table table-sm">
+            <thead class="thead-light">
+                <tr>
+                    <th>Dimension</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td># Entities</td>
+                    <td>{{ report.numEntities|number_format }}</td>
+                </tr>
+                <tr>
+                    <td># Users</td>
+                    <td>{{ report.numUsers|number_format }}</td>
+                </tr>
+                <tr>
+                    <td># Invoices (Past 12 Months)</td>
+                    <td>{{ report.invoiceVolume|number_format }}</td>
+                </tr>
+                <tr>
+                    <td>Max # Customers (Past 12 Months)</td>
+                    <td>{{ report.customersVolume|number_format }}</td>
+                </tr>
+                <tr>
+                    <td>Money Billed (Past 12 Months)</td>
+                    <td>${{ report.billedVolume|number_format }}</td>
+                </tr>
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

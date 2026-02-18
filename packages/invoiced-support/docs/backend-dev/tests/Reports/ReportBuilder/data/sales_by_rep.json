@@ -1,0 +1,67 @@
+{
+  "title": "Sales by Rep",
+  "sections": [
+    {
+      "type": "table",
+      "object": "invoice",
+      "title": "Sales by Rep",
+      "fields": [
+        {
+          "field": {
+            "id": "customer.metadata.sales_rep"
+          },
+          "name": "Sales Rep"
+        },
+        {
+          "name": "# Sales",
+          "field": {
+            "function": "count",
+            "arguments": [
+              {
+                "id": "id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Total Sold",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "total"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Uncollected",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "balance"
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [],
+      "sort": [
+        {
+          "field": {
+            "id": "customer.metadata.accout_representative"
+          },
+          "ascending": true
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "customer.metadata.accout_representative"
+          }
+        }
+      ]
+    }
+  ]
+}

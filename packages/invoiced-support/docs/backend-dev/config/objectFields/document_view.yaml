@@ -1,0 +1,16 @@
+fields:
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  document_id: { name: "Document ID", type: string }
+  document_type: { name: "Document Type", type: string }
+  id:
+    name: ID
+    type: string
+    writable: false
+  ip: { name: "IP Address", type: string }
+  timestamp: { name: Timestamp, type: datetime }
+  user_agent: { name: "User Agent", type: string }

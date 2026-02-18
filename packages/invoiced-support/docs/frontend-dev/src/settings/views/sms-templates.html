@@ -1,0 +1,71 @@
+<div class="loading" ng-show="loadingTemplates"></div>
+
+<div ng-hide="loadingTemplates">
+    <div class="panel panel-default settings-panel">
+        <div class="panel-heading">
+            <h4 class="panel-title button-title">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="searchbar light">
+                            <div class="bar">
+                                <div class="icon"><span class="fas fa-search"></span></div>
+                                <input type="text" class="form-control" ng-model="search" tabindex="2000" />
+                                <div class="icon right icon-btn" ng-show="search">
+                                    <button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+                                        <span class="fas fa-times-circle"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 text-right">
+                        <button type="button" class="btn btn-success" ng-click="newTemplate()">
+                            New Template
+                        </button>
+                    </div>
+                </div>
+            </h4>
+        </div>
+
+        <!-- No Results -->
+        <div class="list-group" ng-show="results.length === 0">
+            <div class="list-group-item">
+                <div class="empty">No SMS templates.</div>
+            </div>
+        </div>
+
+        <!-- Results Table -->
+        <table class="table table-striped search-results-table" ng-show="results.length > 0">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Message</th>
+                    <th class="noborder">Created</th>
+                    <th class="nopadding"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="template in smsTemplates | searchObject:search:['name','message'] as results">
+                    <td>{{template.name}}</td>
+                    <td>{{template.message}}</td>
+                    <td class="light nowrap noborder">
+                        <span ng-show="template.created_at"><company-date date="template.created_at"></company-date></span>
+                    </td>
+                    <td class="nopadding hover-actions-holder mobile-last mobile-visible">
+                        <div class="hover-actions">
+                            <button type="button" class="btn btn-default btn-sm" ng-click="clone(template)" tooltip="Clone Template">
+                                <span class="fas fa-copy"></span>
+                            </button>
+                            <button type="button" class="btn btn-primary btn-sm" ng-click="edit(template)" tooltip="Edit Template">
+                                <span class="fas fa-pencil"></span>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" ng-click="delete(template)" tooltip="Delete Template">
+                                <span class="fas fa-trash"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

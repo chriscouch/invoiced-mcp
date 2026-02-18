@@ -1,0 +1,13 @@
+<div class="usage-bar">
+	<div class="progress">
+		<div class="progress-bar progress-bar-{{level}}" role="progressbar" aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percent}}%;">
+			<span class="sr-only">{{percent}}% Complete</span>
+		</div>
+	</div>
+	<div class="amount">
+		<span class="used">{{amount|number:0}} {{name}}</span>
+		<span class="separator" ng-if="limit > 0">/</span>
+		<span class="limit" ng-if="limit > 0">{{limit|number:0}}</span>
+		<span ng-show="canAddUsers"><button type="button" class="btn btn-link btn-sm" ng-click="userCountModal()">{{ 'settings.members.usage.change_limit' | translate}}</button></span>
+	</div>
+</div>

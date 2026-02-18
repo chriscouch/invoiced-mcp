@@ -1,0 +1,126 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
+	<h4 class="modal-title">URL Parameters</h4>
+</div>
+<div class="modal-body">
+	<p>Add URL parameters at the end of your payment link to prefill information.</p>
+
+	<div class="form-horizontal">
+		<div class="form-group" ng-hide="paymentLink.customer">
+			<label class="control-label col-sm-3">Customer ID</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" ng-model="parameters.clientId" />
+			</div>
+		</div>
+		<div class="form-group" ng-hide="paymentLink.items.length > 0">
+			<label class="control-label col-sm-3">Amount</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" ng-model="parameters.amount" />
+			</div>
+		</div>
+		<div class="form-group" ng-hide="paymentLink.items.length > 0 || parameters.description">
+			<label class="control-label col-sm-3">Invoice Number</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" ng-model="parameters.invoice_number" />
+			</div>
+		</div>
+		<div class="form-group" ng-hide="paymentLink.items.length > 0 || parameters.invoice_number">
+			<label class="control-label col-sm-3">Description</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" ng-model="parameters.description" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-3">First Name</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" ng-model="parameters.firstName" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-3">Last Name</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" ng-model="parameters.lastName" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-3">Company</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" ng-model="parameters.company" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-3">Email</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" ng-model="parameters.email" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-3">Address 1</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" ng-model="parameters.address" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-3">Address 2</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" ng-model="parameters.address2" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-3">{{cityLabel}}</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" ng-model="parameters.city" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-3">{{stateLabel}}</label>
+			<div class="col-sm-9">
+				<state-selector ng-model="parameters.state" country="parameters.country" is-required="false"></state-selector>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-3">{{postalCodeLabel}}</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" ng-model="parameters.zip" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-3">Country</label>
+			<div class="col-sm-9">
+				<country-selector ng-model="parameters.country" is-required="false" ng-change="changeCountry(country)"></country-selector>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-3">Phone</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" ng-model="parameters.phone" />
+			</div>
+		</div>
+	</div>
+	<hr/>
+
+	<div class="url-textbox">
+		<div class="input-group">
+			<input id="clipboard-url" type="text" class="form-control" value="{{url}}" readonly="readonly" />
+			<span class="input-group-btn">
+				<button type="button" class="btn btn-primary btn-copy" data-clipboard-target="#clipboard-url">
+					<span class="far fa-clipboard"></span>
+				</button>
+			</span>
+			<span class="input-group-btn">
+				<a href="{{url}}" target="_blank" rel="noopener noreferrer" class="btn btn-link">
+					<span class="fas fa-external-link"></span>
+				</a>
+			</span>
+		</div>
+	</div>
+
+	<p class="alert alert-success alert-sm" ng-show="copied">
+		Copied!
+	</p>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-primary" ng-click="qrCode(url)">
+		<span class="fas fa-qrcode"></span>
+	</button>
+</div>

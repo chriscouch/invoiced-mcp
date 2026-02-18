@@ -1,0 +1,92 @@
+<!-- Step 1 (License Key / Account ID) -->
+<form name="setupForm" ng-submit="validate(credentials)" ng-if="step==1">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			Connect Avalara
+		</h4>
+	</div>
+	<div class="modal-body form-horizontal">
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">
+				Account ID
+			</label>
+			<div class="col-sm-6">
+				<input type="text" class="form-control" ng-model="credentials.account_id" required />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">
+				License Key
+			</label>
+			<div class="col-sm-6">
+				<input type="password" class="form-control" ng-model="credentials.license_key" required />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">
+				Environment
+			</label>
+			<div class="col-sm-6 form-control-static">
+				<span class="label label-success" ng-show="isProduction">Production</span>
+				<span class="label label-warning" ng-hide="isProduction">Sandbox</span>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="saving||setupForm.$invalid" v-busy="validating" v-busy-label="Validating" v-pressable>
+			Validate
+		</button>
+	</div>
+</form>
+
+<!-- Step 2 (Select Company) -->
+<div ng-if="step==2">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			Connect Avalara
+		</h4>
+	</div>
+	<div class="modal-body">
+		<p class="lead">
+			Please select the company you would like to use.
+		</p>
+
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<table class="table search-results-table table-striped">
+			<thead>
+				<tr>
+					<th>Company</th>
+					<th>Code</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="company in companies">
+					<td>{{company.name}}</td>
+					<td>{{company.code}}</td>
+					<td>
+						<button type="button" class="btn btn-success" ng-click="save(credentials, company)">
+							Select
+						</button>
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th colspan="3"></th>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>

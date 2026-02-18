@@ -1,0 +1,69 @@
+<form name="textMessageForm" ng-submit="send()">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">Send Text Message</h4>
+	</div>
+	<div class="modal-body send-text-message-form">
+		<div class="line" ng-show="error">
+			<p class="alert alert-danger" ng-show="error">
+				{{error.message}}
+			</p>
+		</div>
+
+		<!-- Recipients -->
+		<div class="line">
+			<label class="control-label">To</label>
+			<div class="loading inline" ng-show="loading"></div>
+			<div class="recipients clearfix" ng-hide="loading">
+				<div class="recipient" ng-repeat="contact in contacts">
+					<input type="checkbox" id="contact-{{contact.id}}" ng-model="to[contact.id]" />
+					<label for="contact-{{contact.id}}" tooltip="{{contact.phone}}">
+						{{contact.name}}
+					</label>
+				</div>
+				<div class="recipient text-danger" ng-hide="contacts.length>0">
+					Missing mobile phone #
+				</div>
+				<div class="recipient">
+					<a href="" ng-click="addContactModal()">
+						<span class="fas fa-plus"></span> Add Contact
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- Message -->
+		<div class="line">
+			<label class="control-label">
+				Message
+				<a class="hidden-xs" href="" tooltip="The placeholders are filled in after you click Send">
+					<span class="fas fa-question-circle"></span>
+				</a>
+			</label>
+			<div class="message">
+				<textarea class="form-control top-padded" ng-model="message" expanding-textarea></textarea>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="left noselect" ng-hide="loadingTemplates || smsTemplates.length === 0">
+			<!-- Template -->
+			<div class="dropdown" dropdown>
+				<a href="" class="dropdown-toggle" dropdown-toggle>
+					Apply Template
+				</a>
+				<ul class="dropdown-menu">
+					<li ng-class="{active:selectedTemplate==template.id}" ng-repeat="template in smsTemplates">
+						<a href="" ng-click="applyTemplate(template)">
+							<span class="fas fa-check" ng-show="selectedTemplate==template.id"></span>
+							{{template.name}}
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary Button" ng-disabled="textMessageForm.$invalid||sending" v-busy="sending" v-busy-label="Sending" v-pressable>
+			Send
+		</button>
+	</div>
+</form>

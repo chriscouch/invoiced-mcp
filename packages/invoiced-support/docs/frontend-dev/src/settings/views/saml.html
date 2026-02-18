@@ -1,0 +1,99 @@
+<p class="loading" ng-show="loading"></p>
+
+<div class="row" ng-hide="loading">
+    <div class="col-md-12">
+        <form class="form-horizontal" name="autoNumberingForm" ng-submit="save()">
+            <div class="form-group">
+                <div class="col-sm-8 col-sm-offset-4">
+                    <h4 class="settings-section-title">{{'settings.members.saml.idp_settings'|translate}}</h4>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-4">{{'settings.members.saml.checkbox'|translate}}</label>
+                <div class="col-sm-3">
+                    <toggle ng-model="settings.enabled"></toggle>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="'saml1'|hasFeature">
+                <label class="control-label col-sm-4">{{'settings.members.saml.domain'|translate}} <span class="required"></span></label>
+                <div class="col-sm-5">
+                    <input class="form-control" ng-model="settings.domain" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-4">{{'settings.members.saml.issuer_url'|translate}} <span class="required"></span></label>
+                <div class="col-sm-5">
+                    <input class="form-control" ng-model="settings.entity_id" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-4">{{'settings.members.saml.sso_url'|translate}} <span class="required"></span></label>
+                <div class="col-sm-5">
+                    <input class="form-control" ng-model="settings.sso_url" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-4">{{'settings.members.saml.slo_url'|translate}}</label>
+                <div class="col-sm-5">
+                    <input class="form-control" ng-model="settings.slo_url" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-4">{{'settings.members.saml.cert'|translate}} <span class="required"></span></label>
+                <div class="col-sm-5 textarea-2-lines">
+                    <textarea class="form-control" ng-model="settings.cert" expanding-textarea></textarea>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="!('saml1'|hasFeature)">
+                <label class="control-label col-sm-4">{{'settings.members.saml.disable_non_sso'|translate}}</label>
+                <div class="col-sm-3">
+                    <toggle ng-model="settings.disable_non_sso"></toggle>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-8 col-sm-offset-4">
+                    <button type="submit" class="btn btn-primary Button" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+                        <span translate>general.save</span>
+                    </button>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="form-group">
+                <div class="col-sm-8 col-sm-offset-4">
+                    <h4 class="settings-section-title">{{'settings.members.saml.setup_info'|translate}}</h4>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-4">{{'settings.members.saml.acs_url'|translate}}</label>
+                <div class="col-sm-8 form-control-static">
+                    <code>{{acsUrl}}</code>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-4">{{'settings.members.saml.entity_id'|translate}}</label>
+                <div class="col-sm-8 form-control-static">
+                    <code>{{entityId}}</code>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="'saml1'|hasFeature">
+                <label class="control-label col-sm-4">{{'settings.members.saml.login_url'|translate}}</label>
+                <div class="col-sm-8 form-control-static">
+                    <code ng-if="settings.domain">{{loginUrlBase}}/auth/saml/{{settings.domain}}/login</code>
+                    <code ng-if="!settings.domain">{{loginUrlBase}}/auth/saml/:domain/login</code>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+<form name="verifyForm" ng-submit="verify(amount1, amount2)" class="below0">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title">
+            {{'payment_method.verify_title'|translate}}
+        </h4>
+    </div>
+    <div class="modal-body" ng-show="loading">
+        <div class="loading"></div>
+    </div>
+    <div class="modal-body form-horizontal">
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <div class="form-group">
+            <label class="control-label col-sm-5">{{ 'payment_method.labels.account'|translate }}</label>
+            <div class="col-sm-7 form-control-static">
+                {{ bankAccount.description }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-5">{{ 'payment_method.labels.deposit_1'|translate }}</label>
+            <div class="col-sm-7">
+                <div class="input-amount">
+                    <div class="addon currency-sign">$0.</div>
+                    <input type="number" step="any" name="amount1" ng-model="amount1" class="form-control" placeholder="00" required />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-5">{{ 'payment_method.labels.deposit_2'|translate }}</label>
+            <div class="col-sm-7">
+                <div class="input-amount">
+                    <div class="addon currency-sign">$0.</div>
+                    <input type="number" step="any" name="amount2" ng-model="amount2" class="form-control" placeholder="00" required />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="actions modal-footer">
+        <button type="submit" class="btn btn-success btn-md payment-button">
+            {{ 'payment_method.buttons.verify_account'|translate }}
+        </button>
+    </div>
+
+</form>

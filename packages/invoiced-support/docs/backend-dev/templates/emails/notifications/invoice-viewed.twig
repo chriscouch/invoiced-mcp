@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}Invoice viewed{% endblock %}
+{% block notification %}
+    {% for invoice in invoices %}
+        <p>Customer <a href="{{ dashboardUrl}}/customers/{{ invoice.customer.id  }}?account={{ tenant_id  }}">{{ invoice.customer.name }}</a> has viewed <a href="{{ dashboardUrl}}/invoices/{{ invoice.id  }}?account={{ tenant_id  }}">{{ invoice.number }}</a></p>
+    {% endfor %}
+{% endblock %}

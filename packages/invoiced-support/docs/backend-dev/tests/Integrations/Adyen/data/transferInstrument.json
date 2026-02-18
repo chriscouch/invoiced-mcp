@@ -1,0 +1,39 @@
+{
+  "bankAccount": {
+    "accountIdentification": {
+      "type": "usLocal",
+      "accountNumber": "10220001111",
+      "accountType": "checking",
+      "routingNumber": "107005432"
+    },
+    "countryCode": "US",
+    "trustedSource": false
+  },
+  "legalEntityId": "LE32CQZ22322695M2M9P95KT2",
+  "type": "bankAccount",
+  "capabilities": {
+    "sendToTransferInstrument": {
+      "allowed": true,
+      "requested": true,
+      "verificationStatus": "valid"
+    }
+  },
+  "documentDetails": [
+    {
+      "id": "SE32CQZ22322695M2M9TM5LL3",
+      "active": false,
+      "description": "Document type: bankStatement",
+      "fileName": "bank_statement_20250204_004821_685",
+      "modificationDate": "2025-02-04T00:48:21.741+01:00",
+      "pages": [
+        {
+          "pageName": "Screenshot 2025-02-03 at 2.02.43 PM.png",
+          "pageNumber": 1,
+          "type": "UNDEFINED"
+        }
+      ],
+      "type": "bankStatement"
+    }
+  ],
+  "id": "SE32CLN22322695M2M9TL95FW"
+}

@@ -1,0 +1,1370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="sv" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="qiIpUIi" resname="buttons.pay_invoice" xml:space="preserve" approved="yes">
+        <source>buttons.pay_invoice</source>
+        <target state="translated">Betala faktura</target>
+      </trans-unit>
+      <trans-unit id="zTbP57E" resname="buttons.pay_now" xml:space="preserve" approved="yes">
+        <source>buttons.pay_now</source>
+        <target state="translated">Betala nu</target>
+      </trans-unit>
+      <trans-unit id="50GxJMq" resname="buttons.approve_payment_plan" xml:space="preserve" approved="yes">
+        <source>buttons.approve_payment_plan</source>
+        <target state="translated">Godkänn betalningsplan</target>
+      </trans-unit>
+      <trans-unit id="rfn1jyQ" resname="buttons.verify_account" xml:space="preserve" approved="yes">
+        <source>buttons.verify_account</source>
+        <target state="translated">Verifiera konto</target>
+      </trans-unit>
+      <trans-unit id="UAEnMuR" resname="buttons.change" xml:space="preserve" approved="yes">
+        <source>buttons.change</source>
+        <target state="translated">Förändra</target>
+      </trans-unit>
+      <trans-unit id="9zYU3Px" resname="buttons.approve_estimate" xml:space="preserve" approved="yes">
+        <source>buttons.approve_estimate</source>
+        <target state="translated">Godkänna</target>
+      </trans-unit>
+      <trans-unit id="8cAC8ix" resname="buttons.download_invoice" xml:space="preserve" approved="yes">
+        <source>buttons.download_invoice</source>
+        <target state="translated">Ladda ner faktura</target>
+      </trans-unit>
+      <trans-unit id="imcEBhm" resname="buttons.download_credit_note" xml:space="preserve" approved="yes">
+        <source>buttons.download_credit_note</source>
+        <target state="translated">Ladda ner kreditnota</target>
+      </trans-unit>
+      <trans-unit id="T51p9aY" resname="buttons.download_estimate" xml:space="preserve" approved="yes">
+        <source>buttons.download_estimate</source>
+        <target state="translated">Ladda ner uppskattning</target>
+      </trans-unit>
+      <trans-unit id="ryfDhhc" resname="buttons.download_statement" xml:space="preserve" approved="yes">
+        <source>buttons.download_statement</source>
+        <target state="translated">Ladda ner uttalande</target>
+      </trans-unit>
+      <trans-unit id="iLrElud" resname="buttons.submit_comment" xml:space="preserve" approved="yes">
+        <source>buttons.submit_comment</source>
+        <target state="translated">Skicka</target>
+      </trans-unit>
+      <trans-unit id="_IHzsIN" resname="billed_to" xml:space="preserve" approved="yes">
+        <source>billed_to</source>
+        <target state="translated">Faktureras</target>
+      </trans-unit>
+      <trans-unit id="1ld_le_" resname="subtotal" xml:space="preserve" approved="yes">
+        <source>subtotal</source>
+        <target state="translated">Delsumma</target>
+      </trans-unit>
+      <trans-unit id="mE9Idjw" resname="labels.total" xml:space="preserve" approved="yes">
+        <source>labels.total</source>
+        <target state="translated">Total</target>
+      </trans-unit>
+      <trans-unit id=".oPAixJ" resname="discounts" xml:space="preserve" approved="yes">
+        <source>discounts</source>
+        <target state="translated">Rabatter</target>
+      </trans-unit>
+      <trans-unit id="wG3IzBc" resname="taxes" xml:space="preserve" approved="yes">
+        <source>taxes</source>
+        <target state="translated">Skatter</target>
+      </trans-unit>
+      <trans-unit id="dABiZ2o" resname="shipping" xml:space="preserve" approved="yes">
+        <source>shipping</source>
+        <target state="translated">Frakt</target>
+      </trans-unit>
+      <trans-unit id="HswNz72" resname="amount_paid" xml:space="preserve" approved="yes">
+        <source>amount_paid</source>
+        <target state="translated">Betalt belopp</target>
+      </trans-unit>
+      <trans-unit id="OTDmccn" resname="attachments" xml:space="preserve" approved="yes">
+        <source>attachments</source>
+        <target state="translated">Bilagor</target>
+      </trans-unit>
+      <trans-unit id="aP9j_4L" resname="download" xml:space="preserve" approved="yes">
+        <source>download</source>
+        <target state="translated">Ladda ner</target>
+      </trans-unit>
+      <trans-unit id="ew9Wx.M" resname="titles.my_account" xml:space="preserve" approved="yes">
+        <source>titles.my_account</source>
+        <target state="translated">Mitt konto</target>
+      </trans-unit>
+      <trans-unit id="PMYQJA7" resname="discussion" xml:space="preserve" approved="yes">
+        <source>discussion</source>
+        <target state="translated">Meddelanden</target>
+      </trans-unit>
+      <trans-unit id="S_WsBss" resname="have_questions" xml:space="preserve" approved="yes">
+        <source>have_questions</source>
+        <target state="translated">Har frågor?</target>
+      </trans-unit>
+      <trans-unit id="0Ulryib" resname="comment_box_intro" xml:space="preserve" approved="yes">
+        <source>comment_box_intro</source>
+        <target state="translated">Lämna några frågor eller kommentarer här om %title%. Vi återkommer med dig så snart som möjligt.</target>
+      </trans-unit>
+      <trans-unit id="xDqrPRz" resname="placeholder_leave_comment" xml:space="preserve" approved="yes">
+        <source>placeholder_leave_comment</source>
+        <target state="translated">Lämna ett meddelande till oss</target>
+      </trans-unit>
+      <trans-unit id="I2kT9mB" resname="status_credit_note_paid" xml:space="preserve" approved="yes">
+        <source>status_credit_note_paid</source>
+        <target state="translated">Krediteras i sin helhet</target>
+      </trans-unit>
+      <trans-unit id="Se9WMMT" resname="status_draft" xml:space="preserve" approved="yes">
+        <source>status_draft</source>
+        <target state="translated">Förslag</target>
+      </trans-unit>
+      <trans-unit id="07hyihn" resname="status_estimate_declined" xml:space="preserve" approved="yes">
+        <source>status_estimate_declined</source>
+        <target state="translated">Tackade nej</target>
+      </trans-unit>
+      <trans-unit id="J3RyIwH" resname="status_pending" xml:space="preserve" approved="yes">
+        <source>status_pending</source>
+        <target state="translated">Betalning väntar</target>
+      </trans-unit>
+      <trans-unit id="Rof6Hss" resname="status_past_due" xml:space="preserve" approved="yes">
+        <source>status_past_due</source>
+        <target state="translated"><![CDATA[<strong>%amount%</strong> förfallna]]></target>
+      </trans-unit>
+      <trans-unit id=".QgMZ1r" resname="status_past_due_since" xml:space="preserve" approved="yes">
+        <source>status_past_due_since</source>
+        <target state="translated"><![CDATA[<strong>%amount%</strong> förfallna sedan %date%]]></target>
+      </trans-unit>
+      <trans-unit id="HOmT9lN" resname="status_due_by" xml:space="preserve" approved="yes">
+        <source>status_due_by</source>
+        <target state="translated"><![CDATA[<strong>%amount%</strong> förfaller till %date%]]></target>
+      </trans-unit>
+      <trans-unit id="jJApMVK" resname="status_due_now" xml:space="preserve" approved="yes">
+        <source>status_due_now</source>
+        <target state="translated"><![CDATA[<strong>%amount%</strong> förfaller nu]]></target>
+      </trans-unit>
+      <trans-unit id="gavJtOf" resname="status_payment_plan" xml:space="preserve" approved="yes">
+        <source>status_payment_plan</source>
+        <target state="translated"><![CDATA[Betalningsplan: <strong>%amount%</strong> kvar]]></target>
+      </trans-unit>
+      <trans-unit id=".ZIjLTN" resname="status_bad_debt" xml:space="preserve" approved="yes">
+        <source>status_bad_debt</source>
+        <target state="translated">Osäkra fordringar</target>
+      </trans-unit>
+      <trans-unit id="2huhdFK" resname="status_paid" xml:space="preserve" approved="yes">
+        <source>status_paid</source>
+        <target state="translated">Helt betalt - tack!</target>
+      </trans-unit>
+      <trans-unit id="X7Q7VeS" resname="status_autopay" xml:space="preserve" approved="yes">
+        <source>status_autopay</source>
+        <target state="translated">AutoPay - Ingen åtgärd behövs</target>
+      </trans-unit>
+      <trans-unit id="5cNElgf" resname="status_estimate_billed" xml:space="preserve" approved="yes">
+        <source>status_estimate_billed</source>
+        <target state="translated">Godkänd och fakturerad - Tack!</target>
+      </trans-unit>
+      <trans-unit id="ruqHpjV" resname="status_estimate_approved" xml:space="preserve" approved="yes">
+        <source>status_estimate_approved</source>
+        <target state="translated">Godkänd av %initials%</target>
+      </trans-unit>
+      <trans-unit id="56zpJKE" resname="status_estimate_expired" xml:space="preserve" approved="yes">
+        <source>status_estimate_expired</source>
+        <target state="translated">Gick ut den %date%</target>
+      </trans-unit>
+      <trans-unit id="oDaKyXm" resname="status_estimate_valid_until" xml:space="preserve" approved="yes">
+        <source>status_estimate_valid_until</source>
+        <target state="translated">Gäller till %date%</target>
+      </trans-unit>
+      <trans-unit id="K49pfvB" resname="status_estimate_deposit_required" xml:space="preserve" approved="yes">
+        <source>status_estimate_deposit_required</source>
+        <target state="translated"><![CDATA[<strong>%amount%</strong> insättningsbetalning krävs]]></target>
+      </trans-unit>
+      <trans-unit id="zqkLZUQ" resname="status_statement_due" xml:space="preserve" approved="yes">
+        <source>status_statement_due</source>
+        <target state="translated"><![CDATA[<strong>%amount%</strong> förfaller]]></target>
+      </trans-unit>
+      <trans-unit id="fm9H4s2" resname="next_charge_on" xml:space="preserve" approved="yes">
+        <source>next_charge_on</source>
+        <target state="translated">Nästa laddning: %amount% på %date%</target>
+      </trans-unit>
+      <trans-unit id="MutSjxr" resname="installment_schedule" xml:space="preserve" approved="yes">
+        <source>installment_schedule</source>
+        <target state="translated">Avbetalningsplan</target>
+      </trans-unit>
+      <trans-unit id=".OSuWUF" resname="buttons.view_installment_schedule" xml:space="preserve" approved="yes">
+        <source>buttons.view_installment_schedule</source>
+        <target state="translated">Se avbetalningsschema</target>
+      </trans-unit>
+      <trans-unit id="_3lzd7Y" resname="buttons.sign_out" xml:space="preserve" approved="yes">
+        <source>buttons.sign_out</source>
+        <target state="translated">Logga ut</target>
+      </trans-unit>
+      <trans-unit id="SgCXuxz" resname="missing_email_address" xml:space="preserve" approved="yes">
+        <source>missing_email_address</source>
+        <target state="translated">E-postadress saknas</target>
+      </trans-unit>
+      <trans-unit id="DrlzWsW" resname="missing_billing_address" xml:space="preserve" approved="yes">
+        <source>missing_billing_address</source>
+        <target state="translated">Saknar faktureringsadress</target>
+      </trans-unit>
+      <trans-unit id=".P1Ckor" resname="buttons.add_payment_method" xml:space="preserve" approved="yes">
+        <source>buttons.add_payment_method</source>
+        <target state="translated">Lägg till betalningsmetod</target>
+      </trans-unit>
+      <trans-unit id="LyOB8YF" resname="buttons.make_default" xml:space="preserve" approved="yes">
+        <source>buttons.make_default</source>
+        <target state="translated">Göra default</target>
+      </trans-unit>
+      <trans-unit id="v3UUKaF" resname="buttons.remove" xml:space="preserve" approved="yes">
+        <source>buttons.remove</source>
+        <target state="translated">Avlägsna</target>
+      </trans-unit>
+      <trans-unit id="X21OZb." resname="buttons.receipt" xml:space="preserve" approved="yes">
+        <source>buttons.receipt</source>
+        <target state="translated">Mottagande</target>
+      </trans-unit>
+      <trans-unit id="GJ0obOG" resname="buttons.view_all" xml:space="preserve" approved="yes">
+        <source>buttons.view_all</source>
+        <target state="translated">Visa alla</target>
+      </trans-unit>
+      <trans-unit id="t5_pA4q" resname="buttons.add" xml:space="preserve" approved="yes">
+        <source>buttons.add</source>
+        <target state="translated">Lägg till</target>
+      </trans-unit>
+      <trans-unit id="F.v3JlG" resname="buttons.cancel" xml:space="preserve" approved="yes">
+        <source>buttons.cancel</source>
+        <target state="translated">Annullera</target>
+      </trans-unit>
+      <trans-unit id="XRPKcqy" resname="labels.past_due" xml:space="preserve" approved="yes">
+        <source>labels.past_due</source>
+        <target state="translated">Gått över tiden</target>
+      </trans-unit>
+      <trans-unit id="JA.6H5." resname="trialing" xml:space="preserve" approved="yes">
+        <source>trialing</source>
+        <target state="translated">Trialing</target>
+      </trans-unit>
+      <trans-unit id="7OalAU3" resname="payment_plan" xml:space="preserve" approved="yes">
+        <source>payment_plan</source>
+        <target state="translated">Betalningsplan</target>
+      </trans-unit>
+      <trans-unit id="LqH3Wvv" resname="autopay" xml:space="preserve" approved="yes">
+        <source>autopay</source>
+        <target state="translated">AutoPay</target>
+      </trans-unit>
+      <trans-unit id="lhy9QXI" resname="labels.pending" xml:space="preserve" approved="yes">
+        <source>labels.pending</source>
+        <target state="translated">I väntan på</target>
+      </trans-unit>
+      <trans-unit id="vgYpK2o" resname="buttons.approve" xml:space="preserve" approved="yes">
+        <source>buttons.approve</source>
+        <target state="translated">Godkänna</target>
+      </trans-unit>
+      <trans-unit id="7phFmSe" resname="buttons.pay" xml:space="preserve" approved="yes">
+        <source>buttons.pay</source>
+        <target state="translated">Betala</target>
+      </trans-unit>
+      <trans-unit id="vXDwYj1" resname="ends_on" xml:space="preserve" approved="yes">
+        <source>ends_on</source>
+        <target state="translated">Slutar %date%</target>
+      </trans-unit>
+      <trans-unit id="nKyRwfV" resname="subscriptions" xml:space="preserve" approved="yes">
+        <source>subscriptions</source>
+        <target state="translated">Prenumeration|Prenumerationer</target>
+      </trans-unit>
+      <trans-unit id="wz4mSqM" resname="open_estimates" xml:space="preserve" approved="yes">
+        <source>open_estimates</source>
+        <target state="translated">Öppna uppskattningar|Öppna uppskattningar</target>
+      </trans-unit>
+      <trans-unit id="TLmg_k7" resname="payment_methods" xml:space="preserve" approved="yes">
+        <source>payment_methods</source>
+        <target state="translated">Betalningsmetod|Betalningsmetoder</target>
+      </trans-unit>
+      <trans-unit id="l7fi23m" resname="unverified" xml:space="preserve" approved="yes">
+        <source>unverified</source>
+        <target state="translated">Ej verifierad</target>
+      </trans-unit>
+      <trans-unit id="N6juwc4" resname="default" xml:space="preserve" approved="yes">
+        <source>default</source>
+        <target state="translated">Standard</target>
+      </trans-unit>
+      <trans-unit id="XSipD0S" resname="failed" xml:space="preserve" approved="yes">
+        <source>failed</source>
+        <target state="translated">Misslyckades</target>
+      </trans-unit>
+      <trans-unit id="pg3FDJz" resname="messages.billing_details_updated" xml:space="preserve" approved="yes">
+        <source>messages.billing_details_updated</source>
+        <target state="translated">Dina faktureringsuppgifter har uppdaterats. Tack!</target>
+      </trans-unit>
+      <trans-unit id="ydGpQfF" resname="messages.payment_method_updated" xml:space="preserve" approved="yes">
+        <source>messages.payment_method_updated</source>
+        <target state="translated">Din betalningsmetod har uppdaterats. Tack!</target>
+      </trans-unit>
+      <trans-unit id="qdP1YeY" resname="no_payment_method" xml:space="preserve" approved="yes">
+        <source>no_payment_method</source>
+        <target state="translated">Ingen betalningsmetod bifogad</target>
+      </trans-unit>
+      <trans-unit id="maDhWCR" resname="percent_paid" xml:space="preserve" approved="yes">
+        <source>percent_paid</source>
+        <target state="translated">%procent%% betalat</target>
+      </trans-unit>
+      <trans-unit id="HI5nVQ." resname="labels.balance_due" xml:space="preserve" approved="yes">
+        <source>labels.balance_due</source>
+        <target state="translated">Resterande belopp</target>
+      </trans-unit>
+      <trans-unit id="p0V_wp2" resname="labels.past_due_balance" xml:space="preserve" approved="yes">
+        <source>labels.past_due_balance</source>
+        <target state="translated">Förfallna saldo</target>
+      </trans-unit>
+      <trans-unit id="jvzinMb" resname="login_email_intro" xml:space="preserve" approved="yes">
+        <source>login_email_intro</source>
+        <target state="translated">Välkommen! Ange din e-postadress för att få en inloggningslänk.</target>
+      </trans-unit>
+      <trans-unit id="bSQsS26" resname="labels.email_address" xml:space="preserve" approved="yes">
+        <source>labels.email_address</source>
+        <target state="translated">E-postadress</target>
+      </trans-unit>
+      <trans-unit id="nRsTaCd" resname="buttons.send_sign_in_link" xml:space="preserve" approved="yes">
+        <source>buttons.send_sign_in_link</source>
+        <target state="translated">Skicka mig en inloggningslänk</target>
+      </trans-unit>
+      <trans-unit id="8Fvy4ix" resname="labels.account_number" xml:space="preserve" approved="yes">
+        <source>labels.account_number</source>
+        <target state="translated">Kontonummer</target>
+      </trans-unit>
+      <trans-unit id="AUA0lmg" resname="labels.invoice_number" xml:space="preserve" approved="yes">
+        <source>labels.invoice_number</source>
+        <target state="translated">Fakturanummer</target>
+      </trans-unit>
+      <trans-unit id="BLYAi3U" resname="buttons.sign_in" xml:space="preserve" approved="yes">
+        <source>buttons.sign_in</source>
+        <target state="translated">Logga in</target>
+      </trans-unit>
+      <trans-unit id="LPnL892" resname="titles.sign_in_link_sent" xml:space="preserve" approved="yes">
+        <source>titles.sign_in_link_sent</source>
+        <target state="translated">Inloggningslänk skickad</target>
+      </trans-unit>
+      <trans-unit id="8zypfB6" resname="messages.sign_in_link_sent" xml:space="preserve" approved="yes">
+        <source>messages.sign_in_link_sent</source>
+        <target state="translated"><![CDATA[Vi skickade en inloggningslänk till <strong>%email%</strong>. Leta efter ett e-postmeddelande med ämnet "Logga in på vår kundportal" och klicka sedan på knappen Logga in för att komma åt vår faktureringsportal. Länken upphör att gälla om 24 timmar.]]></target>
+      </trans-unit>
+      <trans-unit id="52p0s_P" resname="titles.page_not_found" xml:space="preserve" approved="yes">
+        <source>titles.page_not_found</source>
+        <target state="translated">Sidan hittas inte</target>
+      </trans-unit>
+      <trans-unit id="huXpZgy" resname="messages.page_not_found" xml:space="preserve" approved="yes">
+        <source>messages.page_not_found</source>
+        <target state="translated">Förlåt! Vi kunde inte hitta sidan du letade efter. Kontakta oss om du behöver hjälp.</target>
+      </trans-unit>
+      <trans-unit id="dpquWYl" resname="need_help_contact_us" xml:space="preserve" approved="yes">
+        <source>need_help_contact_us</source>
+        <target state="translated">Behövs hjälp? Kontakta oss.</target>
+      </trans-unit>
+      <trans-unit id="UdI2H0_" resname="terms" xml:space="preserve" approved="yes">
+        <source>terms</source>
+        <target state="translated">Användarvillkor</target>
+      </trans-unit>
+      <trans-unit id="pMxrwBq" resname="privacy" xml:space="preserve" approved="yes">
+        <source>privacy</source>
+        <target state="translated">Integritetspolicy</target>
+      </trans-unit>
+      <trans-unit id="X4UL86f" resname="messages.javascript_disabled" xml:space="preserve" approved="yes">
+        <source>messages.javascript_disabled</source>
+        <target state="translated">Vänligen aktivera Javascript för att se den här sidan.</target>
+      </trans-unit>
+      <trans-unit id="XOpmxGr" resname="buttons.go_to_my_account" xml:space="preserve" approved="yes">
+        <source>buttons.go_to_my_account</source>
+        <target state="translated">Gå till Mitt konto</target>
+      </trans-unit>
+      <trans-unit id="1AYqDBZ" resname="titles.subscription_canceled" xml:space="preserve" approved="yes">
+        <source>titles.subscription_canceled</source>
+        <target state="translated">Prenumeration avbruten</target>
+      </trans-unit>
+      <trans-unit id="35yU65Q" resname="titles.faq" xml:space="preserve" approved="yes">
+        <source>titles.faq</source>
+        <target state="translated">FAQ</target>
+      </trans-unit>
+      <trans-unit id="rSViePM" resname="messages.subscription_canceled" xml:space="preserve" approved="yes">
+        <source>messages.subscription_canceled</source>
+        <target state="translated">Din prenumeration har avslutats. Tack för din verksamhet.</target>
+      </trans-unit>
+      <trans-unit id="HoN41Lz" resname="titles.sign_ups_disabled" xml:space="preserve" approved="yes">
+        <source>titles.sign_ups_disabled</source>
+        <target state="translated">Registreringar inaktiverade</target>
+      </trans-unit>
+      <trans-unit id="QUIY.bR" resname="messages.sign_ups_disabled" xml:space="preserve" approved="yes">
+        <source>messages.sign_ups_disabled</source>
+        <target state="translated">Förlåt! Vi tar för närvarande inte emot nya registreringar. Kontakta oss för hjälp.</target>
+      </trans-unit>
+      <trans-unit id="sSMaWpN" resname="titles.sign_up_thank_you" xml:space="preserve" approved="yes">
+        <source>titles.sign_up_thank_you</source>
+        <target state="translated">Tack!</target>
+      </trans-unit>
+      <trans-unit id="UjEjfKc" resname="messages.subscribed" xml:space="preserve" approved="yes">
+        <source>messages.subscribed</source>
+        <target state="translated">Du har blivit registrerad.</target>
+      </trans-unit>
+      <trans-unit id="OuIlZ9J" resname="messages.subscribed_with_plan" xml:space="preserve" approved="yes">
+        <source>messages.subscribed_with_plan</source>
+        <target state="translated"><![CDATA[Du har registrerats till <strong>%plan%</strong>.]]></target>
+      </trans-unit>
+      <trans-unit id="kW4broH" resname="titles.invoice_not_found" xml:space="preserve" approved="yes">
+        <source>titles.invoice_not_found</source>
+        <target state="translated">Fakturan hittades inte</target>
+      </trans-unit>
+      <trans-unit id="vuLoCB3" resname="titles.credit_note_not_found" xml:space="preserve" approved="yes">
+        <source>titles.credit_note_not_found</source>
+        <target state="translated">Kreditnota hittades inte</target>
+      </trans-unit>
+      <trans-unit id="5Ho2nmD" resname="titles.estimate_not_found" xml:space="preserve" approved="yes">
+        <source>titles.estimate_not_found</source>
+        <target state="translated">Uppskattning hittades inte</target>
+      </trans-unit>
+      <trans-unit id="Ntf8xnT" resname="titles.estimate_expired" xml:space="preserve" approved="yes">
+        <source>titles.estimate_expired</source>
+        <target state="translated">Uppskattning har löpt ut</target>
+      </trans-unit>
+      <trans-unit id="D_lcZF3" resname="titles.estimates" xml:space="preserve" approved="yes">
+        <source>titles.estimates</source>
+        <target state="translated">Uppskattningar</target>
+      </trans-unit>
+      <trans-unit id="kIKf1Tb" resname="titles.invoices" xml:space="preserve" approved="yes">
+        <source>titles.invoices</source>
+        <target state="translated">Fakturor</target>
+      </trans-unit>
+      <trans-unit id="NZlwInE" resname="titles.payments" xml:space="preserve" approved="yes">
+        <source>titles.payments</source>
+        <target state="translated">Betalningar</target>
+      </trans-unit>
+      <trans-unit id="xQMGiqY" resname="titles.approve_estimate" xml:space="preserve" approved="yes">
+        <source>titles.approve_estimate</source>
+        <target state="translated">Godkänn uppskattning</target>
+      </trans-unit>
+      <trans-unit id="TfSeoBh" resname="titles.sign_up" xml:space="preserve" approved="yes">
+        <source>titles.sign_up</source>
+        <target state="translated">Bli Medlem</target>
+      </trans-unit>
+      <trans-unit id="wM_6hxs" resname="titles.billing_details" xml:space="preserve" approved="yes">
+        <source>titles.billing_details</source>
+        <target state="translated">Faktureringsuppgifter</target>
+      </trans-unit>
+      <trans-unit id="dfRgaYB" resname="titles.attachments" xml:space="preserve" approved="yes">
+        <source>titles.attachments</source>
+        <target state="translated">Dokument</target>
+      </trans-unit>
+      <trans-unit id="03ip_Ts" resname="titles.account_statement" xml:space="preserve" approved="yes">
+        <source>titles.account_statement</source>
+        <target state="translated">Kontoutdrag</target>
+      </trans-unit>
+      <trans-unit id="l9JVnu." resname="titles.approve_payment_plan" xml:space="preserve" approved="yes">
+        <source>titles.approve_payment_plan</source>
+        <target state="translated">Betalningsplan</target>
+      </trans-unit>
+      <trans-unit id="Dfr6XIP" resname="titles.pay_invoice" xml:space="preserve" approved="yes">
+        <source>titles.pay_invoice</source>
+        <target state="translated">Betala faktura</target>
+      </trans-unit>
+      <trans-unit id="hhNrO8z" resname="titles.submit_payment" xml:space="preserve" approved="yes">
+        <source>titles.submit_payment</source>
+        <target state="translated">Skicka betalning</target>
+      </trans-unit>
+      <trans-unit id="qwNsmIN" resname="titles.verify_bank_account" xml:space="preserve" approved="yes">
+        <source>titles.verify_bank_account</source>
+        <target state="translated">Verifiera bankkonto</target>
+      </trans-unit>
+      <trans-unit id="2iSazkV" resname="titles.verified_bank_account_thank_you" xml:space="preserve" approved="yes">
+        <source>titles.verified_bank_account_thank_you</source>
+        <target state="translated">Tack!</target>
+      </trans-unit>
+      <trans-unit id="u8TFlZC" resname="titles.expected_payment_thank_you" xml:space="preserve" approved="yes">
+        <source>titles.expected_payment_thank_you</source>
+        <target state="translated">Tack!</target>
+      </trans-unit>
+      <trans-unit id="hZQNcSx" resname="titles.successful_payment" xml:space="preserve" approved="yes">
+        <source>titles.successful_payment</source>
+        <target state="translated">Tack!</target>
+      </trans-unit>
+      <trans-unit id="w.l9KZr" resname="messages.credit_note_not_found" xml:space="preserve" approved="yes">
+        <source>messages.credit_note_not_found</source>
+        <target state="translated">Förlåt! Kreditnotan du letar efter finns inte eller så har den här länken upphört att gälla. Kontakta oss för att få kreditnotan skickad på nytt.</target>
+      </trans-unit>
+      <trans-unit id="Ot23Uwy" resname="messages.estimate_not_found" xml:space="preserve" approved="yes">
+        <source>messages.estimate_not_found</source>
+        <target state="translated">Förlåt! Uppskattningen du letar efter finns inte eller så har den här länken upphört att gälla. Kontakta oss för att få beräkningen skickad på nytt.</target>
+      </trans-unit>
+      <trans-unit id="8HmqWow" resname="messages.invoice_not_found" xml:space="preserve" approved="yes">
+        <source>messages.invoice_not_found</source>
+        <target state="translated">Förlåt! Fakturan du letar efter finns inte eller så har denna länk upphört att gälla. Kontakta oss för att få fakturan skickad på nytt.</target>
+      </trans-unit>
+      <trans-unit id="qXvPRN6" resname="messages.estimate_expired" xml:space="preserve" approved="yes">
+        <source>messages.estimate_expired</source>
+        <target state="translated">Förlåt! Uppskattningen du letar efter har gått ut. Kontakta oss om du har några frågor.</target>
+      </trans-unit>
+      <trans-unit id="oLggNV1" resname="labels.account_name" xml:space="preserve" approved="yes">
+        <source>labels.account_name</source>
+        <target state="translated">Kontonamn</target>
+      </trans-unit>
+      <trans-unit id="u9NQ9im" resname="labels.address_line1" xml:space="preserve" approved="yes">
+        <source>labels.address_line1</source>
+        <target state="translated">Adressrad 1</target>
+      </trans-unit>
+      <trans-unit id="2PtwTHW" resname="labels.address_line2" xml:space="preserve" approved="yes">
+        <source>labels.address_line2</source>
+        <target state="translated">Adress Linje 2</target>
+      </trans-unit>
+      <trans-unit id="LRthRI_" resname="labels.address_city" xml:space="preserve" approved="yes">
+        <source>labels.address_city</source>
+        <target state="translated">Stad</target>
+      </trans-unit>
+      <trans-unit id="96AtnmA" resname="labels.address_state" xml:space="preserve" approved="yes">
+        <source>labels.address_state</source>
+        <target state="translated">stat/provins</target>
+      </trans-unit>
+      <trans-unit id="U9p1q3F" resname="labels.address_postal_code" xml:space="preserve" approved="yes">
+        <source>labels.address_postal_code</source>
+        <target state="translated">Postnummer</target>
+      </trans-unit>
+      <trans-unit id="RE__X4i" resname="labels.address_country" xml:space="preserve" approved="yes">
+        <source>labels.address_country</source>
+        <target state="translated">Land</target>
+      </trans-unit>
+      <trans-unit id="bCfGOIk" resname="labels.optional" xml:space="preserve" approved="yes">
+        <source>labels.optional</source>
+        <target state="translated">Frivillig</target>
+      </trans-unit>
+      <trans-unit id="49uUjMR" resname="buttons.pdf" xml:space="preserve" approved="yes">
+        <source>buttons.pdf</source>
+        <target state="translated">PDF</target>
+      </trans-unit>
+      <trans-unit id="bOKmMiv" resname="labels.date" xml:space="preserve" approved="yes">
+        <source>labels.date</source>
+        <target state="translated">Datum</target>
+      </trans-unit>
+      <trans-unit id="QFQqxZU" resname="labels.due_date" xml:space="preserve" approved="yes">
+        <source>labels.due_date</source>
+        <target state="translated">Förfallodatum</target>
+      </trans-unit>
+      <trans-unit id="YkErLwX" resname="labels.type" xml:space="preserve" approved="yes">
+        <source>labels.type</source>
+        <target state="translated">Typ</target>
+      </trans-unit>
+      <trans-unit id="0QzozfY" resname="labels.amount" xml:space="preserve" approved="yes">
+        <source>labels.amount</source>
+        <target state="translated">Belopp</target>
+      </trans-unit>
+      <trans-unit id="5bcrii0" resname="labels.balance" xml:space="preserve" approved="yes">
+        <source>labels.balance</source>
+        <target state="translated">Balans</target>
+      </trans-unit>
+      <trans-unit id="ntwoHp2" resname="labels.previous_balance" xml:space="preserve" approved="yes">
+        <source>labels.previous_balance</source>
+        <target state="translated">Tidigare balansen</target>
+      </trans-unit>
+      <trans-unit id="EyIn7q9" resname="labels.total_billed" xml:space="preserve" approved="yes">
+        <source>labels.total_billed</source>
+        <target state="translated">Totalt fakturerat</target>
+      </trans-unit>
+      <trans-unit id="RBug4mB" resname="labels.total_paid" xml:space="preserve" approved="yes">
+        <source>labels.total_paid</source>
+        <target state="translated">Totala belopp som betalats</target>
+      </trans-unit>
+      <trans-unit id="1yVeisT" resname="labels.available_credits" xml:space="preserve" approved="yes">
+        <source>labels.available_credits</source>
+        <target state="translated">Tillgängliga krediter</target>
+      </trans-unit>
+      <trans-unit id="wjsV3fl" resname="labels.paid" xml:space="preserve" approved="yes">
+        <source>labels.paid</source>
+        <target state="translated">Betalt</target>
+      </trans-unit>
+      <trans-unit id="E5TFPXM" resname="labels.bad_debt" xml:space="preserve" approved="yes">
+        <source>labels.bad_debt</source>
+        <target state="translated">Osäkra fordringar</target>
+      </trans-unit>
+      <trans-unit id="idadBK0" resname="labels.outstanding" xml:space="preserve" approved="yes">
+        <source>labels.outstanding</source>
+        <target state="translated">Utestående</target>
+      </trans-unit>
+      <trans-unit id="bYnzQJs" resname="labels.invoice" xml:space="preserve" approved="yes">
+        <source>labels.invoice</source>
+        <target state="translated">Faktura</target>
+      </trans-unit>
+      <trans-unit id="xjrGXGs" resname="labels.status" xml:space="preserve" approved="yes">
+        <source>labels.status</source>
+        <target state="translated">Status</target>
+      </trans-unit>
+      <trans-unit id="4ZnDOXK" resname="labels.estimate_number" xml:space="preserve" approved="yes">
+        <source>labels.estimate_number</source>
+        <target state="translated">Uppskattning #</target>
+      </trans-unit>
+      <trans-unit id="WlnHCag" resname="buttons.view_invoice" xml:space="preserve" approved="yes">
+        <source>buttons.view_invoice</source>
+        <target state="translated">Visa faktura</target>
+      </trans-unit>
+      <trans-unit id="cIid75N" resname="buttons.download_receipt" xml:space="preserve" approved="yes">
+        <source>buttons.download_receipt</source>
+        <target state="translated">Ladda ner kvitto</target>
+      </trans-unit>
+      <trans-unit id="GNOFSbO" resname="labels.declined" xml:space="preserve" approved="yes">
+        <source>labels.declined</source>
+        <target state="translated">Tackade nej</target>
+      </trans-unit>
+      <trans-unit id="RlttFCP" resname="labels.invoiced" xml:space="preserve" approved="yes">
+        <source>labels.invoiced</source>
+        <target state="translated">Faktureras</target>
+      </trans-unit>
+      <trans-unit id="JiaBnyK" resname="labels.expired" xml:space="preserve" approved="yes">
+        <source>labels.expired</source>
+        <target state="translated">Utgånget</target>
+      </trans-unit>
+      <trans-unit id="LobzxMi" resname="labels.approved" xml:space="preserve" approved="yes">
+        <source>labels.approved</source>
+        <target state="translated">Godkänd</target>
+      </trans-unit>
+      <trans-unit id="1z136ge" resname="labels.credit" xml:space="preserve" approved="yes">
+        <source>labels.credit</source>
+        <target state="translated">Kreditera</target>
+      </trans-unit>
+      <trans-unit id="1WikmvD" resname="labels.method" xml:space="preserve" approved="yes">
+        <source>labels.method</source>
+        <target state="translated">Metod</target>
+      </trans-unit>
+      <trans-unit id="Am46KO2" resname="messages.showing_num_results" xml:space="preserve" approved="yes">
+        <source>messages.showing_num_results</source>
+        <target state="translated"><![CDATA[Visar %num_shown% av <strong>%total% resultat.</strong> Per sida: |Visar %num_shown% av <strong>%total% resultat.</strong> Per sida: ]]></target>
+      </trans-unit>
+      <trans-unit id="lPWJA.x" resname="messages.no_invoices_found" xml:space="preserve" approved="yes">
+        <source>messages.no_invoices_found</source>
+        <target state="translated">Vi hittade inga matchande fakturor i din kontohistorik.</target>
+      </trans-unit>
+      <trans-unit id="VZGsLat" resname="messages.no_payments_found" xml:space="preserve" approved="yes">
+        <source>messages.no_payments_found</source>
+        <target state="translated">Vi hittade inga matchande betalningar i din kontohistorik.</target>
+      </trans-unit>
+      <trans-unit id="m9bLBwn" resname="messages.no_estimates_found" xml:space="preserve" approved="yes">
+        <source>messages.no_estimates_found</source>
+        <target state="translated">Vi hittade inga matchande uppskattningar i din kontohistorik.</target>
+      </trans-unit>
+      <trans-unit id="Jo88ccS" resname="titles.login" xml:space="preserve" approved="yes">
+        <source>titles.login</source>
+        <target state="translated">Logga in</target>
+      </trans-unit>
+      <trans-unit id="6Q8X3Go" resname="titles.estimate_number" xml:space="preserve" approved="yes">
+        <source>titles.estimate_number</source>
+        <target state="translated">Uppskattning # %number%</target>
+      </trans-unit>
+      <trans-unit id="WokfmoV" resname="titles.approve_estimate_number" xml:space="preserve" approved="yes">
+        <source>titles.approve_estimate_number</source>
+        <target state="translated">Godkänn uppskattning # %number%</target>
+      </trans-unit>
+      <trans-unit id="4Dx8kUq" resname="titles.credit_note_number" xml:space="preserve" approved="yes">
+        <source>titles.credit_note_number</source>
+        <target state="translated">Kreditnota # %number%</target>
+      </trans-unit>
+      <trans-unit id="NBZSv1Z" resname="titles.invoice_number" xml:space="preserve" approved="yes">
+        <source>titles.invoice_number</source>
+        <target state="translated">Fakturanummer%</target>
+      </trans-unit>
+      <trans-unit id="gT1nGch" resname="labels.estimate_amount" xml:space="preserve" approved="yes">
+        <source>labels.estimate_amount</source>
+        <target state="translated">Uppskattat belopp</target>
+      </trans-unit>
+      <trans-unit id="Q5SC7eS" resname="buttons.modify" xml:space="preserve" approved="yes">
+        <source>buttons.modify</source>
+        <target state="translated">Ändra</target>
+      </trans-unit>
+      <trans-unit id="A9cfgsP" resname="labels.payment_information" xml:space="preserve" approved="yes">
+        <source>labels.payment_information</source>
+        <target state="translated">Betalningsinformation</target>
+      </trans-unit>
+      <trans-unit id="mL3W.3f" resname="labels.please_initial" xml:space="preserve" approved="yes">
+        <source>labels.please_initial</source>
+        <target state="translated">Initiera här:</target>
+      </trans-unit>
+      <trans-unit id="rvQCzQQ" resname="labels.initials" xml:space="preserve" approved="yes">
+        <source>labels.initials</source>
+        <target state="translated">Initialer</target>
+      </trans-unit>
+      <trans-unit id="ELhB5fq" resname="messages.terms_i_agree_estimate" xml:space="preserve" approved="yes">
+        <source>messages.terms_i_agree_estimate</source>
+        <target state="translated">Jag godkänner villkoren för denna uppskattning.</target>
+      </trans-unit>
+      <trans-unit id="OPL8Sr6" resname="labels.terms" xml:space="preserve" approved="yes">
+        <source>labels.terms</source>
+        <target state="translated">Villkor</target>
+      </trans-unit>
+      <trans-unit id="dqXE56O" resname="labels.pay_with" xml:space="preserve" approved="yes">
+        <source>labels.pay_with</source>
+        <target state="translated">Betala med</target>
+      </trans-unit>
+      <trans-unit id="zWOgjtx" resname="labels.deposit" xml:space="preserve" approved="yes">
+        <source>labels.deposit</source>
+        <target state="translated">Deposition</target>
+      </trans-unit>
+      <trans-unit id="kIKH5lU" resname="labels.pay_up_front" xml:space="preserve" approved="yes">
+        <source>labels.pay_up_front</source>
+        <target state="translated">Betala i förväg</target>
+      </trans-unit>
+      <trans-unit id="g8epfng" resname="labels.pay_up_front_with" xml:space="preserve" approved="yes">
+        <source>labels.pay_up_front_with</source>
+        <target state="translated">Betala i förskott med %method%</target>
+      </trans-unit>
+      <trans-unit id="ZAl3mJg" resname="messages.must_enroll_in_autopay" xml:space="preserve" approved="yes">
+        <source>messages.must_enroll_in_autopay</source>
+        <target state="translated">Du måste registrera dig för AutoPay för att kunna fortsätta</target>
+      </trans-unit>
+      <trans-unit id="dD2e62J" resname="messages.deposit_payment_required" xml:space="preserve" approved="yes">
+        <source>messages.deposit_payment_required</source>
+        <target state="translated"><![CDATA[<strong>%amount%</strong> insättningsbetalning krävs för att fortsätta]]></target>
+      </trans-unit>
+      <trans-unit id="rlaUUZD" resname="labels.enroll_in_autopay" xml:space="preserve" approved="yes">
+        <source>labels.enroll_in_autopay</source>
+        <target state="translated">Anmäl dig till AutoPay</target>
+      </trans-unit>
+      <trans-unit id="wuEdiqc" resname="messages.autopay_explanation" xml:space="preserve" approved="yes">
+        <source>messages.autopay_explanation</source>
+        <target state="translated">Debiterar automatiskt din betalningsmetod när nya fakturor utfärdas</target>
+      </trans-unit>
+      <trans-unit id="BKedAk_" resname="labels.name" xml:space="preserve" approved="yes">
+        <source>labels.name</source>
+        <target state="translated">namn</target>
+      </trans-unit>
+      <trans-unit id="1YUtDJ0" resname="labels.size" xml:space="preserve" approved="yes">
+        <source>labels.size</source>
+        <target state="translated">Storlek</target>
+      </trans-unit>
+      <trans-unit id="b0UiRAK" resname="labels.order_summary" xml:space="preserve" approved="yes">
+        <source>labels.order_summary</source>
+        <target state="translated">Ordersammanfattning</target>
+      </trans-unit>
+      <trans-unit id="WFy.AKG" resname="buttons.subscribe" xml:space="preserve" approved="yes">
+        <source>buttons.subscribe</source>
+        <target state="translated">Prenumerera</target>
+      </trans-unit>
+      <trans-unit id="_Ym_voG" resname="buttons.submit" xml:space="preserve" approved="yes">
+        <source>buttons.submit</source>
+        <target state="translated">Skicka in</target>
+      </trans-unit>
+      <trans-unit id="82uD.q3" resname="labels.shipping_information" xml:space="preserve" approved="yes">
+        <source>labels.shipping_information</source>
+        <target state="translated">Fraktinformation</target>
+      </trans-unit>
+      <trans-unit id="GYRzhVV" resname="labels.plan" xml:space="preserve" approved="yes">
+        <source>labels.plan</source>
+        <target state="translated">Planen</target>
+      </trans-unit>
+      <trans-unit id="v.eXmxo" resname="labels.quantity" xml:space="preserve" approved="yes">
+        <source>labels.quantity</source>
+        <target state="translated">Kvantitet</target>
+      </trans-unit>
+      <trans-unit id="gFGzg_A" resname="labels.addons" xml:space="preserve" approved="yes">
+        <source>labels.addons</source>
+        <target state="translated">Tillägg</target>
+      </trans-unit>
+      <trans-unit id="1DrEm8e" resname="buttons.apply" xml:space="preserve" approved="yes">
+        <source>buttons.apply</source>
+        <target state="translated">Tillämpa</target>
+      </trans-unit>
+      <trans-unit id="pXg83dz" resname="labels.have_a_coupon" xml:space="preserve" approved="yes">
+        <source>labels.have_a_coupon</source>
+        <target state="translated">Har du en kupongkod?</target>
+      </trans-unit>
+      <trans-unit id="qOf5FEX" resname="labels.coupon_code" xml:space="preserve" approved="yes">
+        <source>labels.coupon_code</source>
+        <target state="translated">kupongskod</target>
+      </trans-unit>
+      <trans-unit id="qjWnSOa" resname="labels.enter_coupon" xml:space="preserve" approved="yes">
+        <source>labels.enter_coupon</source>
+        <target state="translated">Ange din kupong</target>
+      </trans-unit>
+      <trans-unit id="jSF9VGD" resname="labels.coupon" xml:space="preserve" approved="yes">
+        <source>labels.coupon</source>
+        <target state="translated">Kupong</target>
+      </trans-unit>
+      <trans-unit id="S0ev9yi" resname="labels.accept_tos" xml:space="preserve" approved="yes">
+        <source>labels.accept_tos</source>
+        <target state="translated"><![CDATA[Jag accepterar <a href="%url%" target="_blank" rel="noopener noreferrer">användarvillkoren</a>]]></target>
+      </trans-unit>
+      <trans-unit id="F5nDXC0" resname="labels.free_trial" xml:space="preserve" approved="yes">
+        <source>labels.free_trial</source>
+        <target state="translated">%numDays %-dagars gratis provperiod</target>
+      </trans-unit>
+      <trans-unit id="i4TIKm8" resname="labels.starts_now" xml:space="preserve" approved="yes">
+        <source>labels.starts_now</source>
+        <target state="translated">börjar nu</target>
+      </trans-unit>
+      <trans-unit id="av9CGyF" resname="labels.first_bill_prorated" xml:space="preserve" approved="yes">
+        <source>labels.first_bill_prorated</source>
+        <target state="translated">första räkningen proportionellt till %nthDay%</target>
+      </trans-unit>
+      <trans-unit id="ypiqdWx" resname="labels.you_will_be_enrolled_in_autopay" xml:space="preserve" approved="yes">
+        <source>labels.you_will_be_enrolled_in_autopay</source>
+        <target state="translated">Du kommer att registreras i AutoPay</target>
+      </trans-unit>
+      <trans-unit id="UpA9TQa" resname="messages.already_paid" xml:space="preserve" approved="yes">
+        <source>messages.already_paid</source>
+        <target state="translated">Denna faktura har redan betalats. Tack!</target>
+      </trans-unit>
+      <trans-unit id="MY6odah" resname="messages.nothing_due" xml:space="preserve" approved="yes">
+        <source>messages.nothing_due</source>
+        <target state="translated">Hurra! Det finns för närvarande inga utestående fakturor som du kan betala.</target>
+      </trans-unit>
+      <trans-unit id="6c7kM0M" resname="buttons.next" xml:space="preserve" approved="yes">
+        <source>buttons.next</source>
+        <target state="translated">Nästa</target>
+      </trans-unit>
+      <trans-unit id="KRQvqxK" resname="buttons.save" xml:space="preserve" approved="yes">
+        <source>buttons.save</source>
+        <target state="translated">Spara</target>
+      </trans-unit>
+      <trans-unit id="FH6bUWI" resname="labels.how_would_you_like_to_pay" xml:space="preserve" approved="yes">
+        <source>labels.how_would_you_like_to_pay</source>
+        <target state="translated">Hur vill du betala?</target>
+      </trans-unit>
+      <trans-unit id="6TUSd6V" resname="messages.online_payments_not_accepted" xml:space="preserve" approved="yes">
+        <source>messages.online_payments_not_accepted</source>
+        <target state="translated">Det finns inga tillgängliga betalningsmetoder för det valda beloppet. Justera beloppet du försöker betala eller kontakta oss för hjälp.</target>
+      </trans-unit>
+      <trans-unit id="HXhDDg6" resname="messages.review_installment_schedule" xml:space="preserve" approved="yes">
+        <source>messages.review_installment_schedule</source>
+        <target state="translated">Vänligen bekräfta att du samtycker till att betala detta fakturasaldo enligt betalningsplanen.</target>
+      </trans-unit>
+      <trans-unit id="tt1pw24" resname="labels.payment_schedule" xml:space="preserve" approved="yes">
+        <source>labels.payment_schedule</source>
+        <target state="translated">Betalningsplan</target>
+      </trans-unit>
+      <trans-unit id="dA9V1DI" resname="messages.collect_payment_info_next" xml:space="preserve" approved="yes">
+        <source>messages.collect_payment_info_next</source>
+        <target state="translated">Därefter samlar vi in din betalningsinformation.</target>
+      </trans-unit>
+      <trans-unit id="33Wx_zO" resname="labels.accept_payment_plan" xml:space="preserve" approved="yes">
+        <source>labels.accept_payment_plan</source>
+        <target state="translated">Jag godkänner denna betalningsplan</target>
+      </trans-unit>
+      <trans-unit id="Drk9nTO" resname="messages.multiple_invoices_outstanding" xml:space="preserve" approved="yes">
+        <source>messages.multiple_invoices_outstanding</source>
+        <target state="translated">Du har för närvarande %numInvoices% fakturor utestående. Vill du betala hela saldot?</target>
+      </trans-unit>
+      <trans-unit id="Kwiv8gH" resname="labels.pay_full_balance" xml:space="preserve" approved="yes">
+        <source>labels.pay_full_balance</source>
+        <target state="translated"><![CDATA[Betala hela saldot: <strong>%amount%</strong>]]></target>
+      </trans-unit>
+      <trans-unit id="uCuOWaq" resname="labels.pay_invoice" xml:space="preserve" approved="yes">
+        <source>labels.pay_invoice</source>
+        <target state="translated"><![CDATA[Betala faktura # %number%: <strong>%amount%</strong>]]></target>
+      </trans-unit>
+      <trans-unit id="kYPVPfD" resname="messages.charge_after_updating_payment_info" xml:space="preserve" approved="yes">
+        <source>messages.charge_after_updating_payment_info</source>
+        <target state="translated"><![CDATA[Du är för närvarande skyldig <strong>%amount%</strong>. När du uppdaterar din betalningsinformation kommer vi omedelbart att försöka betala igen.]]></target>
+      </trans-unit>
+      <trans-unit id="aXqQWdG" resname="messages.payment_pending" xml:space="preserve" approved="yes">
+        <source>messages.payment_pending</source>
+        <target state="translated"><![CDATA[Din betalning på <strong>%amount%</strong> väntar för närvarande. När transaktionen går igenom kommer ett kvitto att skickas till din e-postadress.]]></target>
+      </trans-unit>
+      <trans-unit id=".NFUynt" resname="messages.payment_successful" xml:space="preserve" approved="yes">
+        <source>messages.payment_successful</source>
+        <target state="translated"><![CDATA[Vi har tagit emot din betalning på <strong>%amount%</strong>. Ett kvitto har skickats till din e-postadress.]]></target>
+      </trans-unit>
+      <trans-unit id="AcJ3_II" resname="messages.payment_expected" xml:space="preserve" approved="yes">
+        <source>messages.payment_expected</source>
+        <target state="translated">Vi har fått dina instruktioner när vi kan förvänta oss betalning. Kontakta oss om något ändras.</target>
+      </trans-unit>
+      <trans-unit id="CaYlkVq" resname="messages.bank_account_verified_autopay" xml:space="preserve" approved="yes">
+        <source>messages.bank_account_verified_autopay</source>
+        <target state="translated">Ditt bankkonto har verifierats. Vi kommer att samla in betalningar på eventuella utestående fakturor inom kort. Ingen ytterligare åtgärd krävs från din sida.</target>
+      </trans-unit>
+      <trans-unit id="7rMuSb7" resname="messages.bank_account_verified" xml:space="preserve" approved="yes">
+        <source>messages.bank_account_verified</source>
+        <target state="translated">Ditt bankkonto har verifierats. Du kan nu använda den för betalningar.</target>
+      </trans-unit>
+      <trans-unit id="2PG.SWb" resname="messages.bank_account_added_unverified" xml:space="preserve" approved="yes">
+        <source>messages.bank_account_added_unverified</source>
+        <target state="translated">Ditt bankkonto var kopplat! Vi har skickat ett bekräftelsemail till dig med en länk till den här sidan. När du har mottagit verifieringsinsättningarna, återvänd hit för att bekräfta dem.</target>
+      </trans-unit>
+      <trans-unit id="wmSGpN0" resname="labels.bank_account" xml:space="preserve" approved="yes">
+        <source>labels.bank_account</source>
+        <target state="translated">Bankkonto</target>
+      </trans-unit>
+      <trans-unit id="4u.t04M" resname="messages.verify_microdeposits_prompt" xml:space="preserve" approved="yes">
+        <source>messages.verify_microdeposits_prompt</source>
+        <target state="translated"><![CDATA[För att kunna göra betalningar med detta bankkonto måste du först bevisa att du är behörig att använda det. Vi har gjort 2 små insättningar till ditt konto. Leta reda på dessa insättningar på ditt kontoutdrag och bekräfta deras belopp nedan, i valfri ordning.<br/><br/>Det tar 2–5 arbetsdagar innan mikroinsättningarna visas på ditt kontoutdrag. Utdragsbeskrivningen för dessa insättningar kommer att vara <strong>AMNTS: </strong> och sedan värdena för de två mikroinsättningar som skickades.]]></target>
+      </trans-unit>
+      <trans-unit id="Qt17E9s" resname="labels.deposit_n" xml:space="preserve" approved="yes">
+        <source>labels.deposit_n</source>
+        <target state="translated">Sätt in %num%</target>
+      </trans-unit>
+      <trans-unit id="nxIcLDr" resname="messages.where_do_i_find_account_routing" xml:space="preserve" approved="yes">
+        <source>messages.where_do_i_find_account_routing</source>
+        <target state="translated">Var hittar jag mitt routing- och kontonummer?</target>
+      </trans-unit>
+      <trans-unit id="wtOahkN" resname="labels.cardholder_name" xml:space="preserve" approved="yes">
+        <source>labels.cardholder_name</source>
+        <target state="translated">Kortinnehavarens namn</target>
+      </trans-unit>
+      <trans-unit id="j9guQ9j" resname="labels.please_enter_card" xml:space="preserve" approved="yes">
+        <source>labels.please_enter_card</source>
+        <target state="translated">Ange ett kredit- eller betalkort</target>
+      </trans-unit>
+      <trans-unit id="_86ekN5" resname="labels.please_billing_address" xml:space="preserve" approved="yes">
+        <source>labels.please_billing_address</source>
+        <target state="translated">Ange din faktureringsadress</target>
+      </trans-unit>
+      <trans-unit id="vWl4nxs" resname="labels.cvc" xml:space="preserve" approved="yes">
+        <source>labels.cvc</source>
+        <target state="translated">CVC</target>
+      </trans-unit>
+      <trans-unit id="egDP.6H" resname="labels.make_default_payment_method" xml:space="preserve" approved="yes">
+        <source>labels.make_default_payment_method</source>
+        <target state="translated">Gör standardbetalningsmetod</target>
+      </trans-unit>
+      <trans-unit id="pwEflKT" resname="labels.pay_with_apple_pay" xml:space="preserve" approved="yes">
+        <source>labels.pay_with_apple_pay</source>
+        <target state="translated">Betala med Apple Pay</target>
+      </trans-unit>
+      <trans-unit id="9rBVk2e" resname="labels.payment_instructions" xml:space="preserve" approved="yes">
+        <source>labels.payment_instructions</source>
+        <target state="translated">Betalningsinstruktioner</target>
+      </trans-unit>
+      <trans-unit id="pSSVqXA" resname="buttons.payment_sent" xml:space="preserve" approved="yes">
+        <source>buttons.payment_sent</source>
+        <target state="translated">Jag skickade betalningen</target>
+      </trans-unit>
+      <trans-unit id="yuFZ0Bl" resname="labels.expected_arrival_date" xml:space="preserve" approved="yes">
+        <source>labels.expected_arrival_date</source>
+        <target state="translated">Förväntat ankomstdatum</target>
+      </trans-unit>
+      <trans-unit id="sekUVmm" resname="labels.expected_arrival_date_comments" xml:space="preserve" approved="yes">
+        <source>labels.expected_arrival_date_comments</source>
+        <target state="translated">Anteckningar</target>
+      </trans-unit>
+      <trans-unit id="juCjwID" resname="labels.check_out_with_paypal" xml:space="preserve" approved="yes">
+        <source>labels.check_out_with_paypal</source>
+        <target state="translated">Checka ut med Paypal</target>
+      </trans-unit>
+      <trans-unit id="kh9Wpyq" resname="labels.account_holder_name" xml:space="preserve" approved="yes">
+        <source>labels.account_holder_name</source>
+        <target state="translated">Kontoinnehavarens namn</target>
+      </trans-unit>
+      <trans-unit id="xP8r7pR" resname="labels.individual" xml:space="preserve" approved="yes">
+        <source>labels.individual</source>
+        <target state="translated">Enskild</target>
+      </trans-unit>
+      <trans-unit id="M05t893" resname="labels.company" xml:space="preserve" approved="yes">
+        <source>labels.company</source>
+        <target state="translated">Företag</target>
+      </trans-unit>
+      <trans-unit id="7GGV.Ez" resname="labels.routing_number" xml:space="preserve" approved="yes">
+        <source>labels.routing_number</source>
+        <target state="translated">Clearingnummer</target>
+      </trans-unit>
+      <trans-unit id="SQU1VJM" resname="labels.bank_account_number" xml:space="preserve" approved="yes">
+        <source>labels.bank_account_number</source>
+        <target state="translated">Bankkontonummer</target>
+      </trans-unit>
+      <trans-unit id="4_l7NWl" resname="labels.confirm_bank_account_number" xml:space="preserve" approved="yes">
+        <source>labels.confirm_bank_account_number</source>
+        <target state="translated">Bekräfta kontonummer</target>
+      </trans-unit>
+      <trans-unit id="BjrKGVw" resname="labels.add_bank_account" xml:space="preserve" approved="yes">
+        <source>labels.add_bank_account</source>
+        <target state="translated">Lägg till bankkonto</target>
+      </trans-unit>
+      <trans-unit id="jt.wbYG" resname="buttons.verify_instantly" xml:space="preserve" approved="yes">
+        <source>buttons.verify_instantly</source>
+        <target state="translated">Verifiera omedelbart</target>
+      </trans-unit>
+      <trans-unit id="yMdKgyJ" resname="buttons.verify_manually" xml:space="preserve" approved="yes">
+        <source>buttons.verify_manually</source>
+        <target state="translated">Verifiera manuellt</target>
+      </trans-unit>
+      <trans-unit id="i9bzslK" resname="labels.or" xml:space="preserve" approved="yes">
+        <source>labels.or</source>
+        <target state="translated">eller</target>
+      </trans-unit>
+      <trans-unit id="UCTDZfM" resname="messages.add_bank_account_verify_prompt" xml:space="preserve" approved="yes">
+        <source>messages.add_bank_account_verify_prompt</source>
+        <target state="translated">För att kunna använda ditt bankkonto för betalningar behöver vi bara först verifiera att du är behörig att betala med det. Hur vill du verifiera ditt konto?</target>
+      </trans-unit>
+      <trans-unit id="YKozyoq" resname="messages.add_bank_account_manual_verification" xml:space="preserve" approved="yes">
+        <source>messages.add_bank_account_manual_verification</source>
+        <target state="translated">Lägg till valfritt bankkonto med routing och kontonummer. Vi skickar sedan två mikroinsättningar till ditt konto som du kan verifiera. Verifieringen kan ta upp till två arbetsdagar.</target>
+      </trans-unit>
+      <trans-unit id="4NZvK5V" resname="titles.add_payment_method" xml:space="preserve" approved="yes">
+        <source>titles.add_payment_method</source>
+        <target state="translated">Lägg till betalningsmetod</target>
+      </trans-unit>
+      <trans-unit id="c4URl7s" resname="titles.update_payment_method" xml:space="preserve" approved="yes">
+        <source>titles.update_payment_method</source>
+        <target state="translated">Ändra betalningsmetod</target>
+      </trans-unit>
+      <trans-unit id="K8F4eX0" resname="labels.pay_selected_invoices" xml:space="preserve" approved="yes">
+        <source>labels.pay_selected_invoices</source>
+        <target state="translated">Välj fakturor att betala</target>
+      </trans-unit>
+      <trans-unit id="wx1dwHu" resname="labels.tax_id" xml:space="preserve" approved="yes">
+        <source>labels.tax_id</source>
+        <target state="translated">Skatte ID</target>
+      </trans-unit>
+      <trans-unit id="GGIjRfB" resname="buttons.csv" xml:space="preserve" approved="yes">
+        <source>buttons.csv</source>
+        <target state="translated">CSV</target>
+      </trans-unit>
+      <trans-unit id="gksoz9F" resname="labels.receipt_email" xml:space="preserve" approved="yes">
+        <source>labels.receipt_email</source>
+        <target state="translated">Kvitto e-post</target>
+      </trans-unit>
+      <trans-unit id="NRoWURm" resname="buttons.attach_file" xml:space="preserve" approved="yes">
+        <source>buttons.attach_file</source>
+        <target state="translated">Bifoga fil...</target>
+      </trans-unit>
+      <trans-unit id="QhooH8c" resname="messages.gocardless_payment_reason" xml:space="preserve" approved="yes">
+        <source>messages.gocardless_payment_reason</source>
+        <target state="translated">Automatiska fakturabetalningar till %companyName%</target>
+      </trans-unit>
+      <trans-unit id="OQIsvq3" resname="buttons.setup_direct_debit" xml:space="preserve" approved="yes">
+        <source>buttons.setup_direct_debit</source>
+        <target state="translated">Ställ in direktdebitering</target>
+      </trans-unit>
+      <trans-unit id="LXmd33i" resname="messages.payment_form_invoice_description" xml:space="preserve" approved="yes">
+        <source>messages.payment_form_invoice_description</source>
+        <target state="translated">{0} Kontosaldo|{1} Faktura # %invoiceNumber%|]1,Inf[ %count% Fakturor</target>
+      </trans-unit>
+      <trans-unit id="JYcm0oz" resname="messages.information_being_saved" xml:space="preserve" approved="yes">
+        <source>messages.information_being_saved</source>
+        <target state="translated">Din information sparas. Tack!</target>
+      </trans-unit>
+      <trans-unit id="7X17a50" resname="messages.payment_processing" xml:space="preserve" approved="yes">
+        <source>messages.payment_processing</source>
+        <target state="translated">Din betalning behandlas. Tack!</target>
+      </trans-unit>
+      <trans-unit id="AEQBBf2" resname="warnings.convenience_fee" xml:space="preserve" approved="yes">
+        <source>warnings.convenience_fee</source>
+        <target state="translated">En %fee% bekvämlighetsavgift kommer att läggas till betalningen.</target>
+      </trans-unit>
+      <trans-unit id="8c1FunS" resname="labels.convenience_fee" xml:space="preserve" approved="yes">
+        <source>labels.convenience_fee</source>
+        <target state="translated">Bekvämlighetsavgift</target>
+      </trans-unit>
+      <trans-unit id="IswwNM7" resname="labels.open_item" xml:space="preserve" approved="yes">
+        <source>labels.open_item</source>
+        <target state="translated">Öppen sak</target>
+      </trans-unit>
+      <trans-unit id="MRmfnd3" resname="titles.credit_notes" xml:space="preserve" approved="yes">
+        <source>titles.credit_notes</source>
+        <target state="translated">Krediträkningar</target>
+      </trans-unit>
+      <trans-unit id="3Ytdm_m" resname="labels.credit_note_number" xml:space="preserve" approved="yes">
+        <source>labels.credit_note_number</source>
+        <target state="translated">Kreditnota #</target>
+      </trans-unit>
+      <trans-unit id="5W5KWuG" resname="messages.no_credit_notes_found" xml:space="preserve" approved="yes">
+        <source>messages.no_credit_notes_found</source>
+        <target state="translated">Vi hittade inga matchande kreditnotor i din kontohistorik.</target>
+      </trans-unit>
+      <trans-unit id="yk9xeNZ" resname="labels.address" xml:space="preserve" approved="yes">
+        <source>labels.address</source>
+        <target state="translated">Adress</target>
+      </trans-unit>
+      <trans-unit id="aAlCY3O" resname="labels.off" xml:space="preserve" approved="yes">
+        <source>labels.off</source>
+        <target state="translated">Av</target>
+      </trans-unit>
+      <trans-unit id="Ffrwqa2" resname="labels.enabled" xml:space="preserve" approved="yes">
+        <source>labels.enabled</source>
+        <target state="translated">Aktiverad</target>
+      </trans-unit>
+      <trans-unit id="049uRUv" resname="labels.payment_date" xml:space="preserve" approved="yes">
+        <source>labels.payment_date</source>
+        <target state="translated">Betalningsdag</target>
+      </trans-unit>
+      <trans-unit id="OKJpx4u" resname="labels.days" xml:space="preserve" approved="yes">
+        <source>labels.days</source>
+        <target state="translated">dag|dagar</target>
+      </trans-unit>
+      <trans-unit id="s1.80DN" resname="titles.activity" xml:space="preserve" approved="yes">
+        <source>titles.activity</source>
+        <target state="translated">Aktivitet</target>
+      </trans-unit>
+      <trans-unit id=".06W_Ql" resname="titles.statements" xml:space="preserve" approved="yes">
+        <source>titles.statements</source>
+        <target state="translated">Uttalanden</target>
+      </trans-unit>
+      <trans-unit id="2gw8e3G" resname="labels.expiration_date" xml:space="preserve" approved="yes">
+        <source>labels.expiration_date</source>
+        <target state="translated">Utgångsdatum</target>
+      </trans-unit>
+      <trans-unit id="VB.qtSV" resname="labels.all" xml:space="preserve" approved="yes">
+        <source>labels.all</source>
+        <target state="translated">Allt</target>
+      </trans-unit>
+      <trans-unit id="5qZeUIn" resname="labels.open" xml:space="preserve" approved="yes">
+        <source>labels.open</source>
+        <target state="translated">Öppen</target>
+      </trans-unit>
+      <trans-unit id="jHqD_bx" resname="labels.apply" xml:space="preserve" approved="yes">
+        <source>labels.apply</source>
+        <target state="translated">Tillämpa</target>
+      </trans-unit>
+      <trans-unit id="1FD7klK" resname="labels.selected" xml:space="preserve" approved="yes">
+        <source>labels.selected</source>
+        <target state="translated">vald</target>
+      </trans-unit>
+      <trans-unit id="iwqyWqt" resname="labels.pdf" xml:space="preserve" approved="yes">
+        <source>labels.pdf</source>
+        <target state="translated">PDF</target>
+      </trans-unit>
+      <trans-unit id="ryLL3CY" resname="labels.aging" xml:space="preserve" approved="yes">
+        <source>labels.aging</source>
+        <target state="translated">Åldrande</target>
+      </trans-unit>
+      <trans-unit id="hq.S8R2" resname="labels.num_invoices" xml:space="preserve" approved="yes">
+        <source>labels.num_invoices</source>
+        <target state="translated"># Fakturor</target>
+      </trans-unit>
+      <trans-unit id="Jv2p1cp" resname="labels.account_summary" xml:space="preserve" approved="yes">
+        <source>labels.account_summary</source>
+        <target state="translated">Konto sammandrag</target>
+      </trans-unit>
+      <trans-unit id="C7TayrU" resname="labels.recent_payments" xml:space="preserve" approved="yes">
+        <source>labels.recent_payments</source>
+        <target state="translated">Senaste betalningar</target>
+      </trans-unit>
+      <trans-unit id="h.SpHjM" resname="labels.start_date" xml:space="preserve" approved="yes">
+        <source>labels.start_date</source>
+        <target state="translated">Start datum</target>
+      </trans-unit>
+      <trans-unit id="G9Gzmjv" resname="labels.currently_due" xml:space="preserve" approved="yes">
+        <source>labels.currently_due</source>
+        <target state="translated">För tillfället utestående</target>
+      </trans-unit>
+      <trans-unit id="_ja4Un7" resname="labels.next_due_date" xml:space="preserve" approved="yes">
+        <source>labels.next_due_date</source>
+        <target state="translated">Nästa Förfallodatum</target>
+      </trans-unit>
+      <trans-unit id="0ZNtsx6" resname="labels.po_number" xml:space="preserve" approved="yes">
+        <source>labels.po_number</source>
+        <target state="translated">EFTER #</target>
+      </trans-unit>
+      <trans-unit id="Q3et9EE" resname="labels.credit_note" xml:space="preserve" approved="yes">
+        <source>labels.credit_note</source>
+        <target state="translated">Kreditnota</target>
+      </trans-unit>
+      <trans-unit id="K.Ap7ZV" resname="messages.payment_form_credit_note_description" xml:space="preserve" approved="yes">
+        <source>messages.payment_form_credit_note_description</source>
+        <target state="translated">{1} Kreditnota # %creditNoteNumber%|]1,Inf[ %count% Kreditnotor</target>
+      </trans-unit>
+      <trans-unit id="J1bDBq0" resname="labels.document_number" xml:space="preserve" approved="yes">
+        <source>labels.document_number</source>
+        <target state="translated">Dokument #</target>
+      </trans-unit>
+      <trans-unit id="gKhcfsa" resname="messages.payment_zero_success" xml:space="preserve" approved="yes">
+        <source>messages.payment_zero_success</source>
+        <target state="translated">Vi har behandlat din begäran.</target>
+      </trans-unit>
+      <trans-unit id="Ua.VrHU" resname="labels.description" xml:space="preserve" approved="yes">
+        <source>labels.description</source>
+        <target state="translated">Beskrivning</target>
+      </trans-unit>
+      <trans-unit id="2iKHZ2X" resname="labels.summary" xml:space="preserve" approved="yes">
+        <source>labels.summary</source>
+        <target state="translated">Sammanfattning</target>
+      </trans-unit>
+      <trans-unit id="J5dO.KR" resname="labels.promise_to_pay" xml:space="preserve" approved="yes">
+        <source>labels.promise_to_pay</source>
+        <target state="translated">Lova att betala</target>
+      </trans-unit>
+      <trans-unit id="nxrrPlj" resname="messages.promise_to_pay_description" xml:space="preserve" approved="yes">
+        <source>messages.promise_to_pay_description</source>
+        <target state="translated">Vänligen ge betalningsinformation när en betalning är på väg.</target>
+      </trans-unit>
+      <trans-unit id="8_.488W" resname="titles.payment_selection" xml:space="preserve" approved="yes">
+        <source>titles.payment_selection</source>
+        <target state="translated">Val av betalning</target>
+      </trans-unit>
+      <trans-unit id="Fu1TrS1" resname="labels.payment_reference" xml:space="preserve" approved="yes">
+        <source>labels.payment_reference</source>
+        <target state="translated">Betalningsreferens #</target>
+      </trans-unit>
+      <trans-unit id="DC0vY0D" resname="labels.price" xml:space="preserve" approved="yes">
+        <source>labels.price</source>
+        <target state="translated">Pris</target>
+      </trans-unit>
+      <trans-unit id="H.wEBrm" resname="tax" xml:space="preserve" approved="yes">
+        <source>tax</source>
+        <target state="translated">beskatta</target>
+      </trans-unit>
+      <trans-unit id="lHLyLBw" resname="includes" xml:space="preserve" approved="yes">
+        <source>includes</source>
+        <target state="translated">inkluderar</target>
+      </trans-unit>
+      <trans-unit id="81alaCs" resname="labels.tiered" xml:space="preserve" approved="yes">
+        <source>labels.tiered</source>
+        <target state="translated">Trött</target>
+      </trans-unit>
+      <trans-unit id="zykxVkI" resname="labels.PayInFull" xml:space="preserve" approved="yes">
+        <source>labels.PayInFull</source>
+        <target state="translated">Betala i sin helhet</target>
+      </trans-unit>
+      <trans-unit id="NPHcEJe" resname="labels.PayPartial" xml:space="preserve" approved="yes">
+        <source>labels.PayPartial</source>
+        <target state="translated">Betala delbelopp</target>
+      </trans-unit>
+      <trans-unit id="5VJPedQ" resname="labels.ApplyCredit" xml:space="preserve" approved="yes">
+        <source>labels.ApplyCredit</source>
+        <target state="translated">Ansök kredit</target>
+      </trans-unit>
+      <trans-unit id="VgM0xrI" resname="labels.PaymentPlan" xml:space="preserve" approved="yes">
+        <source>labels.PaymentPlan</source>
+        <target state="translated">Nästa delbetalning</target>
+      </trans-unit>
+      <trans-unit id="ub2CIJg" resname="labels.amount_to_pay" xml:space="preserve" approved="yes">
+        <source>labels.amount_to_pay</source>
+        <target state="translated">Summa att betala</target>
+      </trans-unit>
+      <trans-unit id="olq6ngN" resname="labels.AdvancePayment" xml:space="preserve" approved="yes">
+        <source>labels.AdvancePayment</source>
+        <target state="translated">Förskottsbetalning</target>
+      </trans-unit>
+      <trans-unit id="Ofp1Mr8" resname="buttons.save_to_invoiced" xml:space="preserve" approved="yes">
+        <source>buttons.save_to_invoiced</source>
+        <target state="translated">Spara till Fakturerat</target>
+      </trans-unit>
+      <trans-unit id="RcW7iDA" resname="titles.invoice_from" xml:space="preserve" approved="yes">
+        <source>titles.invoice_from</source>
+        <target state="translated">Faktura från %fromName%</target>
+      </trans-unit>
+      <trans-unit id="xuZLJ1R" resname="labels.bill_from" xml:space="preserve" approved="yes">
+        <source>labels.bill_from</source>
+        <target state="translated">Bill från</target>
+      </trans-unit>
+      <trans-unit id="t114NXp" resname="labels.bill_to" xml:space="preserve" approved="yes">
+        <source>labels.bill_to</source>
+        <target state="translated">Bill To</target>
+      </trans-unit>
+      <trans-unit id="DlKW1PP" resname="labels.ship_to" xml:space="preserve" approved="yes">
+        <source>labels.ship_to</source>
+        <target state="translated">Frakta till</target>
+      </trans-unit>
+      <trans-unit id="RJGJEPj" resname="labels.attention_to" xml:space="preserve" approved="yes">
+        <source>labels.attention_to</source>
+        <target state="translated">ATTN</target>
+      </trans-unit>
+      <trans-unit id="s.upHgu" resname="labels.payment_terms" xml:space="preserve" approved="yes">
+        <source>labels.payment_terms</source>
+        <target state="translated">Betalningsvillkor</target>
+      </trans-unit>
+      <trans-unit id="g6nmwmz" resname="labels.unit_cost" xml:space="preserve" approved="yes">
+        <source>labels.unit_cost</source>
+        <target state="translated">Enhetskostnad</target>
+      </trans-unit>
+      <trans-unit id="yG9Oc78" resname="labels.credits_applied" xml:space="preserve" approved="yes">
+        <source>labels.credits_applied</source>
+        <target state="translated">Tillämpade krediter</target>
+      </trans-unit>
+      <trans-unit id="g_9xYt." resname="labels.notes" xml:space="preserve" approved="yes">
+        <source>labels.notes</source>
+        <target state="translated">Anteckningar</target>
+      </trans-unit>
+      <trans-unit id="m0eYIwH" resname="buttons.learn_more" xml:space="preserve" approved="yes">
+        <source>buttons.learn_more</source>
+        <target state="translated">Läs mer</target>
+      </trans-unit>
+      <trans-unit id="5Dc9mCj" resname="titles.estimate_from" xml:space="preserve" approved="yes">
+        <source>titles.estimate_from</source>
+        <target state="translated">Uppskattning från %fromName%</target>
+      </trans-unit>
+      <trans-unit id="8L_w8yT" resname="titles.credit_note_from" xml:space="preserve" approved="yes">
+        <source>titles.credit_note_from</source>
+        <target state="translated">Kreditnota från %fromName%</target>
+      </trans-unit>
+      <trans-unit id="HVyyUyT" resname="titles.statement_from" xml:space="preserve" approved="yes">
+        <source>titles.statement_from</source>
+        <target state="translated">Uttalande från %fromName%</target>
+      </trans-unit>
+      <trans-unit id="r2pB5_G" resname="buttons.view_on_invoiced" xml:space="preserve" approved="yes">
+        <source>buttons.view_on_invoiced</source>
+        <target state="translated">Se på Fakturerat</target>
+      </trans-unit>
+      <trans-unit id="VhX.pin" resname="buttons.xml" xml:space="preserve" approved="yes">
+        <source>buttons.xml</source>
+        <target state="translated">XML</target>
+      </trans-unit>
+      <trans-unit id="qlr0CE8" resname="labels.contacts" xml:space="preserve" approved="yes">
+        <source>labels.contacts</source>
+        <target state="translated">Kontakter</target>
+      </trans-unit>
+      <trans-unit id="nv1fXH9" resname="messages.contacts_explanation" xml:space="preserve" approved="yes">
+        <source>messages.contacts_explanation</source>
+        <target state="translated">Lägg till ytterligare kontakter till ditt konto som ska ha tillgång till kundportalen.</target>
+      </trans-unit>
+      <trans-unit id="glEpeao" resname="labels.phone" xml:space="preserve" approved="yes">
+        <source>labels.phone</source>
+        <target state="translated">Telefon</target>
+      </trans-unit>
+      <trans-unit id="z9WDTAm" resname="messages.contact_saved" xml:space="preserve" approved="yes">
+        <source>messages.contact_saved</source>
+        <target state="translated">Kontakten har sparats.</target>
+      </trans-unit>
+      <trans-unit id="7Wmf_w1" resname="messages.contact_deleted" xml:space="preserve" approved="yes">
+        <source>messages.contact_deleted</source>
+        <target state="translated">Kontakten har tagits bort.</target>
+      </trans-unit>
+      <trans-unit id="7" resname="titles.select_customer" xml:space="preserve" approved="yes">
+        <source>titles.select_customer</source>
+        <target state="translated">Välj Kund</target>
+      </trans-unit>
+      <trans-unit id="8" resname="labels.change_language" xml:space="preserve" approved="yes">
+        <source>labels.change_language</source>
+        <target state="translated">Ändra språk</target>
+      </trans-unit>
+      <trans-unit id="9" resname="messages.powered_by_invoiced" xml:space="preserve" approved="yes">
+        <source>messages.powered_by_invoiced</source>
+        <target state="translated">Ett bättre sätt att skicka och ta emot fakturor</target>
+      </trans-unit>
+      <trans-unit id="11" resname="labels.new_contact" xml:space="preserve" approved="yes">
+        <source>labels.new_contact</source>
+        <target state="translated">Ny kontakt</target>
+      </trans-unit>
+      <trans-unit id="12" resname="labels.edit_contact" xml:space="preserve" approved="yes">
+        <source>labels.edit_contact</source>
+        <target state="translated">Redigera kontakt</target>
+      </trans-unit>
+      <trans-unit id="13" resname="messages.csrf_error" xml:space="preserve" approved="yes">
+        <source>messages.csrf_error</source>
+        <target state="translated">Din session kan ha löpt ut eller så har du kanske inte aktiverat cookies. Använd bakåtknappen och försök igen.</target>
+      </trans-unit>
+      <trans-unit id="14" resname="labels.please_try_again" xml:space="preserve" approved="yes">
+        <source>labels.please_try_again</source>
+        <target state="translated">Var god försök igen</target>
+      </trans-unit>
+      <trans-unit id="15" resname="labels.error" xml:space="preserve" approved="yes">
+        <source>labels.error</source>
+        <target state="translated">Fel</target>
+      </trans-unit>
+      <trans-unit id="16" resname="messages.sandbox_account" xml:space="preserve" approved="yes">
+        <source>messages.sandbox_account</source>
+        <target state="translated">Detta är ett sandlådekonto. Dessa är inte faktiska fakturor och behandlar inte direktbetalningar.</target>
+      </trans-unit>
+      <trans-unit id="17" resname="labels.delete_contact" xml:space="preserve" approved="yes">
+        <source>labels.delete_contact</source>
+        <target state="translated">Ta bort kontakt</target>
+      </trans-unit>
+      <trans-unit id="18" resname="messages.are_you_sure" xml:space="preserve" approved="yes">
+        <source>messages.are_you_sure</source>
+        <target state="translated">Är du säker?</target>
+      </trans-unit>
+      <trans-unit id="19" resname="messages.payment_add_bank_account" xml:space="preserve" approved="yes">
+        <source>messages.payment_add_bank_account</source>
+        <target state="translated">För att kunna göra en betalning måste du först ansluta ett bankkonto.</target>
+      </trans-unit>
+      <trans-unit id="20" resname="labels.date_range" xml:space="preserve" approved="yes">
+        <source>labels.date_range</source>
+        <target state="translated">Datumintervall</target>
+      </trans-unit>
+      <trans-unit id="21" resname="messages.welcome_line1" xml:space="preserve" approved="yes">
+        <source>messages.welcome_line1</source>
+        <target state="translated">Välkommen till vår kundportal! Logga in för att komma åt ditt konto, där du kan se fakturor, göra betalningar, uppdatera din faktureringsinformation och granska din kontohistorik.</target>
+      </trans-unit>
+      <trans-unit id="22" resname="messages.welcome_line2" xml:space="preserve" approved="yes">
+        <source>messages.welcome_line2</source>
+        <target state="translated">Om du stöter på några problem när du använder portalen, tveka inte att kontakta oss för hjälp.</target>
+      </trans-unit>
+      <trans-unit id="23" resname="labels.customer" xml:space="preserve" approved="yes">
+        <source>labels.customer</source>
+        <target state="translated">Kund</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="th" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="6SQX6Qy" resname="headers.invoice" xml:space="preserve" approved="yes">
+        <source>headers.invoice</source>
+        <target state="translated">ใบแจ้งหนี้</target>
+      </trans-unit>
+      <trans-unit id="wjsV3fl" resname="labels.paid" xml:space="preserve" approved="yes">
+        <source>labels.paid</source>
+        <target state="translated">จ่าย</target>
+      </trans-unit>
+      <trans-unit id="xuZLJ1R" resname="labels.bill_from" xml:space="preserve" approved="yes">
+        <source>labels.bill_from</source>
+        <target state="translated">บิลจาก</target>
+      </trans-unit>
+      <trans-unit id="t114NXp" resname="labels.bill_to" xml:space="preserve" approved="yes">
+        <source>labels.bill_to</source>
+        <target state="translated">ส่งเบิกไปที่</target>
+      </trans-unit>
+      <trans-unit id="DlKW1PP" resname="labels.ship_to" xml:space="preserve" approved="yes">
+        <source>labels.ship_to</source>
+        <target state="translated">จัดส่งไปที่</target>
+      </trans-unit>
+      <trans-unit id="RJGJEPj" resname="labels.attention_to" xml:space="preserve" approved="yes">
+        <source>labels.attention_to</source>
+        <target state="translated">เรียน</target>
+      </trans-unit>
+      <trans-unit id="8Fvy4ix" resname="labels.account_number" xml:space="preserve" approved="yes">
+        <source>labels.account_number</source>
+        <target state="translated">บัญชี #</target>
+      </trans-unit>
+      <trans-unit id="AUA0lmg" resname="labels.invoice_number" xml:space="preserve" approved="yes">
+        <source>labels.invoice_number</source>
+        <target state="translated">ใบแจ้งหนี้ #</target>
+      </trans-unit>
+      <trans-unit id="bOKmMiv" resname="labels.date" xml:space="preserve" approved="yes">
+        <source>labels.date</source>
+        <target state="translated">วันที่</target>
+      </trans-unit>
+      <trans-unit id="QFQqxZU" resname="labels.due_date" xml:space="preserve" approved="yes">
+        <source>labels.due_date</source>
+        <target state="translated">วันครบกำหนด</target>
+      </trans-unit>
+      <trans-unit id="HgJm.nz" resname="labels.purchase_order" xml:space="preserve" approved="yes">
+        <source>labels.purchase_order</source>
+        <target state="translated">ใบสั่งซื้อ</target>
+      </trans-unit>
+      <trans-unit id="s.upHgu" resname="labels.payment_terms" xml:space="preserve" approved="yes">
+        <source>labels.payment_terms</source>
+        <target state="translated">เงื่อนไขการชำระเงิน</target>
+      </trans-unit>
+      <trans-unit id="HI5nVQ." resname="labels.balance_due" xml:space="preserve" approved="yes">
+        <source>labels.balance_due</source>
+        <target state="translated">ยอดคงเหลือครบกำหนด</target>
+      </trans-unit>
+      <trans-unit id="oBE4vHb" resname="columns.item" xml:space="preserve" approved="yes">
+        <source>columns.item</source>
+        <target state="translated">รายการ</target>
+      </trans-unit>
+      <trans-unit id="MSqwBpW" resname="columns.quantity" xml:space="preserve" approved="yes">
+        <source>columns.quantity</source>
+        <target state="translated">ปริมาณ</target>
+      </trans-unit>
+      <trans-unit id="E6SYPf3" resname="columns.unit_cost" xml:space="preserve" approved="yes">
+        <source>columns.unit_cost</source>
+        <target state="translated">ประเมิน</target>
+      </trans-unit>
+      <trans-unit id="gpOlABV" resname="columns.amount" xml:space="preserve" approved="yes">
+        <source>columns.amount</source>
+        <target state="translated">จำนวน</target>
+      </trans-unit>
+      <trans-unit id="CR4pyJ8" resname="labels.subtotal" xml:space="preserve" approved="yes">
+        <source>labels.subtotal</source>
+        <target state="translated">ผลรวมย่อย</target>
+      </trans-unit>
+      <trans-unit id="mE9Idjw" resname="labels.total" xml:space="preserve" approved="yes">
+        <source>labels.total</source>
+        <target state="translated">ทั้งหมด</target>
+      </trans-unit>
+      <trans-unit id="7o2CC.r" resname="labels.amount_paid" xml:space="preserve" approved="yes">
+        <source>labels.amount_paid</source>
+        <target state="translated">จำนวนเงินที่จ่าย</target>
+      </trans-unit>
+      <trans-unit id="g_9xYt." resname="labels.notes" xml:space="preserve" approved="yes">
+        <source>labels.notes</source>
+        <target state="translated">หมายเหตุ</target>
+      </trans-unit>
+      <trans-unit id="OPL8Sr6" resname="labels.terms" xml:space="preserve" approved="yes">
+        <source>labels.terms</source>
+        <target state="translated">เงื่อนไข</target>
+      </trans-unit>
+      <trans-unit id="0QzozfY" resname="labels.amount" xml:space="preserve" approved="yes">
+        <source>labels.amount</source>
+        <target state="translated">จำนวน</target>
+      </trans-unit>
+      <trans-unit id="RRsvRXZ" resname="labels.expires_on" xml:space="preserve" approved="yes">
+        <source>labels.expires_on</source>
+        <target state="translated">หมดอายุ %วันที่%</target>
+      </trans-unit>
+      <trans-unit id="Wxtb7xI" resname="filenames.invoice" xml:space="preserve" approved="yes">
+        <source>filenames.invoice</source>
+        <target state="translated">เลขใบสั่งของ%</target>
+      </trans-unit>
+      <trans-unit id="fR_SPZX" resname="headers.credit_note" xml:space="preserve" approved="yes">
+        <source>headers.credit_note</source>
+        <target state="translated">ใบลดหนี้</target>
+      </trans-unit>
+      <trans-unit id="3Ytdm_m" resname="labels.credit_note_number" xml:space="preserve" approved="yes">
+        <source>labels.credit_note_number</source>
+        <target state="translated">ใบลดหนี้ #</target>
+      </trans-unit>
+      <trans-unit id="r2amNw9" resname="filenames.credit_note" xml:space="preserve" approved="yes">
+        <source>filenames.credit_note</source>
+        <target state="translated">ใบลดหนี้ %จำนวน%</target>
+      </trans-unit>
+      <trans-unit id="8Ul_JSm" resname="headers.estimate" xml:space="preserve" approved="yes">
+        <source>headers.estimate</source>
+        <target state="translated">ประมาณการ</target>
+      </trans-unit>
+      <trans-unit id="4ZnDOXK" resname="labels.estimate_number" xml:space="preserve" approved="yes">
+        <source>labels.estimate_number</source>
+        <target state="translated">ประมาณการ #</target>
+      </trans-unit>
+      <trans-unit id="lNVf3KH" resname="labels.estimate" xml:space="preserve" approved="yes">
+        <source>labels.estimate</source>
+        <target state="translated">ประมาณการ</target>
+      </trans-unit>
+      <trans-unit id="tsHCNqj" resname="labels.expires" xml:space="preserve" approved="yes">
+        <source>labels.expires</source>
+        <target state="translated">หมดอายุ</target>
+      </trans-unit>
+      <trans-unit id="WjAV93L" resname="filenames.estimate" xml:space="preserve" approved="yes">
+        <source>filenames.estimate</source>
+        <target state="translated">ประมาณ %จำนวน%</target>
+      </trans-unit>
+      <trans-unit id="80Ha_5k" resname="headers.receipt" xml:space="preserve" approved="yes">
+        <source>headers.receipt</source>
+        <target state="translated">ใบเสร็จ</target>
+      </trans-unit>
+      <trans-unit id="ujCR3EW" resname="labels.payment_method" xml:space="preserve" approved="yes">
+        <source>labels.payment_method</source>
+        <target state="translated">วิธีการชำระเงิน</target>
+      </trans-unit>
+      <trans-unit id="0HnXDdv" resname="labels.check_no" xml:space="preserve" approved="yes">
+        <source>labels.check_no</source>
+        <target state="translated">ตรวจสอบ #</target>
+      </trans-unit>
+      <trans-unit id="bYnzQJs" resname="labels.invoice" xml:space="preserve" approved="yes">
+        <source>labels.invoice</source>
+        <target state="translated">ใบแจ้งหนี้</target>
+      </trans-unit>
+      <trans-unit id="SfvasqN" resname="labels.refunded" xml:space="preserve" approved="yes">
+        <source>labels.refunded</source>
+        <target state="translated">คืนเงินแล้ว</target>
+      </trans-unit>
+      <trans-unit id="jgE_YAD" resname="labels.credited" xml:space="preserve" approved="yes">
+        <source>labels.credited</source>
+        <target state="translated">เครดิต</target>
+      </trans-unit>
+      <trans-unit id="xeeoylN" resname="filenames.receipt" xml:space="preserve" approved="yes">
+        <source>filenames.receipt</source>
+        <target state="translated">ใบเสร็จ</target>
+      </trans-unit>
+      <trans-unit id="Z_5Lkp." resname="headers.statement" xml:space="preserve" approved="yes">
+        <source>headers.statement</source>
+        <target state="translated">คำแถลง</target>
+      </trans-unit>
+      <trans-unit id="O_759wa" resname="titles.account_summary" xml:space="preserve" approved="yes">
+        <source>titles.account_summary</source>
+        <target state="translated">สรุปบัญชี ณ %date%</target>
+      </trans-unit>
+      <trans-unit id="F_puvNP" resname="titles.account_summary_since" xml:space="preserve" approved="yes">
+        <source>titles.account_summary_since</source>
+        <target state="translated">สรุปบัญชี ณ %end_date% ตั้งแต่ %start_date%</target>
+      </trans-unit>
+      <trans-unit id="ntwoHp2" resname="labels.previous_balance" xml:space="preserve" approved="yes">
+        <source>labels.previous_balance</source>
+        <target state="translated">ยอดคงเหลือก่อนหน้า</target>
+      </trans-unit>
+      <trans-unit id="RlttFCP" resname="labels.invoiced" xml:space="preserve" approved="yes">
+        <source>labels.invoiced</source>
+        <target state="translated">ออกใบแจ้งหนี้แล้ว</target>
+      </trans-unit>
+      <trans-unit id="QF1DrBW" resname="labels.statement_payments" xml:space="preserve" approved="yes">
+        <source>labels.statement_payments</source>
+        <target state="translated">การชำระเงิน - ขอบคุณ!</target>
+      </trans-unit>
+      <trans-unit id="Haa8P0l" resname="labels.account_balance" xml:space="preserve" approved="yes">
+        <source>labels.account_balance</source>
+        <target state="translated">ยอดเงินในบัญชี</target>
+      </trans-unit>
+      <trans-unit id="OQDnT3C" resname="labels.credit_balance" xml:space="preserve" approved="yes">
+        <source>labels.credit_balance</source>
+        <target state="translated">ยอดเครดิต</target>
+      </trans-unit>
+      <trans-unit id="lQpqwFm" resname="labels.total_issued" xml:space="preserve" approved="yes">
+        <source>labels.total_issued</source>
+        <target state="translated">รวมที่ออก</target>
+      </trans-unit>
+      <trans-unit id="M7RpJEp" resname="labels.total_spent" xml:space="preserve" approved="yes">
+        <source>labels.total_spent</source>
+        <target state="translated">การใช้จ่ายทั้งหมด</target>
+      </trans-unit>
+      <trans-unit id="A6do3bL" resname="titles.account_detail" xml:space="preserve" approved="yes">
+        <source>titles.account_detail</source>
+        <target state="translated">รายละเอียดบัญชี</target>
+      </trans-unit>
+      <trans-unit id="EOZYJgQ" resname="columns.date" xml:space="preserve" approved="yes">
+        <source>columns.date</source>
+        <target state="translated">วันที่</target>
+      </trans-unit>
+      <trans-unit id="dXRjZ.A" resname="columns.invoice_number" xml:space="preserve" approved="yes">
+        <source>columns.invoice_number</source>
+        <target state="translated">ใบแจ้งหนี้ #</target>
+      </trans-unit>
+      <trans-unit id="zdRyTq0" resname="columns.paid" xml:space="preserve" approved="yes">
+        <source>columns.paid</source>
+        <target state="translated">จ่าย</target>
+      </trans-unit>
+      <trans-unit id="904eh0t" resname="columns.balance" xml:space="preserve" approved="yes">
+        <source>columns.balance</source>
+        <target state="translated">สมดุล</target>
+      </trans-unit>
+      <trans-unit id="CC2FWfH" resname="columns.invoiced" xml:space="preserve" approved="yes">
+        <source>columns.invoiced</source>
+        <target state="translated">ออกใบแจ้งหนี้แล้ว</target>
+      </trans-unit>
+      <trans-unit id="ixNmv3m" resname="labels.total_invoiced" xml:space="preserve" approved="yes">
+        <source>labels.total_invoiced</source>
+        <target state="translated">ใบแจ้งหนี้ทั้งหมด</target>
+      </trans-unit>
+      <trans-unit id="RBug4mB" resname="labels.total_paid" xml:space="preserve" approved="yes">
+        <source>labels.total_paid</source>
+        <target state="translated">ทั้งหมดที่จ่าย</target>
+      </trans-unit>
+      <trans-unit id="bfG16Zp" resname="labels.unapplied_payments" xml:space="preserve" approved="yes">
+        <source>labels.unapplied_payments</source>
+        <target state="translated">การชำระเงินที่ไม่ได้ใช้</target>
+      </trans-unit>
+      <trans-unit id="Rlut1HG" resname="titles.credit_balance_history" xml:space="preserve" approved="yes">
+        <source>titles.credit_balance_history</source>
+        <target state="translated">ประวัติเครดิตบาลานซ์</target>
+      </trans-unit>
+      <trans-unit id="apnILxs" resname="columns.description" xml:space="preserve" approved="yes">
+        <source>columns.description</source>
+        <target state="translated">คำอธิบาย</target>
+      </trans-unit>
+      <trans-unit id=".IUwgFt" resname="columns.issued" xml:space="preserve" approved="yes">
+        <source>columns.issued</source>
+        <target state="translated">ออก</target>
+      </trans-unit>
+      <trans-unit id="FmIWbG9" resname="columns.spent" xml:space="preserve" approved="yes">
+        <source>columns.spent</source>
+        <target state="translated">ค่าใช้จ่าย</target>
+      </trans-unit>
+      <trans-unit id="Qxba54H" resname="labels.total_balance" xml:space="preserve" approved="yes">
+        <source>labels.total_balance</source>
+        <target state="translated">ยอดคงเหลือทั้งหมด</target>
+      </trans-unit>
+      <trans-unit id="p0V_wp2" resname="labels.past_due_balance" xml:space="preserve" approved="yes">
+        <source>labels.past_due_balance</source>
+        <target state="translated">ยอดคงเหลือที่พ้นกำหนดชำระ</target>
+      </trans-unit>
+      <trans-unit id="u44iAJ." resname="titles.past_due_items" xml:space="preserve" approved="yes">
+        <source>titles.past_due_items</source>
+        <target state="translated">รายการที่พ้นกำหนดชำระ ณ %date%</target>
+      </trans-unit>
+      <trans-unit id="K0E2W71" resname="titles.open_items" xml:space="preserve" approved="yes">
+        <source>titles.open_items</source>
+        <target state="translated">เปิดรายการ ณ %date%</target>
+      </trans-unit>
+      <trans-unit id="LYFkje4" resname="columns.total" xml:space="preserve" approved="yes">
+        <source>columns.total</source>
+        <target state="translated">ทั้งหมด</target>
+      </trans-unit>
+      <trans-unit id="Z7Lctzb" resname="columns.due_date" xml:space="preserve" approved="yes">
+        <source>columns.due_date</source>
+        <target state="translated">วันครบกำหนด</target>
+      </trans-unit>
+      <trans-unit id="s3OFhMN" resname="filenames.statement" xml:space="preserve" approved="yes">
+        <source>filenames.statement</source>
+        <target state="translated">%ชื่อลูกค้า% ใบแจ้งยอด</target>
+      </trans-unit>
+      <trans-unit id="Q3et9EE" resname="labels.credit_note" xml:space="preserve" approved="yes">
+        <source>labels.credit_note</source>
+        <target state="translated">ใบลดหนี้</target>
+      </trans-unit>
+      <trans-unit id="A89s3EM" resname="labels.refund" xml:space="preserve" approved="yes">
+        <source>labels.refund</source>
+        <target state="translated">คืนเงิน</target>
+      </trans-unit>
+      <trans-unit id="GyJQi1t" resname="labels.payment" xml:space="preserve" approved="yes">
+        <source>labels.payment</source>
+        <target state="translated">การชำระเงิน</target>
+      </trans-unit>
+      <trans-unit id="p2WBhF1" resname="labels.unapplied_payment" xml:space="preserve" approved="yes">
+        <source>labels.unapplied_payment</source>
+        <target state="translated">การชำระเงินที่ไม่ได้ใช้</target>
+      </trans-unit>
+      <trans-unit id="1z136ge" resname="labels.credit" xml:space="preserve" approved="yes">
+        <source>labels.credit</source>
+        <target state="translated">เครดิต</target>
+      </trans-unit>
+      <trans-unit id="vcKnPeU" resname="labels.adjustment" xml:space="preserve" approved="yes">
+        <source>labels.adjustment</source>
+        <target state="translated">การปรับ</target>
+      </trans-unit>
+      <trans-unit id="5RhB6L4" resname="labels.applied_credit" xml:space="preserve" approved="yes">
+        <source>labels.applied_credit</source>
+        <target state="translated">เครดิตประยุกต์</target>
+      </trans-unit>
+      <trans-unit id="zhJmouq" resname="columns.type" xml:space="preserve" approved="yes">
+        <source>columns.type</source>
+        <target state="translated">พิมพ์</target>
+      </trans-unit>
+      <trans-unit id="4ur1x3f" resname="labels.current" xml:space="preserve" approved="yes">
+        <source>labels.current</source>
+        <target state="translated">ปัจจุบัน</target>
+      </trans-unit>
+      <trans-unit id="ryLL3CY" resname="labels.aging" xml:space="preserve" approved="yes">
+        <source>labels.aging</source>
+        <target state="translated">ริ้วรอยก่อนวัย</target>
+      </trans-unit>
+      <trans-unit id="BW0.1KL" resname="labels.page" xml:space="preserve" approved="yes">
+        <source>labels.page</source>
+        <target state="translated">หน้าหนังสือ</target>
+      </trans-unit>
+      <trans-unit id="xcBv4sd" resname="labels.payments_and_credits" xml:space="preserve" approved="yes">
+        <source>labels.payments_and_credits</source>
+        <target state="translated">การชำระเงินและเครดิต</target>
+      </trans-unit>
+      <trans-unit id="m8Z_SG5" resname="columns.reference" xml:space="preserve" approved="yes">
+        <source>columns.reference</source>
+        <target state="translated">อ้างอิง</target>
+      </trans-unit>
+      <trans-unit id="OKJpx4u" resname="labels.days" xml:space="preserve" approved="yes">
+        <source>labels.days</source>
+        <target state="translated">วัน</target>
+      </trans-unit>
+      <trans-unit id="8c1FunS" resname="labels.convenience_fee" xml:space="preserve" approved="yes">
+        <source>labels.convenience_fee</source>
+        <target state="translated">ค่าธรรมเนียมอำนวยความสะดวก</target>
+      </trans-unit>
+      <trans-unit id="8c1Fun1" resname="labels.date_from" xml:space="preserve" approved="yes">
+        <source>labels.date_from</source>
+        <target state="translated">จาก</target>
+      </trans-unit>
+      <trans-unit id="8c1FunS2" resname="labels.date_to" xml:space="preserve" approved="yes">
+        <source>labels.date_to</source>
+        <target state="translated">ถึง</target>
+      </trans-unit>
+      <trans-unit id="23" resname="columns.customer" xml:space="preserve" approved="yes">
+        <source>columns.customer</source>
+        <target state="translated">ลูกค้า</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

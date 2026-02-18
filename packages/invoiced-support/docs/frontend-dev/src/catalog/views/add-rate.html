@@ -1,0 +1,63 @@
+<div class="modal-header">
+	<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+	<h4 class="modal-title">Add {{appliedRateTitle}}</h4>
+</div>
+<div class="modal-body">
+	<p class="loading" ng-show="loading"></p>
+
+	<div class="modal-selector slim" ng-show="!loading&&availableRates.length>0">
+		<div class="search">
+			<div class="searchbar light">
+				<div class="bar">
+					<div class="icon"><span class="fas fa-search"></span></div>
+					<input type="text" class="form-control" placeholder="{{title}} name or ID..." ng-model="search" tabindex="2000" />
+					<div class="icon right icon-btn" ng-show="search">
+						<button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+							<span class="fas fa-times-circle"></span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="action">
+				<button type="button" class="btn btn-default" ng-click="newRateModal()" tabindex="2002" ng-if="'catalog.edit'|hasPermission">
+					<span class="fas fa-plus"></span>
+					New
+				</button>
+			</div>
+		</div>
+
+		<div class="rates-list" tabindex="0">
+			<div class="empty" ng-show="results.length===0">
+				Could not find any {{title_plural|lowercase}} with a name or ID matching <strong>{{search}}</strong>. <a href="" ng-click="newRateModal(search)" tabindex="2003" ng-if="'catalog.edit'|hasPermission">Create one.</a>
+			</div>
+
+			<a class="rate" ng-repeat="rate in availableRates | searchObject:search:['name','id'] | orderBy:'name' | limitTo:100 as results" ng-click="select(rate)" tabindex="{{$index + 2003}}" title="ID: {{rate.id}}">
+				<div class="title">
+					{{rate.name}}
+				</div>
+				<div class="amount">
+					<money ng-hide="rate.is_percent" amount="rate.value" currency="rate.currency"></money>
+					<span ng-show="rate.is_percent">{{rate.value}}%</span>
+				</div>
+				<div class="arrow">
+					<span class="fas fa-chevron-right"></span>
+				</div>
+			</a>
+		</div>
+	</div>
+	<cut-list-label count="results.length" total="(availableRates | searchObject:search:['name','id']).length"></cut-list-label>
+
+	<p class="empty" ng-show="!loading&&hasRates&&availableRates.length===0">
+		There are no more {{title_plural|lowercase}} left to add. <a href="" ng-click="newRateModal()" tabindex="2003" ng-if="'catalog.edit'|hasPermission">Create another one.</a>
+	</p>
+
+	<p class="empty" ng-show="!loading&&!hasRates">
+		You don't have any {{title_plural|lowercase}} yet. <a href="" ng-click="newRateModal()" tabindex="2003" ng-if="'catalog.edit'|hasPermission">Create one.</a>
+	</p>
+</div>
+
+<div class="modal-footer modal-btn" ng-show="options.allowCustom">
+	<a href="" class="btn btn-link" ng-click="customAmount()" tabindex="2500">
+		add custom {{appliedRateTitle|lowercase}}
+	</a>
+</div>

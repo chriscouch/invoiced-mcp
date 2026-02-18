@@ -1,0 +1,53 @@
+<div class="contents">
+	<div class="settings-title-bar">
+		<h2 class="title">
+			<div class="docs-link">
+				<a href="https://docs.invoiced.com/getting-started/users-roles" target="_blank">
+					{{'general.documentation'|translate}}
+					<span class="fas fa-external-link"></span>
+				</a>
+			</div>
+			<div class="back-link">
+				<a ui-sref="manage.settings.default">
+					<span class="fas fa-arrow-left"></span>
+					{{'general.settings'|translate}}
+				</a>
+			</div>
+			{{'settings.titles.team'|translate}}
+		</h2>
+
+		<p class="lead">
+			{{'settings.members.text'|translate}}
+		</p>
+	</div>
+	<p class="alert alert-danger" ng-show="error">
+		{{error.message}}
+	</p>
+	<div class="form-group">
+		<ul class="nav nav-tabs">
+			<!-- Tab Links -->
+			<li ui-sref-active="active">
+				<a ui-sref=".users">
+					{{'settings.members.users'|translate}}
+				</a>
+			</li>
+			<li ui-sref-active="active" ng-if="hasFeature">
+				<a ui-sref=".roles">
+					{{'settings.members.roles'|translate}}
+				</a>
+			</li>
+			<li ui-sref-active="active" ng-if="hasSamlFeature">
+				<a ui-sref=".saml">
+					{{'settings.members.saml.tab'|translate}}
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	<!-- Selected Tab Content -->
+	<div class="tab-content">
+		<div class="tab-pane active">
+			<ui-view/>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,13 @@
+mapping:
+  - sourceField: Id
+    destinationField: accounting_id
+
+  - sourceField: Name
+    destinationField: name
+
+  - sourceField: Description
+    destinationField: description
+
+  - sourceField: UnitPrice
+    destinationField: unit_cost
+    type: float

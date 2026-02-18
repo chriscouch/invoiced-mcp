@@ -1,0 +1,9 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'privacy'|trans %}
+{% extends "customerPortal/parentFrameOneColumn.twig" %}
+
+{% block left %}
+	<div class="terms-of-service">
+		{% include "privacy.twig" %}
+	</div>
+{% endblock %}

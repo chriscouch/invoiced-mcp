@@ -1,0 +1,341 @@
+<div class="settings">
+	<div class="settings-title-bar">
+		<h2 class="title">
+			Settings
+		</h2>
+
+		<p class="lead">
+			The settings center lets you administer your Invoiced business account.
+		</p>
+	</div>
+
+	<div class="row main-settings">
+		<!-- Business Settings -->
+		<div class="col-lg-3" ng-if="['settings.edit', 'business.admin', 'business.billing']|hasSomePermissions">
+			<div class="settings-section">
+				<h3>
+					<div class="icon hidden">
+						<img src="/img/icons/business.png" />
+					</div>
+					{{'settings.sections.business'|translate}}
+				</h3>
+				<ul>
+					<li>
+						<a ui-sref="manage.settings.business" ng-if="'settings.edit'|hasPermission">
+							<div class="icon">
+								<img src="/img/icons/business.png" />
+							</div>
+							{{'settings.titles.business_profile'|translate}}
+						</a>
+					</li>
+					<li>
+						<a ui-sref="manage.settings.team.users" ng-if="'business.admin'|hasPermission">
+							<div class="icon">
+								<img src="/img/icons/team.png" />
+							</div>
+							{{'settings.titles.team'|translate}}
+						</a>
+					</li>
+					<li>
+						<a ui-sref="manage.settings.notifications">
+							<div class="icon">
+								<img src="/img/icons/notifications.png" />
+							</div>
+							{{'settings.titles.notifications'|translate}}
+						</a>
+					</li>
+					<li>
+						<a ui-sref="manage.settings.billing" ng-hide="company.test_mode" ng-if="'business.billing'|hasPermission">
+							<div class="icon">
+								<img src="/img/icons/billing.png" />
+							</div>
+							{{'settings.titles.billing'|translate}}
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- Accounts Payable -->
+		<div class="col-lg-3" ng-if="('accounts_payable'|hasFeature) && 'settings.edit'|hasPermission">
+			<div class="settings-section">
+				<h3>
+					<div class="icon hidden">
+						<img src="/img/icons/general.png" />
+					</div>
+					{{'settings.sections.accounts_payable'|translate}}
+				</h3>
+
+				<ul ng-if="'settings.edit'|hasPermission">
+					<li>
+						<a ui-sref="manage.settings.accounts_payable">
+							<div class="icon">
+								<img src="/img/icons/general.png" />
+							</div>
+							{{'settings.titles.accounts_payable'|translate}}
+						</a>
+					</li>
+					<li ng-if="('approval_workflow'|hasFeature)">
+						<a ui-sref="manage.settings.approval_workflows">
+							<div class="icon">
+								<img src="/img/icons/approvals.png" />
+							</div>
+							{{'settings.titles.approval_workflow'|translate}}
+						</a>
+					</li>
+					<li>
+						<a ui-sref="manage.settings.bank_accounts">
+							<div class="icon">
+								<img src="/img/icons/bank_account.png" />
+							</div>
+							{{'settings.titles.bank_accounts'|translate}}
+						</a>
+					</li>
+					<li>
+						<a ui-sref="manage.settings.credit_cards">
+							<div class="icon">
+								<img src="/img/icons/credit_cards.png" />
+							</div>
+							{{'settings.titles.credit_cards'|translate}}
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- Accounts Receivable -->
+		<div class="col-lg-6" ng-if="('accounts_receivable'|hasFeature) && ['settings.edit','catalog.edit']|hasSomePermissions">
+			<div class="settings-section">
+				<h3>
+					<div class="icon hidden">
+						<img src="/img/icons/general.png" />
+					</div>
+					{{'settings.sections.accounts_receivable'|translate}}
+				</h3>
+				<div class="row">
+					<div class="col-lg-6 border-right">
+						<ul ng-if="'settings.edit'|hasPermission">
+							<li>
+								<a ui-sref="manage.settings.accounts_receivable">
+									<div class="icon">
+										<img src="/img/icons/general.png" />
+									</div>
+									{{'settings.titles.accounts_receivable'|translate}}
+								</a>
+							</li>
+							<li>
+								<a ui-sref="manage.settings.payments.methods">
+									<div class="icon">
+										<img src="/img/icons/payments.png" />
+									</div>
+									{{'settings.titles.payments'|translate}}
+								</a>
+							</li>
+							<li ng-if="('email_sending'|hasFeature)">
+								<a ui-sref="manage.settings.emails.templates">
+									<div class="icon">
+										<img src="/img/icons/email.png" />
+									</div>
+									{{'settings.titles.emails'|translate}}
+								</a>
+							</li>
+							<li>
+								<a ui-sref="manage.settings.chasing.customers" ng-if="('smart_chasing'|hasFeature)">
+									<div class="icon">
+										<img src="/img/icons/chasing.png" />
+									</div>
+									{{'settings.titles.chasing'|translate}}
+								</a>
+							</li>
+							<li>
+								<a ui-sref="manage.settings.chasing_legacy" ng-if="('legacy_chasing'|hasFeature)">
+									<div class="icon">
+										<img src="/img/icons/chasing.png" />
+									</div>
+									{{'settings.titles.chasing_legacy'|translate}}
+								</a>
+							</li>
+							<li>
+								<a ui-sref="manage.settings.appearance">
+									<div class="icon">
+										<img src="/img/icons/appearance.png" />
+									</div>
+									{{'settings.titles.appearance'|translate}}
+								</a>
+							</li>
+							<li>
+								<a ui-sref="manage.settings.customer_portal" ng-if="('billing_portal'|hasFeature)">
+									<div class="icon">
+										<img src="/img/icons/customer_portal.png" />
+									</div>
+									{{'settings.titles.customer_portal'|translate}}
+								</a>
+							</li>
+							<li>
+								<a ui-sref="manage.settings.custom_fields">
+									<div class="icon">
+										<img src="/img/icons/custom-fields.png" />
+									</div>
+									{{'settings.titles.custom_fields'|translate}}
+								</a>
+							</li>
+							<li ng-if="('autopay'|hasFeature) && !('subscriptions'|hasFeature)">
+								<a ui-sref="manage.settings.sign_up_pages" ng-if="'settings.edit'|hasPermission">
+									<div class="icon">
+										<img src="/img/icons/sign_up_pages.svg" />
+									</div>
+									{{'settings.titles.sign_up_pages'|translate}}
+								</a>
+							</li>
+							<li>
+								<a ui-sref="manage.settings.cash_application.bank_accounts" ng-if="('cash_application'|hasFeature)">
+									<div class="icon">
+										<img src="/img/icons/cash-app.png" />
+									</div>
+									{{'settings.titles.cash_application'|translate}}
+								</a>
+							</li>
+						</ul>
+					</div>
+					<!-- Pricing -->
+					<div class="col-lg-6" ng-if="'catalog.edit'|hasPermission">
+						<ul>
+							<li>
+								<a ui-sref="manage.settings.items">
+									<div class="icon">
+										<img src="/img/icons/catalog.png" />
+									</div>
+									{{'settings.titles.items'|translate}}
+								</a>
+							</li>
+							<li>
+								<a ui-sref="manage.settings.coupons">
+									<div class="icon">
+										<img src="/img/icons/coupon.png" />
+									</div>
+									{{'settings.titles.coupons'|translate}}
+								</a>
+							</li>
+							<li>
+								<a ui-sref="manage.settings.taxes.rates">
+									<div class="icon">
+										<img src="/img/icons/tax.png" />
+									</div>
+									{{'settings.titles.taxes'|translate}}
+								</a>
+							</li>
+							<li>
+								<a ui-sref="manage.settings.payment_terms">
+									<div class="icon">
+										<img src="/img/icons/payment-terms.png" />
+									</div>
+									{{'settings.titles.payment_terms'|translate}}
+								</a>
+							</li>
+							<li>
+								<a ui-sref="manage.settings.late_fees">
+									<div class="icon">
+										<img src="/img/icons/late-fees.svg" />
+									</div>
+									{{'settings.titles.late_fees'|translate}}
+								</a>
+							</li>
+							<li>
+								<a ui-sref="manage.settings.bundles" ng-if="('bundles'|hasFeature)">
+									<div class="icon">
+										<img src="/img/icons/bundles.png" />
+									</div>
+									{{'settings.titles.bundles'|translate}}
+								</a>
+							</li>
+							<li>
+								<a ui-sref="manage.settings.gl_accounts" ng-if="('gl_accounts'|hasFeature)">
+									<div class="icon">
+										<img src="/img/icons/gl_accounts.png" />
+									</div>
+									{{'settings.titles.gl_accounts'|translate}}
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Subscription Billing -->
+		<div class="col-lg-3" ng-if="['catalog.edit','settings.edit']|hasSomePermissions" ng-show="'subscriptions'|hasFeature">
+			<div class="settings-section">
+				<h3>
+					<div class="icon hidden">
+						<img src="/img/icons/subscription_billing.png" />
+					</div>
+					{{'settings.sections.subscriptions'|translate}}
+				</h3>
+				<ul>
+					<li>
+						<a ui-sref="manage.settings.subscription_billing" ng-if="'settings.edit'|hasPermission">
+							<div class="icon">
+								<img src="/img/icons/subscription_billing.png" />
+							</div>
+							{{'settings.titles.subscription_billing'|translate}}
+						</a>
+					</li>
+					<li>
+						<a ui-sref="manage.settings.plans" ng-if="'catalog.edit'|hasPermission">
+							<div class="icon">
+								<img src="/img/icons/plan.png" />
+							</div>
+							{{'settings.titles.plans'|translate}}
+						</a>
+					</li>
+					<li>
+						<a ui-sref="manage.settings.sign_up_pages" ng-if="'settings.edit'|hasPermission">
+							<div class="icon">
+								<img src="/img/icons/sign_up_pages.svg" />
+							</div>
+							{{'settings.titles.sign_up_pages'|translate}}
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- Integrations -->
+		<div class="col-lg-3" ng-if="['settings.edit', 'business.admin']|hasSomePermissions">
+			<div class="settings-section">
+				<h3>
+					<div class="icon hidden">
+						<img src="/img/icons/apps.png" />
+					</div>
+					{{'settings.sections.integrations'|translate}}
+				</h3>
+				<ul>
+					<li>
+						<a ui-sref="manage.settings.apps" ng-if="'settings.edit'|hasPermission">
+							<div class="icon">
+								<img src="/img/icons/apps.png" />
+							</div>
+							{{'settings.titles.apps'|translate}}
+						</a>
+					</li>
+					<li>
+						<a ui-sref="manage.settings.automation.list" ng-if="('settings.edit'|hasPermission) && ('automations'|hasFeature)">
+							<div class="icon">
+								<img src="/img/icons/automations.png" />
+							</div>
+							{{'settings.titles.automations'|translate}}
+						</a>
+					</li>
+					<li>
+						<a ui-sref="manage.settings.developers" ng-if="'business.admin'|hasPermission">
+							<div class="icon">
+								<img src="/img/icons/code.png" />
+							</div>
+							{{'settings.titles.developers'|translate}}
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

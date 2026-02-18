@@ -1,0 +1,202 @@
+<div class="search-results-holder" ng-class="{'has-filter': filterStr}">
+	<div class="box">
+		<div class="header clearfix">
+			<!-- Title Bar -->
+			<div class="actions" ng-if="'customers.create'|hasPermission">
+				<span class="dropdown" dropdown>
+					<a href="" class="btn btn-default hidden-xs hidden-sm dropdown-toggle" ng-if="'imports.create'|hasPermission" dropdown-toggle>
+						Import
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li>
+							<a ui-sref="manage.imports.new.spreadsheet({type:'customer'})">
+								{{'imports.customers'|translate}}
+							</a>
+						</li>
+						<li>
+							<a ui-sref="manage.imports.new.spreadsheet({type:'contact'})">
+								{{'imports.contacts'|translate}}
+							</a>
+						</li>
+					</ul>
+				</span>
+
+				<a href="" class="btn btn-success" ng-click="customerModal()">
+					New Customer
+				</a>
+			</div>
+			<h2>Customers</h2>
+
+			<!-- Tabs -->
+			<ul class="nav nav-tabs">
+				<li class="action">
+					<a href="" ng-click="openFilter()">
+						<div>
+							<span class="fas fa-filter"></span> Filter
+						</div>
+					</a>
+				</li>
+				<li class="action">
+					<filter-dropdown type="customer"  saved-filters="savedFilters" apply-filter="applyFilter" filter="filter"></filter-dropdown>
+				</li>
+				<li class="action right dropdown hidden-xs hidden-sm" dropdown>
+					<a href="" class="dropdown-toggle" dropdown-toggle>
+						<div>
+							Export
+							<span class="fas fa-chevron-down"></span>
+						</div>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li>
+							<a href="" ng-click="export('customer')">
+								<span class="far fa-arrow-to-bottom"></span>
+								Customers
+							</a>
+						</li>
+						<li>
+							<a href="" ng-click="export('contact')">
+								<span class="far fa-arrow-to-bottom"></span>
+								Contacts
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li class="action automation-action right" ng-if="('customers.edit'|hasPermission) && ('automations'|hasFeature)">
+					<div>
+						<a href="" ng-click="automate()" ng-hide="loading||!total_count">
+							<span class="fas fa-bolt"></span>
+							<span class="hidden-xs">Automate</span>
+						</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<!-- Applied Filter -->
+		<div class="applied-filter" ng-show="filterStr">
+			<span class="fas fa-filter filter-icon"></span>
+			<strong>{{filterStr}}</strong>
+			<a href="" ng-click="resetFilter()">
+				<span class="fas fa-times-circle"></span>
+			</a>
+		</div>
+
+		<p class="loading" ng-show="loading"></p>
+
+		<!-- No Results :-( -->
+		<div class="empty-table" ng-show="noResults()&&!loading">
+			<div class="icon">
+				<img src="/img/event-icons/customer.png" />
+			</div>
+			<span ng-show="usingFilter">
+				No results. <a href="" ng-click="resetFilter()">Reset Filter</a>
+			</span>
+			<span ng-hide="usingFilter">
+				No customers. <a href="" ng-click="customerModal()" ng-if="'customers.create'|hasPermission">Create One</a>
+			</span>
+		</div>
+
+		<!-- Data Table -->
+		<div class="custom-table-wrapper">
+			<table class="search-results-table table table-striped customers" ng-show="customers.length > 0 && !loading">
+			<thead>
+				<tr>
+					<th class="nopadding"></th>
+					<th ng-repeat="column in columns" ng-class="{'custom-column-th-container':$last}" class="{{column.type}}-column">
+						<column-arrangement-header-cell></column-arrangement-header-cell>
+						<column-arrangement-button type="customer" ng-if="$last" all-columns="allColumns" callback="applyColumnArrangement"></column-arrangement-button>
+					</th>
+					<th class="nopadding"></th>
+					<th class="nopadding"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="clickable" ng-repeat="customer in customers" ng-click="goToObject($event,'customer',customer.id)">
+					<td class="mobile-first visible-xs-block"></td>
+					<td class="customer-icons hidden-xs">
+						<div class="icon-col">
+							<customer-icon customer="customer"></customer-icon>
+						</div>
+						<div class="icon-col">
+							<autopay-icon is-enabled="customer.autopay"></autopay-icon>
+						</div>
+						<div class="icon-col">
+							<payment-source-icon source="customer.payment_source"></payment-source-icon>
+							<a href="" class="payment-source-icon" tooltip="Missing payment information" tooltip-placement="right" ng-show="!customer.payment_source&&customer.autopay"><span class="fad fa-exclamation text-danger"></span></a>
+						</div>
+					</td>
+					<td ng-repeat="column in columns" ng-class="{'title': column.id == 'name'}" class="{{column.type}}-column">
+						<div ng-if="column.id == 'status'">
+							<span class="label label-success" ng-if="customer.active">{{'general.active'|translate}}</span>
+							<span class="label label-danger" ng-if="!customer.active">{{'general.inactive'|translate}}</span>
+						</div>
+						<div ng-if="column.id == 'name'">
+							<div>
+								<a ui-sref="manage.customer.view.summary({id:customer.id})">
+									{{customer.name}}
+								</a>
+							</div>
+							<div class="account-number">
+								{{customer.number}}
+							</div>
+						</div>
+						<div class="hidden-xs" ng-if="column.id == 'chasing_cadence'">
+							<div ng-show="customer.chasing_cadence">
+								<div ng-show="customer.balance > 0">
+									<span ng-show="customer.chase && customer.next_chase_step">
+										{{customer.next_chase_step.name}}
+									</span>
+									<span class="cadence-paused" ng-show="!customer.chase">
+										Paused
+									</span>
+										<span class="cadence-finished" ng-show="customer.chase && !customer.next_chase_step">
+										Finished
+									</span>
+								</div>
+								<div class="cadence-paid" ng-hide="customer.balance > 0">
+									Paid
+								</div>
+								<div class="cadence-name">
+									{{customer.chasing_cadence.name}}
+								</div>
+							</div>
+						</div>
+						<div class="hidden-xs" ng-init="bucket = customer.aging[column.internalIndex]" ng-if="column.id == 'aging_bucket'">
+							<div>
+								<span ng-if="!bucket.amount">&mdash;</span>
+								<money amount="bucket.amount" currency="customer.currency || company.currency" ng-if="bucket.amount"></money>
+							</div>
+							<div class="num-invoices" ng-if="bucket.count > 0">
+								{{bucket.count}} invoice<span ng-show="bucket.count!=1">s</span>
+							</div>
+						</div>
+						<div ng-if="['aging_bucket', 'chasing_cadence', 'name'].indexOf(column.id) == -1">
+							<column-arrangement-cell column="column" data="customer" currency="customer.currency || company.currency"></column-arrangement-cell>
+						</div>
+					</td>
+					<td class="nopadding hover-actions-holder">
+						<div class="hover-actions">
+							<a href="" ng-click="customerModal(customer)" class="btn btn-sm btn-default" tooltip="Edit Customer" tooltip-placement="left" ng-if="'customers.edit'|hasPermission">
+								<span class="fas fa-pencil"></span>
+							</a>
+							<button type="button" ng-click="generateStatement(customer)" class="btn btn-sm btn-primary" tooltip="Generate Statement" tooltip-placement="left">
+								<span class="fas fa-file-invoice"></span>
+							</button>
+							<button type="button"  ng-if="customer.active && ('customers.edit'|hasPermission)" ng-click="setActiveStatus(customer, false)" class="btn btn-sm btn-danger" tooltip="Make Inactive" tooltip-placement="left">
+								<span class="fas fa-user-minus"></span>
+							</button>
+							<button type="button"  ng-if="!customer.active && ('customers.edit'|hasPermission)" ng-click="setActiveStatus(customer, true)" class="btn btn-sm btn-primary" tooltip="Make Active" tooltip-placement="left">
+								<span class="fas fa-user-check"></span>
+							</button>
+						</div>
+					</td>
+					<td class="mobile-last visible-xs-block"></td>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+		<!-- Pagination -->
+		<pagination-bar total-count="total_count" page-count="page_count" ng-change="goToPage(page, perPage)" ng-model="filter" ng-show="customers.length > 0 && !loading"></pagination-bar>
+	</div>
+</div>

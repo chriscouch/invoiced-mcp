@@ -1,0 +1,87 @@
+parameters:
+    # Adds a fallback DATABASE_URL if the env var is not set.
+    # This allows you to run cache:warmup even if your
+    # environment variables are not available yet.
+    # You should not need to change this value.
+    env(CUSTOMERADMIN_DB_URL): ''
+    env(INVOICED_DB_URL): ''
+
+doctrine:
+    dbal:
+        default_connection: CustomerAdmin
+        connections:
+            CustomerAdmin:
+                # configure these for your database server
+                driver: 'pdo_mysql'
+                server_version: mariadb-10.5.8
+                charset: utf8mb4
+                default_table_options:
+                    charset: utf8mb4
+                    collate: utf8mb4_unicode_ci
+                url: '%env(resolve:CUSTOMERADMIN_DB_URL)%'
+
+            Invoiced:
+                # configure these for your database server
+                driver: 'pdo_mysql'
+                server_version: mariadb-10.5.8
+                charset: utf8mb4
+                default_table_options:
+                    charset: utf8mb4
+                    collate: utf8mb4_unicode_ci
+                url: '%env(resolve:INVOICED_DB_URL)%'
+                mapping_types: 
+                    enum: string
+
+            InvoicedReadOnly:
+                # configure these for your database server
+                driver: 'pdo_mysql'
+                server_version: mariadb-10.5.8
+                charset: utf8mb4
+                default_table_options:
+                    charset: utf8mb4
+                    collate: utf8mb4_unicode_ci
+                url: '%env(resolve:INVOICED_READONLY_DB_URL)%'
+                mapping_types:
+                    enum: string
+
+
+    orm:
+        default_entity_manager: CustomerAdmin_ORM
+        entity_managers:
+            CustomerAdmin_ORM:
+                connection: CustomerAdmin
+                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+                mappings:
+                    CustomerAdmin:
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/Entity/CustomerAdmin'
+                        prefix: 'App\Entity\CustomerAdmin'
+                        alias: CustomerAdmin
+                metadata_cache_driver:
+                    type: service
+                    id: doctrine.system_cache_provider
+                query_cache_driver:
+                    type: service
+                    id: doctrine.system_cache_provider
+                result_cache_driver:
+                    type: service
+                    id: doctrine.result_cache_provider
+
+            Invoiced_ORM:
+                connection: Invoiced
+                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+                mappings: 
+                    Invoiced:
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/Entity/Invoiced'
+                        prefix: 'App\Entity\Invoiced'
+                        alias: Invoiced
+                metadata_cache_driver:
+                    type: service
+                    id: doctrine.system_cache_provider
+                query_cache_driver:
+                    type: service
+                    id: doctrine.system_cache_provider
+                result_cache_driver:
+                    type: service
+                    id: doctrine.result_cache_provider

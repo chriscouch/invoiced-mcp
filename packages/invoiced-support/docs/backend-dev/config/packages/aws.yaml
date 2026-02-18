@@ -1,0 +1,5 @@
+aws:
+    version: latest
+    region: us-east-2
+    # Credentials are provided by the instance IAM role or env variables
+    credentials: '@Aws\PsrCacheAdapter'

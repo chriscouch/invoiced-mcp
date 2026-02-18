@@ -1,0 +1,110 @@
+{
+  "version": 1,
+  "title": "Customer Time to Pay",
+  "sections": [
+    {
+      "title": "",
+      "object": "invoice",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "customer.name"
+          }
+        },
+        {
+          "name": "Avg. Time to Pay (Days)",
+          "field": [
+            {
+              "function": "round",
+              "arguments": [
+                [
+                  [
+                    {
+                      "function": "avg",
+                      "arguments": [
+                        {
+                          "id": "date_paid"
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "function": "avg",
+                      "arguments": [
+                        {
+                          "id": "date"
+                        }
+                      ]
+                    }
+                  ],
+                  "/",
+                  86400
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "filter": [
+        {
+          "operator": "=",
+          "value": true,
+          "field": {
+            "id": "paid"
+          }
+        },
+        {
+          "operator": ">",
+          "value": "0",
+          "field": {
+            "id": "amount_paid"
+          }
+        },
+        {
+          "operator": ">=",
+          "value": "$now",
+          "field": {
+            "function": "date_add",
+            "arguments": [
+              {
+                "function": "from_unixtime",
+                "arguments": [
+                  {
+                    "id": "date"
+                  }
+                ]
+              },
+              1,
+              "year"
+            ]
+          }
+        },
+        {
+          "operator": "<=",
+          "value": "$now",
+          "field": {
+            "id": "date"
+          }
+        }
+      ],
+      "group": [
+        {
+          "expanded": false,
+          "field": {
+            "id": "customer.id"
+          },
+          "ascending": true
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "customer.name"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{% trans_default_domain 'customer_portal' %}
+{% extends "customerPortal/parentLogo.twig" %}
+
+{% block main %}
+
+	<section class="error not-found">
+		<div class="container">
+			<h1>
+                {{ 'titles.page_not_found'|trans }}
+				<small class="highlight-color-color">404</small>
+			</h1>
+			<p class="lead">{{ 'messages.page_not_found'|trans }}</p>
+		</div>
+	</section>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.my_account'|trans %}
+{% extends "customerPortal/parentFrame.twig" %}
+
+{% block main %}
+	<div class="title-header">
+		<h1>{{ 'titles.my_account'|trans }}</h1>
+	</div>
+
+	<div class="row account-overview">
+		{% for column in cardLayout %}
+			<div class="col-md-{{ column.width }}">
+				{% for card in column.cards %}
+					{{ include('customerPortal/homeCards/' ~ card ~ '.twig', cardData[card], with_context=false) }}
+				{% endfor %}
+			</div>
+		{% endfor %}
+	</div>
+
+	<form method="post" id="postForm">
+		<input type="hidden" name="_csrf_token" value="{{ csrf_token('customer_portal_my_account') }}" />
+	</form>
+	<script type="text/javascript" src="{{ asset('/js/views/my_account.js') }}"></script>
+{% endblock %}

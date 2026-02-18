@@ -1,0 +1,27 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title='titles.page_not_found'|trans %}
+{% extends "clientView/parent.html.twig" %}
+
+{% block bodyClass %}border-top border-top-3 border-primary{% endblock %}
+
+{% block main %}
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-12 col-md-6 col-xl-5 my-5 p-4 text-center">
+				<h6 class="text-uppercase">
+					404
+				</h6>
+				<h1 class="display-4 mb-3">
+					{{ 'titles.page_not_found'|trans }}
+				</h1>
+				<p class="mb-4 fs-3">
+					{{ 'messages.page_not_found'|trans }}
+				</p>
+				<hr/>
+				<p class="mb-4 fs-2">
+					{{ company.name }}
+				</p>
+			</div>
+		</div>
+	</div>
+{% endblock %}

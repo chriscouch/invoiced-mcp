@@ -1,0 +1,278 @@
+@import 'dashkit-override.less';
+
+h1.logo {
+    padding: 105px 0 0;
+    margin: 0;
+    text-align: center;
+
+    img {
+        margin: 0 auto;
+        max-width: 100%;
+    }
+
+    a {
+        color: #777;
+    }
+}
+
+h1.logo.slim {
+    padding-top: 45px;
+}
+
+.auth-page {
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+    padding: 15px 30px;
+    margin: 30px auto;
+    text-align: left;
+    max-width: 400px;
+
+    h2 {
+        margin: 0 0 (15px * 2);
+        text-align: center;
+        font-size: 24px;
+
+        small {
+            a {
+                color: #999;
+            }
+        }
+    }
+
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin: 0;
+    }
+
+    h4.title {
+        text-align: center;
+        margin: 5px 0 30px;
+        font-weight: bold;
+        color: @evergreen;
+    }
+
+    .subtitle {
+        text-align: center;
+        margin: -15px 0 (15px * 2);
+        color: #777;
+        font-style: italic;
+    }
+
+    .form-control {
+        background: #fff;
+        border: 1px solid #ccc;
+        box-shadow: none;
+        color: #4e5459;
+    }
+
+    .form-control:focus {
+        border-color: @evergreen;
+    }
+
+    label {
+        font-weight: bold;
+        color: #999;
+    }
+
+    p {
+        margin: 15px 0;
+    }
+
+    .alert {
+        margin: 15px 0;
+    }
+
+    input[type='radio'],
+    input[type='checkbox'] {
+        width: auto;
+        height: auto;
+        margin: 0 9px 0 0;
+    }
+
+    hr {
+        margin: (15px * 2) 0 15px;
+        border-color: #ccc;
+    }
+
+    a:not(.btn),
+    a:active:not(.btn),
+    a:visited:not(.btn),
+    a:focus:not(.btn) {
+        color: @evergreen;
+    }
+
+    a:not(.btn) {
+        text-decoration: underline;
+    }
+
+    a:hover:not(.btn) {
+        color: @pine;
+    }
+}
+
+.auth-page.captcha {
+    .g-recaptcha > div {
+        margin: 0 auto;
+        text-align: center;
+    }
+}
+
+.test-mode {
+    @yellow: #ffbf3e;
+    @ink: #232e38;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 5px;
+    width: 100%;
+    background: repeating-linear-gradient(45deg, @yellow, @yellow 10px, @ink 10px, @ink 20px);
+
+    .test-mode-label {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+}
+
+/*
+-----
+Country Select
+-----
+*/
+
+.country-select {
+    width: 100%;
+
+    input {
+        border-radius: 6px;
+        padding: 0.5rem 1.75rem 0.5rem 0.75rem;
+        font-size: 0.9375rem;
+    }
+}
+
+/*
+-----
+Floating Labels
+-----
+*/
+
+.floating-label-input {
+    position: relative;
+
+    input:focus ~ .floating-label,
+    input:valid ~ .floating-label {
+        top: 4px;
+        bottom: 10px;
+        left: 0;
+        font-size: 11px;
+        opacity: 1;
+    }
+
+    .floating-label {
+        position: absolute;
+        pointer-events: none;
+        left: 0;
+        top: 10px;
+        transition: 0.2s ease all;
+        -moz-transition: 0.2s ease all;
+        -webkit-transition: 0.2s ease all;
+        color: #999;
+        font-weight: normal;
+        font-size: 18px;
+        margin: 0;
+        height: 46px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
+        padding: 0 16px;
+    }
+
+    input {
+        height: 46px;
+        border-radius: 6px;
+        line-height: 1.33;
+        font-size: 18px;
+        padding: 16px 16px 4px;
+    }
+}
+
+@media (max-width: 991px) {
+    .auth-page {
+        margin: 15px auto;
+        width: 100%;
+
+        h2 {
+            margin: 0 0 15px;
+        }
+    }
+}
+
+/*
+-----
+Onboarding
+-----
+*/
+
+.verify-email-code,
+.verify-phone-code {
+    .form-control {
+        width: 48px;
+        height: 48px;
+        text-align: center;
+        padding: 0;
+    }
+}
+
+.verify-tax-id-input {
+    max-width: 250px;
+}
+/*
+ -----
+ Credit Card
+ -----
+*/
+
+.credit-card-holder {
+    .card-logos.brand-selected {
+        opacity: 0.1;
+    }
+}
+
+.credit-card {
+    .input-card-number {
+        .type {
+            position: absolute;
+            z-index: 10;
+            right: 5px;
+            top: 0;
+            bottom: 0;
+            width: 40px;
+            background-size: 40px 25px;
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
+
+        .type.visa {
+            background-image: url('/img/payment-icons/visa-curved-64px.png');
+        }
+        .type.mastercard {
+            background-image: url('/img/payment-icons/mastercard-curved-64px.png');
+        }
+        .type.amex {
+            background-image: url('/img/payment-icons/american-express-curved-64px.png');
+        }
+        .type.discover {
+            background-image: url('/img/payment-icons/discover-curved-64px.png');
+        }
+        .type.visaelectron {
+            background-image: url('/img/payment-icons/visa-electron-curved-64px.png');
+        }
+        .type.maestro {
+            background-image: url('/img/payment-icons/maestro-curved-64px.png');
+        }
+    }
+}

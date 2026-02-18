@@ -1,0 +1,49 @@
+<div class="contents form-horizontal">
+    <div class="settings-title-bar">
+        <h2 class="title">
+            <div class="docs-link">
+                <a href="https://docs.invoiced.com/accounts-receivable/cash-application" target="_blank">
+                    {{'general.documentation'|translate}}
+                    <span class="fas fa-external-link"></span>
+                </a>
+            </div>
+            <div class="back-link">
+                <a ui-sref="manage.settings.default">
+                    <span class="fas fa-arrow-left"></span>
+                    {{'general.settings'|translate}}
+                </a>
+            </div>
+            {{'settings.titles.cash_application'|translate}}
+        </h2>
+
+        <p class="lead">
+            {{'settings.cash_application.lead'|translate}}
+        </p>
+    </div>
+
+    <!-- Tab Links -->
+    <ul class="nav nav-tabs">
+        <li ui-sref-active="active">
+            <a ui-sref=".bank_accounts">
+                {{'settings.cash_application.labels.bank_accounts'|translate}}
+            </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref=".settings">
+                {{'general.settings'|translate}}
+            </a>
+        </li>
+        <li ui-sref-active="active" ng-if="'cash_match'|hasFeature">
+            <a ui-sref=".rules">
+                {{'settings.cash_application.tabs.rules'|translate}}
+            </a>
+        </li>
+    </ul>
+
+    <!-- Selected Tab Content -->
+    <div class="tab-content">
+        <div class="tab-pane active">
+            <ui-view/>
+        </div>
+    </div>
+</div>

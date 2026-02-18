@@ -1,0 +1,51 @@
+# This tests a scenario for which a bill_in_arrears subscription is edited and
+# an addon is added and prorated.
+#debug: true
+
+data:
+  - object: plan
+    interval: month
+    amount: 100
+    id: arrears-monthly-1
+
+  - object: plan
+    interval: month
+    amount: 20
+    id: arrears-monthly-2
+
+operations:
+  - operation: create
+    time: 2022-01-01
+    parameters:
+      plan: arrears-monthly-1
+      bill_in: arrears
+    assertions:
+      subscription:
+        status: active
+        period_start: 2022-01-01
+        period_end: 2022-01-31T23:59:59Z
+      invoice: null
+
+  - operation: edit
+    time: 2022-01-15
+    parameters:
+      addons:
+        - plan: arrears-monthly-2
+          quantity: 1
+    assertions:
+      subscription:
+        status: active
+        period_start: 2022-01-01
+        period_end: 2022-01-31T23:59:59Z
+      invoice: null
+
+  - operation: bill
+    time: 2022-02-01
+    assertions:
+      subscription:
+        status: active
+        period_start: 2022-02-01
+        period_end: 2022-02-28T23:59:59Z
+      invoice:
+        date: 2022-01-31T23:59:59Z
+        total: 110.97

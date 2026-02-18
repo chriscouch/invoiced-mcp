@@ -1,0 +1,39 @@
+fields:
+  amount:
+    name: Amount
+    type: money
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency:
+    name: Currency
+    type: string
+  disbursement:
+    name: Disbursement
+    type: join
+  id:
+    name: ID
+    type: string
+    writable: false
+  payment:
+    name: Payout Id
+    type: join
+  payout_id:
+    name: Payout Id
+    type: string
+  status_text:
+    name: Status Text
+    type: string
+  updated_at:
+    name: Updated A
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false

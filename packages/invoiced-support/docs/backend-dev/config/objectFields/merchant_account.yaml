@@ -1,0 +1,26 @@
+fields:
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  deleted: { name: Deleted, type: boolean }
+  deleted_at: { name: "Deleted At", type: datetime }
+  gateway: { name: "Payment Gateway", type: string }
+  gateway_id: { name: "Account ID", type: string }
+  id:
+    name: ID
+    type: string
+    writable: false
+  name: { name: Name, type: string }
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false

@@ -1,0 +1,36 @@
+{% extends "integrations/parent.twig" %}
+
+{% block main %}
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6 col-xl-5 my-5 p-4 bg-white text-center border rounded">
+                <div class="mb-4">
+                    <img src="{{ asset('/img/logo.png') }}" alt="Invoiced" height="45"/>
+                </div>
+                <h1 class="display-4 mb-3">
+                    Oops, an error occurred!
+                </h1>
+                <p class="mt-5 mb-4 fs-3 text-secondary">
+                    {{ message }}
+                </p>
+
+                <div class="row mt-4 border-top pt-4">
+                    <div class="col-sm-6">
+                        <a href="{% if returnUrl is defined %}{{ returnUrl }}{% else %}/{% endif %}" class="btn btn-primary btn-lg">
+                            Return to Invoiced
+                        </a>
+                    </div>
+                    <div class="col-sm-6">
+                        {% if retryUrl is defined %}
+                            <a href="{{ retryUrl }}" class="btn btn-block btn-link">
+                                Try again
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

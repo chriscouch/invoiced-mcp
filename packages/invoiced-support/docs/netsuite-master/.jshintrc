@@ -1,0 +1,31 @@
+{
+  "bitwise": true,
+  "curly": true,
+  "eqnull": true,
+  "eqeqeq": true,
+  "esversion": 10,
+  "forin": true,
+  "freeze": true,
+  "futurehostile": true,
+  "globals": {
+    "define": true
+  },
+  "latedef": true,
+  "leanswitch": true,
+  "maxdepth": 4,
+  "maxparams": 12,
+  "maxstatements": 100,
+  "noarg": true,
+  "nocomma": true,
+  "nonbsp": true,
+  "nonew": true,
+  "noreturnawait": true,
+  "regexpu": true,
+  "shadow": "outer",
+  "singleGroups": true,
+  "strict": "implied",
+  "trailingcomma": false,
+  "undef": true,
+  "unused": true,
+  "varstmt": true
+}

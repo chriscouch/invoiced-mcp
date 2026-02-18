@@ -1,0 +1,292 @@
+{
+  "SellerSupplierParty": [
+    {
+      "Party": [
+        {
+          "PartyIdentification": [
+            {
+              "ID": [
+                {
+                  "_": "{FROM_USERNAME}"
+                }
+              ]
+            }
+          ],
+          "PartyName": [
+            {
+              "Name": [
+                {
+                  "_": "TEST & <Corp> Ara\u00fajo"
+                }
+              ]
+            }
+          ],
+          "PostalAddress": [
+            {
+              "AddressLine": [
+                {
+                  "Line": [
+                    {
+                      "_": "Company"
+                    }
+                  ]
+                },
+                {
+                  "Line": [
+                    {
+                      "_": "Address"
+                    }
+                  ]
+                }
+              ],
+              "Country": [
+                {
+                  "IdentificationCode": [
+                    {
+                      "_": "US"
+                    }
+                  ]
+                }
+              ],
+              "CityName": [
+                {
+                  "_": "Austin"
+                }
+              ],
+              "PostalZone": [
+                {
+                  "_": "78701"
+                }
+              ],
+              "CountrySubentity": [
+                {
+                  "_": "TX"
+                }
+              ]
+            }
+          ],
+          "Contact": [
+            {
+              "Name": [
+                {
+                  "_": "TEST & <Corp> Ara\u00fajo"
+                }
+              ],
+              "Telephone": [
+                {
+                  "_": "12345678"
+                }
+              ],
+              "ElectronicMail": [
+                {
+                  "_": "test@example.com"
+                }
+              ]
+            }
+          ],
+          "WebsiteURI": [
+            {
+              "_": "https:\/\/invoiced.com"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "BuyerCustomerParty": [
+    {
+      "Party": [
+        {
+          "PartyName": [
+            {
+              "Name": [
+                {
+                  "_": "Sherlock"
+                }
+              ]
+            }
+          ],
+          "PostalAddress": [
+            {
+              "AddressLine": [
+                {
+                  "Line": [
+                    {
+                      "_": "Test"
+                    }
+                  ]
+                },
+                {
+                  "Line": [
+                    {
+                      "_": "Address"
+                    }
+                  ]
+                }
+              ],
+              "Country": [
+                {
+                  "IdentificationCode": [
+                    {
+                      "_": "US"
+                    }
+                  ]
+                }
+              ],
+              "CityName": [
+                {
+                  "_": "Austin"
+                }
+              ],
+              "PostalZone": [
+                {
+                  "_": "78701"
+                }
+              ],
+              "CountrySubentity": [
+                {
+                  "_": "TX"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "SupplierAssignedAccountID": [
+        {
+          "_": "CUST-00001"
+        }
+      ]
+    }
+  ],
+  "QuotedMonetaryTotal": [
+    {
+      "LineExtensionAmount": [
+        {
+          "_": "100.00",
+          "currencyID": "USD"
+        }
+      ],
+      "TaxExclusiveAmount": [
+        {
+          "_": "100.00",
+          "currencyID": "USD"
+        }
+      ],
+      "TaxInclusiveAmount": [
+        {
+          "_": "100.00",
+          "currencyID": "USD"
+        }
+      ],
+      "AllowanceTotalAmount": [
+        {
+          "_": "0.00",
+          "currencyID": "USD"
+        }
+      ],
+      "ChargeTotalAmount": [
+        {
+          "_": "0",
+          "currencyID": "USD"
+        }
+      ],
+      "PrepaidAmount": [
+        {
+          "_": "0.00",
+          "currencyID": "USD"
+        }
+      ],
+      "PayableRoundingAmount": [
+        {
+          "_": "0",
+          "currencyID": "USD"
+        }
+      ],
+      "PayableAmount": [
+        {
+          "_": "0.00",
+          "currencyID": "USD"
+        }
+      ]
+    }
+  ],
+  "QuotationLine": [
+    {
+      "LineItem": [
+        {
+          "Price": [
+            {
+              "PriceAmount": [
+                {
+                  "_": "100.00",
+                  "currencyID": "USD"
+                }
+              ],
+              "BaseQuantity": [
+                {
+                  "_": "1"
+                }
+              ]
+            }
+          ],
+          "Item": [
+            {
+              "Description": [
+                {
+                  "_": "test"
+                }
+              ],
+              "Name": [
+                {
+                  "_": "Test Item"
+                }
+              ]
+            }
+          ],
+          "ID": [
+            {
+              "_": "1"
+            }
+          ],
+          "Quantity": [
+            {
+              "_": "1"
+            }
+          ],
+          "LineExtensionAmount": [
+            {
+              "_": "100.00",
+              "currencyID": "USD"
+            }
+          ]
+        }
+      ],
+      "ID": [
+        {
+          "_": "1"
+        }
+      ],
+      "Note": [
+        {
+          "_": "Test Item"
+        }
+      ]
+    }
+  ],
+  "ID": [
+    {
+      "_": "EST-00001"
+    }
+  ],
+  "IssueDate": [
+    {
+      "_": "2022-11-15"
+    }
+  ],
+  "PricingCurrencyCode": [
+    {
+      "_": "USD"
+    }
+  ]
+}

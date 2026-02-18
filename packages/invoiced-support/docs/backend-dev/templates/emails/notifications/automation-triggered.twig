@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}Automation Triggered{% endblock %}
+{% block notification %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,28 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.sign_up'|trans %}
+{% extends "customerPortal/parentLogo.twig" %}
+
+{% block main %}
+	<div class="container">
+		<div class="row d-flex align-items-center mt-4 mt-md-5">
+			<div class="col-md-12 mt-5 mt-md-0">
+				<div class="card m-0 welcome-login">
+					<h3 class="card-header">
+						{{ 'titles.sign_up'|trans }}
+					</h3>
+					<div class="card-body">
+						{{ form_start(form) }}
+
+						{{ form_widget(form) }}
+
+						<div class="text-right col-mb-3">
+							<input type="submit" value="{{ 'titles.sign_up'|trans }}" class="btn btn-primary" />
+						</div>
+
+						{{ form_end(form) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

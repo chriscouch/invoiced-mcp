@@ -1,0 +1,431 @@
+<div class="contents form-horizontal">
+	<div class="settings-title-bar">
+		<h2 class="title">
+			<div class="back-link">
+				<a ui-sref="manage.settings.default">
+					<span class="fas fa-arrow-left"></span>
+					{{'general.settings'|translate}}
+				</a>
+			</div>
+			{{'settings.titles.business_profile'|translate}}
+		</h2>
+
+		<p class="lead">
+			This page lets you manage the contact information, branding, localization settings, and addons for your business.
+		</p>
+	</div>
+
+	<p class="alert alert-danger" ng-show="error">
+		{{error.message}}
+	</p>
+
+	<!-- Contact Information -->
+	<div class="form-group">
+		<div class="col-sm-4 col-sm-offset-4">
+			<h4 class="settings-section-title">Contact Information</h4>
+		</div>
+		<div class="col-sm-4">
+			<button type="button" class="btn btn-success" ng-click="editProfile=true" ng-hide="editProfile">
+				Change
+			</button>
+		</div>
+	</div>
+
+	<div ng-hide="editProfile">
+		<!-- Legal Name / Doing Business As -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">
+				<span ng-show="company.type == 'company'">Company Name</span>
+				<span ng-show="company.type == 'person'">Owner Name</span>
+				<span ng-show="company.type == 'non_profit'">Nonprofit Name</span>
+				<span ng-show="company.type == 'government'">Government Entity Legal Name</span>
+			</label>
+			<div class="col-sm-8 form-control-static">
+				{{company.name}}
+				<div ng-show="company.nickname">d/b/a {{company.nickname}}</div>
+			</div>
+		</div>
+
+		<!-- Address -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">Address</label>
+			<div class="col-sm-8 form-control-static">
+				<span ng-bind-html="company|address:false:true:true"></span>
+			</div>
+		</div>
+
+		<!-- Username -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">Invoiced Username</label>
+			<div class="col-sm-8 form-control-static">
+				{{company.username}}
+			</div>
+		</div>
+
+		<!-- Email -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">Email</label>
+			<div class="col-sm-8 form-control-static">
+				{{company.email}}
+				<div>
+					<span class="label label-warning" ng-hide="company.verified_email">Unverified</span>
+					<span ng-hide="resent||resending||company.verified_email">
+						&mdash;
+						<a href="" ng-click="resendVerification()">
+							Resend
+						</a>
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- Phone -->
+		<div class="form-group" ng-show="company.phone">
+			<label class="control-label col-sm-4">Phone</label>
+			<div class="col-sm-8 form-control-static">
+				{{company.phone|formatPhoneNumber}}
+			</div>
+		</div>
+
+		<!-- Website -->
+		<div class="form-group" ng-show="company.website">
+			<label class="control-label col-sm-4">Website</label>
+			<div class="col-sm-8 form-control-static">
+				<a ng-href="{{company.website}}" target="_blank">{{company.website}}</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- Edit Contact Information -->
+	<form name="companyProfileForm" ng-submit="saveSettings(profileSettings, 'editProfile')" ng-show="editProfile">
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+
+		<!-- Onboarding Process -->
+		<div class="form-group">
+			<div class="col-sm-8 col-sm-offset-2">
+				<div class="alert alert-info">
+					<p>If you need to change the legal name, address, or tax information on your Invoiced account, then please click the button below.</p>
+					<p>
+						<a ng-href="{{onboardingUrl}}" class="btn btn-success">
+							Edit Company Information
+						</a>
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Doing Business As -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">Doing Business As</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" ng-model="company.nickname" />
+			</div>
+			<div class="col-sm-4 help-block">
+				Fill in if your company has a doing business as (DBA) name. If this is empty then we will use your company's legal name.
+			</div>
+		</div>
+
+		<!-- Username -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">Invoiced Username <span class="required"></span></label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" ng-model="company.username" placeholder="acmecorp" required />
+			</div>
+			<div class="col-md-4 help-block">
+				Others can find your business on Invoiced using your username.
+			</div>
+		</div>
+
+		<!-- Email -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">Email <span class="required"></span></label>
+			<div class="col-sm-4">
+				<div class="input-group">
+					<span class="input-group-addon">
+						<span class="fas fa-envelope"></span>
+					</span>
+					<input type="text" ng-model="company.email" class="form-control" />
+				</div>
+			</div>
+			<div class="col-sm-4 help-block">
+				This will be visible to counterparties.
+			</div>
+		</div>
+
+		<!-- Phone -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">Phone</label>
+			<div class="col-sm-4">
+				<div class="input-group">
+					<span class="input-group-addon">
+						<span class="fas fa-phone"></span>
+					</span>
+					<input type="text" ng-model="company.phone" class="form-control" />
+				</div>
+			</div>
+			<div class="col-sm-4 help-block">
+				This will be visible to counterparties.
+			</div>
+		</div>
+
+		<!-- Website -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">Website</label>
+			<div class="col-sm-4">
+				<input type="text" ng-model="company.website" class="form-control" placeholder="https://example.com" />
+			</div>
+			<div class="col-sm-4 help-block">
+				This will be visible to counterparties.
+			</div>
+		</div>
+
+		<!-- Extra Contact Information -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">Extra Contact Information</label>
+			<div class="col-sm-4">
+				<textarea class="form-control" placeholder="Enter any extra contact info here" ng-model="company.address_extra" expanding-textarea></textarea>
+			</div>
+			<div class="col-sm-4 help-block">
+				This will be visible to counterparties underneath your address.
+			</div>
+		</div>
+
+		<!-- Tax ID -->
+		<div class="form-group" ng-show="hasTaxId">
+			<label class="control-label col-sm-4">Tax ID</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" ng-model="company.tax_id" />
+			</div>
+			<div class="col-sm-4 help-block">
+				Please use this field if you need your tax ID displayed. It will be visible to counterparties underneath your address.
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-8 col-sm-offset-4">
+				<button type="submit" class="btn btn-primary Button" ng-disabled="companyProfileForm.$invalid||companyProfileForm.$pristine||saving" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+					<span translate>general.save</span>
+				</button>
+				<button type="button" class="btn btn-default" ng-click="editProfile=false;revertSettings(profileSettings)" ng-show="editProfile">
+					{{'general.cancel'|translate}}
+				</button>
+			</div>
+		</div>
+	</form>
+	<hr/>
+
+	<!-- Branding -->
+	<div class="form-group">
+		<div class="col-sm-4 col-sm-offset-4">
+			<h4 class="settings-section-title">Branding</h4>
+		</div>
+	</div>
+
+	<!-- Logo -->
+	<div class="form-group">
+		<label class="control-label col-sm-4">Logo</label>
+		<div class="col-sm-4 form-control-static">
+			<img class="business-logo" ng-src="{{company.logo}}" alt="Logo" ng-if="!!company.logo" />
+			<em ng-if="!company.logo">None uploaded</em>
+			<div class="progress" style="max-width: 300px" ng-show="percentage">
+				<div class="bar" style="width: {{percentage}}%;"></div>
+			</div>
+			<div class="alert alert-danger" style="max-width:300px" ng-show="logoErrorMsg">{{logoErrorMsg}}</div>
+		</div>
+		<div class="col-sm-4 help-block">
+			<p>
+				<span class="btn btn-primary fileinput-button">
+					<span class="fas fa-arrow-up"></span>
+					<span>Upload</span>
+					<input type="file" name="logo" ng-url="logoUrl" upload />
+				</span>
+				<button type="button" class="btn btn-danger" ng-show="company.logo" ng-click="saveSetting('logo', '')">
+					Remove Logo
+				</button>
+			</p>
+			JPEG, PNG, or GIF less than 1MB. At least 400 pixels wide looks best.
+		</div>
+	</div>
+
+	<!-- Accent Color -->
+	<div ng-hide="editBranding">
+		<div class="form-group">
+			<label class="control-label col-sm-4">Accent Color</label>
+			<div class="col-sm-4">
+				<div class="highlight-color-box" style="background:{{company.highlight_color}}"></div>
+			</div>
+			<div class="col-sm-4">
+				<button type="button" class="btn btn-success" ng-click="editBranding=true" ng-hide="editBranding">
+					Change
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Edit Accent Color -->
+	<form name="brandingForm" ng-submit="saveSettings(brandingSettings, 'editBranding')" ng-show="editBranding">
+		<div class="form-group">
+			<label class="control-label col-sm-4">Accent Color</label>
+			<div class="col-sm-2">
+				<input type="text" class="form-control" colorpicker ng-model="company.highlight_color" />
+			</div>
+			<div class="col-sm-6 help-block">
+				You can select a color to better match Invoiced to your brand. This color is used to customize your documents, billing portal, emails, and dashboard. We recommend choosing a dark color that contrasts well with white.
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-8 col-sm-offset-4">
+				<button type="submit" class="btn btn-primary Button" ng-disabled="brandingForm.$invalid||brandingForm.$pristine||saving" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+					<span translate>general.save</span>
+				</button>
+				<button type="button" class="btn btn-default" ng-click="editBranding=false;revertSettings(brandingSettings)" ng-show="editBranding">
+					{{'general.cancel'|translate}}
+				</button>
+			</div>
+		</div>
+	</form>
+	<hr/>
+
+	<!-- Localization -->
+	<div class="form-group">
+		<div class="col-sm-4 col-sm-offset-4">
+			<h4 class="settings-section-title">Localization</h4>
+		</div>
+		<div class="col-sm-4" ng-hide="editLocalization">
+			<button type="button" class="btn btn-success" ng-click="editLocalization=true">
+				Change
+			</button>
+		</div>
+	</div>
+
+	<div ng-hide="editLocalization">
+		<div class="form-group">
+			<label class="control-label col-sm-4">Base Currency</label>
+			<div class="col-sm-8 form-control-static">
+				{{company.currency|uppercase}}
+				&mdash;
+				{{company.currency|currencySymbol}}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">Multi-Currency</label>
+			<div class="col-sm-8 form-control-static">
+				<span class="label label-danger" ng-hide="company.multi_currency">{{'general.off'|translate}}</span>
+				<span class="label label-success" ng-show="company.multi_currency">{{'general.on'|translate}}</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">Currency Prefix</label>
+			<div class="col-sm-8 form-control-static">
+				<span ng-show="company.show_currency_code==0">Symbol &mdash; {{company.currency|currencySymbol}}500</span>
+				<span ng-show="company.show_currency_code==1">Currency Code &mdash; {{company.currency|uppercase}} 500</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">Date Format</label>
+			<div class="col-sm-8 form-control-static">
+				<company-date date="now"></company-date>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">Time Zone</label>
+			<div class="col-sm-8 form-control-static">
+				{{company.time_zone|timeZone}}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">Language</label>
+			<div class="col-sm-8 form-control-static">
+				{{company.language|language}}
+			</div>
+		</div>
+	</div>
+
+	<!-- Edit Localization -->
+	<form name="localizationForm" ng-submit="saveSettings(localizationSettings, 'editLocalization')" ng-show="editLocalization">
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">Base Currency <span class="required"></span></label>
+			<div class="col-sm-4">
+				<currency-selector ng-model="company.currency" required></currency-selector>
+			</div>
+		</div>
+
+		<div class="form-group" ng-if="hasInternationalization">
+			<label class="control-label col-sm-4">Multi-Currency</label>
+			<div class="col-sm-4">
+				<toggle ng-model="company.multi_currency"></toggle>
+			</div>
+			<div class="col-sm-4 help-block">
+				New currencies will be added to your reporting as transactions happen in those currencies.
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">Currency Prefix <span class="required"></span></label>
+			<div class="col-sm-4">
+				<div class="invoiced-select">
+					<select ng-model="company.show_currency_code" required>
+						<option value="0">Symbol: $, €, etc.</option>
+						<option value="1">Code: USD, EUR, etc.</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">Date Format <span class="required"></span></label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" ng-model="company.date_format" required />
+			</div>
+			<div class="col-sm-4">
+				<button class="btn btn-link" type="button" ng-click="showDateFormatDialog()">
+					<span class="fas fa-info-circle"></span>
+					Date formats
+				</button>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">Time Zone <span class="required"></span></label>
+			<div class="col-sm-4">
+				<timezone-selector ng-model="company.time_zone"></timezone-selector>
+			</div>
+			<div class="col-sm-4 help-block">
+				Warning! Changing your time zone can have undesired effects on reporting and subscription billing. Please only change this setting unless you are positive you want to use a different time zone.
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">Default Language <span class="required"></span></label>
+			<div class="col-sm-4">
+				<language-selector ng-model="company.language" has-default="false"></language-selector>
+			</div>
+			<div class="col-sm-4 help-block">
+				This is the language used by default for customer-facing interfaces. Only languages in the recommended section have a translation available out of the box.
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-8 col-sm-offset-4">
+				<button type="submit" class="btn btn-primary Button" ng-disabled="localizationForm.$invalid||localizationForm.$pristine||saving" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+					<span translate>general.save</span>
+				</button>
+				<button type="button" class="btn btn-default" ng-click="editLocalization=false;revertSettings(localizationSettings)">
+					{{'general.cancel'|translate}}
+				</button>
+			</div>
+		</div>
+	</form>
+</div>

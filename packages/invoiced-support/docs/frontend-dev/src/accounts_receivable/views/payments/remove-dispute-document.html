@@ -1,0 +1,19 @@
+<div class="modal-header">
+    <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+    <h4 class="modal-title">{{'payments.view.dispute.remove_file'|translate}}</h4>
+</div>
+<form name="defendForm" ng-submit="remove()">
+    <div class="modal-body">
+        <div class="form-group">
+            <div class="invoiced-select">
+                <select ng-model="code" ng-options="defenseDocumentType.defenseDocumentTypeCode for defenseDocumentType in reasons" required>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success Button" ng-disabled="defendForm.$invalid" v-pressable>
+            {{'payments.view.dispute.remove_file_button'|translate}}
+        </button>
+    </div>
+</form>

@@ -1,0 +1,86 @@
+<div class="modal-header">
+	<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+	<h4 class="modal-title">Generate Statement</h4>
+</div>
+<div class="modal-body form-horizontal">
+	<div class="form-group slim">
+		<label class="control-label col-sm-4">Customer</label>
+		<div class="col-sm-8 form-control-static">
+			{{customer.name}}
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="control-label col-sm-4">Type</label>
+		<div class="col-sm-8">
+			<div class="btn-group btn-radio">
+				<label class="btn" ng-model="type" btn-radio="'open_item'">Open Item</label>
+				<label class="btn" ng-model="type" btn-radio="'balance_forward'">Balance Forward</label>
+			</div>
+		</div>
+	</div>
+
+	<div ng-show="type=='balance_forward'">
+		<div class="form-group">
+			<label class="control-label col-sm-4">Date Range</label>
+			<div class="col-sm-8">
+				<date-range-picker period="period"></date-range-picker>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'general.currency'|translate}}</label>
+			<div class="col-sm-5">
+				<currency-selector ng-model="currency"></currency-selector>
+			</div>
+		</div>
+	</div>
+
+	<div ng-show="type=='open_item'">
+		<div class="form-group">
+			<label class="control-label col-sm-4">Statement Date</label>
+			<div class="col-sm-5">
+				<div class="input-group">
+					<input class="form-control" type="text" ng-model="statementDate" ui-date="dateOptions" is-open="dpOpened" readonly="readonly" required />
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'dpOpened')">
+							<span class="fas fa-calendar-alt"></span>
+						</button>
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">Included Items</label>
+			<div class="col-sm-5">
+				<div class="invoiced-select">
+					<select ng-model="openItemMode">
+						<option value="open">All Outstanding</option>
+						<option value="past_due">Past Due Only</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'general.currency'|translate}}</label>
+			<div class="col-sm-5">
+				<currency-selector ng-model="currency"></currency-selector>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-default" ng-click="clientView(type, currency, period, statementDate, openItemMode)">
+		<i class="fa-solid fa-arrow-up-from-bracket"></i>
+		Client View
+	</button>
+	<button type="button" class="btn btn-default" ng-click="download(type, currency, period, statementDate, openItemMode)">
+		<span class="fas fa-arrow-to-bottom"></span>
+		Download
+	</button>
+	<button type="button" class="btn btn-primary" ng-click="send(customer, type, currency, period, statementDate, openItemMode)" ng-if="hasSendingPermissions">
+		Send
+	</button>
+</div>

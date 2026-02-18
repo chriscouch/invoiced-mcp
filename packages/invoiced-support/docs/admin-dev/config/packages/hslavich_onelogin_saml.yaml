@@ -1,0 +1,21 @@
+hslavich_onelogin_saml:
+  baseurl: 'https://%app.hostname%/saml'
+  idp:
+    entityId: '%app.saml_entity_id%'
+    singleSignOnService:
+      url: '%app.saml_sso_url%'
+      binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'
+    singleLogoutService:
+      url: '%app.saml_slo_url%'
+      binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'
+    x509cert: '%app.saml_cert%'
+  sp:
+    entityId: csadmin
+    assertionConsumerService:
+      url: 'https://%app.hostname%/saml/acs'
+      binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST'
+    singleLogoutService:
+      url: 'https://%app.hostname%/saml/logout'
+      binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'
+    NameIDFormat: 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress'
+    privateKey:

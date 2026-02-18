@@ -1,0 +1,1370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="de" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="qiIpUIi" resname="buttons.pay_invoice">
+        <source>buttons.pay_invoice</source>
+        <target>Rechnung begleichen</target>
+      </trans-unit>
+      <trans-unit id="zTbP57E" resname="buttons.pay_now">
+        <source>buttons.pay_now</source>
+        <target>Jetzt begleichen</target>
+      </trans-unit>
+      <trans-unit id="50GxJMq" resname="buttons.approve_payment_plan">
+        <source>buttons.approve_payment_plan</source>
+        <target>Bestätige Zahlungsplan</target>
+      </trans-unit>
+      <trans-unit id="rfn1jyQ" resname="buttons.verify_account">
+        <source>buttons.verify_account</source>
+        <target>Verifiziere Account</target>
+      </trans-unit>
+      <trans-unit id="UAEnMuR" resname="buttons.change">
+        <source>buttons.change</source>
+        <target>Ändern</target>
+      </trans-unit>
+      <trans-unit id="9zYU3Px" resname="buttons.approve_estimate">
+        <source>buttons.approve_estimate</source>
+        <target>Bestätigen</target>
+      </trans-unit>
+      <trans-unit id="8cAC8ix" resname="buttons.download_invoice">
+        <source>buttons.download_invoice</source>
+        <target>Rechnung herunterladen</target>
+      </trans-unit>
+      <trans-unit id="imcEBhm" resname="buttons.download_credit_note">
+        <source>buttons.download_credit_note</source>
+        <target>Gutschrift herunterladen</target>
+      </trans-unit>
+      <trans-unit id="T51p9aY" resname="buttons.download_estimate">
+        <source>buttons.download_estimate</source>
+        <target>Schätzung herunterladen</target>
+      </trans-unit>
+      <trans-unit id="ryfDhhc" resname="buttons.download_statement">
+        <source>buttons.download_statement</source>
+        <target>Erklärung herunterladen</target>
+      </trans-unit>
+      <trans-unit id="iLrElud" resname="buttons.submit_comment">
+        <source>buttons.submit_comment</source>
+        <target>Senden</target>
+      </trans-unit>
+      <trans-unit id="_IHzsIN" resname="billed_to">
+        <source>billed_to</source>
+        <target>Rechnung an</target>
+      </trans-unit>
+      <trans-unit id="1ld_le_" resname="subtotal">
+        <source>subtotal</source>
+        <target>Zwischensumme</target>
+      </trans-unit>
+      <trans-unit id="mE9Idjw" resname="labels.total">
+        <source>labels.total</source>
+        <target>Summe</target>
+      </trans-unit>
+      <trans-unit id=".oPAixJ" resname="discounts">
+        <source>discounts</source>
+        <target>Rabatte</target>
+      </trans-unit>
+      <trans-unit id="wG3IzBc" resname="taxes">
+        <source>taxes</source>
+        <target>Steuern</target>
+      </trans-unit>
+      <trans-unit id="dABiZ2o" resname="shipping">
+        <source>shipping</source>
+        <target>Versand</target>
+      </trans-unit>
+      <trans-unit id="HswNz72" resname="amount_paid">
+        <source>amount_paid</source>
+        <target>Beglichener Betrag</target>
+      </trans-unit>
+      <trans-unit id="OTDmccn" resname="attachments">
+        <source>attachments</source>
+        <target>Anhänge</target>
+      </trans-unit>
+      <trans-unit id="aP9j_4L" resname="download">
+        <source>download</source>
+        <target>Download</target>
+      </trans-unit>
+      <trans-unit id="ew9Wx.M" resname="titles.my_account">
+        <source>titles.my_account</source>
+        <target>Mein Account</target>
+      </trans-unit>
+      <trans-unit id="PMYQJA7" resname="discussion">
+        <source>discussion</source>
+        <target>Diskussion</target>
+      </trans-unit>
+      <trans-unit id="S_WsBss" resname="have_questions">
+        <source>have_questions</source>
+        <target>Fragen?</target>
+      </trans-unit>
+      <trans-unit id="0Ulryib" resname="comment_box_intro">
+        <source>comment_box_intro</source>
+        <target>Hinterlass uns hier Fragen und Kommentare über %title%. Wir werden auf dich zukommen so schnell wie möglich.</target>
+      </trans-unit>
+      <trans-unit id="xDqrPRz" resname="placeholder_leave_comment">
+        <source>placeholder_leave_comment</source>
+        <target>Hinterlasse eine Nachricht</target>
+      </trans-unit>
+      <trans-unit id="I2kT9mB" resname="status_credit_note_paid">
+        <source>status_credit_note_paid</source>
+        <target>Voll beglichen</target>
+      </trans-unit>
+      <trans-unit id="Se9WMMT" resname="status_draft">
+        <source>status_draft</source>
+        <target>Entwurf</target>
+      </trans-unit>
+      <trans-unit id="07hyihn" resname="status_estimate_declined">
+        <source>status_estimate_declined</source>
+        <target>Abgelehnt</target>
+      </trans-unit>
+      <trans-unit id="J3RyIwH" resname="status_pending">
+        <source>status_pending</source>
+        <target>Zahlung ist ausstehend</target>
+      </trans-unit>
+      <trans-unit id="Rof6Hss" resname="status_past_due">
+        <source>status_past_due</source>
+        <target><![CDATA[<strong>%amount%</strong> überfällig]]></target>
+      </trans-unit>
+      <trans-unit id=".QgMZ1r" resname="status_past_due_since">
+        <source>status_past_due_since</source>
+        <target><![CDATA[<strong>%amount%</strong> überfällig seit %date%]]></target>
+      </trans-unit>
+      <trans-unit id="HOmT9lN" resname="status_due_by">
+        <source>status_due_by</source>
+        <target><![CDATA[<strong>%amount%</strong> fällig bis %date%]]></target>
+      </trans-unit>
+      <trans-unit id="jJApMVK" resname="status_due_now">
+        <source>status_due_now</source>
+        <target><![CDATA[<strong>%amount%</strong> fällig]]></target>
+      </trans-unit>
+      <trans-unit id="gavJtOf" resname="status_payment_plan">
+        <source>status_payment_plan</source>
+        <target><![CDATA[Zahlungsplan: <strong>%amount%</strong> übrig]]></target>
+      </trans-unit>
+      <trans-unit id=".ZIjLTN" resname="status_bad_debt">
+        <source>status_bad_debt</source>
+        <target>Böse Absicht</target>
+      </trans-unit>
+      <trans-unit id="2huhdFK" resname="status_paid">
+        <source>status_paid</source>
+        <target>Zur Gänze beglichen - Danke!</target>
+      </trans-unit>
+      <trans-unit id="X7Q7VeS" resname="status_autopay">
+        <source>status_autopay</source>
+        <target>AutoZahlung - Keine Schritte notwendig</target>
+      </trans-unit>
+      <trans-unit id="5cNElgf" resname="status_estimate_billed">
+        <source>status_estimate_billed</source>
+        <target>Akzeptiert und abgerechnet - Danke!</target>
+      </trans-unit>
+      <trans-unit id="ruqHpjV" resname="status_estimate_approved">
+        <source>status_estimate_approved</source>
+        <target>Akzeptiert von %initials%</target>
+      </trans-unit>
+      <trans-unit id="56zpJKE" resname="status_estimate_expired">
+        <source>status_estimate_expired</source>
+        <target>Abgelaufen am %date%</target>
+      </trans-unit>
+      <trans-unit id="oDaKyXm" resname="status_estimate_valid_until">
+        <source>status_estimate_valid_until</source>
+        <target>Ungültig bis %date%</target>
+      </trans-unit>
+      <trans-unit id="K49pfvB" resname="status_estimate_deposit_required">
+        <source>status_estimate_deposit_required</source>
+        <target><![CDATA[<strong>%amount%</strong> Einlage benötigt]]></target>
+      </trans-unit>
+      <trans-unit id="zqkLZUQ" resname="status_statement_due">
+        <source>status_statement_due</source>
+        <target><![CDATA[<strong>%amount%</strong> fällig]]></target>
+      </trans-unit>
+      <trans-unit id="fm9H4s2" resname="next_charge_on">
+        <source>next_charge_on</source>
+        <target>Nächste Zahlung: %amount% am %date%</target>
+      </trans-unit>
+      <trans-unit id="MutSjxr" resname="installment_schedule">
+        <source>installment_schedule</source>
+        <target>Ratenzeitpunkte</target>
+      </trans-unit>
+      <trans-unit id=".OSuWUF" resname="buttons.view_installment_schedule">
+        <source>buttons.view_installment_schedule</source>
+        <target>Zeige Ratenzeitpunkte</target>
+      </trans-unit>
+      <trans-unit id="_3lzd7Y" resname="buttons.sign_out">
+        <source>buttons.sign_out</source>
+        <target>Abmelden</target>
+      </trans-unit>
+      <trans-unit id="SgCXuxz" resname="missing_email_address">
+        <source>missing_email_address</source>
+        <target>Fehlende E-Mail Adresse</target>
+      </trans-unit>
+      <trans-unit id="DrlzWsW" resname="missing_billing_address">
+        <source>missing_billing_address</source>
+        <target>Fehlende Rechnungsadresse</target>
+      </trans-unit>
+      <trans-unit id=".P1Ckor" resname="buttons.add_payment_method">
+        <source>buttons.add_payment_method</source>
+        <target>Zahlungsmethode hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="LyOB8YF" resname="buttons.make_default">
+        <source>buttons.make_default</source>
+        <target>Setze als Standard</target>
+      </trans-unit>
+      <trans-unit id="v3UUKaF" resname="buttons.remove">
+        <source>buttons.remove</source>
+        <target>Entfernen</target>
+      </trans-unit>
+      <trans-unit id="X21OZb." resname="buttons.receipt">
+        <source>buttons.receipt</source>
+        <target>Empfangene</target>
+      </trans-unit>
+      <trans-unit id="GJ0obOG" resname="buttons.view_all">
+        <source>buttons.view_all</source>
+        <target>Zeige alle</target>
+      </trans-unit>
+      <trans-unit id="t5_pA4q" resname="buttons.add">
+        <source>buttons.add</source>
+        <target>Hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="F.v3JlG" resname="buttons.cancel">
+        <source>buttons.cancel</source>
+        <target>Abbrechen</target>
+      </trans-unit>
+      <trans-unit id="XRPKcqy" resname="labels.past_due">
+        <source>labels.past_due</source>
+        <target>Überfällig</target>
+      </trans-unit>
+      <trans-unit id="JA.6H5." resname="trialing">
+        <source>trialing</source>
+        <target>Testphase</target>
+      </trans-unit>
+      <trans-unit id="7OalAU3" resname="payment_plan">
+        <source>payment_plan</source>
+        <target>Zahlungsplan</target>
+      </trans-unit>
+      <trans-unit id="LqH3Wvv" resname="autopay">
+        <source>autopay</source>
+        <target>AutoZahlung</target>
+      </trans-unit>
+      <trans-unit id="lhy9QXI" resname="labels.pending">
+        <source>labels.pending</source>
+        <target>Ausstehend</target>
+      </trans-unit>
+      <trans-unit id="vgYpK2o" resname="buttons.approve">
+        <source>buttons.approve</source>
+        <target>Bestätigen</target>
+      </trans-unit>
+      <trans-unit id="7phFmSe" resname="buttons.pay">
+        <source>buttons.pay</source>
+        <target>Begleichen</target>
+      </trans-unit>
+      <trans-unit id="vXDwYj1" resname="ends_on">
+        <source>ends_on</source>
+        <target>Endet am %date%</target>
+      </trans-unit>
+      <trans-unit id="nKyRwfV" resname="subscriptions">
+        <source>subscriptions</source>
+        <target>Vereinbarung|Vereinbarungen</target>
+      </trans-unit>
+      <trans-unit id="wz4mSqM" resname="open_estimates">
+        <source>open_estimates</source>
+        <target>Schätzung öffnen|Schätzungen öffnen</target>
+      </trans-unit>
+      <trans-unit id="TLmg_k7" resname="payment_methods">
+        <source>payment_methods</source>
+        <target>Zahlungsmethode|Zahlungsmethoden</target>
+      </trans-unit>
+      <trans-unit id="l7fi23m" resname="unverified">
+        <source>unverified</source>
+        <target>Unverifiziert</target>
+      </trans-unit>
+      <trans-unit id="N6juwc4" resname="default">
+        <source>default</source>
+        <target>Standard</target>
+      </trans-unit>
+      <trans-unit id="XSipD0S" resname="failed">
+        <source>failed</source>
+        <target>Fehlgeschlagen</target>
+      </trans-unit>
+      <trans-unit id="pg3FDJz" resname="messages.billing_details_updated">
+        <source>messages.billing_details_updated</source>
+        <target>Deine Rechnungsdetails wurden aktualisiert. Danke!</target>
+      </trans-unit>
+      <trans-unit id="ydGpQfF" resname="messages.payment_method_updated">
+        <source>messages.payment_method_updated</source>
+        <target>Deine Zahlungsmethode wurden aktualisiert. Danke!</target>
+      </trans-unit>
+      <trans-unit id="qdP1YeY" resname="no_payment_method">
+        <source>no_payment_method</source>
+        <target>Keine Zahlungsmethode festgesetzt</target>
+      </trans-unit>
+      <trans-unit id="maDhWCR" resname="percent_paid">
+        <source>percent_paid</source>
+        <target>%percent%% bezahlt</target>
+      </trans-unit>
+      <trans-unit id="HI5nVQ." resname="labels.balance_due">
+        <source>labels.balance_due</source>
+        <target>Fällig</target>
+      </trans-unit>
+      <trans-unit id="p0V_wp2" resname="labels.past_due_balance">
+        <source>labels.past_due_balance</source>
+        <target>Überfälliger Saldo</target>
+      </trans-unit>
+      <trans-unit id="jvzinMb" resname="login_email_intro">
+        <source>login_email_intro</source>
+        <target>Willkommen! Bitte gib hier deine E-Mail-Adresse ein, um den Anmeldelink zu erhalten.</target>
+      </trans-unit>
+      <trans-unit id="bSQsS26" resname="labels.email_address">
+        <source>labels.email_address</source>
+        <target>E-Mail Adresse</target>
+      </trans-unit>
+      <trans-unit id="nRsTaCd" resname="buttons.send_sign_in_link">
+        <source>buttons.send_sign_in_link</source>
+        <target>Anmeldelink anfordern</target>
+      </trans-unit>
+      <trans-unit id="8Fvy4ix" resname="labels.account_number">
+        <source>labels.account_number</source>
+        <target>Kontonummer</target>
+      </trans-unit>
+      <trans-unit id="AUA0lmg" resname="labels.invoice_number">
+        <source>labels.invoice_number</source>
+        <target>Rechnung #</target>
+      </trans-unit>
+      <trans-unit id="BLYAi3U" resname="buttons.sign_in">
+        <source>buttons.sign_in</source>
+        <target>Anmelden</target>
+      </trans-unit>
+      <trans-unit id="LPnL892" resname="titles.sign_in_link_sent">
+        <source>titles.sign_in_link_sent</source>
+        <target>Anmeldelink gesendet</target>
+      </trans-unit>
+      <trans-unit id="8zypfB6" resname="messages.sign_in_link_sent">
+        <source>messages.sign_in_link_sent</source>
+        <target><![CDATA[Wir haben einen Anmeldelink an <strong>%email%</strong> verschickt. Bitte suche nach der Email in deinem Email-Postfach und klicke den darin enthaltenen Anmeldelink, um ins Kundenportal zu gelangen. Der Link ist nur 24 Stunden gültig.]]></target>
+      </trans-unit>
+      <trans-unit id="52p0s_P" resname="titles.page_not_found">
+        <source>titles.page_not_found</source>
+        <target>Seite nicht gefunden</target>
+      </trans-unit>
+      <trans-unit id="huXpZgy" resname="messages.page_not_found">
+        <source>messages.page_not_found</source>
+        <target>Sorry! Wir konnten die gesuchte Seite nicht finden.</target>
+      </trans-unit>
+      <trans-unit id="dpquWYl" resname="need_help_contact_us">
+        <source>need_help_contact_us</source>
+        <target>Hilfe benötigt? Kontaktiere uns.</target>
+      </trans-unit>
+      <trans-unit id="UdI2H0_" resname="terms">
+        <source>terms</source>
+        <target>Bestimmungen</target>
+      </trans-unit>
+      <trans-unit id="pMxrwBq" resname="privacy">
+        <source>privacy</source>
+        <target>Datenschutz</target>
+      </trans-unit>
+      <trans-unit id="X4UL86f" resname="messages.javascript_disabled">
+        <source>messages.javascript_disabled</source>
+        <target>Bitte aktiviere Javascript, um die Seite zu sehen.</target>
+      </trans-unit>
+      <trans-unit id="XOpmxGr" resname="buttons.go_to_my_account">
+        <source>buttons.go_to_my_account</source>
+        <target>Besuche meinen Account</target>
+      </trans-unit>
+      <trans-unit id="1AYqDBZ" resname="titles.subscription_canceled">
+        <source>titles.subscription_canceled</source>
+        <target>Vereinbarung storniert</target>
+      </trans-unit>
+      <trans-unit id="35yU65Q" resname="titles.faq">
+        <source>titles.faq</source>
+        <target>FAQ</target>
+      </trans-unit>
+      <trans-unit id="rSViePM" resname="messages.subscription_canceled">
+        <source>messages.subscription_canceled</source>
+        <target>Deine Vereinbarung wurde storniert. Danke für Dein Vertrauen!</target>
+      </trans-unit>
+      <trans-unit id="HoN41Lz" resname="titles.sign_ups_disabled">
+        <source>titles.sign_ups_disabled</source>
+        <target>Anmeldungen deaktiviert</target>
+      </trans-unit>
+      <trans-unit id="QUIY.bR" resname="messages.sign_ups_disabled">
+        <source>messages.sign_ups_disabled</source>
+        <target>Sorry! Wir akzeptieren momentan keine neuen Registrierungen.</target>
+      </trans-unit>
+      <trans-unit id="sSMaWpN" resname="titles.sign_up_thank_you">
+        <source>titles.sign_up_thank_you</source>
+        <target>Vielen Dank!</target>
+      </trans-unit>
+      <trans-unit id="UjEjfKc" resname="messages.subscribed">
+        <source>messages.subscribed</source>
+        <target>Du bist nun registriert.</target>
+      </trans-unit>
+      <trans-unit id="OuIlZ9J" resname="messages.subscribed_with_plan">
+        <source>messages.subscribed_with_plan</source>
+        <target><![CDATA[Du wurdest für <strong>%plan%</strong> eingeschrieben.]]></target>
+      </trans-unit>
+      <trans-unit id="kW4broH" resname="titles.invoice_not_found">
+        <source>titles.invoice_not_found</source>
+        <target>Rechnung nicht gefunden</target>
+      </trans-unit>
+      <trans-unit id="vuLoCB3" resname="titles.credit_note_not_found">
+        <source>titles.credit_note_not_found</source>
+        <target>Gutschrift nicht gefunden</target>
+      </trans-unit>
+      <trans-unit id="5Ho2nmD" resname="titles.estimate_not_found">
+        <source>titles.estimate_not_found</source>
+        <target>Schätzung nicht gefunden</target>
+      </trans-unit>
+      <trans-unit id="Ntf8xnT" resname="titles.estimate_expired">
+        <source>titles.estimate_expired</source>
+        <target>Schätzung abgelaufen</target>
+      </trans-unit>
+      <trans-unit id="D_lcZF3" resname="titles.estimates">
+        <source>titles.estimates</source>
+        <target>Schätzungen</target>
+      </trans-unit>
+      <trans-unit id="kIKf1Tb" resname="titles.invoices">
+        <source>titles.invoices</source>
+        <target>Rechnungen</target>
+      </trans-unit>
+      <trans-unit id="NZlwInE" resname="titles.payments">
+        <source>titles.payments</source>
+        <target>Zahlungen</target>
+      </trans-unit>
+      <trans-unit id="xQMGiqY" resname="titles.approve_estimate">
+        <source>titles.approve_estimate</source>
+        <target>Bestätige Schätzungen</target>
+      </trans-unit>
+      <trans-unit id="TfSeoBh" resname="titles.sign_up">
+        <source>titles.sign_up</source>
+        <target>Registrieren</target>
+      </trans-unit>
+      <trans-unit id="wM_6hxs" resname="titles.billing_details">
+        <source>titles.billing_details</source>
+        <target>Rechnungsdetails</target>
+      </trans-unit>
+      <trans-unit id="wM_6hxz" resname="titles.attachments">
+          <source>titles.attachments</source>
+          <target>Unterlagen</target>
+      </trans-unit>
+      <trans-unit id="03ip_Ts" resname="titles.account_statement">
+        <source>titles.account_statement</source>
+        <target>Account Statement</target>
+      </trans-unit>
+      <trans-unit id="l9JVnu." resname="titles.approve_payment_plan">
+        <source>titles.approve_payment_plan</source>
+        <target>Zahlungsplan</target>
+      </trans-unit>
+      <trans-unit id="Dfr6XIP" resname="titles.pay_invoice">
+        <source>titles.pay_invoice</source>
+        <target>Rechnung begleichen</target>
+      </trans-unit>
+      <trans-unit id="hhNrO8z" resname="titles.submit_payment">
+        <source>titles.submit_payment</source>
+        <target>Zahlung abschicken</target>
+      </trans-unit>
+      <trans-unit id="qwNsmIN" resname="titles.verify_bank_account">
+        <source>titles.verify_bank_account</source>
+        <target>Verifiziere Bankaccount</target>
+      </trans-unit>
+      <trans-unit id="2iSazkV" resname="titles.verified_bank_account_thank_you">
+        <source>titles.verified_bank_account_thank_you</source>
+        <target>Vielen Dank!</target>
+      </trans-unit>
+      <trans-unit id="u8TFlZC" resname="titles.expected_payment_thank_you">
+        <source>titles.expected_payment_thank_you</source>
+        <target>Vielen Dank!</target>
+      </trans-unit>
+      <trans-unit id="hZQNcSx" resname="titles.successful_payment">
+        <source>titles.successful_payment</source>
+        <target>Vielen Dank!</target>
+      </trans-unit>
+      <trans-unit id="w.l9KZr" resname="messages.credit_note_not_found">
+        <source>messages.credit_note_not_found</source>
+        <target>Sorry! Die Gutschrift existiert nicht mehr oder ist abgelaufen. Bitte kontaktiere uns, um dir diese erneut zusenden zu können.</target>
+      </trans-unit>
+      <trans-unit id="Ot23Uwy" resname="messages.estimate_not_found">
+        <source>messages.estimate_not_found</source>
+        <target>Sorry! Diese Schätzung existiert nicht oder ist abgelaufen. Bitte kontaktiere uns, um dir diese Schätzung erneut zusenden zu können.</target>
+      </trans-unit>
+      <trans-unit id="8HmqWow" resname="messages.invoice_not_found">
+        <source>messages.invoice_not_found</source>
+        <target>Sorry! Diese Rechnung existiert nicht oder ist abgelaufen. Bitte kontaktiere uns, um dir die Rechnung erneut zusenden zu können.</target>
+      </trans-unit>
+      <trans-unit id="qXvPRN6" resname="messages.estimate_expired">
+        <source>messages.estimate_expired</source>
+        <target>Sorry! Diese Schätzung existiert nicht oder ist abgelaufen. Bitte kontaktiere uns, falls du Fragen hast.</target>
+      </trans-unit>
+      <trans-unit id="oLggNV1" resname="labels.account_name">
+        <source>labels.account_name</source>
+        <target>Accountname</target>
+      </trans-unit>
+      <trans-unit id="u9NQ9im" resname="labels.address_line1">
+        <source>labels.address_line1</source>
+        <target>Adresse 1</target>
+      </trans-unit>
+      <trans-unit id="2PtwTHW" resname="labels.address_line2">
+        <source>labels.address_line2</source>
+        <target>Adresse 2</target>
+      </trans-unit>
+      <trans-unit id="LRthRI_" resname="labels.address_city">
+        <source>labels.address_city</source>
+        <target>Stadt</target>
+      </trans-unit>
+      <trans-unit id="96AtnmA" resname="labels.address_state">
+        <source>labels.address_state</source>
+        <target>Bundesland/Provinz</target>
+      </trans-unit>
+      <trans-unit id="U9p1q3F" resname="labels.address_postal_code">
+        <source>labels.address_postal_code</source>
+        <target>PLZ/Postleitzahl</target>
+      </trans-unit>
+      <trans-unit id="RE__X4i" resname="labels.address_country">
+        <source>labels.address_country</source>
+        <target>Land</target>
+      </trans-unit>
+      <trans-unit id="bCfGOIk" resname="labels.optional">
+        <source>labels.optional</source>
+        <target>Optional</target>
+      </trans-unit>
+      <trans-unit id="49uUjMR" resname="buttons.pdf">
+        <source>buttons.pdf</source>
+        <target>PDF</target>
+      </trans-unit>
+      <trans-unit id="bOKmMiv" resname="labels.date">
+        <source>labels.date</source>
+        <target>Datum</target>
+      </trans-unit>
+      <trans-unit id="QFQqxZU" resname="labels.due_date">
+        <source>labels.due_date</source>
+        <target>Geburtstermin</target>
+      </trans-unit>
+      <trans-unit id="YkErLwX" resname="labels.type">
+        <source>labels.type</source>
+        <target>Typ</target>
+      </trans-unit>
+      <trans-unit id="0QzozfY" resname="labels.amount">
+        <source>labels.amount</source>
+        <target>Menge</target>
+      </trans-unit>
+      <trans-unit id="5bcrii0" resname="labels.balance">
+        <source>labels.balance</source>
+        <target>Saldo</target>
+      </trans-unit>
+      <trans-unit id="ntwoHp2" resname="labels.previous_balance">
+        <source>labels.previous_balance</source>
+        <target>Vorheriger Saldo</target>
+      </trans-unit>
+      <trans-unit id="EyIn7q9" resname="labels.total_billed">
+        <source>labels.total_billed</source>
+        <target>Summe verrechnet</target>
+      </trans-unit>
+      <trans-unit id="RBug4mB" resname="labels.total_paid">
+        <source>labels.total_paid</source>
+        <target>Summe bezahlt</target>
+      </trans-unit>
+      <trans-unit id="1yVeisT" resname="labels.available_credits">
+        <source>labels.available_credits</source>
+        <target>Verfügbare Gutschriften</target>
+      </trans-unit>
+      <trans-unit id="wjsV3fl" resname="labels.paid">
+        <source>labels.paid</source>
+        <target>Bezahlt</target>
+      </trans-unit>
+      <trans-unit id="E5TFPXM" resname="labels.bad_debt">
+        <source>labels.bad_debt</source>
+        <target>Böse Absichten</target>
+      </trans-unit>
+      <trans-unit id="idadBK0" resname="labels.outstanding">
+        <source>labels.outstanding</source>
+        <target>Ausstehend</target>
+      </trans-unit>
+      <trans-unit id="bYnzQJs" resname="labels.invoice">
+        <source>labels.invoice</source>
+        <target>Rechnung</target>
+      </trans-unit>
+      <trans-unit id="xjrGXGs" resname="labels.status">
+        <source>labels.status</source>
+        <target>Status</target>
+      </trans-unit>
+      <trans-unit id="lNVf3KH" resname="labels.estimate">
+        <source>labels.estimate</source>
+        <target>Schätzung</target>
+      </trans-unit>
+      <trans-unit id="WlnHCag" resname="buttons.view_invoice">
+        <source>buttons.view_invoice</source>
+        <target>Rechnung ansehen</target>
+      </trans-unit>
+      <trans-unit id="cIid75N" resname="buttons.download_receipt">
+        <source>buttons.download_receipt</source>
+        <target>Empfangsbestätigung herunterladen</target>
+      </trans-unit>
+      <trans-unit id="GNOFSbO" resname="labels.declined">
+        <source>labels.declined</source>
+        <target>Abgelehnt</target>
+      </trans-unit>
+      <trans-unit id="RlttFCP" resname="labels.invoiced">
+        <source>labels.invoiced</source>
+        <target>Berechnet</target>
+      </trans-unit>
+      <trans-unit id="JiaBnyK" resname="labels.expired">
+        <source>labels.expired</source>
+        <target>Abgelaufen</target>
+      </trans-unit>
+      <trans-unit id="LobzxMi" resname="labels.approved">
+        <source>labels.approved</source>
+        <target>Bestätigt</target>
+      </trans-unit>
+      <trans-unit id="1z136ge" resname="labels.credit">
+        <source>labels.credit</source>
+        <target>Kredit</target>
+      </trans-unit>
+      <trans-unit id="1WikmvD" resname="labels.method">
+        <source>labels.method</source>
+        <target>Methode</target>
+      </trans-unit>
+      <trans-unit id="Am46KO2" resname="messages.showing_num_results">
+        <source>messages.showing_num_results</source>
+        <target><![CDATA[Zeige %num_shown% von <strong>%total%.</strong>|Zeige %num_shown% von <strong>%total%.</strong>]]></target>
+      </trans-unit>
+      <trans-unit id="lPWJA.x" resname="messages.no_invoices_found">
+        <source>messages.no_invoices_found</source>
+        <target>Wir konnten keine passenden Rechnungen finden.</target>
+      </trans-unit>
+      <trans-unit id="VZGsLat" resname="messages.no_payments_found">
+        <source>messages.no_payments_found</source>
+        <target>Wir konnten keine passenden Zahlungen finden.</target>
+      </trans-unit>
+      <trans-unit id="m9bLBwn" resname="messages.no_estimates_found">
+        <source>messages.no_estimates_found</source>
+        <target>Wir konnten keine passenden Schätzungen finden.</target>
+      </trans-unit>
+      <trans-unit id="Jo88ccS" resname="titles.login">
+        <source>titles.login</source>
+        <target>Login</target>
+      </trans-unit>
+      <trans-unit id="6Q8X3Go" resname="titles.estimate_number">
+        <source>titles.estimate_number</source>
+        <target>Schätzung # %number%</target>
+      </trans-unit>
+      <trans-unit id="WokfmoV" resname="titles.approve_estimate_number">
+        <source>titles.approve_estimate_number</source>
+        <target>Schätzung bestätigen # %number%</target>
+      </trans-unit>
+      <trans-unit id="4Dx8kUq" resname="titles.credit_note_number">
+        <source>titles.credit_note_number</source>
+        <target>Gutschrift # %number%</target>
+      </trans-unit>
+      <trans-unit id="NBZSv1Z" resname="titles.invoice_number">
+        <source>titles.invoice_number</source>
+        <target>Rechnung # %number%</target>
+      </trans-unit>
+      <trans-unit id="gT1nGch" resname="labels.estimate_amount">
+        <source>labels.estimate_amount</source>
+        <target>Geschätzter Betrag</target>
+      </trans-unit>
+      <trans-unit id="Q5SC7eS" resname="buttons.modify">
+        <source>buttons.modify</source>
+        <target>Ändern</target>
+      </trans-unit>
+      <trans-unit id="A9cfgsP" resname="labels.payment_information">
+        <source>labels.payment_information</source>
+        <target>Zahlungsinformation</target>
+      </trans-unit>
+      <trans-unit id="mL3W.3f" resname="labels.please_initial">
+        <source>labels.please_initial</source>
+        <target>Bitte hier signieren:</target>
+      </trans-unit>
+      <trans-unit id="rvQCzQQ" resname="labels.initials">
+        <source>labels.initials</source>
+        <target>Signaturen</target>
+      </trans-unit>
+      <trans-unit id="ELhB5fq" resname="messages.terms_i_agree_estimate">
+        <source>messages.terms_i_agree_estimate</source>
+        <target>Ich stimme den Bestimmungen dieser Schätzung zu.</target>
+      </trans-unit>
+      <trans-unit id="OPL8Sr6" resname="labels.terms">
+        <source>labels.terms</source>
+        <target>Bestimmungen</target>
+      </trans-unit>
+      <trans-unit id="dqXE56O" resname="labels.pay_with">
+        <source>labels.pay_with</source>
+        <target>Zahlen mit</target>
+      </trans-unit>
+      <trans-unit id="zWOgjtx" resname="labels.deposit">
+        <source>labels.deposit</source>
+        <target>Einlage</target>
+      </trans-unit>
+      <trans-unit id="kIKH5lU" resname="labels.pay_up_front">
+        <source>labels.pay_up_front</source>
+        <target>Im Voraus bezahlen</target>
+      </trans-unit>
+      <trans-unit id="g8epfng" resname="labels.pay_up_front_with">
+        <source>labels.pay_up_front_with</source>
+        <target>Im Voraus mit %method% bezahlen</target>
+      </trans-unit>
+      <trans-unit id="ZAl3mJg" resname="messages.must_enroll_in_autopay">
+        <source>messages.must_enroll_in_autopay</source>
+        <target>Du musst dich für AutoZahlung anmelden um fortzufahren</target>
+      </trans-unit>
+      <trans-unit id="dD2e62J" resname="messages.deposit_payment_required">
+        <source>messages.deposit_payment_required</source>
+        <target><![CDATA[<strong>%amount%</strong> Bezahlung benötigt Bearbeitung]]></target>
+      </trans-unit>
+      <trans-unit id="rlaUUZD" resname="labels.enroll_in_autopay">
+        <source>labels.enroll_in_autopay</source>
+        <target>AutoZahlung aktivieren</target>
+      </trans-unit>
+      <trans-unit id="wuEdiqc" resname="messages.autopay_explanation">
+        <source>messages.autopay_explanation</source>
+        <target>Belastet deine Kreditkarte automatisch, sobald eine neue Rechnung erstellt wurde</target>
+      </trans-unit>
+      <trans-unit id="BKedAk_" resname="labels.name">
+        <source>labels.name</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="BKedAl_" resname="labels.size">
+        <source>labels.size</source>
+        <target>Größe</target>
+      </trans-unit>
+      <trans-unit id="b0UiRAK" resname="labels.order_summary">
+        <source>labels.order_summary</source>
+        <target>Bestellzusammenfassung</target>
+      </trans-unit>
+      <trans-unit id="WFy.AKG" resname="buttons.subscribe">
+        <source>buttons.subscribe</source>
+        <target>Anmelden</target>
+      </trans-unit>
+      <trans-unit id="_Ym_voG" resname="buttons.submit">
+        <source>buttons.submit</source>
+        <target>Abschicken</target>
+      </trans-unit>
+      <trans-unit id="82uD.q3" resname="labels.shipping_information">
+        <source>labels.shipping_information</source>
+        <target>Versandinfos</target>
+      </trans-unit>
+      <trans-unit id="GYRzhVV" resname="labels.plan">
+        <source>labels.plan</source>
+        <target>Variante</target>
+      </trans-unit>
+      <trans-unit id="v.eXmxo" resname="labels.quantity">
+        <source>labels.quantity</source>
+        <target>Menge</target>
+      </trans-unit>
+      <trans-unit id="gFGzg_A" resname="labels.addons">
+        <source>labels.addons</source>
+        <target>Addons</target>
+      </trans-unit>
+      <trans-unit id="1DrEm8e" resname="buttons.apply">
+        <source>buttons.apply</source>
+        <target>Anwenden</target>
+      </trans-unit>
+      <trans-unit id="pXg83dz" resname="labels.have_a_coupon">
+        <source>labels.have_a_coupon</source>
+        <target>Gutscheincode?</target>
+      </trans-unit>
+      <trans-unit id="qOf5FEX" resname="labels.coupon_code">
+        <source>labels.coupon_code</source>
+        <target>Gutscheincode</target>
+      </trans-unit>
+      <trans-unit id="qjWnSOa" resname="labels.enter_coupon">
+        <source>labels.enter_coupon</source>
+        <target>Gutscheincode eingeben</target>
+      </trans-unit>
+      <trans-unit id="jSF9VGD" resname="labels.coupon">
+        <source>labels.coupon</source>
+        <target>Gutschein</target>
+      </trans-unit>
+      <trans-unit id="S0ev9yi" resname="labels.accept_tos">
+        <source>labels.accept_tos</source>
+        <target><![CDATA[Ich akzeptiere die <a href="%url%" target="_blank" rel="noopener noreferrer">Bedingungen</a>]]></target>
+      </trans-unit>
+      <trans-unit id="F5nDXC0" resname="labels.free_trial">
+        <source>labels.free_trial</source>
+        <target>%numDays%-tage gratis Testphase</target>
+      </trans-unit>
+      <trans-unit id="i4TIKm8" resname="labels.starts_now">
+        <source>labels.starts_now</source>
+        <target>startet jetzt</target>
+      </trans-unit>
+      <trans-unit id="av9CGyF" resname="labels.first_bill_prorated">
+        <source>labels.first_bill_prorated</source>
+        <target>erste Summe aufgeteilt bis zum %nthDay%</target>
+      </trans-unit>
+      <trans-unit id="ypiqdWx" resname="labels.you_will_be_enrolled_in_autopay">
+        <source>labels.you_will_be_enrolled_in_autopay</source>
+        <target>Du wirst für AutoZahlung angemeldet</target>
+      </trans-unit>
+      <trans-unit id="UpA9TQa" resname="messages.already_paid">
+        <source>messages.already_paid</source>
+        <target>Diese Rechnung wurde bereits beglichen! Danke!</target>
+      </trans-unit>
+      <trans-unit id="MY6odah" resname="messages.nothing_due">
+        <source>messages.nothing_due</source>
+        <target>Hurra! Es sind momentan keine ausstehenden Rechnungen vorhanden.</target>
+      </trans-unit>
+      <trans-unit id="6c7kM0M" resname="buttons.next">
+        <source>buttons.next</source>
+        <target>Weiter</target>
+      </trans-unit>
+      <trans-unit id="KRQvqxK" resname="buttons.save">
+        <source>buttons.save</source>
+        <target>Speichern</target>
+      </trans-unit>
+      <trans-unit id="FH6bUWI" resname="labels.how_would_you_like_to_pay">
+        <source>labels.how_would_you_like_to_pay</source>
+        <target>Wie wollen Sie bezahlen?</target>
+      </trans-unit>
+      <trans-unit id="6TUSd6V" resname="messages.online_payments_not_accepted">
+        <source>messages.online_payments_not_accepted</source>
+        <target>Für den ausgewählten Betrag sind keine Zahlungsmethoden verfügbar. Bitte passen Sie den Betrag an, den Sie zu zahlen versuchen, oder kontaktieren Sie uns, um Unterstützung zu erhalten.</target>
+      </trans-unit>
+      <trans-unit id="HXhDDg6" resname="messages.review_installment_schedule">
+        <source>messages.review_installment_schedule</source>
+        <target>Bitte bestätige, dass du diese Rechnung auf Basis der untenstehenden Ratenvereinbarung begleichen willst.</target>
+      </trans-unit>
+      <trans-unit id="tt1pw24" resname="labels.payment_schedule">
+        <source>labels.payment_schedule</source>
+        <target>Zahlungszeitpunkte</target>
+      </trans-unit>
+      <trans-unit id="dA9V1DI" resname="messages.collect_payment_info_next">
+        <source>messages.collect_payment_info_next</source>
+        <target>Als nächstes gehen wir zu den Zahlungsinformationen.</target>
+      </trans-unit>
+      <trans-unit id="33Wx_zO" resname="labels.accept_payment_plan">
+        <source>labels.accept_payment_plan</source>
+        <target>Ich akzeptiere diese Zahlungsvereinbarung</target>
+      </trans-unit>
+      <trans-unit id="Drk9nTO" resname="messages.multiple_invoices_outstanding">
+        <source>messages.multiple_invoices_outstanding</source>
+        <target>Du hast momentan %numInvoices% ausstehende Rechnungen. Willst Du den vollen Betrag bezahlen?</target>
+      </trans-unit>
+      <trans-unit id="Kwiv8gH" resname="labels.pay_full_balance">
+        <source>labels.pay_full_balance</source>
+        <target><![CDATA[Bezahle vollen Betrag: <strong>%amount%</strong>]]></target>
+      </trans-unit>
+      <trans-unit id="uCuOWaq" resname="labels.pay_invoice">
+        <source>labels.pay_invoice</source>
+        <target><![CDATA[Bezahle Rechnung # %number%: <strong>%amount%</strong>]]></target>
+      </trans-unit>
+      <trans-unit id="kYPVPfD" resname="messages.charge_after_updating_payment_info">
+        <source>messages.charge_after_updating_payment_info</source>
+        <target><![CDATA[Du bist momentan <strong>%amount%</strong> zurück. Wenn du deine Zahlungsinformationen aktualisierst, wird ein neuer Versuch gestartet.]]></target>
+      </trans-unit>
+      <trans-unit id="aXqQWdG" resname="messages.payment_pending">
+        <source>messages.payment_pending</source>
+        <target><![CDATA[Deine Zahlung für <strong>%amount%</strong> ist ausstehend. Sobald sie vollendet ist, schicken wir dir eine Bestätigung per Email zu.]]></target>
+      </trans-unit>
+      <trans-unit id=".NFUynt" resname="messages.payment_successful">
+        <source>messages.payment_successful</source>
+        <target><![CDATA[Wir haben die Zahlung für <strong>%amount%</strong> erhalten. Die Bestätigung ist auf dem Weg zu dir via Email.]]></target>
+      </trans-unit>
+      <trans-unit id="AcJ3_II" resname="messages.payment_expected">
+        <source>messages.payment_expected</source>
+        <target>Wir haben deine Anweisungen erhalten. Bitte kontaktiere uns, sollte sich was ändern.</target>
+      </trans-unit>
+      <trans-unit id="CaYlkVq" resname="messages.bank_account_verified_autopay">
+        <source>messages.bank_account_verified_autopay</source>
+        <target>Dein Bankaccount wurde bestätigt. Wir werden ausstehende Zahlungen in Kürze einziehen. Sie müssen somit also nichts mehr tun :-)</target>
+      </trans-unit>
+      <trans-unit id="7rMuSb7" resname="messages.bank_account_verified">
+        <source>messages.bank_account_verified</source>
+        <target>Dein Bankaccount wurde bestätigt. Es kann somit für Zahlungen verwendet werden.</target>
+      </trans-unit>
+      <trans-unit id="2PG.SWb" resname="messages.bank_account_added_unverified">
+        <source>messages.bank_account_added_unverified</source>
+        <target>Dein Bankaccount wurde verknüpft. Wir haben dir eine Bestätigungsmail mit einem Link zu dieser Seite geschickt. Sobald du die Verifizierungsbeträge erhalten hast, fahre bitte hier für die finalen Schritte fort.</target>
+      </trans-unit>
+      <trans-unit id="wmSGpN0" resname="labels.bank_account">
+        <source>labels.bank_account</source>
+        <target>Bankaccount</target>
+      </trans-unit>
+      <trans-unit id="4u.t04M" resname="messages.verify_microdeposits_prompt">
+        <source>messages.verify_microdeposits_prompt</source>
+        <target><![CDATA[Bevor dein Konto verwendet werden kann, musst sichergestellt sein, dass es auch deines ist. Wir haben zwei kleine Summen überwiesen. Bitte gib die erhaltenen Beträg hier ein. <br/><br/>Die Überweisung kann 2-3 Werktage andauern. Der Verwendungszweck ist <strong>AMNTS: </strong> gefolgt von den beiden überwiesenen Beträgen.]]></target>
+      </trans-unit>
+      <trans-unit id="Qt17E9s" resname="labels.deposit_n">
+        <source>labels.deposit_n</source>
+        <target>Einlage %num%</target>
+      </trans-unit>
+      <trans-unit id="nxIcLDr" resname="messages.where_do_i_find_account_routing">
+        <source>messages.where_do_i_find_account_routing</source>
+        <target>Wo finde ich meine Bankleitzahl und Kontonummer?</target>
+      </trans-unit>
+      <trans-unit id="wtOahkN" resname="labels.cardholder_name">
+        <source>labels.cardholder_name</source>
+        <target>Kontoinhaber</target>
+      </trans-unit>
+      <trans-unit id="j9guQ9j" resname="labels.please_enter_card">
+        <source>labels.please_enter_card</source>
+        <target>Füge bitte eine Kreditkarte hinzu</target>
+      </trans-unit>
+      <trans-unit id="_86ekN5" resname="labels.please_billing_address">
+        <source>labels.please_billing_address</source>
+        <target>Gib bitte deine Rechnungsadresse ein</target>
+      </trans-unit>
+      <trans-unit id="vWl4nxs" resname="labels.cvc">
+        <source>labels.cvc</source>
+        <target>CVC</target>
+      </trans-unit>
+      <trans-unit id="egDP.6H" resname="labels.make_default_payment_method">
+        <source>labels.make_default_payment_method</source>
+        <target>Als Standardmethode festlegen</target>
+      </trans-unit>
+      <trans-unit id="pwEflKT" resname="labels.pay_with_apple_pay">
+        <source>labels.pay_with_apple_pay</source>
+        <target>Mit Apple Pay bezahlen</target>
+      </trans-unit>
+      <trans-unit id="9rBVk2e" resname="labels.payment_instructions">
+        <source>labels.payment_instructions</source>
+        <target>Zahlungsinstruktionen</target>
+      </trans-unit>
+      <trans-unit id="pSSVqXA" resname="buttons.payment_sent">
+        <source>buttons.payment_sent</source>
+        <target>Zahlung verschickt</target>
+      </trans-unit>
+      <trans-unit id="yuFZ0Bl" resname="labels.expected_arrival_date">
+        <source>labels.expected_arrival_date</source>
+        <target>Erwartetes Lieferdatum</target>
+      </trans-unit>
+      <trans-unit id="sekUVmm" resname="labels.expected_arrival_date_comments">
+        <source>labels.expected_arrival_date_comments</source>
+        <target>Kommentare?</target>
+      </trans-unit>
+      <trans-unit id="juCjwID" resname="labels.check_out_with_paypal">
+        <source>labels.check_out_with_paypal</source>
+        <target>Mit PayPal fortfahren</target>
+      </trans-unit>
+      <trans-unit id="kh9Wpyq" resname="labels.account_holder_name">
+        <source>labels.account_holder_name</source>
+        <target>Kontoinhaber Name</target>
+      </trans-unit>
+      <trans-unit id="xP8r7pR" resname="labels.individual">
+        <source>labels.individual</source>
+        <target>Person</target>
+      </trans-unit>
+      <trans-unit id="M05t893" resname="labels.company">
+        <source>labels.company</source>
+        <target>Firma</target>
+      </trans-unit>
+      <trans-unit id="7GGV.Ez" resname="labels.routing_number">
+        <source>labels.routing_number</source>
+        <target>Bankleitzahl</target>
+      </trans-unit>
+      <trans-unit id="SQU1VJM" resname="labels.bank_account_number">
+        <source>labels.bank_account_number</source>
+        <target>Kontonummer</target>
+      </trans-unit>
+      <trans-unit id="4_l7NWl" resname="labels.confirm_bank_account_number">
+        <source>labels.confirm_bank_account_number</source>
+        <target>Bestätige Nummer</target>
+      </trans-unit>
+      <trans-unit id="BjrKGVw" resname="labels.add_bank_account">
+        <source>labels.add_bank_account</source>
+        <target>Konto hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="jt.wbYG" resname="buttons.verify_instantly">
+        <source>buttons.verify_instantly</source>
+        <target>Jetzt verifizieren</target>
+      </trans-unit>
+      <trans-unit id="yMdKgyJ" resname="buttons.verify_manually">
+        <source>buttons.verify_manually</source>
+        <target>Manuell verifizieren</target>
+      </trans-unit>
+      <trans-unit id="i9bzslK" resname="labels.or">
+        <source>labels.or</source>
+        <target>oder</target>
+      </trans-unit>
+      <trans-unit id="UCTDZfM" resname="messages.add_bank_account_verify_prompt">
+        <source>messages.add_bank_account_verify_prompt</source>
+        <target>Um deinen Bankaccount für die Zahlungen verwenden zu können, müssen wir zuerst sicherstellen, dass es auch deiner ist. Wie willst du das machen?</target>
+      </trans-unit>
+      <trans-unit id="YKozyoq" resname="messages.add_bank_account_manual_verification">
+        <source>messages.add_bank_account_manual_verification</source>
+        <target>Füge ein Konto mit der Bankleitzahl und der Kontonummer hinzu. Wir werden dann zwei kleine Beträge innerhalb von 2 Werktagen überweisen, um dein Konto zu verifizieren.</target>
+      </trans-unit>
+      <trans-unit id="4NZvK5V" resname="titles.add_payment_method">
+        <source>titles.add_payment_method</source>
+        <target>Zahlungsmethode hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="c4URl7s" resname="titles.update_payment_method">
+        <source>titles.update_payment_method</source>
+        <target>Zahlungsmethode ändern</target>
+      </trans-unit>
+      <trans-unit id="K8F4eX0" resname="labels.pay_selected_invoices">
+        <source>labels.pay_selected_invoices</source>
+        <target>Selektiere die Rechnungen, die du bezahlen willst</target>
+      </trans-unit>
+      <trans-unit id="wx1dwHu" resname="labels.tax_id">
+        <source>labels.tax_id</source>
+        <target>Steuernummer</target>
+      </trans-unit>
+      <trans-unit id="GGIjRfB" resname="buttons.csv">
+        <source>buttons.csv</source>
+        <target>CSV</target>
+      </trans-unit>
+      <trans-unit id="gksoz9F" resname="labels.receipt_email">
+        <source>labels.receipt_email</source>
+        <target>Email bei Erhalt</target>
+      </trans-unit>
+      <trans-unit id="NRoWURm" resname="buttons.attach_file">
+        <source>buttons.attach_file</source>
+        <target>Datei anhängen...</target>
+      </trans-unit>
+      <trans-unit id="QhooH8c" resname="messages.gocardless_payment_reason">
+        <source>messages.gocardless_payment_reason</source>
+        <target>Automatische Zahlungen an %companyName%</target>
+      </trans-unit>
+      <trans-unit id="OQIsvq3" resname="buttons.setup_direct_debit">
+        <source>buttons.setup_direct_debit</source>
+        <target>Bankeinzug konfigurieren</target>
+      </trans-unit>
+      <trans-unit id="LXmd33i" resname="messages.payment_form_invoice_description">
+        <source>messages.payment_form_invoice_description</source>
+        <target>{0} Kontostand|{1} Rechnung # %invoiceNumber%|]1,Inf[ %count% Rechnungen</target>
+      </trans-unit>
+      <trans-unit id="JYcm0oz" resname="messages.information_being_saved">
+        <source>messages.information_being_saved</source>
+        <target>Ihre Informationen werden gespeichert. Vielen Dank!</target>
+      </trans-unit>
+      <trans-unit id="7X17a50" resname="messages.payment_processing">
+        <source>messages.payment_processing</source>
+        <target>Ihre Zahlung wird bearbeitet. Vielen Dank!</target>
+      </trans-unit>
+      <trans-unit id="AEQBBf2" resname="warnings.convenience_fee">
+        <source>warnings.convenience_fee</source>
+        <target>Eine Zahlung von %fee% wird der Zahlung hinzugefügt.</target>
+      </trans-unit>
+      <trans-unit id="IswwNM7" resname="labels.open_item">
+        <source>labels.open_item</source>
+        <target>Gegenstand öffnen</target>
+      </trans-unit>
+      <trans-unit id="MRmfnd3" resname="titles.credit_notes">
+        <source>titles.credit_notes</source>
+        <target>Gutschriften</target>
+      </trans-unit>
+      <trans-unit id="Q3et9EE" resname="labels.credit_note">
+        <source>labels.credit_note</source>
+        <target>Anmerkung</target>
+      </trans-unit>
+      <trans-unit id="5W5KWuG" resname="messages.no_credit_notes_found">
+        <source>messages.no_credit_notes_found</source>
+        <target>Wir haben in Ihrem Kontoverlauf keine passenden Gutschriften gefunden.</target>
+      </trans-unit>
+      <trans-unit id="yk9xeNZ" resname="labels.address">
+        <source>labels.address</source>
+        <target>Adresse</target>
+      </trans-unit>
+      <trans-unit id="aAlCY3O" resname="labels.off">
+        <source>labels.off</source>
+        <target>Aus</target>
+      </trans-unit>
+      <trans-unit id="Ffrwqa2" resname="labels.enabled">
+        <source>labels.enabled</source>
+        <target>Aktiviert</target>
+      </trans-unit>
+      <trans-unit id="049uRUv" resname="labels.payment_date">
+        <source>labels.payment_date</source>
+        <target>Zahlungsdatum</target>
+      </trans-unit>
+      <trans-unit id="OKJpx4u" resname="labels.days">
+        <source>labels.days</source>
+        <target>tag|tage</target>
+      </trans-unit>
+      <trans-unit id="s1.80DN" resname="titles.activity">
+        <source>titles.activity</source>
+        <target>Aktivität</target>
+      </trans-unit>
+      <trans-unit id=".06W_Ql" resname="titles.statements">
+        <source>titles.statements</source>
+        <target>Aussagen</target>
+      </trans-unit>
+      <trans-unit id="2gw8e3G" resname="labels.expiration_date">
+        <source>labels.expiration_date</source>
+        <target>Ablaufdatum</target>
+      </trans-unit>
+      <trans-unit id="VB.qtSV" resname="labels.all">
+        <source>labels.all</source>
+        <target>Alle</target>
+      </trans-unit>
+      <trans-unit id="5qZeUIn" resname="labels.open">
+        <source>labels.open</source>
+        <target>Öffnen</target>
+      </trans-unit>
+      <trans-unit id="jHqD_bx" resname="labels.apply">
+        <source>labels.apply</source>
+        <target>Anwenden</target>
+      </trans-unit>
+      <trans-unit id="1FD7klK" resname="labels.selected">
+        <source>labels.selected</source>
+        <target>ausgewählt</target>
+      </trans-unit>
+      <trans-unit id="iwqyWqt" resname="labels.pdf">
+        <source>labels.pdf</source>
+        <target>PDF</target>
+      </trans-unit>
+      <trans-unit id="ryLL3CY" resname="labels.aging">
+        <source>labels.aging</source>
+        <target>Altern</target>
+      </trans-unit>
+      <trans-unit id="hq.S8R2" resname="labels.num_invoices">
+        <source>labels.num_invoices</source>
+        <target># Rechnungen</target>
+      </trans-unit>
+      <trans-unit id="Jv2p1cp" resname="labels.account_summary">
+        <source>labels.account_summary</source>
+        <target>Kontoübersicht</target>
+      </trans-unit>
+      <trans-unit id="C7TayrU" resname="labels.recent_payments">
+        <source>labels.recent_payments</source>
+        <target>Letzte Zahlungen</target>
+      </trans-unit>
+      <trans-unit id="h.SpHjM" resname="labels.start_date">
+        <source>labels.start_date</source>
+        <target>Anfangsdatum</target>
+      </trans-unit>
+      <trans-unit id="G9Gzmjv" resname="labels.currently_due">
+        <source>labels.currently_due</source>
+        <target>Derzeit fällig</target>
+      </trans-unit>
+      <trans-unit id="_ja4Un7" resname="labels.next_due_date">
+        <source>labels.next_due_date</source>
+        <target>Nächstes Fälligkeitsdatum</target>
+      </trans-unit>
+      <trans-unit id="0ZNtsx6" resname="labels.po_number">
+        <source>labels.po_number</source>
+        <target>PO #</target>
+      </trans-unit>
+      <trans-unit id="4ZnDOXK" resname="labels.estimate_number">
+        <source>labels.estimate_number</source>
+        <target>Schätzen #</target>
+      </trans-unit>
+      <trans-unit id="3Ytdm_m" resname="labels.credit_note_number">
+        <source>labels.credit_note_number</source>
+        <target>Gutschrift #</target>
+      </trans-unit>
+      <trans-unit id="K.Ap7ZV" resname="messages.payment_form_credit_note_description">
+        <source>messages.payment_form_credit_note_description</source>
+        <target>{1} Anmerkung # %creditNoteNumber%|]1,Inf[ %count% Anmerkungen</target>
+      </trans-unit>
+      <trans-unit id="J1bDBq0" resname="labels.document_number">
+        <source>labels.document_number</source>
+        <target>Dokument #</target>
+      </trans-unit>
+      <trans-unit id="gKhcfsa" resname="messages.payment_zero_success">
+        <source>messages.payment_zero_success</source>
+        <target>Wir haben Ihre Anfrage bearbeitet.</target>
+      </trans-unit>
+      <trans-unit id="Ua.VrHU" resname="labels.description">
+        <source>labels.description</source>
+        <target>Beschreibung</target>
+      </trans-unit>
+      <trans-unit id="2iKHZ2X" resname="labels.summary">
+        <source>labels.summary</source>
+        <target>Zusammenfassung</target>
+      </trans-unit>
+      <trans-unit id="8_.488W" resname="titles.payment_selection">
+        <source>titles.payment_selection</source>
+        <target>Zahlungsauswahl</target>
+      </trans-unit>
+      <trans-unit id="J5dO.KR" resname="labels.promise_to_pay">
+        <source>labels.promise_to_pay</source>
+        <target>Zahlungsversprechen</target>
+      </trans-unit>
+      <trans-unit id="nxrrPlj" resname="messages.promise_to_pay_description">
+        <source>messages.promise_to_pay_description</source>
+        <target>Bitte geben Sie einen Zahlungshinweis, sobald eine Zahlung unterwegs ist.</target>
+      </trans-unit>
+      <trans-unit id="Fu1TrS1" resname="labels.payment_reference">
+        <source>labels.payment_reference</source>
+        <target>Zahlungsreferenz</target>
+      </trans-unit>
+      <trans-unit id="DC0vY0D" resname="labels.price">
+        <source>labels.price</source>
+        <target>Preis</target>
+      </trans-unit>
+      <trans-unit id="H.wEBrm" resname="tax">
+        <source>tax</source>
+        <target>MwSt</target>
+      </trans-unit>
+      <trans-unit id="lHLyLBw" resname="includes">
+        <source>includes</source>
+        <target>Beinhaltet</target>
+      </trans-unit>
+      <trans-unit id="81alaCs" resname="labels.tiered">
+        <source>labels.tiered</source>
+        <target>Gestuft</target>
+      </trans-unit>
+      <trans-unit id="zykxVkI" resname="labels.PayInFull" xml:space="preserve" approved="yes">
+        <source>labels.PayInFull</source>
+        <target state="translated">Betal fuldt ud</target>
+      </trans-unit>
+      <trans-unit id="NPHcEJe" resname="labels.PayPartial" xml:space="preserve" approved="yes">
+        <source>labels.PayPartial</source>
+        <target state="translated">Betal delvist beløb</target>
+      </trans-unit>
+      <trans-unit id="5VJPedQ" resname="labels.ApplyCredit" xml:space="preserve" approved="yes">
+        <source>labels.ApplyCredit</source>
+        <target state="translated">Anvend kredit</target>
+      </trans-unit>
+      <trans-unit id="VgM0xrI" resname="labels.PaymentPlan" xml:space="preserve" approved="yes">
+        <source>labels.PaymentPlan</source>
+        <target state="translated">Næste rate</target>
+      </trans-unit>
+      <trans-unit id="ub2CIJg" resname="labels.amount_to_pay" xml:space="preserve" approved="yes">
+        <source>labels.amount_to_pay</source>
+        <target state="translated">Beløb at betale</target>
+      </trans-unit>
+      <trans-unit id="olq6ngN" resname="labels.AdvancePayment" xml:space="preserve" approved="yes">
+        <source>labels.AdvancePayment</source>
+        <target state="translated">Forudbetaling</target>
+      </trans-unit>
+      <trans-unit id="Ofp1Mr8" resname="buttons.save_to_invoiced" xml:space="preserve" approved="yes">
+        <source>buttons.save_to_invoiced</source>
+        <target state="translated">Gem til Faktureret</target>
+      </trans-unit>
+      <trans-unit id="RcW7iDA" resname="titles.invoice_from" xml:space="preserve" approved="yes">
+        <source>titles.invoice_from</source>
+        <target state="translated">Faktura fra %fromName%</target>
+      </trans-unit>
+      <trans-unit id="xuZLJ1R" resname="labels.bill_from" xml:space="preserve" approved="yes">
+        <source>labels.bill_from</source>
+        <target state="translated">Bill fra</target>
+      </trans-unit>
+      <trans-unit id="t114NXp" resname="labels.bill_to" xml:space="preserve" approved="yes">
+        <source>labels.bill_to</source>
+        <target state="translated">Regning til</target>
+      </trans-unit>
+      <trans-unit id="DlKW1PP" resname="labels.ship_to" xml:space="preserve" approved="yes">
+        <source>labels.ship_to</source>
+        <target state="translated">Send til</target>
+      </trans-unit>
+      <trans-unit id="RJGJEPj" resname="labels.attention_to" xml:space="preserve" approved="yes">
+        <source>labels.attention_to</source>
+        <target state="translated">ATTN</target>
+      </trans-unit>
+      <trans-unit id="s.upHgu" resname="labels.payment_terms" xml:space="preserve" approved="yes">
+        <source>labels.payment_terms</source>
+        <target state="translated">Betalingsbetingelser</target>
+      </trans-unit>
+      <trans-unit id="g6nmwmz" resname="labels.unit_cost" xml:space="preserve" approved="yes">
+        <source>labels.unit_cost</source>
+        <target state="translated">Enhedspris</target>
+      </trans-unit>
+      <trans-unit id="yG9Oc78" resname="labels.credits_applied" xml:space="preserve" approved="yes">
+        <source>labels.credits_applied</source>
+        <target state="translated">Anvendte kreditter</target>
+      </trans-unit>
+      <trans-unit id="g_9xYt." resname="labels.notes" xml:space="preserve" approved="yes">
+        <source>labels.notes</source>
+        <target state="translated">Noter</target>
+      </trans-unit>
+      <trans-unit id="m0eYIwH" resname="buttons.learn_more" xml:space="preserve" approved="yes">
+        <source>buttons.learn_more</source>
+        <target state="translated">Lær mere</target>
+      </trans-unit>
+      <trans-unit id="5Dc9mCj" resname="titles.estimate_from" xml:space="preserve" approved="yes">
+        <source>titles.estimate_from</source>
+        <target state="translated">Estimat fra %fromName%</target>
+      </trans-unit>
+      <trans-unit id="8L_w8yT" resname="titles.credit_note_from" xml:space="preserve" approved="yes">
+        <source>titles.credit_note_from</source>
+        <target state="translated">Kreditnota fra %fromName%</target>
+      </trans-unit>
+      <trans-unit id="HVyyUyT" resname="titles.statement_from" xml:space="preserve" approved="yes">
+        <source>titles.statement_from</source>
+        <target state="translated">Udtalelse fra %fromName%</target>
+      </trans-unit>
+      <trans-unit id="r2pB5_G" resname="buttons.view_on_invoiced" xml:space="preserve" approved="yes">
+        <source>buttons.view_on_invoiced</source>
+        <target state="translated">Se på Faktureret</target>
+      </trans-unit>
+      <trans-unit id="VhX.pin" resname="buttons.xml" xml:space="preserve" approved="yes">
+        <source>buttons.xml</source>
+        <target state="translated">XML</target>
+      </trans-unit>
+      <trans-unit id="qlr0CE8" resname="labels.contacts" xml:space="preserve" approved="yes">
+        <source>labels.contacts</source>
+        <target state="translated">Kontaktpersoner</target>
+      </trans-unit>
+      <trans-unit id="nv1fXH9" resname="messages.contacts_explanation" xml:space="preserve" approved="yes">
+        <source>messages.contacts_explanation</source>
+        <target state="translated">Tilføj yderligere kontakter til din konto, som skal have adgang til kundeportalen.</target>
+      </trans-unit>
+      <trans-unit id="glEpeao" resname="labels.phone" xml:space="preserve" approved="yes">
+        <source>labels.phone</source>
+        <target state="translated">telefon</target>
+      </trans-unit>
+      <trans-unit id="z9WDTAm" resname="messages.contact_saved" xml:space="preserve" approved="yes">
+        <source>messages.contact_saved</source>
+        <target state="translated">Kontakten er blevet gemt.</target>
+      </trans-unit>
+      <trans-unit id="7Wmf_w1" resname="messages.contact_deleted" xml:space="preserve" approved="yes">
+        <source>messages.contact_deleted</source>
+        <target state="translated">Kontakten er blevet slettet.</target>
+      </trans-unit>
+      <trans-unit id="7" resname="titles.select_customer" xml:space="preserve" approved="yes">
+        <source>titles.select_customer</source>
+        <target state="translated">Vælg kunde</target>
+      </trans-unit>
+      <trans-unit id="8" resname="labels.change_language" xml:space="preserve" approved="yes">
+        <source>labels.change_language</source>
+        <target state="translated">Skift sprog</target>
+      </trans-unit>
+      <trans-unit id="9" resname="messages.powered_by_invoiced" xml:space="preserve" approved="yes">
+        <source>messages.powered_by_invoiced</source>
+        <target state="translated">En bedre måde at sende og modtage fakturaer på</target>
+      </trans-unit>
+      <trans-unit id="11" resname="labels.new_contact" xml:space="preserve" approved="yes">
+        <source>labels.new_contact</source>
+        <target state="translated">Ny kontakt</target>
+      </trans-unit>
+      <trans-unit id="12" resname="labels.edit_contact" xml:space="preserve" approved="yes">
+        <source>labels.edit_contact</source>
+        <target state="translated">Rediger kontakt</target>
+      </trans-unit>
+      <trans-unit id="13" resname="messages.csrf_error" xml:space="preserve" approved="yes">
+        <source>messages.csrf_error</source>
+        <target state="translated">Din session kan være udløbet, eller du har muligvis ikke aktiveret cookies. Brug venligst tilbage-knappen og prøv igen.</target>
+      </trans-unit>
+      <trans-unit id="14" resname="labels.please_try_again" xml:space="preserve" approved="yes">
+        <source>labels.please_try_again</source>
+        <target state="translated">Prøv igen</target>
+      </trans-unit>
+      <trans-unit id="15" resname="labels.error" xml:space="preserve" approved="yes">
+        <source>labels.error</source>
+        <target state="translated">Fejl</target>
+      </trans-unit>
+      <trans-unit id="16" resname="messages.sandbox_account" xml:space="preserve" approved="yes">
+        <source>messages.sandbox_account</source>
+        <target state="translated">Dette er en sandkassekonto. Disse er ikke faktiske fakturaer og behandler ikke direkte betalinger.</target>
+      </trans-unit>
+      <trans-unit id="17" resname="labels.delete_contact" xml:space="preserve" approved="yes">
+        <source>labels.delete_contact</source>
+        <target state="translated">Slet kontakt</target>
+      </trans-unit>
+      <trans-unit id="18" resname="messages.are_you_sure" xml:space="preserve" approved="yes">
+        <source>messages.are_you_sure</source>
+        <target state="translated">Er du sikker?</target>
+      </trans-unit>
+      <trans-unit id="19" resname="messages.payment_add_bank_account" xml:space="preserve" approved="yes">
+        <source>messages.payment_add_bank_account</source>
+        <target state="translated">For at foretage en betaling skal du først oprette en bankkonto.</target>
+      </trans-unit>
+      <trans-unit id="20" resname="labels.date_range" xml:space="preserve" approved="yes">
+        <source>labels.date_range</source>
+        <target state="translated">Datointerval</target>
+      </trans-unit>
+      <trans-unit id="21" resname="messages.welcome_line1" xml:space="preserve" approved="yes">
+        <source>messages.welcome_line1</source>
+        <target state="translated">Willkommen in unserem Kundenportal! Melden Sie sich an, um auf Ihr Konto zuzugreifen. Dort können Sie Rechnungen anzeigen, Zahlungen vornehmen, Ihre Rechnungsinformationen aktualisieren und Ihren Kontoverlauf überprüfen.</target>
+      </trans-unit>
+      <trans-unit id="22" resname="messages.welcome_line2" xml:space="preserve" approved="yes">
+        <source>messages.welcome_line2</source>
+        <target state="translated">Wenn Sie bei der Nutzung des Portals auf Probleme stoßen, zögern Sie bitte nicht, uns für Unterstützung zu kontaktieren.</target>
+      </trans-unit>
+      <trans-unit id="23" resname="labels.customer" xml:space="preserve" approved="yes">
+        <source>labels.customer</source>
+        <target state="translated">Kunde</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

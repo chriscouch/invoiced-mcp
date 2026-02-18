@@ -1,0 +1,25 @@
+fields:
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency:
+    name: Currency
+    type: string
+  id:
+    name: ID
+    type: string
+    writable: false
+  reference:
+    name: Number
+    type: string
+  total:
+    name: Total
+    type: float
+    writable: false
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false

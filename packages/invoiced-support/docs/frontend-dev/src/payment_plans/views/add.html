@@ -1,0 +1,292 @@
+<form name="paymentPlanForm" ng-submit="save(invoice, paymentPlan)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			Add Payment Plan
+		</h4>
+	</div>
+	<div class="modal-body" ng-if="!('payment_plans'|hasFeature)">
+		<feature-upgrade></feature-upgrade>
+	</div>
+
+	<div class="modal-body form-horizontal" ng-show="'payment_plans'|hasFeature">
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<!-- Invoice -->
+		<div class="form-group">
+			<label class="control-label col-sm-3">Invoice</label>
+			<div class="col-sm-9 form-control-static">
+				<document-name document="invoice"></document-name>
+				&mdash;
+				<strong><money currency="invoice.currency" amount="invoice.balance"></money></strong> balance
+			</div>
+		</div>
+
+		<!-- AutoPay -->
+		<div class="form-group" ng-if="'autopay'|hasFeature">
+			<label class="control-label col-sm-3">AutoPay</label>
+			<div class="col-sm-9">
+			    <div>
+					<toggle ng-model="paymentPlan.autopay"></toggle>
+				</div>
+
+				<!-- Require Customer Approval -->
+				<label class="checkbox-inline noselect" ng-show="paymentPlan.autopay">
+					<input type="checkbox" ng-model="paymentPlan.require_approval" />
+					Require Customer Approval
+					<a href="" tooltip="Recommended if no payment method on file">
+						<span class="fas fa-info-circle"></span>
+					</a>
+				</label>
+			</div>
+		</div>
+
+		<!-- Schedule Type -->
+		<div class="form-group">
+			<label class="control-label col-sm-3">Schedule</label>
+			<div class="col-sm-9">
+			    <div class="btn-group btn-radio">
+			        <label class="btn" ng-model="type" btn-radio="'calculator'">
+			        	Calculated
+			        </label>
+			        <label class="btn" ng-model="type" btn-radio="'custom'">
+			        	Custom
+			        </label>
+			    </div>
+			</div>
+		</div>
+
+		<!-- Warning message for backdated payment plan -->
+		<div ng-show="isBackdatedPlan(type, constraints.start_date, paymentPlan.installments)">
+			<p class="alert alert-warning" >{{'invoices.payment_plan.backdated_installment_warning'|translate}}</p>
+		</div>
+
+		<!-- Payment Plan Calculator -->
+		<div class="well" ng-show="type=='calculator'&&!calculated">
+			<!-- Start Date -->
+			<div class="form-group">
+				<div class="col-sm-4">
+					<label>Start on</label>
+					<div>
+						<div class="input-group">
+							<input type="text" class="form-control" ng-model="constraints.start_date" ui-date="dateOptions" is-open="dpOpened.start" readonly="readonly" required />
+							<span class="input-group-btn">
+								<button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'start')">
+									<span class="fas fa-calendar-alt"></span>
+								</button>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Installment Amount -->
+			<div class="form-group slim" ng-hide="withNumInstallments||(withSpacing&&withEndDate)">
+				<div class="col-sm-12">
+					<label class="noselect">
+						<input type="checkbox" ng-model="withAmount" />
+						Fixed installment amount
+					</label>
+				</div>
+			</div>
+
+			<div class="form-group" ng-show="withAmount">
+				<div class="col-sm-4">
+					<div ng-model="constraints.installment_amount" currency="constraints.currency" is-rate="false" input-amount></div>
+				</div>
+			</div>
+
+			<!-- # Installments -->
+			<div class="form-group slim" ng-hide="withAmount||(withSpacing&&withEndDate)">
+				<div class="col-sm-12">
+					<label class="noselect">
+						<input type="checkbox" ng-model="withNumInstallments" />
+						Fixed # of installments
+					</label>
+				</div>
+			</div>
+
+			<div class="form-group" ng-show="withNumInstallments">
+				<div class="col-sm-4">
+					<input type="number" step="any" autocomplete="off" placeholder="# Installments" class="form-control" ng-model="constraints.num_installments" />
+				</div>
+			</div>
+
+			<!-- Time Between Installments -->
+			<div class="form-group slim" ng-hide="(withAmount&&withEndDate)||(withNumInstallments&&withEndDate)">
+				<div class="col-sm-12">
+					<label class="noselect">
+						<input type="checkbox" ng-model="withSpacing" />
+						Fixed time between installments
+					</label>
+				</div>
+			</div>
+
+			<div class="form-group" ng-show="withSpacing">
+				<div class="col-sm-7">
+					<div class="row no-margin">
+						<div class="col-xs-6">
+							<div class="input-group">
+								<span class="input-group-addon">every</span>
+								<input type="number" class="form-control" ng-model="constraints.interval_count" />
+							</div>
+						</div>
+						<div class="col-xs-6">
+							<div class="invoiced-select">
+								<select name="interval" ng-model="constraints.interval">
+									<option value="days">Day<span ng-hide="constraints.interval_count==1">s</span></option>
+									<option value="weeks">Week<span ng-hide="constraints.interval_count==1">s</span></option>
+									<option value="months">Month<span ng-hide="constraints.interval_count==1">s</span></option>
+									<option value="years">Year<span ng-hide="constraints.interval_count==1">s</span></option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- End Date -->
+			<div class="form-group slim" ng-hide="withSpacing&&(withAmount||withNumInstallments)">
+				<div class="col-sm-12">
+					<label class="noselect">
+						<input type="checkbox" ng-model="withEndDate" />
+						Stop on date
+					</label>
+				</div>
+			</div>
+
+			<div class="form-group" ng-show="withEndDate">
+				<div class="col-sm-4">
+					<div class="input-group">
+						<input type="text" class="form-control" ng-model="constraints.end_date" ui-date="dateOptions" is-open="dpOpened.end" readonly="readonly" placeholder="End Date" />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'end')">
+								<span class="fas fa-calendar-alt"></span>
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group slim" ng-show="calculatorError">
+				<div class="col-sm-12 text-danger form-control-static">
+					{{calculatorError}}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-12">
+					<button type="button" class="btn btn-success" ng-click="calculate(constraints)">
+						Calculate
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Built Installment Schedule -->
+		<div ng-show="type=='calculator'&&calculated">
+			<table class="table search-results-table">
+				<thead>
+					<tr>
+						<th>Installments</th>
+						<th>{{'general.due_date'|translate}}</th>
+						<th>Amount</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="installment in paymentPlan.installments">
+						<td>
+							<strong>{{$index + 1}}.</strong>
+						</td>
+						<td>
+							<company-date date="installment.date"></company-date>
+						</td>
+						<td>
+							<money currency="invoice.currency" amount="installment.amount"></money>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="3">
+							<a href="" ng-click="calculated=false">
+								<span class="fas fa-arrow-left"></span>
+								{{'general.edit'|translate}}
+							</a>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+
+		<!-- Custom Installment Schedule -->
+		<div class="set-payment-plan-installments" ng-show="type=='custom'">
+			<table class="table search-results-table">
+				<thead>
+					<tr>
+						<th class="number">Installments</th>
+						<th class="date">{{'general.due_date'|translate}}</th>
+						<th class="amount">Amount</th>
+						<th class="delete"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="installment" ng-repeat="installment in paymentPlan.installments">
+						<td class="number">
+							{{$index + 1}}.
+						</td>
+
+						<!-- Installment Date -->
+						<td class="date">
+							<div class="input-group">
+								<input type="text" class="form-control" ng-model="installment.date" ui-date="dateOptions" is-open="dpOpened[$index]" readonly="readonly" required />
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-primary" ng-click="openDatepicker($event, $index)">
+										<span class="fas fa-calendar-alt"></span>
+									</button>
+								</span>
+							</div>
+						</td>
+					
+						<!-- Installment Amount -->
+						<td class="amount">
+							<div ng-model="installment.amount" currency="invoice.currency" is-rate="false" required input-amount></div>
+						</td>
+
+						<td class="delete">
+							<a href="" ng-click="deleteInstallment(paymentPlan, $index)" ng-show="paymentPlan.installments.length>1">
+								<span class="fas fa-times"></span>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="2">
+							<a href="" ng-click="addInstallment(paymentPlan)">
+								<span class="fas fa-plus"></span> Installment
+							</a>
+						</td>
+						<td class="total">
+							<strong><money currency="invoice.currency" amount="total"></money> total</strong>
+							<div class="text-danger" ng-show="remaining!=0">
+								<money currency="invoice.currency" amount="remaining"></money> remaining
+							</div>
+						</td>
+						<td></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+	<div class="modal-footer" ng-if="'payment_plans'|hasFeature">
+		<div class="left">
+			<a href="https://docs.invoiced.com/accounts-receivable/payments/payment-plans" target="_blank">Learn more</a>
+		</div>
+		<button type="submit" class="btn btn-primary Button" ng-disabled="paymentPlanForm.$invalid||remaining!=0||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

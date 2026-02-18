@@ -1,0 +1,47 @@
+<div class="modal-header">
+	<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+	<h4 class="modal-title">Switch Business</h4>
+</div>
+<div class="modal-body form-horizontal">
+	<div class="modal-selector">
+		<div class="search">
+			<div class="searchbar light">
+				<div class="bar">
+					<div class="icon"><span class="fas fa-search"></span></div>
+					<input type="text" class="form-control" placeholder="Company name..." ng-model="search" tabindex="2000" />
+					<div class="icon right icon-btn" ng-show="search">
+						<button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+							<span class="fas fa-times-circle"></span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="action">
+				<button type="button" class="btn btn-default" ng-click="addBusiness()" tabindex="2002" ng-if="('new_trials'|hasFeature) && ('settings.edit'|hasPermission) && company.billing.provider!='reseller'">
+					<span class="fas fa-plus"></span>
+					Add Business
+				</button>
+			</div>
+		</div>
+
+		<div class="companies-list">
+			<div class="empty" ng-show="results.length===0">
+				Could not find any accounts with a name <strong>{{search}}</strong>.
+			</div>
+
+			<a class="company-item" ng-repeat="c in companies | searchObject:search:['name','nickname'] | orderBy:'_name' as results" ng-click="switchCompany(c)" tabindex="{{$index + 2003}}" ng-class="{active:company.id==c.id}">
+				<div class="logo">
+					<img ng-src="{{c.logo}}" alt="Logo" ng-if="!!c.logo" />
+				</div>
+				<div class="title">
+					{{c._name}}
+				</div>
+				<div class="canceled" ng-show="c.canceled">Canceled</div>
+				<div class="arrow">
+					<span class="icon"><span class="fas fa-chevron-right"></span></span>
+					<span class="selected"></span>
+				</div>
+			</a>
+		</div>
+	</div>
+</div>

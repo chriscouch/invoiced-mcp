@@ -1,0 +1,179 @@
+<p class="loading" ng-show="loading"></p>
+<div class="object-view import" ng-hide="loading">
+    <div class="title-bar">
+        <div class="row">
+            <div class="col-sm-10">
+                <h2>{{paymentBatch.name}}</h2>
+                <h3>{{paymentBatch.number}}</h3>
+            </div>
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs">
+        <!-- Tab Links -->
+        <li ui-sref-active="active">
+            <a ui-sref="manage.customer_payment_batches.summary">
+                {{'tabs.summary'|translate}}
+            </a>
+        </li>
+
+        <!-- Action Buttons -->
+        <li class="action right" dropdown>
+            <a href="" class="dropdown-toggle" dropdown-toggle>
+                <span class="actions-label"></span>
+                <span class="fas fa-chevron-down"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li ng-if="payable">
+                    <a href="" ng-click="pay(paymentBatch)">
+                        Submit for Payment
+                    </a>
+                </li>
+                <li ng-if="hasPaymentFile">
+                    <a href="" ng-click="paymentFile(paymentBatch)" ng-hide="generating">
+                        Download Payment File
+                    </a>
+                </li>
+                <li class="divider" ng-show="voidable"></li>
+                <li class="danger" ng-if="'charges.create'|hasPermission" ng-show="voidable">
+                    <a href="" ng-click="delete(paymentBatch)" ng-hide="deleting">
+                        Void Batch
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="row two-pane">
+            <div class="col-sm-4 left-pane">
+                <div class="details-list vertical">
+                    <h4>
+                        {{'vendor_payment_batches.view.details'|translate}}
+                    </h4>
+
+                    <!-- Date -->
+                    <div>
+                        <div class="title">{{'general.date'|translate}}</div>
+                        <div class="value">
+                            <company-date date="paymentBatch.date"></company-date>
+                        </div>
+                    </div>
+
+                    <!-- Total -->
+                    <div>
+                        <div class="title">{{'general.total'|translate}}</div>
+                        <div class="value">
+                            <money currency="paymentBatch.currency" amount="paymentBatch.total"></money>
+                        </div>
+                    </div>
+
+                    <!-- Bank Account -->
+                    <div ng-show="paymentBatch.ach_file_format">
+                        <div class="title">{{'general.bank_account'|translate}}</div>
+                        <div class="value">
+                            {{paymentBatch.ach_file_format.name}}
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div>
+                        <div class="title">{{'general.payment_method'|translate}}</div>
+                        <div class="value">
+                            {{('payment_method.'+paymentBatch.payment_method)|translate}}
+                        </div>
+                    </div>
+
+                    <!-- Status -->
+                    <div>
+                        <div class="title">{{'general.status'|translate}}</div>
+                        <div class="value">
+                            <customer-payment-batch-status payment-batch="paymentBatch"></customer-payment-batch-status>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-8 right-pane">
+                <!-- Action Items -->
+                <div class="action-items">
+                    <!-- Submit for Payment -->
+                    <div class="action-item info" ng-if="payable">
+                        <div class="icon"></div>
+                        <p>
+                            This payment batch is ready to be submitted for payment.
+                        </p>
+                        <p>
+                            <a href="" class="btn btn-primary" ng-click="pay(paymentBatch)">Submit for Payment</a>
+                        </p>
+                    </div>
+
+                    <!-- Payment File -->
+                    <div class="action-item success" ng-if="hasPaymentFile">
+                        <div class="icon"></div>
+                        <p>
+                            This payment batch has been completed. You can now download the payment file and send it to your bank.
+                        </p>
+                        <p>
+                            <a href="" class="btn btn-primary" ng-click="paymentFile(paymentBatch)" ng-hide="generating">Download Payment File</a>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Payments -->
+                <div class="panel panel-invoiced light" ng-show="items.length > 0">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            {{'vendor_payment_batches.view.payments'|translate}}
+                        </h4>
+                    </div>
+                    <table class="table search-results-table">
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>{{'general.date'|translate}}</th>
+                                <th>{{'payments.labels.method'|translate}}</th>
+                                <th>{{'general.reference'|translate}}</th>
+                                <th class="money-column">{{'general.amount'|translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="clickable" ng-repeat="item in items" ng-click="goToObject($event,'payment',item.charge.payment)">
+                                <td class="title mobile-first">{{item.charge.customer.name}}</td>
+                                <td>{{item.charge.date|formatCompanyDate}}</td>
+                                <td>
+                                    <detailed-payment-source-icon source="item.charge.payment_source"></detailed-payment-source-icon>
+                                    <transaction-source source="item.charge.payment_source"></transaction-source>
+                                </td>
+                                <td>{{item.charge.gateway_id}}</td>
+                                <td class="money-column mobile-last">
+                                    <money currency="item.charge.currency" amount="item.charge.amount"></money>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="invoice-pagination">
+                                <td colspan="5">
+                                    <div class="controls" ng-show="paymentPageCount > 1">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-link btn-sm" ng-click="prevPaymentPage(paymentBatch)" ng-show="paymentPage > 1">
+                                                <span class="fas fa-angle-left"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-link btn-sm" ng-click="nextPaymentPage(paymentBatch)" ng-show="paymentPage < paymentPageCount">
+                                                <span class="fas fa-angle-right"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="total-records">
+                                        Showing {{paymentRange}} of <strong>{{totalPayments|number}} payments</strong>.
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

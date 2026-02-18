@@ -1,0 +1,528 @@
+{% extends '@EasyAdmin/crud/detail.html.twig' %}
+{% set adyenAccount=entity.instance %}
+
+{% block content_title %}
+    <div class="fs-6 fw-light text-secondary">Flywire Payments Account # {{ adyenAccount.getId }}</div>
+    {% if adyenAccount.accountHolderId %}{{ adyenAccount.getAccountHolderId }}{% else %}{{ adyenAccount.tenant }}{% endif %}
+{% endblock %}
+
+{% block page_actions %}
+    {{ parent() }}
+
+    {% if is_granted('edit', adyenAccount.tenant) %}
+        <div class="btn-group ms-2">
+            <button type="button" class="btn btn-dropdown dropdown-toggle last" data-bs-toggle="dropdown">
+                <i class="hidden-xs fa fa-cogs"></i>
+                Actions
+            </button>
+            <div class="dropdown-menu dropdown-menu-end">
+                <a class="dropdown-item"
+                   href="{{ ea_url().setController('App\\Controller\\Admin\\CompanyCrudController').setAction('setPaymentPricing').setEntityId(adyenAccount.tenantId) }}">
+                    <i class="fa fa-money-bill"></i> Set Pricing
+                </a>
+                <a class="dropdown-item"
+                   href="{{ ea_url().setController('App\\Controller\\Admin\\AdyenAccountCrudController').setAction('setTopUpThresholdNumberOfDays').setEntityId(adyenAccount.id) }}">
+                    <i class="fa fa-arrow-up"></i> Set Top Up Threshold
+                </a>
+                <a class="dropdown-item"
+                   href="{{ ea_url().setController('App\\Controller\\Admin\\AdyenAccountCrudController').setAction('setStatementDescriptor').setEntityId(adyenAccount.id) }}">
+                    <i class="fa fa-receipt"></i> Set Statement Descriptor
+                </a>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block detail_fields %}
+
+    <div class="row pb-5">
+        <div class="col-xxl-5">
+            <div class="form-panel">
+                <div class="form-panel-header">
+                    <div class="form-panel-title">
+                        <a href="#panelBillingProfileDetails" data-bs-toggle="collapse" class="form-panel-collapse">
+                            Details
+                        </a>
+                    </div>
+                </div>
+                <div id="panelBillingProfileDetails" class="form-panel-body collapse show">
+                    <dl class="datalist">
+                        <div class="data-row">
+                            <dt>Tenant</dt>
+                            <dd>
+                                <a href="{{ ea_url().setController('App\\Controller\\Admin\\CompanyCrudController').setAction('detail').setEntityId(adyenAccount.tenantId) }}">
+                                    {{ adyenAccount.tenant }}
+                                </a>
+                            </dd>
+                        </div>
+                        {{ _self.dl_row("Created", adyenAccount.createdAt|date('n/j/Y g:i:s a')) }}
+                        {{ _self.dl_field(adyenAccountData, 'Onboarding URL', 'onboardingUrl') }}
+                        {{ _self.dl_field(adyenAccount, 'Reference', 'reference') }}
+                        {% if adyenAccount.accountHolderId %}
+                            <div class="data-row">
+                                <dt>Account Holder ID</dt>
+                                <dd>
+                                    <a href="https://ca-live.adyen.com/ca/ca/accounts/account-holders/details.shtml?id={{ adyenAccount.accountHolderId }}" target="_blank">
+                                        {{ adyenAccount.accountHolderId }}
+                                    </a>
+                                </dd>
+                            </div>
+                        {% endif %}
+                        {{ _self.dl_field(adyenAccount, 'Legal Entity ID', 'legalEntityId') }}
+                        {{ _self.dl_field(adyenAccount, 'Business Line ID', 'businessLineId') }}
+                        {{ _self.dl_field(adyenAccount, 'Industry Code', 'industryCode') }}
+                        {{ _self.dl_field(adyenAccount, 'Statement Descriptor', 'statementDescriptor') }}
+                        <div class="data-row">
+                            <dt>Top Up Threshold [num. of days]</dt>
+                            <dd>
+                                {{ adyenAccount.tenant.getActiveMerchantAccounts[0].getTopUpThresholdNumOfDays }}
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+
+            {% if adyenAccountData.accountHolder.capabilities is defined %}
+                <div class="form-panel">
+                    <div class="form-panel-header">
+                        <div class="form-panel-title">
+                            <a href="#" class="form-panel-collapse">Capabilities</a>
+                        </div>
+                    </div>
+                    <div class="form-panel-body">
+                        <table class="table table-sm">
+                            <thead class="thead-light">
+                            <tr>
+                                <th>Capability</th>
+                                <th>Status</th>
+                                <th>Verification Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    Receive Payments
+                                </td>
+                                <td>
+                                    {% if adyenAccountData.accountHolder.capabilities.receivePayments.enabled and adyenAccountData.accountHolder.capabilities.receivePayments.allowed %}
+                                        <span class="badge badge-success">On</span>
+                                    {% else %}
+                                        <span class="badge badge-danger">Off</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ adyenAccountData.accountHolder.capabilities.receivePayments.verificationStatus }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Payouts
+                                </td>
+                                <td>
+                                    {% if adyenAccountData.accountHolder.capabilities.sendToTransferInstrument.enabled and adyenAccountData.accountHolder.capabilities.sendToTransferInstrument.allowed %}
+                                        <span class="badge badge-success">On</span>
+                                    {% else %}
+                                        <span class="badge badge-danger">Off</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ adyenAccountData.accountHolder.capabilities.sendToTransferInstrument.verificationStatus }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Negative Balance Collection
+                                </td>
+                                <td>
+                                    {% if adyenAccountData.accountHolder.capabilities.receiveFromTransferInstrument is defined and adyenAccountData.accountHolder.capabilities.receiveFromTransferInstrument.enabled and adyenAccountData.accountHolder.capabilities.receiveFromTransferInstrument.allowed %}
+                                        <span class="badge badge-success">On</span>
+                                    {% else %}
+                                        <span class="badge badge-danger">Off</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if adyenAccountData.accountHolder.capabilities.receiveFromTransferInstrument is defined %}
+                                        {{ adyenAccountData.accountHolder.capabilities.receiveFromTransferInstrument.verificationStatus }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Receive From Platform Payments
+                                </td>
+                                <td>
+                                    {% if adyenAccountData.accountHolder.capabilities.receiveFromPlatformPayments.enabled and adyenAccountData.accountHolder.capabilities.receiveFromPlatformPayments.allowed %}
+                                        <span class="badge badge-success">On</span>
+                                    {% else %}
+                                        <span class="badge badge-danger">Off</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ adyenAccountData.accountHolder.capabilities.receiveFromPlatformPayments.verificationStatus }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Send To Balance Account
+                                </td>
+                                <td>
+                                    {% if adyenAccountData.accountHolder.capabilities.sendToBalanceAccount.enabled and adyenAccountData.accountHolder.capabilities.sendToBalanceAccount.allowed %}
+                                        <span class="badge badge-success">On</span>
+                                    {% else %}
+                                        <span class="badge badge-danger">Off</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ adyenAccountData.accountHolder.capabilities.sendToBalanceAccount.verificationStatus }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Receive From Balance Account
+                                </td>
+                                <td>
+                                    {% if adyenAccountData.accountHolder.capabilities.receiveFromBalanceAccount.enabled and adyenAccountData.accountHolder.capabilities.receiveFromBalanceAccount.allowed %}
+                                        <span class="badge badge-success">On</span>
+                                    {% else %}
+                                        <span class="badge badge-danger">Off</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ adyenAccountData.accountHolder.capabilities.receiveFromBalanceAccount.verificationStatus }}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if adyenAccountData and adyenAccountData.pricingConfiguration %}
+                {% set pricing = adyenAccountData.pricingConfiguration %}
+                {% set currency = pricing.currency|upper %}
+                <div class="form-panel">
+                    <div class="form-panel-header">
+                        <div class="form-panel-title">
+                            <a href="#" class="form-panel-collapse">Pricing</a>
+                        </div>
+                    </div>
+                    <div class="form-panel-body">
+                        <dl class="datalist">
+                            <div class="data-row">
+                                <dt>Cards</dt>
+                                <dd>{% if pricing.card_interchange_passthrough %}Cost + {% endif %}{{ pricing.card_variable_fee|number_format(2) }}%{% if pricing.card_fixed_fee %} + {{ currency }} {{ pricing.card_fixed_fee|number_format(2) }}{% endif %}</dd>
+                            </div>
+                            {% if pricing.card_international_added_variable_fee %}
+                                <div class="data-row">
+                                    <dt>International cards</dt>
+                                    <dd>+ {{ pricing.card_international_added_variable_fee|number_format(2) }}%</dd>
+                                </div>
+                            {% endif %}
+                            {% if pricing.amex_interchange_variable_markup %}
+                                <div class="data-row">
+                                    <dt>American Express</dt>
+                                    <dd>Cost + {{ pricing.amex_interchange_variable_markup|number_format(2) }}%</dd>
+                                </div>
+                            {% endif %}
+                            {% if pricing.ach_fixed_fee %}
+                                <div class="data-row">
+                                    <dt>ACH direct debit</dt>
+                                    <dd>{{ currency }} {{ pricing.ach_fixed_fee|number_format(2) }}</dd>
+                                </div>
+                            {% endif %}
+                            {% if pricing.ach_variable_fee %}
+                                <div class="data-row">
+                                    <dt>ACH direct debit</dt>
+                                    <dd>{{ pricing.ach_variable_fee|number_format(2) }}%{% if pricing.ach_max_fee %} (max {{ currency }} {{ pricing.ach_max_fee|number_format(2) }}){% endif %}</dd>
+                                </div>
+                            {% endif %}
+                            <div class="data-row">
+                                <dt>Chargeback</dt>
+                                <dd>{{ currency }} {{ pricing.chargeback_fee|number_format(2) }}</dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if adyenAccount.onboardingStartedAt %}
+                <div class="form-panel">
+                    <div class="form-panel-header">
+                        <div class="form-panel-title">
+                            <a href="#" class="form-panel-collapse">Onboarding</a>
+                        </div>
+                    </div>
+                    <div class="form-panel-body">
+                        <dl class="datalist">
+                            {% if adyenAccount.onboardingStartedAt %}
+                                {{ _self.dl_row("Started Onboarding At", adyenAccount.onboardingStartedAt|date('n/j/Y g:i:s a')) }}
+                            {% endif %}
+                            {% if adyenAccount.activatedAt %}
+                                {{ _self.dl_row("Completed Onboarding At", adyenAccount.activatedAt|date('n/j/Y g:i:s a')) }}
+                            {% endif %}
+                            {% if adyenAccount.termsOfServiceAcceptanceDate %}
+                                {{ _self.dl_row("Terms of Service Acceptance Timestamp", adyenAccount.termsOfServiceAcceptanceDate|date('n/j/Y g:i:s a')) }}
+                            {% endif %}
+                            {% if adyenAccount.termsOfServiceAcceptanceIp %}
+                                <div class="data-row">
+                                    <dt>Terms of Service Acceptance IP</dt>
+                                    <dd>{{ adyenAccount.termsOfServiceAcceptanceIp|ipInfoLink }}</dd>
+                                </div>
+                            {% endif %}
+                            {% if adyenAccount.termsOfServiceAcceptanceUser %}
+                                <div class="data-row">
+                                    <dt>Terms of Service Accepted By</dt>
+                                    <dd>
+                                        <a href="{{ ea_url().setController('App\\Controller\\Admin\\UserCrudController').setAction('detail').setEntityId(adyenAccount.termsOfServiceAcceptanceUser.id) }}">
+                                            {{ adyenAccount.termsOfServiceAcceptanceUser }}
+                                        </a>
+                                    </dd>
+                                </div>
+                            {% endif %}
+                            {% if adyenAccount.termsOfServiceAcceptanceVersion %}
+                                {{ _self.dl_row("Terms of Service Version", adyenAccount.termsOfServiceAcceptanceVersion) }}
+                            {% endif %}
+                        </dl>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if adyenAccountData and adyenAccountData.legalEntity %}
+                <div class="form-panel">
+                    <div class="form-panel-header">
+                        <div class="form-panel-title">
+                            <a href="#" class="form-panel-collapse">Legal Entity</a>
+                        </div>
+                    </div>
+                    <div class="form-panel-body">
+                        <dl class="datalist">
+                            {{ _self.dl_field(adyenAccountData.legalEntity.organization, 'Legal Name', 'legalName') }}
+                            {{ _self.dl_field(adyenAccountData.legalEntity.organization, 'Doing Business As', 'doingBusinessAs') }}
+                            {{ _self.dl_field(adyenAccountData.legalEntity.organization, 'Description', 'description') }}
+                            {{ _self.dl_field(adyenAccountData.legalEntity.organization, 'Type', 'type') }}
+                            {{ _self.dl_field(adyenAccountData.legalEntity.organization, 'Email', 'email') }}
+                            {{ _self.dl_field(adyenAccountData.legalEntity.organization, 'Status', 'status') }}
+
+                            {% if adyenAccountData.legalEntity.organization.taxInformation is defined %}
+                                {% for taxInfo in adyenAccountData.legalEntity.organization.taxInformation %}
+                                    {{ _self.dl_row("Tax Information", _self.json_value(taxInfo)) }}
+                                {% endfor %}
+                            {% endif %}
+                            {{ _self.dl_field(adyenAccountData.legalEntity.organization, 'Registered Address', 'address') }}
+                            {% if adyenAccountData.legalEntity.organization.principalPlaceOfBusiness is defined %}
+                                {{ _self.dl_row("Principal Place of Business", _self.json_value(adyenAccountData.legalEntity.organization.principalPlaceOfBusiness)) }}
+                            {% endif %}
+                            {% if adyenAccountData.legalEntity.entityAssociations is defined %}
+                                {% for entityAssociation in adyenAccountData.legalEntity.entityAssociations %}
+                                    {{ _self.dl_row("Associated Entity", _self.json_value(entityAssociation)) }}
+                                {% endfor %}
+                            {% endif %}
+                            {% if adyenAccountData.legalEntity.documentDetails is defined %}
+                                {% for documentDetail in adyenAccountData.legalEntity.documentDetails %}
+                                    {{ _self.dl_row("Document", _self.json_value(documentDetail)) }}
+                                {% endfor %}
+                            {% endif %}
+                        </dl>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-xxl-7">
+            {% if adyenAccountData and adyenAccountData.error is defined %}
+                <div class="alert alert-danger">{{ adyenAccountData.error }}</div>
+            {% elseif adyenAccountData %}
+                {% if problems is defined and problems|length > 0 %}
+                    <div class="form-panel">
+                        <div class="form-panel-header">
+                            <div class="form-panel-title">
+                                <a href="#" class="form-panel-collapse">
+                                    Problems
+                                    <span class="badge text-bg-secondary">{{ problems|length }}</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-panel-body">
+                            {% for problem in problems %}
+                                <div class="mb-2">
+                                    <div class="alert alert-danger" role="alert">
+                                        <h6 class="alert-heading">
+                                            {{ problem.entityName }}
+                                        </h6>
+                                        {% for subError in problem.subErrors %}
+                                            <div class="mb-2">
+                                                <span class="fas fa-times-circle me-2"></span>
+                                                <strong>{{ subError.message }}</strong> (Error code: {{ subError.code }})
+                                            </div>
+                                            <ul class="mb-0">
+                                                {% for remediatingAction in subError.remediatingActions %}
+                                                    <li>{{ remediatingAction.message }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% else %}
+                                            <div class="mb-2">
+                                                <span class="fas fa-times-circle me-2"></span>
+                                                <strong>{{ problem.message }}</strong> (Error code: {{ problem.code }})
+                                            </div>
+                                            <ul class="mb-0">
+                                                {% for remediatingAction in problem.remediatingActions %}
+                                                    <li>{{ remediatingAction.message }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if adyenAccountData.legalEntity %}
+                    {% if adyenAccountData.legalEntity.transferInstruments is defined %}
+                        <div class="form-panel">
+                            <div class="form-panel-header">
+                                <div class="form-panel-title">
+                                    <a href="#" class="form-panel-collapse">Bank Accounts</a>
+                                </div>
+                            </div>
+                            <div class="form-panel-body">
+                                <table class="table table-sm">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Account #</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for transferInstrument in adyenAccountData.legalEntity.transferInstruments %}
+                                        <tr>
+                                            <td>{{ transferInstrument.id }}</td>
+                                            <td>{{ transferInstrument.accountIdentifier }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+
+                {% if adyenAccountData.accounts|length > 0 %}
+                    <div class="form-panel">
+                        <div class="form-panel-header">
+                            <div class="form-panel-title">
+                                <a href="#" class="form-panel-collapse">Balance Accounts</a>
+                            </div>
+                        </div>
+                        <div class="form-panel-body">
+                            {% for account in adyenAccountData.accounts %}
+                                {% if account.balanceAccount %}
+                                    <h5>{{ account.balanceAccount.description }}</h5>
+                                {% endif %}
+                                <dl class="datalist">
+                                    {% if account.balanceAccount %}
+                                        <div class="data-row">
+                                            <dt>Balance Account ID</dt>
+                                            <dd>
+                                                <a href="https://ca-live.adyen.com/ca/ca/accounts/balance-accounts/details.shtml?id={{ account.balanceAccount.id }}" target="_blank">
+                                                    {{ account.balanceAccount.id }}
+                                                </a>
+                                            </dd>
+                                        </div>
+                                        {{ _self.dl_field(account.balanceAccount, 'Balance Account Reference', 'reference') }}
+                                        {{ _self.dl_field(account.balanceAccount, 'Time Zone', 'timeZone') }}
+                                        {{ _self.dl_field(account.balanceAccount, 'Default Currency Code', 'defaultCurrencyCode') }}
+                                        {{ _self.dl_field(account.balanceAccount, 'Balance Account Status', 'status') }}
+                                        {% for balance in account.balanceAccount.balances %}
+                                            <div class="data-row">
+                                                <dt>Balance</dt>
+                                                <dd>
+                                                    Current Balance: {{ balance.currency }} <strong>{{ (balance.balance / 100)|number_format(2) }}</strong><br/>
+                                                    Available: {{ balance.currency }} <strong>{{ (balance.available / 100)|number_format(2) }}</strong><br/>
+                                                    Pending: {{ balance.currency }} <strong>{{ (balance.pending / 100)|number_format(2) }}</strong><br/>
+                                                    Reserved: {{ balance.currency }} <strong>{{ (balance.reserved / 100)|number_format(2) }}</strong>
+                                                </dd>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </dl>
+
+                                {% if account.store %}
+                                    <h5 class="mt-3">Store</h5>
+                                    <dl class="datalist">
+                                        <div class="data-row">
+                                            <dt>Store ID</dt>
+                                            <dd>
+                                                <a href="https://ca-test.adyen.com/ca/ca/postfm/manageposstore.shtml?storeCode={{ account.store.reference }}&setActiveAccountKey=MerchantAccount.{{ account.store.merchantId }}">
+                                                    {{ account.store.id }}
+                                                </a>
+                                            </dd>
+                                        </div>
+                                        {{ _self.dl_field(account.store, 'Store Reference', 'reference') }}
+                                        {{ _self.dl_field(account.store, 'Merchant Account', 'merchantId') }}
+                                        {{ _self.dl_field(account.store, 'Shopper Statement', 'shopperStatement') }}
+                                        {{ _self.dl_field(account.store, 'Store Description', 'description') }}
+                                        {{ _self.dl_field(account.store, 'Store Status', 'status') }}
+                                    </dl>
+                                {% endif %}
+                                {% if account.splitConfiguration %}
+                                    <h5 class="mt-3">Split Configuration</h5>
+                                    <dl class="datalist">
+                                        {{ _self.dl_field(account.splitConfiguration, 'Split Configuration ID', 'splitConfigurationId') }}
+                                        {{ _self.dl_field(account.splitConfiguration, 'Split Configuration Name', 'description') }}
+                                        {% for rule in account.splitConfiguration.rules %}
+                                            {{ _self.dl_row("Pricing Rule", _self.json_value(rule)) }}
+                                        {% endfor %}
+                                    </dl>
+                                {% endif %}
+
+                                {% if account.sweeps %}
+                                    <h5 class="mt-3">Sweeps</h5>
+                                    <dl class="datalist">
+                                    {% for sweep in account.sweeps %}
+                                        {{ _self.dl_row("Sweep", _self.json_value(sweep)) }}
+                                    {% endfor %}
+                                    </dl>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% macro dl_field(input, name, property) %}
+    {% set value = null %}
+    {% if input.(property) is defined %}
+        {% set value = input.(property) %}
+    {% elseif input[property] is defined %}
+        {% set value = input[property] %}
+    {% endif %}
+    {% if value %}
+        {{ _self.dl_row(name, value) }}
+    {% endif %}
+{% endmacro %}
+
+{% macro dl_row(name, value) %}
+    <div class="data-row">
+        <dt>{{ name }}</dt>
+        <dd>{{ value }}</dd>
+    </div>
+{% endmacro %}
+
+{% macro json_value(json, level=0) %}
+    {% if json is iterable %}
+        {% for key, value in json %}
+            {% if is_numeric(key) %}
+                <span class="ps-{{ level + 2 }}">{{ _self.json_value(value, level + 2) }}</span>
+            {% else %}
+                <div class="ps-{{ level }}">
+                    <span class="text-muted">{{ key }}</span>: {{ _self.json_value(value, level + 2) }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        {{ json }}
+    {% endif %}
+{% endmacro %}

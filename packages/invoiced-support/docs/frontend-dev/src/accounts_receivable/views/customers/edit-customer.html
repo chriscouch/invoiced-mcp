@@ -1,0 +1,588 @@
+<form name="customerForm" ng-submit="save(customer, disabledPaymentMethods)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title"><span ng-show="customer.id">Edit</span><span ng-hide="customer.id">New</span> Customer</h4>
+	</div>
+	<div class="modal-body modal-body-with-tabs">
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<!-- Navigation -->
+		<ul class="nav nav-tabs">
+			<li ng-class="{active:tab=='basic'}">
+				<a href="" ng-click="tab='basic'">
+					Basic
+				</a>
+			</li>
+			<li ng-class="{active:tab=='contact_info'}">
+				<a href="" ng-click="tab='contact_info'">
+					Contact Information
+				</a>
+			</li>
+			<li ng-class="{active:tab=='payments'}">
+				<a href="" ng-click="tab='payments'">
+					Payments
+				</a>
+			</li>
+			<li ng-class="{active:tab=='options'}">
+				<a href="" ng-click="tab='options'">
+					Options
+				</a>
+			</li>
+		</ul>
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+
+ 		<div class="tab-content">
+			<!-- Basic -->
+ 			<div class="tab-pane" ng-class="{active:tab=='basic'}">
+				<div class="row">
+					<!-- Name -->
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Name <span class="required"></span></label>
+							<div>
+								<input type="text" ng-model="customer.name" class="form-control" required />
+							</div>
+						</div>
+					</div>
+
+					<!-- Parent Customer -->
+					<div class="col-md-6">
+						<div class="form-group">
+							<div class="edit-customer-parent-customer">
+								<div class="checkbox checkbox-inline">
+									<label class="noselect">
+										<input type="checkbox" ng-model="hasParent" />
+										Is sub-customer of
+									</label>
+								</div>
+
+								<!-- Bill To Parent -->
+								<div class="checkbox checkbox-inline" ng-show="hasParent">
+									<label class="noselect">
+										<input type="checkbox" ng-model="customer.bill_to_parent" />
+										Bill to Parent
+									</label>
+								</div>
+							</div>
+
+							<div class="form-group" ng-if="hasParent">
+								<div>
+									<select-customer ng-model="customer.parent_customer" excluded="excludeCustomerIds" required></select-customer>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<!-- Account # -->
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Account #</label>
+							<div>
+								<input-document-number ng-model="customer.number"></input-document-number>
+							</div>
+						</div>
+					</div>
+
+					<!-- Entity Type -->
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Entity Type <span class="required"></span></label>
+							<div>
+								<div class="invoiced-select">
+									<select ng-model="customer.type" ng-change="changeType(customer)">
+										<option value="company">Business</option>
+										<option value="government">Government</option>
+										<option value="person">Individual</option>
+										<option value="non_profit">Non-Profit</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<!-- Notes -->
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Notes</label>
+							<div class="textarea-2-lines">
+								<textarea ng-model="customer.notes" class="form-control" rows="3" placeholder="Private notes on this customer" expanding-textarea></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Custom Fields -->
+				<div ng-if="customer.metadata !== false" ng-show="customFields.length > 0">
+					<hr/>
+					<div class="row edit-customer-custom-fields">
+						<div class="col-md-6 edit-customer-custom-field" ng-repeat="field in customFields">
+							<div class="form-group">
+								<label class="control-label">{{field.name}}</label>
+								<div>
+									<custom-field-input field="field" metadata="customer.metadata" set-defaults="true"></custom-field-input>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Contact Information -->
+			<div class="tab-pane" ng-class="{active:tab=='contact_info'}">
+				<div class="row">
+					<!-- Email -->
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Email</label>
+							<div>
+								<div class="input-group">
+									<span class="input-group-addon">
+										<span class="fas fa-envelope"></span>
+									</span>
+									<input type="text" ng-model="customer.email" class="form-control" />
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Phone # -->
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Phone</label>
+							<div>
+								<div class="input-group">
+									<span class="input-group-addon">
+										<span class="fas fa-phone"></span>
+									</span>
+									<input type="text" ng-model="customer.phone" class="form-control" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<!-- Language -->
+					<div class="col-md-4" ng-if="hasInternationalization">
+						<div class="form-group">
+							<label class="control-label">Language</label>
+							<div>
+								<language-selector ng-model="customer.language"></language-selector>
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr/>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h4>
+							Address
+							<address-validator object="customer"></address-validator>
+						</h4>
+					</div>
+				</div>
+
+				<div class="row">
+					<!-- Attention To -->
+					<div class="col-md-6" ng-show="customer.type=='company'">
+						<div class="form-group">
+							<label class="control-label">Attention To</label>
+							<div>
+								<div class="input-group">
+									<span class="input-group-addon">ATTN:</span>
+									<input type="text" ng-model="customer.attention_to" class="form-control" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<!-- Address 1 -->
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">{{'address.address1'|translate}}</label>
+							<div>
+								<input type="text" ng-model="customer.address1" class="form-control" />
+							</div>
+						</div>
+					</div>
+
+					<!-- Address 2 -->
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">{{'address.address2'|translate}}</label>
+							<div>
+								<input type="text" ng-model="customer.address2" class="form-control" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<!-- City -->
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label">{{cityLabel}}</label>
+							<div>
+								<input type="text" ng-model="customer.city" class="form-control"  />
+							</div>
+						</div>
+					</div>
+
+					<!-- State -->
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label">{{stateLabel}}</label>
+							<div>
+								<state-selector ng-model="customer.state" country="customer.country" is-required="false"></state-selector>
+							</div>
+						</div>
+					</div>
+
+					<!-- Postal Code -->
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label">{{postalCodeLabel}}</label>
+							<div>
+								<input type="text" ng-model="customer.postal_code" class="form-control" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<!-- Country -->
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Country <span class="required"></span></label>
+							<div>
+								<country-selector ng-model="customer.country" is-required="false" ng-change="changeCountry(country)"></country-selector>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Payments -->
+			<div class="tab-pane" ng-class="{active:tab=='payments'}">
+				<div class="row">
+					<!-- AutoPay -->
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">AutoPay</label>
+							<div ng-if="hasAutoPay">
+								<toggle ng-model="$parent.autoPay"></toggle>
+							</div>
+							<div class="form-control-static" ng-if="!hasAutoPay">
+								<a href="" tooltip="AutoPay is not available for your account">
+									<span class="label label-default">{{'general.off'|translate}}</span>
+								</a>
+							</div>
+						</div>
+					</div>
+	
+					<!-- Payment Terms -->
+					<div class="col-md-6" ng-hide="autoPay">
+						<div class="form-group">
+							<label class="control-label">Payment Terms</label>
+							<div>
+								<select-payment-terms ng-model="customer.payment_terms" allow-new="true" allow-clear="true"></select-payment-terms>
+							</div>
+						</div>
+					</div>
+
+					<!-- Payment Date -->
+					<div class="col-md-6" ng-if="autoPay">
+						<div class="form-group">
+							<label class="control-label">Payment Date</label>
+							<div>
+								<div class="invoiced-select">
+									<select ng-model="customer.autopay_delay_days" ng-options="entry.amount as entry.name for entry in autoPayOptions"></select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row" ng-if="autoPay&&!customer.payment_source">
+					<!-- Payment Method -->
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">
+								Payment Info
+								<a href="" tooltip="Customers can add a payment method later by paying an invoice or on the My Account page in the billing portal.">
+									<span class="fas fa-info-circle"></span>
+								</a>
+							</label>
+							<div class="form-control-static" ng-show="paymentSourceToken">
+								<span ng-show="paymentSourceToken.source.object=='card'">
+									{{paymentSourceToken.source.brand}}
+									*{{paymentSourceToken.source.last4}}<br/>
+									Expires
+									{{paymentSourceToken.source.exp_month}} / {{paymentSourceToken.source.exp_year}}
+								</span>
+								<span ng-show="paymentSourceToken.source.object=='bank_account'">
+									<div ng-show="paymentSourceToken.source.bank_name">{{paymentSourceToken.source.bank_name}}</div>
+									Account
+									*{{paymentSourceToken.source.last4}}
+									<div ng-show="paymentSourceToken.source.routing_number">
+										Routing #:
+										{{paymentSourceToken.source.routing_number}}
+									</div>
+								</span>
+								<a href="" ng-click="deletePaymentSource()">
+									<span class="fas fa-times"></span>
+								</a>
+							</div>
+							<div ng-hide="paymentSourceToken">
+								<div>
+									<button type="button" class="btn btn-default" ng-click="addPaymentSource(customer)">
+										<span class="fas fa-plus"></span>
+										{{'general.add'|translate}}
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr/>
+
+				<div class="row">
+					<!-- Allowed Payment Methods -->
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Allowed Payments</label>
+							<div>
+								<allowed-payment-methods ng-model="disabledPaymentMethods"></allowed-payment-methods>
+							</div>
+						</div>
+					</div>
+
+					<!-- Convenience Fees -->
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label">Convenience Fees</label>
+							<div>
+								<toggle ng-model="customer.convenience_fee"></toggle>
+							</div>
+						</div>
+					</div>
+
+					<!-- Merchant Accounts / Gateways -->
+					<div class="col-md-6">
+						<div class="form-group" ng-hide="disabledPaymentMethods['ach']">
+							<label class="control-label">{{'general.ach_gateway'|translate}}</label>
+							<div>
+								<div class="loading inline" ng-show="loadingMerchantAccounts"></div>
+								<div class="invoiced-select" ng-hide="loadingMerchantAccounts">
+									<select ng-model="customer.ach_gateway" ng-options="account.id as account.list_name for account in achMerchantAccounts| orderBy:'list_name'">
+										<option value="">{{'general.default'|translate}}<option>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group" ng-hide="disabledPaymentMethods['credit_card']">
+							<label class="control-label">{{'general.cc_gateway'|translate}}</label>
+							<div>
+								<div class="loading inline" ng-show="loadingMerchantAccounts"></div>
+								<div class="invoiced-select" ng-hide="loadingMerchantAccounts">
+									<select ng-model="customer.cc_gateway" ng-options="account.id as account.list_name for account in creditCardMerchantAccounts| orderBy:'list_name'">
+										<option value="">{{'general.default'|translate}}<option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Options -->
+			<div class="tab-pane" ng-class="{active:tab=='options'}">
+				<div class="row">
+					<div class="col-md-12">
+						<h4>Collections</h4>
+					</div>
+				</div>
+
+				<div class="row">
+					<!-- Chasing -->
+					<div class="col-md-4" ng-if="'smart_chasing'|hasFeature">
+						<div class="form-group">
+							<label class="control-label">Chasing</label>
+							<div>
+								<toggle ng-model="customer.chase"></toggle>
+							</div>
+						</div>
+					</div>
+
+					<!-- Late Fees -->
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label">Late Fees</label>
+							<div ng-show="loadingLateFees">
+								<div class="loading inline"></div>
+							</div>
+							<div ng-if="!loadingLateFees">
+								<div>
+									<toggle ng-model="$parent.hasLateFees"></toggle>
+								</div>
+								<div class="invoiced-select" ng-if="$parent.hasLateFees">
+									<select ng-options="schedule.id as schedule.name for schedule in lateFeeSchedules" ng-model="customer.late_fee_schedule" required></select>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Owner -->
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label">Owner</label>
+							<div>
+								<select-user ng-model="customer.owner"></select-user>
+							</div>
+							<div ng-show="customer.owner">
+								<a href="" class="btn btn-link btn-sm" ng-click="customer.owner = null">
+									{{'general.remove'|translate}}
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr/>
+
+				<div class="row">
+					<div class="col-md-12">
+						<h4>Billing</h4>
+					</div>
+				</div>
+
+				<div class="row">
+					<!-- Currency -->
+					<div class="col-md-4" ng-if="'multi_currency'|hasFeature">
+						<div class="form-group">
+							<label class="control-label">{{'general.currency'|translate}}</label>
+							<div>
+								<currency-selector ng-model="customer.currency"></currency-selector>
+							</div>
+						</div>
+					</div>
+
+					<!-- Credit Hold -->
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label">Credit Hold</label>
+							<div>
+								<toggle ng-model="customer.credit_hold"></toggle>
+							</div>
+						</div>
+					</div>
+
+					<!-- Credit Limit -->
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label">Credit Limit</label>
+							<div>
+								<toggle ng-model="hasCreditLimit"></toggle>
+
+								<div class="form-group" ng-if="hasCreditLimit">
+									<input class="form-control" type="text" currency-input ng-model="customer.credit_limit" currency="company.currency" required="required" />
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Consolidated Invoicing -->
+					<div class="col-md-4" ng-if="'consolidated_invoicing'|hasFeature">
+						<div class="form-group">
+							<label class="control-label">{{'customers.consolidated_invoicing'|translate}}</label>
+							<div>
+								<toggle ng-model="customer.consolidated"></toggle>
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr/>
+
+				<div class="form-group">
+					<div class="col-md-12">
+						<h4>Sales Tax</h4>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<!-- Taxable -->
+						<div class="form-group">
+							<label class="control-label">Taxes</label>
+							<div>
+								<toggle ng-model="customer.taxable"></toggle>
+							</div>
+						</div>
+
+						<!-- Tax Rates -->
+						<div class="form-group" ng-show="customer.taxable">
+							<div class="customer-taxes">
+								<editable-rates-list line="customer.taxes" currency="company.currency" options="rateListOptions"></editable-rates-list>
+
+								<button type="button" class="btn btn-default" ng-click="selectRatesModal(customer.taxes, 'tax')">
+									<span class="fas fa-plus"></span>
+									Tax
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<!-- Tax ID -->
+					<div class="col-md-6">
+						<div class="form-group" ng-show="hasTaxId">
+							<label class="control-label">Tax ID</label>
+							<div>
+								<input type="text" ng-model="customer.tax_id" class="form-control" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Avalara Fields -->
+				<div class="row" ng-hide="customer.taxable">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">{{'customers.exemption_reason'|translate}}</label>
+							<div>
+								<div class="invoiced-select">
+									<select ng-model="customer.avalara_entity_use_code" ng-options="id as name for (id, name) in avalaraEntityCodes"></select>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">{{'customers.exemption_number'|translate}}</label>
+							<div>
+								<input type="text" ng-model="customer.avalara_exemption_number" class="form-control" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="customerForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			<span ng-show="customer.id">{{'general.save'|translate}}</span>
+			<span ng-hide="customer.id">Create</span>
+		</button>
+	</div>
+</form>

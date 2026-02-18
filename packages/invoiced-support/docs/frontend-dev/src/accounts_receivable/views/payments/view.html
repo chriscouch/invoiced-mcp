@@ -1,0 +1,85 @@
+<p class="loading" ng-show="loading && !loadedAtLeastOnce"></p>
+
+<div class="object-view import" ng-hide="loading && !loadedAtLeastOnce">
+    <div class="title-bar">
+        <div class="row">
+            <div class="col-sm-10">
+                <!-- Title -->
+                <h2>{{'payments.view.title'|translate}}</h2>
+                <h3 ng-show="payment.customer">{{payment.customer.name}}</h3>
+            </div>
+
+            <div class="col-sm-2 right">
+                <div class="row">
+                    <a href="/payments/{{previous.id}}" ng-if="previous">
+                        <span class="btn btn-navbar"><span class="fas fa-angle-left"></span></span>
+                    </a>
+                    <a href="/payments/{{next.id}}" ng-if="next">
+                        <span class="btn btn-navbar"><span class="fas fa-angle-right"></span></span>
+                    </a>
+                </div>
+                <div class="row counter">
+                    <span ng-if="index && total">{{index}} / {{total}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs">
+        <!-- Tab Links -->
+        <li ui-sref-active="active">
+            <a ui-sref=".summary">
+                {{'tabs.summary'|translate}}
+            </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref=".history">
+                {{'tabs.history'|translate}}
+            </a>
+        </li>
+
+        <!-- Action Buttons -->
+        <li class="action right dropdown" ng-hide="payment.voided" dropdown>
+            <a href="" class="dropdown-toggle" dropdown-toggle>
+                <span class="actions-label"></span>
+                <span class="fas fa-chevron-down"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li ng-if="payment.pdf_url">
+                    <a href="{{payment.pdf_url}}?t=0" target="_self">
+                        Download as PDF
+                    </a>
+                </li>
+                <li ng-if="('emails.send'|hasPermission) && payment.pdf_url">
+                    <a href="" ng-click="sendReceipt(payment)">
+                        Send Receipt
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li class="danger" ng-if="'payments.delete'|hasPermission">
+                    <a href="" ng-click="delete(payment)" ng-hide="deleting">
+                        Void Payment
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="action right" ng-hide="payment.voided" ng-if="('payments.edit'|hasPermission) && editable">
+            <a href="" ng-click="editModal(payment)">
+                <div>{{'general.edit'|translate}}</div>
+            </a>
+        </li>
+        <li class="action automation-action right" ng-if="'payments.edit'|hasPermission">
+            <div>
+                <automate-button btn-class="'nav-link-item'" object-type="modelObjectType" object-id="modelId"></automate-button>
+            </div>
+        </li>
+    </ul>
+
+    <!-- Selected Tab Content -->
+    <div class="tab-content">
+        <div class="tab-pane active">
+            <ui-view/>
+        </div>
+    </div>
+</div>

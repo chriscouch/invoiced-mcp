@@ -1,0 +1,122 @@
+<div class="modal-header">
+	<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+	<h4 class="modal-title">{{template}} Email Details</h4>
+</div>
+<div class="modal-body form-horizontal">
+	<div ng-show="loading" class="loading"></div>
+	<div ng-show="!loading&&!email">
+		<p class="empty">
+			Sorry, we could not find this email.
+		</p>
+	</div>
+	<div ng-hide="loading||!email">
+		<!-- Recipient -->
+		<div class="form-group">
+			<label class="control-label col-sm-3">Recipient</label>
+			<div class="col-sm-9 form-control-static">
+				<div class="email-address-display" ng-repeat="emailAddress in email.email|split:','">
+					{{emailAddress}}
+				</div>
+			</div>
+		</div>
+
+		<!-- Sent -->
+		<div class="form-group">
+			<label class="control-label col-sm-3">Sent On</label>
+			<div class="col-sm-9 form-control-static">
+				<company-date-time date="email.created_at"></company-date-time>
+			</div>
+		</div>
+
+		<!-- State -->
+		<div class="form-group" ng-if="email.state=='deferred'||email.state=='invalid'||email.state=='rejected'||email.state=='soft-bounced'||email.state=='bounced'">
+			<label class="control-label col-sm-3">State</label>
+			<div class="col-sm-9 form-control-static">
+				<span class="label label-warning" ng-show="email.state=='deferred'">Deferred</span>
+				<span class="label label-danger" ng-show="email.state=='invalid'">Invalid</span>
+				<span class="label label-danger" ng-show="email.state=='rejected'">Rejected</span>
+				<span class="label label-danger" ng-show="email.state=='soft-bounced'">Soft Bounced</span>
+				<span class="label label-danger" ng-show="email.state=='bounced'">Bounced</span>
+				<span ng-show="email.reject_reason">&mdash; {{email.reject_reason}}</span>
+			</div>
+		</div>
+
+		<!-- Subject -->
+		<div class="form-group">
+			<label class="control-label col-sm-3">Subject</label>
+			<div class="col-sm-9 form-control-static">
+				{{email.subject}}
+			</div>
+		</div>
+
+		<!-- Open Activity -->
+		<div class="form-group" ng-hide="event.type!='email.sent'">
+			<label class="control-label col-sm-3">Opens</label>
+			<div class="col-sm-9 form-control-static">
+				<div>
+					<span class="label" ng-class="{'label-default':email.opens==0,'label-danger':email.opens>0}">{{email.opens}}</span>
+				</div>
+				<ul ng-show="email.opens_detail.length>0">
+					<li ng-repeat="open in email.opens_detail">
+						Opened on <strong><company-date-time date="open.timestamp"></company-date-time></strong> from IP address
+						<a href="https://ipinfo.io/{{open.ip}}" target="_blank" rel="noopener noreferrer">{{open.ip}}</a> near <em>{{open.loc}}</em>
+						using <em>{{open.ua}}</em>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- Object Link -->
+		<div class="form-group" ng-show="customerId">
+			<label class="control-label col-sm-3">Customer</label>
+			<div class="col-sm-9">
+				<a ui-sref="manage.customer.view.summary({id:customerId})" class="btn btn-default" ng-click="close()">
+					View
+				</a>
+			</div>
+		</div>
+		<div class="form-group" ng-show="estimateId">
+			<label class="control-label col-sm-3">Estimate</label>
+			<div class="col-sm-9">
+				<a ui-sref="manage.estimate.view.summary({id:estimateId})" class="btn btn-default" ng-click="close()">
+					View
+				</a>
+			</div>
+		</div>
+		<div class="form-group" ng-show="creditNoteId">
+			<label class="control-label col-sm-3">Credit Note</label>
+			<div class="col-sm-9">
+				<a ui-sref="manage.credit_note.view.summary({id:creditNoteId})" class="btn btn-default" ng-click="close()">
+					View
+				</a>
+			</div>
+		</div>
+		<div class="form-group" ng-show="invoiceId">
+			<label class="control-label col-sm-3">Invoice</label>
+			<div class="col-sm-9">
+				<a ui-sref="manage.invoice.view.summary({id:invoiceId})" class="btn btn-default" ng-click="close()">
+					View
+				</a>
+			</div>
+		</div>
+		<div class="form-group" ng-show="subscriptionId">
+			<label class="control-label col-sm-3">Subscription</label>
+			<div class="col-sm-9">
+				<a ui-sref="manage.subscription.view.summary({id:subscriptionId})" class="btn btn-default" ng-click="close()">
+					View
+				</a>
+			</div>
+		</div>
+		<div class="form-group" ng-show="paymentId">
+			<label class="control-label col-sm-3">Payment</label>
+			<div class="col-sm-9">
+				<a ui-sref="manage.payment.view.summary({id:paymentId})" class="btn btn-default" ng-click="close()">
+					View
+				</a>
+			</div>
+		</div>
+
+		<!-- Message -->
+		<div class="well email-message" content="email.message|nl2br" target-blank></div>
+	</div>
+</div>

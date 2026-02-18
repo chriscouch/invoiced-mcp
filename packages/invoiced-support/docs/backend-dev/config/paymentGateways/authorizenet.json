@@ -1,0 +1,27 @@
+{
+	"methods": {
+		"ach": {
+			"currencies": [
+				"usd"
+			]
+		},
+		"credit_card": {
+			"currencies": [
+				"aud",
+				"cad",
+				"chf",
+				"dkk",
+				"eur",
+				"gbp",
+				"nok",
+				"nzd",
+				"pln",
+				"sek",
+				"usd"
+			]
+		}
+	},
+	"minPayment": {
+		"*": 50
+	}
+}

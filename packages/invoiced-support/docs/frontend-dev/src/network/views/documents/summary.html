@@ -1,0 +1,68 @@
+<div class="row two-pane">
+    <div class="col-sm-4 left-pane">
+        <div class="details-list vertical">
+            <h4>
+                Document Details
+            </h4>
+
+            <!-- Vendor -->
+            <div ng-if="doc.vendor">
+                <div class="title">Vendor</div>
+                <div class="value">
+                    <a ui-sref="manage.vendor.view.summary({id: doc.vendor.id})">
+                        {{doc.vendor.name}}
+                    </a>
+                </div>
+            </div>
+
+            <!-- Customer -->
+            <div ng-if="doc.customer">
+                <div class="title">Customer</div>
+                <div class="value">
+                    <a ui-sref="manage.customer.view.summary({id: doc.customer.id})">
+                        {{doc.customer.name}}
+                    </a>
+                </div>
+            </div>
+
+            <!-- From -->
+            <div ng-show="sentToMe">
+                <div class="title">From</div>
+                <div class="value">
+                    <span ng-bind-html="doc.from_company|address" ng-if="doc.from_company"></span>
+                </div>
+            </div>
+
+            <!-- To -->
+            <div ng-hide="sentToMe">
+                <div class="title">To</div>
+                <div class="value">
+                    <span ng-bind-html="doc.to_company|address" ng-if="doc.to_company"></span>
+                </div>
+            </div>
+
+            <!-- Sent Date -->
+            <div>
+                <div class="title">Sent</div>
+                <div class="value">
+                    <company-date date="doc.created_at"></company-date>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-8 right-pane">
+        <!-- Action Items -->
+        <div class="action-items">
+            <!-- Status = Voided -->
+            <div class="action-item warning" ng-if="doc.current_status == 'Voided'">
+                <div class="icon"></div>
+                <p>
+                    This transaction has been voided.
+                </p>
+            </div>
+        </div>
+
+        <network-document doc="doc"></network-document>
+    </div>
+</div>

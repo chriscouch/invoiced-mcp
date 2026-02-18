@@ -1,0 +1,413 @@
+<feature-upgrade ng-if="!hasFeature"></feature-upgrade>
+<p class="loading" ng-show="loading"></p>
+
+<form name="cadenceForm" ng-submit="save(cadence)" ng-hide="loading">
+	<div class="contents" ng-show="hasFeature">
+		<div class="settings-title-bar">
+			<h2 class="title">
+				<div class="back-link">
+					<a ui-sref="manage.settings.chasing.customers">
+						<span class="fas fa-arrow-left"></span>
+						{{'settings.titles.chasing'|translate}}
+					</a>
+				</div>
+				<span ng-show="isExisting">Edit Customer Cadence</span>
+				<span ng-hide="isExisting">New Customer Cadence</span>
+			</h2>
+		</div>
+
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+
+		<!-- Navigation -->
+		<ul class="nav nav-pills">
+			<li role="presentation" ng-class="{active:tab=='basic'}">
+				<a href="" ng-click="tab='basic'">1. Basic</a>
+			</li>
+			<li role="presentation" ng-class="{active:tab=='steps'}">
+				<a href="" ng-click="tab='steps'">2. Steps</a>
+			</li>
+			<li role="presentation" ng-class="{active:tab=='assignment'}">
+				<a href="" ng-click="tab='assignment'">3. Assignment Rules</a>
+			</li>
+		</ul>
+
+		<!-- Basic -->
+		<div class="chase-basic-v2 form-horizontal" ng-show="tab=='basic'">
+			<!-- Name -->
+			<div class="form-group">
+				<label class="control-label col-sm-4">Name <span class="required"></span></label>
+				<div class="col-sm-5">
+					<input type="text" class="form-control" ng-model="cadence.name" required />
+				</div>
+			</div>
+
+			<!-- Time of Day -->
+			<div class="form-group">
+				<label class="control-label col-sm-4">Time of Day <span class="required"></span></label>
+				<div class="col-sm-3">
+					<div class="invoiced-select">
+						<select ng-model="cadence.time_of_day">
+							<option value="0">12 am</option>
+							<option value="1">1 am</option>
+							<option value="2">2 am</option>
+							<option value="3">3 am</option>
+							<option value="4">4 am</option>
+							<option value="5">5 am</option>
+							<option value="6">6 am</option>
+							<option value="7">7 am</option>
+							<option value="8">8 am</option>
+							<option value="9">9 am</option>
+							<option value="10">10 am</option>
+							<option value="11">11 am</option>
+							<option value="12">12 pm</option>
+							<option value="13">1 pm</option>
+							<option value="14">2 pm</option>
+							<option value="15">3 pm</option>
+							<option value="16">4 pm</option>
+							<option value="17">5 pm</option>
+							<option value="18">6 pm</option>
+							<option value="19">7 pm</option>
+							<option value="20">8 pm</option>
+							<option value="21">9 pm</option>
+							<option value="22">10 pm</option>
+							<option value="23">11 pm</option>
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<!-- Run Date -->
+			<div class="form-group">
+				<label class="control-label col-sm-4">Run Frequency <span class="required"></span></label>
+				<div class="col-sm-3">
+					<div class="invoiced-select">
+						<select ng-model="cadence.frequency">
+							<option value="daily">Every Day</option>
+							<option value="day_of_week">Days of Week</option>
+							<option value="day_of_month">Day of Month</option>
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<!-- Day of Week -->
+			<div class="form-group" ng-if="cadence.frequency=='day_of_week'">
+				<label class="control-label col-sm-4">Days <span class="required"></span></label>
+				<div class="col-sm-5">
+					<input type="hidden" ui-select2="days" ng-model="cadence.run_days" data-placeholder="Select days" multiple required/>
+				</div>
+			</div>
+
+			<!-- Day of Month -->
+			<div class="form-group" ng-if="cadence.frequency=='day_of_month'">
+				<label class="control-label col-sm-4">Day of Month <span class="required"></span></label>
+				<div class="col-sm-4">
+					<div class="invoiced-select">
+						<select ng-options="month.id as month.name for month in monthMapping" ng-model="cadence.run_date" required></select>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">Options</label>
+				<div class="col-sm-3 checkbox">
+					<!-- Minimum Threshold -->
+					<label class="noselect">
+						<input type="checkbox" ng-model="hasMinBalance" />
+						Minimum balance threshold
+					</label>
+					<div ng-if="hasMinBalance">
+						<br/>
+						<div>Do not chase customers with a balance below:</div>
+						<div ng-if="hasMinBalance">
+							<input class="form-control" type="text" currency-input ng-model="cadence.min_balance" currency="company.currency" required="required" />
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Next Button -->
+			<div class="col-sm-5 col-sm-offset-4">
+				<button type="button" class="btn btn-default" ng-disabled="!cadence.name || (cadence.frequency=='day_of_week'&&!cadence.run_days.length) || (cadence.frequency=='day_of_month'&&!cadence.run_date)" ng-click="tab='steps'">
+					Next &rarr;
+				</button>
+			</div>
+		</div>
+
+		<!-- Steps -->
+		<div ng-show="tab=='steps'">
+			<div class="chase-schedule-v2 can-edit">
+				<h4 class="settings-section-title">Schedule</h4>
+				<p class="alert alert-info" ng-hide="canEditSteps">
+					<span class="fas fa-info-circle"></span>
+					This cadence is currently assigned to <strong>{{cadence.num_customers}} customer<span ng-show="cadence.num_customers!=1">s</span></strong>. The steps cannot be edited while assigned to any customers.
+				</p>
+
+				<div class="steps">
+					<div class="step {{step.type}}" ng-repeat="(i, step) in cadence.steps" ng-class="{editing: step.editing}">
+						<div class="delete" ng-show="canEditSteps">
+							<a href="" class="btn btn-link" ng-click="deleteStep(i)" tooltip="Delete this step">
+								<span class="fas fa-times"></span>
+							</a>
+						</div>
+						<div class="num">
+							{{(i + 1)}}.
+						</div>
+						<div class="step-color {{step.type}}"></div>
+
+						<!-- Step Editor Disabled -->
+						<div class="view" ng-hide="step.editing" ng-click="editStep(step)">
+							<div class="icon {{step.action}}">
+								<a href="" tooltip="{{step.action|chasingAction}}">
+									<span ng-show="step.action=='email'"><span class="fad fa-envelope-open-text"></span></span>
+									<span ng-show="step.action=='escalate'"><span class="fad fa-pennant"></span></span>
+									<span ng-show="step.action=='phone'"><span class="fad fa-phone-volume"></span></span>
+									<span ng-show="step.action=='mail'"><span class="fad fa-mailbox"></span></span>
+									<span ng-show="step.action=='sms'"><span class="fad fa-sms"></span></span>
+								</a>
+							</div>
+
+							<div class="title">
+								{{step.name}}
+							</div>
+							<a href="" class="edit-btn">
+								<span class="fas fa-pencil"></span>
+							</a>
+							<div class="details">
+								{{stepDescription(step.type, step.value)}}
+							</div>
+						</div>
+
+						<!-- Step Editor -->
+						<div class="editor" ng-show="step.editing">
+							<!-- Name -->
+							<div class="form-group name">
+								<label class="control-label">Name <span class="required"></span></label>
+								<div>
+									<input type="text" class="form-control" ng-model="step.name" required />
+								</div>
+							</div>
+
+							<!-- When -->
+							<div class="form-group type" ng-show="canEditSteps">
+								<label class="control-label">When <span class="required"></span></label>
+								<div class="invoiced-select">
+									<select ng-model="step.type">
+										<option value="age">Account age</option>
+										<option value="past_due_age">Past due age</option>
+									</select>
+								</div>
+
+								<div class="when" ng-if="step.type=='age'">
+									Is:
+									<input type="number" class="form-control num-days" ng-model="step.value" required />
+									days old
+								</div>
+								<div class="when" ng-if="step.type=='past_due_age'">
+									Is:
+									<input type="number" class="form-control num-days" ng-model="step.value" required />
+									days past due
+								</div>
+							</div>
+							<div class="form-group type" ng-hide="canEditSteps">
+								<label class="control-label">When <span class="required"></span></label>
+								<div class="when" ng-if="step.type=='age'">
+									Is {{step.value}} days old
+								</div>
+								<div class="when" ng-if="step.type=='past_due_age'">
+									Is {{step.value}} days past due
+								</div>
+							</div>
+
+							<!-- Action -->
+							<div class="form-group action">
+								<label class="control-label">Action <span class="required"></span></label>
+								<div class="invoiced-select">
+									<select ng-model="step.action">
+										<option value="email">Send an email</option>
+										<option value="mail">Send a letter</option>
+										<option value="phone">Phone call</option>
+										<option value="sms">Send a text message</option>
+										<option value="escalate">Escalate</option>
+									</select>
+								</div>
+							</div>
+
+							<!-- Contact Role -->
+							<div class="form-group" ng-if="step.action == 'email'">
+								<label class="control-label">Role</label>
+								<div class="invoiced-select">
+									<select ng-model="step.role_id" ng-options="option.id as option.name for option in contactRoles">
+										<option value="">{{'general.none'|translate}}<option>
+									</select>
+								</div>
+							</div>
+
+							<!-- Email Options -->
+							<div class="form-group" ng-if="step.action == 'email'">
+								<email-template model="step.email_template_id" type="'chasing'" name="step.name"/>
+							</div>
+
+							<!-- SMS Options -->
+							<div class="form-group" ng-if="step.action == 'sms'">
+								<label class="control-label">SMS Template <span class="required"></span></label>
+								<div class="invoiced-select">
+									<select ng-options="template.id as template.name for template in smsTemplates" ng-model="step.sms_template_id" required></select>
+								</div>
+								<button type="button" class="btn btn-sm btn-link" ng-click="newSmsTemplate(step)">
+									<span class="fas fa-plus"></span>
+									New
+								</button>
+							</div>
+
+							<!-- Escalate / Phone Options -->
+							<div class="form-group" ng-if="step.action == 'escalate' || step.action == 'phone'">
+								<label class="control-label">Assigned User <span class="required"></span></label>
+								<div class="invoiced-select">
+									<select ng-options="user.id as user.name for user in users" ng-model="step.assigned_user_id" required></select>
+								</div>
+							</div>
+
+							<!-- Finished Button -->
+							<div class="done">
+								<a href="" class="btn btn-default" ng-click="doneEditingStep(step)" ng-disabled="!canFinishEditingStep(step)">
+									Done
+								</a>
+								<a href="" class="btn btn-default" ng-click="duplicateStep(step)" ng-show="canEditSteps">
+									Duplicate
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="empty" ng-show="cadence.steps.length === 0">
+					Add steps to have Invoiced automatically schedule follow ups with customers.
+				</div>
+
+				<div class="add-step" ng-show="canEditSteps">
+					<a href="" class="btn btn-primary" ng-click="addStep()">
+						<span class="fas fa-plus"></span> Step
+					</a>
+				</div>
+			</div>
+
+			<!-- Back/Next Button -->
+			<button type="button" class="btn btn-default" ng-click="tab='basic'">
+				&larr; Back
+			</button>
+			<button type="button" class="btn btn-default" ng-disabled="cadence.steps.length==0" ng-click="tab='assignment'">
+				Next &rarr;
+			</button>
+		</div>
+
+		<!-- Assignment Rules -->
+		<div ng-show="tab=='assignment'">
+			<div class="chase-assignment-rules-v2">
+				<div class="row">
+					<div class="col-sm-8">
+
+						<!-- Assignment Mode -->
+						<div class="form-group">
+							<div>
+								Assign cadence to new customers when:
+							</div>
+							<div class="invoiced-select input-large">
+								<select ng-model="cadence.assignment_mode">
+									<option value="default">Always</option>
+									<option value="none">Never</option>
+									<option value="conditions">Certain conditions are met</option>
+								</select>
+							</div>
+						</div>
+
+						<!-- Conditions -->
+						<div ng-if="cadence.assignment_mode == 'conditions'">
+							<div class="conditions-editor hidden">
+								Editor:
+								<div class="btn-group btn-radio">
+									<label class="btn" ng-model="$parent.conditionEditor" btn-radio="'basic'">Basic</label>
+									<label class="btn" ng-model="$parent.conditionEditor" btn-radio="'advanced'">Advanced</label>
+								</div>
+							</div>
+
+							<div class="assignment-conditions-basic" ng-show="conditionEditor == 'basic'">
+								<div class="conditions">
+									<div class="condition" ng-repeat-start="condition in assignmentConditions">
+										<div class="form-group">
+											<div class="invoiced-select input-medium">
+												<select ng-model="condition.property" ng-options="property.id as property.name for property in customerProperties"></select>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<div class="invoiced-select input-medium">
+												<select ng-model="condition.operator">
+													<option value="=">Equals</option><option value="!=">Does Not Equal</option>
+													<option value=">">Greater Than</option>
+													<option value="<">Less Than</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<input type="text" class="form-control input-large" ng-model="condition.value" />
+										</div>
+									</div>
+
+									<div class="condition-joiner" ng-repeat-end>&mdash; AND &mdash;</div>
+								</div>
+
+								<div class="add-condition">
+									<a href="" class="btn btn-default btn-lg" ng-click="addCondition()">
+										<span class="fas fa-plus"></span> Condition
+									</a>
+								</div>
+							</div>
+
+							<div class="assignment-conditions-advanced" ng-if="conditionEditor == 'advanced'">
+								<div class="form-group">
+									<label class="control-label">Formula</label>
+									<div class="textarea-2-lines">
+										<textarea class="form-control" ng-model="cadence.assignment_conditions" required expanding-textarea></textarea>
+									</div>
+									<div class="help-text">
+										<p>
+											<a href="https://developer.invoiced.com/api/#customer-object" target="_blank">
+												See all customer properties
+												<span class="fas fa-external-link"></span>
+											</a>
+										</p>
+										<p>
+											Example formulas:
+										</p>
+										<ul class="bulleted">
+											<li><code>customer.payment_terms == "NET 30"</code></li>
+											<li><code>customer.country in ["US", "CA"] and customer.metadata.entity_id == "100"</code></li>
+											<li><code>customer.language == "en"</code></li>
+											<li><code>customer.metadata.delivery_preference == "Email" or customer.metadata.delivery_preference == "Both"</code></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Save Button -->
+			<button type="button" class="btn btn-default" ng-click="tab='steps'">
+				&larr; Back
+			</button>
+			<button type="submit" class="btn btn-primary Button" ng-disabled="cadenceForm.$invalid||saving||cadence.steps.length==0" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+				<span translate>general.save</span>
+			</button>
+		</div>
+	</div>
+</form>

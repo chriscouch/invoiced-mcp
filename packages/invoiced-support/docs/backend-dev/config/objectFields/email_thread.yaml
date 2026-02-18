@@ -1,0 +1,39 @@
+fields:
+  assignee:
+    name: Assignee
+    type: join
+    join_object: member
+    parent_column: assignee_id
+    join_column: user_id
+  close_date: { name: "Close Date", type: date }
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  customer: { name: Customer, type: join }
+  id:
+    name: ID
+    type: string
+    writable: false
+  name: { name: Name, type: string }
+  related_to_id: { name: "Related To ID", type: string }
+  related_to_type: { name: "Related To Type", type: string }
+  status:
+    name: Status
+    type: enum
+    values:
+      open: Open
+      pending: Pending
+      closed: Closed
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false

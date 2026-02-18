@@ -1,0 +1,111 @@
+{% trans_default_domain 'customer_portal' %}
+<div id="payment-methods-panel" class="card card-account payment-methods">
+    <div class="card-header">
+        <h4 class="card-title">
+            <span>{{ 'payment_methods'|trans({'%count%': paymentSources|length}) }}</span>
+        </h4>
+    </div>
+    <div class="card-body">
+        <div class="section payment-source">
+            {% if paymentSourceConnected %}
+                <p class="alert bg-success-soft text-dark border border-success">
+                    {{ 'messages.payment_method_updated'|trans }}
+                </p>
+            {% endif %}
+            {% if autoPayEnabled or canEnrollInAutoPay %}
+                <div class="subsection autopaly">
+                    <div class="value">
+                        {{ 'autopay'|trans }}:
+                        {% if autoPayEnabled %}
+                            <span class="text-success">{{ 'labels.enabled'|trans }}</span>
+                        {% else %}
+                            {{ 'labels.off'|trans }}
+                        {% endif %}
+                        <a href="#" class="ms-2" data-bs-toggle="tooltip" data-bs-title="{{ 'messages.autopay_explanation'|trans }}">
+                            <span class="fas fa-info-circle"></span>
+                        </a>
+                    </div>
+                    {% if autoPayEnabled and autoPayDelay > 0 %}
+                        <div class="value">
+                            {{ 'labels.payment_date'|trans }}:
+                            +{{ autoPayDelay }} {{ 'labels.days'|trans({'%count%': autoPayDelay}) }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+            {% for paymentSource in paymentSources %}
+                <div class="subsection">
+                    {% if paymentSources|length > 1 %}
+                        <a href="#collapse-source-{{ paymentSource.id }}" class="source-description" data-bs-toggle="collapse" data-bs-config='{"delay":0}'>
+                            <div class="icon">
+                                <img src="{{ asset(paymentSource.icon) }}" />
+                            </div>
+                            {{ paymentSource.description }}
+                            {% if paymentSource.needsVerification %}
+                                <span class="badge bg-warning ms-2">{{ 'unverified'|trans }}</span>
+                            {% endif %}
+                            {% if paymentSources|length > 1 and paymentSource.default %}
+                                <span class="badge bg-light text-dark ms-2">{{ 'default'|trans }}</span>
+                            {% endif %}
+                            {% if paymentSources|length > 1 %}
+                                <div class="arrow">
+                                    <span class="down"><span class="fas fa-chevron-down"></span></span>
+                                    <span class="up"><span class="fas fa-chevron-up"></span></span>
+                                </div>
+                            {% endif %}
+                        </a>
+                        <div class="payment-source-controls collapse" id="collapse-source-{{ paymentSource.id }}">
+                            {% if paymentSource.needsVerification %}
+                                <a href="{{ path('customer_portal_verify_bank_account_form', {subdomain: subdomain, id: clientId, bankAccountId: paymentSource.id}) }}" class="btn btn-success btn-sm">
+                                    {{ 'buttons.verify_account'|trans }}
+                                </a>
+                            {% elseif not paymentSource.default %}
+                                <a href="#" data-url="{{ path('customer_portal_set_default_payment_method', {subdomain: subdomain, id: clientId, type: paymentSource.object~'s', sourceId: paymentSource.id}) }}" class="payment-source-make-default btn btn-default btn-sm">
+                                    {{ 'buttons.make_default'|trans }}
+                                </a>
+                            {% endif %}
+                            <a href="#" data-url="{{ path('customer_portal_delete_payment_method', {subdomain: subdomain, id: clientId, type: paymentSource.object~'s', sourceId: paymentSource.id}) }}" class="payment-source-remove btn btn-danger btn-sm" data-confirm-msg="{{ 'messages.are_you_sure'|trans }}">
+                                {{ 'buttons.remove'|trans }}
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="source-description">
+                            <div class="icon">
+                                <img src="{{ asset(paymentSource.icon) }}" />
+                            </div>
+                            {{ paymentSource.description }}
+                            {% if paymentSource.needsVerification %}
+                                <span class="badge bg-warning ms-2">{{ 'unverified'|trans }}</span>
+                                <br/><br/>
+                                <a href="{{ path('customer_portal_verify_bank_account_form', {subdomain: subdomain, id: clientId, bankAccountId: paymentSource.id}) }}" class="btn btn-success btn-sm">
+                                    {{ 'buttons.verify_account'|trans }}
+                                </a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            {% if canEnrollInAutoPay and not autoPayEnabled %}
+                <div class="subsection add-payment-method">
+                    <a href="{{ path('customer_portal_update_payment_info_form', {subdomain: subdomain, id: clientId, autopay: '1', make_default: '1'}) }}" class="btn btn-primary">
+                        {{ 'labels.enroll_in_autopay'|trans }}
+                    </a>
+                    <a href="{{ path('customer_portal_update_payment_info_form', {subdomain: subdomain, id: clientId, make_default: '0'}) }}" class="btn btn-default">
+                        {{ 'buttons.add_payment_method'|trans }}
+                    </a>
+                </div>
+            {% else %}
+                {% if paymentSources|length == 0 %}
+                    <div class="subsection text-secondary fst-italic">{{ 'no_payment_method'|trans }}</div>
+                {% endif %}
+                <div class="subsection add-payment-method">
+                    <a href="{{ path('customer_portal_update_payment_info_form', {subdomain: subdomain, id: clientId, make_default: '0'}) }}" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-lock"></span>
+                        {{ 'buttons.add_payment_method'|trans }}
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="{{ asset('/js/views/payment_method_card.js') }}"></script>

@@ -1,0 +1,103 @@
+<form name="applyPaymentForm" ng-submit="save(payment, appliedTo, false)" class="apply-payment-form nomargin">
+    <div class="panel-body" ng-show="!loadingMatches">
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+        <div class="loading" ng-show="loading"></div>
+
+        <div class="apply-payment-to-invoices-2">
+            <div class="payment-application-title">
+                <label class="control-label">Payment Application</label>
+            </div>
+
+            <table class="table table-striped search-results-table">
+                <thead>
+                    <tr class="header">
+                        <th>{{'transactions.labels.document'|translate}}</th>
+                        <th class="invoice-balance">{{'payments.apply.balance'|translate}}</th>
+                        <th class="amount">Amount Applied</th>
+                        <th class="amount">New Amount</th>
+                        <th class="noborder"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Line Item -->
+                    <tr class="line" ng-repeat-start="($index, line) in appliedTo" ng-if="line.type === 'invoice' || line.type === 'estimate'">
+                        <td>
+                            <document-name document="line['_' + line.type]"></document-name>
+                        </td>
+                        <td class="invoice-balance" ng-class="{'text-danger':line.over}">
+                            <span ng-if="line.type === 'invoice'"><money amount="line['_' + line.type].balance" currency="line['_' + line.type].currency"></money></span>
+                        </td>
+                        <td class="static-amount">
+                            <money amount="line.originalAmount" currency="payment.currency"></money>
+                        </td>
+                        <td class="amount" ng-class="{'has-error':line.invalid}">
+                            <div ng-required="true" ng-model="line.amount" currency="payment.currency" is-rate="false" input-amount></div>
+                        </td>
+                        <td class="delete noborder mobile-last" ng-click="deleteLine($index)">
+                            <button type="button" class="btn btn-sm btn-danger" tooltip="{{'general.delete'|translate}}" ng-if="('payments.delete'|hasPermission)&&!payment.voided">
+                                <span class="fas fa-trash"></span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr class="line" ng-repeat-end ng-if="line.type === 'convenience_fee'">
+                        <td class="invoice-number noselect">{{'transactions.transaction_types.convenience_fee'|translate}}</td>
+                        <td class="invoice-balance"></td>
+                        <td class="static-amount"><money amount="line.originalAmount" currency="payment.currency"></money></td>
+                        <td class="amount">
+                            <div ng-required="true" ng-model="line.amount" currency="payment.currency" is-rate="false" input-amount></div>
+                        </td>
+                        <td class="delete noborder" ng-click="deleteLine($index)">
+                            <button type="button" class="btn btn-sm btn-danger" tooltip="{{'payments.tooltips.void'|translate}}" ng-if="('payments.delete'|hasPermission)&&!payment.voided">
+                                <span class="fas fa-trash"></span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr class="line" ng-repeat-end ng-if="line.type === 'credit'">
+                        <td class="invoice-number noselect">{{'transactions.transaction_types.credit'|translate}}</td>
+                        <td class="invoice-balance"></td>
+                        <td class="static-amount"><money amount="line.originalAmount" currency="payment.currency"></money></td>
+                        <td class="amount">
+                            <div ng-required="true" ng-model="line.amount" currency="payment.currency" is-rate="false" input-amount></div>
+                        </td>
+                        <td class="delete noborder mobile-last" ng-click="deleteLine($index)">
+                            <button type="button" class="btn btn-sm btn-danger" tooltip="{{'payments.tooltips.void'|translate}}" ng-if="('payments.delete'|hasPermission)&&!payment.voided">
+                                <span class="fas fa-trash"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <!-- Total Applied -->
+                    <tr class="subtotal-line">
+                        <td colspan="3" class="subtotal-title">
+                            {{'payments.apply.total_applied'|translate}}
+                        </td>
+                        <td class="amount">
+                            <money amount="total" currency="payment.currency"></money>
+                        </td>
+                        <td></td>
+                    </tr>
+
+                    <!-- Remaining Amount -->
+                    <tr class="subtotal-line">
+                        <td colspan="3" class="subtotal-title noborder">
+                            {{'payments.apply.remaining_balance'|translate}}
+                        </td>
+                        <td class="amount noborder" ng-class="{'has-balance': remaining!=0}">
+                            <money amount="remaining" currency="payment.currency"></money>
+                        </td>
+                        <td class="noborder"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <button type="submit" class="btn btn-primary Button" ng-disabled="paymentForm.$invalid||invalidAmount||loading||saving||remaining < 0" v-busy="saving" v-busy-label="{{'payments.apply.buttons.apply'|translate}}" v-busy-text="{{'payments.apply.buttons.apply'|translate}}" v-pressable>
+            <span translate>payments.apply.buttons.apply</span>
+        </button>
+    </div>
+</form>
+

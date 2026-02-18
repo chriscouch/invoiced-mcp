@@ -1,0 +1,71 @@
+# This tests the date rolling logic for a **yearly** subscription
+# created on a leap day (Feb 29th, 2024). It ensures the system
+# handles the renewal correctly in non-leap years (2025-2027)
+# by renewing on Feb 28th
+
+data:
+  - object: plan
+    id: yearly_leap
+    interval: year
+    interval_count: 1
+
+operations:
+  - operation: create
+    name: Create Subscription on Feb 29th (Leap Year)
+    time: 2024-02-29
+    parameters:
+      start_date: 2024-02-29
+      plan: yearly_leap
+
+    assertions:
+      # Initial period is 2024-02-29 to 2025-02-28.
+      subscription:
+        renews_next: 2025-02-28
+        period_start: 2024-02-29
+        period_end: 2025-02-27T23:59:59Z
+      invoice:
+        date: 2024-02-29
+
+  - operation: bill
+    name: First Bill on Feb 28th (Non-Leap Year)
+    time: 2025-02-28
+    assertions:
+      subscription:
+        renews_next: 2026-02-28
+        period_start: 2025-02-28
+        period_end: 2026-02-27T23:59:59Z
+      invoice:
+        date: 2025-02-28
+
+  - operation: bill
+    name: Second Bill on Feb 28th (Non-Leap Year)
+    time: 2026-02-28
+    assertions:
+      subscription:
+        renews_next: 2027-02-28
+        period_start: 2026-02-28
+        period_end: 2027-02-27T23:59:59Z
+      invoice:
+        date: 2026-02-28
+
+  - operation: bill
+    name: Third Bill on Feb 28th (Entering Leap Year)
+    time: 2027-02-28
+    assertions:
+      subscription:
+        renews_next: 2028-02-29
+        period_start: 2027-02-28
+        period_end: 2028-02-28T23:59:59Z
+      invoice:
+        date: 2027-02-28
+
+  - operation: bill
+    name: Forth Bill on Feb 29th (Leaving Leap Year)
+    time: 2028-02-29
+    assertions:
+      subscription:
+        renews_next: 2029-02-28
+        period_start: 2028-02-29
+        period_end: 2029-02-27T23:59:59Z
+      invoice:
+        date: 2028-02-29

@@ -1,0 +1,22 @@
+<restlet scriptid="customscript_invd_refund_restlet">
+  <description>Syncs refunds from Invoiced to NetSuite.</description>
+  <isinactive>F</isinactive>
+  <name>Invoiced - Refunds from Invoiced</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <notifyuser>F</notifyuser>
+  <scriptfile>[/SuiteBundles/Bundle 265184/src/RefundsScriptlet.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_invd_refund_restlet">
+      <allemployees>F</allemployees>
+      <allpartners>F</allpartners>
+      <allroles>T</allroles>
+      <audslctrole></audslctrole>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>TESTING</status>
+      <title>Refund Restlet</title>
+    </scriptdeployment>
+  </scriptdeployments>
+</restlet>

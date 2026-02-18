@@ -1,0 +1,43 @@
+mapping:
+  - sourceField: Id
+    destinationField: accounting_id
+
+  - sourceField: DocNumber
+    destinationField: number
+
+  - sourceField: CustomerRef/value
+    destinationField: customer/accounting_id
+
+  - sourceField: CustomerRef/name
+    destinationField: customer/name
+
+  - sourceField: BillEmail/Address
+    destinationField: customer/emails
+    type: email_list
+
+  - sourceField: TxnDate
+    destinationField: date
+    type: date_unix
+    timeOfDay: 6
+
+  - sourceField: SalesTermRef/value
+    destinationField: payment_terms
+
+  - sourceField: CurrencyRef/value
+    destinationField: currency
+    type: currency
+
+  - sourceField: TxnTaxDetail/TotalTax
+    destinationField: tax
+    type: float
+    nullBehavior: set
+
+  - sourceField: CustomerMemo/value
+    destinationField: notes
+
+  - sourceField: DepartmentRef/name
+    destinationField: metadata/quickbooks_location
+
+  - sourceField: pdf
+    destinationField: pdf
+    documentContext: false

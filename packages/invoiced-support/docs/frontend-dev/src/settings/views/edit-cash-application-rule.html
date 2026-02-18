@@ -1,0 +1,76 @@
+<form name="cashApplicationRuleForm" ng-submit="save(rule, customer)" class="below0">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title">
+            <span ng-show="isExisting">{{'general.edit'|translate}} </span>
+            <span ng-hide="isExisting">{{'general.new'|translate}} </span>
+            {{'settings.cash_application.modals.matching_rule'|translate}}</h4>
+    </div>
+    <div class="modal-body form-horizontal">
+        <p class="required-indicator">
+            <span class="required"></span> {{'general.indicates_required_field'|translate}}
+        </p>
+
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <div class="form-group">
+            <div class="form-control-static col-sm-10">
+                <div class="form-control-static">
+                    <div>{{'settings.cash_application.labels.when_conditions'|translate}}</div>
+                    <div class="textarea-2-lines">
+                        <textarea class="form-control" ng-model="rule.formula" required expanding-textarea></textarea>
+                    </div>
+                    <div class="help-text">
+                        <br/>
+                        <p>
+                            <a href="https://docs.invoiced.com/accounts-receivable/cash-application/rules" target="_blank">
+                                {{'general.documentation'|translate}}
+                                <span class="fas fa-external-link"></span>
+                            </a>
+                        </p>
+                        <p>
+                            {{'settings.cash_application.labels.example_formulas'|translate}}:
+                        </p>
+                        <ul class="bulleted">
+                            <li><code>transaction.description contains "ORIG CO NAME: PAYROLL"</code></li>
+                            <li><code>transaction.payment_ppd_id == "1234"</code></li>
+                            <li><code>transaction.payment_reference_number == "1234" or transaction.payment_method == "Check"</code></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-control-static">
+                    <div>{{'settings.cash_application.labels.then_list'|translate}}</div>
+                    <div class="invoiced-select">
+                        <select ng-model="ignorePayment">
+                            <option value="ignore">{{'settings.cash_application.rules_options.ignore'|translate}}</option>
+                            <option value="set">{{'settings.cash_application.rules_options.set_value'|translate}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div ng-show="ignorePayment == 'set'">
+                    <!-- Assignment Mode -->
+                    <div>{{'settings.cash_application.labels.assign_to_customer'|translate}}</div>
+                    <div class="input-large">
+                        <select-customer ng-model="customer"></select-customer>
+                    </div>
+
+                    <div class="form-control-static">
+                        <div>{{'settings.cash_application.labels.assign_to_method'|translate}}</div>
+                        <div class="input-large">
+                            <payment-method-selector ng-model="rule.method"></payment-method-selector>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary Button" ng-disabled="cashApplicationRuleForm.$invalid||!rule.formula||(ignorePayment=='set'&&!(customer||rule.method))||saving" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+            <span translate>general.save</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,10 @@
+<ol class="breadcrumb" ng-show="breadcrumbs.length > 0">
+	<li ng-repeat="breadcrumb in breadcrumbs" ng-class="{active:!breadcrumb.state}">
+		<span ng-if="!breadcrumb.state">
+			{{breadcrumb.title}}
+		</span>
+		<a href="" ng-click="go(breadcrumb.state, breadcrumb.stateParams)" ng-if="breadcrumb.state">
+			{{breadcrumb.title}}
+		</a>
+	</li>
+</ol>

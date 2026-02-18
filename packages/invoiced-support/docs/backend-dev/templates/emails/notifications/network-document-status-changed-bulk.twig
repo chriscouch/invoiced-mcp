@@ -1,0 +1,5 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}Document status has been updated{% endblock %}
+{% block notification %}
+    <p>There have been status updates on <a href="{{ dashboardUrl}}/network/outbox?account={{ tenant_id  }}">{{ count }} documents</a>.</p>
+{% endblock %}

@@ -1,0 +1,6 @@
+<div class="coupons">
+	<div class="coupon" ng-repeat="coupon in coupons">
+		{{coupon|appliedRateName:'coupon'}}:
+		<span ng-bind-html="value(coupon)"></span>
+	</div>
+</div>

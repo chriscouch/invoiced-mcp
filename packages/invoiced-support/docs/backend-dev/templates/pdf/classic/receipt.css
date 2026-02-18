@@ -1,0 +1,158 @@
+body {
+    text-align: center;
+    color: #232e38;
+}
+
+.two-col {
+    clear: both;
+    margin: 0 0 10px;
+    width: 100%;
+}
+
+.two-col .col {
+    float: left;
+    width: 50%;
+    padding: 0 15px;
+}
+
+.two-col .col-offset {
+    margin-left: 50%;
+}
+
+.field {
+    color: #879099;
+    text-align: right;
+    height: 26px;
+    line-height: 26px;
+}
+
+.field:not(:empty):after {
+    content: ':';
+}
+
+.logo {
+    text-align: left;
+    padding: 0 0 0 15px;
+}
+
+.logo img {
+    border-radius: 4px;
+    max-width: 200px;
+    max-height: 150px;
+}
+
+.contact {
+    padding: 0 0 0 30px;
+    min-height: 50px;
+}
+
+.contact .field {
+    text-align: left;
+}
+
+.contact .value {
+    text-align: left;
+    padding-top: 0;
+}
+
+.contact .value .name,
+.contact .value strong {
+    font-weight: bold;
+}
+
+.contact.from {
+    margin: 15px 0 0;
+}
+
+.contact.from .field {
+    display: none;
+}
+
+.contact.to {
+    margin: 30px 0 0;
+}
+
+.title {
+    margin: 0 0 45px;
+    padding: 15px 30px 0 15px;
+    font-size: 2.75em;
+    font-weight: 200;
+    color: #232e38;
+    text-align: right;
+    float: right;
+}
+
+table.block {
+    width: 100%;
+    padding: 0;
+    border-spacing: 0;
+    border-collapse: collapse;
+    height: 150px;
+    margin: 0 0 10px;
+}
+
+table.block td {
+    width: 50%;
+    height: 150px;
+    vertical-align: top;
+    padding: 0;
+}
+
+table.block td:first-child {
+    text-align: left;
+}
+
+table.block td:last-child {
+    text-align: right;
+}
+
+#details {
+    margin: 60px 45px 0;
+    text-align: left;
+    font-size: 1.2em;
+    line-height: 1.5em;
+    width: 100%;
+}
+
+#details tr td:first-child {
+    width: 160px;
+    color: #879099;
+}
+
+#details tr td:first-child:after {
+    content: ':';
+}
+
+#footer {
+    margin: 75px 0 0;
+    width: 100%;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #879099;
+}
+
+/*
+ -----
+ Money Amounts
+ -----
+*/
+
+.negative-sign {
+    margin-right: 2px;
+}
+
+.currency-amount {
+    line-height: 1;
+}
+
+.currency-symbol {
+    font-size: 0.95em;
+    margin-right: 2px;
+}
+
+.currency-decimal,
+.currency-fraction {
+    font-size: 0.9em;
+    font-weight: normal;
+}

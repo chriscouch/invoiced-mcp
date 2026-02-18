@@ -1,0 +1,49 @@
+# This tests the date rolling logic for a monthly subscription
+# starting on the 31st of a month, specifically January 31st
+# in a non-leap year (2023) to ensure it renews on February 28th,
+# not March 3rd or March 31st.
+
+data:
+  # Define a simple monthly plan
+  - object: plan
+    id: monthly_1
+    interval: month
+    interval_count: 1
+
+operations:
+  - operation: create
+    name: Create Subscription on Jan 31st
+    time: 2023-01-31
+    parameters:
+      start_date: 2023-01-29
+      plan: monthly_1
+
+    assertions:
+      subscription:
+        renews_next: 2023-02-28
+        period_start: 2023-01-29
+        period_end: 2023-02-27T23:59:59Z
+      invoice:
+        date: 2023-01-29
+
+  - operation: bill
+    name: First Bill on Feb 28th
+    time: 2023-03-31
+    assertions:
+      subscription:
+        renews_next: 2023-03-31
+        period_start: 2023-02-28
+        period_end: 2023-03-30T23:59:59Z
+      invoice:
+        date: 2023-02-28
+
+  - operation: bill
+    name: Second Bill on March 31th
+    time: 2023-03-31
+    assertions:
+      subscription:
+        renews_next: 2023-04-30
+        period_start: 2023-03-31
+        period_end: 2023-04-29T23:59:59Z
+      invoice:
+        date: 2023-03-31

@@ -1,0 +1,152 @@
+<div class="loading inline" ng-show="loading"></div>
+<div ng-show="!loading">
+	<p class="alert alert-danger" ng-show="error">
+		{{error.message}}
+	</p>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">{{'accounting_sync.connection'|translate}}</h3>
+		</div>
+		<div class="panel-body">
+			<p ng-show="integration.name">
+				{{'netsuite.account_id'|translate}}: <strong>{{integration.name}}</strong>
+			</p>
+			<p>
+				<a href="" ng-click="connect()" class="btn btn-default btn-sm">
+					{{'accounting_sync.modify_credentials'|translate}}
+				</a>
+			</p>
+		</div>
+	</div>
+
+
+	<form class="form-horizontal" name="settingsForm" ng-submit="save()">
+		<div class="form-group">
+			<div class="col-sm-12">
+				<h4 class="settings-section-title">{{'netsuite.data_flow'|translate}}</h4>
+			</div>
+		</div>
+		<table class="table search-results-table">
+			<thead>
+			<tr>
+				<th></th>
+				<th class="text-center">{{'netsuite.write_to_netsuite'|translate}}</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>{{'netsuite.customers'|translate}}</td>
+				<td class="text-center">
+					<toggle ng-model="syncProfile.write_customers"></toggle>
+				</td>
+			</tr>
+			<tr>
+				<td>{{'netsuite.invoices'|translate}}</td>
+				<td class="text-center">
+					<toggle ng-model="syncProfile.write_invoices"></toggle>
+				</td>
+			</tr>
+			<tr>
+				<td>{{'netsuite.credit_notes'|translate}}</td>
+				<td class="text-center">
+					<toggle ng-model="syncProfile.write_credit_notes"></toggle>
+				</td>
+			</tr>
+			</tbody>
+			<tfoot>
+			<tr>
+				<td colspan="2"></td>
+			</tr>
+			</tfoot>
+		</table>
+
+
+		<section ng-show="syncProfile.write_invoices || syncProfile.write_credit_notes">
+			<div class="form-group">
+				<div class="col-sm-4 col-sm-offset-4">
+					<h4 class="settings-section-title">{{'netsuite.sync_settings'|translate}}</h4>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					{{'accounting_sync.date_range'|translate}}
+				</label>
+				<div class="col-sm-8 form-control-static">
+					<label class="noselect">
+						<input type="checkbox" ng-model="syncAllInvoices" />
+						{{'accounting_sync.all_invoices'|translate}}
+					</label>
+					<div ng-if="!syncAllInvoices">
+						<div>{{'accounting_sync.only_invoices_on_after'|translate}}</div>
+						<div class="input-group input-medium">
+							<input type="text" class="form-control" ng-model="syncProfile.invoice_start_date" ui-date="dateOptions" is-open="dpOpened" readonly="readonly" required />
+							<span class="input-group-btn">
+								<button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'dpOpened')">
+									<span class="fas fa-calendar-alt"></span>
+								</button>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-8 col-sm-offset-4">
+				<h4 class="settings-section-title">{{'netsuite.account_mappings'|translate}}</h4>
+			</div>
+
+			<div class="form-group" ng-if="syncProfile.write_invoices || syncProfile.write_credit_notes">
+				<label class="control-label col-sm-4">
+					{{'netsuite.fallback_item_id'|translate}}
+					<span class="required"></span></label>
+				<div class="col-sm-4">
+					<input class="form-control" ng-model="syncProfile.parameters.fallback_item_id" required>
+				</div>
+				<div class="col-sm-4 form-control-static">
+					{{'netsuite.fallback_item_text'|translate}}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					{{'netsuite.default_discount_item'|translate}}
+				</label>
+				<div class="col-sm-4">
+					<input class="form-control" ng-model="syncProfile.parameters.discountitem">
+				</div>
+				<div class="col-sm-4 form-control-static">
+					{{'netsuite.discount_item_text'|translate}}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">{{'netsuite.default_tax_line_item'|translate}}</label>
+				<div class="col-sm-4">
+					<input class="form-control" ng-model="syncProfile.parameters.taxlineitem">
+				</div>
+				<div class="col-sm-4 form-control-static">
+					{{'netsuite.tax_line_item_text'|translate}}
+				</div>
+			</div>
+
+			<div class="form-group" ng-if="syncProfile.write_credit_notes">
+				<label class="control-label col-sm-4">{{'netsuite.default_location'|translate}}
+					<span class="required"></span></label>
+				<div class="col-sm-4">
+					<input class="form-control" ng-model="syncProfile.parameters.location" required>
+				</div>
+				<div class="col-sm-4 form-control-static">
+					{{'netsuite.location_text'|translate}}
+				</div>
+			</div>
+		</section>
+
+		<div class="form-group form-actions">
+			<div class="col-sm-offset-4 col-sm-8">
+				<button type="submit" class="btn btn-primary Button" ng-disabled="saving||settingsForm.$invalid" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+					<span translate>general.save</span>
+				</button>
+			</div>
+		</div>
+	</form>
+</div>

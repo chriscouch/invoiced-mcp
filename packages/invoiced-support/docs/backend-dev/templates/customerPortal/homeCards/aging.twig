@@ -1,0 +1,50 @@
+{% trans_default_domain 'customer_portal' %}
+{% if hasBalance %}
+    <div id="aging-panel" class="card card-account aging">
+        <div class="card-header">
+            <h4 class="card-title">
+                <span>{{ 'labels.aging'|trans }}</span>
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="aging-breakdown">
+                <div class="bar">
+                    {% for entry in aging %}
+                        {% if entry.width > 0 %}
+                            <a href="#" data-bs-toggle="tooltip" data-bs-title="{{ entry.name }}" class="bg age-severity-{{ entry.severity }}" style="width:{{ entry.width }}%"></a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="age">{{ 'labels.aging'|trans }}</th>
+                    <th class="count">{{ 'labels.num_invoices'|trans }}</th>
+                    <th class="balance">{{ 'labels.total'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for entry in aging %}
+                <tr>
+                    <td class="age">
+                        <span class="aging-color age-severity-{{entry.severity}}"></span>
+                        {{ entry.name }}
+                    </td>
+                    <td class="count">{{ entry.count }}</td>
+                    <td class="balance">{{ entry.amount|money(currency) }}</td>
+                </tr>
+            {% endfor %}
+                <tr class="total">
+                    <td class="age">
+                        {{ 'labels.total'|trans }}
+                    </td>
+                    <td class="count">{{ totalCount }}</td>
+                    <td class="balance">{{ totalAmount|money(currency) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endif %}

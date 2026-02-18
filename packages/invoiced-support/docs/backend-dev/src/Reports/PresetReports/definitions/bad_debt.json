@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "title": "Bad Debt",
+  "sections": [
+    {
+      "title": "",
+      "object": "invoice",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "number"
+          }
+        },
+        {
+          "field": {
+            "id": "date"
+          }
+        },
+        {
+          "name": "Write Off Date",
+          "field": {
+            "id": "date_bad_debt"
+          }
+        },
+        {
+          "name": "Write Off Amount",
+          "field": {
+            "id": "amount_written_off"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "operator": "between",
+          "value": "$dateRange",
+          "field": {
+            "id": "date_bad_debt"
+          }
+        },
+        {
+          "operator": "=",
+          "value": "$currency",
+          "field": {
+            "id": "currency"
+          }
+        },
+        {
+          "operator": "=",
+          "value": true,
+          "field": {
+            "id": "closed"
+          }
+        },
+        {
+          "operator": "=",
+          "value": false,
+          "field": {
+            "id": "paid"
+          }
+        },
+        {
+          "operator": "=",
+          "value": false,
+          "field": {
+            "id": "voided"
+          }
+        }
+      ],
+      "group": [
+        {
+          "name": "Customer",
+          "expanded": true,
+          "field": {
+            "id": "customer.name"
+          },
+          "ascending": true
+        }
+      ],
+      "sort": []
+    }
+  ]
+}

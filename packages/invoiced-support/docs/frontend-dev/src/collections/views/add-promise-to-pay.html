@@ -1,0 +1,115 @@
+<form name="modelForm" ng-submit="save(expectedPaymentDate, selectedInvoices)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			Add Promise-to-Pay
+		</h4>
+	</div>
+	<div class="modal-body add-promise-to-pay">
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label class="control-label">Customer</label>
+					<div>
+						{{customer.name}}
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label class="control-label">Expected Date <span class="required"></span></label>
+					<div>
+						<div class="input-group input-medium">
+							<input type="text" class="form-control" ng-model="expectedPaymentDate.date" ui-date="dateOptions" is-open="dpOpened" readonly="readonly" required />
+							<span class="input-group-btn">
+						<button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'dpOpened')">
+							<span class="fas fa-calendar-alt"></span>
+						</button>
+					</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label class="control-label">Payment Method <span class="required"></span></label>
+					<div>
+						<payment-method-selector ng-model="expectedPaymentDate.method" disabled-methods="['balance']"></payment-method-selector>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label class="control-label">{{'payments.labels.reference'|translate}}</label>
+					<div>
+						<input type="text" class="form-control" ng-model="expectedPaymentDate.reference" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Invoices -->
+		<hr/>
+		<div class="form-group">
+			<h4 class="settings-section-title">Invoices</h4>
+		</div>
+
+		<div class="form-group">
+			<div class="check-all-invoices" ng-show="openInvoices.length > 0">
+				<a href="" class="btn btn-default" ng-click="checkAll()" ng-show="noSelectedInvoices()">
+					Select all
+				</a>
+				<a href="" class="btn btn-default" ng-click="uncheckAll()" ng-show="atLeastOneSelectedInvoice()">
+					Deselect all
+				</a>
+			</div>
+			<div class="loading inline" ng-show="loading"></div>
+			<table class="table search-results-table" ng-hide="loading">
+				<thead>
+					<tr>
+						<th class="noborder"></th>
+						<th>Invoice #</th>
+						<th>Date</th>
+						<th>Due Date</th>
+						<th>Total</th>
+						<th>Balance</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-if="openInvoices.length == 0">
+						<td colspan="6">
+							This customer does not have any open invoices.
+						</td>
+					</tr>
+					<tr class="invoice-split" ng-repeat="invoice in openInvoices">
+						<td class="noborder">
+							<input type="checkbox" ng-model="selectedInvoices[invoice.id]" />
+						</td>
+						<td>
+							<document-name document="invoice"></document-name>
+						</td>
+						<td><company-date date="invoice.date"></company-date></td>
+						<td>
+							<span ng-show="invoice.due_date"><company-date date="invoice.due_date"></company-date></span>
+						</td>
+						<td>
+							<money amount="invoice.total" currency="invoice.currency"></money>
+						</td>
+						<td>
+							<money amount="invoice.balance" currency="invoice.currency"></money>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="modelForm.$invalid||saving||noSelectedInvoices()" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

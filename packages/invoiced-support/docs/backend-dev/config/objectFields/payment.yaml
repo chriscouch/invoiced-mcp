@@ -1,0 +1,81 @@
+fields:
+  ach_sender_id:
+    name: "ACH Sender ID"
+    type: string
+    filterable: false
+  amount: { name: Amount, type: money, summarize: true }
+  applied:
+    name: Applied
+    type: boolean
+    writable: false
+  balance:
+    name: Balance
+    type: money
+    summarize: true
+    writable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency: { name: Currency, type: string }
+  date: { name: Date, type: date }
+  date_voided:
+    name: "Date Voided"
+    type: date
+    writable: false
+  id:
+    name: ID
+    type: string
+    writable: false
+  matched:
+    name: Matched
+    type: boolean
+    writable: false
+  method:
+    name: Method
+    type: enum
+    values:
+      ach: ACH
+      balance: Balance
+      bank_transfer: Bank Transfer
+      cash: Cash
+      check: Check
+      credit_card: Credit Card
+      direct_debit: Direct Debit
+      online: Online
+      other: Other
+      paypal: PayPal
+      wire_transfer: Wire Transfer
+  notes:
+    name: Notes
+    type: string
+    filterable: false
+  reference: { name: Reference, type: string }
+  source:
+    name: Source
+    type: string
+    writable: false
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  voided:
+    name: Voided
+    type: boolean
+    writable: false
+  charge:
+    name: Charge
+    type: join
+    parent_column: id
+    join_column: payment_id
+    writable: false
+    filterable: false
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  customer: { name: Customer, type: join, parent_column: customer }

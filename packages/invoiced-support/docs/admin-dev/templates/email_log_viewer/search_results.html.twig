@@ -1,0 +1,71 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Email Logs <small>Search Results</small>{% endblock %}
+
+{% block body_class 'ea-index' %}
+
+{% block page_actions %}
+    {{ parent() }}
+    {% if block %}
+        <a class="btn btn-danger" href="{{ ea_url().setRoute('remove_from_email_suppression_list', {email: filter.email}) }}">
+            Remove from Block List
+        </a>
+    {% endif %}
+    <a class="btn" href="{{ ea_url().setRoute('email_log_viewer') }}">
+        New Search
+    </a>
+{% endblock %}
+
+{% block main %}
+    <div class="mb-3">
+        <span class="fas fa-filter text-secondary"></span>
+        {{ filter.toString }}
+        <span class="ms-3">Block List Status:</span>
+        {% if block %}
+            <span class="badge bg-danger text-light">Blocked</span>
+            <span class="ms-3">Reason: <strong>{{ block.reasonName }}</strong></span>
+        {% else %}
+            <span class="badge bg-success text-light">Not Blocked</span>
+        {% endif %}
+    </div>
+
+    {% if error is defined %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% else %}
+        <table class="table datagrid">
+            <thead>
+            <tr>
+                <th><span>Timestamp</span></th>
+                <th><span>Status</span></th>
+                <th><span>From</span></th>
+                <th><span>To</span></th>
+                <th><span>Subject</span></th>
+                <th><span>Message ID</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for row in activity %}
+                <tr>
+                    <td class="text-nowrap">{{ row.timestamp|date('n/j/Y g:i:s a') }}</td>
+                    <td class="text-nowrap">{{ row.type }}</td>
+                    <td>{{ row.from }}</td>
+                    <td>{{ row.to }}</td>
+                    <td>{{ row.subject }}</td>
+                    <td>{{ row.messageId }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6" class="no-results">
+                        No results found.
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6"></td>
+                </tr>
+            </tfoot>
+        </table>
+    {% endif %}
+{% endblock %}

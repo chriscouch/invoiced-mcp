@@ -1,0 +1,9 @@
+{% extends "emails/client/parent.twig" %}
+
+{% block body %}
+    <p>{{ companyName }} has sent you a new message for {{ documentNumber }}:</p>
+
+    <p>{{ commentText|nl2br }}</p>
+
+    {{ button|raw }}
+{% endblock %}

@@ -1,0 +1,27 @@
+[
+  {
+    "Id": "InvoicedCron",
+    "Arn": "arn:aws:ecs:us-west-1:224792504733:cluster/InvoicedSandbox",
+    "RoleArn": "arn:aws:iam::224792504733:role/ecsEventsRole",
+    "Input": "{\"containerOverrides\": [{\"name\": \"php\", \"command\": [\"php\", \"-d\", \"memory_limit=1750M\", \"bin/console\", \"cron:run\"]}]}",
+    "EcsParameters": {
+      "TaskDefinitionArn": "arn:aws:ecs:us-west-1:224792504733:task-definition/InvoicedConsole",
+      "TaskCount": 1,
+      "LaunchType": "FARGATE",
+      "NetworkConfiguration": {
+        "awsvpcConfiguration": {
+          "Subnets": [
+            "subnet-b3dd54d4",
+            "subnet-d6b76e8d"
+          ],
+          "SecurityGroups": [
+            "sg-1213f06b",
+            "sg-1112f368"
+          ],
+          "AssignPublicIp": "DISABLED"
+        }
+      },
+      "PlatformVersion": "LATEST"
+    }
+  }
+]

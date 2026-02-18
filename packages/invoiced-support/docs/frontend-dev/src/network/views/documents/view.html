@@ -1,0 +1,25 @@
+<p class="loading" ng-show="loading"></p>
+
+<div class="object-view" ng-hide="loading">
+    <div class="title-bar clearfix">
+        <!-- Title -->
+        <h2>{{doc.type}}</h2>
+        <h3>{{doc.reference}}</h3>
+    </div>
+
+    <ul class="nav nav-tabs">
+        <!-- Tab Links -->
+        <li ui-sref-active="active">
+            <a ui-sref=".summary">
+                {{'tabs.summary'|translate}}
+            </a>
+        </li>
+    </ul>
+
+    <!-- Selected Tab Content -->
+    <div class="tab-content">
+        <div class="tab-pane active">
+            <ui-view/>
+        </div>
+    </div>
+</div>

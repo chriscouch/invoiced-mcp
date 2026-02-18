@@ -1,0 +1,329 @@
+<feature-upgrade ng-if="!('billing_portal'|hasFeature)"></feature-upgrade>
+<div class="contents form-horizontal" ng-show="'billing_portal'|hasFeature">
+	<div class="settings-title-bar">
+		<h2 class="title">
+			<div class="docs-link">
+				<a href="https://docs.invoiced.com/accounts-receivable/customer-portal" target="_blank">
+					{{'general.documentation'|translate}}
+					<span class="fas fa-external-link"></span>
+				</a>
+			</div>
+			<div class="back-link">
+				<a ui-sref="manage.settings.default">
+					<span class="fas fa-arrow-left"></span>
+					{{'general.settings'|translate}}
+				</a>
+			</div>
+			{{'settings.titles.customer_portal'|translate}}
+		</h2>
+
+		<p class="lead">
+			Customize the functionality available in the customer portal.
+		</p>
+	</div>
+
+	<p class="alert alert-danger" ng-show="error">
+		{{error.message}}
+	</p>
+
+	<p class="loading" ng-show="loadingSettings"></p>
+
+	<form name="settingsForm" ng-submit="saveSettings(settings)" ng-hide="loadingSettings">
+		<div class="form-group">
+			<div class="col-sm-8 col-sm-offset-4">
+				<h4 class="settings-section-title">{{'general.settings'|translate}}</h4>
+			</div>
+		</div>
+
+		<!-- Enabled -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'settings.customer_portal.enabled'|translate}}</label>
+			<div class="col-sm-3">
+				<toggle ng-model="settings.enabled"></toggle>
+			</div>
+			<div class="col-sm-5 help-block">
+				{{'settings.customer_portal.enabled_description'|translate}}
+			</div>
+		</div>
+
+		<!-- Allow Modifying Billing Info -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'settings.customer_portal.allow_billing_portal_profile_changes'|translate}}</label>
+			<div class="col-sm-3">
+				<toggle ng-model="settings.allow_billing_portal_profile_changes"></toggle>
+			</div>
+			<div class="col-sm-5 help-block">
+				{{'settings.customer_portal.allow_billing_portal_profile_changes_description'|translate}}
+			</div>
+		</div>
+
+		<!-- Allow Editing Contacts -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'settings.customer_portal.allow_editing_contacts'|translate}}</label>
+			<div class="col-sm-3">
+				<toggle ng-model="settings.allow_editing_contacts"></toggle>
+			</div>
+			<div class="col-sm-5 help-block">
+				{{'settings.customer_portal.allow_editing_contacts_description'|translate}}
+			</div>
+		</div>
+
+		<!-- Sub-Customers -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'settings.customer_portal.include_sub_customers'|translate}}</label>
+			<div class="col-sm-3">
+				<toggle ng-model="settings.include_sub_customers"></toggle>
+			</div>
+			<div class="col-sm-5 help-block">
+				{{'settings.customer_portal.include_sub_customers_description'|translate}}
+			</div>
+		</div>
+
+		<!-- Show Powered By -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'settings.customer_portal.show_powered_by'|translate}}</label>
+			<div class="col-sm-3">
+				<toggle ng-model="settings.show_powered_by"></toggle>
+			</div>
+			<div class="col-sm-5 help-block">
+				{{'settings.customer_portal.show_powered_by_description'|translate}}
+			</div>
+		</div>
+
+		<!-- Google Analytics -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'settings.customer_portal.google_analytics_id'|translate}}</label>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" placeholder="UA-XXXX-Y" ng-model="settings.google_analytics_id" />
+			</div>
+			<div class="col-sm-5 help-block">
+				{{'settings.customer_portal.google_analytics_id_description'|translate}}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-8 col-sm-offset-4">
+				<h4 class="settings-section-title">Payment Behavior</h4>
+			</div>
+		</div>
+
+		<!-- Allow Partial Payments -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'settings.customer_portal.allow_partial_payments'|translate}}</label>
+			<div class="col-sm-3">
+				<toggle ng-model="settings.allow_partial_payments"></toggle>
+			</div>
+			<div class="col-sm-5 help-block">
+				{{'settings.customer_portal.allow_partial_payments_description'|translate}}
+			</div>
+		</div>
+
+		<!-- AutoPay Enrollment -->
+		<div class="form-group" ng-if="'autopay'|hasFeature">
+			<label class="control-label col-sm-4">{{'settings.customer_portal.allow_autopay_enrollment'|translate}}</label>
+			<div class="col-sm-3">
+				<toggle ng-model="settings.allow_autopay_enrollment"></toggle>
+			</div>
+			<div class="col-sm-5 help-block">
+				{{'settings.customer_portal.allow_autopay_enrollment_description'|translate}}
+			</div>
+		</div>
+
+		<!-- Invoice Payment Item Selection -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'settings.customer_portal.invoice_payment_to_item_selection'|translate}}</label>
+			<div class="col-sm-3">
+				<toggle ng-model="settings.invoice_payment_to_item_selection"></toggle>
+			</div>
+			<div class="col-sm-5 help-block">
+				{{'settings.customer_portal.invoice_payment_to_item_selection_description'|translate}}
+			</div>
+		</div>
+
+		<!-- Allow Customers to Make Advance Payments -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'settings.customer_portal.allow_advance_payments'|translate}}</label>
+			<div class="col-sm-3">
+				<toggle ng-model="settings.allow_advance_payments"></toggle>
+			</div>
+			<div class="col-sm-5 help-block">
+				{{'settings.customer_portal.allow_advance_payments_description'|translate}}
+			</div>
+		</div>
+
+		<!-- Allow Customers to Apply Credits -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'settings.customer_portal.allow_credit_notes'|translate}}</label>
+			<div class="col-sm-3">
+				<toggle ng-model="settings.allow_invoice_payment_selector"></toggle>
+			</div>
+			<div class="col-sm-5 help-block">
+				{{'settings.customer_portal.allow_credit_notes_description'|translate}}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-8 col-sm-offset-4">
+				<h4 class="settings-section-title">Authentication &amp; Security</h4>
+			</div>
+		</div>
+
+		<!-- Require Authentication -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'settings.customer_portal.require_authentication'|translate}}</label>
+			<div class="col-sm-3">
+				<toggle ng-model="settings.require_authentication"></toggle>
+			</div>
+			<div class="col-sm-5 help-block">
+				{{'settings.customer_portal.require_authentication_description'|translate}}
+			</div>
+		</div>
+
+		<!-- Welcome Message -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'settings.customer_portal.welcome_message'|translate}}</label>
+			<div class="col-sm-3 textarea-2-lines">
+				<textarea class="form-control" expanding-textarea ng-model="settings.welcome_message"></textarea>
+			</div>
+			<div class="col-sm-5 help-block">
+				{{'settings.customer_portal.welcome_message_description'|translate}}
+			</div>
+		</div>
+
+		<!-- Custom Auth URL -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'settings.customer_portal.auth'|translate}}</label>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" placeholder="https://your-site.com/login" ng-model="settings.customer_portal_auth_url" />
+			</div>
+			<div class="col-sm-5 help-block">
+				{{'settings.customer_portal.auth_desc'|translate}}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-8 col-sm-offset-4">
+				<button type="submit" class="btn btn-primary Button" ng-disabled="settingsForm.$invalid||saving" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+					<span translate>general.save</span>
+				</button>
+			</div>
+		</div>
+		<hr/>
+
+		<div class="form-group">
+			<div class="col-sm-8 col-sm-offset-4">
+				<h4 class="settings-section-title">{{'general.advanced_settings'|translate}}</h4>
+			</div>
+		</div>
+
+		<!-- Domain -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'settings.customer_portal.url'|translate}}</label>
+			<div class="col-sm-8 form-control-static">
+				<code>{{customerPortalDomain}}</code>
+				<a ng-href="{{company.url}}" target="_blank">
+					<span class="fas fa-external-link"></span>
+				</a>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-8 col-sm-offset-4">
+				<a href="" class="btn btn-default" ng-click="setupCustomDomain()">
+					{{'settings.customer_portal.setup_custom_domain'|translate}}
+				</a>
+			</div>
+		</div>
+
+		<!-- Custom Javascript -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'settings.customer_portal.custom_js'|translate}}</label>
+			<div class="col-sm-8">
+				<a href="" class="btn btn-default" ng-click="editJavascript(jsTemplate)">
+					{{'general.edit'|translate}}
+				</a>
+			</div>
+		</div>
+
+		<!-- Custom Css -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'settings.customer_portal.custom_css'|translate}}</label>
+			<div class="col-sm-8">
+				<a href="" class="btn btn-default" ng-click="editCss(cssTemplate)">
+					{{'general.edit'|translate}}
+				</a>
+			</div>
+		</div>
+
+		<!-- Trusted Sites -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'settings.customer_portal.csp_trusted_sites'|translate}}</label>
+			<div class="col-sm-8">
+				<button type="button" class="btn btn-default" ng-click="addTrustedSite()">
+					<span class="fas fa-plus"></span>
+					{{'general.add'|translate}}
+				</button>
+			</div>
+		</div>
+		<div class="form-group" ng-show="trustedSites.length > 0">
+			<div class="col-sm-12">
+				<table class="table table-striped search-results-table">
+					<thead>
+						<tr>
+							<th>URL</th>
+							<th>Connect</th>
+							<th>Font</th>
+							<th>Frame</th>
+							<th>Img</th>
+							<th>Media</th>
+							<th>Object</th>
+							<th>Script</th>
+							<th>Style</th>
+							<th class="nopadding"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="trustedSite in trustedSites">
+							<td>{{trustedSite.url}}</td>
+							<td><span ng-show="trustedSite.connect">✓</span></td>
+							<td><span ng-show="trustedSite.font">✓</span></td>
+							<td><span ng-show="trustedSite.frame">✓</span></td>
+							<td><span ng-show="trustedSite.img">✓</span></td>
+							<td><span ng-show="trustedSite.media">✓</span></td>
+							<td><span ng-show="trustedSite.object">✓</span></td>
+							<td><span ng-show="trustedSite.script">✓</span></td>
+							<td><span ng-show="trustedSite.style">✓</span></td>
+							<td class="nopadding hover-actions-holder">
+								<div class="hover-actions">
+									<a href="" ng-click="editTrustedSite(trustedSite)" class="btn btn-sm btn-default" tooltip="Edit">
+										<span class="fas fa-pencil"></span>
+									</a>
+									<a href="" ng-click="deleteTrustedSite(trustedSite, $index)" class="btn btn-sm btn-danger" tooltip="Delete">
+										<span class="fas fa-trash"></span>
+									</a>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="10"></td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+
+		<hr/>
+		<div class="form-group">
+			<div class="col-sm-8 col-sm-offset-4">
+				<h4 class="settings-section-title">Customer Portal Attachments</h4>
+				<p>Upload files that should be displayed to all customers in the customer portal on the "Documents" page. This is helpful for sharing W-9s, tax documentation, and regulatory certification that payers might need to see.</p>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<files document="company" attachments="attachments" type="company"></files>
+		</div>
+	</form>
+</div>

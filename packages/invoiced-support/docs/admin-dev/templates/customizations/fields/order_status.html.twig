@@ -1,0 +1,11 @@
+{% if field.value == 'open' %}
+    <span class="badge badge-secondary">Open</span>
+{% elseif field.value == 'complete' %}
+    <span class="badge badge-success">Complete</span>
+{% elseif field.value == 'missing_info' %}
+    <span class="badge badge-danger">Missing Info</span>
+{% elseif field.value == 'canceled' %}
+    <span class="badge badge-danger">Canceled</span>
+{% else %}
+    {{ field.value }}
+{% endif %}

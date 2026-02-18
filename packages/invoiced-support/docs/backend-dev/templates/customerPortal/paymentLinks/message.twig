@@ -1,0 +1,14 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.submit_payment'|trans %}
+{% extends "customerPortal/parentLogo.twig" %}
+
+{% block main %}
+
+	<section class="error">
+		<div class="container">
+			<h1>{{ 'titles.submit_payment'|trans }}</h1>
+			<p class="lead">{{ message }}</p>
+		</div>
+	</section>
+
+{% endblock %}

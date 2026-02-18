@@ -1,0 +1,55 @@
+fields:
+  amount: { name: Amount, type: money, summarize: true }
+  archived:
+    name: Archived
+    type: boolean
+    writable: false
+  catalog_item: { name: "Item ID", type: string }
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency: { name: Currency, type: string }
+  description: { name: Description, type: string }
+  id:
+    name: ID
+    type: string
+  interval:
+    name: Interval
+    type: enum
+    values:
+      day: Day
+      week: Week
+      month: Month
+      year: Year
+  interval_count: { name: "Interval Count", type: integer }
+  name: { name: Name, type: string }
+  pricing_mode:
+    name: "Pricing Mode"
+    type: enum
+    values:
+      per_unit: Per Unit
+      volume: Volume
+      tiered: Tiered
+      custom: Custom
+  quantity_type:
+    name: "Quantity Type"
+    type: string
+    writable: false
+  tiers:
+    name: Tiers
+    type: array
+    writable: false
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  metadata: { name: 'Metadata', type: metadata, id_column: internal_id }

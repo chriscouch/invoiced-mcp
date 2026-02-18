@@ -1,0 +1,7 @@
+framework:
+  session:
+    name: invoiced_dev
+    # Lax is needed in dev mode because traffic
+    # is served over HTTP. In production we want
+    # SameSite=None
+    cookie_samesite: lax

@@ -1,0 +1,17 @@
+{
+  "name": "invoiced.com",
+  "private": true,
+  "devDependencies": {
+    "grunt": "^1.0.4",
+    "grunt-cli": "^1.0.0",
+    "grunt-contrib-concat": "~1.0.1",
+    "grunt-contrib-copy": "~0.5.0",
+    "grunt-contrib-cssmin": "^3.0.0",
+    "grunt-contrib-less": "~1.4.0",
+    "grunt-contrib-uglify": "^5.1.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-filerev": "~2.1.1",
+    "grunt-filerev-assets": "~0.3.2",
+    "load-grunt-tasks": "^5.1.0"
+  }
+}

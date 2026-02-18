@@ -1,0 +1,14 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.estimate_expired'|trans %}
+{% extends "customerPortal/parentLogo.twig" %}
+
+{% block main %}
+
+    <section class="error estimate-expired">
+        <div class="container">
+            <h1>{{ 'titles.estimate_expired'|trans }}</h1>
+            <p class="lead">{{ 'messages.estimate_expired'|trans }}</p>
+        </div>
+    </section>
+
+{% endblock %}

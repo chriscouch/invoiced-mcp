@@ -1,0 +1,66 @@
+<div class="details-list vertical sync-status" ng-show="syncedObject && (syncedObject.synced || syncedObject.error)">
+    <h4>
+        {{'accounting_sync.sync_status'|translate}}
+        <!-- Status -->
+        <span class="circle-success" ng-hide="syncedObject.error"></span>
+        <span class="circle-danger" ng-show="syncedObject.error"></span>
+    </h4>
+
+    <!-- Editable Icon -->
+    <div class="not-editable" ng-if="!editable">
+        <a href="" tooltip="{{'accounting_sync.not_editable'|translate}}">
+            <span class="fas fa-lock"></span>
+        </a>
+    </div>
+
+    <!-- Accounting System -->
+    <div ng-show="syncedObject.synced && !externalLink">
+        <div class="title">{{'accounting_sync.accounting_system'|translate}}</div>
+        <div class="value">
+            {{'integrations.' + syncedObject.accounting_system|translate}}
+        </div>
+    </div>
+
+    <!-- Accounting ID -->
+    <div ng-show="syncedObject.synced && syncedObject.accounting_id && !externalLink">
+        <div class="title">{{'accounting_sync.accounting_id'|translate}}</div>
+        <div class="value">
+            {{syncedObject.accounting_id}}
+        </div>
+    </div>
+
+    <!-- External Links -->
+    <div ng-show="syncedObject.synced && externalLink">
+        <div class="title">{{'accounting_sync.link'|translate}}</div>
+        <div class="value">
+            <a ng-href="{{externalLink}}" target="_blank">
+                {{externalLinkTransKey|translate}}
+            </a>
+        </div>
+    </div>
+
+    <!-- Last Synced -->
+    <div ng-show="syncedObject.synced && syncedObject.last_synced">
+        <div class="title">{{'accounting_sync.last_synced'|translate}}</div>
+        <div class="value">
+            <a href="" tooltip="{{syncedObject.last_synced}}">
+                {{syncedObject.last_synced_ago}}
+            </a>
+        </div>
+    </div>
+
+    <!-- Error -->
+    <div ng-show="syncedObject.error">
+        {{'accounting_sync.error_syncing_record'|translate}}
+        &mdash;
+        <a href="" ng-click="viewDetails(syncedObject.error)">
+            {{'accounting_sync.view_details'|translate}}
+        </a>
+
+        <div ng-if="syncedObject.error.retried_at">
+            <a href="" tooltip="{{syncedObject.error.retried_at|formatCompanyDateTime}}">
+                <span class="label label-default">{{'accounting_sync.retry_pending'|translate}}</span>
+            </a>
+        </div>
+    </div>
+</div>

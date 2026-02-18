@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "title": "A/R Aging Summary",
+  "sections": [
+    {
+      "type": "table",
+      "object": "sale",
+      "title": "",
+      "fields": [
+        {
+          "name": "Customer",
+          "field": {
+            "id": "customer.name"
+          }
+        },
+        {
+          "name": "# Invoices",
+          "field": {
+            "function": "count"
+          }
+        },
+        {
+          "name": "Balance",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "balance"
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "paid"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "voided"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "closed"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "draft"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "currency"
+          },
+          "value": "$currency"
+        },
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "<=",
+          "value": "$now"
+        }
+      ],
+      "group": [
+        {
+          "name": "Customer",
+          "field": {
+            "id": "customer.id"
+          },
+          "ascending": true,
+          "expanded": false
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "customer.name"
+          },
+          "ascending": true
+        }
+      ]
+    }
+  ]
+}

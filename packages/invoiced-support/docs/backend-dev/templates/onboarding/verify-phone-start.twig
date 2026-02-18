@@ -1,0 +1,118 @@
+{% trans_default_domain 'general' %}
+{% set title='Verify Phone' %}
+{% extends "onboarding/parent.twig" %}
+
+{% block main %}
+
+    <div class="container-lg container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10 col-xl-8">
+                <form class="py-6" method="post" id="theForm">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('onboarding') }}" />
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-md-10 col-lg-8 col-xl-6 text-center">
+                            <h6 class="mb-4 text-uppercase text-muted">
+                                Step {{ currentStepNumber }} of {{ totalSteps }}
+                            </h6>
+
+                            <h1 class="mb-3">
+                                Verify Phone
+                            </h1>
+
+                            <p class="mb-5 text-muted">
+                                Next let's verify your phone number.
+                            </p>
+                        </div>
+                    </div>
+
+                    {% for error in errors %}
+                        <div class="text-danger mb-3" role="alert">{{ error }}</div>
+                    {% endfor %}
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-8 offset-md-2">
+                                <label class="form-label">
+                                    What is your phone number?
+                                </label>
+
+                                <div class="input-group">
+                                    <select class="form-select" name="country_code" style="max-width: 110px;">
+                                        {% for country in countries %}
+                                            {% if country.phone_code is defined %}
+                                                <option value="{{ country.phone_code }}" {% if country.code == company.country %}selected="selected"{% endif %}>+{{ country.phone_code }}</option>
+                                            {% endif %}
+                                            {% if country.alternative_phone_codes is defined %}
+                                                {% for code in country.alternative_phone_codes %}
+                                                    <option value="{{ code }}">+{{ code }}</option>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                    <input type="text" required="required" class="form-control" name="phone" />
+                                </div>
+
+                                <div class="form-group mt-5">
+                                    <label class="form-label">
+                                        How would you like to verify your phone number?
+                                    </label>
+
+                                    <div class="py-3 px-5 border rounded fs-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="channel" id="channelRadio1" value="1" />
+                                            <label class="form-check-label" for="channelRadio1">
+                                                <span class="fas fa-message-sms text-secondary ms-3 me-2"></span>
+                                                Text Message
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="py-3 px-5 border rounded mt-3 fs-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="channel" id="channelRadio2" value="2" />
+                                            <label class="form-check-label" for="channelRadio2">
+                                                <span class="fas fa-phone text-secondary ms-3 me-2"></span>
+                                                Call
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-5">
+
+                    <div class="nav row align-items-center justify-content-center text-center" role="tablist">
+                        <div class="col">
+                            {% if previousStep %}
+                                <a href="{{ path('onboarding_step', {step: previousStep, companyId: app.request.attributes.get('companyId')}) }}" class="btn btn-lg btn-white">
+                                    Previous
+                                </a>
+                            {% endif %}
+                        </div>
+                        <div class="col">
+                            <h6 class="text-uppercase text-muted mb-0">
+                                Step {{ currentStepNumber }} of {{ totalSteps }}
+                            </h6>
+                        </div>
+                        <div class="col">
+                            <button type="submit" class="btn btn-lg btn-primary" id="theFormSubmit">
+                                Continue
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function() {
+            $('#theForm').on('submit', function () {
+                $('#theFormSubmit').attr('disabled', 'disabled');
+                return true;
+            })
+        })
+    </script>
+
+{% endblock %}

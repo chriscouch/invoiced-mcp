@@ -1,0 +1,221 @@
+{
+  "version": 1,
+  "title": "Credit Balance Summary",
+  "sections": [
+    {
+      "title": "Credits Issued",
+      "object": "transaction",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "name": "Customer",
+          "field": {
+            "id": "customer.name"
+          }
+        },
+        {
+          "name": "# Transactions",
+          "field": {
+            "function": "count"
+          }
+        },
+        {
+          "name": "Total Issued",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              [
+                {
+                  "id": "amount"
+                },
+                "*",
+                -1
+              ]
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "operator": "=",
+          "value": "$currency",
+          "field": {
+            "id": "currency"
+          }
+        },
+        {
+          "operator": "between",
+          "value": "$dateRange",
+          "field": {
+            "id": "date"
+          }
+        },
+        {
+          "operator": "=",
+          "value": "adjustment",
+          "field": {
+            "id": "type"
+          }
+        },
+        {
+          "operator": "=",
+          "value": "succeeded",
+          "field": {
+            "id": "status"
+          }
+        },
+        {
+          "operator": "=",
+          "value": "balance",
+          "field": {
+            "id": "method"
+          }
+        }
+      ],
+      "group": [
+        {
+          "expanded": false,
+          "field": {
+            "id": "customer.id"
+          },
+          "ascending": true
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "customer.name"
+          },
+          "ascending": true
+        }
+      ]
+    },
+    {
+      "title": "Credits Applied",
+      "object": "transaction",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "name": "Customer",
+          "field": {
+            "id": "customer.name"
+          }
+        },
+        {
+          "name": "# Transactions",
+          "field": {
+            "function": "count"
+          }
+        },
+        {
+          "name": "Total Applied",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              [
+                {
+                  "id": "amount"
+                },
+                "*",
+                -1
+              ]
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "operator": "=",
+          "value": "$currency",
+          "field": {
+            "id": "currency"
+          }
+        },
+        {
+          "operator": "between",
+          "value": "$dateRange",
+          "field": {
+            "id": "date"
+          }
+        },
+        {
+          "operator": "=",
+          "value": "charge",
+          "field": {
+            "id": "type"
+          }
+        },
+        {
+          "operator": "=",
+          "value": "succeeded",
+          "field": {
+            "id": "status"
+          }
+        },
+        {
+          "operator": "=",
+          "value": "balance",
+          "field": {
+            "id": "method"
+          }
+        }
+      ],
+      "group": [
+        {
+          "expanded": false,
+          "field": {
+            "id": "customer.id"
+          },
+          "ascending": true
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "customer.name"
+          },
+          "ascending": true
+        }
+      ]
+    },
+    {
+      "title": "Current Credit Balances",
+      "object": "customer",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "name": "Customer",
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "name": "Credit Balance",
+          "field": {
+            "id": "credit_balance"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "operator": ">",
+          "value": 0,
+          "field": {
+            "id": "credit_balance"
+          }
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "name"
+          },
+          "ascending": true
+        }
+      ]
+    }
+  ]
+}

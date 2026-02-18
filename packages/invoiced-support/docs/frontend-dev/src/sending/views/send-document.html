@@ -1,0 +1,36 @@
+<div class="modal-header">
+	<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+	<h4 class="modal-title">Send Document</h4>
+</div>
+<div class="modal-body" ng-show="loading">
+	<div class="loading"></div>
+</div>
+<div class="modal-body" ng-if="!loading && !choices.length">
+	<p class="alert alert-warning">
+		Your account is not allowed to send documents.
+	</p>
+</div>
+<div ng-if="choices.length">
+	<div class="modal-body">
+		<p class="lead">How would you like to deliver this document to the customer?</p>
+
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<div class="send-document-choices">
+			<div class="send-document-choice choice-{{choice.id}}" ng-repeat="choice in choices">
+				<a href="" ng-click="send(choice.id)">
+					<div class="icon">
+						<img ng-src="{{choice.img}}" ng-show="choice.img" />
+						<span class="fad {{choice.icon}}" ng-show="choice.icon"></span>
+					</div>
+					{{choice.name}}
+					<div class="arrow">
+						<span class="fas fa-chevron-right"></span>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>

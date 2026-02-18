@@ -1,0 +1,54 @@
+mapping:
+  - sourceField: Id
+    destinationField: accounting_id
+
+  - sourceField: Active
+    destinationField: active
+    type: boolean
+
+  - sourceField: DisplayName
+    destinationField: name
+
+  - sourceField: CurrencyRef/value
+    destinationField: currency
+    type: currency
+
+  - sourceField: PrimaryEmailAddr/Address
+    destinationField: emails
+    type: email_list
+
+  - sourceField: PrimaryPhone/FreeFormNumber
+    destinationField: phone
+
+  - sourceField: Notes
+    destinationField: notes
+
+  - sourceField: ParentRef/value
+    destinationField: parent_customer/accounting_id
+
+  - sourceField: ParentRef/name
+    destinationField: parent_customer/name
+
+  - sourceField: BillAddr/Line1
+    destinationField: address1
+    nullBehavior: set
+
+  - sourceField: BillAddr/Line2
+    destinationField: address2
+    nullBehavior: set
+
+  - sourceField: BillAddr/City
+    destinationField: city
+    nullBehavior: set
+
+  - sourceField: BillAddr/CountrySubDivisionCode
+    destinationField: state
+    nullBehavior: set
+
+  - sourceField: BillAddr/PostalCode
+    destinationField: postal_code
+    nullBehavior: set
+
+  - sourceField: BillAddr/Country
+    destinationField: country
+    type: country

@@ -1,0 +1,53 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">Search Tips</h4>
+</div>
+<div class="modal-body">
+    <p>
+        Invoiced supports writing more advanced queries than a simple text search to help you find specific data.
+    </p>
+
+    <label class="control-label">Filtering</label>
+    <p>
+        You can filter search results to documents that match specific criteria. Only fields that are indexed may be used as filters.
+    </p>
+    <p>
+        High value past due invoices: <code>total:&gt;1000 status:past_due</code>
+    </p>
+    <p>
+        Find customers in certain cities: <code>city:(Austin OR San Francisco)</code>
+    </p>
+    <p>
+        Payments using specific card:<br/>
+        <code>charge.payment_source.last4:4242 charge.payment_source.brand:visa</code>
+    </p>
+    <p>
+        Search by transaction ID or check #: <code>reference:1234</code>
+    </p>
+    <p>
+        Search all metadata values: <code>metadata:"West Division"</code>
+    </p>
+    <hr/>
+
+    <label class="control-label">Operators</label>
+    <p>
+        Equal: <code>currency:usd</code><br/>
+        Not Equal: <code>-currency:usd</code><br/>
+        Greater Than: <code>balance:>0</code> or <code>balance:&gt;=1000</code><br/>
+        Less Than: <code>balance:&lt;100</code> or <code>balance:&lt;=500</code><br/>
+    </p>
+    <hr/>
+
+    <label class="control-label">Date Range Searching</label>
+    <p>
+        Search for transactions that fit in a specific time range.<br/>
+        <code>date:>2021-01-01</code><br/>
+        <code>date:[2021-01-01 TO 2021-12-31]</code>
+    </p>
+    <hr/>
+
+    <label class="control-label">Query Specific Type</label>
+    <p>
+        Restrict results to a specific object type: <code>is:customer</code>
+    </p>
+</div>

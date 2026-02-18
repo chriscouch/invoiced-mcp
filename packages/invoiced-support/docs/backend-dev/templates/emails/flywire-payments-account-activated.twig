@@ -1,0 +1,28 @@
+{% extends "emails/parent.twig" %}
+{% block title %}Account Activated{% endblock %}
+{% block content %}
+    <row>
+        <columns>
+            <p>Hi {{name}},</p>
+
+            <p>Great news&mdash;your <strong>Flywire Payments</strong> account is officially <strong>activated</strong>! 🎉 Starting right now, you can accept payments from customers worldwide and watch funds land in your linked bank account&mdash;no extra steps required.</p>
+
+            <spacer size="20"></spacer>
+            <h5>What happens next?</h5>
+            <p>1. <strong>Send invoices</strong> - Flywire Payments is already enabled as a payment option.</p>
+            
+            <p>2. <strong>Track transactions in real time</strong> - Open <strong>Settings &rarr; Payments &rarr; Account</strong> to see settlements, fees, and settlement ETA (usually <strong>T+2</strong> for card, <strong>T+5</strong> for ACH direct debit).</strong>
+            
+            <p>3. <strong>Relax on reconciliation</strong> - Every payment auto-syncs to your ledger, so your books stay spotless.</p>
+
+            <p>If you have questions or just want a tour of the live added functionality, hit reply or chat with us in-app&mdash;our team is here and happy to help.</p>
+
+            <p>Thanks for choosing Invoiced + Flywire Payments to power your growth. Now let’s get you paid!</p>
+
+            <spacer size="10"></spacer>
+            <p>Happy invoicing,</p>
+
+            <p><strong>The Invoiced Team</strong></p>
+        </columns>
+    </row>
+{% endblock %}

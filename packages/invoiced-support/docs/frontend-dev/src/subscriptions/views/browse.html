@@ -1,0 +1,141 @@
+<feature-upgrade ng-if="!hasFeature"></feature-upgrade>
+<div class="search-results-holder" ng-class="{'has-filter': filterStr}" ng-show="hasFeature">
+	<div class="box">
+		<div class="header clearfix">
+			<!-- Title Bar -->
+			<div class="actions" ng-if="'subscriptions.create'|hasPermission">
+				<a ui-sref="manage.imports.new.spreadsheet({type:'subscription'})" class="btn btn-default hidden-xs hidden-sm" ng-if="['imports.create', 'subscriptions.create']|hasAllPermissions">
+					Import
+				</a>
+				<button type="button" class="btn btn-success" ng-click="addModal()">
+					Add Subscription
+				</button>
+			</div>
+			<h2>Subscriptions</h2>
+
+			<!-- Tabs -->
+			<ul class="nav nav-tabs">
+				<li class="action">
+					<a href="" ng-click="openFilter()">
+						<div>
+							<span class="fas fa-filter"></span> Filter
+						</div>
+					</a>
+				</li>
+				<li class="action">
+					<filter-dropdown type="subscription"  saved-filters="savedFilters" apply-filter="applyFilter" filter="filter"></filter-dropdown>
+				</li>
+				<li class="action right dropdown hidden-xs hidden-sm" dropdown>
+					<a href="" class="dropdown-toggle" dropdown-toggle>
+						<div>
+							Export
+							<span class="fas fa-chevron-down"></span>
+						</div>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li>
+							<a href="" ng-click="export()">
+								<span class="far fa-arrow-to-bottom"></span>
+								CSV
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li class="action automation-action right" ng-if="('subscriptions.edit'|hasPermission) && ('automations'|hasFeature)">
+					<div>
+						<a href="" ng-click="automate()" ng-hide="loading||!total_count">
+							<span class="fas fa-bolt"></span>
+							<span class="hidden-xs">Automate</span>
+						</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<!-- Applied Filter -->
+		<div class="applied-filter" ng-show="filterStr">
+			<span class="fas fa-filter filter-icon"></span>
+			<strong>{{filterStr}}</strong>
+			<a href="" ng-click="resetFilter()">
+				<span class="fas fa-times-circle"></span>
+			</a>
+		</div>
+
+		<p class="loading" ng-show="loading"></p>
+
+		<!-- No Results :-( -->
+		<div class="empty-table" ng-show="noResults()&&!loading">
+			<div class="icon">
+				<img src="/img/event-icons/subscription.png" />
+			</div>
+			<span ng-show="usingFilter">
+				No results. <a href="" ng-click="resetFilter()">Reset Filter</a>
+			</span>
+			<span ng-hide="usingFilter">
+				No subscriptions. <a href="" ng-click="addModal()" ng-if="'subscriptions.create'|hasPermission">Create One</a>
+			</span>
+		</div>
+
+		<!-- Data Table -->
+		<div class="custom-table-wrapper">
+			<table class="search-results-table table table-striped subscriptions" ng-show="subscriptions.length > 0 && !loading">
+				<thead>
+					<tr>
+						<th ng-repeat="column in columns" ng-class="{'custom-column-th-container':$last}">
+							<div ng-class="{'money-column': column.type=='money'}">
+								<column-arrangement-header-cell></column-arrangement-header-cell>
+							</div>
+							<column-arrangement-button type="subscription" ng-if="$last" all-columns="allColumns" callback="applyColumnArrangement"></column-arrangement-button>
+						</th>
+						<th class="nopadding"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="clickable" ng-repeat="subscription in subscriptions" ng-click="goToObject($event,'subscription',subscription.id)">
+						<td class="mobile-first visible-xs-block"></td>
+						<td ng-repeat="column in columns" ng-class="{'title': column.id=='Customers.name', 'light': column.type=='date', 'status': column.id=='status'}">
+							<div class="title" ng-if="column.id == 'Customers.name'">
+								<div>
+									<a ui-sref="manage.customer.view.summary({id:subscription.customer.id})">
+										{{subscription.customer.name}}
+									</a>
+								</div>
+								<div class="plan-name">
+									<a ui-sref="manage.subscription.view.summary({id:subscription.id})">
+										{{subscription.plan.name}}
+									</a>
+								</div>
+							</div>
+							<div class="status" ng-if="column.id == 'status'">
+								<subscription-status subscription="subscription"></subscription-status>
+							</div>
+							<div class="status" ng-if="column.id == 'bill_in'">
+								{{subscription.plan.interval_count|recurringFrequency:subscription.plan.interval:true}}
+								/
+								<span ng-show="subscription.bill_in == 'advance'">Advance<span ng-show="subscription.bill_in_advance_days>0">, {{subscription.bill_in_advance_days}} day<span ng-show="subscription.bill_in_advance_days>1">s</span></span></span>
+								<span ng-show="subscription.bill_in == 'arrears'">Arrears</span>
+							</div>
+							<div ng-if="['Customers.name', 'status', 'bill_in'].indexOf(column.id) == -1"  ng-class="{'money-column': column.type=='money'}">
+								<column-arrangement-cell column="column" data="subscription" currency="subscription.plan.currency"></column-arrangement-cell>
+							</div>
+						</td>
+						<td class="nopadding hover-actions-holder">
+							<div class="hover-actions">
+								<button type="button" class="btn btn-sm btn-primary" ng-click="renewContract(subscription)" ng-show="subscription.status=='pending_renewal'" tooltip="Renew Contract" tooltip-placement="left" ng-if="'subscription.edit'|hasPermission">
+									<span class="fas fa-sync-alt"></span>
+								</button>
+								<button type="button" class="btn btn-sm btn-danger" ng-click="cancelModal(subscription)" ng-show="subscription.status!='finished'&&subscription.status!='canceled'" tooltip="Cancel Subscription" tooltip-placement="left" ng-if="'subscription.edit'|hasPermission">
+									<span class="fas fa-times"></span>
+								</button>
+							</div>
+						</td>
+						<td class="mobile-last visible-xs-block"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- Pagination -->
+		<pagination-bar total-count="total_count" page-count="page_count" ng-change="goToPage(page, perPage)" ng-model="filter" ng-show="subscriptions.length > 0 && !loading"></pagination-bar>
+	</div>
+</div>

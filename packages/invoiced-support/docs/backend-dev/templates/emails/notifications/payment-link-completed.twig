@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}Payment link completed{% endblock %}
+{% block notification %}
+    {% for session in sessions %}
+        <p>{% if session.customer %}<a href="{{ dashboardUrl}}/customers/{{ session.customer.id  }}?account={{ tenant_id  }}">{{ session.customer.name }}</a>{% endif%} has completed your payment link: {{ session.payment_link.name }}</p>
+    {% endfor %}
+{% endblock %}

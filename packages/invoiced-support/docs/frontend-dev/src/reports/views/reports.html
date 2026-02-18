@@ -1,0 +1,109 @@
+<div class="search-results-holder reports" ng-class="{'has-filter': filterStr}">
+    <div class="box">
+        <div class="header clearfix">
+            <!-- Title Bar -->
+            <div class="actions">
+                <a ui-sref="manage.reports.new" class="btn btn-primary">New Report</a>
+            </div>
+            <h2>Reports</h2>
+            <div class="searchbar light hidden-xs report-searchbar">
+                <div class="bar">
+                    <div class="icon"><span class="fas fa-search"></span></div>
+                    <input type="text" class="form-control" ng-model="search" />
+                    <div class="icon right icon-btn" ng-show="search">
+                        <button type="button" class="btn btn-link" ng-click="search=''">
+                            <span class="fas fa-times-circle"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="loading" ng-show="loading"></p>
+
+        <!-- Saved Reports -->
+        <div class="report-category" ng-if="!loading" ng-show="savedReports.length > 0">
+            <div class="category-name">Saved Reports</div>
+
+            <table class="table search-results-table reports-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Created By</th>
+                        <th>Created</th>
+                        <th>Scheduled Frequency</th>
+                        <th>Next Scheduled Report</th>
+                        <th>Sent To</th>
+                        <th class="nopadding"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="clickable" ng-repeat="report in savedReports | searchObject:search:['name'] as results" ng-click="selectReport(report, $event)">
+                        <td>
+                            <span ng-show="report.private"><span class="far fa-lock"></span></span>
+                            {{report.name}}
+                        </td>
+                        <td>
+                            <span ng-if="report.creator">{{report.creator.first_name}} {{report.creator.last_name}}</span>
+                        </td>
+                        <td class="mobile-last">
+                            <span ng-if="report.created_at">{{report.created_at | formatCompanyDate}}</span>
+                        </td>
+                        <td>
+                            <span ng-if="report.schedule">
+                                <span ng-show="report.schedule.frequency == 'day_of_week'">Weekly</span>
+                                <span ng-show="report.schedule.frequency == 'day_of_month'">Monthly</span>
+                            </span>
+                        </td>
+                        <td>
+                            <span ng-if="report.schedule">
+                                <company-date-time date="report.schedule.next_run"></company-date-time>
+                            </span>
+                        </td>
+                        <td>
+                            <span ng-if="report.schedule">
+                                {{report.schedule.member.first_name}} {{report.schedule.member.last_name}}
+                            </span>
+                        </td>
+                        <td class="nopadding hover-actions-holder">
+                            <div class="hover-actions">
+                                <a class="btn btn-sm btn-default" href="" ng-click="edit(report)" tooltip="Edit" tooltip-placement="left">
+                                    <span class="fas fa-pencil"></span>
+                                </a>
+                                <a class="btn btn-sm btn-default" href="" ng-click="schedule(report)" tooltip="Schedule" tooltip-placement="left">
+                                    <span class="fas fa-calendar"></span>
+                                </a>
+                                <a class="btn btn-sm btn-danger" href="" ng-click="delete(report, $index)" ng-hide="report.deleting" tooltip="Delete" tooltip-placement="left">
+                                    <span class="fas fa-trash"></span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="no-results" ng-show="results.length == 0">
+                        <td colspan="4">No results found.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Standard Reports -->
+        <div class="report-category">
+            <div class="row">
+                <div class="col-sm-3" ng-repeat="category in standardReports">
+                    <div class="category-name">{{category.title}}</div>
+
+                    <div class="standard-reports-list">
+                        <div class="standard-reports" ng-hide="results.length == 0">
+                            <a href="" class="standard-report" ng-repeat="report in category.reports | searchObject:search:['name'] | orderBy:'name' as results" ng-click="selectReport(report, $event)">
+                                {{report.name}}
+                            </a>
+                        </div>
+                        <div class="no-results" ng-show="results.length == 0">
+                            No results found.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

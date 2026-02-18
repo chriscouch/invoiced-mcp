@@ -1,0 +1,30 @@
+<form name="contactRoleForm" ng-submit="save(role)">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title">
+            {{role.id ? 'Edit' : 'New'}} Contact Role
+        </h4>
+    </div>
+    <div class="modal-body">
+        <p class="required-indicator">
+            <span class="required"></span> {{'general.indicates_required_field'|translate}}
+        </p>
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-sm-3">Name <span class="required"></span></label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control input-large" ng-model="role.name" required />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" v-busy="saving" v-busy-label="Saving">
+            Save
+        </button>
+    </div>
+</form>

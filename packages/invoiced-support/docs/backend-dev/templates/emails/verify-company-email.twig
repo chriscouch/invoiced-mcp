@@ -1,0 +1,43 @@
+{% extends "emails/parent.twig" %}
+{% block title %}Please verify your email address{% endblock %}
+{% block content %}
+	<row>
+		<columns>
+			{# The greeting and company identifying information was removed because it was often a vector for spam sign ups to insert links #}
+			<p>Thank you for creating an Invoiced business account. We need to verify that we have your correct email address before we can activate your account.</p>
+
+			{% if verifyLink %}
+				Please enter this code into the Verification Code field or click the button below just once to verify your email address.
+			{% else %}
+				Please enter this code into the Verification Code field to verify your email address.
+			{% endif %}
+
+			<spacer size="15"></spacer>
+			<h3>
+				<center>
+					{{ code }}
+				</center>
+			</h3>
+		</columns>
+	</row>
+	{% if verifyLink %}
+	<row>
+		<columns>
+			<center>
+				<spacer size="5"></spacer>
+				<button class="radius" href="{{ verifyLink }}">Verify Email Address</button>
+				<spacer size="5"></spacer>
+			</center>
+		</columns>
+	</row>
+	{% endif %}
+	<row>
+		<columns>
+			{% if verifyLink %}
+				<p>If you see a page not found error then that means your email address has already been verified.</p>
+			{% endif %}
+
+			<p>Best,<br >Team at Invoiced</p>
+		</columns>
+	</row>
+{% endblock %}

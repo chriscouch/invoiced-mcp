@@ -1,0 +1,25 @@
+<div class="modal-header">
+    <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+    <h4 class="modal-title">
+        Receive Payment
+    </h4>
+</div>
+<div class="modal-body modal-body-with-tabs">
+    <ul class="nav nav-tabs">
+        <li ng-class="{active:type=='cash_receipt'}" ng-if="'payments.create'|hasPermission">
+            <a href="" ng-click="$parent.type='cash_receipt'">
+                Cash Receipt
+            </a>
+        </li>
+        <li ng-class="{active:type=='process_payment'}" ng-if="'charges.create'|hasPermission">
+            <a href="" ng-click="$parent.type='process_payment'">
+                Process Payment
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <cash-receipt-form options="options" callback="complete(payment)" ng-show="type=='cash_receipt'"></cash-receipt-form>
+        <process-payment-form options="options" callback="complete(payment)" ng-show="type=='process_payment'"></process-payment-form>
+    </div>
+</div>

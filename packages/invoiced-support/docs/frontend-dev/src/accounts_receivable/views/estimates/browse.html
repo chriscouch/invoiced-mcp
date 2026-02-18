@@ -1,0 +1,232 @@
+<div class="search-results-holder" ng-class="{'has-filter': filterStr}">
+	<div class="box">
+		<div class="header clearfix">
+			<!-- Title Bar -->
+			<div class="actions" ng-if="'estimates.create'|hasPermission">
+				<a ui-sref="manage.imports.new.spreadsheet({type:'estimate'})" class="btn btn-default hidden-xs hidden-sm" id="estimates-page-import-btn" ng-if="'imports.create'|hasPermission">
+					Import
+				</a>
+				<a ui-sref="manage.estimates.new" class="btn btn-success">
+					New Estimate
+				</a>
+			</div>
+			<h2>
+				<div class="btn-group dropdown" dropdown>
+					<a href="" class="dropdown-toggle" id="estimates-page-nav-dropdown" dropdown-toggle>
+						Estimates
+						<span class="fas fa-chevron-down"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							<a ui-sref="manage.invoices.browse" id="estimates-page-invoices-option">
+								Invoices
+							</a>
+						</li>
+						<li>
+							<a ui-sref="manage.credit_notes.browse" id="estimates-page-credit-notes-option">
+								Credit Notes
+							</a>
+						</li>
+						<li class="active">
+							<a ui-sref="manage.invoices.browse" id="estimates-page-estimates-option">
+								Estimates
+							</a>
+						</li>
+						<li ng-if="'payment_plans'|hasFeature">
+							<a ui-sref="manage.payment_plans.browse" id="invoices-page-payment-plans-option">
+								Payment Plans
+							</a>
+						</li>
+					</ul>
+				</div>
+			</h2>
+
+			<!-- Tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+				<li ng-class="{active:filter.status.value=='draft'}">
+					<a href="" id="estimates-page-draft-tab" ng-click="addToFilter({status:'draft'})">
+						Draft
+					</a>
+				</li>
+				<li ng-class="{active:filter.status.value=='open'}">
+					<a href="" id="estimates-page-open-tab" ng-click="addToFilter({status:'open'})">
+						Open
+					</a>
+				</li>
+				<li ng-class="{active:filter.status.value=='expired'}">
+					<a href="" id="estimates-page-expired-tab" ng-click="addToFilter({status:'expired',sort:'date ASC'})">
+						Expired
+					</a>
+				</li>
+				<li ng-class="{active:filter.status.value=='approved'}">
+					<a href="" id="estimates-page-approved-tab" ng-click="addToFilter({status:'approved'})">
+						Approved
+					</a>
+				</li>
+				<li ng-class="{active:filter.status.value=='invoiced'}">
+					<a href=""  id="estimates-page-invoiced-tab" ng-click="addToFilter({status:'invoiced'})">
+						Invoiced
+					</a>
+				</li>
+				<li ng-class="{active:filter.status.value!='open'&&filter.status.value!='draft'&&filter.status.value!='expired'&&filter.status.value!='approved'&&filter.status.value!='invoiced'}">
+					<a href="" id="estimates-page-all-tab" ng-click="addToFilter({status:'',sort:'date DESC'})">
+						All
+					</a>
+				</li>
+
+				<!-- Action Buttons -->
+				<li class="action">
+					<a href="" id="estimates-page-filter-estimates" ng-click="openFilter()">
+						<div>
+							<span class="fas fa-filter"></span> Filter
+						</div>
+					</a>
+				</li>
+				<li class="action">
+					<filter-dropdown type="estimate"  saved-filters="savedFilters" apply-filter="applyFilter" filter="filter"></filter-dropdown>
+				</li>
+				<li class="action right dropdown hidden-xs hidden-sm" dropdown>
+					<a href="" class="dropdown-toggle" id="estimates-page-export-btn" dropdown-toggle>
+						<div>
+							Export
+							<span class="fas fa-chevron-down"></span>
+						</div>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li>
+							<a href="" ng-click="export('csv', 'document')">
+								<span class="far fa-arrow-to-bottom"></span>
+								CSV
+							</a>
+						</li>
+						<li>
+							<a href="" ng-click="export('csv', 'line_item')">
+								<span class="far fa-arrow-to-bottom"></span>
+								CSV (by line)
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li class="action automation-action right" ng-if="('estimates.edit'|hasPermission) && ('automations'|hasFeature)">
+					<div>
+						<a href="" ng-click="automate()" ng-hide="loading||!total_count">
+							<span class="fas fa-bolt"></span>
+							<span class="hidden-xs">Automate</span>
+						</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<!-- Applied Filter -->
+		<div class="applied-filter" ng-show="filterStr">
+			<span class="fas fa-filter filter-icon"></span>
+			<strong>{{filterStr}}</strong>
+			<a href="" ng-click="resetFilter()">
+				<span class="fas fa-times-circle"></span>
+			</a>
+		</div>
+
+		<p class="loading" ng-show="loading"></p>
+
+		<!-- No Results :-( -->
+		<div class="empty-table" ng-show="noResults()&&!loading">
+			<div class="icon">
+				<img src="/img/event-icons/estimate.png" />
+			</div>
+			<span ng-show="usingFilter">
+				No results. <a href="" ng-click="resetFilter()">Reset Filter</a>
+			</span>
+			<span ng-hide="usingFilter">
+				No estimates. <a ui-sref="manage.estimates.new" ng-if="'estimates.create'|hasPermission">Create One</a>
+			</span>
+		</div>
+
+		<!-- Data Table -->
+		<div class="custom-table-wrapper">
+			<table class="search-results-table table table-striped estimates" id="estimates-table" ng-show="estimates.length > 0 && !loading">
+			<thead>
+				<tr>
+					<th class="nopadding noborder"></th>
+					<th ng-repeat="column in columns" ng-class="{'custom-column-th-container':$last}">
+						<div ng-class="{'money-column': column.type=='money'}">
+							<column-arrangement-header-cell></column-arrangement-header-cell>
+						</div>
+						<column-arrangement-button type="estimate" ng-if="$last" all-columns="allColumns" callback="applyColumnArrangement"></column-arrangement-button>
+					</th>
+					<th class="nopadding"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="clickable" ng-repeat="estimate in estimates" ng-click="goToObject($event,'estimate',estimate.id)">
+					<td class="mobile-first visible-xs-block"></td>
+					<td class="estimate-icon hidden-xs">
+						<div class="icon-col">
+							<a href="" class="estimate-status-icon" tooltip="Draft" tooltip-placement="right" ng-if="estimate.status=='draft'">
+								<span class="fad fa-edit"></span>
+							</a>
+							<a href="" class="estimate-status-icon" tooltip="Sent" tooltip-placement="right" ng-if="estimate.status=='sent'">
+								<span class="fad fa-paper-plane"></span>
+							</a>
+							<a href="" class="estimate-status-icon" tooltip="Viewed" tooltip-placement="right" ng-if="estimate.status=='viewed'">
+								<span class="fad fa-eye"></span>
+							</a>
+							<a href="" class="estimate-status-icon" tooltip="Expired" tooltip-placement="right" ng-if="estimate.status=='expired'">
+								<span class="fas fa-exclamation-triangle"></span>
+							</a>
+							<a href="" class="estimate-status-icon success" tooltip="Approved" tooltip-placement="right" ng-if="estimate.status=='approved'">
+								<span class="fad fa-check"></span>
+							</a>
+							<a href="" class="estimate-status-icon success" tooltip="Invoiced" tooltip-placement="right" ng-if="estimate.status=='invoiced'">
+								<span class="fad fa-receipt"></span>
+							</a>
+							<a href="" class="estimate-status-icon danger" tooltip="Declined" tooltip-placement="right" ng-if="estimate.status=='declined'">
+								<span class="fad fa-times-circle"></span>
+							</a>
+							<a href="" class="estimate-status-icon danger" tooltip="Voided" tooltip-placement="right" ng-if="estimate.status=='voided'">
+								<span class="fad fa-minus-circle"></span>
+							</a>
+						</div>
+					</td>
+					<td ng-repeat="column in columns" ng-class="{'title': column.id=='number' || column.id=='customerName'}">
+						<a ng-if="column.id=='number'" ui-sref="manage.estimate.view.summary({id:estimate.id})"><document-name document="estimate"></document-name></a>
+						<a ng-if="column.id=='customerName'" ui-sref="manage.customer.view.summary({id:estimate.customer})">{{estimate.customerName}}</a>
+						<div ng-if="column.id!='number' && column.id!='customerName'"  ng-class="{'money-column': column.type=='money'}">
+							<column-arrangement-cell column="column" data="estimate" currency="estimate.currency"></column-arrangement-cell>
+						</div>
+					</td>
+					<td class="nopadding hover-actions-holder">
+						<div class="hover-actions">
+							<a ui-sref="manage.estimate.edit({id:estimate.id})" class="btn btn-sm btn-default" ng-hide="estimate.closed||estimate.status=='voided'" tooltip="Edit Estimate" tooltip-placement="left" ng-if="'estimates.edit'|hasPermission">
+								<span class="fas fa-pencil"></span>
+							</a>
+							<a ui-sref="manage.estimate.duplicate({id:estimate.id})" class="btn btn-sm btn-default" tooltip="{{'general.make_copy'|translate}}" tooltip-placement="left" ng-if="'estimates.edit'|hasPermission">
+								<span class="fas fa-copy"></span>
+							</a>
+							<a href="{{estimate.pdf_url}}?t=0" target="_self" class="btn btn-sm btn-default" tooltip="Download Estimate" tooltip-placement="left" ng-show="estimate.pdf_url">
+								<span class="fas fa-arrow-to-bottom"></span>
+							</a>
+							<button type="button" ng-click="issue(estimate)" class="btn btn-sm btn-primary" tooltip="Issue Estimate" tooltip-placement="left" ng-if="'estimates.edit'|hasPermission" ng-hide="estimate.status!='draft'">
+								<span class="fas fa-check"></span>
+							</button>
+							<button type="button" ng-click="emailModal(estimate)" class="btn btn-sm btn-primary" tooltip="Send Estimate" tooltip-placement="left" ng-if="'emails.send'|hasPermission" ng-hide="estimate.status=='voided'">
+								<span class="fas fa-paper-plane"></span>
+							</button>
+							<button type="button" class="btn btn-sm btn-success" ng-click="makeInvoiceFromEstimate(estimate)" tooltip="Convert to Invoice" tooltip-placement="left" ng-if="'estimates.create'|hasPermission" ng-disabled="saving" ng-hide="estimate.status=='voided'">
+								<span class="fas fa-file-invoice-dollar"></span>
+							</button>
+							<button type="button" class="btn btn-sm btn-danger" ng-click="void(estimate)" tooltip="Void Estimate" tooltip-placement="left" ng-if="'estimates.void'|hasPermission">
+								<span class="fas fa-trash"></span>
+							</button>
+						</div>
+					</td>
+					<td class="mobile-last visible-xs-block"></td>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+
+		<!-- Pagination -->
+		<pagination-bar total-count="total_count" page-count="page_count" ng-change="goToPage(page, perPage)" ng-model="filter" ng-show="estimates.length > 0 && !loading"></pagination-bar>
+	</div>
+</div>

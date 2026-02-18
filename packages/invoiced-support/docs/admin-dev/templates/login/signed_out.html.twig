@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Invoiced | Login{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('build/css/auth.css') }}" />
+{% endblock %}
+
+{% block body %}
+    <div class="login-page">
+        <div id="form" class="form">
+            <img src="{{ asset('/img/logo.png') }}" alt="Invoiced" width="175" style="padding-bottom: 25px">
+            <div>You have been signed out</div>
+            <p class="message"><a href="{{ path('login') }}">Sign in again</a></p>
+        </div>
+    </div>
+{% endblock %}
+

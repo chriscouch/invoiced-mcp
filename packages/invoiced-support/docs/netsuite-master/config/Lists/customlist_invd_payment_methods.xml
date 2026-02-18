@@ -1,0 +1,44 @@
+<customlist scriptid="customlist_invd_payment_methods">
+  <description></description>
+  <isinactive>F</isinactive>
+  <isordered>T</isordered>
+  <name>Invoiced Payment Methods</name>
+  <customvalues>
+    <customvalue scriptid="val_63386_t2045854_283">
+      <isinactive>F</isinactive>
+      <value>ach</value>
+    </customvalue>
+    <customvalue scriptid="val_63387_t2045854_698">
+      <isinactive>F</isinactive>
+      <value>eft</value>
+    </customvalue>
+    <customvalue scriptid="val_63388_t2045854_221">
+      <isinactive>F</isinactive>
+      <value>cash</value>
+    </customvalue>
+    <customvalue scriptid="val_63389_t2045854_210">
+      <isinactive>F</isinactive>
+      <value>check</value>
+    </customvalue>
+    <customvalue scriptid="val_63390_t2045854_566">
+      <isinactive>F</isinactive>
+      <value>credit_card</value>
+    </customvalue>
+    <customvalue scriptid="val_63391_t2045854_424">
+      <isinactive>F</isinactive>
+      <value>direct_debit</value>
+    </customvalue>
+    <customvalue scriptid="val_63392_t2045854_993">
+      <isinactive>F</isinactive>
+      <value>other</value>
+    </customvalue>
+    <customvalue scriptid="val_63393_t2045854_634">
+      <isinactive>F</isinactive>
+      <value>paypal</value>
+    </customvalue>
+    <customvalue scriptid="val_63394_t2045854_220">
+      <isinactive>F</isinactive>
+      <value>wire_transfer</value>
+    </customvalue>
+  </customvalues>
+</customlist>

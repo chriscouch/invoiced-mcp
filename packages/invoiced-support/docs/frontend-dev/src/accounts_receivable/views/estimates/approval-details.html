@@ -1,0 +1,37 @@
+<div class="modal-header">
+	<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+	<h4 class="modal-title">Approval Details</h4>
+</div>
+<div class="modal-body">
+	<!-- Timestamp -->
+	<div class="form-group">
+		<label class="control-label">Timestamp</label>
+		<div>
+			<company-date-time date="approval.timestamp"></company-date-time>
+		</div>
+	</div>
+
+	<!-- IP -->
+	<div class="form-group">
+		<label class="control-label">IP</label>
+		<div>
+			<a href="https://ipinfo.io/{{approval.ip}}" target="_blank" rel="noopener noreferrer">{{approval.ip}}</a><span ng-show="location"> near <em>{{location}}</em></span>
+		</div>
+	</div>
+
+	<!-- User Agent -->
+	<div class="form-group">
+		<label class="control-label">User Agent</label>
+		<div>
+			{{userAgent}}
+		</div>
+	</div>
+
+	<!-- Initials -->
+	<div class="form-group">
+		<label class="control-label">Initials</label>
+		<div>
+			{{approval.initials}}
+		</div>
+	</div>
+</div>

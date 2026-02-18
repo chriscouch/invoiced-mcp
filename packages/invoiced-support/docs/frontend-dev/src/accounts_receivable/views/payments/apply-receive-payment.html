@@ -1,0 +1,205 @@
+<div class="loading" ng-show="applyForm.loading"></div>
+
+<div ng-hide="applyForm.loading">
+    <!-- Available Credits -->
+    <div ng-show="applyForm.availableCredits.length > 0" ng-if="'credits.apply'|hasPermission">
+        <div class="row">
+            <div class="col-sm-6">
+                <label class="control-label">{{'payments.credits.title'|translate}}</label>
+            </div>
+            <div class="col-sm-6 text-right">
+                <button type="button" class="btn btn-default btn-sm" ng-click="applyForm.applyAllCredits()">
+                    Apply All
+                </button>
+            </div>
+        </div>
+
+        <div class="edit-payment-available-credits">
+            <table class="table table-striped search-results-table">
+                <thead>
+                    <tr>
+                        <th>Document</th>
+                        <th class="hidden-sm hidden-xs">Date</th>
+                        <th class="money-column hidden-sm hidden-xs">Balance</th>
+                        <th class="money-column edit-payment-amount-column">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="line in applyForm.availableCredits">
+                        <td>
+                            <span ng-show="line.type == 'applied_credit'">Credit Balance</span>
+                            <document-name document="line.document"></document-name>
+                        </td>
+                        <td class="hidden-sm hidden-xs">
+                            <div ng-show="line.document">
+                                <company-date date="line.document.date"></company-date>
+                            </div>
+                        </td>
+                        <td class="money-column hidden-sm hidden-xs">
+                            <money amount="line.balance" currency="payment.currency"></money>
+                        </td>
+                        <td class="money-column edit-payment-amount-column has-input mobile-last">
+                            <div class="line-input" ng-class="{'has-error':line.invalid}">
+                                <input class="form-control" type="text" currency-input ng-model="line.amount" currency="payment.currency" ng-change="applyForm.changedAmount()" />
+                            </div>
+
+                            <!-- Line Over Applied Alert -->
+                            <div class="text-danger" ng-show="line.over">
+                                {{'transactions.new_payment.balance_warning'|translate}} <money amount="line.balance" currency="payment.currency"></money>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="money-column">
+                            <strong><money amount="applyForm.totalCredits" currency="payment.currency"></money></strong>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <hr/>
+    </div>
+
+    <!-- Apply Payment -->
+    <div class="row">
+        <div class="col-sm-6">
+            <label class="control-label">{{'payments.apply.title'|translate}} <span class="required"></span></label>
+        </div>
+        <div class="col-sm-6 text-right">
+            <button type="button" class="btn btn-default btn-sm" ng-click="applyForm.addAllOpenItems()" ng-show="applyForm.canAddItem()">
+                Add All
+            </button>
+            <button type="button" class="btn btn-default btn-sm" ng-click="applyForm.addOverpayment()" ng-show="applyForm.canAddOverpayment()">
+                <span class="fas fa-plus"></span>
+                Overpayment
+            </button>
+            <button type="button" class="btn btn-default btn-sm" ng-click="applyForm.autoApply()" ng-show="applyForm.canAutoApply()">
+                <span class="fas fa-wand-magic-sparkles"></span>
+                Auto Apply
+            </button>
+        </div>
+    </div>
+
+    <!-- No Customer -->
+    <div class="row" ng-hide="payment.customer">
+        <div class="col-sm-12 text-muted">
+            {{'transactions.new_payment.customer_selection_info'|translate}}
+        </div>
+    </div>
+
+    <div ng-show="payment.customer">
+        <!-- No Open Items -->
+        <div class="row" ng-show="applyForm.openItems.length == 0 && applyForm.appliedTo.length === 0">
+            <div class="col-sm-12">
+                <div class="form-group text-muted">
+                    {{'transactions.new_payment.invoice_warning'|translate}}
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Item Selector -->
+        <div class="row edit-payment-apply-controls" ng-if="applyForm.itemSelect2">
+            <div class="col-sm-6" ng-show="applyForm.canAddItem()">
+                <input type="hidden" ng-model="applyForm.itemToAdd" ui-select2="applyForm.itemSelect2" ng-change="applyForm.addDocument(applyForm.itemToAdd)" />
+            </div>
+        </div>
+
+        <div class="edit-payment-apply-payment">
+            <!-- Payment Line Items -->
+            <table class="table table-striped search-results-table" ng-show="applyForm.appliedTo.length > 0">
+                <thead>
+                    <tr>
+                        <th>Document</th>
+                        <th class="hidden-sm hidden-xs">Date</th>
+                        <th class="hidden-sm hidden-xs">Due Date</th>
+                        <th class="money-column hidden-sm hidden-xs">Total</th>
+                        <th class="money-column">Balance</th>
+                        <th class="money-column edit-payment-amount-column">Payment</th>
+                        <th>
+                            <a class="delete" href="" ng-click="applyForm.reset()" tooltip="Delete All" ng-show="applyForm.canDeleteAllLines()">
+                                <span class="fas fa-trash"></span>
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Apply Payment Lines (Invoice/Credit) -->
+                    <tr class="line" ng-repeat="($index, line) in applyForm.appliedTo">
+                        <td>
+                            <span ng-show="line.type === 'credit'">Overpayment</span>
+                            <document-name document="line.document"></document-name>
+                            <div>
+                                <a href="" tooltip="AutoPay Enabled" ng-if="line.document.autopay">
+                                    <span class="fas fa-plane-alt"></span>
+                                </a>
+                                <a href="" tooltip="Promise-to-Pay: {{line.document.expected_payment_date.date|formatCompanyDate}}" ng-if="line.document.expected_payment_date">
+                                    <span class="fas fa-handshake"></span>
+                                </a>
+                            </div>
+                        </td>
+                        <td class="hidden-sm hidden-xs">
+                            <div ng-if="line.document">
+                                <company-date date="line.document.date"></company-date>
+                            </div>
+                        </td>
+                        <td class="hidden-sm hidden-xs">
+                            <div ng-if="line.document && line.document.due_date">
+                                <company-date date="line.document.due_date"></company-date>
+                            </div>
+                        </td>
+                        <td class="money-column hidden-sm hidden-xs">
+                            <div ng-if="line.document">
+                                <money amount="line.document.total" currency="line.document.currency"></money>
+                            </div>
+                        </td>
+                        <td class="money-column">
+                            <div ng-if="line.document && line.document.balance">
+                                <money amount="line.document.balance" currency="line.document.currency"></money>
+                            </div>
+                            <div ng-if="line.document && line.document.deposit">
+                                <money amount="line.document.deposit" currency="line.document.currency"></money>
+                            </div>
+                        </td>
+                        <td class="money-column edit-payment-amount-column has-input">
+                            <div class="line-input" ng-class="{'has-error':line.invalid}">
+                                <input class="form-control" type="text" currency-input ng-model="line.amount" currency="payment.currency" required="required" ng-change="applyForm.changedAmount()" />
+                            </div>
+
+                            <!-- Line Over Applied Alert -->
+                            <div class="text-danger" ng-show="line.over">
+                                {{'transactions.new_payment.balance_warning'|translate}} <money amount="line.document.balance" currency="line.document.currency"></money>
+                            </div>
+                        </td>
+                        <td class="mobile-last">
+                            <div ng-show="applyForm.canDeleteLine(line)">
+                                <a class="delete" href="" ng-click="applyForm.deleteLine($index)">
+                                    <span class="fas fa-trash"></span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Totals -->
+            <div class="edit-payment-totals">
+                Total Applied:
+                <strong><money amount="applyForm.totalApplied" currency="payment.currency"></money></strong>.
+                Remaining:
+                <strong><money amount="applyForm.remaining" currency="payment.currency"></money></strong>.
+
+                <!-- Validation Errors -->
+                <span class="edit-payment-warning" ng-show="applyForm.showOverpaymentAlert">
+                    <span class="icon"><span class="fas fa-exclamation-triangle"></span></span>
+                    {{'transactions.new_payment.overpayment_by'|translate}} <strong><money amount="applyForm.remaining" currency="payment.currency"></money></strong> {{'transactions.new_payment.detected'|translate}}.
+                </span>
+                <span class="edit-payment-warning" ng-show="applyForm.showOverAppliedAlert">
+                    <span class="icon"><span class="fas fa-exclamation-triangle"></span></span>
+                    {{'transactions.new_payment.applied_warning'|translate}}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

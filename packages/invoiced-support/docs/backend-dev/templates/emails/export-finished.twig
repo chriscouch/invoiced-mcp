@@ -1,0 +1,35 @@
+{% extends "emails/parent.twig" %}
+{% block title %}Export Finished{% endblock %}
+{% block content %}
+	<row>
+		<columns>
+			<p>Hi {{ name }},</p>
+		{% if succeeded %}
+			<p>Great news! The <strong>{{ exportName }}</strong> export you started on {{ date }} just finished.</p>
+		</columns>
+	</row>
+	<row>
+		<columns>
+			<center>
+				<spacer size="5"></spacer>
+				{% if downloadLink | length == 1 %}
+					<button class="radius" href="{{ downloadLink[0] }}">Download</button>
+				{%  else %}
+					<h4><center>Download</center></h4>
+					{% for link in downloadLink %}
+						<p><a href="{{ link }}">{{ link }}</a></p>
+					{% endfor %}
+				{%  endif %}
+				<span class="text-muted">This link is valid for 7 days.</span>
+				<spacer size="5"></spacer>
+			</center>
+		{% else %}
+			<row>
+				<columns>
+					<p>The <strong>{{ exportName }}</strong> export you started on {{ date }} was unable to finish. If you need help with your export then please contact us.</p>
+				</columns>
+			</row>
+		{% endif %}
+		</columns>
+	</row>
+{% endblock %}

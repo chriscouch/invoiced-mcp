@@ -1,0 +1,61 @@
+<form name="modelForm" ng-submit="save(application)">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			<span ng-hide="application.id">New</span><span ng-show="application.id">Edit</span> OAuth Application
+		</h4>
+	</div>
+	<div class="modal-body">
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group">
+					<label class="control-label">Application Name <span class="required"></span></label>
+					<div>
+						<input type="text" class="form-control" ng-model="application.name" required />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label">Redirect URLs <span class="required"></span></label>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group" ng-repeat="uri in application.redirect_uris">
+			<div class="row">
+				<div class="col-sm-10">
+					<input type="text" class="form-control" ng-model="uri.url" placeholder="https://example.com/invoiced/callback" required />
+				</div>
+				<div class="col-sm-2">
+					<button type="button" class="btn btn-link" ng-click="deleteRedirectUri(application, $index)" ng-show="application.redirect_uris.length > 1">
+						<span class="fas fa-trash"></span>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group">
+					<button type="button" class="btn btn-link" ng-click="addRedirectUri(application)">
+						<span class="fas fa-plus"></span>
+						Redirect URL
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="modelForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

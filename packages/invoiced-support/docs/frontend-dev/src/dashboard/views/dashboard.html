@@ -1,0 +1,37 @@
+<div class="dashboard-new">
+	<flywire-payments-offer can-dismiss="true"></flywire-payments-offer>
+
+	<div class="dashboard-options clearfix">
+		<!-- Dashboard Selector -->
+		<div class="dashboard-selector" ng-show="dashboards.length > 1">
+			<div class="dropdown" dropdown>
+				<a href="" class="dropdown-toggle btn btn-link" dropdown-toggle>
+					{{grid.name}}
+					<span class="fas fa-chevron-down"></span>
+				</a>
+				<ul class="dropdown-menu">
+					<li ng-repeat="dashboard in dashboards">
+						<a href="" ng-click="selectDashboard(dashboard)">
+							{{dashboard.name}}
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- Currency Selector -->
+		<div class="currency-selector" ng-if="('multi_currency'|hasFeature) && availableCurrencies.length > 1">
+			<currency-selector ng-model="context.currency" available="availableCurrencies"></currency-selector>
+		</div>
+	</div>
+
+	<!-- Dashboard Grid -->
+	<div class="row dashboard-row" ng-repeat="row in grid.rows">
+		<div class="dashboard-column col-md-{{column.size}}" ng-repeat="column in row.columns">
+			<div class="box {{column.class}}">
+				<dashboard-component type="column.component" context="context" options="column.options" ng-if="column.component != 'grid'"></dashboard-component>
+				<dashboard-grid grid="column.grid" context="context" ng-if="column.component == 'grid'"></dashboard-grid>
+			</div>
+		</div>
+	</div>
+</div>

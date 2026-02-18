@@ -1,0 +1,167 @@
+fields:
+  bill_in:
+    name: "Bill In"
+    writable: false
+    type: enum
+    values:
+      advance: Advance
+      arrears: Arrears
+  bill_in_advance_days:
+    name: "Bill In Advance Days"
+    type: integer
+    writable: false
+  cancel_at_period_end: { name: "Cancel At Period End", type: boolean }
+  canceled:
+    name: Canceled
+    type: boolean
+    writable: false
+  canceled_at:
+    name: "Canceled At"
+    type: datetime
+    writable: false
+  canceled_reason:
+    name: "Canceled Reason"
+    type: string
+    writable: true
+  contract_period_end:
+    name: "Contract Period End"
+    type: date
+    writable: false
+  contract_period_start:
+    name: "Contract Period Start"
+    type: date
+    writable: false
+  contract_renewal_cycles:
+    name: "Contract Renewal Cycles"
+    type: integer
+    writable: false
+  contract_renewal_mode:
+    name: "Contract Renewal Mode"
+    writable: false
+    type: enum
+    values:
+      none: None
+      renew_once: Renew Once
+      manual: Manual
+      auto: Auto
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  cycles:
+    name: Cycles
+    type: integer
+    writable: false
+  description:
+    name: Description
+    type: string
+    filterable: false
+  finished:
+    name: Finished
+    type: boolean
+    writable: false
+  id:
+    name: ID
+    type: string
+    writable: false
+  mrr:
+    name: MRR
+    type: money
+    summarize: true
+    writable: false
+  paused:
+    name: Paused
+    type: boolean
+    writable: false
+  pending_renewal:
+    name: "Pending Renewal"
+    type: boolean
+    writable: false
+  period_end:
+    name: "Period End"
+    type: date
+    writable: false
+  period_start:
+    name: "Period Start"
+    type: date
+    writable: false
+  prorate:
+    name: Prorate
+    type: boolean
+    writable: false
+    filterable: false
+  quantity: { name: Quantity, type: float, summarize: true }
+  recurring_total:
+    name: "Recurring Total"
+    type: money
+    summarize: true
+    writable: false
+  renewed_last:
+    name: "Last Bill Date"
+    type: date
+    writable: false
+  renews_next:
+    name: "Next Bill Date"
+    type: date
+    writable: false
+  snap_to_nth_day:
+    name: "Billing Day"
+    type: integer
+    writable: false
+  start_date:
+    name: "Start Date"
+    type: date
+    writable: false
+  status:
+    name: Status
+    writable: false
+    type: enum
+    values:
+      not_started: Not Started
+      paused: Paused
+      past_due: Past Due
+      active: Active
+      pending_renewal: Pending Renewal
+      finished: Finished
+      canceled: Canceled
+  taxes:
+    name: Taxes
+    type: string
+    writable: false
+    filterable: false
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  bank_account:
+    name: Bank Account
+    type: join
+    parent_column: payment_source_id
+    parent_type_column: payment_source_type
+    filterable: false
+  card:
+    name: Card
+    type: join
+    parent_column: payment_source_id
+    parent_type_column: payment_source_type
+    filterable: false
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  customer: { name: Customer, type: join, parent_column: customer }
+  metadata:
+    name: 'Metadata'
+    type: metadata
+  plan: { name: Plan, type: join, join_column: internal_id }
+  ship_to:
+    name: Ship To
+    type: join
+    parent_column: id
+    join_column: subscription_id
+    join_object: shipping_detail
+    filterable: false

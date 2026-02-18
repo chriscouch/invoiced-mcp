@@ -1,0 +1,183 @@
+<?php
+
+/**
+ * @author Jared King <j@jaredtking.com>
+ *
+ * @see http://jaredtking.com
+ *
+ * @copyright 2015 Jared King
+ * @license MIT
+ */
+
+namespace App\Tests\Core\Orm\Relation;
+
+use App\Tests\Core\Orm\ModelTestCase;
+use Mockery;
+use App\Core\Orm\Driver\DriverInterface;
+use App\Core\Orm\Model;
+use App\Core\Orm\Relation\HasMany;
+use App\Tests\Core\Orm\Models\Garage;
+use App\Tests\Core\Orm\Models\Person;
+
+class HasManyTest extends ModelTestCase
+{
+    public static Mockery\MockInterface $driver;
+
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+        self::$driver = Mockery::mock(DriverInterface::class);
+        Model::setDriver(self::$driver);
+    }
+
+    public function testInitQuery(): void
+    {
+        $person = new Person(['id' => 10]);
+
+        $relation = new HasMany($person, 'id', Garage::class, 'person_id');
+
+        $this->assertEquals(['person_id' => 10], $relation->getQuery()->getWhere());
+    }
+
+    public function testGetResults(): void
+    {
+        $person = new Person(['id' => 10]);
+
+        $relation = new HasMany($person, 'id', Garage::class, 'person_id');
+
+        self::$driver->shouldReceive('queryModels')
+            ->andReturn([['id' => 11], ['id' => 12]]);
+
+        $result = $relation->getResults();
+
+        $this->assertIsArray($result);
+        $this->assertCount(2, $result);
+
+        foreach ($result as $m) {
+            $this->assertInstanceOf(Garage::class, $m);
+        }
+
+        $this->assertEquals(11, $result[0]->id());
+        $this->assertEquals(12, $result[1]->id());
+    }
+
+    public function testEmpty(): void
+    {
+        $person = new Person();
+        $person->person_id = null; /* @phpstan-ignore-line */
+
+        $relation = new HasMany($person, 'id', Garage::class, 'person_id');
+
+        $this->assertNull($relation->getResults());
+    }
+
+    public function testSave(): void
+    {
+        $person = new Person(['id' => 100]);
+
+        $relation = new HasMany($person, 'id', Garage::class, 'person_id');
+
+        $garage = new Garage(['id' => 2]);
+        $garage->refreshWith(['location' => '']);
+        $garage->location = 'My House'; /* @phpstan-ignore-line */
+
+        self::$driver->shouldReceive('updateModel')
+            ->withArgs([$garage, ['location' => 'My House', 'person_id' => 100]])
+            ->andReturn(true)
+            ->once();
+
+        $this->assertEquals($garage, $relation->save($garage));
+
+        $this->assertTrue($garage->persisted());
+    }
+
+    public function testCreate(): void
+    {
+        $person = new Person(['id' => 100]);
+
+        $relation = new HasMany($person, 'id', Garage::class, 'person_id');
+
+        self::$driver->shouldReceive('createModel')
+            ->andReturnUsing(function ($model, $params) {
+                $this->assertEquals(['location' => 'My House', 'person_id' => 100], $params);
+
+                return true;
+            });
+
+        self::$driver->shouldReceive('getCreatedID')
+            ->andReturn(1);
+
+        $garage = $relation->create(['location' => 'My House']);
+
+        $this->assertInstanceOf(Garage::class, $garage);
+        $this->assertTrue($garage->persisted());
+    }
+
+    public function testAttach(): void
+    {
+        $person = new Person(['id' => 100]);
+
+        $relation = new HasMany($person, 'id', Garage::class, 'person_id');
+
+        $garage = new Garage(['id' => 5]);
+        $garage->refreshWith(['person_id' => null]);
+
+        self::$driver->shouldReceive('updateModel')
+            ->andReturnUsing(function ($model, $params) {
+                $this->assertInstanceOf(Garage::class, $model);
+                $this->assertEquals(['person_id' => 100], $params);
+
+                return true;
+            })
+            ->once();
+
+        $this->assertEquals($relation, $relation->attach($garage));
+
+        $this->assertTrue($garage->persisted());
+    }
+
+    public function testDetach(): void
+    {
+        $person = new Person(['id' => 100]);
+
+        $relation = new HasMany($person, 'id', Garage::class, 'person_id');
+
+        $garage = new Garage(['id' => 2]);
+        $garage->refreshWith(['person_id' => 100]);
+
+        self::$driver->shouldReceive('updateModel')
+            ->withArgs([$garage, ['person_id' => null]])
+            ->andReturn(true)
+            ->once();
+
+        $this->assertEquals($relation, $relation->detach($garage));
+    }
+
+    public function testSync(): void
+    {
+        $person = new Person(['id' => 100]);
+
+        $relation = new HasMany($person, 'id', Garage::class, 'person_id');
+
+        self::$driver = Mockery::mock(DriverInterface::class);
+
+        self::$driver->shouldReceive('count')
+            ->andReturn(3);
+
+        self::$driver->shouldReceive('queryModels')
+            ->andReturnUsing(function ($query) {
+                $this->assertInstanceOf(Garage::class, $query->getModel());
+                $this->assertEquals(['person_id NOT IN (1,2,3)'], $query->getWhere());
+
+                return [['id' => 3], ['id' => 4], ['id' => 5]];
+            });
+
+        self::$driver->shouldReceive('deleteModel')
+            ->andReturn(true)
+            ->times(3);
+
+        Model::setDriver(self::$driver);
+
+        $this->assertEquals($relation, $relation->sync([1, 2, 3]));
+    }
+}

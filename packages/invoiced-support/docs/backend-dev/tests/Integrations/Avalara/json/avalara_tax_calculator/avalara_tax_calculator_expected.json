@@ -1,0 +1,112 @@
+{
+  "adjustmentReason": null,
+  "adjustmentDescription": null,
+  "createTransactionModel": {
+    "companyCode": "company_code",
+    "customerCode": "CUST-00001",
+    "date": "",
+    "type": "1",
+    "lines": [
+      {
+        "number": "1",
+        "quantity": 1,
+        "amount": 100,
+        "addresses": null,
+        "taxCode": "",
+        "customerUsageType": null,
+        "entityUseCode": null,
+        "itemCode": "",
+        "exemptionCode": null,
+        "discounted": true,
+        "taxIncluded": null,
+        "revenueAccount": null,
+        "ref1": null,
+        "ref2": null,
+        "description": "Line 1",
+        "businessIdentificationNo": null,
+        "taxOverride": null,
+        "parameters": null,
+        "userDefinedFields": null,
+        "hsCode": null,
+        "merchantSellerId": null,
+        "merchantSellerIdentifier": null,
+        "marketplaceLiabilityType": null,
+        "originationDocumentId": null,
+        "originationSite": null,
+        "category": null,
+        "summary": null
+      },
+      {
+        "number": "2",
+        "quantity": 4,
+        "amount": 200,
+        "addresses": {
+          "singleLocation": null,
+          "shipFrom": {
+            "locationCode": "NY",
+            "line1": null,
+            "line2": null,
+            "line3": null,
+            "city": null,
+            "region": null,
+            "country": null,
+            "postalCode": null,
+            "latitude": null,
+            "longitude": null
+          },
+          "shipTo": null,
+          "pointOfOrderOrigin": null,
+          "pointOfOrderAcceptance": null,
+          "goodsPlaceOrServiceRendered": null,
+          "import": null,
+          "billTo": null
+        },
+        "taxCode": "1234",
+        "customerUsageType": null,
+        "entityUseCode": null,
+        "itemCode": "test-item",
+        "exemptionCode": null,
+        "discounted": true,
+        "taxIncluded": null,
+        "revenueAccount": null,
+        "ref1": null,
+        "ref2": null,
+        "description": "Line 2",
+        "businessIdentificationNo": null,
+        "taxOverride": null,
+        "parameters": null,
+        "userDefinedFields": null,
+        "hsCode": null,
+        "merchantSellerId": null,
+        "merchantSellerIdentifier": null,
+        "marketplaceLiabilityType": null,
+        "originationDocumentId": null,
+        "originationSite": null,
+        "category": null,
+        "summary": null
+      }
+    ],
+    "commit": true,
+    "addresses": {
+      "ShipFrom": {
+        "line1": "Company",
+        "line2": "Address",
+        "line3": null,
+        "city": "Austin",
+        "region": "TX",
+        "postalCode": "78701",
+        "country": "US"
+      },
+      "ShipTo": {
+        "line1": "5301 Southwest Parkway",
+        "line2": "Suite 470",
+        "line3": null,
+        "city": "Austin",
+        "region": "TX",
+        "postalCode": "78735",
+        "country": "US"
+      }
+    },
+    "currencyCode": "USD"
+  }
+}

@@ -1,0 +1,201 @@
+<p class="loading" ng-show="loading"></p>
+
+<div class="object-view customer-account" ng-hide="loading">
+	<div class="title-bar with-avatar clearfix">
+		<!-- Balance -->
+		<div class="balance" ng-show="loaded.balance" ng-class="{'with-currency':hasMultiCurrency && company.currencies.length > 1}">
+			<div class="owes" ng-class="{'paid':balance.net_outstanding<=0&&!balance.past_due,'past-due':balance.past_due}">
+				<span class="balance-label">Owes</span>
+				<span class="amount"><money amount="balance.net_outstanding" currency="balance.currency"></money></span>
+			</div>
+			<div class="credits" ng-class="{'none':balance.available_credits<=0,'has':balance.available_credits>0}">
+				<a href="" ng-click="showBalanceHistory(customer, balance)">
+					<span class="balance-label">Credits</span>
+					<span class="amount"><money amount="balance.available_credits" currency="balance.currency"></money></span>
+				</a>
+			</div>
+			<div class="selected-currency dropdown" dropdown>
+				<a href="" dropdown-toggle>
+					<span class="balance-label">{{'general.currency'|translate}}</span>
+					<span class="amount">{{currency|uppercase}}</span>
+					<span class="fas fa-chevron-down"></span>
+				</a>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<li ng-repeat="c in company.currencies" ng-class="{active:currency==c}">
+						<a href="" class="currency-link" ng-click="changeCurrency(c)">
+							{{c|uppercase}}
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="balance" ng-hide="loaded.balance">
+			<div class="loading inline"></div>
+		</div>
+
+		<!-- Avatar -->
+		<customer-icon customer="customer"></customer-icon>
+
+		<!-- Title -->
+		<h2>{{customer.name}}</h2>
+		<h3>{{customer.number}}</h3>
+	</div>
+
+	<ul class="nav nav-tabs">
+		<!-- Tab Links -->
+		<li ui-sref-active="active">
+			<a ui-sref=".summary">
+				Account
+			</a>
+		</li>
+		<li ui-sref-active="active" ng-if="'smart_chasing'|hasFeature">
+			<a ui-sref=".collections">
+				Collections
+			</a>
+		</li>
+		<li ui-sref-active="active">
+			<a ui-sref=".report">
+				Report
+			</a>
+		</li>
+		<li ui-sref-active="active">
+			<a ui-sref=".history">
+				{{'tabs.history'|translate}}
+			</a>
+		</li>
+
+		<!-- Action Buttons -->
+		<li class="action dropdown right" dropdown>
+			<a href="" class="dropdown-toggle" dropdown-toggle>
+				<span class="actions-label"></span>
+				<span class="fas fa-chevron-down"></span>
+			</a>
+			<ul class="dropdown-menu dropdown-menu-right">
+				<li ng-if="('network'|hasFeature) && ('customers.edit'|hasPermission) && ('network_invitations'|hasFeature)">
+					<a href="" ng-click="inviteToNetwork(customer)" ng-hide="customer.network_connection || invitedToNetwork || customer.type=='person'">
+						Add to Network
+					</a>
+					<a href="" ng-click="deleteNetworkConnection(customer)" ng-show="customer.network_connection">
+						Remove from Network
+					</a>
+				</li>
+				<li ng-if="'billing_portal'|hasFeature" ng-hide="customerPortalDisabled">
+					<a href="" ng-click="urlModal(signInLink(customer))" ng-if="'customers.edit'|hasPermission">
+						Customer Portal URL
+					</a>
+				</li>
+				<li>
+					<a href="" ng-click="generateStatement(customer)">
+						Generate Statement
+					</a>
+				</li>
+				<li ng-if="customer.consolidated && 'invoices.create'|hasPermission">
+					<a href="" ng-click="consolidateInvoices(customer)">
+						Consolidate Invoices
+					</a>
+				</li>
+				<li ng-if="member.notifications">
+					<a href="" ng-click="subscription(true)" ng-if="!customer.subscribed">
+						{{ 'customers.view.subscribe'|translate }}
+					</a>
+					<a href="" ng-click="subscription(false)" ng-if="customer.subscribed">
+						{{ 'customers.view.unsubscribe'|translate }}
+					</a>
+				</li>
+				<li ng-if="['autopay','subscriptions']|hasSomeFeatures">
+					<a href="" ng-click="assignSignUpPageModal(customer)" ng-if="customer.active && ('customers.edit'|hasPermission)">
+						Assign Sign Up Page
+					</a>
+				</li>
+				<li ng-show="customer.sign_up_url" ng-if="customer.active && ('customers.edit'|hasPermission)">
+					<a href="" ng-click="urlModal(customer.sign_up_url)">
+						Sign Up URL
+					</a>
+				</li>
+				<li class="divider"></li>
+				<li ng-if="customer.active && ('customers.delete'|hasPermission)">
+					<a href="" ng-click="mergeCustomer(customer)">
+						Merge Customer
+					</a>
+				</li>
+				<li class="divider"></li>
+				<li class="danger" ng-if="'customers.edit'|hasPermission">
+					<a href="" ng-click="setActiveStatus(customer, false)" ng-show="customer.active">
+						Make Inactive
+					</a>
+					<a href="" ng-click="setActiveStatus(customer, true)" ng-hide="customer.active">
+						Make Active
+					</a>
+				</li>
+				<li class="danger" ng-if="'customers.delete'|hasPermission">
+					<a href="" ng-click="delete(customer)" ng-hide="deleting">
+						Delete Customer
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li class="action dropdown right" dropdown ng-if="hasPermissions">
+			<a href="" class="dropdown-toggle" dropdown-toggle>
+				<div>
+					<span class="fas fa-plus-circle"></span>
+					<span class="fas fa-chevron-down"></span>
+				</div>
+			</a>
+			<ul class="dropdown-menu dropdown-menu-right">
+				<li ng-if="customer.active && ('invoices.create'|hasPermission)">
+					<a ui-sref="manage.invoices.newWithCustomer({customer:customer.id})">
+						New Invoice
+					</a>
+				</li>
+				<li ng-if="customer.active && ('credit_notes.create'|hasPermission)">
+					<a ui-sref="manage.credit_notes.newWithCustomer({customer:customer.id})">
+						New Credit Note
+					</a>
+				</li>
+				<li ng-if="customer.active && ('payment_links'|hasFeature) && ('catalog.edit'|hasPermission)">
+					<a ui-sref="manage.payment_links.newWithCustomer({customer:customer.id})">
+						New Payment Link
+					</a>
+				</li>
+				<li ng-if="customer.active && ('estimates'|hasFeature) && ('estimates.create'|hasPermission)">
+					<a ui-sref="manage.estimates.newWithCustomer({customer:customer.id})">
+						New Estimate
+					</a>
+				</li>
+				<li ng-if="customer.active && ('subscriptions'|hasFeature) && ('subscriptions.create'|hasPermission)">
+					<a href="" ng-click="addSubscriptionModal()">
+						Add Subscription
+					</a>
+				</li>
+				<li ng-if="customer.active && ('invoices.create'|hasPermission)">
+					<a href="" ng-click="lineItemModal(customer)">
+						Add Pending Line Item
+					</a>
+				</li>
+				<li class="divider" ng-if="customer.active"></li>
+				<li ng-if="['payments.create','charges.create']|hasSomePermissions">
+					<a href="" ng-click="paymentModal(customer)">
+						Receive Payment
+					</a>
+				</li>
+				<li ng-if="'credits.create'|hasPermission">
+					<a href="" ng-click="creditModal(customer)">
+						Add Credit
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li class="action automation-action right" ng-if="'customers.edit'|hasPermission">
+			<div>
+				<automate-button btn-class="'nav-link-item'" object-type="modelObjectType" object-id="modelId"></automate-button>
+			</div>
+		</li>
+	</ul>
+
+	<!-- Selected Tab Content -->
+	<div class="tab-content">
+		<div class="tab-pane active">
+			<ui-view/>
+		</div>
+	</div>
+</div>

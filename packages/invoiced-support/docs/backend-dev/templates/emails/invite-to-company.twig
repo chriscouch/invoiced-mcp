@@ -1,0 +1,32 @@
+{% extends "emails/parent.twig" %}
+{% block title %}Join Us On Invoiced{% endblock %}
+{% block content %}
+	<row>
+		<columns>
+			<p>Hi {{ username }},</p>
+
+			{% if not(registered) %}
+				<p>{{ from_username }} has invited you to join <em>{{ company }}</em> on Invoiced. The first step is to create a free Invoiced account.</p>
+			{% else %}
+				<p>{{ from_username }} has invited you to join <strong>{{ company }}</strong> on Invoiced.</p>
+			{% endif %}
+		</columns>
+	</row>
+	<row>
+		<columns>
+			<center>
+				<spacer size="5"></spacer>
+				<button class="radius" href="{{ link }}">{%  if registered %}Join {{ company }} on Invoiced{% else %}Join Invoiced{% endif %}</button>
+				<spacer size="5"></spacer>
+			</center>
+		</columns>
+	</row>
+
+	{% if not(registered) %}
+		<row>
+			<columns>
+				<p>New to Invoiced? The Invoiced Accounts Receivable Cloud helps businesses get paid faster, waste less time, and provide a better payment experience.</p>
+			</columns>
+		</row>
+	{% endif %}
+{% endblock %}

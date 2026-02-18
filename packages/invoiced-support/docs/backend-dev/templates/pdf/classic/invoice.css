@@ -1,0 +1,364 @@
+body {
+    text-align: center;
+    color: #232e38;
+}
+
+.two-col {
+    clear: both;
+    margin: 0 0 10px;
+    width: 100%;
+}
+
+.two-col .col {
+    float: left;
+    width: 50%;
+    padding: 0 15px;
+}
+
+.two-col .col-offset {
+    margin-left: 50%;
+}
+
+.two-col .col > .two-col > .col {
+    padding: 0 15px 0 0;
+}
+
+.field {
+    color: #879099;
+    text-align: right;
+    min-height: 26px;
+    line-height: 26px;
+}
+
+.field:not(:empty):after {
+    content: ':';
+}
+
+.from-holder {
+    min-height: 125px;
+    padding-bottom: 15px;
+}
+
+.logo {
+    text-align: left;
+    padding: 0 0 0 15px;
+}
+
+.logo img {
+    border-radius: 4px;
+    max-width: 200px;
+    max-height: 150px;
+}
+
+.contact {
+    padding: 0 0 0 30px;
+}
+
+.contact .field {
+    text-align: left;
+}
+
+.contact .value {
+    text-align: left;
+    padding-top: 0;
+}
+
+.contact .value .name,
+.contact .value strong {
+    font-weight: bold;
+}
+
+.contact.from {
+    margin: 15px 0 0;
+    min-height: 0;
+}
+
+.contact.from .field {
+    display: none;
+}
+
+.contact.to {
+    margin: 0;
+    min-height: 50px;
+    word-wrap: break-word;
+}
+
+.title {
+    margin: 0 0 45px;
+    padding: 15px 30px 0 15px;
+    font-size: 2.75em;
+    font-weight: 200;
+    color: #232e38;
+    text-align: right;
+    float: right;
+    width: 50%;
+}
+
+.title small {
+    display: block;
+    font-size: 16px;
+    line-height: 16px;
+    color: #879099;
+    padding-right: 5px;
+}
+
+.field-holder {
+    width: 100%;
+    text-align: left;
+    margin: 1px 0;
+    clear: both;
+    padding-right: 160px;
+}
+
+.field-holder .field {
+    width: 100%;
+    padding: 4px 0;
+    line-height: 20px;
+}
+
+.field-holder .value {
+    float: right;
+    padding: 4px 0;
+    line-height: 20px;
+    width: 140px;
+    margin-right: -135px;
+    text-align: right;
+    word-break: break-word;
+}
+
+.field-holder.highlight {
+    font-weight: bold;
+    background: #f5f6f9;
+    border-radius: 4px;
+    font-size: 1.1em;
+}
+
+.field-holder.highlight .field,
+.field-holder.highlight .value {
+    color: inherit;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+.items-holder {
+    margin: 30px 20px 60px;
+    clear: both;
+}
+
+.items {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+.items th {
+    font-weight: normal;
+    padding: 0;
+}
+
+.items th > div {
+    width: 100%;
+    text-align: left;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-radius: 0;
+    display: block;
+    padding: 1px 0 1px 20px;
+    height: auto;
+    min-height: 26px;
+    line-height: 26px;
+    background: #232e38;
+    color: #fff;
+}
+
+.items th.money-column > div {
+    text-align: right;
+    padding: 1px 20px 1px 0;
+}
+
+.items th:first-child > div {
+    border-radius: 4px 0 0 4px;
+}
+
+.items th:last-child > div {
+    border-radius: 0 4px 4px 0;
+}
+
+.items tbody .item {
+    page-break-inside: avoid;
+}
+
+.items tbody .item:first-child td,
+.items tbody .details + .item td {
+    padding-top: 10px;
+}
+
+.items .item td {
+    line-height: 1.5em;
+    text-align: left;
+    vertical-align: top;
+    padding-left: 20px;
+}
+
+.items tbody .custom-field {
+    page-break-inside: avoid;
+}
+
+.items .custom-field td {
+    line-height: 1.5em;
+    text-align: left;
+    vertical-align: top;
+    padding-left: 20px;
+    color: #879099;
+}
+
+.items tbody .item:first-child td {
+    border-top: none;
+}
+
+.items td.quantity,
+.items td.unit_cost,
+.items td.amount {
+    white-space: nowrap;
+    width: 100px;
+    padding-top: 2px;
+}
+
+.items td.unit_cost,
+.items td.amount {
+    text-align: right;
+    padding-left: 0;
+    padding-right: 20px;
+}
+
+.items td.name {
+    font-weight: bold;
+}
+
+.items .details td {
+    text-align: left;
+    padding: 0 0 0 20px;
+    line-height: 1.5em;
+    color: #879099;
+}
+
+.items .details td .fields,
+.items .details td .rates {
+    font-style: italic;
+    color: #879099;
+    padding-left: 5px;
+}
+
+.totals {
+    clear: both;
+    margin: 0 0 10px;
+    width: 100%;
+    padding: 0 15px;
+}
+
+.expires {
+    font-style: italic;
+    color: #c14543;
+    font-size: 13px;
+}
+
+.footer > div:last-child {
+    margin: 15px 0 0;
+}
+
+.footer > div:first-child {
+    margin: 30px 0 0;
+}
+
+.footer .field {
+    display: block;
+    text-align: left;
+    padding: 0 45px;
+}
+
+.notes-holder,
+.terms-holder,
+.notes,
+.terms {
+    page-break-inside: avoid;
+}
+
+.notes,
+.terms {
+    text-align: left;
+    line-height: 1.4em;
+    padding: 0 45px;
+}
+
+a,
+a:active,
+a:visited {
+    color: #08c;
+}
+
+/*
+ -----
+ Money Amounts
+ -----
+*/
+
+.negative-sign {
+    margin-right: 2px;
+}
+
+.currency-amount {
+    line-height: 1;
+}
+
+.currency-symbol {
+    font-size: 0.95em;
+    margin-right: 2px;
+}
+
+.currency-decimal,
+.currency-fraction {
+    font-size: 0.9em;
+    font-weight: normal;
+}
+
+/****************/
+/**INSTALLMENTS**/
+/****************/
+
+.installment-holder {
+    page-break-before: always;
+    margin: 0 20px;
+}
+
+.installment-holder .contact.to {
+    padding-top: 20px;
+}
+
+.table-summary {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14pt;
+    padding: 40px 0 10px;
+}
+
+.installment-table {
+    width: 100%;
+    table-layout: fixed;
+    text-align: center;
+}
+
+.fixed-width {
+    width: 33%;
+}
+
+.installment-table th {
+    background-color: #fff;
+    border-bottom: 1px solid #dfe3e8;
+}
+
+.installment-table tr:nth-child(even) td {
+    background-color: #f5f6f9;
+}

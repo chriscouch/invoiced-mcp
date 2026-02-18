@@ -1,0 +1,28 @@
+[
+  {
+    "Id": "CSAdminDailyTasks",
+    "Arn": "arn:aws:ecs:us-east-2:224792504733:cluster/InvoicedProduction",
+    "RoleArn": "arn:aws:iam::224792504733:role/ecsEventsRole",
+    "Input": "{\"containerOverrides\": [{\"name\": \"php\", \"command\": [\"bin/console\", \"app:daily-tasks\"]}]}",
+    "EcsParameters": {
+      "TaskDefinitionArn": "arn:aws:ecs:us-east-2:224792504733:task-definition/CSAdminConsole",
+      "TaskCount": 1,
+      "LaunchType": "FARGATE",
+      "NetworkConfiguration": {
+        "awsvpcConfiguration": {
+          "Subnets": [
+            "subnet-0368b36b",
+            "subnet-f97726b4",
+            "subnet-095e4272"
+          ],
+          "SecurityGroups": [
+            "sg-0d695dd00ccf20c10",
+            "sg-68f80103"
+          ],
+          "AssignPublicIp": "DISABLED"
+        }
+      },
+      "PlatformVersion": "LATEST"
+    }
+  }
+]

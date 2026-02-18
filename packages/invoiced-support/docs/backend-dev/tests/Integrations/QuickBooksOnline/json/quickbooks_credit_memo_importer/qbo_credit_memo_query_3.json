@@ -1,0 +1,228 @@
+{
+  "QueryResponse": {
+    "startPosition": 1,
+    "CreditMemo": [
+      {
+        "Id": "201",
+        "DocNumber": "CN-1040",
+        "TxnDate": "2021-01-08",
+        "TotalAmt": 1310.00,
+        "CustomerRef": {
+          "name": "Test",
+          "value": "1"
+        },
+        "Line": [
+          {
+            "Id": "3",
+            "LineNum": 1,
+            "Amount": 1250.00,
+            "DetailType": "SalesItemLineDetail",
+            "SalesItemLineDetail": {
+              "ItemRef": {
+                "name": "Development work - develper onsite per day",
+                "value": "22"
+              },
+              "UnitPrice": 1250.00,
+              "Qty": 1,
+              "TaxCodeRef": {
+                "value": "TAX"
+              }
+            }
+          },
+          {
+            "Id": "4",
+            "LineNum": 2,
+            "Amount": 100.00,
+            "DetailType": "SalesItemLineDetail",
+            "SalesItemLineDetail": {
+              "ItemRef": {
+                "name": "Missing qty",
+                "value": 23
+              },
+              "UnitPrice": 100.00,
+              "Qty": null,
+              "TaxCodeRef": {
+                "value": "TAX"
+              }
+            }
+          },
+          {
+            "Amount": 1250.00,
+            "DetailType": "SubTotalLineDetail",
+            "SubTotalLineDetail": {}
+          },
+          {
+            "Id": "1",
+            "LineNum": 1,
+            "Amount": 0,
+            "DetailType": "GroupLineDetail",
+            "GroupLineDetail": {
+              "GroupItemRef": {
+                "name": "Bundle",
+                "value": "201"
+              },
+              "Quantity": 3,
+              "Line": [
+                {
+                  "Id": "2",
+                  "LineNum": 2,
+                  "Amount": 57.00,
+                  "DetailType": "SalesItemLineDetail",
+                  "SalesItemLineDetail": {
+                    "ItemRef": {
+                      "name": "Amazon Echo",
+                      "value": "58"
+                    },
+                    "UnitPrice": 19.00,
+                    "Qty": 3,
+                    "ItemAccountRef": {
+                      "name": "Invoiced Account",
+                      "value": "91"
+                    },
+                    "TaxCodeRef": {
+                      "value": "NON"
+                    }
+                  }
+                },
+                {
+                  "Id": "3",
+                  "LineNum": 3,
+                  "Amount": 15.00,
+                  "DetailType": "SalesItemLineDetail",
+                  "SalesItemLineDetail": {
+                    "ItemRef": {
+                      "name": "blah",
+                      "value": "44"
+                    },
+                    "UnitPrice": 5.00,
+                    "Qty": 3,
+                    "ItemAccountRef": {
+                      "name": "Invoiced Account",
+                      "value": "91"
+                    },
+                    "TaxCodeRef": {
+                      "value": "NON"
+                    }
+                  }
+                },
+                {
+                  "Id": "4",
+                  "LineNum": 4,
+                  "Amount": 90.00,
+                  "DetailType": "SalesItemLineDetail",
+                  "SalesItemLineDetail": {
+                    "ItemRef": {
+                      "name": "blahasdf",
+                      "value": "45"
+                    },
+                    "UnitPrice": 30.00,
+                    "Qty": 3,
+                    "ItemAccountRef": {
+                      "name": "Invoiced Account",
+                      "value": "91"
+                    },
+                    "TaxCodeRef": {
+                      "value": "NON"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "Id": "6",
+            "LineNum": 6,
+            "Amount": 30.00,
+            "DetailType": "GroupLineDetail",
+            "GroupLineDetail": {
+              "GroupItemRef": {
+                "name": "Single Line Item Bundle",
+                "value": "206"
+              },
+              "Quantity": 2,
+              "Line": [
+                {
+                  "Id": "7",
+                  "LineNum": 7,
+                  "Amount": 8.00,
+                  "DetailType": "SalesItemLineDetail",
+                  "SalesItemLineDetail": {
+                    "ClassRef": {
+                      "name": "Test",
+                      "value": "223"
+                    },
+                    "ItemRef": {
+                      "name": "Amazon Echo",
+                      "value": "58"
+                    },
+                    "UnitPrice": 4.00,
+                    "Qty": 2,
+                    "ItemAccountRef": {
+                      "name": "Invoiced Account",
+                      "value": "91"
+                    },
+                    "TaxCodeRef": {
+                      "value": "NON"
+                    }
+                  }
+                },
+                {
+                  "Id": "8",
+                  "LineNum": 8,
+                  "Amount": 10.00,
+                  "DetailType": "SalesItemLineDetail",
+                  "SalesItemLineDetail": {
+                    "ItemRef": {
+                      "name": "blah",
+                      "value": "44"
+                    },
+                    "UnitPrice": 5.00,
+                    "Qty": 2,
+                    "ItemAccountRef": {
+                      "name": "Invoiced Account",
+                      "value": "91"
+                    },
+                    "TaxCodeRef": {
+                      "value": "NON"
+                    }
+                  }
+                },
+                {
+                  "Id": "9",
+                  "LineNum": 9,
+                  "Amount": 12.00,
+                  "DetailType": "SalesItemLineDetail",
+                  "SalesItemLineDetail": {
+                    "ItemRef": {
+                      "name": "blahasdf",
+                      "value": "45"
+                    },
+                    "UnitPrice": 6.00,
+                    "Qty": 2,
+                    "ItemAccountRef": {
+                      "name": "Invoiced Account",
+                      "value": "91"
+                    },
+                    "TaxCodeRef": {
+                      "value": "NON"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "CustomField": [
+          {
+            "DefinitionId": "1",
+            "Name": "Crew #",
+            "Type": "StringType",
+            "StringValue": "3"
+          }
+        ]
+      }
+    ],
+    "maxResults": 1
+  },
+  "time": "2021-01-08T09:13:36.246-07:00"
+}

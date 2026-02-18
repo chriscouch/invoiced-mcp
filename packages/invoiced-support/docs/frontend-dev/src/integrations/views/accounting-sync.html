@@ -1,0 +1,238 @@
+<div class="accounting-sync">
+	<div class="accounting-sync-content">
+		<div class="loading" ng-show="loading"></div>
+		<div ng-show="!isQuickBooksDesktop && !loading">
+			<div class="form-horizontal">
+				<div ng-hide="hasSyncProfile">
+					<div class="row">
+						<div class="col-sm-8">
+							<div class="alert alert-info">
+								<span class="fas fa-circle-info"></span>
+								You need to configure the integration in order to start syncing data.
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-8 col-sm-offset-4">
+						<h4 class="settings-section-title">Sync Status</h4>
+					</div>
+				</div>
+
+				<div class="form-group" ng-show="connectedToName">
+					<label class="control-label col-sm-4">Connected To</label>
+					<div class="form-control-static col-sm-8">
+						{{connectedToName}}
+					</div>
+				</div>
+
+				<div class="form-group" ng-show="lastSyncedTime !== false">
+					<label class="control-label col-sm-4">{{'accounting_sync.last_synced'|translate}}</label>
+					<div class="form-control-static col-sm-8">
+						<span ng-if="!lastSyncedTime"><em>Not synced yet</em></span>
+						<span class="notranslate" ng-if="lastSyncedTime">
+							<span tooltip="{{lastSyncedTime|formatCompanyDateTime}}">
+								{{lastSyncedTime|formatDate:'relative'}}
+							</span>
+						</span>
+					</div>
+				</div>
+
+				<div ng-show="syncStatus.running">
+					<div class="form-group" ng-show="syncParameters">
+						<label class="control-label col-sm-4">{{'accounting_sync.sync_parameters'|translate}}</label>
+						<div class="form-control-static col-sm-8">{{syncParameters}}</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-sm-4">{{'accounting_sync.current_status'|translate}}</label>
+						<div class="form-control-static col-sm-8">
+							<div>
+								{{'accounting_sync.sync_started'|translate}}
+								<span tooltip="{{syncStatus.started_at|formatCompanyDateTime}}">
+									{{syncStatus.started_at|formatDate:'relative'}}
+								</span>
+							</div>
+							<div ng-show="syncStatus.message">
+								<span tooltip="{{syncStatus.last_updated_at|formatCompanyDateTime}}">
+									{{syncStatus.message|formatDate:'relative'}}
+								</span>
+							</div>
+							<div class="loading inline"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group" ng-show="canSyncNow && !syncStatus.running">
+					<div class="col-sm-8 col-sm-offset-4">
+						<button type="button" class="btn btn-default" ng-click="synchronize()">
+							Sync Now
+						</button>
+						<a href="" ui-sref="manage.settings.app.initial_data_sync({id: integrationDefinition.id})" class="btn btn-default" ng-show="integrationDefinition.initialDataSync">
+							{{'accounting_sync.sync_initial'|translate}}
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- List sync errors -->
+			<br/>
+			<div class="panel panel-default settings-panel" ng-show="hasSyncProfile">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<div class="action" ng-show="reconciliationErrors.length > 0">
+							<a href="" ng-click="retryAll()">
+								{{'accounting_sync.retry_all'|translate}}
+							</a>
+						</div>
+						{{'accounting_sync.reconciliation_errors'|translate}}
+						<span class="badge" ng-show="totalReconciliationErrors > 0">{{totalReconciliationErrors|number}}</span>
+					</h4>
+				</div>
+				<div class="panel-body" ng-if="reconciliationErrors.length==0">
+					<div class="empty" ng-bind-html="'general.everything_looks_good'|translate"></div>
+				</div>
+				<table class="table table-striped search-results-table" ng-if="reconciliationErrors.length>0">
+					<thead>
+						<tr>
+							<th>{{'accounting_sync.level'|translate}}</th>
+							<th>{{'accounting_sync.timestamp'|translate}}</th>
+							<th class="nowrap">{{'accounting_sync.record'|translate}}</th>
+							<th>{{'accounting_sync.error_message'|translate}}</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="reconciliationError in reconciliationErrors">
+							<td>
+								<span class="label label-danger" ng-show="reconciliationError.level == 'error'">{{'general.error'|translate}}</span>
+								<span class="label label-warning" ng-show="reconciliationError.level == 'warning'">{{'general.warning'|translate}}</span>
+							</td>
+							<td class="nowrap notranslate">
+								<div><company-date-time date="reconciliationError.timestamp"></company-date-time></div>
+								<div ng-if="reconciliationError.retried_at">
+									<a href="" tooltip="{{reconciliationError.retried_at|formatCompanyDateTime}}">
+										<span class="label label-default">{{'accounting_sync.retry_pending'|translate}}</span>
+									</a>
+								</div>
+							</td>
+							<td class="nowrap">
+								<a href="" ng-click="goToObject(reconciliationError)" ng-show="reconciliationError.object_id">
+									{{'metadata.object_names.' + reconciliationError.object|translate}}
+									<span ng-show="reconciliationError.description">{{reconciliationError.description}}</span>
+									<span ng-hide="reconciliationError.description">{{reconciliationError.object_id}}</span>
+								</a>
+								<div ng-hide="reconciliationError.object_id">
+									{{'metadata.object_names.' + reconciliationError.object|translate}}
+									{{reconciliationError.description}}
+								</div>
+								<div ng-show="reconciliationError.accounting_id">
+									{{'integrations.' + integrationDefinition.id|translate}} {{'accounting_sync.accounting_id'|translate}}: {{reconciliationError.accounting_id}}
+								</div>
+							</td>
+							<td ng-bind-html="reconciliationError.message|nl2br"></td>
+							<td class="nowrap mobile-last">
+								<a href="" class="btn btn-primary btn-sm" ng-click="retry(reconciliationError)" ng-if="!reconciliationError.retried_at">
+									{{'general.retry'|translate}}
+								</a>
+								<a href="" class="btn btn-default btn-sm" ng-click="ignore(reconciliationError, $index)">
+									{{'general.ignore'|translate}}
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<!-- Pagination -->
+				<div class="pagination-bar-container" ng-show="totalReconciliationErrors > 0">
+					<pagination-bar total-count="totalReconciliationErrors" page-count="reconciliationErrorTable.page_count" ng-change="goToPage(page, perPage)" ng-model="reconciliationErrorTable"></pagination-bar>
+				</div>
+			</div>
+		</div>
+
+		<div ng-show="isQuickBooksDesktop && !loading">
+			<!-- List active QuickBooks Desktop sync jobs -->
+			<div class="panel panel-invoiced success active-jobs" ng-show="activeJobs.length>0">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						Current Task<span ng-show="activeJobs.length!=1">s</span>
+					</h4>
+				</div>
+				<div class="panel-body">
+					<div class="active-sync-job" ng-repeat="job in activeJobs">
+						<div class="job-title">
+							Sync with {{job.integration.name}}
+						</div>
+						<div class="cancel">
+							<a href="" ng-click="cancel(job)" ng-hide="canceling||canceled[job.id]">
+								{{'general.cancel'|translate}}
+							</a>
+						</div>
+
+						<div class="progress-holder">
+							<div class="progress">
+								<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{job.percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{job.percent}}%;">
+									<span class="sr-only">{{job.percent}}% Complete</span>
+								</div>
+							</div>
+							<div class="current-step" ng-show="job.message">
+								{{job.message}}
+							</div>
+							<div class="position">
+								{{job.percent|number:0}}%
+								<span ng-show="job.total_count > 0">
+									&mdash;
+									{{job.position|number}} / {{job.total_count|number}} Records
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- List past QuickBooks Desktop sync jobs -->
+			<div ng-show="!pastJobs.length">
+				<div class="empty">No recent sync activity</div>
+			</div>
+			<div ng-show="pastJobs.length>0">
+				<br/>
+				<div class="panel panel-default settings-panel">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							Recent Syncs
+						</h4>
+					</div>
+					<table class="table table-striped search-results-table">
+						<thead>
+							<tr>
+								<th>Integration</th>
+								<th>Date</th>
+								<th>{{'general.status'|translate}}</th>
+								<th># Synced</th>
+								<th># Failed</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="job in pastJobs">
+								<td>{{job.integration.name}}</td>
+								<td><company-date-time date="job.created_at"></company-date-time></td>
+								<td>
+									<span class="label" ng-class="{'label-danger':job.state=='failed'||job.state=='errored'||job.state=='canceled','label-success':job.state=='finished','label-warning':job.state=='started'||job.state=='pending'||job.state=='paused'}">{{job.state}}</span>
+								</td>
+								<td>{{job.position|number}}</td>
+								<td>{{job.failed_count|number}}</td>
+								<td class="mobile-last">
+									<a href="" ng-click="jobDetails(job)">
+										View Details
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

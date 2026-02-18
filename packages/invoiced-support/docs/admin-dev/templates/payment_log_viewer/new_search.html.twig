@@ -1,0 +1,29 @@
+{% form_theme form with '@EasyAdmin/crud/form_theme.html.twig' %}
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Payment Logs{% endblock %}
+
+{% block body_class 'ea-edit' %}
+
+{% block page_actions %}
+    {{ parent() }}
+    <button type="submit" class="btn btn-primary" form="searchForm">Search</button>
+{% endblock %}
+
+{% block main %}
+    {{ form_start(form, {attr: {id: 'searchForm'}}) }}
+
+    <p>Search for requests to our internal payment system and to payment gateways. Payment logs are retained for 90 days after the request. Sensitive information is scrubbed for PCI compliance.</p>
+
+    {% if error is defined %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-md-6 col-xxl-5">
+            {{ form_widget(form) }}
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

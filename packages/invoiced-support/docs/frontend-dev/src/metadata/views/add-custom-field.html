@@ -1,0 +1,48 @@
+<div class="modal-header">
+	<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+	<h4 class="modal-title">Add Custom Field</h4>
+</div>
+<div class="modal-body">
+	<p class="loading" ng-show="loading"></p>
+
+	<div class="modal-selector slim" ng-show="!loading&&customFields.length>0">
+		<div class="search">
+			<div class="searchbar light">
+				<div class="bar">
+					<div class="icon"><span class="fas fa-search"></span></div>
+					<input type="text" class="form-control" ng-model="search" tabindex="2000" />
+					<div class="icon right icon-btn" ng-show="search">
+						<button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+							<span class="fas fa-times-circle"></span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="action">
+				<button type="button" class="btn btn-default" ng-click="newCustomFieldModal()" tabindex="2002" ng-if="'catalog.edit'|hasPermission">
+					<span class="fas fa-plus"></span>
+					New
+				</button>
+			</div>
+		</div>
+
+		<div class="custom-fields-list" tabindex="0">
+			<div class="empty" ng-show="results.length===0">
+				Could not find any custom fields matching <strong>{{search}}</strong>. <a href="" ng-click="newCustomFieldModal(search)" tabindex="2003" ng-if="'catalog.edit'|hasPermission">Create one.</a>
+			</div>
+
+			<a class="custom-field" ng-repeat="customField in customFields | searchObject:search:['name','id'] | orderBy:'name' as results" ng-click="select(customField)" tabindex="{{$index + 2003}}">
+				<div class="title">
+					{{customField.name}}
+				</div>
+				<div class="arrow">
+					<span class="fas fa-chevron-right"></span>
+				</div>
+			</a>
+		</div>
+	</div>
+
+	<p class="empty" ng-show="!loading&&customFields.length===0">
+		You don't have any custom fields yet. <a href="" ng-click="newCustomFieldModal()" tabindex="2003" ng-if="'catalog.edit'|hasPermission">Create one.</a>
+	</p>
+</div>

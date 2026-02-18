@@ -1,0 +1,9 @@
+<div class="dashboard-component-grid">
+    <div class="row dashboard-row" ng-repeat="row in grid.rows">
+        <div class="dashboard-column col-md-{{column.size}}" ng-repeat="column in row.columns">
+            <div>
+                <dashboard-component type="column.component" context="context" options="column.options"></dashboard-component>
+            </div>
+        </div>
+    </div>
+</div>

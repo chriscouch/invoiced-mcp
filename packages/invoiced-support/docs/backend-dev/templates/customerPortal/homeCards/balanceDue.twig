@@ -1,0 +1,39 @@
+{% trans_default_domain 'customer_portal' %}
+<div id="acct-summary-panel" class="card card-account balance-due">
+    <div class="card-header">
+        <h4 class="card-title">
+            <span>{{ 'labels.account_summary'|trans }}</span>
+        </h4>
+    </div>
+    <div class="card-body">
+        <div class="section">
+            <div class="subsection total-balance">
+                {{ 'labels.balance_due'|trans }}:
+                <a href="/invoices?status=open">
+                    <strong class="money">{{ totalOutstanding|money(currency) }}</strong>
+                </a>
+            </div>
+            {% if hasCredits %}
+                <div class="subsection available-credits">
+                    {{ 'labels.available_credits'|trans }}:
+                    <a href="/credit_notes?status=open">
+                        <strong class="money">{{ availableCredits|money(currency) }}</strong>
+                    </a>
+                </div>
+            {% endif %}
+            {% if openEstimates > 0 %}
+                <div class="subsection open-estimates">
+                    {{ 'open_estimates'|trans({'%count%': openEstimates}) }}:
+                    <a href="/estimates?status=open">
+                        {{ openEstimates }}
+                    </a>
+                </div>
+            {% endif %}
+            {% if showPayNowBtn %}
+                <div class="subsection actions">
+                    <a href="/pay" id="pay-now-button" class="btn btn-success">{{ 'buttons.pay_now'|trans }}</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

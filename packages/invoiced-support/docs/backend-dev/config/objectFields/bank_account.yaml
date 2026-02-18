@@ -1,0 +1,50 @@
+fields:
+  account_holder_name:
+    name: Account Holder Name
+    type: string
+  account_holder_type:
+    name: Account Holder Type
+    type: enum
+    values:
+      company: Company
+      individual: Individual
+  bank_name: { name: "Bank Name", type: string }
+  chargeable: { name: "Bank Account Saved", type: boolean }
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  country: { name: "Bank Account Country", type: string }
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency: { name: "Bank Account Currency", type: string }
+  customer: { name: Customer, type: join }
+  failure_reason: { name: "Failure Reason", type: string }
+  gateway: { name: "Payment Gateway", type: string }
+  gateway_customer: { name: "Payment Gateway Customer", type: string }
+  gateway_id: { name: "Payment Gateway ID", type: string }
+  id:
+    name: ID
+    type: string
+    writable: false
+  last4: { name: "Bank Account Last 4", type: string }
+  merchant_account: { name: "Gateway Configuration", type: join }
+  receipt_email: { name: "Receipt Email", type: string }
+  routing_number: { name: "Routing Number", type: string }
+  type:
+    name: Account Type
+    type: enum
+    values:
+      checking: Checking
+      savings: Savings
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  verified: { name: "Bank Account Verified", type: boolean }

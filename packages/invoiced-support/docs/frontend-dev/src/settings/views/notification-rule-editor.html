@@ -1,0 +1,43 @@
+<form name="ruleForm" ng-submit="save(rule)">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			<span ng-hide="rule.id">Add Notification Rule</span>
+			<span ng-show="rule.id">Edit Notification Rule</span>
+		</h4>
+	</div>
+	<div class="modal-body">
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<div class="row">
+			<div class="col-sm-9">
+				<div class="form-group">
+					<label class="control-label">Notify me when</label>
+					<div>
+						<div class="invoiced-select">
+							<select ng-model="rule.event" ng-options="event.id as event.name group by event.group for event in events" required></select>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label">Via</label>
+					<div ng-show="rule.medium=='email'">
+						Email (<strong>{{user.email}}</strong>)
+					</div>
+					<div ng-show="rule.medium=='slack'">
+						Slack (<strong>{{slackChannel}}</strong>)
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="ruleForm.$invalid" v-pressable>
+			<span ng-show="rule.id">{{'general.save'|translate}}</span>
+			<span ng-hide="rule.id">Add</span>
+		</button>
+	</div>
+</form>

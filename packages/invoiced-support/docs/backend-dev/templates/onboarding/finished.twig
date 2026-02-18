@@ -1,0 +1,43 @@
+{% trans_default_domain 'general' %}
+{% set title='Onboarding Complete' %}
+{% extends "onboarding/parent.twig" %}
+
+{% block main %}
+
+    <div class="container-lg container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10 col-xl-8 py-6">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-10 col-xl-8 text-center">
+                        <h6 class="mb-4 text-uppercase text-muted fs-1">
+                            <i class="fas fa-party-horn"></i>
+                        </h6>
+                        <h1 class="mb-3">
+                            Onboarding Complete
+                        </h1>
+
+                        <p class="mb-5 text-muted">
+                            Thank you for helping us collect the necessary information.
+                        </p>
+
+                        <p class="lead">
+                            You have successfully finished onboarding <strong>{{ company.name }}</strong> onto Invoiced. Now you are ready to participate in the world's fastest growing invoicing network.
+                        </p>
+                    </div>
+                </div>
+
+                <hr class="my-5">
+
+                <div class="nav row" role="tablist">
+                    <div class="col text-end px-5">
+                        <a href="{{ appUrl }}" class="btn btn-lg btn-primary">
+                            Go to Invoiced
+                            <span class="fas fa-arrow-right"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,117 @@
+<feature-upgrade ng-if="!('approval_workflow'|hasFeature)"></feature-upgrade>
+
+<p class="loading" ng-show="loading"></p>
+<div class="contents" ng-show="'approval_workflow'|hasFeature" ng-hide="loading">
+    <div class="settings-title-bar">
+        <h2 class="title">
+            <div class="back-link">
+                <a ui-sref="manage.settings.default">
+                    <span class="fas fa-arrow-left"></span>
+                    {{'general.settings'|translate}}
+                </a>
+            </div>
+            <div class="docs-link">
+                <a href="https://docs.invoiced.com/accounts-payable/approval-workflows" target="_blank">
+                    {{'general.documentation'|translate}}
+                    <span class="fas fa-external-link"></span>
+                </a>
+            </div>
+            {{'settings.titles.approval_workflow'|translate}}
+        </h2>
+        <p class="lead">
+            Set up approval workflows to match your accounts payable processes and ensure the right bill approvals are captured before payment.
+        </p>
+    </div>
+
+    <div class="panel panel-default settings-panel">
+        <div class="panel-heading">
+            <h4 class="panel-title button-title">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="searchbar light">
+                            <div class="bar">
+                                <div class="icon"><span class="fas fa-search"></span></div>
+                                <input type="text" class="form-control" ng-model="search" tabindex="2000" />
+                                <div class="icon right icon-btn" ng-show="search">
+                                    <button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+                                        <span class="fas fa-times-circle"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 text-right">
+                        <a ui-sref="manage.approval_workflows.new" class="btn btn-success">
+                            {{'settings.approval_workflows.new'|translate}}
+                        </a>
+                    </div>
+                </div>
+            </h4>
+        </div>
+
+        <!-- No Results -->
+        <div class="list-group" ng-show="results.length == 0">
+            <div class="list-group-item">
+                <div class="empty">{{'settings.approval_workflows.empty'|translate}}</div>
+            </div>
+        </div>
+
+        <!-- Results Table -->
+        <table class="table table-striped search-results-table" ng-show="results.length > 0">
+            <thead>
+                <tr>
+                    <th>{{'settings.approval_workflows.name'|translate}}</th>
+                    <th># {{'settings.approval_workflows.documents'|translate}}</th>
+                    <th>{{'settings.approval_workflows.created'|translate}}</th>
+                    <th></th>
+                    <th class="nopadding"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="result in workflows | searchObject:search:['name'] | orderBy:'name' | limitTo:100 as results">
+                    <td>
+                        {{result.name}}
+                        <a href="" tooltip="New vendor documents will be assigned this workflow by default" ng-if="result.default && result.enabled">
+                            <span class="label label-info">{{'settings.approval_workflows.default'|translate}}</span>
+                        </a>
+                        <a href="" tooltip="This workflow is disabled" ng-if="!result.enabled">
+                            <span class="label label-danger">{{'settings.approval_workflows.disabled'|translate}}</span>
+                        </a>
+                    </td>
+                    <td>
+                        {{ result.vendor_credits_count + result.bills_count  }}
+                    </td>
+                    <td class="hidden-xs">
+                        <company-date date="result.created_at"></company-date>
+                    </td>
+                    <td class="nopadding hover-actions-holder mobile-visible">
+                        <div class="hover-actions">
+                            <a class="btn btn-default btn-sm" href="/bills?approval_workflow={{result.id}}" tooltip="{{'settings.approval_workflows.view_bills'|translate}}">
+                                <span class="fas fa-filter"></span>
+                            </a>
+                            <a class="btn btn-default btn-sm" ng-click="setDefault(result)" tooltip="{{'settings.approval_workflows.make_default'|translate}}" ng-if="!result.default">
+                                <span class="fas fa-star"></span>
+                            </a>
+                            <a class="btn btn-default btn-sm" ng-click="unSetDefault(result)" tooltip="{{'settings.approval_workflows.remove_default'|translate}}" ng-if="result.default">
+                                <span class="far fa-star"></span>
+                            </a>
+                            <a class="btn btn-default btn-sm" ng-click="enable(result)" tooltip="{{'settings.approval_workflows.enable'|translate}}" ng-if="!result.enabled">
+                                <span class="fas fa-square"></span>
+                            </a>
+                            <a class="btn btn-default btn-sm" ng-click="disable(result)" tooltip="{{'settings.approval_workflows.disable'|translate}}" ng-if="result.enabled">
+                                <span class="far fa-square-check"></span>
+                            </a>
+                            <a class="btn btn-default btn-sm" ui-sref="manage.approval_workflows.edit({id:result.id})" tooltip="{{'settings.approval_workflows.edit'|translate}}">
+                                <span class="fas fa-pencil"></span>
+                            </a>
+                            <button type="button" class="btn btn-danger btn-sm" ng-click="delete(result, $index)" tooltip="{{'settings.approval_workflows.delete'|translate}}" ng-hide="deleting[result.id]||result.vendor_credits_count>0||result.bills_count>0">
+                                <span class="fas fa-trash"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <cut-list-label count="results.length" total="(workflows | searchObject:search:['name']).length"></cut-list-label>
+</div>

@@ -1,0 +1,207 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.billing_details'|trans %}
+{% extends "customerPortal/parentFrameOneColumn.twig" %}
+
+{% block left %}
+	<div class="billing-details-form">
+		{% for msg in app.flashes('billing_details_success') %}
+			<div class="alert bg-success-soft text-dark border border-success" role="alert">{{ msg|trans }}</div>
+		{% endfor %}
+		{% for msg in app.flashes('billing_details_error') %}
+			<div class="alert bg-danger-soft text-dark border border-danger" role="alert">{{ msg|trans }}</div>
+		{% endfor %}
+
+		<form method="post">
+			<input type="hidden" name="_csrf_token" value="{{ csrf_token('customer_portal_billing_info') }}" />
+			<input type="hidden" name="r" value="{{ r }}" />
+			<input type="hidden" name="t" value="{{ t }}" />
+
+			<div class="row">
+				<div class="col-sm-6 billing-details-account-name">
+					<div class="form-group mb-3">
+						<label class="form-label">{{ 'labels.account_name'|trans }}</label>
+						<div class="form-control-plaintext">
+							{{ customer.name }}
+						</div>
+					</div>
+				</div>
+				{% if showAccountNumber %}
+					<div class="col-sm-6 billing-details-account-number">
+						<div class="form-group mb-3">
+							<label class="form-label">{{ 'labels.account_number'|trans }}</label>
+							<div class="form-control-plaintext">
+								{{ customer.number }}
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			</div>
+			<div class="row">
+				<div class="col-sm-6 billing-details-email">
+					<div class="form-group mb-3">
+						<label class="form-label">{{ 'labels.email_address'|trans }}</label>
+						<div>
+							<input type="text" name="email" value="{{ customer.email }}" class="form-control" />
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 billing-details-phone">
+					<div class="form-group mb-3">
+						<label class="form-label">{{ 'labels.phone'|trans }}</label>
+						<div>
+							<input type="text" name="phone" value="{{ customer.phone }}" class="form-control" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<hr/>
+
+			<!-- Billing Address -->
+			<div class="address billing">
+				<div class="row">
+					<div class="col-sm-12">
+						<h4>{{ 'labels.address'|trans }}</h4>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-6 billing-details-address1">
+						<div class="form-group mb-3">
+							<label class="form-label">{{ 'labels.address_line1'|trans }}</label>
+							<div>
+								<input type="text" name="address1" value="{{ customer.address1 }}" class="form-control" />
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 billing-details-address2">
+						<div class="form-group mb-3">
+							<label class="form-label">{{ 'labels.address_line2'|trans }}</label>
+							<div>
+								<input type="text" name="address2" value="{{ customer.address2 }}" class="form-control" placeholder="{{ 'labels.optional'|trans }}" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-4 billing-details-city">
+						<div class="form-group mb-3">
+							<label class="form-label">{{ 'labels.address_city'|trans }}</label>
+							<div>
+								<input type="text" name="city" value="{{ customer.city }}" class="form-control" />
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4 billing-details-state">
+						<div class="form-group mb-3">
+							<label class="form-label">{{ 'labels.address_state'|trans }}</label>
+							<div>
+								<div class="state-select hidden">
+									<select class="form-select"></select>
+								</div>
+								<input type="text" name="state" value="{{ customer.state }}" class="form-control state-text" />
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4 billing-details-postal-code">
+						<div class="form-group mb-3">
+							<label class="form-label">{{ 'labels.address_postal_code'|trans }}</label>
+							<div>
+								<input type="text" name="postal_code" value="{{ customer.postal_code }}" class="form-control" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6 billing-details-country">
+						<div class="form-group mb-3">
+							<label class="form-label">{{ 'labels.address_country'|trans }}</label>
+							<div>
+								<select name="country" class="form-select country-selector billing" data-section="billing">
+									<option value=""></option>
+									{% set country=customer.country %}
+									{% for c in countries %}
+										<option value="{{ c.code }}" {% if country == c.code %}selected="selected"{% endif %}>{{ c.country }}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group mt-3">
+						<button type="submit" class="btn btn-primary">
+							{{ 'buttons.save'|trans }}
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	{% set canEditContacts = settings.allow_editing_contacts %}
+	{% if contacts|length > 0 or canEditContacts %}
+		<div id="contacts-list">
+			<hr/>
+			<div class="d-flex justify-content-between mb-4">
+				<div>
+					<h4 class="py-3 m-0">{{ 'labels.contacts'|trans }}</h4>
+				</div>
+				{% if canEditContacts %}
+					<div>
+						<a href="/contacts" class="btn btn-success">
+							{{ 'labels.new_contact'|trans }}
+						</a>
+					</div>
+				{% endif %}
+			</div>
+			{% if canEditContacts %}
+				<p>{{ 'messages.contacts_explanation'|trans }}</p>
+			{% endif %}
+			{% for contact in contacts %}
+				<div class="contact-list-contact py-2 my-4 border-start border-start-5 px-3">
+					<div class="contact-name fs-4 mb-2 px-3">{{contact.name}}</div>
+					<div class="row">
+						<div class="col-md-6">
+							{%  if contact.email %}
+								<div class="contact-email mb-2">
+									<a href="mailto:{{contact.email}}">
+										{{contact.email}}
+									</a>
+								</div>
+							{% endif %}
+
+							{%  if contact.phone %}
+								<div class="contact-phone mb-2">
+									{{contact.phone}}
+								</div>
+							{% endif %}
+						</div>
+						<div class="col-md-6">
+							{%  if contact.address %}
+								<div class="contact-address mb-2">
+									{{ contact.address|nl2br }}
+								</div>
+							{% endif %}
+						</div>
+					</div>
+
+					{% if canEditContacts %}
+						<div class="mt-2 px-2">
+							<a href="/contacts/{{ contact.id }}" class="btn btn-white btn-sm contact-edit-btn">
+								{{ 'labels.edit_contact'|trans }}
+							</a>
+							<a href="/contacts/{{ contact.id }}/remove" class="btn btn-outline-danger btn-sm contact-delete-btn ms-3 confirm-action-first" data-confirm-msg="{{ 'messages.are_you_sure'|trans }}">
+								{{ 'labels.delete_contact'|trans }}
+							</a>
+						</div>
+					{% endif %}
+				</div>
+			{% endfor %}
+		</div>
+	{% endif %}
+
+	<script type="text/javascript" src="{{ asset('/js/views/billing_info.js') }}"></script>
+{% endblock %}

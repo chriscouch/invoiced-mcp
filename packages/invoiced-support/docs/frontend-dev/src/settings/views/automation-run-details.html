@@ -1,0 +1,99 @@
+<div class="modal-header">
+	<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+	<h4 class="modal-title">
+		Run Details
+	</h4>
+</div>
+<p class="loading" ng-show="loading"></p>
+<div class="modal-body" ng-hide="loading">
+	<div class="row two-pane">
+		<div class="col-sm-6 left-pane">
+			<div class="details-list vertical">
+				<h4>
+					General
+				</h4>
+				<div>
+					<div class="title">Workflow</div>
+					<div class="value"><a ui-sref="manage.automations.builder({id:run.workflow_version.automation_workflow_id})" ng-click="close()" tooltip="Workflow">{{run.workflow_version.automation_workflow.name}}</a></div>
+				</div>
+				<div>
+					<div class="title">Version</div>
+					<div class="value">{{run.workflow_version.version}}</div>
+				</div>
+				<div>
+					<div class="title">Started</div>
+					<div class="value"><company-date-time date="run.created_at"></company-date-time></div>
+				</div>
+				<div ng-if="run.finished_at">
+					<div class="title">Finished</div>
+					<div class="value"><company-date-time date="run.finished_at.date"></company-date-time></div>
+				</div>
+				<div>
+					<div class="title">Status</div>
+					<div class="value">
+						<span class="label label-success" ng-if="run.result == 2">Success</span>
+						<span class="label label-warning" ng-if="run.result == 1">Pending</span>
+						<span class="label label-danger" ng-if="run.result == 3">Error</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6 right-pane">
+			<div class="details-list vertical">
+				<h4>
+					Trigger
+				</h4>
+				<div>
+					<div class="title">Type</div>
+					<div class="value">{{trigger.trigger_type}}</div>
+				</div>
+				<div ng-if="event">
+					<div class="title">Event</div>
+					<div class="value"><a href="" ui-sref="manage.event.view({id:event.id})" ng-click="close()" tooltip="Event">{{event.type}}</a></div>
+				</div>
+				<div ng-if="event && event.user.first_name">
+					<div class="title">User</div>
+					<div class="value">{{event.user.first_name}} {{event.user.last_name}}</div>
+				</div>
+				<div ng-if="object">
+					<div class="title">Object</div>
+					<div class="value">
+						<a href="" ng-click="goToObject(object.object, object.id)">
+							<span ng-if="object.number">{{object.number}}</span>
+							<span ng-if="!object.number && object.name">{{object.name}}</span>
+							<span ng-if="!object.number && !object.name">{{object.object}}</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<table class="table table-striped">
+					<thead>
+					<th>Step</th>
+					<th>Result</th>
+					<th>Error</th>
+					</thead>
+					<tbody>
+					<tr ng-repeat="step in steps">
+						<td>
+							<div class="action-name">
+								{{('automations.action_names.'+step.workflow_step.action_type)|translate}}
+							</div>
+							<automation-step-stringify step="step.workflow_step" object_type="run.workflow_version.automation_workflow.object_type"></automation-step-stringify>
+						</td>
+						<td>
+							<span class="label label-success" ng-if="step.result == 2">Success</span>
+							<span class="label label-warning" ng-if="step.result == 1">Pending</span>
+							<span class="label label-danger" ng-if="step.result == 3">Error</span>
+						</td>
+						<td>{{step.error_message}}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+	</div>
+</div>

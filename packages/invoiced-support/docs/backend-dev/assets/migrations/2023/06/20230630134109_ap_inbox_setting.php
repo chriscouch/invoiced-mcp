@@ -1,0 +1,16 @@
+<?php
+
+declare(strict_types=1);
+
+use App\Core\Multitenant\MultitenantModelMigration;
+
+final class ApInboxSetting extends MultitenantModelMigration
+{
+    public function change(): void
+    {
+        $this->table('AccountsPayableSettings')
+            ->addColumn('inbox_id', 'integer', ['null' => true, 'default' => null])
+            ->addForeignKey('inbox_id', 'Inboxes', 'id', ['delete' => 'SET NULL', 'update' => 'CASCADE'])
+            ->update();
+    }
+}

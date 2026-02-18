@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}Invitation Declined{% endblock %}
+{% block notification %}
+    {% for invitation in invitations %}
+        <p><a href="{{ dashboardUrl }}/network/invitations?account={{ tenant_id  }}">{{ invitation.name }}</a> has declined the invitation to join your business network.</p>
+    {% endfor %}
+{% endblock %}

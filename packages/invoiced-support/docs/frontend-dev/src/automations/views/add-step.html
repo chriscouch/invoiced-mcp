@@ -1,0 +1,437 @@
+<p class="loading" ng-show="loading"></p>
+<section ng-hide="loading">
+<form name="modelForm" ng-submit="add(step)" class="below0">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title">
+            <span ng-show="step.id">Edit Action</span>
+            <span ng-hide="step.id">Add Action</span>
+        </h4>
+    </div>
+    <div class="modal-body form-horizontal">
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <p class="required-indicator" ng-show="step.action_type">
+            <span class="required"></span> {{'general.indicates_required_field'|translate}}
+        </p>
+
+        <!-- Select Action -->
+        <div ng-hide="step.action_type">
+            <p class="lead">What kind of action would you like to add to your automation?</p>
+            <div class="row">
+                <div class="col-sm-6" ng-repeat="action in actionTypes">
+                    <a class="btn btn-link btn-block" href="" ng-click="selectAction(action)">
+                        {{('automations.action_names.'+action)|translate}}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="step.action_type">
+            <label class="control-label col-sm-3">Action</label>
+            <div class="form-control-static col-sm-8">
+                {{('automations.action_names.'+step.action_type)|translate}}
+            </div>
+        </div>
+
+        <!-- Modify Property Value Action -->
+        <div ng-if="step.action_type == 'ModifyPropertyValue'">
+            <div class="form-group" ng-if="objectTypes.length > 1">
+                <label class="control-label col-sm-3">Object Type <span class="required"></span></label>
+                <div class="col-sm-8">
+                    <div class="invoiced-select">
+                        <select ng-options="objectType.id as objectType.name for objectType in objectTypes" ng-model="step.settings.object_type" required></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-show="step.settings.object_type">
+                <label class="control-label col-sm-3">Property <span class="required"></span></label>
+                <div class="col-sm-8">
+                    <div class="invoiced-select">
+                        <select ng-options="property.id as property.name for property in properties[step.settings.object_type] | filter : {writable: true}" ng-model="step.settings.name"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-show="step.settings.name">
+                <label class="control-label col-sm-3">Value <span class="required"></span></label>
+                <div class="col-sm-8">
+                    <automation-field-input field="step.settings.name" properties="properties[step.settings.object_type]" value="step.settings.value" set-defaults="true" required></automation-field-input>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copy Property Value Action -->
+        <div ng-if="step.action_type == 'CopyPropertyValue'">
+            <div class="form-group">
+                <label class="control-label col-sm-3">From Property <span class="required"></span></label>
+                <div class="col-sm-8">
+                    <div class="invoiced-select">
+                        <select ng-options="property.id as property.name for property in properties[workflow.object_type]" ng-model="step.settings.value" ng-change="step.settings.name=null"  required></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="objectTypes.length > 1">
+                <label class="control-label col-sm-3">To Object <span class="required"></span></label>
+                <div class="col-sm-8">
+                    <div class="invoiced-select">
+                        <select ng-options="objectType.id as objectType.name for objectType in objectTypes" ng-model="step.settings.object_type" ng-change="step.settings.name=null" required></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="step.settings.value">
+                <label class="control-label col-sm-3">To Property <span class="required"></span></label>
+                <div class="col-sm-8">
+                    <div class="invoiced-select">
+                        <select ng-options="property.id as property.name for property in getTypes(step.settings.object_type, workflow.object_type, step.settings.value, true)" ng-model="step.settings.name" required></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clear Property Action -->
+        <div ng-if="step.action_type == 'ClearPropertyValue'">
+            <div class="form-group" ng-if="objectTypes.length > 1">
+                <label class="control-label col-sm-3">Object Type <span class="required"></span></label>
+                <div class="col-sm-8">
+                    <div class="invoiced-select">
+                        <select ng-options="objectType.id as objectType.name for objectType in objectTypes" ng-model="step.settings.object_type" required></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="step.settings.object_type">
+                <label class="control-label col-sm-3">Property <span class="required"></span></label>
+                <div class="col-sm-8">
+                    <div class="invoiced-select">
+                        <select ng-options="property.id as property.name for property in properties[step.settings.object_type] | filter : {writable: true}" ng-model="step.settings.name" required></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Webhook Action -->
+        <div ng-if="step.action_type == 'Webhook'">
+            <div class="form-group">
+                <label class="control-label col-sm-3">URL <span class="required"></span></label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" ng-model="step.settings.url" required />
+                </div>
+            </div>
+        </div>
+
+        <!-- Post to Slack Action -->
+        <div ng-if="step.action_type == 'PostToSlack' && channels">
+            <div class="form-group col-sm-12">
+                <label class="control-label">Channel <span class="required"></span></label>
+                <div class="invoiced-select">
+                    <select ng-options="channel.id as channel.name for channel in channels" ng-model="step.settings.channel"></select>
+                </div>
+            </div>
+
+            <div class="form-group col-sm-12">
+                <div class="email-variable-selector">
+                    <div class="invoiced-select">
+                        <select ng-options="v for v in variables" ng-model="variable" ng-change="addSettingVariable(variable, 'slack', 'message')">
+                            <option value="" disabled selected>-- Insert Variable</option>
+                        </select>
+                    </div>
+                </div>
+                <label class="control-label">Message <span class="required"></span></label>
+                <div class="row"></div>
+                <textarea id="slack" class="form-control" ng-model="step.settings.message" required expanding-textarea></textarea>
+            </div>
+        </div>
+
+        <!-- Create Object Action -->
+        <div ng-if="step.action_type == 'CreateObject'" ng-if="subjectTypes.length > 0">
+            <div class="form-group">
+                <label class="control-label col-sm-3">Object Type <span class="required"></span></label>
+                <div class="col-sm-8">
+                    <div class="invoiced-select">
+                        <select ng-options="objectType.id as objectType.name for objectType in subjectTypes" ng-model="step.settings.object_type" required ng-change="changeObject()"></select>
+                    </div>
+                </div>
+            </div>
+
+            <section ng-if="step.settings.object_type">
+                <div class="form-group" ng-repeat="field in step.settings.fields">
+                    <div class="col-sm-3" ng-if="!field.required">
+                        <div class="invoiced-select">
+                            <select ng-options="property.id as property.name for property in properties[step.settings.object_type] | filter : {writable: true}" ng-model="field.name" required>
+                                <option value="" disabled selected>New {{('metadata.object_names.'+step.settings.object_type)|translate}} field</option>
+                            </select>
+                        </div>
+                    </div>
+                    <label class="control-label col-sm-3" ng-if="field.required">{{ (properties[step.settings.object_type] | filter : {id: field.name})[0].name }} <span class="required"></span></label>
+                    <div class="col-sm-8">
+                        <div class="email-variable-selector">
+                            <div class="invoiced-select">
+                                <select ng-options="v for v in variables" ng-model="variable" ng-change="addFieldVariable(variable, 'step-settings-fields-' + $index, $index)">
+                                    <option value="" disabled selected>-- Insert Variable</option>
+                                </select>
+                            </div>
+                        </div>
+                        <join-dropdown ng-if="properties" field="field" properties="properties[step.settings.object_type]"></join-dropdown>
+
+                        <div class="row">
+                        </div>
+                        <textarea id="step-settings-fields-{{$index}}" class="form-control" ng-model="field.value" placeholder="New {{('metadata.object_names.'+step.settings.object_type)|translate}} field value" expanding-textarea required></textarea>
+                    </div>
+                    <div class="col-sm-1" ng-if="!field.required">
+                        <button type="button" class="btn btn-default btn-sm automation-field-remove" ng-click="removeField($index)">
+                            <span class="fas fa-trash"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-sm-12 text-center">
+                    <button type="button" class="btn btn-default btn-sm" ng-click="addField()">
+                        <span class="fas fa-plus"></span>
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <!-- Delete Object Action -->
+        <div ng-if="step.action_type == 'DeleteObject'">
+            <div class="form-group" ng-if="step.settings.object_type">
+                <label class="control-label col-sm-3">Object</label>
+                <div class="form-control-static col-sm-8">
+                    {{('metadata.object_names.'+workflow.object_type)|translate}}
+                </div>
+            </div>
+        </div>
+
+        <!-- Send Email Action -->
+        <div ng-if="step.action_type == 'SendEmail'">
+            <!-- Recipients -->
+            <div class="form-group col-sm-12">
+                <div class="email-variable-selector" ng-if="email_variables">
+                    <div class="invoiced-select">
+                        <select ng-options="v for v in email_variables" ng-model="variable" ng-change="addEmail(variable, step.settings.to)">
+                            <option value="" disabled selected>-- Insert Variable</option>
+                        </select>
+                    </div>
+                </div>
+                <label class="control-label">{{'inboxes.email.to'|translate}} <span class="required"></span></label>
+                <div class="to-input">
+                    <div class="line-element">
+                        <input type="hidden" ng-model="step.settings.to" ui-select2="autocompleteOptions" multiple="multiple" required />
+                    </div>
+                </div>
+            </div>
+
+            <!-- CC -->
+            <div class="form-group col-sm-12">
+                <div class="email-variable-selector" ng-if="email_variables">
+                    <div class="invoiced-select">
+                        <select ng-options="v for v in email_variables" ng-model="variable" ng-change="addEmail(variable, step.settings.cc)">
+                            <option value="" disabled selected>-- Insert Variable</option>
+                        </select>
+                    </div>
+                </div>
+                <label class="control-label">
+                    {{'inboxes.email.cc'|translate}}
+                </label>
+                <div class="cc-input">
+                    <div class="line-element">
+                        <input type="hidden" ng-model="step.settings.cc" ui-select2="autocompleteOptions" multiple="multiple" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- BCC -->
+            <div class="form-group col-sm-12">
+                <div class="email-variable-selector" ng-if="email_variables">
+                    <div class="invoiced-select">
+                        <select ng-options="v for v in email_variables" ng-model="variable" ng-change="addEmail(variable, step.settings.bcc)">
+                            <option value="" disabled selected>-- Insert Variable</option>
+                        </select>
+                    </div>
+                </div>
+                <label class="control-label">
+                    {{'inboxes.email.bcc'|translate}}
+                </label>
+                <div class="bcc-input">
+                    <div class="line-element">
+                        <input type="hidden" ng-model="step.settings.bcc" ui-select2="autocompleteOptions" multiple="multiple" />
+                    </div>
+                </div>
+                <div class="send-copy-to-me">
+                    <button type="button" class="btn btn-link" ng-click="copyMe()">Send a copy to me</button>
+                </div>
+            </div>
+
+            <!-- Subject -->
+            <div class="form-group col-sm-12">
+                <div class="email-variable-selector">
+                    <div class="invoiced-select">
+                        <select ng-options="v for v in variables" ng-model="variable" ng-change="addSettingVariable(variable, 'subject')">
+                            <option value="" disabled selected>-- Insert Variable</option>
+                        </select>
+                    </div>
+                </div>
+
+                <label class="control-label">Subject <span class="required"></span></label>
+                <div>
+                    <input type="text" id="subject" class="form-control" ng-model="step.settings.subject" />
+                </div>
+            </div>
+
+            <!-- Message -->
+            <div class="form-group col-sm-12">
+                <div class="email-variable-selector">
+                    <div class="invoiced-select">
+                        <select ng-options="v for v in variables" ng-model="variable" ng-change="addSettingVariable(variable, 'body')">
+                            <option value="" disabled selected>-- Insert Variable</option>
+                        </select>
+                    </div>
+                </div>
+
+                <label class="control-label">Message <span class="required"></span></label>
+                <div class="row"></div>
+                <textarea id="body" class="form-control" ng-model="step.settings.body" expanding-textarea></textarea>
+            </div>
+
+            <!-- Help -->
+            <div class="form-group col-sm-12">
+                <p class="text-muted">
+                    <span class="label label-success">Tip</span>
+                    The funny-looking values like <strong><span>{{</span>customer_name}}</strong> are placeholders that get replaced with the correct value after you click Send.
+                    Learn more in the <a href="https://docs.invoiced.com/dev/template-language" target="_blank" rel="noopener noreferrer">Invoiced Template Language documentation</a>.
+                </p>
+                <p class="text-muted">
+
+                </p>
+            </div>
+        </div>
+
+
+        <!-- Send Document Action -->
+        <div ng-if="step.action_type == 'SendDocument'">
+            <div ng-if="workflow.object_type === 'customer'">
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-12 btn-group btn-radio">
+                        <label class="btn" ng-model="step.settings.type" btn-radio="'open_item'">Open Item</label>
+                        <label class="btn" ng-model="step.settings.type" btn-radio="'balance_forward'">Balance Forward</label>
+                    </div>
+                </div>
+
+                <div ng-if="step.settings.type=='balance_forward'">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Date Range</label>
+                        <div class="col-sm-8">
+                            <div class="btn-group dropdown filter-btn" dropdown>
+                                <button type="button" class="btn btn-link period-selector dropdown-toggle" dropdown-toggle>
+                                    <span class="range-name" ng-bind-html="dateRangePeriods[step.settings.period]"></span>
+                                    <span class="arrow fas fa-chevron-down"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li ng-repeat="(key,value) in dateRangePeriods" ng-class="{active:step.settings.period==key}">
+                                        <a href="" ng-click="shortcut(key)">
+                                            {{value}}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if="step.settings.type=='open_item'">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Included Items</label>
+                        <div class="col-sm-5">
+                            <div class="invoiced-select">
+                                <select ng-model="step.settings.openItemMode" required>
+                                    <option value="open">All Outstanding</option>
+                                    <option value="past_due">Past Due Only</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group col-sm-12">
+                <email-template model="step.settings.template" type="workflow.object_type === 'customer' ? 'statement' : workflow.object_type" name="'Send '+ workflowObjectName + ' automation action'"/>
+            </div>
+        </div>
+
+        <!-- Send Internal Notification Action -->
+        <div ng-if="step.action_type == 'SendInternalNotification'">
+            <div class="form-group col-sm-12">
+                <label class="control-label">Recipients <span class="required"></span></label>
+                <div class="to-input">
+                    <div class="line-element" ng-if="membersLoaded">
+                        <input type="hidden" ng-model="step.settings.members" multiple="multiple"  ui-select2="selectRecipients" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Message -->
+            <div class="form-group col-sm-12">
+                <div class="email-variable-selector">
+                    <div class="invoiced-select">
+                        <select ng-options="v for v in variables" ng-model="variable" ng-change="addSettingVariable(variable, 'message')">
+                            <option value="" disabled selected>-- Insert Variable</option>
+                        </select>
+                    </div>
+                </div>
+
+                <label class="control-label">Message <span class="required"></span></label>
+                <div class="row"></div>
+                <textarea id="message" class="form-control" ng-model="step.settings.message" expanding-textarea></textarea>
+            </div>
+        </div>
+
+        <!-- Condition Action -->
+        <div ng-if="step.action_type == 'Condition'">
+            <div class="form-group" ng-hide="objectTypes.length <= 1">
+                <label class="control-label col-sm-3">Object Type <span class="required"></span></label>
+                <div class="col-sm-8">
+                    <div class="invoiced-select">
+                        <select ng-options="objectType.id as objectType.name for objectType in objectTypes" ng-model="step.settings.object_type" required></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-sm-12" ng-if="step.settings.object_type">
+                <div class="assignment-conditions-advanced">
+                    <label class="control-label">Formula</label>
+                    <div class="textarea-2-lines">
+                        <textarea class="form-control" ng-model="step.settings.expression" required expanding-textarea></textarea>
+                    </div>
+                    <div class="help-text">
+                        <p>
+                            <a href="https://developer.invoiced.com/api/#customer-object" target="_blank">
+                                See all customer properties
+                                <span class="fas fa-external-link"></span>
+                            </a>
+                        </p>
+                        <p>
+                            Example formulas:
+                        </p>
+                        <ul class="bulleted">
+                            <li><code>customer.payment_terms == "NET 30"</code></li>
+                            <li><code>customer.country in ["US", "CA"] and customer.metadata.entity_id == "100"</code></li>
+                            <li><code>customer.language == "en"</code></li>
+                            <li><code>customer.metadata.delivery_preference == "Email" or customer.metadata.delivery_preference == "Both"</code></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer" ng-show="step.action_type">
+        <button type="submit" class="btn btn-primary Button" ng-disabled="modelForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+            {{'general.save'|translate}}
+        </button>
+    </div>
+</form>
+</section>

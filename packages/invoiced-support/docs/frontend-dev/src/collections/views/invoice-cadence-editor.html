@@ -1,0 +1,154 @@
+<div class="invoice-cadence-editor">
+    <table class="table search-results-table">
+        <thead>
+        <tr>
+            <th class="number">Trigger</th>
+            <th class="date">Date</th>
+            <th class="date">Time Of Day</th>
+            <th class="date">Role</th>
+            <th class="action" ng-if="hasSms || hasLetters">Email</th>
+            <th class="action" ng-if="hasSms">Text</th>
+            <th class="action" ng-if="hasLetters">Letter</th>
+            <th class="delete"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="step" ng-repeat="(i, step) in chaseSchedule">
+            <!-- Trigger -->
+            <td class="trigger">
+                <div class="invoiced-select">
+                    <select ng-model="step.trigger" ng-change="handleTriggerChange(i)" ng-disabled="!isStepEditable(step.id)" required>
+                        <option value="0">When invoice is issued</option>
+                        <option value="5">After invoice issue date</option>
+                        <option value="1">Before invoice due date</option>
+                        <option value="2">After invoice due date</option>
+                        <option value="3">Repeating reminder</option>
+                        <option value="4" ng-if="invoice">On date</option>
+                    </select>
+                </div>
+            </td>
+
+            <!-- Timing -->
+            <td class="timing">
+                <div ng-if="['1','2','3','5'].includes(step.trigger.toString())">
+                    <span ng-if="step.trigger == 3">Every</span>
+                    <input ng-if="step.trigger != 3" type="number" class="form-control num-days" ng-model="step.options.days" ng-disabled="!isStepEditable(step.id)" required />
+                    <input ng-if="step.trigger == 3" type="number" class="form-control num-days middle" ng-model="step.options.days"ng-disabled="!isStepEditable(step.id)" required />
+                    <span ng-if="step.trigger == 1">days before</span>
+                    <span ng-if="step.trigger == 2 || step.trigger == 5">days after</span>
+                    <span ng-if="step.trigger == 3">days.</span>
+                    <span ng-if="step.trigger == 3">Repeats</span>
+                    <div class="invoiced-select" ng-if="step.trigger == 3">
+                        <select  ng-model="step.options.repeats" ng-disabled="!isStepEditable(step.id)" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+                    <span ng-if="step.trigger == 3">times.</span>
+                </div>
+                <div class="not-applicable" ng-if="step.trigger == 0">
+                    <span>&mdash;</span>
+                </div>
+                <div class="input-group" ng-if="step.trigger == 4">
+                    <input type="text" class="form-control" ng-model="step.options.date" ng-disabled="!isStepEditable(step.id)" ui-date="dateOptions" is-open="dpOpened[$index]" readonly="readonly" required />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary" ng-click="openDatepicker($event, $index)">
+                            <span class="fas fa-calendar-alt"></span>
+                        </button>
+                    </span>
+                </div>
+            </td>
+
+            <!-- Hour -->
+            <td class="hour">
+                <div class="not-applicable" ng-if="step.trigger == 0 && !showOnIssueHour">
+                    <span>&mdash;</span>
+                </div>
+                <div class="invoiced-select" ng-if="step.trigger != 0 || showOnIssueHour">
+                    <select ng-model="step.options.hour" ng-disabled="!isStepEditable(step.id)" required>
+                        <option value="0">12 am</option>
+                        <option value="1">1 am</option>
+                        <option value="2">2 am</option>
+                        <option value="3">3 am</option>
+                        <option value="4">4 am</option>
+                        <option value="5">5 am</option>
+                        <option value="6">6 am</option>
+                        <option value="7">7 am</option>
+                        <option value="8">8 am</option>
+                        <option value="9">9 am</option>
+                        <option value="10">10 am</option>
+                        <option value="11">11 am</option>
+                        <option value="12">12 pm</option>
+                        <option value="13">1 pm</option>
+                        <option value="14">2 pm</option>
+                        <option value="15">3 pm</option>
+                        <option value="16">4 pm</option>
+                        <option value="17">5 pm</option>
+                        <option value="18">6 pm</option>
+                        <option value="19">7 pm</option>
+                        <option value="20">8 pm</option>
+                        <option value="21">9 pm</option>
+                        <option value="22">10 pm</option>
+                        <option value="23">11 pm</option>
+                    </select>
+                </div>
+            </td>
+
+            <!-- Contact Roles -->
+            <td class="role">
+                <div class="invoiced-select">
+                    <select ng-model="step.options.role" ng-options="option.id as option.name for option in contactRoles" ng-disabled="!isStepEditable(step.id)">
+                        <option value="">{{'general.none'|translate}}<option>
+                    </select>
+                </div>
+            </td>
+
+            <!-- Email -->
+            <td class="action" ng-if="hasSms || hasLetters">
+                <input type="checkbox" ng-model="step.options.email" ng-disabled="!isStepEditable(step.id)" ng-required="isCheckboxRequired(i)"/>
+                <span class="channel-label">Email</span>
+            </td>
+            <!-- Text -->
+            <td class="action" ng-if="hasSms">
+                <input type="checkbox" ng-model="step.options.sms" ng-disabled="!isStepEditable(step.id)" ng-required="isCheckboxRequired(i)"/>
+                <span class="channel-label">Text</span>
+            </td>
+            <!-- Letter -->
+            <td class="action" ng-if="hasLetters">
+                <input type="checkbox" ng-model="step.options.letter" ng-disabled="!isStepEditable(step.id)" ng-required="isCheckboxRequired(i)"/>
+                <span class="channel-label">Letter</span>
+            </td>
+
+            <!-- Delete (X) -->
+            <td class="delete">
+                <a href="" ng-click="deleteStep(i)" ng-hide="!isStepEditable(step.id)">
+                    <span class="fas fa-times"></span>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="2">
+                <a href="" ng-click="addStep()">
+                    <span class="fas fa-plus"></span> Step
+                </a>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td ng-if="hasSms || hasLetters"></td>
+            <td ng-if="hasSms"></td>
+            <td ng-if="hasLetters"></td>
+        </tr>
+        </tfoot>
+    </table>
+</div>

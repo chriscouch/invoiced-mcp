@@ -1,0 +1,41 @@
+{% extends "auth/parent.twig" %}
+{% set robots='noindex,nofollow' %}
+
+{% block header %}
+    <script async src="https://www.google.com/recaptcha/api.js"></script>
+    <script type="text/javascript">
+        function onSubmit(token) {
+            document.getElementById("recaptchaForm").submit();
+        }
+    </script>
+{% endblock %}
+
+{% block main %}
+
+    <h1 class="logo">
+        <a href="/">
+            <img src="{{ asset("/img/logo.png") }}" width="137" height="35" alt="Invoiced" />
+        </a>
+    </h1>
+
+    <div class="auth-page captcha">
+        <h4 class="title">Please verify you are a human</h4>
+
+        {% if error %}
+            <p class="alert alert-danger">
+                Sorry, we were unable to verify your entry. Please try again.
+            </p>
+        {% endif %}
+
+        <form action="/captcha" method="post" id="recaptchaForm">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('captcha') }}" />
+            <input type="hidden" name="redirect" value="{{ app.request.query.get('r') }}" />
+
+            <div class="form-group">
+                <button type="button" data-sitekey="6LfBzJkiAAAAAP0HW4F4s9PLh8EiLGtbEeei5KQM" data-callback="onSubmit" data-action="submit" class="g-recaptcha btn btn-primary btn-lg w-100">
+                    Continue
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

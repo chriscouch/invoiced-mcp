@@ -1,0 +1,80 @@
+<div class="modal-header with-tabs">
+	<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+	<ul class="nav nav-tabs">
+		<li ng-class="{active:tab=='sessions'}">
+			<a href="" ng-click="tab='sessions'">
+				Active Sessions
+			</a>
+		</li>
+		<li ng-class="{active:tab=='activity'}">
+			<a href="" ng-click="tab='activity'">
+				Recent Activity
+			</a>
+		</li>
+	</ul>
+</div>
+<div class="modal-body">
+	<div class="tab-content">
+		<div class="tab-pane" ng-class="{active:tab=='sessions'}">
+			<table class="table table-striped search-results-table">
+				<thead>
+					<tr>
+						<th>IP</th>
+						<th>Browser</th>
+						<th>Last Active</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="session in activity.active_sessions">
+						<td>
+							<div ng-show="session.location">{{session.location}}</div>
+							<div>{{session.ip}} <span class="label label-success" ng-show="session.current">You</span></div>
+						</td>
+						<td>{{session.ua}}</td>
+						<td class="mobile-last">{{session.since}}</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="3"></td>
+					</tr>
+				</tfoot>
+			</table>
+
+			<button type="button" class="btn btn-default" ng-click="signOutAll()">
+				Sign out of all sessions
+			</button>
+		</div>
+
+		<div class="tab-pane" ng-class="{active:tab=='activity'}">
+			<table class="table table-striped search-results-table">
+				<thead>
+					<tr>
+						<th>Type</th>
+						<th>IP</th>
+						<th>Browser</th>
+						<th>{{'general.date'|translate}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="event in activity.events">
+						<td><strong>{{event.type}}</strong></td>
+						<td>
+							<div ng-show="event.location">{{event.location}}</div>
+							<div>{{event.ip}}</div>
+						</td>
+						<td>{{event.ua}}</td>
+						<td class="mobile-last">
+							<company-date-time date="event.created_at"></company-date-time>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="4"></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>

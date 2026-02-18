@@ -1,0 +1,450 @@
+{
+  "title": "MRR Movements",
+  "sections": [
+    {
+      "title": "",
+      "object": "mrr_movement",
+      "type": "chart",
+      "chart_type": "bar",
+      "chart_options": {
+        "stacked": true,
+        "colors": [
+          "#00DCDF",
+          "#8CECF0",
+          "#00DCDF",
+          "#F97C78",
+          "#F7CCC9"
+        ]
+      },
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "month"
+          }
+        },
+        {
+          "name": "New Business",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "function": "if",
+                "arguments": [
+                  {
+                    "field": {
+                      "id": "movement_type"
+                    },
+                    "operator": "=",
+                    "value": 1
+                  },
+                  {
+                    "id": "mrr"
+                  },
+                  0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "Expansion",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "function": "if",
+                "arguments": [
+                  {
+                    "field": {
+                      "id": "movement_type"
+                    },
+                    "operator": "=",
+                    "value": 2
+                  },
+                  {
+                    "id": "mrr"
+                  },
+                  0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "Reactivation",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "function": "if",
+                "arguments": [
+                  {
+                    "field": {
+                      "id": "movement_type"
+                    },
+                    "operator": "=",
+                    "value": 5
+                  },
+                  {
+                    "id": "mrr"
+                  },
+                  0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "Lost",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "function": "if",
+                "arguments": [
+                  {
+                    "field": {
+                      "id": "movement_type"
+                    },
+                    "operator": "=",
+                    "value": 4
+                  },
+                  {
+                    "id": "mrr"
+                  },
+                  0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "Contraction",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "function": "if",
+                "arguments": [
+                  {
+                    "field": {
+                      "id": "movement_type"
+                    },
+                    "operator": "=",
+                    "value": 3
+                  },
+                  {
+                    "id": "mrr"
+                  },
+                  0
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        }
+      ],
+      "group": [
+        {
+          "name": "Month",
+          "field": {
+            "id": "month"
+          },
+          "expanded": false,
+          "fill_missing_data": true
+        }
+      ],
+      "sort": []
+    },
+    {
+      "title": "",
+      "object": "mrr_movement",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "name": "New Business",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "function": "if",
+                "arguments": [
+                  {
+                    "field": {
+                      "id": "movement_type"
+                    },
+                    "operator": "=",
+                    "value": 1
+                  },
+                  {
+                    "id": "mrr"
+                  },
+                  0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "#",
+          "field": {
+            "function": "count_distinct",
+            "arguments": [
+              {
+                "function": "if",
+                "arguments": [
+                  {
+                    "field": {
+                      "id": "movement_type"
+                    },
+                    "operator": "=",
+                    "value": 1
+                  },
+                  {
+                    "id": "customer.id"
+                  },
+                  "null"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "Expansion",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "function": "if",
+                "arguments": [
+                  {
+                    "field": {
+                      "id": "movement_type"
+                    },
+                    "operator": "=",
+                    "value": 2
+                  },
+                  {
+                    "id": "mrr"
+                  },
+                  0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "#",
+          "field": {
+            "function": "count_distinct",
+            "arguments": [
+              {
+                "function": "if",
+                "arguments": [
+                  {
+                    "field": {
+                      "id": "movement_type"
+                    },
+                    "operator": "=",
+                    "value": 2
+                  },
+                  {
+                    "id": "customer.id"
+                  },
+                  "null"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "Contraction",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "function": "if",
+                "arguments": [
+                  {
+                    "field": {
+                      "id": "movement_type"
+                    },
+                    "operator": "=",
+                    "value": 3
+                  },
+                  {
+                    "id": "mrr"
+                  },
+                  0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "#",
+          "field": {
+            "function": "count_distinct",
+            "arguments": [
+              {
+                "function": "if",
+                "arguments": [
+                  {
+                    "field": {
+                      "id": "movement_type"
+                    },
+                    "operator": "=",
+                    "value": 3
+                  },
+                  {
+                    "id": "customer.id"
+                  },
+                  "null"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "Reactivation",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "function": "if",
+                "arguments": [
+                  {
+                    "field": {
+                      "id": "movement_type"
+                    },
+                    "operator": "=",
+                    "value": 5
+                  },
+                  {
+                    "id": "mrr"
+                  },
+                  0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "#",
+          "field": {
+            "function": "count_distinct",
+            "arguments": [
+              {
+                "function": "if",
+                "arguments": [
+                  {
+                    "field": {
+                      "id": "movement_type"
+                    },
+                    "operator": "=",
+                    "value": 5
+                  },
+                  {
+                    "id": "customer.id"
+                  },
+                  "null"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "Lost",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "function": "if",
+                "arguments": [
+                  {
+                    "field": {
+                      "id": "movement_type"
+                    },
+                    "operator": "=",
+                    "value": 4
+                  },
+                  {
+                    "id": "mrr"
+                  },
+                  0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "#",
+          "field": {
+            "function": "count_distinct",
+            "arguments": [
+              {
+                "function": "if",
+                "arguments": [
+                  {
+                    "field": {
+                      "id": "movement_type"
+                    },
+                    "operator": "=",
+                    "value": 4
+                  },
+                  {
+                    "id": "customer.id"
+                  },
+                  "null"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "Net",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "mrr"
+              }
+            ]
+          }
+        },
+        {
+          "name": "#",
+          "field": {
+            "function": "count_distinct",
+            "arguments": [
+              {
+                "id": "customer.id"
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        }
+      ],
+      "group": [],
+      "sort": []
+    }
+  ]
+}

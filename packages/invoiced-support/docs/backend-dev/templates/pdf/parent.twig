@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+    <style type="text/css">
+        *, *:before, *:after {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        html,body {
+            text-align: left;
+            font-family: Helvetica, sans-serif;
+            font-size: 10pt;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+        .clearfix:after {
+            content: ".";
+            display: block;
+            clear: both;
+            visibility: hidden;
+            line-height: 0;
+            height: 0;
+        }
+        .clearfix {
+            display: inline-block;
+        }
+        html[xmlns] .clearfix {
+            display: block;
+        }
+        * html .clearfix {
+            height: 1%;
+        }
+        thead {
+            display: table-row-group;
+        }
+        .highlight-color-bg {
+            background-color: {{ highlightColor }} !important;
+        }
+        .highlight-color-color {
+            color: {{ highlightColor }} !important;
+        }
+        .highlight-color-border {
+            border-color: {{ highlightColor }} !important;
+        }
+        .dump-scope {
+            background: #f0f0f0;
+            color: #000;
+            text-align: left;
+            padding: 30px;
+            font-family: "DejaVu Sans", "Courier 10 Pitch", monospace;
+            page-break-after: always;
+        }
+        * + .dump-scope {
+            page-break-before: always;
+        }
+        .dump-scope:last-child {
+            page-break-after: auto;
+        }
+    </style>
+    <style type="text/css">{{ css|raw }}</style>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script>
+      function substituteTags() {
+          var vars = {};
+          var queryStringsFromUrl = document.location.search.substring(1).split('&');
+          for (var queryString in queryStringsFromUrl) {
+              if (queryStringsFromUrl.hasOwnProperty(queryString)) {
+                  var tempVar = queryStringsFromUrl[queryString].split('=', 2);
+                  vars[tempVar[0]] = decodeURI(tempVar[1]);
+              }
+          }
+
+          var cssSelectorClasses = {
+            'page': 'wk-page',
+            'frompage': 'wk-frompage',
+            'topage': 'wk-topage',
+            'webpage': 'wk-webpage',
+            'section': 'wk-section',
+            'subsection': 'wk-subsection',
+            'date': 'wk-date',
+            'isodate': 'wk-isodate',
+            'time': 'wk-time',
+            'title': 'wk-title',
+            'doctitle': 'wk-doctitle',
+            'sitepage': 'wk-sitepage',
+            'sitepages': 'wk-sitepages'
+          };
+          for (var queryKey in cssSelectorClasses) {
+              if (cssSelectorClasses.hasOwnProperty(queryKey)) {
+                  var element = document.getElementsByClassName(cssSelectorClasses[queryKey]);
+                  for (var j = 0; j < element.length; ++j) {
+                      element[j].textContent = vars[queryKey];
+                  }
+              }
+          }
+      }
+  </script>
+</head>
+<body onload="substituteTags()">
+    {% if testMode %}<div style="background: #ffff00 !important; border-radius: 3px !important; color: #232e38 !important; display: block !important; visibility: visible !important; font-size: 13px !important; font-weight: bold !important; padding: 5px 10px !important; line-height: 20px !important; position: absolute !important; top: 0 !important; right: 0 !important; z-index: 9999 !important;">Test Document</div>{% endif %}
+    <div id="raw-document">{{ html|raw }}</div>
+</body>
+</html>

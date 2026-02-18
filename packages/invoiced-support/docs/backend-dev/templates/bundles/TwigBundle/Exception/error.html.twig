@@ -1,0 +1,19 @@
+{% set title = 'Internal Server Error' %}
+{% extends "bundles/TwigBundle/Exception/parent.twig" %}
+
+{% block content %}
+
+    <section class="error">
+        <div class="container">
+            <div class="logo">
+                <img src="{{ asset('/img/logo.png') }}" alt="Invoiced" />
+            </div>
+            <h1 class="mt-4">Internal Server Error</h1>
+            <p class="lead">There was an error processing your request. Our engineers have been notified and will be looking into the issue shortly. You can also get in touch with <a href="https://app.invoiced.com/help">Invoiced Support</a>.</p>
+            {% if correlationId is defined %}
+                <p class="lead">Correlation ID: {{ correlationId }}</p>
+            {% endif %}
+        </div>
+    </section>
+
+{% endblock %}

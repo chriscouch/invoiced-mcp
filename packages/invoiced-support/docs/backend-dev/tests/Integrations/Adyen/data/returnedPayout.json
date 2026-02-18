@@ -1,0 +1,124 @@
+{
+  "balancePlatform": "InvoicedBalancePlatform",
+  "creationDate": "2025-04-27T13:02:21+02:00",
+  "id": "1QALCW66QKYIB54A",
+  "accountHolder": {
+    "description": "Company # 5438374",
+    "id": "AH329XW223228X5MDTQSL34BV",
+    "reference": "5438374-kjqqsdehnq"
+  },
+  "amount": {
+    "currency": "USD",
+    "value": 1940
+  },
+  "balanceAccount": {
+    "description": "Default Account",
+    "id": "BA329XW223228X5MDTQSL34C2",
+    "reference": "5438374-kjqqsdehnq"
+  },
+  "category": "bank",
+  "categoryData": {
+    "priority": "regular",
+    "type": "bank"
+  },
+  "counterparty": {
+    "transferInstrumentId": "SE32C9G223226F5MDTRJD9N6K"
+  },
+  "description": "Daily Payout",
+  "direction": "outgoing",
+  "reason": "unknown",
+  "reference": "SWPE423C922335G45MFM5MFFZN429X",
+  "referenceForBeneficiary": "Invoiced",
+  "status": "returned",
+  "type": "bankTransfer",
+  "balances": [
+    {
+      "balance": 0,
+      "currency": "USD",
+      "received": 0,
+      "reserved": 0
+    }
+  ],
+  "events": [
+    {
+      "bookingDate": "2025-04-24T07:00:05+02:00",
+      "id": "EVJN42C5G223223R5MFR3T34LQ6P9L",
+      "mutations": [
+        {
+          "currency": "USD",
+          "received": -1940
+        }
+      ],
+      "status": "received",
+      "type": "accounting"
+    },
+    {
+      "bookingDate": "2025-04-24T07:00:06+02:00",
+      "id": "EVJN42C66223223R5MFR3T46MS4ZXB",
+      "mutations": [
+        {
+          "currency": "USD",
+          "received": 1940,
+          "reserved": -1940
+        }
+      ],
+      "status": "authorised",
+      "type": "accounting"
+    },
+    {
+      "bookingDate": "2025-04-24T07:00:06+02:00",
+      "id": "EVJN42D95223223R5MFR3T4FTL68J7",
+      "mutations": [
+        {
+          "balance": -1940,
+          "currency": "USD",
+          "received": 0,
+          "reserved": 1940
+        }
+      ],
+      "status": "booked",
+      "transactionId": "EVJN42D95223223R5MFR3T4FTL68J7USD",
+      "type": "accounting",
+      "valueDate": "2025-04-24T07:00:05+02:00"
+    },
+    {
+      "estimatedArrivalTime": "2025-04-24T16:00:00+02:00",
+      "id": "EVTR423LK2233FH95MFR3T99LC5WXW",
+      "trackingData": {
+        "estimatedArrivalTime": "2025-04-24T16:00:00+02:00",
+        "type": "estimation"
+      },
+      "type": "tracking",
+      "updateDate": "2025-04-24T07:00:08+02:00"
+    },
+    {
+      "bookingDate": "2025-04-27T13:02:21+02:00",
+      "id": "EVJN429QJ223223R5MG7V6H94V5CMZ",
+      "mutations": [
+        {
+          "balance": 1940,
+          "currency": "USD",
+          "received": 0
+        }
+      ],
+      "reason": "unknown",
+      "status": "returned",
+      "transactionId": "EVJN429QJ223223R5MG7V6H94V5CMZUSD",
+      "type": "accounting",
+      "valueDate": "2025-04-24T07:00:05+02:00"
+    }
+  ],
+  "externalReason": {
+    "code": "NARR",
+    "description": "Reason is provided as narrative information in the additional reason information.",
+    "namespace": "ISO20022_ExternalStatusReason"
+  },
+  "sequenceNumber": 5,
+  "tracking": {
+    "estimatedArrivalTime": "2025-04-24T16:00:00+02:00",
+    "type": "estimation"
+  },
+  "transactionRulesResult": {
+    "allHardBlockRulesPassed": true
+  }
+}

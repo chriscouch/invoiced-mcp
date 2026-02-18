@@ -1,0 +1,116 @@
+{
+  "QueryResponse": {
+    "startPosition": 1,
+    "Payment": [
+      {
+        "SyncToken": "0",
+        "domain": "QBO",
+        "DepositToAccountRef": {
+          "value": "4"
+        },
+        "TxnDate": "2021-01-18",
+        "TotalAmt": 30.0,
+        "ProcessPayment": false,
+        "sparse": false,
+        "Line": [
+          {
+            "Amount": 20.0,
+            "LinkedTxn": [
+              {
+                "TxnId": "81",
+                "TxnType": "Invoice"
+              }
+            ]
+          },
+          {
+            "Amount": 10.0,
+            "LinkedTxn": [
+              {
+                "TxnId": "82",
+                "TxnType": "Expense"
+              }
+            ]
+          },
+          {
+            "Amount": 25.0,
+            "LinkedTxn": [
+              {
+                "TxnId": "89",
+                "TxnType": "CreditMemo"
+              }
+            ]
+          }
+        ],
+        "CustomerRef": {
+          "name": "Test 2",
+          "value": "2"
+        },
+        "Id": "166",
+        "MetaData": {
+          "CreateTime": "2021-01-18T15:08:12-08:00",
+          "LastUpdatedTime": "2021-01-18T15:08:12-08:00"
+        }
+      },
+      {
+        "SyncToken": "0",
+        "domain": "QBO",
+        "DepositToAccountRef": {
+          "value": "4"
+        },
+        "UnappliedAmt": 20.0,
+        "TxnDate": "2021-01-18",
+        "TotalAmt": 10.0,
+        "ProcessPayment": false,
+        "sparse": false,
+        "Line": [
+          {
+            "Amount": 20.0,
+            "LinkedTxn": [
+              {
+                "TxnId": "67",
+                "TxnType": "Invoice"
+              }
+            ]
+          },
+          {
+            "Amount": 20.0,
+            "LinkedTxn": [
+              {
+                "TxnId": "90",
+                "TxnType": "Invoice"
+              }
+            ]
+          },
+          {
+            "Amount": 10.0,
+            "LinkedTxn": [
+              {
+                "TxnId": "68",
+                "TxnType": "CreditMemo"
+              }
+            ]
+          },
+          {
+            "Amount": 10.0,
+            "LinkedTxn": [
+              {
+                "TxnId": "92",
+                "TxnType": "CreditMemo"
+              }
+            ]
+          }
+        ],
+        "CustomerRef": {
+          "name": "Test 2",
+          "value": "2"
+        },
+        "Id": "201",
+        "MetaData": {
+          "CreateTime": "2021-01-18T15:08:12-08:00",
+          "LastUpdatedTime": "2021-01-18T15:08:12-08:00"
+        }
+      }
+    ],
+    "time": "2015-07-28T15:16:15.435-07:00"
+  }
+}

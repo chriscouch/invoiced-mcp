@@ -1,0 +1,17 @@
+parameters:
+	level: 8
+	paths:
+		- src
+		- tests
+	bootstrapFiles:
+		- vendor/bin/.phpunit/phpunit-9.5-0/vendor/autoload.php
+	checkMissingIterableValueType: false
+	checkGenericClassInNonGenericObjectType: false
+	ignoreErrors:
+		- '#Access to an undefined property App\\Core\\Orm\\Model::#'
+		- '#Cannot call method [a-zA-Z0-9\\_]+\(\) on array|App\\Core\\Orm\\Model.#'
+		- '#Call to an undefined method Symfony\\Contracts\\Translation\\TranslatorInterface::setLocale\(\).#'
+		- '#Call to an undefined method App\\Core\\Orm\\Driver\\DriverInterface::getConnection\(\).#'
+		- '#Mockery#'
+		- '#Access to an undefined property object::#'
+		- '#Psr\\Log\\LoggerInterface\|null#'

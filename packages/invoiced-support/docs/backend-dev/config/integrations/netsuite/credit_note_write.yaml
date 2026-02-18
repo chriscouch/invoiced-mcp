@@ -1,0 +1,46 @@
+mapping:
+  - sourceField: customer()/id
+    destinationField: parent_customer/id
+
+  - sourceField: customer()/number
+    destinationField: parent_customer/accountnumber
+
+  - sourceField: customer()/number
+    destinationField: parent_customer/entityid
+
+  - sourceField: customer()/name
+    destinationField: parent_customer/companyname
+
+  - sourceField: id
+    destinationField: id
+
+  - sourceField: notes
+    destinationField: memo
+
+  - sourceField: status
+    destinationField: status
+
+  # The order of the fields in line item matters
+  - sourceField: items()/catalog_item/accounting_id
+    destinationField: items[]/item
+
+  - sourceField: items()/unit_cost
+    destinationField: items[]/rate
+
+  - sourceField: items()/quantity
+    destinationField: items[]/quantity
+
+  - sourceField: currency
+    destinationField: currencysymbol
+    type: currency
+
+  - sourceField: number
+    destinationField: tranid
+
+  - sourceField: date
+    destinationField: trandate
+    type: date_unix
+
+  - sourceField: voided
+    destinationField: voided
+    type: boolean

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Combined Evidence</title>
+    <style type="text/css">
+        body {
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Product Description</h1>
+    <p>{{ evidence.product_description|nl2br }}</p>
+
+    <h1>Service Date</h1>
+    <p>{{ evidence.service_date|nl2br }}</p>
+
+    <h1>Cancellation Policy Disclosure</h1>
+    <p>{{ evidence.cancellation_policy_disclosure|nl2br }}</p>
+
+    <h1>Refund Policy Disclosure</h1>
+    <p>{{ evidence.refund_policy_disclosure|nl2br }}</p>
+
+    <p>{{ evidence.refund_refusal_explanation|nl2br }}</p>
+
+    <h1>Service Access Activity Log</h1>
+    <p>{{ evidence.access_activity_log|nl2br }}</p>
+</body>
+</html>

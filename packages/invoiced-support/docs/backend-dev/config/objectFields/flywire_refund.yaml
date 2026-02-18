@@ -1,0 +1,64 @@
+fields:
+  amount:
+    name: Amount
+    type: money
+  amount_to:
+    name: Amount To
+    type: money
+  ar_refund:
+    name: AR Refund
+    type: join
+    join_object: refund
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  currency:
+    name: Currency
+    type: string
+  currency_to:
+    name: Currency To
+    type: string
+  disbursement:
+    name: Disbursement
+    type: join
+    join_object: flywire_disbursement
+  id:
+    name: ID
+    type: string
+    writable: false
+  initiated_at:
+    name: Initiated At
+    type: datetime
+  payment:
+    name: Payment
+    type: join
+    join_object: flywire_payment
+  recipient_id:
+    name: Portal Code
+    type: string
+  refund_id:
+    name: Refund ID
+    type: string
+  status:
+    name: Status
+    type: enum
+    values:
+      initiated: Initiated
+      received: Received
+      pending: Pending
+      finished: Finished
+      returned: Returned
+      cancelled: Canceled
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false

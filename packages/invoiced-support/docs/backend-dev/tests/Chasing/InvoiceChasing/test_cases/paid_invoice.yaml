@@ -1,0 +1,275 @@
+# Tests that unfinished chasing steps are canceled
+# after an invoice has been paid.
+
+operations:
+  - operation: create
+    mock_time: '2022-01-03 05:03:21' # Time chosen at random, date was not
+    data:
+      invoice:
+        date: '2022-01-03 05:03:21' # Same as create time
+        items:
+          - quantity: 1
+            unit_cost: 100
+      delivery:
+        chase_schedule:
+          - trigger: 0
+            options:
+              hour: 8
+              email: true
+              sms: false
+              letter: false
+          - trigger: 4
+            options:
+              hour: 8
+              date: '2022-01-08 05:03:21' # time should not matter here
+              email: true
+              sms: false
+              letter: false
+    expect:
+      delivery_state:
+        - trigger: 0
+          options:
+            hour: 8
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-03 08:00:00' # the hour is 8 and not the next hour because this timestamp is greater than the created_at timestamp
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+        - trigger: 4
+          options:
+            hour: 8
+            date: '2022-01-08 05:03:21'
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-08 08:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+      scheduled_sends: []
+
+  - operation: schedule
+    mock_time: '2022-01-03 05:03:21' # Same as previous step
+    expect:
+      delivery_state:
+        - trigger: 0
+          options:
+            hour: 8
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-03 08:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+        - trigger: 4
+          options:
+            hour: 8
+            date: '2022-01-08 05:03:21'
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-08 08:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+      scheduled_sends:
+        - send_after: '2022-01-03 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+        - send_after: '2022-01-08 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+
+  # Send the "on issue" send
+  - operation: send
+    mock_time: '2022-01-03 08:00:00'
+    expect:
+      delivery_state:
+        - trigger: 0
+          options:
+            hour: 8
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-03 08:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: true
+                sms: false
+                letter: false
+        - trigger: 4
+          options:
+            hour: 8
+            date: '2022-01-08 05:03:21'
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-08 08:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+      scheduled_sends:
+        - send_after: '2022-01-03 08:00:00'
+          channel: 0
+          sent: true
+          canceled: false
+          skipped: false
+          failed: false
+        - send_after: '2022-01-08 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+
+
+  # Remove the invoice line items to make it paid
+
+  - operation: edit
+    mock_time: '2022-01-03 06:01:00' # 1 minute after sending
+    data:
+      invoice:
+        items: []
+    expect:
+      invoice:
+        status: 'paid'
+      delivery:
+        processed: false
+      delivery_state:
+        - trigger: 0
+          options:
+            hour: 8
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-03 08:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: true
+                sms: false
+                letter: false
+        - trigger: 4
+          options:
+            hour: 8
+            date: '2022-01-08 05:03:21'
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-08 08:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+
+  - operation: schedule
+    mock_time: '2022-01-03 06:01:00' # Same as previous
+    expect:
+      delivery_state:
+        - trigger: 0
+          options:
+            hour: 8
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-03 08:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: true
+                sms: false
+                letter: false
+        - trigger: 4
+          options:
+            hour: 8
+            date: '2022-01-08 05:03:21'
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-08 08:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+      scheduled_sends:
+        - send_after: '2022-01-03 08:00:00'
+          channel: 0
+          sent: true
+          canceled: false
+          skipped: false
+          failed: false
+        - send_after: '2022-01-08 08:00:00'
+          channel: 0
+          sent: false
+          canceled: true
+          skipped: false
+          failed: false

@@ -1,0 +1,79 @@
+mapping:
+
+  - sourceField: Id
+    destinationField: accounting_id
+
+  - sourceField: DocNumber
+    destinationField: number
+
+  - sourceField: CustomerRef/value
+    destinationField: customer/accounting_id
+
+  - sourceField: CustomerRef/name
+    destinationField: customer/name
+
+  - sourceField: BillEmail/Address
+    destinationField: customer/emails
+    type: email_list
+
+  - sourceField: TxnDate
+    destinationField: date
+    type: date_unix
+    timeOfDay: 6
+
+  - sourceField: DueDate
+    destinationField: due_date
+    type: date_unix
+    timeOfDay: 18
+
+  - sourceField: SalesTermRef/value
+    destinationField: payment_terms
+
+  - sourceField: CurrencyRef/value
+    destinationField: currency
+    type: currency
+
+  - sourceField: TxnTaxDetail/TotalTax
+    destinationField: tax
+    type: float
+    nullBehavior: set
+
+  - sourceField: CustomerMemo/value
+    destinationField: notes
+
+  - sourceField: DepartmentRef/name
+    destinationField: metadata/quickbooks_location
+
+  - sourceField: BillEmail/Address
+    destinationField: delivery/emails
+
+  - sourceField: pdf
+    destinationField: pdf
+    documentContext: false
+
+  - sourceField: CustomerRef/name
+    destinationField: ship_to/name
+
+  - sourceField: ShipAddr/Line1
+    destinationField: ship_to/address1
+    nullBehavior: set
+
+  - sourceField: ShipAddr/Line2
+    destinationField: ship_to/address2
+    nullBehavior: set
+
+  - sourceField: ShipAddr/City
+    destinationField: ship_to/city
+    nullBehavior: set
+
+  - sourceField: ShipAddr/CountrySubDivisionCode
+    destinationField: ship_to/state
+    nullBehavior: set
+
+  - sourceField: ShipAddr/PostalCode
+    destinationField: ship_to/postal_code
+    nullBehavior: set
+
+  - sourceField: ShipAddr/Country
+    destinationField: ship_to/country
+    type: country

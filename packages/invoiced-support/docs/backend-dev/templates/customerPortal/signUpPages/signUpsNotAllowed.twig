@@ -1,0 +1,14 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.sign_ups_disabled'|trans %}
+{% extends "customerPortal/parentLogo.twig" %}
+
+{% block main %}
+
+	<section class="error signups-not-allowed">
+		<div class="container">
+			<h1>{{ 'titles.sign_ups_disabled'|trans }}</h1>
+			<p class="lead">{{ 'messages.sign_ups_disabled'|trans }}</p>
+		</div>
+	</section>
+
+{% endblock %}

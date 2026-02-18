@@ -1,0 +1,52 @@
+mapping:
+  - sourceField: customer()/id
+    destinationField: parent_customer/id
+
+  - sourceField: customer()/number
+    destinationField: parent_customer/accountnumber
+
+  - sourceField: customer()/name
+    destinationField: parent_customer/companyname
+
+  - sourceField: id
+    destinationField: id
+
+  - sourceField: date
+    destinationField: date
+
+  - sourceField: amount
+    destinationField: amount
+
+  - sourceField: applied
+    destinationField: applied
+
+  - sourceField: currency
+    destinationField: currency
+    type: currency
+
+  - sourceField: voided
+    destinationField: voided
+    nullBehavior: 'keep'
+
+  - sourceField: date_voided
+    destinationField: date_voided
+    nullBehavior: 'keep'
+
+  - sourceField: method
+    destinationField: method
+
+  - sourceField: reference
+    destinationField: reference
+    nullBehavior: 'keep'
+
+  - sourceField: charge/gateway_id
+    destinationField: charge/checknum
+
+  - sourceField: charge/gateway
+    destinationField: charge/gateway
+
+  - sourceField: charge/payment_source/toString()
+    destinationField: charge/payment_source
+
+  - sourceField: charge/payment_source_type
+    destinationField: charge/type

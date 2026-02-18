@@ -1,0 +1,30 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.sign_up_thank_you'|trans %}
+{% extends "customerPortal/parentLogo.twig" %}
+
+{% block main %}
+	<div class="container mt-5">
+		<div class="row">
+			<div class="col-md-6 mx-auto">
+				<div class="card">
+					<h3 class="card-header">{{ 'titles.sign_up_thank_you'|trans }}</h3>
+					<div class="card-body">
+						<p class="lead">
+							{% if plan %}
+								{{ 'messages.subscribed_with_plan'|trans({'%plan%': plan})|raw }}
+							{% else %}
+								{{ 'messages.subscribed'|trans }}
+							{% endif %}
+						</p>
+
+						{% if signedInCustomer and customerPortal.enabled() %}
+							<div class="mt-5">
+								<a href="{{ company.url }}" class="btn btn-primary">{{ 'buttons.go_to_my_account'|trans }}</a>
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

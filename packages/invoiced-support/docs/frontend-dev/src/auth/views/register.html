@@ -1,0 +1,56 @@
+<h1 class="logo slim">
+	<a href="{{baseUrl}}">
+		<img src="/img/auth-logo@2x.png" width="181" height="46" alt="Invoiced" />
+	</a>
+</h1>
+
+<div class="body skinny minimal container">
+	<h4 class="title">Create your personal account</h4>
+
+	<div class="alert alert-danger" ng-show="error" ng-bind-html="error.message|nl2br"></div>
+
+	<form name="registerForm" ng-submit="register(firstName, lastName, email, password1, password2)">
+		<div class="form-group">
+            <div class="floating-label-input">
+                <input type="text" ng-model="firstName" class="form-control input-lg" required />
+                <span class="floating-label">Your First Name</span>
+            </div>
+		</div>
+		<div class="form-group">
+            <div class="floating-label-input">
+                <input type="text" ng-model="lastName" class="form-control input-lg" required />
+                <span class="floating-label">Your Last Name</span>
+            </div>
+		</div>
+		<div class="form-group">
+            <div class="floating-label-input">
+                <input type="email" ng-model="email" class="form-control input-lg" autocomplete="username" ng-disabled="emailPrefilled" required />
+                <span class="floating-label">Email Address</span>
+            </div>
+		</div>
+		<div class="form-group">
+            <div class="floating-label-input">
+                <input type="password" ng-model="password1" class="form-control input-lg" autocomplete="new-password" required />
+                <span class="floating-label">Password (at least <em>8 characters</em>)</span>
+            </div>
+		</div>
+		<div class="form-group">
+            <div class="floating-label-input">
+                <input type="password" ng-model="password2" class="form-control input-lg" autocomplete="new-password" required />
+                <span class="floating-label">Confirm Password</span>
+            </div>
+		</div>
+		<div class="form-group">
+			<button type="submit" class="btn btn-block btn2 btn-evergreen btn-lg Button" ng-disabled="registerForm.$invalid||registering" v-busy="registering" v-busy-label="Creating account" v-pressable>
+				Sign Up
+			</button>
+		</div>
+        <div class="tos-disclaimer">
+            By clicking on "Sign Up", you agree to our <a href="https://invoiced.com/terms">Terms of Service</a> and <a href="https://invoiced.com/privacy">Privacy Policy</a>.
+        </div>
+	</form>
+</div>
+
+<div class="body skinny minimal container secondary">
+	Already have an account? <a ui-sref="auth.login">Sign In</a>
+</div>

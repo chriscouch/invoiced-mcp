@@ -1,0 +1,12 @@
+{
+  "awsvpcConfiguration": {
+    "subnets": [
+      "subnet-b3dd54d4",
+      "subnet-d6b76e8d"
+    ],
+    "securityGroups": [
+      "sg-1213f06b",
+      "sg-1112f368"
+    ]
+  }
+}

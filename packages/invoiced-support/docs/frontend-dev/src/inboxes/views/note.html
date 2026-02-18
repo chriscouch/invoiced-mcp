@@ -1,0 +1,63 @@
+<div class="thread-email note">
+    <div class="email-header">
+        <!-- Actions -->
+        <div class="action">
+            <div class="dropdown" dropdown>
+                <a href="" class="btn btn-default btn-sm dropdown-toggle" dropdown-toggle>
+                    <span class="fas fa-chevron-down"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li ng-if="!editing && ('notes.edit'|hasPermission)">
+                        <a href="" ng-click="edit(note)">
+                            {{'inboxes.notes.edit'|translate}}
+                        </a>
+                    </li>
+                    <li class="danger" ng-if="!deleting && ('notes.delete'|hasPermission)">
+                        <a href="" ng-click="delete(note)">
+                            {{'inboxes.notes.delete'|translate}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Date -->
+        <div class="email-date">
+            <company-date-time date="note.created_at"></company-date-time>
+        </div>
+
+        <!-- From Icon -->
+        <div class="from-icon">
+            <img avatar="avatarOptions" user="note.user" class="img-circle" />
+        </div>
+
+        <!-- From -->
+        <div class="header-line from-line">
+            <span class="value">
+                <span class="named-email-address">
+                    <span class="name">{{note.user.name}}</span>
+                </span>
+            </span>
+        </div>
+        <hr/>
+    </div>
+
+    <!-- Note Contents -->
+    <div class="message rich-text" ng-bind-html="note.note|linky:'_blank'|nl2br" ng-hide="editing"></div>
+
+    <!-- Edit Note -->
+    <div class="edit-note" ng-show="editing">
+        <div class="message">
+            <textarea class="form-control" ng-model="editNote" expanding-textarea></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="btn btn-primary Button" ng-click="saveEdit(editNote)" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+                <span translate>general.save</span>
+            </button>
+            <button type="button" class="btn btn-link" ng-click="cancelEdit()">
+                {{'general.cancel'|translate}}
+            </button>
+        </div>
+    </div>
+</div>

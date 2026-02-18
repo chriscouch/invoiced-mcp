@@ -1,0 +1,40 @@
+<customlist scriptid="customlist_invd_custom_mapping_list">
+  <description>This list contains the types of records that support customizing the mapping with Invoiced.</description>
+  <isinactive>F</isinactive>
+  <isordered>F</isordered>
+  <name>Invoiced Mapping Types</name>
+  <customvalues>
+    <customvalue scriptid="val_59883_t2045982_416">
+      <isinactive>F</isinactive>
+      <value>Billable Line Item</value>
+    </customvalue>
+    <customvalue scriptid="val_59159_t2045982_127">
+      <isinactive>F</isinactive>
+      <value>Contact</value>
+    </customvalue>
+    <customvalue scriptid="val_59160_t2045982_808">
+      <isinactive>F</isinactive>
+      <value>Credit Note</value>
+    </customvalue>
+    <customvalue scriptid="val_59161_t2045982_565">
+      <isinactive>F</isinactive>
+      <value>Customer</value>
+    </customvalue>
+    <customvalue scriptid="val_59162_t2045982_253">
+      <isinactive>F</isinactive>
+      <value>Invoice</value>
+    </customvalue>
+    <customvalue scriptid="val_64673_t2045854_435">
+      <isinactive>F</isinactive>
+      <value>Invoice Attachment</value>
+    </customvalue>
+    <customvalue scriptid="val_59163_t2045982_961">
+      <isinactive>F</isinactive>
+      <value>Line Item</value>
+    </customvalue>
+    <customvalue scriptid="val_59164_t2045982_655">
+      <isinactive>F</isinactive>
+      <value>Payment</value>
+    </customvalue>
+  </customvalues>
+</customlist>

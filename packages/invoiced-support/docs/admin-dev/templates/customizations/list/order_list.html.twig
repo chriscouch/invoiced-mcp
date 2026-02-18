@@ -1,0 +1,13 @@
+{% extends '@!EasyAdmin/crud/index.html.twig' %}
+
+{% block main %}
+    <div class="mb-3">
+        <span class="d-none d-md-inline">Shortcuts:</span>
+        <div class="btn-group" role="group">
+            <a class="btn btn-sm btn-default" href="{{ ea_url().setController('App\\Controller\\Admin\\OrderCrudController').setAction('index').set('filters', {status: {comparison: '=', value: 'missing_info'}}).setEntityId(null) }}">Missing Info</a>
+            <a class="btn btn-sm btn-default" href="{{ ea_url().setController('App\\Controller\\Admin\\OrderCrudController').setAction('index').set('filters', {status: {comparison: '=', value: 'open'}}).setEntityId(null) }}">Open</a>
+            <a class="btn btn-sm btn-default" href="{{ ea_url().setController('App\\Controller\\Admin\\OrderCrudController').setAction('index').set('filters', {status: {comparison: '=', value: 'complete'}}).setEntityId(null) }}">Complete</a>
+        </div>
+    </div>
+    {{ parent() }}
+{% endblock %}

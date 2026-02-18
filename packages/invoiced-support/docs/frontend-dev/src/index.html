@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<title>Invoiced Dashboard</title>
+	<meta name="fragment" content="!">
+	<base href="/" />
+	<meta name="description" content="Invoiced is the leading accounts receivable and accounts payable automation platform."/>
+
+	<!-- Social Tiles -->
+	<meta property="og:title" content="Invoiced Dashboard" />
+	<meta property="og:type" content="website" />
+	<meta property="og:description" content="Invoiced is the leading accounts receivable and accounts payable automation platform." />
+	<meta property="og:image" content="https://www.invoiced.com/img/landing2/social-media-image.png" />
+	<meta property="og:logo" content="https://www.invoiced.com/img/icon-512.png" />
+	<meta property="og:site_name" content="Invoiced" />
+
+    <!-- Mobile web app -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+   	<meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Invoiced">
+    <meta name="format-detection" content="telephone=no">
+
+	<!-- Favicons -->
+	<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/manifest.json">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+	<meta name="theme-color" content="#ffffff">
+	
+	<!-- Stylesheets -->
+	<link href="/css/vendor.css" rel="stylesheet" type="text/css" />
+	<link href="/css/app.css" rel="stylesheet" type="text/css" />
+
+	<!-- Scripts -->
+	<script type="text/javascript" src="/js/vendor.js"></script>
+	<script type="text/javascript" src="/js/libs.js"></script>
+	<script src="https://kit.fontawesome.com/963b0447b4.js" crossorigin="anonymous"></script>
+	<script src="https://js.invoiced.com/v1/"></script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXLCngDmHLmWgNyedcqSQpGfiU-MCLs9E"></script>
+	<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+	<script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=9376a92f-426a-4a6b-86fd-feba94b672d0"> </script>
+	<script type="text/javascript" src="/js/app.js"></script>
+</head>
+<body>
+	<!-- App Content -->
+	<div ui-view></div>
+
+	<!-- Loading Screen -->
+	<script type="text/javascript" src="/js/please-wait.js"></script>
+	<script type="text/javascript">
+		window.loadingScreen = window.pleaseWait({
+			logo: "/img/splash-logo@2x.png",
+			loadingHtml: "<p class='loading-message'>Today is a great day to get paid!</p><div class='sk-spinner sk-spinner-wave'><div class='sk-rect1'></div> <div class='sk-rect2'></div> <div class='sk-rect3'></div> <div class='sk-rect4'></div> <div class='sk-rect5'></div></div>"
+		});
+	</script>
+
+	<!-- Javascript Disabled Error -->
+	<noscript>
+		<div id="noscript"><div class="message">Please enable Javascript to use this app.</div></div>
+	</noscript>
+
+	<!-- Failed Connection Error -->
+	<div class="hidden" id="failed-connection"><div class="message">We had trouble connecting to Invoiced. :( Please try again later or contact <a href="mailto:support@invoiced.com">support@invoiced.com</a>.</div></div>
+</body>
+</html>

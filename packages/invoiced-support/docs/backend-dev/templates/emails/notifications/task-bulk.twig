@@ -1,0 +1,5 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}New tasks were assigned to you{% endblock %}
+{% block notification %}
+    <p><a href="{{ dashboardUrl}}/alerts?account={{ tenant_id  }}">{{ count }} Tasks</a> were assigned to you</p>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% trans_default_domain 'customer_portal' %}
+<div class="alert alert-danger errors offline-payment-errors hidden"></div>
+
+<div class="form-section nopadding">
+	<div class="field">
+		<label class="form-label">{{ 'labels.payment_instructions'|trans }}</label>
+		<div class="payment-instructions">{{ paymentInstructions }}</div>
+	</div>
+</div>

@@ -1,0 +1,153 @@
+<form name="modelForm" ng-submit="save(model)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title"><span ng-show="isExisting">Edit</span><span ng-hide="isExisting">New</span> {{title}}</h4>
+	</div>
+	<div class="modal-body form-horizontal">
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<div class="form-group" ng-show="isExisting">
+			<label class="control-label col-sm-3">ID</label>
+			<div class="col-sm-9 form-control-static">
+				{{model.id}}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-3">Name <span class="required"></span></label>
+			<div class="col-sm-6">
+				<input type="text" ng-model="model.name" ng-change="generateID(model)" class="form-control" required />
+			</div>
+		</div>
+
+		<div ng-if="!isExisting">
+			<div class="form-group">
+				<label class="control-label col-sm-3">ID <span class="required"></span></label>
+				<div class="col-sm-4 form-control-static" ng-show="shouldGenID">
+					<span class="start-typing-id" ng-hide="model.id">Start by typing name</span>
+					{{model.id}}
+					<a href="" ng-show="model.id" ng-click="$parent.shouldGenID=false;$event.preventDefault()">
+						<span class="fas fa-pencil"></span>
+					</a>
+				</div>
+				<div class="col-sm-4" ng-hide="shouldGenID">
+					<input type="text" placeholder="Unique identifier..." ng-model="model.id" class="form-control" required />
+				</div>
+				<div class="col-sm-3 form-control-static">
+					<a href="" tooltip="A unique identifier that represents this {{title_lower}}, for internal use only. Allowed characters: a-Z, 0-9, _, -">
+						What's this?
+					</a>
+				</div>
+			</div>
+		</div>
+		<hr/>
+
+		<div ng-if="!isExisting||changePricing">
+			<div class="alert alert-info" ng-show="changePricing">
+				<span class="fas fa-info-circle"></span>
+				Modifying the {{title_lower}} price will not change any existing invoices, line items, or subscriptions where this {{title_lower}} is used.
+				&mdash;
+				<a href="" ng-click="$parent.changePricing=false">
+					{{'general.cancel'|translate}}
+				</a>
+			</div>
+
+			<div class="form-group" ng-hide="model.is_percent" ng-if="hasMultiCurrency">
+				<label class="control-label col-sm-3">{{'general.currency'|translate}} <span class="required"></span></label>
+				<div class="col-sm-3">
+					<currency-selector ng-model="model.currency" required></currency-selector>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-3">Amount <span class="required"></span></label>
+				<div class="col-sm-4">
+					<div name="value" ng-required="true" ng-model="model.value" currency="model.currency" is-rate="model.is_percent" has-selector="type=='coupon'" input-amount></div>
+				</div>
+			</div>
+
+			<div ng-show="type=='tax_rate'">
+				<div class="form-group">
+					<label class="control-label col-sm-3">Prices Include Tax</label>
+					<div class="col-sm-4">
+						<toggle ng-model="model.inclusive"></toggle>
+					</div>
+				</div>
+			</div>
+
+			<div ng-show="type=='coupon'">
+				<div class="form-group">
+					<label class="control-label col-sm-3">Duration</label>
+					<div class="col-sm-4">
+						<div class="invoiced-select">
+							<select ng-model="$parent.couponDuration">
+								<option value="one_time">One-time</option>
+								<option value="limited">Fixed duration</option>
+								<option value="forever">Forever</option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group" ng-if="couponDuration=='limited'">
+					<label class="control-label col-sm-3"># Cycles <span class="required"></span></label>
+					<div class="col-sm-3">
+						<input type="number" class="form-control" ng-model="model.duration" required />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div ng-if="isExisting&&!changePricing">
+			<div class="form-group slim">
+				<label class="control-label col-sm-3">Amount</label>
+				<div class="col-sm-9 form-control-static">
+					<span ng-show="model.is_percent">{{model.value}}%</span>
+					<money ng-hide="model.is_percent" amount="model.value" currency="model.currency"></money>
+				</div>
+			</div>
+
+			<div ng-show="type=='tax_rate'">
+				<div class="form-group">
+					<label class="control-label col-sm-3">Tax Mode</label>
+					<div class="col-sm-9 form-control-static">
+						<a href="" tooltip="Prices include tax" ng-show="model.inclusive">
+							<span class="label label-success">Inclusive</span>
+						</a>
+						<a href="" tooltip="Prices exclude tax" ng-hide="model.inclusive">
+							<span class="label label-default">Exclusive</span>
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group slim">
+				<div class="col-sm-9 col-sm-offset-3">
+					<a href="" ng-click="$parent.changePricing=true">
+						Modify
+						<span class="fas fa-caret-right"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- Metadata -->
+		<div class="form-group slim metadata" ng-repeat="(key, value) in model.metadata">
+			<label class="col-sm-3 control-label"><metadata-name field-id="key" object-type="'model'"></metadata-name></label>
+			<div class="col-sm-9 form-control-static">
+				<metadata-value field-id="key" object-type="'model'" value="value"></metadata-value>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="modelForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

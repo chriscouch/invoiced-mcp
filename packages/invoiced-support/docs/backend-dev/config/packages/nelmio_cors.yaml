@@ -1,0 +1,20 @@
+nelmio_cors:
+    defaults:
+        origin_regex: true
+        allow_origin: ['~^https?:\/\/(.*\.invoiced\.localhost|.*\.staging\.invoiced\.com|.*\.sandbox\.invoiced\.com|.*\.invoiced\.com)(:[0-9]+)?$']
+        allow_credentials: true
+        allow_methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'PATCH', 'DELETE']
+        allow_headers:
+            - Authorization
+            - Cache-Control
+            - Content-Type
+            - DNT
+            - If-Modified-Since
+            - Keep-Alive
+            - User-Agent
+            - X-Mx-ReqToken
+            - X-Requested-With
+        expose_headers: ['X-Total-Count', 'Link']
+        max_age: 3600
+    paths:
+        '^/': null

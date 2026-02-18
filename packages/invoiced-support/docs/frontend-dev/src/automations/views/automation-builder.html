@@ -1,0 +1,163 @@
+<feature-upgrade ng-if="!('automations'|hasFeature)"></feature-upgrade>
+
+<div ng-show="'automations'|hasFeature">
+  <div class="settings-title-bar automations-title">
+    <!-- Save Buttons -->
+    <div class="save-buttons">
+      <div class="form-group">
+        <button type="button" class="btn btn-default" ng-click="save(workflow, triggers, steps, false)" ng-disabled="saving">
+          Save as Draft
+        </button>
+
+        <button type="submit" class="btn btn-primary" ng-click="save(workflow, triggers, steps, true)" ng-disabled="saving">
+          Publish
+        </button>
+      </div>
+    </div>
+
+    <h2 class="title">
+      <div class="back-link">
+        <a ui-sref="manage.settings.automation.list">
+          <span class="fas fa-arrow-left"></span>
+          {{'settings.titles.automations'|translate}}
+        </a>
+      </div>
+      Automation Builder
+    </h2>
+
+    <p class="alert alert-danger" ng-show="error">
+      {{error.message}}
+    </p>
+  </div>
+
+  <p class="loading" ng-show="loading"></p>
+
+  <div class="automation-builder" ng-hide="loading">
+    <div class="row">
+      <!-- Workflow Details -->
+      <div class="col-md-3 left-column">
+        <div class="form-group">
+          <label class="control-label">Name</label>
+          <div>
+            {{workflow.name}}
+            <a ui-sref="manage.automations.edit_workflow({id:workflow.id})" tooltip="Edit Details">
+              <span class="fas fa-edit"></span>
+            </a>
+          </div>
+
+          <div class="workflow-description" ng-show="workflow.description">
+            {{workflow.description}}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label">Workflow Type</label>
+          <div>
+            {{('metadata.object_names.'+workflow.object_type)|translate}}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label">Version</label>
+          <div>
+            {{workflowVersion}}
+            <span class="label label-default" ng-show="isDraft">Draft</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Triggers -->
+      <div class="col-md-9 right-column">
+        <div class="automation-triggers">
+          <h3>
+            <span ng-if="triggers.length > 1">Triggers</span>
+            <span ng-if="triggers.length <= 1">Trigger</span>
+          </h3>
+          <div class="automation-trigger" ng-repeat="trigger in triggers">
+            <div class="trigger-name">
+              <span ng-if="trigger.trigger_type == 'Manual'">
+                Manual Trigger
+              </span>
+              <span ng-if="trigger.trigger_type == 'Event'">
+                {{('events.'+trigger.event_type)|translate}}
+              </span>
+              <span ng-if="trigger.trigger_type == 'Schedule'">
+                Schedule: {{trigger | formatRRule }}
+              </span>
+              &nbsp;
+              <span class="edit">
+                <a href="" ng-click="editTrigger(workflow, trigger)">
+                  <span class="fas fa-edit"></span>
+                </a>
+              </span>
+            </div>
+            <div class="delete">
+              <a href="" ng-click="deleteTrigger($index)">
+                <span class="fas fa-trash"></span>
+              </a>
+            </div>
+          </div>
+          <div class="add-trigger">
+            <button type="button" class="btn btn-default" ng-click="addTrigger(workflow)">
+              <span class="fas fa-plus"></span>
+              Trigger
+            </button>
+          </div>
+        </div>
+
+        <!-- Steps -->
+        <div class="automation-steps">
+          <h3>
+            <span ng-show="steps.length > 1">Actions</span>
+            <span ng-show="steps.length <= 1">Action</span>
+          </h3>
+          <div class="automation-step" ng-repeat="step in steps">
+            <div class="number">
+              {{$index + 1}}
+            </div>
+            <div class="action-name">
+              {{('automations.action_names.'+step.action_type)|translate}}
+              <span class="edit">
+                <a href="" ng-click="editStep(workflow, step)">
+                  <span class="fas fa-edit"></span>
+                </a>
+              </span>
+            </div>
+            <automation-step-stringify step="step" object_type="workflow.object_type"></automation-step-stringify>
+            <div class="delete">
+              <a href="" ng-click="deleteStep($index)">
+                <span class="fas fa-trash"></span>
+              </a>
+            </div>
+            <div class="add-step">
+              <button type="button" class="btn btn-default btn-sm" ng-click="addStep(workflow, $index)">
+                <span class="fas fa-plus"></span>
+              </button>
+            </div>
+            <div class="next-step-line"></div>
+          </div>
+
+          <div class="add-first-step" ng-if="steps.length == 0">
+            <button type="button" class="btn btn-default" ng-click="addStep(workflow, 0)">
+              <span class="fas fa-plus"></span>
+              Action
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Save Buttons -->
+    <div class="bottom-save-buttons">
+      <div class="form-group">
+        <button type="button" class="btn btn-default" ng-click="save(workflow, triggers, steps, false)" ng-disabled="saving">
+          Save as Draft
+        </button>
+
+        <button type="submit" class="btn btn-primary" ng-click="save(workflow, triggers, steps, true)" ng-disabled="saving">
+          Publish
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

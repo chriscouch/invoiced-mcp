@@ -1,0 +1,33 @@
+<form name="setupForm" ng-submit="save()">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			{{'earth_class_mail.connect.title'|translate}}
+		</h4>
+	</div>
+
+	<div class="modal-body form-horizontal">
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+
+		<div class="form-group slim">
+			<label class="control-label col-sm-4">
+				{{'earth_class_mail.connect.api_key'|translate}}
+				<span class="required"></span>
+			</label>
+			<div class="col-sm-7">
+				<input type="text" class="form-control" ng-model="earthClassMail.api_key" required />
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="saving||setupForm.$invalid" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+			<span translate>general.save</span>
+		</button>
+	</div>
+</form>

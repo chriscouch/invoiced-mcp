@@ -1,0 +1,124 @@
+# This tests a coupon that is only valid for a
+# discount on the first year of the subscription.
+
+#debug: true
+data:
+  - object: plan
+    interval: month
+    interval_count: 1
+    amount: 1006
+  - object: coupon
+    duration: 12
+    id: my-coupon
+    name: My Coupon
+    value: 167
+    is_percent: false
+
+operations:
+  - operation: create
+    time: 2021-02-22T23:15:45Z
+    parameters:
+      start_date: 2021-02-22T08:00:00Z
+      discounts: ["my-coupon"]
+    assertions:
+      subscription:
+        recurring_total: 839
+      invoice:
+        date: 2021-02-22
+
+  - operation: bill
+    name: Second Invoice
+    time: 2021-03-22T08:00:23Z
+    assertions:
+      invoice:
+        date: 2021-03-22T08:00:00Z
+        total: 839
+
+  - operation: bill
+    name: Third Invoice
+    time: 2021-04-22T08:00:23Z
+    assertions:
+      invoice:
+        date: 2021-04-22T08:00:00Z
+        total: 839
+
+  - operation: bill
+    name: Fourth Invoice
+    time: 2021-05-22T08:00:23Z
+    assertions:
+      invoice:
+        date: 2021-05-22T08:00:00Z
+        total: 839
+
+  - operation: bill
+    name: Fifth Invoice
+    time: 2021-06-22T08:00:23Z
+    assertions:
+      invoice:
+        date: 2021-06-22T08:00:00Z
+        total: 839
+
+  - operation: bill
+    name: Sixth Invoice
+    time: 2021-07-22T08:00:23Z
+    assertions:
+      invoice:
+        date: 2021-07-22T08:00:00Z
+        total: 839
+
+  - operation: bill
+    name: Seventh Invoice
+    time: 2021-08-22T08:00:23Z
+    assertions:
+      invoice:
+        date: 2021-08-22T08:00:00Z
+        total: 839
+
+  - operation: bill
+    name: Eigth Invoice
+    time: 2021-09-22T08:00:23Z
+    assertions:
+      invoice:
+        date: 2021-09-22T08:00:00Z
+        total: 839
+
+  - operation: bill
+    name: Ninth Invoice
+    time: 2021-10-22T08:00:23Z
+    assertions:
+      invoice:
+        date: 2021-10-22T08:00:00Z
+        total: 839
+
+  - operation: bill
+    name: Tenth Invoice
+    time: 2021-11-22T08:00:23Z
+    assertions:
+      invoice:
+        date: 2021-11-22T08:00:00Z
+        total: 839
+
+  - operation: bill
+    name: Eleventh Invoice
+    time: 2021-12-22T08:00:23Z
+    assertions:
+      invoice:
+        date: 2021-12-22T08:00:00Z
+        total: 839
+
+  - operation: bill
+    name: Twelfth Invoice
+    time: 2022-01-22T08:00:23Z
+    assertions:
+      invoice:
+        date: 2022-01-22T08:00:00Z
+        total: 839
+
+  - operation: bill
+    name: Thirteenth Invoice
+    time: 2022-02-22T08:00:23Z
+    assertions:
+      invoice:
+        date: 2022-02-22T08:00:00Z
+        total: 1006
+

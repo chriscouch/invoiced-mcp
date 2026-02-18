@@ -1,0 +1,232 @@
+<form name="filterForm" ng-submit="applyFilter(filter)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			Filter
+		</h4>
+	</div>
+	<div class="modal-body">
+		<div class="filter-controls" ng-hide="selectFieldMode">
+			<div>
+				<a href="" class="btn btn-default" ng-click="goToSelectField()" ng-show="fieldsForSelect.length > 0">
+					<span class="fas fa-plus"></span>
+					Add Field
+				</a>
+			</div>
+			<div>
+				<button type="submit" class="btn btn-primary">
+					{{'general.apply'|translate}}
+				</button>
+			</div>
+		</div>
+
+		<div class="filter-conditions" ng-hide="selectFieldMode">
+			<div class="filter-condition" ng-repeat="field in filterFields">
+				<div class="remove-btn">
+					<a href="" ng-show="canRemoveField(field)" ng-click="removeField(field, $index)">
+						<span class="fas fa-times"></span>
+					</a>
+				</div>
+				<label class="control-label">
+					{{field.label}}
+				</label>
+
+				<!-- Boolean Field -->
+				<div class="invoiced-select" ng-if="field.type == 'boolean'">
+					<select ng-model="filter[field.id]">
+						<option value="0">{{'general.false'|translate}}</option>
+						<option value="1">{{'general.true'|translate}}</option>
+					</select>
+				</div>
+
+				<!-- Enum Field -->
+				<div ng-if="field.type == 'enum'">
+					<div class="invoiced-select" ng-hide="field.serialize === false">
+						<select ng-model="filter[field.id].operator">
+							<option value="=">{{'filter.equals'|translate}}</option>
+							<option value="<>">{{'filter.not_equals'|translate}}</option>
+							<option value="empty">{{'filter.empty'|translate}}</option>
+							<option value="not_empty">{{'filter.not_empty'|translate}}</option>
+						</select>
+					</div>
+					<div class="invoiced-select" ng-hide="['empty', 'not_empty'].includes(filter[field.id].operator)">
+						<select ng-model="filter[field.id].value" ng-options="choice.value as choice.text for choice in field.values"></select>
+					</div>
+				</div>
+
+				<!-- User Field -->
+				<div ng-if="field.type == 'user'">
+					<div class="invoiced-select">
+						<select ng-model="filter[field.id].operator">
+							<option value="=">{{'filter.equals'|translate}}</option>
+							<option value="<>">{{'filter.not_equals'|translate}}</option>
+							<option value="empty">{{'filter.empty'|translate}}</option>
+							<option value="not_empty">{{'filter.not_empty'|translate}}</option>
+						</select>
+					</div>
+					<div ng-hide="['empty', 'not_empty'].includes(filter[field.id].operator)">
+						<select-user ng-model="filter[field.id].value"></select-user>
+					</div>
+				</div>
+
+				<!-- Customer Field -->
+				<div ng-if="field.type == 'customer'">
+					<div class="invoiced-select">
+						<select ng-model="filter[field.id].operator">
+							<option value="=">{{'filter.equals'|translate}}</option>
+							<option value="<>">{{'filter.not_equals'|translate}}</option>
+							<option value="empty">{{'filter.empty'|translate}}</option>
+							<option value="not_empty">{{'filter.not_empty'|translate}}</option>
+						</select>
+					</div>
+					<div ng-hide="['empty', 'not_empty'].includes(filter[field.id].operator)">
+						<select-customer ng-model="filter[field.id].value"></select-customer>
+					</div>
+				</div>
+
+				<!-- Plan Field -->
+				<div ng-if="field.type == 'plan'">
+					<div class="invoiced-select">
+						<select ng-model="filter[field.id].operator">
+							<option value="=">{{'filter.equals'|translate}}</option>
+							<option value="<>">{{'filter.not_equals'|translate}}</option>
+							<option value="empty">{{'filter.empty'|translate}}</option>
+							<option value="not_empty">{{'filter.not_empty'|translate}}</option>
+						</select>
+					</div>
+					<div ng-hide="['empty', 'not_empty'].includes(filter[field.id].operator)">
+						<select-plan ng-model="filter[field.id].value"></select-plan>
+					</div>
+				</div>
+
+				<!-- Date Field -->
+				<div ng-if="field.type == 'date'">
+					<div class="input-group">
+						<span class="input-group-addon">Start</span>
+						<input type="text" class="form-control" ng-model="filter[field.id].start" flatpickr start-date="filter[field.id].start" fp-opts="dateOptions" />
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">End</span>
+						<input type="text" class="form-control" ng-model="filter[field.id].end" flatpickr fp-opts="dateOptions" />
+					</div>
+				</div>
+
+				<!-- Datetime Field -->
+				<div ng-if="field.type == 'datetime'">
+					<div class="input-group">
+						<span class="input-group-addon">Start</span>
+						<input type="text" class="form-control" ng-model="filter[field.id].start" flatpickr fp-opts="datetimeOptions" />
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">End</span>
+						<input type="text" class="form-control" ng-model="filter[field.id].end" flatpickr fp-opts="datetimeOptions" />
+					</div>
+				</div>
+
+				<!-- Money Field -->
+				<div ng-if="field.type == 'money'">
+					<div class="invoiced-select">
+						<select ng-model="filter[field.id].operator">
+							<option value="=">{{'filter.equal'|translate}}</option>
+							<option value=">">{{'filter.greater'|translate}}</option>
+							<option value=">=">{{'filter.greater_equal'|translate}}</option>
+							<option value="<">{{'filter.less'|translate}}</option>
+							<option value="<=">{{'filter.less_equal'|translate}}</option>
+							<option value="between">{{'filter.between'|translate}}</option>
+						</select>
+					</div>
+					<div ng-show="!['between'].includes(filter[field.id].operator)">
+						<input type="text" class="form-control" currency-input currency="filter.currency && filter.currency.value ? filter.currency.value : company.currency" ng-model="filter[field.id].value" />
+					</div>
+					<div ng-show="['between'].includes(filter[field.id].operator)">
+						<div class="input-group">
+							<span class="input-group-addon">Start</span>
+							<input type="text" class="form-control" currency-input currency="filter.currency && filter.currency.value ? filter.currency.value : company.currency" ng-model="filter[field.id].range_start" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon">End</span>
+							<input type="text" class="form-control" currency-input currency="filter.currency && filter.currency.value ? filter.currency.value : company.currency" ng-model="filter[field.id].range_end" />
+						</div>
+					</div>
+				</div>
+
+				<!-- Number Field -->
+				<div ng-if="field.type == 'number'">
+					<div class="invoiced-select">
+						<select ng-model="filter[field.id].operator">
+							<option value="=">{{'filter.equal'|translate}}</option>
+							<option value=">">{{'filter.greater'|translate}}</option>
+							<option value=">=">{{'filter.greater_equal'|translate}}</option>
+							<option value="<">{{'filter.less'|translate}}</option>
+							<option value="<=">{{'filter.less_equal'|translate}}</option>
+							<option value="between">{{'filter.between'|translate}}</option>
+						</select>
+					</div>
+					<div ng-show="!['between'].includes(filter[field.id].operator)">
+						<input type="text" class="form-control" ng-model="filter[field.id].value" />
+					</div>
+					<div ng-show="['between'].includes(filter[field.id].operator)">
+						<div class="input-group">
+							<span class="input-group-addon">Start</span>
+							<input type="text" class="form-control" ng-model="filter[field.id].range_start" />
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon">End</span>
+							<input type="text" class="form-control" ng-model="filter[field.id].range_end" />
+						</div>
+					</div>
+				</div>
+
+				<!-- String Field -->
+				<div ng-if="field.type == 'string'">
+					<div class="invoiced-select">
+						<select ng-model="filter[field.id].operator">
+							<option value="=">{{'filter.exact_match'|translate}}</option>
+							<option value="<>">{{'filter.not_exact_match'|translate}}</option>
+							<option value="starts_with">{{'filter.starts_with'|translate}}</option>
+							<option value="ends_with">{{'filter.ends_with'|translate}}</option>
+							<option value="contains">{{'filter.contains'|translate}}</option>
+							<option value="not_contains">{{'filter.not_contains'|translate}}</option>
+							<option value="empty">{{'filter.empty'|translate}}</option>
+							<option value="not_empty">{{'filter.not_empty'|translate}}</option>
+						</select>
+					</div>
+					<div ng-hide="['empty', 'not_empty'].includes(filter[field.id].operator)">
+						<input type="text" class="form-control" ng-model="filter[field.id].value" />
+					</div>
+				</div>
+
+				<!-- Invoice Tags Field -->
+				<invoice-tags ng-model="filter[field.id]" ng-if="field.type == 'invoice_tags'"></invoice-tags>
+
+				<!-- Sort Field -->
+				<div class="invoiced-select" ng-if="field.type == 'sort'">
+					<select ng-model="filter[field.id]" ng-options="choice.value as choice.text for choice in field.values"></select>
+				</div>
+			</div>
+		</div>
+
+		<div class="select-filter-fields" ng-show="selectFieldMode">
+			<div class="back-btn">
+				<a href="" ng-click="cancelSelectMode()">
+					<span class="fas fa-chevron-left"></span>
+					Back
+				</a>
+			</div>
+			<div class="explanation">
+				Which field would you like to add to your filter?
+			</div>
+			<div class="select-filter-field" ng-repeat="field in fieldsForSelect">
+				<a href="" ng-click="addField(field)">
+					<div class="arrow">
+						<span class="fas fa-chevron-right"></span>
+					</div>
+					{{field.label}}
+				</a>
+			</div>
+		</div>
+
+		<div class="filter-apply">
+		</div>
+	</div>
+</form>

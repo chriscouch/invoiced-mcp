@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}New payment{% endblock %}
+{% block notification %}
+    {% for payment in payments %}
+        <p>You have received a new payment from customer <a href="{{ dashboardUrl}}/customers/{{ payment.customer.id  }}?account={{ tenant_id  }}">{{ payment.customer.name }}</a> for {{ payment.amount | money(payment.currency)}}</p>
+    {% endfor %}
+{% endblock %}

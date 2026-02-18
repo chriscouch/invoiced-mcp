@@ -1,0 +1,35 @@
+{% extends "emails/parent.twig" %}
+{% block title %}Import Finished{% endblock %}
+{% block content %}
+	<row>
+		<columns>
+			<p>Hi {{ name }},</p>
+
+			{% if status == "succeeded" %}
+				<p>Great news! The import you started on Invoiced just finished.</p>
+			{% else %}
+				<p>The import you started on Invoiced just finished. Unfortunately it did not finish successfully.</p>
+			{% endif %}
+
+			<h3>Import Results</h3>
+			<p>
+				Name: {{ importName }}<br>
+				Date: {{ date }}<br>
+				Status: {{ status|capitalize }}<br>
+				Run Time: {{ runtime }} minute{% if runtime != 1 %}s{% endif %}<br>
+				Imported: <strong>{{ num_imported|number_format }}</strong><br>
+				Updated: <strong>{{ num_updated|number_format }}</strong><br>
+				Failed: <strong>{{ num_failed|number_format }}</strong>
+			</p>
+		</columns>
+	</row>
+	<row>
+		<columns>
+			<center>
+				<spacer size="5"></spacer>
+				<button class="radius" href="{{ href }}">View on Invoiced</button>
+				<spacer size="5"></spacer>
+			</center>
+		</columns>
+	</row>
+{% endblock %}

@@ -1,0 +1,84 @@
+<!-- Recipients -->
+<div class="line" ng-hide="options.network_connection">
+	<label class="control-label">{{'inboxes.email.to'|translate}}</label>
+	<div class="to-input">
+		<div class="line-element">
+			<input type="hidden" ng-model="options.to" ui-select2="autocompleteOptions" multiple="multiple" required />
+		</div>
+	</div>
+</div>
+
+<!-- CC -->
+<div class="line" ng-hide="options.network_connection">
+	<label class="control-label">
+		{{'inboxes.email.cc'|translate}}
+	</label>
+	<div class="cc-input">
+		<div class="line-element">
+			<input type="hidden" ng-model="options.cc" ui-select2="autocompleteOptions" multiple="multiple" />
+		</div>
+	</div>
+</div>
+
+<!-- BCC -->
+<div class="line" ng-hide="options.network_connection">
+	<label class="control-label">
+		{{'inboxes.email.bcc'|translate}}
+	</label>
+	<div class="bcc-input">
+		<div class="line-element">
+			<input type="hidden" ng-model="options.bcc" ui-select2="autocompleteOptions" multiple="multiple" />
+		</div>
+	</div>
+	<div class="send-copy-to-me">
+		<button type="button" class="btn btn-link" ng-click="copyMe()">Send a copy to me</button>
+	</div>
+</div>
+
+<!-- Subject -->
+<div class="line" ng-hide="options.network_connection">
+	<label class="control-label">
+		{{'inboxes.email.subject'|translate}}
+	</label>
+	<div class="subject-input">
+		<div class="line-element">
+			<input type="text" class="form-control" ng-model="options.subject" required />
+		</div>
+	</div>
+</div>
+
+<!-- Message -->
+<div class="line">
+	<label class="control-label">
+		{{'inboxes.email.message'|translate}}
+	</label>
+	<div class="message">
+		<div class="line-element">
+			<textarea class="form-control top-padded" ng-model="options.message" expanding-textarea></textarea>
+		</div>
+	</div>
+</div>
+
+<!-- File Attachments -->
+<div class="line">
+	<label class="control-label">
+		{{'inboxes.email.attachments'|translate}}
+	</label>
+	<div class="file-attachments">
+		<div class="line-element">
+			<div class="add-btn">
+				<filepond callback="addedFiles" allow-multiple="true"></filepond>
+			</div>
+			<ul class="attachment-list" ng-show="options.attachments.length > 0">
+				<li ng-repeat="attachment in options.attachments">
+					<a class="btn btn-link" ng-href="{{attachment.url}}" target="_blank" rel="noopener noreferrer">
+						{{attachment.name}}
+					</a>
+					<button type="button" class="btn btn-link btn-sm" ng-click="deleteAttachment(attachment)">
+						<span class="fas fa-times"></span>
+					</button>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

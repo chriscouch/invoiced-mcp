@@ -1,0 +1,51 @@
+{% trans_default_domain 'customer_portal' %}
+{% extends "customerPortal/parentFrame.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('/css/jquery-ui.min.css') }}" />
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('/js/jquery-ui.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/jquery-ui-i18n.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/views/checkbox-lib.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/views/activity.js') }}"></script>
+{% endblock %}
+
+{% block main %}
+    <div class="title-header with-tabs">
+        <h1>{{ 'titles.activity'|trans }}</h1>
+
+        <ul class="nav nav-tabs">
+            {% set currentPage = app.request.get('_route') %}
+            {% if hasEstimates %}
+                <li class="nav-item tab-estimates">
+                    <a class="nav-link {% if currentPage == 'customer_portal_list_estimates' %}active{% endif %}" href="/estimates">
+                        {{ 'titles.estimates'|trans }}
+                    </a>
+                </li>
+            {% endif %}
+            <li class="nav-item tab-invoices">
+                <a class="nav-link {% if currentPage == 'customer_portal_list_invoices' %}active{% endif %}" href="/invoices">
+                    {{ 'titles.invoices'|trans }}
+                </a>
+            </li>
+            <li class="nav-item tab-credit-notes">
+                <a class="nav-link {% if currentPage == 'customer_portal_list_credit_notes' %}active{% endif %}" href="/credit_notes">
+                    {{ 'titles.credit_notes'|trans }}
+                </a>
+            </li>
+            <li class="nav-item tab-payments">
+                <a class="nav-link {% if currentPage == 'customer_portal_list_payments' %}active{% endif %}" href="/payments">
+                    {{ 'titles.payments'|trans }}
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="transactions-list">
+        {% block data_table %}{% endblock %}
+    </div>
+{% endblock %}

@@ -1,0 +1,83 @@
+<div class="contents">
+	<div class="settings-title-bar">
+		<h2 class="title">
+			<div class="back-link">
+				<a ui-sref="manage.settings.billing">
+					<span class="fas fa-arrow-left"></span>
+					{{'settings.titles.billing'|translate}}
+				</a>
+			</div>
+			Cancel Subscription
+		</h2>
+	</div>
+
+	<p class="required-indicator">
+		<span class="required"></span> {{'general.indicates_required_field'|translate}}
+	</p>
+
+	<p class="alert alert-danger" ng-show="error">
+		{{error.message}}
+	</p>
+
+	<p class="lead">
+		Please confirm your password to cancel the subscription for <strong>{{company.name}}</strong>. Your subscription will be canceled at the end of the time period that has already been purchased.
+	</p>
+	<br/>
+
+	<form name="cancelForm" ng-submit="cancelAccount()" class="form-horizontal">
+		<div class="form-group">
+			<div class="col-md-4">
+				<label class="control-label">Enter your password to confirm <span class="required"></span></label>
+			</div>
+			<div class="col-md-6">
+				<input class="form-control input-large" type="password" ng-model="cancelPassword" autocomplete="current-password" required />
+			</div>
+		</div>
+		<hr/>
+
+		<div class="form-group">
+			<div class="col-md-8">
+				<p>
+					We would highly appreciate your input on where we could do better or any issues you encountered. Filling this out is optional.
+				</p>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-4">
+				<label class="control-label">Why are you canceling?</label>
+			</div>
+			<div class="col-md-6">
+				<div class="invoiced-select input-large">
+					<select ng-model="reason">
+						<option value="">Please select a reason</option>
+						<option disabled="disabled">---</option>
+						<option value="Out of business">No longer in business</option>
+						<option value="Low usage">Did not use it enough</option>
+						<option value="Competitor">Moved to another billing system</option>
+						<option value="Missing functionality">Did not do everything I needed</option>
+						<option value="Cost">Too expensive</option>
+						<option value="Other">Other</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-4">
+				<label class="control-label">Comments</label>
+			</div>
+			<div class="col-md-6 textarea-2-lines">
+				<textarea class="form-control" ng-model="why" expanding-textarea></textarea>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-4 col-md-offset-4">
+				<button type="submit" class="btn btn-danger submit-button Button" ng-disabled="cancelForm.$pristine||saving" v-busy="saving" v-busy-label="{{'general.canceling'|translate}}" v-busy-text="{{'general.cancel'|translate}}" v-pressable>
+					<span translate>general.cancel</span>
+				</button>
+			</div>
+		</div>
+	</form>
+</div>

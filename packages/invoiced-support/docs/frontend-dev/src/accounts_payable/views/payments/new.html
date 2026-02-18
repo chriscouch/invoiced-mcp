@@ -1,0 +1,87 @@
+<form name="modelForm" ng-submit="save(payment)" class="below0">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title">
+            Record Payment
+        </h4>
+    </div>
+    <div class="modal-body form-horizontal">
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <p class="required-indicator">
+            <span class="required"></span> {{'general.indicates_required_field'|translate}}
+        </p>
+
+        <!-- Vendor -->
+        <div class="form-group">
+            <label class="control-label col-sm-3">Vendor</label>
+            <div class="col-sm-9 form-control-static">
+                {{bill.vendor.name}}
+            </div>
+        </div>
+
+        <!-- Bill -->
+        <div class="form-group">
+            <label class="control-label col-sm-3">Bill</label>
+            <div class="col-sm-9 form-control-static">
+                {{bill.number}}
+            </div>
+        </div>
+        <hr/>
+
+        <!-- Payment Date -->
+        <div class="form-group">
+            <label class="control-label col-sm-3">{{'general.date'|translate}} <span class="required"></span></label>
+            <div class="col-sm-5">
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="payment.date" ui-date="dateOptions" is-open="dpOpened" readonly="readonly" required />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'dpOpened')">
+                            <span class="fas fa-calendar-alt"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Method -->
+        <div class="form-group">
+            <label class="control-label col-sm-3">Method <span class="required"></span></label>
+            <div class="col-sm-5">
+                <payment-method-selector ng-model="payment.payment_method"></payment-method-selector>
+            </div>
+        </div>
+
+        <!-- Reference -->
+        <div class="form-group">
+            <label class="control-label col-sm-3">Reference</label>
+            <div class="col-sm-5">
+                <input class="form-control" type="text" ng-model="payment.reference" />
+            </div>
+        </div>
+
+        <!-- Payment Amount -->
+        <div class="form-group" ng-class="{'has-error':invalidAmount}">
+            <label class="control-label col-sm-3">{{'general.amount'|translate}} <span class="required"></span></label>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" currency-input ng-model="payment.amount" currency="payment.currency" required="required" />
+            </div>
+        </div>
+        <hr/>
+
+        <!-- Notes -->
+        <div class="form-group">
+            <label class="control-label col-sm-3">{{'transactions.notes'|translate}}</label>
+            <div class="col-sm-7">
+                <textarea ng-model="payment.notes" expanding-textarea class="form-control"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary Button" ng-disabled="modelForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+            {{'general.save'|translate}}
+        </button>
+    </div>
+</form>

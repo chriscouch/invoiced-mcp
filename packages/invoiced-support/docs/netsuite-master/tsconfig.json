@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "module": "amd",
+    "target": "es5",
+    "moduleResolution":"node",
+    "sourceMap": false,
+    "newLine": "LF",
+    "experimentalDecorators": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature":  true,
+    "noUncheckedIndexedAccess":  true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strict": true,
+    "baseUrl": ".",
+    "lib": ["es5", "es2015.promise", "dom"],
+    "paths": {
+      "N": ["node_modules/@hitc/netsuite-types/N"],
+      "N/*": ["node_modules/@hitc/netsuite-types/N/*"],
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+  ]
+}

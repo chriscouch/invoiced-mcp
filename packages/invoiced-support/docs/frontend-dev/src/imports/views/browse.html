@@ -1,0 +1,84 @@
+<div class="search-results-holder" ng-class="{'has-filter': filterStr}">
+	<div class="box">
+		<div class="header clearfix">
+			<!-- Title Bar -->
+			<div class="actions" ng-if="'imports.create'|hasPermission">
+				<a ui-sref="manage.imports.new.step1" class="btn btn-success">
+					{{'imports.new'|translate}}
+				</a>
+			</div>
+			<h2>{{'imports.recent'|translate}}</h2>
+
+			<!-- Tabs -->
+			<ul class="nav nav-tabs">
+				<li class="action">
+					<a href="" ng-click="openFilter()">
+						<div>
+							<span class="fas fa-filter"></span> {{'imports.filter.title'|translate}}
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<!-- Applied Filter -->
+		<div class="applied-filter" ng-show="filterStr">
+			<span class="fas fa-filter filter-icon"></span>
+			<strong>{{filterStr}}</strong>
+			<a href="" ng-click="resetFilter()">
+				<span class="fas fa-times-circle"></span>
+			</a>
+		</div>
+
+		<p class="loading" ng-show="loading"></p>
+
+		<!-- No Results :-( -->
+		<div class="empty-table" ng-show="noResults()&&!loading">
+			<div class="icon">
+				<img src="/img/event-icons/import.png" />
+			</div>
+			<span ng-show="usingFilter">
+				{{'imports.no_results'|translate}}. <a href="" ng-click="resetFilter()">{{'imports.filter.reset'|translate}}</a>
+			</span>
+			<span ng-hide="usingFilter">
+				{{'imports.no_imports'|translate}}.
+			</span>
+		</div>
+
+		<!-- Data Table -->
+		<table class="search-results-table table table-striped imports" ng-show="imports.length > 0 && !loading">
+			<thead>
+				<tr>
+					<th>{{'imports.data.name'|translate}}</th>
+					<th>{{'general.date'|translate}}</th>
+					<th>{{'imports.data.created'|translate}}</th>
+					<th>{{'imports.data.updated'|translate}}</th>
+					<th>{{'imports.data.failed'|translate}}</th>
+					<th>{{'general.status'|translate}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="clickable" ng-repeat="import in imports" ng-click="goImport(import.id)">
+					<td class="title"><a ui-sref="manage.import.view({id:import.id})">{{import.name}}</a></td>
+					<td class="mobile-last"><company-date-time date="import.created_at"></company-date-time></td>
+					<td class="hidden-xs">
+						<span ng-show="import.num_imported>0">{{import.num_imported|number}}</span>
+						<span ng-show="import.num_imported==0">&mdash;</span>
+					</td>
+					<td class="hidden-xs">
+						<span ng-show="import.num_updated>0">{{import.num_updated|number}}</span>
+						<span ng-show="import.num_updated==0">&mdash;</span>
+					</td>
+					<td class="hidden-xs">
+						<span ng-show="import.num_failed>0">{{import.num_failed|number}}</span>
+						<span ng-show="import.num_failed==0">&mdash;</span>
+					</td>
+					<td class="status"><span class="label" ng-class="{'label-danger':import.status=='failed','label-warning':import.status=='pending','label-success':import.status=='succeeded'}">{{import.status}}</span></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<!-- Pagination -->
+		<pagination-bar total-count="total_count" page-count="page_count" ng-change="goToPage(page, perPage)" ng-model="filter" ng-show="imports.length > 0 && !loading"></pagination-bar>
+	</div>
+</div>

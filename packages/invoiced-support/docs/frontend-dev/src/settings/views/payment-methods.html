@@ -1,0 +1,268 @@
+<div ng-show="loading" class="loading"></div>
+<div class="payment-method-list" ng-hide="loading">
+	<div class="alert alert-danger" ng-repeat="gateway in deprecatedPaymentGateways">
+		<p>
+			<i class="fa-solid fa-circle-exclamation"></i>
+			The <strong>{{gateway.id|gatewayName}}</strong> payment gateway integration is being discontinued on <strong>{{gateway.terminationDate}}</strong>. In order to continue processing payments through Invoiced, you must migrate to Flywire Payments before {{gateway.terminationDate}}. Please refer to the support email that was previously sent to get configured on Flywire Payments.
+		</p>
+	</div>
+
+	<!-- Card -->
+	<div class="payment-method-item">
+		<div class="icon">
+			<div class="status" ng-show="methods.credit_card.enabled">
+				<a href="" tooltip="Enabled">
+					<span class="fas fa-circle-check"></span>
+				</a>
+			</div>
+			<img src="/img/icons/credit_cards.png" />
+		</div>
+		<div class="main-content">
+			<div class="title-details">
+				<h4>
+					Card
+				</h4>
+				<div class="details" ng-show="methods.credit_card.enabled">
+					<span ng-show="methods.credit_card.isFlywire">
+						<img src="/img/integrations/flywire.svg" height="18" />
+					</span>
+					<span ng-hide="methods.credit_card.isFlywire">
+						{{methods.credit_card.gateway|gatewayName}}<span ng-show="methods.credit_card.merchant_account">:
+							{{methods.credit_card.merchant_account.name}}
+						</span>
+					</span>
+				</div>
+			</div>
+			<div class="action">
+				<div class="btn-toolbar">
+					<a href="https://docs.invoiced.com/accounts-receivable/payments/card" target="_blank" class="btn btn-link">
+						Learn More
+					</a>
+					<button type="button" class="btn btn-primary" ng-click="setupOnline('credit_card')">
+						Setup
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ACH -->
+	<div class="payment-method-item" ng-show="achAllowed && !('flywire_only'|hasFeature)">
+		<div class="icon">
+			<div class="status" ng-show="methods.ach.enabled">
+				<a href="" tooltip="Enabled">
+					<span class="fas fa-circle-check"></span>
+				</a>
+			</div>
+			<img src="/img/icons/bank_account.png" />
+		</div>
+		<div class="main-content">
+			<div class="title-details">
+				<h4>
+					ACH Direct Debit
+				</h4>
+				<div class="details" ng-show="methods.ach.enabled">
+					<span ng-show="methods.ach.isFlywire">
+						<img src="/img/integrations/flywire.svg" height="18" />
+					</span>
+					<span ng-hide="methods.ach.isFlywire">
+						{{methods.ach.gateway|gatewayName}}<span ng-show="methods.ach.merchant_account">:
+							{{methods.ach.merchant_account.name}}
+						</span>
+					</span>
+				</div>
+			</div>
+			<div class="action">
+				<div class="btn-toolbar">
+					<a href="https://docs.invoiced.com/accounts-receivable/payments/ach" target="_blank" class="btn btn-link">
+						Learn More
+					</a>
+					<button type="button" class="btn btn-primary" ng-click="setupOnline('ach')">
+						Setup
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Direct Debit -->
+	<div class="payment-method-item">
+		<div class="icon">
+			<div class="status" ng-show="methods.direct_debit.enabled">
+				<a href="" tooltip="Enabled">
+					<span class="fas fa-circle-check"></span>
+				</a>
+			</div>
+			<img src="/img/icons/bank_account.png" />
+		</div>
+		<div class="main-content">
+			<div class="title-details">
+				<h4>
+					Direct Debit
+				</h4>
+				<div class="details" ng-show="methods.direct_debit.enabled">
+					<span ng-show="methods.direct_debit.isFlywire">
+						<img src="/img/integrations/flywire.svg" height="18" />
+					</span>
+					<span ng-hide="methods.direct_debit.isFlywire">
+						{{methods.direct_debit.gateway|gatewayName}}<span ng-show="methods.direct_debit.merchant_account">:
+							{{methods.direct_debit.merchant_account.name}}
+						</span>
+					</span>
+				</div>
+			</div>
+			<div class="action">
+				<div class="btn-toolbar">
+					<a href="https://docs.invoiced.com/accounts-receivable/payments/direct-debit" target="_blank" class="btn btn-link">
+						Learn More
+					</a>
+					<button type="button" class="btn btn-primary" ng-click="setupOnline('direct_debit')">
+						Setup
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bank Transfer -->
+	<div class="payment-method-item">
+		<div class="icon">
+			<div class="status" ng-show="methods.bank_transfer.enabled">
+				<a href="" tooltip="Enabled">
+					<span class="fas fa-circle-check"></span>
+				</a>
+			</div>
+			<img src="/img/icons/bank-transfer.png" />
+		</div>
+		<div class="main-content">
+			<div class="title-details">
+				<h4>
+					Bank Transfer
+				</h4>
+				<div class="details" ng-show="methods.bank_transfer.enabled">
+					<span ng-show="methods.bank_transfer.isFlywire">
+						<img src="/img/integrations/flywire.svg" height="18" />
+					</span>
+					<span ng-hide="methods.bank_transfer.isFlywire">
+						{{methods.bank_transfer.gateway|gatewayName}}<span ng-show="methods.bank_transfer.merchant_account">:
+							{{methods.bank_transfer.merchant_account.name}}
+						</span>
+					</span>
+				</div>
+			</div>
+			<div class="action">
+				<div class="btn-toolbar">
+					<a href="https://docs.invoiced.com/accounts-receivable/payments/flywire" target="_blank" class="btn btn-link">
+						Learn More
+					</a>
+					<button type="button" class="btn btn-primary" ng-click="setupOnline('bank_transfer')">
+						Setup
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Online -->
+	<div class="payment-method-item">
+		<div class="icon">
+			<div class="status" ng-show="methods.online.enabled">
+				<a href="" tooltip="Enabled">
+					<span class="fas fa-circle-check"></span>
+				</a>
+			</div>
+			<img src="/img/icons/online-payment-method.png" />
+		</div>
+		<div class="main-content">
+			<div class="title-details">
+				<h4>
+					Alternative Payment Methods
+				</h4>
+				<div class="details" ng-show="methods.online.enabled">
+					<span ng-show="methods.online.isFlywire">
+						<img src="/img/integrations/flywire.svg" height="18" />
+					</span>
+					<span ng-hide="methods.online.isFlywire">
+						{{methods.online.gateway|gatewayName}}<span ng-show="methods.online.merchant_account">:
+							{{methods.online.merchant_account.name}}
+						</span>
+					</span>
+				</div>
+			</div>
+			<div class="action">
+				<div class="btn-toolbar">
+					<a href="https://docs.invoiced.com/accounts-receivable/payments/flywire" target="_blank" class="btn btn-link">
+						Learn More
+					</a>
+					<button type="button" class="btn btn-primary" ng-click="setupOnline('online')">
+						Setup
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- PayPal -->
+	<div class="payment-method-item" ng-hide="'flywire_only'|hasFeature">
+		<div class="icon">
+			<div class="status" ng-show="methods.paypal.enabled">
+				<a href="" tooltip="Enabled">
+					<span class="fas fa-circle-check"></span>
+				</a>
+			</div>
+			<img src="/img/icons/paypal.png" />
+		</div>
+		<div class="main-content">
+			<div class="title-details">
+				<h4>
+					PayPal
+				</h4>
+				<div class="details" ng-show="methods.paypal.meta">
+					{{methods.paypal.meta}}
+				</div>
+			</div>
+			<div class="action">
+				<div class="btn-toolbar">
+					<a href="https://docs.invoiced.com/accounts-receivable/payments/paypal" target="_blank" class="btn btn-link">
+						Learn More
+					</a>
+					<button type="button" class="btn btn-primary" ng-click="setupPayPal()">
+						Setup
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Payment Instructions -->
+	<div class="payment-method-item" ng-hide="'flywire_only'|hasFeature">
+		<div class="icon">
+			<div class="status" ng-show="hasOffline()">
+				<a href="" tooltip="Enabled">
+					<span class="fas fa-circle-check"></span>
+				</a>
+			</div>
+			<img src="/img/icons/check.png" />
+		</div>
+		<div class="main-content">
+			<div class="title-details">
+				<h4>
+					Payment Instructions
+				</h4>
+				<div class="details" ng-show="offlineMethods">
+					{{offlineMethods}}
+				</div>
+			</div>
+			<div class="action">
+				<div class="btn-toolbar">
+					<a href="https://docs.invoiced.com/accounts-receivable/payments/payment-instructions" target="_blank" class="btn btn-link">
+						Learn More
+					</a>
+					<button type="button" class="btn btn-primary" ng-click="setupOfflinePayments()">
+						Setup
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

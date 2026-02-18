@@ -1,0 +1,72 @@
+<p class="alert alert-danger" ng-show="error">
+    {{error.message}}
+</p>
+
+<p class="loading" ng-show="loading"></p>
+
+<div class="panel panel-default" ng-hide="loading">
+    <div class="panel-heading">
+        <h4 class="panel-title button-title">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="searchbar light">
+                        <div class="bar">
+                            <div class="icon"><span class="fas fa-search"></span></div>
+                            <input type="text" class="form-control" ng-model="search" tabindex="2000" />
+                            <div class="icon right icon-btn" ng-show="search">
+                                <button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+                                    <span class="fas fa-times-circle"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8 text-right">
+                    <button type="button" class="btn btn-success" ng-click="newRuleModal()">
+                        {{'settings.cash_application.buttons.new_rule'|translate}}
+                    </button>
+                </div>
+            </div>
+        </h4>
+    </div>
+
+    <!-- No Results -->
+    <div class="list-group" ng-show="results.length === 0">
+        <div class="list-group-item">
+            <div class="empty">{{'settings.cash_application.labels.no_rules_found'|translate}}</div>
+        </div>
+    </div>
+
+    <!-- Results Table -->
+    <table class="table table-striped search-results-table" ng-show="results.length > 0">
+        <thead>
+            <tr>
+                <th>{{'settings.cash_application.labels.if'|translate}}</th>
+                <th class="noborder">{{'settings.cash_application.labels.then'|translate}}</th>
+                <th class="nopadding"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="rule in rules | searchObject:search:['formula','method','customerName'] | orderBy:['id'] as results">
+                <td>
+                    <code>{{rule.formula}}</code>
+                </td>
+                <td>
+                    <span ng-if="rule.customer">{{'settings.cash_application.labels.customer'|translate}} <span class="fas fa-arrow-right"></span> {{rule.customerName}}<br /></span>
+                    <span ng-if="rule.method">{{'settings.cash_application.labels.method'|translate}} <span class="fas fa-arrow-right"></span> {{rule.method|paymentMethodName}}</span>
+                    <span ng-if="rule.ignore">{{'settings.cash_application.labels.ignore'|translate}}</span>
+                </td>
+                <td class="nopadding hover-actions-holder mobile-last mobile-visible">
+                    <div class="hover-actions">
+                        <button type="button" class="btn btn-default btn-sm" ng-click="editRuleModal(rule)" tooltip="Edit Rule">
+                            <span class="fas fa-pencil"></span>
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm" ng-click="delete(rule)" ng-disabled="deleting[rule.id]" tooltip="Delete Rule">
+                            <span class="fas fa-trash"></span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

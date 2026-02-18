@@ -1,0 +1,837 @@
+<?php
+
+/**
+ * @author Jared King <j@jaredtking.com>
+ *
+ * @see http://jaredtking.com
+ *
+ * @copyright 2015 Jared King
+ * @license MIT
+ */
+
+namespace App\Tests\Core\Orm;
+
+use Iterator;
+use Mockery;
+use App\Core\Orm\Driver\DriverInterface;
+use App\Core\Orm\Errors;
+use App\Core\Orm\Exception\ModelException;
+use App\Core\Orm\Exception\ModelNotFoundException;
+use App\Core\Orm\Query;
+use App\Tests\Core\Orm\Models\Category;
+use App\Tests\Core\Orm\Models\Garage;
+use App\Tests\Core\Orm\Models\Person;
+use App\Tests\Core\Orm\Models\Post;
+use App\Tests\Core\Orm\Models\TestModel;
+use App\Tests\Core\Orm\Models\TestModel2;
+
+class QueryTest extends ModelTestCase
+{
+    public function testGetModel(): void
+    {
+        $query = new Query(TestModel::class);
+        $this->assertEquals(TestModel::class, $query->getModel());
+    }
+
+    public function testLimit(): void
+    {
+        $query = new Query(new TestModel());
+
+        $this->assertEquals(100, $query->getLimit());
+        $this->assertEquals($query, $query->limit(500));
+        $this->assertEquals(500, $query->getLimit());
+    }
+
+    public function testStart(): void
+    {
+        $query = new Query(new TestModel());
+
+        $this->assertEquals(0, $query->getStart());
+        $this->assertEquals($query, $query->start(10));
+        $this->assertEquals(10, $query->getStart());
+    }
+
+    public function testSort(): void
+    {
+        $query = new Query(new TestModel());
+
+        $this->assertEquals([], $query->getSort());
+        $this->assertEquals($query, $query->sort('name asc, id DESC,invalid,wrong direction'));
+        $this->assertEquals([['name', 'asc'], ['id', 'desc']], $query->getSort());
+    }
+
+    public function testWhere(): void
+    {
+        $query = new Query(new TestModel());
+
+        $this->assertEquals([], $query->getWhere());
+        $this->assertEquals($query, $query->where(['test' => true]));
+        $this->assertEquals(['test' => true], $query->getWhere());
+
+        $query->where('test', false);
+        $this->assertEquals(['test' => false], $query->getWhere());
+
+        $query->where('some condition');
+        $this->assertEquals([
+            'test' => false,
+            'some condition',
+        ], $query->getWhere());
+
+        $query->where('balance', 100, '>=');
+        $this->assertEquals([
+            'test' => false,
+            'some condition',
+            ['balance', 100, '>='],
+        ], $query->getWhere());
+
+        $post = new Post(['id' => 1]);
+        $query->where('post', $post);
+        $this->assertEquals([
+            'test' => false,
+            'some condition',
+            ['balance', 100, '>='],
+            'post' => 1,
+        ], $query->getWhere());
+
+        $post = new Post(['id' => 2]);
+        $query->where(['post' => $post]);
+        $this->assertEquals([
+            'test' => false,
+            'some condition',
+            ['balance', 100, '>='],
+            'post' => 2,
+        ], $query->getWhere());
+
+        $post = new Post(['id' => 3]);
+        $query->where('post', $post, '<>');
+        $this->assertEquals([
+            'test' => false,
+            'some condition',
+            ['balance', 100, '>='],
+            'post' => 2,
+            ['post', 3, '<>'],
+        ], $query->getWhere());
+    }
+
+    public function testJoin(): void
+    {
+        $query = new Query(new TestModel());
+
+        $this->assertEquals([], $query->getJoins());
+
+        $this->assertEquals($query, $query->join('Person', 'author', 'id'));
+        $this->assertEquals([['Person', 'author', 'id', 'JOIN']], $query->getJoins());
+
+        // Prevent duplicates
+        $this->assertEquals($query, $query->join('Person', 'author', 'id'));
+        $this->assertEquals([['Person', 'author', 'id', 'JOIN']], $query->getJoins());
+    }
+
+    public function testWith(): void
+    {
+        $query = new Query(new TestModel());
+
+        $this->assertEquals([], $query->getWith());
+
+        $this->assertEquals($query, $query->with('author'));
+        $this->assertEquals(['author'], $query->getWith());
+
+        $query->with('author');
+        $this->assertEquals(['author'], $query->getWith());
+    }
+
+    public function testExecute(): void
+    {
+        $query = new Query(Person::class);
+
+        $driver = Mockery::mock(DriverInterface::class);
+
+        $data = [
+            [
+                'id' => 100,
+                'name' => 'Sherlock',
+                'email' => 'sherlock@example.com',
+            ],
+            [
+                'id' => 102,
+                'name' => 'John',
+                'email' => 'john@example.com',
+            ],
+        ];
+
+        $driver->shouldReceive('queryModels')
+            ->withArgs([$query])
+            ->andReturn($data);
+
+        Person::setDriver($driver);
+
+        $result = $query->execute();
+
+        $this->assertCount(2, $result);
+        foreach ($result as $model) {
+            $this->assertInstanceOf(Person::class, $model);
+        }
+
+        $this->assertEquals(100, $result[0]->id());
+        $this->assertEquals(102, $result[1]->id());
+
+        $this->assertEquals('Sherlock', $result[0]->name); /* @phpstan-ignore-line */
+        $this->assertEquals('John', $result[1]->name); /* @phpstan-ignore-line */
+    }
+
+    public function testExecuteMultipleIds(): void
+    {
+        $query = new Query(TestModel2::class);
+
+        $driver = Mockery::mock(DriverInterface::class);
+
+        $data = [
+            [
+                'id' => 100,
+                'id2' => 101,
+            ],
+            [
+                'id' => 102,
+                'id2' => 103,
+            ],
+        ];
+
+        $driver->shouldReceive('queryModels')
+            ->withArgs([$query])
+            ->andReturn($data);
+
+        TestModel2::setDriver($driver);
+
+        $result = $query->execute();
+
+        $this->assertCount(2, $result);
+        foreach ($result as $model) {
+            $this->assertInstanceOf(TestModel2::class, $model);
+        }
+
+        $this->assertEquals('100,101', $result[0]->id());
+        $this->assertEquals('102,103', $result[1]->id());
+    }
+
+    public function testExecuteEagerLoadingNoResults(): void
+    {
+        $query = new Query(TestModel2::class);
+        $query->with('person');
+
+        $driver = Mockery::mock(DriverInterface::class);
+
+        $driver->shouldReceive('queryModels')
+            ->andReturnUsing(function ($query) {
+                return [];
+            });
+
+        TestModel2::setDriver($driver);
+
+        $result = $query->execute();
+
+        $this->assertCount(0, $result);
+    }
+
+    public function testExecuteEagerLoadingBelongsTo(): void
+    {
+        $query = new Query(TestModel2::class);
+        $query->with('person');
+
+        $driver = Mockery::mock(DriverInterface::class);
+
+        $driver->shouldReceive('queryModels')
+            ->andReturnUsing(function ($query) {
+                if ($query->getModel() instanceof Person && $query->getWhere() == ['id IN (1,2)']) {
+                    return [
+                        [
+                            'id' => 2,
+                        ],
+                        [
+                            'id' => 1,
+                        ],
+                    ];
+                } elseif (TestModel2::class == $query->getModel()) {
+                    return [
+                        [
+                            'id' => 100,
+                            'id2' => 101,
+                            'person' => 1,
+                        ],
+                        [
+                            'id' => 102,
+                            'id2' => 103,
+                            'person' => 2,
+                        ],
+                        [
+                            'id' => 102,
+                            'id2' => 103,
+                            'person' => null,
+                        ],
+                        [
+                            'id' => 103,
+                            'id2' => 104,
+                            'person' => 2,
+                        ],
+                        [
+                            'id' => 105,
+                            'id2' => 106,
+                            'person' => 1,
+                        ],
+                    ];
+                }
+            });
+
+        TestModel2::setDriver($driver);
+
+        $result = $query->execute();
+
+        $this->assertCount(5, $result);
+
+        $person1 = $result[0]->relation('person');
+        $this->assertInstanceOf(Person::class, $person1);
+        $this->assertEquals(1, $person1->id());
+        $person2 = $result[1]->relation('person');
+        $this->assertInstanceOf(Person::class, $person2);
+        $this->assertEquals(2, $person2->id());
+        $this->assertNull($result[2]->relation('person'));
+        $person4 = $result[3]->relation('person');
+        $this->assertInstanceOf(Person::class, $person4);
+        $this->assertEquals(2, $person4->id());
+        $person5 = $result[4]->relation('person');
+        $this->assertInstanceOf(Person::class, $person5);
+        $this->assertEquals(1, $person5->id());
+    }
+
+    public function testExecuteEagerLoadingHasOne(): void
+    {
+        $query = new Query(Person::class);
+        $query->with('garage');
+
+        $driver = Mockery::mock(DriverInterface::class);
+
+        $driver->shouldReceive('queryModels')
+            ->andReturnUsing(function ($query) {
+                if ($query->getModel() instanceof Garage && $query->getWhere() == ['person_id IN (1,2,3,4,5)']) {
+                    return [
+                        [
+                            'id' => 100,
+                            'person_id' => 1,
+                            'make' => 'Nissan',
+                            'model' => 'GTR',
+                        ],
+                        [
+                            'id' => 101,
+                            'person_id' => 2,
+                            'make' => 'Aston Martin',
+                            'model' => 'DB11',
+                        ],
+                        [
+                            'id' => 103,
+                            'person_id' => 4,
+                            'make' => 'Lamborghini',
+                            'model' => 'Aventador',
+                        ],
+                        [
+                            'id' => 104,
+                            'person_id' => 5,
+                            'make' => 'Tesla',
+                            'model' => 'Roadster',
+                        ],
+                    ];
+                } elseif (Person::class == $query->getModel()) {
+                    return [
+                        [
+                            'id' => 1,
+                        ],
+                        [
+                            'id' => 2,
+                        ],
+                        [
+                            'id' => 3,
+                        ],
+                        [
+                            'id' => 4,
+                        ],
+                        [
+                            'id' => 5,
+                        ],
+                    ];
+                }
+            });
+
+        TestModel2::setDriver($driver);
+
+        $result = $query->execute();
+
+        $this->assertCount(5, $result);
+
+        $garage1 = $result[0]->garage; /* @phpstan-ignore-line */
+        $this->assertInstanceOf(Garage::class, $garage1);
+        $this->assertEquals(100, $garage1->id());
+        $garage2 = $result[1]->garage; /* @phpstan-ignore-line */
+        $this->assertInstanceOf(Garage::class, $garage2);
+        $this->assertEquals(101, $garage2->id());
+        $this->assertNull($result[2]->garage); /* @phpstan-ignore-line */
+        $garage4 = $result[3]->garage; /* @phpstan-ignore-line */
+        $this->assertInstanceOf(Garage::class, $garage4);
+        $this->assertEquals(103, $garage4->id());
+        $garage5 = $result[4]->garage; /* @phpstan-ignore-line */
+        $this->assertInstanceOf(Garage::class, $garage5);
+        $this->assertEquals(104, $garage5->id());
+    }
+
+    public function testExecuteEagerLoadingHasMany(): void
+    {
+        $query = new Query(Category::class);
+        $query->with('posts');
+
+        $driver = Mockery::mock(DriverInterface::class);
+
+        $driver->shouldReceive('queryModels')
+            ->andReturnUsing(function ($query) {
+                if ($query->getModel() instanceof Post && $query->getWhere() == ['category_id IN (1,2,3)']) {
+                    return [
+                        [
+                            'id' => 100,
+                            'category_id' => 1,
+                        ],
+                        [
+                            'id' => 101,
+                            'category_id' => 2,
+                        ],
+                        [
+                            'id' => 102,
+                            'category_id' => 2,
+                        ],
+                        [
+                            'id' => 103,
+                            'category_id' => 2,
+                        ],
+                    ];
+                } elseif (Category::class == $query->getModel()) {
+                    return [
+                        [
+                            'id' => 1,
+                        ],
+                        [
+                            'id' => 2,
+                        ],
+                        [
+                            'id' => 3,
+                        ],
+                    ];
+                }
+            });
+
+        Category::setDriver($driver);
+
+        $result = $query->execute();
+
+        $this->assertCount(3, $result);
+
+        $posts1 = $result[0]->relation('posts');
+        $this->assertIsArray($posts1);
+        $this->assertCount(1, $posts1);
+        foreach ($posts1 as $post) {
+            $this->assertInstanceOf(Post::class, $post);
+        }
+        $this->assertEquals(100, $posts1[0]->id());
+
+        $posts2 = $result[1]->relation('posts');
+        $this->assertIsArray($posts2);
+        $this->assertCount(3, $posts2);
+        foreach ($posts2 as $post) {
+            $this->assertInstanceOf(Post::class, $post);
+        }
+        $this->assertEquals(101, $posts2[0]->id());
+        $this->assertEquals(102, $posts2[1]->id());
+        $this->assertEquals(103, $posts2[2]->id());
+
+        $posts3 = $result[2]->relation('posts');
+        $this->assertIsArray($posts3);
+        $this->assertCount(0, $posts3);
+    }
+
+    public function testExecuteEagerLoadingNoRelations(): void
+    {
+        $query = new Query(TestModel2::class);
+        $query->with('person');
+
+        $driver = Mockery::mock(DriverInterface::class);
+
+        $driver->shouldReceive('queryModels')
+            ->withArgs([$query])
+            ->andReturn([
+                [
+                    'id' => 100,
+                    'id2' => 101,
+                    'person' => null,
+                ],
+                [
+                    'id' => 102,
+                    'id2' => 103,
+                    'person' => null,
+                ],
+                [
+                    'id' => 102,
+                    'id2' => 103,
+                    'person' => null,
+                ],
+            ]);
+
+        TestModel2::setDriver($driver);
+
+        $result = $query->execute();
+
+        $this->assertCount(3, $result);
+
+        $this->assertNull($result[0]->relation('person'));
+        $this->assertNull($result[1]->relation('person'));
+        $this->assertNull($result[2]->relation('person'));
+    }
+
+    public function testAll(): void
+    {
+        $query = new Query(TestModel::class);
+
+        $all = $query->all();
+        $this->assertInstanceOf(Iterator::class, $all);
+    }
+
+    public function testOne(): void
+    {
+        $query = new Query(Person::class);
+
+        $driver = Mockery::mock(DriverInterface::class);
+
+        $data = [
+            [
+                'id' => 100,
+                'name' => 'Sherlock',
+                'email' => 'sherlock@example.com',
+            ],
+        ];
+
+        $driver->shouldReceive('queryModels')
+            ->withArgs([$query])
+            ->andReturn($data);
+
+        Person::setDriver($driver);
+
+        $result = $query->one();
+
+        $this->assertInstanceOf(Person::class, $result);
+        $this->assertEquals(100, $result->id());
+        $this->assertEquals('Sherlock', $result->name); /* @phpstan-ignore-line */
+    }
+
+    public function testOneZeroResults(): void
+    {
+        $this->expectException(ModelNotFoundException::class);
+
+        $query = new Query(Person::class);
+
+        $driver = Mockery::mock(DriverInterface::class);
+
+        $driver->shouldReceive('queryModels')
+            ->withArgs([$query])
+            ->andReturn([]);
+
+        Person::setDriver($driver);
+
+        $query->one();
+    }
+
+    public function testOneTooManyResults(): void
+    {
+        $this->expectException(ModelNotFoundException::class);
+
+        $query = new Query(Person::class);
+
+        $driver = Mockery::mock(DriverInterface::class);
+
+        $data = [
+            [
+                'id' => 100,
+                'name' => 'Sherlock',
+                'email' => 'sherlock@example.com',
+            ],
+            [
+                'id' => 101,
+                'name' => 'Sherlock',
+                'email' => 'sherlock@example.com',
+            ],
+        ];
+
+        $driver->shouldReceive('queryModels')
+            ->withArgs([$query])
+            ->andReturn($data);
+
+        Person::setDriver($driver);
+
+        $query->one();
+    }
+
+    public function testOneOrNull(): void
+    {
+        $query = new Query(Person::class);
+
+        $driver = Mockery::mock(DriverInterface::class);
+
+        $data = [
+            [
+                'id' => 100,
+                'name' => 'Sherlock',
+                'email' => 'sherlock@example.com',
+            ],
+        ];
+
+        $driver->shouldReceive('queryModels')
+            ->withArgs([$query])
+            ->andReturn($data);
+
+        Person::setDriver($driver);
+
+        $result = $query->oneOrNull();
+
+        $this->assertInstanceOf(Person::class, $result);
+        $this->assertEquals(100, $result->id());
+        $this->assertEquals('Sherlock', $result->name); /* @phpstan-ignore-line */
+
+        $result = $query->oneOrNull();
+
+        $this->assertInstanceOf(Person::class, $result);
+        $this->assertEquals(100, $result->id());
+        $this->assertEquals('Sherlock', $result->name); /* @phpstan-ignore-line */
+    }
+
+    public function testOneOrNullZeroResults(): void
+    {
+        $query = new Query(Person::class);
+
+        $driver = Mockery::mock(DriverInterface::class);
+
+        $driver->shouldReceive('queryModels')
+            ->withArgs([$query])
+            ->andReturn([]);
+
+        Person::setDriver($driver);
+
+        $this->assertNull($query->oneOrNull());
+    }
+
+    public function testOneOrNullTooManyResults(): void
+    {
+        $query = new Query(Person::class);
+
+        $driver = Mockery::mock(DriverInterface::class);
+
+        $data = [
+            [
+                'id' => 100,
+                'name' => 'Sherlock',
+                'email' => 'sherlock@example.com',
+            ],
+            [
+                'id' => 101,
+                'name' => 'Sherlock',
+                'email' => 'sherlock@example.com',
+            ],
+        ];
+
+        $driver->shouldReceive('queryModels')
+            ->withArgs([$query])
+            ->andReturn($data);
+
+        Person::setDriver($driver);
+
+        $this->assertNull($query->oneOrNull());
+    }
+
+    public function testFirst(): void
+    {
+        $query = new Query(Person::class);
+
+        $driver = Mockery::mock(DriverInterface::class);
+
+        $data = [
+            [
+                'id' => 100,
+                'name' => 'Sherlock',
+                'email' => 'sherlock@example.com',
+            ],
+        ];
+
+        $driver->shouldReceive('queryModels')
+            ->withArgs([$query])
+            ->andReturn($data);
+
+        Person::setDriver($driver);
+
+        $result = $query->first();
+
+        $this->assertCount(1, $result);
+        $this->assertInstanceOf(Person::class, $result[0]);
+        $this->assertEquals(100, $result[0]->id());
+        $this->assertEquals('Sherlock', $result[0]->name); /* @phpstan-ignore-line */
+    }
+
+    public function testFirstLimit(): void
+    {
+        $query = new Query(Person::class);
+
+        $driver = Mockery::mock(DriverInterface::class);
+
+        $data = [
+            [
+                'id' => 100,
+                'name' => 'Sherlock',
+                'email' => 'sherlock@example.com',
+            ],
+            [
+                'id' => 102,
+                'name' => 'John',
+                'email' => 'john@example.com',
+            ],
+        ];
+
+        $driver->shouldReceive('queryModels')
+            ->withArgs([$query])
+            ->andReturn($data);
+
+        Person::setDriver($driver);
+
+        $result = $query->first(2);
+
+        $this->assertEquals(2, $query->getLimit());
+
+        $this->assertCount(2, $result);
+        foreach ($result as $model) {
+            $this->assertInstanceOf(Person::class, $model);
+        }
+
+        $this->assertEquals(100, $result[0]->id());
+        $this->assertEquals(102, $result[1]->id());
+
+        $this->assertEquals('Sherlock', $result[0]->name); /* @phpstan-ignore-line */
+        $this->assertEquals('John', $result[1]->name); /* @phpstan-ignore-line */
+    }
+
+    public function testCount(): void
+    {
+        $query = new Query(Person::class);
+
+        $driver = Mockery::mock(DriverInterface::class);
+        $driver->shouldReceive('count')
+            ->withArgs([$query])
+            ->andReturn(10);
+
+        Person::setDriver($driver);
+
+        $this->assertEquals(10, $query->count());
+    }
+
+    public function testSum(): void
+    {
+        $query = new Query(Person::class);
+
+        $driver = Mockery::mock(DriverInterface::class);
+        $driver->shouldReceive('sum')
+            ->withArgs([$query, 'balance'])
+            ->andReturn(50.2);
+
+        Person::setDriver($driver);
+
+        $this->assertEquals(50.2, $query->sum('balance'));
+    }
+
+    public function testAverage(): void
+    {
+        $query = new Query(Person::class);
+
+        $driver = Mockery::mock(DriverInterface::class);
+        $driver->shouldReceive('average')
+            ->withArgs([$query, 'balance'])
+            ->andReturn(1);
+
+        Person::setDriver($driver);
+
+        $this->assertEquals(1, $query->average('balance'));
+    }
+
+    public function testMax(): void
+    {
+        $query = new Query(Person::class);
+
+        $driver = Mockery::mock(DriverInterface::class);
+        $driver->shouldReceive('max')
+            ->withArgs([$query, 'balance'])
+            ->andReturn(2.5);
+
+        Person::setDriver($driver);
+
+        $this->assertEquals(2.5, $query->max('balance'));
+    }
+
+    public function testMin(): void
+    {
+        $query = new Query(Person::class);
+
+        $driver = Mockery::mock(DriverInterface::class);
+        $driver->shouldReceive('min')
+            ->withArgs([$query, 'balance'])
+            ->andReturn(0);
+
+        Person::setDriver($driver);
+
+        $this->assertEquals(0, $query->min('balance'));
+    }
+
+    public function testSet(): void
+    {
+        $model = Mockery::mock();
+        $model->shouldReceive('set')
+            ->withArgs([['test' => true]])
+            ->andReturn(true)
+            ->once();
+        $model2 = Mockery::mock();
+        $model2->shouldReceive('set')
+            ->withArgs([['test' => true]])
+            ->andReturn(true)
+            ->once();
+        $query = Mockery::mock('App\Core\Orm\Query[all]', [new TestModel()]);
+        $query->shouldReceive('all')
+            ->andReturn([$model, $model2]);
+        $this->assertEquals(2, $query->set(['test' => true]));
+    }
+
+    public function testSetFail(): void
+    {
+        $this->expectException(ModelException::class);
+        $model = Mockery::mock();
+        $model->shouldReceive('set')
+            ->withArgs([['test' => true]])
+            ->andReturn(false)
+            ->once();
+        $model->shouldReceive('getErrors')
+            ->andReturn(new Errors());
+        $model->shouldReceive('modelName')
+            ->andReturn('Test');
+        $query = Mockery::mock('App\Core\Orm\Query[all]', [new TestModel()]);
+        $query->shouldReceive('all')
+            ->andReturn([$model]);
+        $query->set(['test' => true]);
+    }
+
+    public function testDelete(): void
+    {
+        $model = Mockery::mock();
+        $model->shouldReceive('deleteOrFail')->once();
+        $model2 = Mockery::mock();
+        $model2->shouldReceive('deleteOrFail')->once();
+        $query = Mockery::mock('App\Core\Orm\Query[all]', [new TestModel()]);
+        $query->shouldReceive('all')
+            ->andReturn([$model, $model2]);
+        $this->assertEquals(2, $query->delete());
+    }
+}

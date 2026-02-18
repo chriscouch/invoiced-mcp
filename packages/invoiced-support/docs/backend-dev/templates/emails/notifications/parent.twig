@@ -1,0 +1,15 @@
+{% extends "emails/parent.twig" %}
+{% block content %}
+    <row>
+        <columns>
+{% block notification %}{% endblock %}
+        </columns>
+    </row>
+    <row>
+        <columns>
+            <p>
+                <a href="{{ dashboardUrl }}/settings/notifications?account={{ tenant_id  }}" class="change-notification-settings">Change your notification settings</a>
+            </p>
+        </columns>
+    </row>
+{% endblock %}

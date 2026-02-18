@@ -1,0 +1,82 @@
+<p class="loading" ng-show="loading"></p>
+<form name="offlineForm" ng-submit="save()" ng-show="!loading">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			Offline Payments
+		</h4>
+	</div>
+	<div class="modal-body form-horizontal accept-offline-payments">
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<p class="lead">
+			Which of these payment methods do you accept?
+		</p>
+
+		<div class="row">
+			<div class="col-sm-8">
+				<h4>{{'payment_method.country'|translate}}</h4>
+				<country-selector ng-model="country" default-value="'Default'" ng-change="changeCountry(country)"></country-selector>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-8">
+				<h4>{{'payment_method.check'|translate}}</h4>
+				<div ng-show="methods.check.enabled">
+					<textarea class="form-control" placeholder="Instructions for customers paying by check" ng-model="methods.check.meta" expanding-textarea></textarea>
+				</div>
+			</div>
+			<div class="col-sm-4 text-right">
+				<toggle ng-model="methods.check.enabled"></toggle>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-8">
+				<h4>Wire Transfer</h4>
+				<div ng-show="methods.wire_transfer.enabled">
+					<textarea class="form-control" placeholder="Instructions for customers paying by wire transfer" ng-model="methods.wire_transfer.meta" expanding-textarea></textarea>
+				</div>
+			</div>
+			<div class="col-sm-4 text-right">
+				<toggle ng-model="methods.wire_transfer.enabled"></toggle>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-8">
+				<h4>Cash</h4>
+				<div ng-show="methods.cash.enabled">
+					<textarea class="form-control" placeholder="Instructions for customers paying with cash" ng-model="methods.cash.meta" expanding-textarea></textarea>
+				</div>
+			</div>
+			<div class="col-sm-4 text-right">
+				<toggle ng-model="methods.cash.enabled"></toggle>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-8">
+				<h4>Other</h4>
+				<div ng-show="methods.other.enabled">
+					<textarea class="form-control" placeholder="Instructions for customers" ng-model="methods.other.meta" expanding-textarea></textarea>
+				</div>
+			</div>
+			<div class="col-sm-4 text-right">
+				<toggle ng-model="methods.other.enabled"></toggle>
+			</div>
+		</div>
+
+		<p class="alert alert-info">
+			<span class="fas fa-info-circle"></span>
+			On the payment page we will show your payment instructions to customers, and even let customers notify you once payment has been sent.
+		</p>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="!offlineForm.$dirty||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

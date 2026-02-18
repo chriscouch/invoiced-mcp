@@ -1,0 +1,39 @@
+fields:
+  archived:
+    name: Archived
+    type: boolean
+    writable: false
+  avalara_location_code: { name: "Avalara Location Code", type: string }
+  avalara_tax_code: { name: "Avalara Tax Code", type: string }
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency: { name: Currency, type: string }
+  description: { name: Description, type: string }
+  discountable: { name: Discountable, type: boolean }
+  gl_account: { name: "G/L Account", type: string }
+  id:
+    name: ID
+    type: string
+  metadata: { name: 'Metadata', type: metadata, id_column: internal_id }
+  name: { name: Name, type: string }
+  taxable: { name: Taxable, type: boolean }
+  taxes:
+    name: Taxes
+    type: array
+    writable: false
+  type: { name: Type, type: string }
+  unit_cost: { name: "Unit Cost", type: money, summarize: true }
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false

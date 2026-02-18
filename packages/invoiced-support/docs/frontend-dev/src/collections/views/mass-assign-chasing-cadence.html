@@ -1,0 +1,51 @@
+<form name="editForm" ng-submit="save(cadence, accounts, nextStep)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">Enroll Customers</h4>
+	</div>
+	<div class="modal-body">
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<!-- Cadence -->
+		<div class="form-group">
+			<label class="control-label">Cadence</label>
+			<div>
+				{{cadence.name}}
+			</div>
+		</div>
+
+		<!-- Next Step -->
+		<div class="form-group">
+			<label class="control-label">Next Step</label>
+			<div class="invoiced-select">
+				<select ng-model="nextStep" ng-options="step.id as step.name for step in cadence.steps" required></select>
+			</div>
+		</div>
+
+		<!-- Customer Accounts -->
+		<div class="form-group member-managed-accounts">
+			<label class="control-label">Customers</label>
+			<ul class="bulleted accounts-list" ng-show="accounts.length > 0">
+				<li ng-repeat="customer in accounts">
+					<div class="delete">
+						<a href="" ng-click="deleteAccount(customer)">
+							<span class="fas fa-times"></span>
+						</a>
+					</div>
+					{{customer.name}}<br/>
+					<small>{{customer.number}}</small>
+				</li>
+			</ul>
+			<div class="new-btn">
+				<select-customer ng-model="newCustomer" excluded="excludeCustomerIds"></select-customer>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="editForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

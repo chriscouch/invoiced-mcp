@@ -1,0 +1,90 @@
+{
+    "report-only": false,
+    "base-uri": [],
+    "default-src": [],
+    "child-src": {
+        "allow": [
+            "https://js.invoiced.com",
+            "https://js.stripe.com",
+            "https://cdn.plaid.com",
+            "https://*.adyen.com"
+        ]
+    },
+    "frame-src": {
+        "allow": [
+            "https://js.invoiced.com",
+            "https://js.stripe.com",
+            "https://cdn.plaid.com",
+            "https://checkout.flywire.com",
+            "https://api.demo.flywire.com",
+            "https://checkout-api.demo.flywire.com/",
+            "https://*.adyen.com"
+        ]
+    },
+    "connect-src": {
+        "allow": [
+            "https://api.stripe.com",
+            "https://payments.invoiced.com",
+            "https://*.fontawesome.com",
+            "https://www.google-analytics.com",
+            "https://heapanalytics.com",
+            "https://c.us.heap-api.com",
+            "https://*.adyen.com",
+            "https://qa.onplanprocessing.com"
+        ],
+        "self": true
+    },
+    "font-src": {
+        "allow": [
+            "https://fonts.googleapis.com",
+            "https://fonts.gstatic.com",
+            "https://themes.googleusercontent.com",
+            "https://cdn.plaid.com",
+            "https://*.fontawesome.com",
+            "https://heapanalytics.com",
+            "https://*.adyen.com"
+        ],
+        "self": true
+    },
+    "img-src": {
+        "allow": [
+            "https://logos.invoiced.com",
+            "https://www.google-analytics.com",
+            "https://heapanalytics.com",
+            "https://*.adyen.com",
+            "data:"
+        ],
+        "self": true
+    },
+    "manifest-src": {
+        "self": true
+    },
+    "object-src": {
+        "allow": []
+    },
+    "script-src": {
+        "allow": [
+            "https://js.invoiced.com",
+            "https://js.stripe.com",
+            "https://cdn.plaid.com",
+            "https://www.google-analytics.com",
+            "https://kit.fontawesome.com",
+            "https://checkout.flywire.com",
+            "https://heapanalytics.com",
+            "https://cdn.us.heap-api.com",
+            "https://*.adyen.com"
+        ],
+        "self": true
+    },
+    "style-src": {
+        "allow": [
+            "https://fonts.googleapis.com",
+            "https://cdn.plaid.com",
+            "https://heapanalytics.com",
+            "https://*.adyen.com"
+        ],
+        "self": true,
+        "unsafe-inline": true
+    },
+    "upgrade-insecure-requests": false
+}

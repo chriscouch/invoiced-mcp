@@ -1,0 +1,391 @@
+<div class="row two-pane">
+    <div class="col-sm-4 left-pane">
+        <div class="details-list vertical">
+            <h4>
+                <div class="action" ng-if="'vendors.edit'|hasPermission">
+                    <a href="" ng-click="editModal(vendor)">
+                        {{'general.edit'|translate}}
+                    </a>
+                </div>
+                Vendor Details
+            </h4>
+
+            <!-- Email Address -->
+            <div ng-show="vendor.email">
+                <div class="title">Email</div>
+                <div class="value">
+                    <a href="mailto:{{vendor.email}}">
+                        {{vendor.email}}
+                    </a>
+                </div>
+            </div>
+
+            <!-- Address -->
+            <div ng-show="vendor.address||(vendor.country&&vendor.country!=company.country)">
+                <div class="title">Address</div>
+                <div class="value">
+                    <div class="pull-right"><country-icon country="vendor.country"></country-icon></div>
+                    <div ng-bind-html="vendor.address|nl2br"></div>
+                </div>
+            </div>
+
+            <!-- Workflow -->
+            <div ng-show="vendor.approval_workflow">
+                <div class="title">Approval Workflow</div>
+                <div class="value">
+                    {{vendor.approval_workflow.name}}
+                </div>
+            </div>
+
+            <!-- Active Status -->
+            <div ng-show="!vendor.active">
+                <div class="title">{{'general.status'|translate}}</div>
+                <div class="value">
+                    <span class="label label-danger">{{'general.inactive'|translate}}</span>
+                </div>
+            </div>
+
+            <!-- Created Date -->
+            <div>
+                <div class="title">Created</div>
+                <div class="value">
+                    <company-date date="vendor.created_at"></company-date>
+                </div>
+            </div>
+        </div>
+
+        <!-- Network Profile -->
+        <div class="details-list vertical" ng-if="invitedToNetwork">
+            <h4>
+                Network Profile
+            </h4>
+
+            <p>An invitation to join your network has been sent to <span ng-show="invitedToNetworkEmail">{{invitedToNetworkEmail}}</span><span ng-hide="invitedToNetworkEmail">{{vendor.name}}</span>.</p>
+        </div>
+        <div class="details-list vertical" ng-if="networkProfile">
+            <h4>
+                Network Profile
+            </h4>
+
+            <!-- Email -->
+            <div>
+                <div class="title">{{'general.email'|translate}}</div>
+                <div class="value">
+                    <a href="mailto:{{networkProfile.email}}">
+                        {{networkProfile.email}}
+                    </a>
+                </div>
+            </div>
+
+            <!-- Username -->
+            <div>
+                <div class="title">Invoiced Username</div>
+                <div class="value">
+                    @{{networkProfile.username}}
+                </div>
+            </div>
+
+            <!-- Address -->
+            <div>
+                <div class="title">Address</div>
+                <div class="value" ng-bind-html="networkProfile|address:true"></div>
+            </div>
+
+            <!-- Phone -->
+            <div ng-show="networkProfile.phone">
+                <div class="title">Phone</div>
+                <div class="value">
+                    <a href="tel:{{networkProfile.phone}}">
+                        {{networkProfile.phone|formatPhoneNumber}}
+                    </a>
+                </div>
+            </div>
+
+            <!-- Website -->
+            <div ng-show="networkProfile.website">
+                <div class="title">Website</div>
+                <div class="value">
+                    <a href="{{networkProfile.website}}">
+                        {{networkProfile.website}}
+                    </a>
+                </div>
+            </div>
+
+            <!-- Industry -->
+            <div ng-show="networkProfile.industry">
+                <div class="title">Industry</div>
+                <div class="value">
+                    {{networkProfile.industry}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-8 right-pane" ng-show="isLoaded()">
+        <!-- Action Items -->
+        <div class="action-items">
+            <!-- Needs Invitation -->
+            <div class="action-item suggestion" ng-if="hasActionItem('needs_invitation') && ('network'|hasFeature) && ('network_invitations'|hasFeature)">
+                <div class="icon"></div>
+                <p>
+                    This vendor is not yet in your network. Would you like to invite them to join your business network?
+                </p>
+                <p ng-if="'vendors.edit'|hasPermission">
+                    <button type="button" class="btn btn-primary" ng-click="inviteToNetwork(vendor)">
+                        Add to Network
+                    </button>
+                </p>
+            </div>
+
+            <!-- Invited -->
+            <div class="action-item info" ng-if="hasActionItem('invited')">
+                <div class="icon"></div>
+                <p>
+                    This vendor has been invited to join your network. We are waiting for them to onboard into Invoiced.
+                </p>
+            </div>
+        </div>
+
+        <!-- Transactions -->
+        <div class="panel panel-invoiced customer-invoices light">
+            <div class="panel-heading with-tabs">
+                <ul class="nav nav-tabs">
+                    <li ng-class="{active:transactionsTab=='bills'}">
+                        <a href="" ng-click="setTransactionsTab(vendor, 'bills')">
+                            Bills
+                        </a>
+                    </li>
+                    <li ng-class="{active:transactionsTab=='vendor_credits'}">
+                        <a href="" ng-click="setTransactionsTab(vendor, 'vendor_credits')">
+                            Vendor Credits
+                        </a>
+                    </li>
+                    <li ng-class="{active:transactionsTab=='vendor_payments'}">
+                        <a href="" ng-click="setTransactionsTab(vendor, 'vendor_payments')">
+                            Payments
+                        </a>
+                    </li>
+                    <li ng-class="{active:transactionsTab=='network_documents'}" ng-show="vendor.network_connection">
+                        <a href="" ng-click="setTransactionsTab(vendor, 'network_documents')">
+                            Documents Received
+                        </a>
+                    </li>
+                    <li class="view-all-button">
+                        <a href="/bills?vendor={{vendor.id}}" ng-show="transactionsTab=='bills'">
+                            {{'general.view_all'|translate}}
+                        </a>
+                        <a href="/vendor_credits?vendor={{vendor.id}}" ng-show="transactionsTab=='vendor_credits'">
+                            {{'general.view_all'|translate}}
+                        </a>
+                        <a href="/vendor_payments?vendor={{vendor.id}}" ng-show="transactionsTab=='vendor_payments'">
+                            {{'general.view_all'|translate}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="panel-body" ng-if="!loaded.transactions||transactions.length==0">
+                <div class="loading inline" ng-hide="loaded.transactions"></div>
+                <div class="empty" ng-show="loaded.transactions">
+                    None found.
+                </div>
+            </div>
+
+            <!-- Bills -->
+            <table class="table search-results-table slim" ng-if="loaded.transactions && transactions.length>0 && transactionsTab=='bills'">
+                <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>{{'general.date'|translate}}</th>
+                        <th>{{'general.due_date'|translate}}</th>
+                        <th>{{'general.status'|translate}}</th>
+                        <th class="money-column">{{'general.total'|translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="clickable" ng-repeat="bill in transactions" ng-click="goToObject($event,'bill',bill.id)">
+                        <td class="title mobile-first">
+                            <a ui-sref="manage.bill.view.summary({id:bill.id})">
+                                {{bill.number}}
+                            </a>
+                        </td>
+                        <td class="date">
+                            {{bill.date|formatCompanyDate}}
+                        </td>
+                        <td class="date">
+                            {{bill.due_date|formatCompanyDate}}
+                        </td>
+                        <td>{{bill.status}}</td>
+                        <td class="total money-column mobile-last">
+                            <money currency="bill.currency" amount="bill.total"></money>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="invoice-pagination">
+                        <td colspan="5">
+                            <div class="controls" ng-show="transactionPageCount > 1">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-link btn-sm" ng-click="prevTransactionPage(vendor)" ng-show="transactionPage > 1">
+                                        <span class="fas fa-angle-left"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-link btn-sm" ng-click="nextTransactionPage(vendor)" ng-show="transactionPage < transactionPageCount">
+                                        <span class="fas fa-angle-right"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="total-records">
+                                Showing {{transactionRange}} of <strong>{{totalTransactions|number}} documents</strong>.
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <!-- Vendor Credits -->
+            <table class="table search-results-table slim" ng-if="loaded.transactions && transactions.length>0 && transactionsTab=='vendor_credits'">
+                <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>{{'general.date'|translate}}</th>
+                        <th>{{'general.status'|translate}}</th>
+                        <th class="money-column">{{'general.total'|translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="clickable" ng-repeat="vendorCredit in transactions" ng-click="goToObject($event,'vendor_credit',vendorCredit.id)">
+                        <td class="title mobile-first">
+                            <a ui-sref="manage.vendor_credit.view.summary({id:vendorCredit.id})">
+                                {{vendorCredit.number}}
+                            </a>
+                        </td>
+                        <td class="date">
+                            {{vendorCredit.date|formatCompanyDate}}
+                        </td>
+                        <td>{{vendorCredit.status}}</td>
+                        <td class="total money-column mobile-last">
+                            <money currency="vendorCredit.currency" amount="vendorCredit.total"></money>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="invoice-pagination">
+                        <td colspan="5">
+                            <div class="controls" ng-show="transactionPageCount > 1">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-link btn-sm" ng-click="prevTransactionPage(vendor)" ng-show="transactionPage > 1">
+                                        <span class="fas fa-angle-left"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-link btn-sm" ng-click="nextTransactionPage(vendor)" ng-show="transactionPage < transactionPageCount">
+                                        <span class="fas fa-angle-right"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="total-records">
+                                Showing {{transactionRange}} of <strong>{{totalTransactions|number}} documents</strong>.
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <!-- Vendor Payments -->
+            <table class="table search-results-table slim" ng-if="loaded.transactions && transactions.length>0 && transactionsTab=='vendor_payments'">
+                <thead>
+                    <tr>
+                        <th>{{'general.date'|translate}}</th>
+                        <th>Payment Method</th>
+                        <th>Reference</th>
+                        <th class="money-column">{{'general.amount'|translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="clickable" ng-repeat="payment in transactions" ng-click="goToObject($event,'vendor_payment',payment.id)">
+                        <td class="title date mobile-first">
+                            <a ui-sref="manage.vendor_payment.view.summary({id:payment.id})">
+                                <company-date date="payment.date"></company-date>
+                            </a>
+                        </td>
+                        <td>{{payment.payment_method|paymentMethodName}}</td>
+                        <td>{{payment.reference}}</td>
+                        <td class="total money-column mobile-last">
+                            <money currency="payment.currency" amount="payment.amount"></money>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                <tr class="invoice-pagination">
+                    <td colspan="5">
+                        <div class="controls" ng-show="transactionPageCount > 1">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-link btn-sm" ng-click="prevTransactionPage(vendor)" ng-show="transactionPage > 1">
+                                    <span class="fas fa-angle-left"></span>
+                                </button>
+                                <button type="button" class="btn btn-link btn-sm" ng-click="nextTransactionPage(vendor)" ng-show="transactionPage < transactionPageCount">
+                                    <span class="fas fa-angle-right"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="total-records">
+                            Showing {{transactionRange}} of <strong>{{totalTransactions|number}} documents</strong>.
+                        </div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+
+            <!-- Network Documents -->
+            <table class="table search-results-table slim" ng-if="loaded.transactions && transactions.length>0 && transactionsTab=='network_documents'">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Reference</th>
+                        <th>{{'general.date'|translate}}</th>
+                        <th>{{'general.status'|translate}}</th>
+                        <th class="money-column">{{'general.total'|translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="clickable" ng-repeat="doc in transactions" ng-click="goToObject($event,'network_document',doc.id)">
+                        <td class="mobile-first">{{doc.type}}</td>
+                        <td class="title">
+                            <a ui-sref="manage.document.view.summary({id:doc.id})">
+                                {{doc.reference}}
+                            </a>
+                        </td>
+                        <td class="date">
+                            <company-date date="doc.created_at"></company-date>
+                        </td>
+                        <td>{{doc.current_status}}</td>
+                        <td class="total money-column mobile-last">
+                            <money currency="doc.currency" amount="doc.total" ng-show="doc.total !== null"></money>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="invoice-pagination">
+                        <td colspan="5">
+                            <div class="controls" ng-show="transactionPageCount > 1">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-link btn-sm" ng-click="prevTransactionPage(vendor)" ng-show="transactionPage > 1">
+                                        <span class="fas fa-angle-left"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-link btn-sm" ng-click="nextTransactionPage(vendor)" ng-show="transactionPage < transactionPageCount">
+                                        <span class="fas fa-angle-right"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="total-records">
+                                Showing {{transactionRange}} of <strong>{{totalTransactions|number}} documents</strong>.
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div class="col-sm-8" ng-hide="isLoaded()">
+        <div class="loading"></div>
+    </div>
+</div>

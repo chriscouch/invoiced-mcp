@@ -1,0 +1,39 @@
+{
+  "title": "Too Many Sort Conditions",
+  "sections": [
+    {
+      "type": "table",
+      "object": "customer",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "name"
+          }
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "city"
+          }
+        },
+        {
+          "field": {
+            "id": "state"
+          }
+        },
+        {
+          "field": {
+            "id": "country"
+          }
+        }
+      ]
+    }
+  ]
+}

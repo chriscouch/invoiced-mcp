@@ -1,0 +1,60 @@
+<div class="modal-body text-center export-modal">
+	<div ng-show="exporting">
+		<div class="loading inline center"></div>
+		<br/>
+		<p class="lead">
+			Building your export
+		</p>
+		<div class="progress-holder">
+			<div class="progress">
+				<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{progress}}%;">
+					<span class="sr-only">{{progress}}% Complete</span>
+				</div>
+			</div>
+			<div class="status" ng-show="progress==100">
+				Finalizing...
+			</div>
+			<div class="status" ng-show="export.total_records && progress < 100">
+				<strong>{{progress|number:0}}% complete</strong>
+				&mdash;
+				{{export.position|number}} / {{export.total_records|number}} {{type}}
+			</div>
+			<div class="status" ng-hide="export.total_records">
+				Starting...
+			</div>
+		</div>
+	</div>
+	<div ng-show="downloaded">
+		<p class="text-success lead">
+			<span class="fas fa-check"></span>
+		</p>
+		<p class="lead">
+			Your export is ready.
+		</p>
+		<p>
+			We already initiated a download.
+			If the download did not start automatically then <a ng-href="{{downloadLink}}">click here</a> to download your export.
+		</p>
+	</div>
+	<div ng-show="error">
+		<p class="lead">
+			Oops!
+		</p>
+		<p class="alert alert-danger">{{error}}</p>
+	</div>
+</div>
+<div class="modal-footer" ng-show="exporting">
+	<div class="left" ng-show="canEmail">
+		<a href="" ng-click="emailWhenReady(export)">
+			Or, email me when ready
+		</a>
+	</div>
+	<button type="button" class="btn btn-danger" ng-click="cancel(export)">
+		{{'general.cancel'|translate}}
+	</button>
+</div>
+<div class="modal-footer" ng-hide="exporting">
+	<button type="button" class="btn btn-primary" ng-click="close()">
+		Done
+	</button>
+</div>

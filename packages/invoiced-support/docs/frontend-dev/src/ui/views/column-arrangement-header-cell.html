@@ -1,0 +1,6 @@
+<a ng-if="column.sortable!==false" href="" ng-click="toggleSort(column.sortIndex)" ng-class="{down:filter.sort==column.sortIndex + ' DESC',up:filter.sort==column.sortIndex + ' ASC'}">
+    {{column.name}}
+    <span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+    <span class="sort down"><span class="fas fa-sort-amount-up"></span></span>
+</a>
+<span ng-if="column.sortable===false">{{column.name}}</span>

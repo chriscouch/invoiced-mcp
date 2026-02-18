@@ -1,0 +1,29 @@
+<div class="object-view">
+    <div class="title-bar with-back">
+        <div class="back">
+            <a ui-sref="manage.imports.browse">
+                <span class="fas fa-chevron-left"></span>
+                {{'imports.previous'|translate}}
+            </a>
+        </div>
+        <div class="docs-link">
+            <a href="https://docs.invoiced.com/getting-started/importing-data" target="_blank">
+                {{'general.documentation'|translate}}
+                <span class="fas fa-external-link"></span>
+            </a>
+        </div>
+
+        <h2>New Import</h2>
+    </div>
+    <div class="contents white-bg">
+        <p class="lead">
+            What type of data do you want to import?
+        </p>
+
+            <div ng-repeat="importer in importers">
+                <a href="" class="btn btn-link" ng-click="go(importer)">
+                    {{importer.name}}
+                </a>
+            </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+[
+  {
+    "Id": "CSAdminDailyTasks",
+    "Arn": "arn:aws:ecs:us-west-1:224792504733:cluster/InvoicedSandbox",
+    "RoleArn": "arn:aws:iam::224792504733:role/ecsEventsRole",
+    "Input": "{\"containerOverrides\": [{\"name\": \"php\", \"command\": [\"bin/console\", \"app:daily-tasks\"]}]}",
+    "EcsParameters": {
+      "TaskDefinitionArn": "arn:aws:ecs:us-west-1:224792504733:task-definition/CSAdminConsole",
+      "TaskCount": 1,
+      "LaunchType": "FARGATE",
+      "NetworkConfiguration": {
+        "awsvpcConfiguration": {
+          "Subnets": [
+            "subnet-b3dd54d4",
+            "subnet-d6b76e8d"
+          ],
+          "SecurityGroups": [
+            "sg-64fedf1c",
+            "sg-1112f368"
+          ],
+          "AssignPublicIp": "DISABLED"
+        }
+      },
+      "PlatformVersion": "LATEST"
+    }
+  }
+]

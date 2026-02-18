@@ -1,0 +1,31 @@
+<div class="invoice-chase-state">
+    <div class="step-info" ng-repeat="state in chaseState" ng-class="{complete: state.sent, error: hasFailure(state), skipped: state.skipped}">
+        <div class="step-icon">
+            <span tooltip="{{state.skipped ? 'Skipped: ' + state.date : state.date}}">
+                <span class="{{state.icon}}"></span>
+            </span>
+
+            <p class="date-reference">{{state.text}}</p>
+            <div class="channels">
+                <span>(</span>
+                <span ng-repeat="channel in state.channels">
+                    <span ng-class="{first: $first, last: $last, failure: !!state.failures[channel.key]}" tooltip="{{state.failures[channel.key]}}" tooltip-placement="bottom">
+                        {{channel.text}}
+                    </span>
+                    <span class="comma" ng-class="{hide:$last}">, </span>
+                </span>
+                <span>)</span>
+            </div>
+
+            <div class="state-icon" tooltip-placement="bottom">
+                <span ng-if="state.skipped" class="fad fa-arrow-circle-left"></span>
+                <span ng-if="state.sent && !state.failure && !state.skipped" class="fad fa-check-circle"></span>
+                <span ng-if="!state.sent && !state.failure && !state.skipped" class="fad fa-minus-circle"></span>
+                <span ng-if="state.failure" class="fad fa-times-circle"></span>
+            </div>
+        </div>
+        <div class="arrow-icon" ng-class="{hide:$last}">
+            <span class="fas fa-arrow-right"></span>
+        </div>
+    </div>
+</div>

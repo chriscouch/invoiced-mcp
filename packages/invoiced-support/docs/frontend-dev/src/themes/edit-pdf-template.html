@@ -1,0 +1,234 @@
+<form name="pdfTemplateForm" ng-submit="save(pdfTemplate)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title"><span ng-show="pdfTemplate.id">Edit</span><span ng-hide="pdfTemplate.id">New</span> PDF Template</h4>
+	</div>
+	<div class="modal-body">
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<p class="alert alert-warning">
+			<strong>Danger!</strong> The layout should only be changed if you know what you are doing.
+			Please consult the
+			<a href="https://docs.invoiced.com/dev/customizing-templates" target="_blank">Customizing PDF Templates</a>
+			documentation to learn more and the
+			<a href="https://docs.invoiced.com/dev/template-language" target="_blank">Invoiced Template Language</a>
+			documentation to learn about the template syntax.
+		</p>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<!-- Template Details -->
+				<h3 class="section-title">Details</h3>
+				<div class="form-group">
+					<label class="control-label">Document Type</label>
+					<div class="form-control-static">
+						<theme-document-type document-type="pdfTemplate.document_type"></theme-document-type>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label">Template Name <span class="required"></span></label>
+					<div>
+						<input type="text" class="form-control input-xlarge" ng-model="pdfTemplate.name" required />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label">Disable Smart Shrinking</label>
+					<div>
+						<toggle ng-model="pdfTemplate.disable_smart_shrinking"></toggle>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<!-- Margins -->
+				<h3 class="section-title">Margins</h3>
+				<table class="table-margins">
+					<tr>
+						<td></td>
+						<td>
+							<label class="control-label">Top <span class="required"></span></label>
+							<div>
+								<input type="text" class="form-control input-small" ng-model="pdfTemplate.margin_top" required />
+							</div>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>
+							<label class="control-label">Left <span class="required"></span></label>
+							<div>
+								<input type="text" class="form-control input-small" ng-model="pdfTemplate.margin_left" required />
+							</div>
+						</td>
+						<td></td>
+						<td>
+							<label class="control-label">Right <span class="required"></span></label>
+							<div>
+								<input type="text" class="form-control input-small" ng-model="pdfTemplate.margin_right" required />
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<label class="control-label">Bottom <span class="required"></span></label>
+							<div>
+								<input type="text" class="form-control input-small" ng-model="pdfTemplate.margin_bottom" required />
+							</div>
+						</td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<!-- HTML / CSS -->
+		<h3 class="section-title">
+			<div class="pull-right">
+				<button type="button" class="btn btn-default" ng-click="preview(pdfTemplate)" ng-hide="pdfTemplate.document_type == 'statement'">
+					<span class="fas fa-arrow-to-bottom"></span>
+					Preview
+				</button>
+				<button type="button" class="btn btn-default" ng-click="preview(pdfTemplate, 'balance_forward')" ng-show="pdfTemplate.document_type == 'statement'">
+					<span class="fas fa-arrow-to-bottom"></span>
+					Preview (Balance Forward)
+				</button>
+				<button type="button" class="btn btn-default" ng-click="preview(pdfTemplate, 'open_item')" ng-show="pdfTemplate.document_type == 'statement'">
+					<span class="fas fa-arrow-to-bottom"></span>
+					Preview (Open Item)
+				</button>
+				<button type="submit" class="btn btn-primary Button" ng-disabled="pdfTemplateForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+					<span ng-show="pdfTemplate.id">{{'general.save'|translate}}</span>
+					<span ng-hide="pdfTemplate.id">{{'general.create'|translate}}</span>
+				</button>
+			</div>
+			Body
+		</h3>		
+		<div class="row codemirrors">
+			<div class="col-sm-6 left">
+				<div class="panel">
+					<div class="panel-heading">
+						<h3 class="panel-title">HTML</h3>
+					</div>
+					<div class="panel-body">
+						<textarea ui-codemirror="htmlCmOptions" ng-model="pdfTemplate.html" ui-refresh="cmRefresh"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 right">
+				<div class="panel">
+					<div class="panel-heading">
+						<h3 class="panel-title">CSS</h3>
+					</div>
+					<div class="panel-body">
+						<textarea ui-codemirror="cssCmOptions" ng-model="pdfTemplate.css" ui-refresh="cmRefresh"></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<h3 class="section-title">
+			<div class="pull-right">
+				<button type="button" class="btn btn-default" ng-click="preview(pdfTemplate)" ng-hide="pdfTemplate.document_type == 'statement'">
+					<span class="fas fa-arrow-to-bottom"></span>
+					Preview
+				</button>
+				<button type="button" class="btn btn-default" ng-click="preview(pdfTemplate, 'balance_forward')" ng-show="pdfTemplate.document_type == 'statement'">
+					<span class="fas fa-arrow-to-bottom"></span>
+					Preview (Balance Forward)
+				</button>
+				<button type="button" class="btn btn-default" ng-click="preview(pdfTemplate, 'open_item')" ng-show="pdfTemplate.document_type == 'statement'">
+					<span class="fas fa-arrow-to-bottom"></span>
+					Preview (Open Item)
+				</button>
+				<button type="submit" class="btn btn-primary Button" ng-disabled="pdfTemplateForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+					<span ng-show="pdfTemplate.id">{{'general.save'|translate}}</span>
+					<span ng-hide="pdfTemplate.id">{{'general.create'|translate}}</span>
+				</button>
+			</div>
+			Header
+		</h3>
+		<div class="section-help">
+			<span class="fas fa-info-circle"></span>
+			Page numbering can be added like this: <code>&lt;span class="wk-page"&gt;&lt;/span&gt; to &lt;span class="wk-topage"&gt;&lt;/span&gt;</code>
+		</div>
+		<div class="row codemirrors">
+			<div class="col-sm-6 left">
+				<div class="panel">
+					<div class="panel-heading">
+						<h3 class="panel-title">HTML</h3>
+					</div>
+					<div class="panel-body">
+						<textarea ui-codemirror="htmlCmOptions" ng-model="pdfTemplate.header_html" ui-refresh="cmRefresh"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 right">
+				<div class="panel">
+					<div class="panel-heading">
+						<h3 class="panel-title">CSS</h3>
+					</div>
+					<div class="panel-body">
+						<textarea ui-codemirror="cssCmOptions" ng-model="pdfTemplate.header_css" ui-refresh="cmRefresh"></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<h3 class="section-title">
+			<div class="pull-right">
+				<button type="button" class="btn btn-default" ng-click="preview(pdfTemplate)" ng-hide="pdfTemplate.document_type == 'statement'">
+					<span class="fas fa-arrow-to-bottom"></span>
+					Preview
+				</button>
+				<button type="button" class="btn btn-default" ng-click="preview(pdfTemplate, 'balance_forward')" ng-show="pdfTemplate.document_type == 'statement'">
+					<span class="fas fa-arrow-to-bottom"></span>
+					Preview (Balance Forward)
+				</button>
+				<button type="button" class="btn btn-default" ng-click="preview(pdfTemplate, 'open_item')" ng-show="pdfTemplate.document_type == 'statement'">
+					<span class="fas fa-arrow-to-bottom"></span>
+					Preview (Open Item)
+				</button>
+				<button type="submit" class="btn btn-primary Button" ng-disabled="pdfTemplateForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+					<span ng-show="pdfTemplate.id">{{'general.save'|translate}}</span>
+					<span ng-hide="pdfTemplate.id">{{'general.create'|translate}}</span>
+				</button>
+			</div>
+			Footer
+		</h3>
+		<div class="section-help">
+			<span class="fas fa-info-circle"></span>
+			Page numbering can be added like this: <code>&lt;span class="wk-page"&gt;&lt;/span&gt; to &lt;span class="wk-topage"&gt;&lt;/span&gt;</code>
+		</div>
+		<div class="row codemirrors">
+			<div class="col-sm-6 left">
+				<div class="panel">
+					<div class="panel-heading">
+						<h3 class="panel-title">HTML</h3>
+					</div>
+					<div class="panel-body">
+						<textarea ui-codemirror="htmlCmOptions" ng-model="pdfTemplate.footer_html" ui-refresh="cmRefresh"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 right">
+				<div class="panel">
+					<div class="panel-heading">
+						<h3 class="panel-title">CSS</h3>
+					</div>
+					<div class="panel-body">
+						<textarea ui-codemirror="cssCmOptions" ng-model="pdfTemplate.footer_css" ui-refresh="cmRefresh"></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+<form method="post" target="_blank" id="pdfTemplateForm">
+	<input type="hidden" name="company" value="{{company.id}}" />
+	<input type="hidden" name="pdf_template" id="pdfTemplateObject" />
+	<input type="hidden" name="statement_type" id="pdfTemplateStatementType" />
+</form>

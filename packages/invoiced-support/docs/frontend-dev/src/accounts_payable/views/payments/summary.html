@@ -1,0 +1,150 @@
+<div class="row two-pane">
+    <div class="col-sm-4 left-pane">
+        <div class="details-list vertical">
+            <h4>
+                {{'payments.view.details'|translate}}
+            </h4>
+
+            <!-- Date -->
+            <div>
+                <div class="title">{{'general.date'|translate}}</div>
+                <div class="value">
+                    <company-date date="payment.date"></company-date>
+                </div>
+            </div>
+
+            <!-- Vendor -->
+            <div>
+                <div class="title">Vendor</div>
+                <div class="value">
+                    <a ui-sref="manage.vendor.view.summary({id:payment.vendor.id})">
+                        {{payment.vendor.name}}
+                    </a>
+                </div>
+            </div>
+
+            <!-- Total -->
+            <div>
+                <div class="title">Total</div>
+                <div class="value">
+                    <money currency="payment.currency" amount="payment.amount"></money>
+                </div>
+            </div>
+
+            <!-- Voided Status -->
+            <div ng-show="payment.voided">
+                <div class="title">{{'general.status'|translate}}</div>
+                <div class="value">
+                    <span class="label label-danger">Voided</span>
+                </div>
+            </div>
+
+            <!-- Bank Account -->
+            <div ng-show="payment.bank_account">
+                <div class="title">{{'general.bank_account'|translate}}</div>
+                <div class="value">
+                    {{payment.bank_account.name}}
+                </div>
+            </div>
+
+            <!-- Card -->
+            <div ng-show="payment.card">
+                <div class="title">Card</div>
+                <div class="value">
+                    <card-icon brand="payment.card.brand"></card-icon>
+                    {{payment.card.name}}
+                </div>
+            </div>
+
+            <!-- Payment Method -->
+            <div>
+                <div class="title">Payment Method</div>
+                <div class="value">{{payment.payment_method|paymentMethodName}}</div>
+            </div>
+
+            <!-- Reference -->
+            <div ng-show="payment.reference">
+                <div class="title">{{'general.reference'|translate}}</div>
+                <div class="value">{{payment.reference}}</div>
+            </div>
+
+            <!-- Batch -->
+            <div ng-show="payment.vendor_payment_batch">
+                <div class="title">Batch</div>
+                <div class="value">
+                    <a ui-sref="manage.vendor_payment_batches.summary({id: payment.vendor_payment_batch.id})">{{payment.vendor_payment_batch.number}}</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="details-list vertical notes">
+            <h4>
+                Notes
+            </h4>
+            <div class="hover-edit">
+                <div ng-show="payment.notes" ng-bind-html="payment.notes|linky:'_blank'|nl2br"></div>
+                <div class="empty" ng-hide="payment.notes">
+                    None
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-8 right-pane">
+        <!-- Action Items -->
+        <div class="action-items">
+            <!-- Print Check -->
+            <div class="action-item success" ng-if="printable">
+                <div class="icon"></div>
+                <p>
+                    The payment has been created. You can print this check now, if needed.
+                </p>
+                <p>
+                    <a href="" class="btn btn-primary" ng-click="print(payment)" ng-hide="printing">Print Check</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Payment Items -->
+        <div class="panel panel-invoiced customer-invoices light">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    Applied To
+                </h4>
+            </div>
+            <div class="panel-body" ng-if="payment.applied_to.length==0">
+                <div class="empty">
+                    Not applied to any bills.
+                </div>
+            </div>
+            <table class="table search-results-table slim" ng-if="payment.applied_to.length>0">
+                <thead>
+                    <tr>
+                        <th>Document</th>
+                        <th class="money-column">{{'general.amount'|translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="appliedTo in payment.applied_to">
+                        <td class="mobile-first">
+                            <a ui-sref="manage.bill.view.summary({id:appliedTo.bill.id})" ng-show="appliedTo.bill">
+                                {{appliedTo.bill.number}}
+                            </a>
+                            <a ui-sref="manage.vendor_credit.view.summary({id:appliedTo.vendor_credit.id})" ng-show="appliedTo.vendor_credit">
+                                {{appliedTo.vendor_credit.number}}
+                            </a>
+                            <span ng-show="appliedTo.type === 'convenience_fee'">Convenience Fee</span>
+                        </td>
+                        <td class="total money-column mobile-last">
+                            <money currency="payment.currency" amount="appliedTo.amount"></money>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Attachments -->
+        <files document="payment" attachments="attachments" type="vendor_payment"></files>
+    </div>
+</div>

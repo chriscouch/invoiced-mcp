@@ -1,0 +1,74 @@
+{% form_theme form with '@EasyAdmin/crud/form_theme.html.twig' %}
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}New Company{% endblock %}
+
+{% block body_class 'ea-new new-purchase-page' %}
+
+{% block page_actions %}
+    {{ parent() }}
+    <button type="submit" class="btn btn-primary" form="newForm">Create</button>
+{% endblock %}
+
+{% block main %}
+    {{ form_start(form, {attr: {id: 'newForm'}}) }}
+
+    <div class="col-12">
+        <div class="row">
+            <div class="col-md-8">
+                <p>This tool allows you to create a new Invoiced account. It can be useful for fulfilling orders to setup a new account and activate a subscription. After you create the account the email address entered will receive a welcome email with instructions on how to sign in.</p>
+            </div>
+        </div>
+
+        {{ form_errors(form) }}
+
+        <div class="form-panel">
+            <div class="form-panel-header">
+                <div class="form-panel-title">
+                    <a href="#" class="not-collapsible">
+                        Account Details
+                    </a>
+                </div>
+            </div>
+
+            <div class="form-panel-body show">
+                <div class="row">
+                    <div class="col-md-3">
+                        {{ form_row(form.email) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(form.first_name) }}
+                    </div>
+                    <div class="col-md-3" id="some-custom-id">
+                        {{ form_row(form.last_name) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(form.country) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-panel">
+            <div class="form-panel-header">
+                <div class="form-panel-title">
+                    <a href="#" class="not-collapsible">
+                        Account Entitlements
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 pe-lg-5">
+                    {{ form_row(form.productPricingPlans) }}
+                </div>
+                <div class="col-lg-6 ps-lg-5">
+                    {{ form_row(form.usagePricingPlans) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+
+    <script type="text/javascript" src="{{ asset('build/bundles/easyadmin/field-collection.js') }}"></script>
+{% endblock %}

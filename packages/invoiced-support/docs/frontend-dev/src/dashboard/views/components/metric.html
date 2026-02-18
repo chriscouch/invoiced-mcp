@@ -1,0 +1,23 @@
+<div class="dashboard-component-metric">
+    <div class="metric">
+        <div class="loading inline" ng-show="loading"></div>
+        <div ng-hide="loading">
+            <gauge opts="options.gaugeOptions" value="metricValue" min="options.min" max="options.max" ng-show="options.gauge"></gauge>
+            <div class="description">
+                <a href="" tooltip="{{options.description}}" ng-show="options.description">{{options.name}}</a>
+                <span ng-hide="options.description">{{options.name}}</span>
+            </div>
+            <div class="value">
+                <div class="number" ng-hide="hasValue"><a href="" tooltip="Generated at {{generatedAt|formatCompanyDateTime}}">&mdash;</a></div>
+                <div class="number" ng-show="hasValue">
+                    <a href="" tooltip="Generated at {{generatedAt|formatCompanyDateTime}}">{{metricValueFormatted}}</a>
+                    <div class="change" ng-show="change" ng-class="{'improved':change<0,'declined':change>0}">
+                        <span class="show-declined"><span class="fas fa-caret-up"></span></span>
+                        <span class="show-improved"><span class="fas fa-caret-down"></span></span>
+                        {{changeAbs}}%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

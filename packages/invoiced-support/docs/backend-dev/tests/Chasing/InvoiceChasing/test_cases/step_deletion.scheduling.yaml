@@ -1,0 +1,86 @@
+# Tests that scheduled sends are deleted when their
+# associated chasing step is removed from the schedule.
+
+operations:
+  - operation: create
+    mock_time: '2022-01-04 14:51:12' # Time chosen at random
+    data:
+      invoice:
+        date: '2022-01-04 14:51:12'
+        items:
+          - quantity: 1
+            unit_cost: 100
+      delivery:
+        chase_schedule:
+          - trigger: 4
+            options:
+              hour: 8
+              date: '2022-01-08 14:51:12'
+              email: true
+              sms: false
+              letter: false
+    expect:
+      delivery_state:
+        - trigger: 4
+          options:
+            hour: 8
+            date: '2022-01-08 14:51:12'
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-08 08:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+      scheduled_sends: []
+
+  - operation: schedule
+    mock_time: '2022-01-04 14:51:12' # Same as previous
+    expect:
+      delivery_state:
+        - trigger: 4
+          options:
+            hour: 8
+            date: '2022-01-08 14:51:12'
+            email: true
+            sms: false
+            letter: false
+          state:
+            - date: '2022-01-08 08:00:00'
+              skipped: false
+              failures:
+                email: null
+                sms: null
+                letter: null
+              sent:
+                email: false
+                sms: false
+                letter: false
+      scheduled_sends:
+        - send_after: '2022-01-08 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+
+  - operation: edit
+    mock_time: '2022-01-04 14:51:12' # Same as previous
+    data:
+      delivery:
+        chase_schedule: []
+    expect:
+      delivery_state: []
+
+  - operation: schedule
+    mock_time: '2022-01-04 14:51:12' # Same as previous
+    expect:
+      delivery_state: []
+      scheduled_sends: []

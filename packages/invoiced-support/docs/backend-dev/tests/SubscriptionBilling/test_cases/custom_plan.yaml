@@ -1,0 +1,102 @@
+# This tests a scenario in which a subscribers is switching
+# their custom plan amount w/ proration enabled.
+
+#debug: true
+data:
+  - object: plan
+    id: custom-plan
+    pricing_mode: custom
+    amount: null
+    interval: month
+    interval_count: 1
+
+operations:
+  - operation: create
+    time: 2021-05-01
+    parameters:
+      plan: custom-plan
+      amount: 50
+      bill_in: advance
+    assertions:
+      subscription:
+        amount: 50
+        status: active
+        period_start: 2021-05-01
+        period_end: 2021-05-31T23:59:59Z
+      invoice:
+        balance: 50
+        date: 2021-05-01
+
+  - operation: bill
+    time: 2021-06-01
+    name: Second Invoice
+    assertions:
+      subscription:
+        amount: 50
+        status: active
+        period_start: 2021-06-01
+        period_end: 2021-06-30T23:59:59Z
+      invoice:
+        balance: 50
+        date: 2021-06-01
+
+  - operation: edit
+    time: 2021-06-01
+    parameters:
+      amount: 40
+    assertions:
+      subscription:
+        amount: 40
+        status: active
+        period_start: 2021-06-01
+        period_end: 2021-06-30T23:59:59Z
+
+  - operation: bill
+    time: 2021-07-01
+    name: Third Invoice
+    assertions:
+      subscription:
+        amount: 40
+        status: active
+        period_start: 2021-07-01
+        period_end: 2021-07-31T23:59:59Z
+      invoice:
+        balance: 30 # plan changed from 50 => 40, new balance is 40 + proration (-10)
+        date: 2021-07-01
+
+  - operation: edit
+    time: 2021-07-01
+    parameters:
+      amount: 50 # original price
+    assertions:
+      subscription:
+        amount: 50
+        status: active
+        period_start: 2021-07-01
+        period_end: 2021-07-31T23:59:59Z
+
+  - operation: bill
+    time: 2021-08-01
+    name: Fourth Invoice
+    assertions:
+      subscription:
+        amount: 50
+        status: active
+        period_start: 2021-08-01
+        period_end: 2021-08-31T23:59:59Z
+      invoice:
+        balance: 60 # plan changed from 40 => 50, new balance is 50 + proration (+10)
+        date: 2021-08-01
+
+  - operation: edit
+    time: 2021-08-01
+    name: Cancel At Period End
+    parameters:
+      cancel_at_period_end: true
+    assertions:
+      subscription:
+        amount: 50
+        status: active
+        period_start: 2021-08-01
+        period_end: 2021-08-31T23:59:59Z
+        cancel_at_period_end: true

@@ -1,0 +1,105 @@
+{% trans_default_domain 'customer_portal' %}
+<div class="alert bg-danger-soft text-dark border border-danger errors invoiced-card-errors hidden"></div>
+
+<!-- Credit Card Information -->
+<div class="row two-column-row">
+  <div class="col-lg-6">
+    <div class="form-section">
+      <label class="section-label">
+        {{ 'labels.please_enter_card'|trans }}
+      </label>
+
+      <div class="credit-card-holder">
+        <div class="credit-card">
+          <div class="line">
+            <div class="input-card-number input">
+              <input type="tel" class="form-control cc-num required" autocomplete="cc-number" autocorrect="off" spellcheck="off" autocapitalize="off" placeholder="•••• •••• •••• ••••" />
+              <span class="type"></span>
+              <span class="icon">
+                <span class="far fa-credit-card"></span>
+              </span>
+            </div>
+          </div>
+
+          <div class="line">
+            <div class="input-split">
+              <div class="input-expiry input">
+                <input type="tel" class="form-control cc-exp required" autocomplete="cc-exp" autocorrect="off" spellcheck="off" autocapitalize="off" placeholder="MM / YY" />
+                <span class="icon">
+                  <span class="far fa-calendar"></span>
+                </span>
+              </div>
+              <div class="input-cvc input">
+                <input type="tel" class="form-control cc-cvc required" autocomplete="cc-csc" autocorrect="off" spellcheck="off" autocapitalize="off" placeholder="123" />
+                <span class="icon">
+                  <span class="far fa-lock"></span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-logos">
+            <img src="{{ asset("/img/billing-portal/card-logos.png") }}" width="150" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if hasBillingAddress %}
+    <div class="col-lg-6">
+
+      <!-- Billing Address -->
+      <div class="form-section">
+        <label class="section-label">
+          {{ 'labels.please_billing_address'|trans }}
+        </label>
+        <div class="billing-address address billing">
+          <div class="line">
+            <div class="input-card-holder-name input no-icon">
+              <input type="text" class="form-control cc-name required" placeholder="{{ 'labels.cardholder_name'|trans }}" value="{{ address.name }}" />
+            </div>
+          </div>
+
+          <div class="line">
+            <div class="input-address-line1 input no-icon">
+              <input type="text" class="form-control cc-address1 billing-address1 required" placeholder="{{ 'labels.address_line1'|trans }}" value="{{ address.address1 }}" />
+            </div>
+          </div>
+
+          <div class="line">
+            <div class="input-split split-4060">
+              <div class="input-address-city input no-icon">
+                <input type="text" class="form-control cc-city billing-city" placeholder="{{ 'labels.address_city'|trans }}" value="{{ address.city }}" />
+              </div>
+              <div class="input-address-state input no-icon">
+                <div class="state-select hidden">
+                  <select class="form-select"></select>
+                </div>
+                <input type="text" class="form-control state-text cc-state billing-state required" placeholder="{{ 'labels.address_state'|trans }}" value="{{ address.state }}" />
+              </div>
+            </div>
+          </div>
+
+          <div class="line">
+            <div class="input-split split-4060">
+              <div class="input-address-zip input no-icon">
+                <input type="text" class="form-control cc-postal-code billing-postal-code" placeholder="{{ 'labels.address_postal_code'|trans }}" value="{{ address.postal_code }}" />
+              </div>
+
+              <div class="input-address-country input no-icon">
+                <select class="form-select country-selector billing cc-country billing-country" data-section="billing">
+                  {% for country in countries %}
+                    <option value="{{ country.code }}"{% if country.code == address.country %} selected="selected"{% endif %}>{{ country.country }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<script type="text/javascript" src="{{ asset('/js/views/paymentInfoForms/card.js') }}"></script>

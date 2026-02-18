@@ -1,0 +1,78 @@
+<div class="flywire-payments-learn-more">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">
+            <img src="/img/integrations/flywire.svg" alt="Flywire Payments" height="40" />
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4>Quick &amp; Simple Setup</h4>
+                <p>Get started in minutes with an onboarding process built right into Invoiced.</p>
+            </div>
+            <div class="col-sm-6">
+                <h4>Dedicated Expert Support</h4>
+                <p>Trust our team to guide you through every step of payment processing on Invoiced.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <h4>Seamless All-In-One Integration</h4>
+                <p>Manage payments, refunds, disputes, settlements, and reports&dash;all within Invoiced.</p>
+            </div>
+            <div class="col-sm-6">
+                <h4>No More Third-Party Hassles</h4>
+                <p>Accept payments directly in Invoiced&mdash;no extra vendors needed.</p>
+            </div>
+        </div>
+
+        <h3>Rates &amp; Fees</h3>
+        <table class="table fees-table">
+            <thead>
+                <tr>
+                    <th>
+                        Payment Method
+                    </th>
+                    <th>
+                        Fee
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Credit and debit cards</td>
+                    <td>
+                        {{ pricing.card.variable_fee|number:2 }}%<span ng-show="pricing.card.fixed_fee"> + <money currency="currency" amount="pricing.card.fixed_fee"></money></span>
+                    </td>
+                </tr>
+                <tr ng-show="pricing.card.international_added_variable_fee">
+                    <td>International cards</td>
+                    <td>+ {{ pricing.card.international_added_variable_fee|number:2 }}%</td>
+                </tr>
+                <tr ng-show="pricing.ach.fixed_fee">
+                    <td>ACH Direct Debit</td>
+                    <td><money currency="currency" amount="pricing.ach.fixed_fee"></money></td>
+                </tr>
+                <tr ng-show="pricing.ach.variable_fee">
+                    <td>ACH Direct Debit</td>
+                    <td>{{ pricing.ach.variable_fee|number:2 }}%<span ng-show="pricing.ach.max_fee"> (max <money currency="currency" amount="pricing.ach.max_fee"></money>)</span></td>
+                </tr>
+                <tr>
+                    <td class="header-row" colspan="2">Other Fees</td>
+                </tr>
+                <tr>
+                    <td>Chargeback</td>
+                    <td><money currency="currency" amount="pricing.chargeback_fee"></money></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="buttons">
+            <div>
+                <a class="btn btn-coral btn-lg" ng-href="{{onboardingUrl}}">
+                    Start Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

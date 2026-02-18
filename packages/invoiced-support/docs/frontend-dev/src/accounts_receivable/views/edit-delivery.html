@@ -1,0 +1,76 @@
+<form name="addInvoiceCadence" ng-submit="save()" class="below0">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title">
+            {{editing ? 'Edit' : 'Add'}} {{invoice.number}} Chasing
+        </h4>
+    </div>
+    <div class="modal-body" ng-if="!('smart_chasing'|hasFeature) || !('invoice_chasing'|hasFeature)">
+        <feature-upgrade></feature-upgrade>
+    </div>
+
+    <div class="modal-body edit-delivery" ng-show="('smart_chasing'|hasFeature)&&('invoice_chasing'|hasFeature)">
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <p class="alert alert-warning" ng-if="delivery.disabled">
+            <span class="fas fa-info-circle"></span>
+            Invoice chasing will be re-enabled when changes are saved.
+        </p>
+
+
+        <div class="row">
+            <div class="form-group">
+                <label class="control-label">
+                    Use Customer Email Contacts
+                </label>
+                <div>
+                    <toggle ng-model="useCustomerContacts"></toggle>
+                </div>
+            </div>
+
+            <div class="form-group" ng-show="!useCustomerContacts">
+                <label class="control-label">
+                    Invoice Email Contacts
+                </label>
+                <div>
+                    <input type="hidden" ng-model="emails" ui-select2="autocompleteOptions" multiple="multiple"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div>
+                    <label class="control-label">
+                        Schedule
+                    </label>
+                    <div class="apply-cadence">
+                        <!-- Template -->
+                        <div class="btn-group dropdown" dropdown ng-show="cadences.length > 0 && canApplyCadence">
+                            <button class="btn btn-link dropdown-toggle none" dropdown-toggle>
+                                <span>Apply Cadence</span>
+                                <span class="fas fa-chevron-down"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li ng-repeat="cadence in cadences">
+                                    <a href="" ng-click="applyCadenceTemplate(cadence)">
+                                        {{cadence.name}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <invoice-cadence-editor invoice="invoice" chase-schedule="chaseSchedule" chase-state="chaseState" changeHandler="onChaseScheduleChange" hide-label="true"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer submit-delivery">
+        <a href="" class="disable-chasing" ng-if="editing && !delivery.disabled" ng-click="disable($event)" v-busy="deleting" v-busy-label="Deleting" v-pressable ng-disabled="saving">
+            <span>Disable Chasing</span>
+        </a>
+        <button type="submit" class="btn btn-primary Button" ng-disabled="addInvoiceCadence.$invalid||saving||chaseSchedule.length==0||deleting" v-busy="saving" v-busy-label="Saving" v-pressable>
+            <span>{{'general.save'|translate}}</span>
+        </button>
+    </div>
+</form>

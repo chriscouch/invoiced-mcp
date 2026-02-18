@@ -1,0 +1,51 @@
+{% trans_default_domain 'customer_portal' %}
+<div class="pagination-bar">
+    <div class="row">
+        <div class="col-sm-8">
+            {{ 'messages.showing_num_results'|trans({'%count%': total, '%num_shown%': results|length|number_format, '%total%': total})|raw }}
+            <div class="btn-group dropdown">
+                <a href="" class="dropdown-toggle" data-bs-toggle="dropdown">
+                    {{filter.perPage}}
+                    <span class="fas fa-chevron-down"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-sm">
+                    <li class="{% if filter.perPage == 10 %}active{% endif %}">
+                        <a class="dropdown-item" href="{{ filter.perPageBase }}&per_page=10">
+                            10
+                        </a>
+                    </li>
+                    <li class="{% if filter.perPage == 25 %}active{% endif %}">
+                        <a class="dropdown-item" href="{{ filter.perPageBase }}&per_page=25">
+                            25
+                        </a>
+                    </li>
+                    <li class="{% if filter.perPage == 50 %}active{% endif %}">
+                        <a class="dropdown-item" href="{{ filter.perPageBase }}&per_page=50">
+                            50
+                        </a>
+                    </li>
+                    <li class="{% if filter.perPage == 100 %}active{% endif %}">
+                        <a class="dropdown-item" href="{{ filter.perPageBase }}&per_page=100">
+                            100
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-4 text-right pages">
+            {% if filter.prevPage %}
+                <a href="{{ filter.prevPage }}">
+                    <span class="fas fa-angle-left"></span>
+                </a>
+            {% endif %}
+            {% if filter.numPages > 1 %}
+                {{ filter.page }} / {{ filter.numPages|number_format }}
+            {% endif %}
+            {% if filter.nextPage %}
+                <a href="{{ filter.nextPage }}">
+                    <span class="fas fa-angle-right"></span>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>

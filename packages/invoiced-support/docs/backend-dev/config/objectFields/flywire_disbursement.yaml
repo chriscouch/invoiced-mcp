@@ -1,0 +1,42 @@
+fields:
+  amount:
+    name: Amount
+    type: money
+  bank_account_number:
+    name: Bank Account Number
+    type: string
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency:
+    name: Currency
+    type: string
+  delivered_at:
+    name: Delivered At
+    type: datetime
+  disbursement_id:
+    name: Disbursement ID
+    type: string
+  id:
+    name: ID
+    type: string
+    writable: false
+  recipient_id:
+    name: Portal Code
+    type: string
+  status_text:
+    name: Status Text
+    type: string
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false

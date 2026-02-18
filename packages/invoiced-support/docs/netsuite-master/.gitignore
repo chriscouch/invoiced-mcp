@@ -1,0 +1,12 @@
+### Dependencies
+/node_modules
+
+### Auto-generated Files
+src.zip
+
+### Junk Files
+._.DS_Store
+Thumbs.db 
+Desktop.ini
+.DS_Store
+.idea/

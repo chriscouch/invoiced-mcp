@@ -1,0 +1,45 @@
+<form name="smsForm" ng-submit="save(template)">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title"><span ng-show="template.id">Edit</span><span ng-hide="template.id">New</span> SMS Template</h4>
+	</div>
+	<div class="modal-body">
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<!-- Name -->
+		<div class="form-group">
+			<label class="control-label">Name</label>
+			<div>
+				<input type="text" class="form-control" ng-model="template.name" required />
+			</div>
+		</div>
+
+		<!-- Message -->
+		<div class="form-group">
+			<div class="email-variable-selector">
+				<div class="invoiced-select">
+					<select ng-options="v for v in variables" ng-model="variable" ng-change="addVariable(variable, 'message')"></select>
+				</div>
+			</div>
+
+			<label class="control-label">Message</label>
+			<textarea id="sms-template-body" class="form-control" ng-model="template.message" expanding-textarea></textarea>
+		</div>
+
+		<!-- Help -->
+		<div class="form-group">
+			<p class="text-muted">
+				<span class="label label-success">Tip</span>
+				The funny-looking values like <strong><span>{{</span>customer_name}}</strong> are placeholders that get replaced with the correct value after you click Send.
+				Learn more in the <a href="https://docs.invoiced.com/dev/template-language" target="_blank" rel="noopener noreferrer">Invoiced Template Language documentation</a>.
+			</p>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="smsForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "title": "Sales by Item",
+  "sections": [
+    {
+      "title": "",
+      "object": "sale_line_item",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "item.name"
+          }
+        },
+        {
+          "field": {
+            "id": "item.id"
+          }
+        },
+        {
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "quantity"
+              }
+            ]
+          },
+          "name": "Quantity"
+        },
+        {
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "amount"
+              }
+            ]
+          },
+          "name": "Total"
+        }
+      ],
+      "filter": [
+        {
+          "operator": "<>",
+          "value": null,
+          "field": {
+            "id": "item.id"
+          }
+        },
+        {
+          "operator": "between",
+          "value": "$dateRange",
+          "field": {
+            "id": "sale.date"
+          }
+        },
+        {
+          "operator": "=",
+          "value": false,
+          "field": {
+            "id": "sale.draft"
+          }
+        },
+        {
+          "operator": "=",
+          "value": false,
+          "field": {
+            "id": "sale.voided"
+          }
+        },
+        {
+          "operator": "=",
+          "value": "$currency",
+          "field": {
+            "id": "sale.currency"
+          }
+        }
+      ],
+      "group": [
+        {
+          "expanded": false,
+          "field": {
+            "id": "item.id"
+          },
+          "ascending": true
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "item.name"
+          },
+          "ascending": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+<div class="row two-pane">
+    <div class="col-sm-4 left-pane">
+        <div class="details-list vertical">
+            <h4>
+                Adjustment Details
+            </h4>
+
+            <!-- Date -->
+            <div>
+                <div class="title">{{'general.date'|translate}}</div>
+                <div class="value">
+                    <company-date date="adjustment.date"></company-date>
+                </div>
+            </div>
+
+            <!-- Vendor -->
+            <div>
+                <div class="title">Vendor</div>
+                <div class="value">
+                    <a ui-sref="manage.vendor.view.summary({id:adjustment.vendor.id})">
+                        {{adjustment.vendor.name}}
+                    </a>
+                </div>
+            </div>
+
+            <!-- Total -->
+            <div>
+                <div class="title">Total</div>
+                <div class="value">
+                    <money currency="adjustment.currency" amount="adjustment.amount"></money>
+                </div>
+            </div>
+
+            <!-- Voided Status -->
+            <div ng-show="adjustment.voided">
+                <div class="title">{{'general.status'|translate}}</div>
+                <div class="value">
+                    <span class="label label-danger">Voided</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="details-list vertical notes">
+            <h4>
+                Notes
+            </h4>
+            <div class="hover-edit">
+                <div ng-show="adjustment.notes" ng-bind-html="adjustment.notes|linky:'_blank'|nl2br"></div>
+                <div class="empty" ng-hide="adjustment.notes">
+                    None
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-8 right-pane">
+        <!-- Adjustment Items -->
+        <div class="panel panel-invoiced customer-invoices light">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    Applied To
+                </h4>
+            </div>
+            <table class="table search-results-table slim">
+                <thead>
+                    <tr>
+                        <th>Document</th>
+                        <th class="money-column">{{'general.amount'|translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="mobile-first">
+                            <a ui-sref="manage.bill.view.summary({id:adjustment.bill.id})" ng-show="adjustment.bill">
+                                {{adjustment.bill.number}}
+                            </a>
+                            <a ui-sref="manage.vendor_credit.view.summary({id:adjustment.vendor_credit.id})" ng-show="adjustment.vendor_credit">
+                                {{adjustment.vendor_credit.number}}
+                            </a>
+                        </td>
+                        <td class="total money-column mobile-last">
+                            <money currency="adjustment.currency" amount="adjustment.amount"></money>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

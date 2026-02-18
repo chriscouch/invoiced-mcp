@@ -1,0 +1,97 @@
+<div class="contents">
+	<div class="settings-title-bar">
+		<h2 class="title">
+			<div class="back-link">
+				<a ui-sref="manage.settings.default">
+					<span class="fas fa-arrow-left"></span>
+					{{'general.settings'|translate}}
+				</a>
+			</div>
+			<div class="docs-link">
+				<a href="https://docs.invoiced.com/accounts-payable/payments/credit-card" target="_blank">
+					{{'general.documentation'|translate}}
+					<span class="fas fa-external-link"></span>
+				</a>
+			</div>
+			{{'settings.titles.credit_cards'|translate}}
+		</h2>
+
+		<p class="lead">
+			Add a credit or debit card as a payment method that you can use to pay vendors.
+		</p>
+	</div>
+
+	<p class="alert alert-danger" ng-show="error">
+		{{error.message}}
+	</p>
+
+	<p class="loading" ng-show="loading"></p>
+
+	<div class="panel panel-default settings-panel" ng-hide="loading">
+		<div class="panel-heading">
+			<h4 class="panel-title button-title">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="searchbar light">
+							<div class="bar">
+								<div class="icon"><span class="fas fa-search"></span></div>
+								<input type="text" class="form-control" ng-model="search" tabindex="2000" />
+								<div class="icon right icon-btn" ng-show="search">
+									<button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+										<span class="fas fa-times-circle"></span>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-8 text-right">
+						<button type="button" class="btn btn-success" ng-click="new()">
+							Add Card
+						</button>
+					</div>
+				</div>
+			</h4>
+		</div>
+
+		<!-- No Results -->
+		<div class="list-group" ng-show="results.length === 0">
+			<div class="list-group-item">
+				<div class="empty">No cards found.</div>
+			</div>
+		</div>
+
+		<!-- Results Table -->
+		<table class="table table-striped search-results-table credit-cards-list" ng-show="results.length > 0">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Expires</th>
+					<th class="noborder">Type</th>
+					<th class="nopadding"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="card in cards | searchObject:search:['name'] | orderBy:'name' | limitTo:100 as results">
+					<td>
+						<card-icon brand="card.brand"></card-icon>
+						{{card.name}}
+					</td>
+					<td>
+						{{card.exp_month}} / {{card.exp_year}}
+					</td>
+					<td class="noborder">
+						{{card.funding}}
+					</td>
+					<td class="nopadding hover-actions-holder mobile-last mobile-visible">
+						<div class="hover-actions">
+							<button type="button" class="btn btn-danger btn-sm" ng-click="delete(card, $index)" tooltip="Delete Card" ng-disabled="deleting[card.id]">
+								<span class="fas fa-trash"></span>
+							</button>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<cut-list-label count="results.length" total="(cards | searchObject:search:['name']).length"></cut-list-label>
+</div>

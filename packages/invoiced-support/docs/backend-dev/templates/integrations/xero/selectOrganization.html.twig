@@ -1,0 +1,20 @@
+{% trans_default_domain 'general' %}
+{% set title = 'titles.xero_org'|trans %}
+{% extends "integrations/parent.twig" %}
+{% block main %}
+    <div class="invoiced-payments-signup">
+        <div class="container">
+            <h1 class="logo">
+                <a href="/">
+                    <img src="{{ asset("/img/logo-invoice.png") }}" alt="Invoiced" height="60" />
+                </a>
+            </h1>
+            <div class="main">
+                <p class="lead">Which Xero organization would you like to connect to Invoiced?</p>
+
+                {{ form(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

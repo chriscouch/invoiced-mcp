@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="th" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="1" resname="payment_methods.ach" xml:space="preserve" approved="yes">
+                <source>ACH</source>
+        <target state="translated">แต่</target>
+      </trans-unit>
+      <trans-unit id="2" resname="payment_methods.balance" xml:space="preserve" approved="yes">
+                <source>Balance</source>
+        <target state="translated">สมดุล</target>
+      </trans-unit>
+      <trans-unit id="3" resname="payment_methods.bitcoin" xml:space="preserve" approved="yes">
+                <source>Bitcoin</source>
+        <target state="translated">บิทคอยน์</target>
+      </trans-unit>
+      <trans-unit id="4" resname="payment_methods.cash" xml:space="preserve" approved="yes">
+                <source>Cash</source>
+        <target state="translated">เงินสด</target>
+      </trans-unit>
+      <trans-unit id="5" resname="payment_methods.check" xml:space="preserve" approved="yes">
+                <source>Check</source>
+        <target state="translated">ตรวจสอบ</target>
+      </trans-unit>
+      <trans-unit id="6" resname="payment_methods.credit_card" xml:space="preserve" approved="yes">
+                <source>Credit Card</source>
+        <target state="translated">บัตรเครดิต</target>
+      </trans-unit>
+      <trans-unit id="7" resname="payment_methods.direct_debit" xml:space="preserve" approved="yes">
+                <source>Direct Debit</source>
+        <target state="translated">การหักบัญชีธนาคาร</target>
+      </trans-unit>
+      <trans-unit id="8" resname="payment_methods.other" xml:space="preserve" approved="yes">
+                <source>Other</source>
+        <target state="translated">อื่น</target>
+      </trans-unit>
+      <trans-unit id="9" resname="payment_methods.paypal" xml:space="preserve" approved="yes">
+                <source>PayPal</source>
+        <target state="translated">เพย์พาล</target>
+      </trans-unit>
+      <trans-unit id="10" resname="payment_methods.wire_transfer" xml:space="preserve" approved="yes">
+                <source>Wire Transfer</source>
+        <target state="translated">โอนเงิน</target>
+      </trans-unit>
+      <trans-unit id="11" resname="payment_terms.payment_plan" xml:space="preserve" approved="yes">
+                <source>Payment Plan</source>
+        <target state="translated">แผนการชำระเงิน</target>
+      </trans-unit>
+      <trans-unit id="12" resname="payment_terms.autopay" xml:space="preserve" approved="yes">
+                <source>AutoPay</source>
+        <target state="translated">ออโต้เพย์</target>
+      </trans-unit>
+      <trans-unit id="26" resname="titles.xero_org" xml:space="preserve" approved="yes">
+                <source>Select Xero Organization</source>
+        <target state="translated">เลือกผู้เช่า Xero</target>
+      </trans-unit>
+      <trans-unit id="27" resname="messages.xero_org_lead" xml:space="preserve" approved="yes">
+                <source>Invoiced only supports one Xero organization per account. Please select the tenant you would like to connect.</source>
+        <target state="translated">Invoiced รองรับหนึ่งองค์กร Xero ต่อบัญชีเท่านั้น โปรดเลือกผู้เช่าที่คุณต้องการเชื่อมต่อ</target>
+      </trans-unit>
+      <trans-unit id="28" resname="messages.xero_org_label" xml:space="preserve" approved="yes">
+                <source>Select an organization</source>
+        <target state="translated">เลือกองค์กร</target>
+      </trans-unit>
+      <trans-unit id="u9NQ9im" resname="labels.address_line1" xml:space="preserve" approved="yes">
+                <source>labels.address_line1</source>
+        <target state="translated">ที่อยู่บรรทัดที่ 1</target>
+      </trans-unit>
+      <trans-unit id="2PtwTHW" resname="labels.address_line2" xml:space="preserve" approved="yes">
+                <source>labels.address_line2</source>
+        <target state="translated">ที่อยู่บรรทัดที่ 2</target>
+      </trans-unit>
+      <trans-unit id="LRthRI_" resname="labels.address_city" xml:space="preserve" approved="yes">
+                <source>labels.address_city</source>
+        <target state="translated">เมือง</target>
+      </trans-unit>
+      <trans-unit id="96AtnmA" resname="labels.address_state" xml:space="preserve" approved="yes">
+                <source>labels.address_state</source>
+        <target state="translated">รัฐ/จังหวัด</target>
+      </trans-unit>
+      <trans-unit id="U9p1q3F" resname="labels.address_postal_code" xml:space="preserve" approved="yes">
+                <source>labels.address_postal_code</source>
+        <target state="translated">รหัสไปรษณีย์</target>
+      </trans-unit>
+      <trans-unit id="RE__X4i" resname="labels.address_country" xml:space="preserve" approved="yes">
+                <source>labels.address_country</source>
+        <target state="translated">ประเทศ</target>
+      </trans-unit>
+      <trans-unit id="29" resname="labels.aging_current" xml:space="preserve" approved="yes">
+                <source>labels.aging_current</source>
+        <target state="translated">ปัจจุบัน</target>
+      </trans-unit>
+      <trans-unit id="30" resname="labels.aging_between_days" xml:space="preserve" approved="yes">
+                <source>labels.aging_between_days</source>
+        <target state="translated">%lowerDays% - %upperDays% วัน</target>
+      </trans-unit>
+      <trans-unit id="31" resname="labels.aging_between_days" xml:space="preserve" approved="yes">
+                <source>labels.aging_between_days</source>
+        <target state="translated">%lowerDays% - %upperDays% วัน</target>
+      </trans-unit>
+      <trans-unit id="32" resname="labels.aging_plus_days" xml:space="preserve" approved="yes">
+                <source>labels.aging_plus_days</source>
+        <target state="translated">%lowerDays%+ วัน</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

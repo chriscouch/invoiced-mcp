@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Invoiced | Reset Password{% endblock %}
+
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('build/css/auth.css') }}" />
+{% endblock %}
+
+
+{% block body %}
+
+  <div class="login-page">
+    <div id="form" class="form">
+    <img src="{{ asset('/img/logo.png') }}" alt="Invoiced" width="175" style="padding-bottom: 25px">
+    {% if error is defined %}
+      	<div class="error-message">{{ error }}</div>
+  	{% endif %}
+       <form class="login-form" action="{{ path('reset_password_verification') }}" method="POST">
+          <input type="text" id="email" name="_email" autocomplete="off" placeholder="email"/>
+          <button>Send Reset Link</button>
+          <p class="message">Enter your email address. We'll send you an email.</p>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

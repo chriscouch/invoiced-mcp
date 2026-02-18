@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "title": "Late Fees",
+  "sections": [
+    {
+      "type": "table",
+      "object": "invoice_line_item",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "invoice.customer.name"
+          },
+          "name": "Customer"
+        },
+        {
+          "name": "Assessed Late Fees",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "amount"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Collected",
+          "type": "money",
+          "subtotal": "sum",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              [
+                {
+                  "id": "invoice.paid"
+                },
+                "*",
+                {
+                  "id": "amount"
+                }
+              ]
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "type"
+          },
+          "operator": "=",
+          "value": "late_fee"
+        },
+        {
+          "field": {
+            "id": "invoice.date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        },
+        {
+          "field": {
+            "id": "invoice.currency"
+          },
+          "operator": "=",
+          "value": "$currency"
+        }
+      ],
+      "group": [
+        {
+          "expanded": false,
+          "field": {
+            "id": "invoice.customer.name"
+          }
+        }
+      ]
+    }
+  ]
+}

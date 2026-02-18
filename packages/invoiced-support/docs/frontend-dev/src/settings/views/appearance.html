@@ -1,0 +1,374 @@
+<div class="contents">
+	<form name="themeForm" class="form-horizontal" ng-submit="save(theme)">
+		<div class="settings-title-bar">
+			<h2 class="title">
+				<div class="back-link">
+					<a ui-sref="manage.settings.default">
+						<span class="fas fa-arrow-left"></span>
+						{{'general.settings'|translate}}
+					</a>
+				</div>
+				{{'settings.titles.appearance'|translate}}
+			</h2>
+
+			<p class="lead">
+				Here you can change the look of customer-facing documents, like invoices and receipts.
+			</p>
+		</div>
+
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<ul class="nav nav-tabs nav-appearance-settings">
+			<li ng-class="{active:tab=='design'}">
+				<a href="" ng-click="tab='design'">
+					Design
+				</a>
+			</li>
+			<li ng-class="{active:tab=='custom_templates'}" ng-if="hasCustomTemplates">
+				<a href="" ng-click="$parent.tab='custom_templates'">
+					Custom Templates
+				</a>
+			</li>
+		</ul>
+
+		<p class="loading" ng-show="loading"></p>
+
+		<div class="tab-content form-horizontal" ng-hide="loading">
+			<!-- Layout -->
+			<div class="tab-pane" ng-class="{active:tab=='design'}">
+				<!-- Style -->
+				<div class="form-group">
+					<label class="control-label col-sm-3">Style</label>
+					<div class="col-sm-9">
+						<div class="radio pdf-style-option" ng-class="{active: theme.style=='classic'}">
+							<label>
+								<input type="radio" ng-model="theme.style" value="classic" ng-change="changedStyle(theme.style)">
+								Classic
+							</label>
+							<div>
+								<img src="/img/pdf-styles/classic.png" alt="Classic Invoice Style" />
+							</div>
+						</div>
+
+						<div class="radio pdf-style-option" ng-class="{active: theme.style=='compact'}">
+							<label>
+								<input type="radio" ng-model="theme.style" value="compact" ng-change="changedStyle(theme.style)">
+								Compact
+							</label>
+							<div>
+								<img src="/img/pdf-styles/compact.png" alt="Compact Invoice Style" />
+							</div>
+						</div>
+
+						<div class="radio pdf-style-option" ng-class="{active: theme.style=='minimal'}">
+							<label>
+								<input type="radio" ng-model="theme.style" value="minimal" ng-change="changedStyle(theme.style)">
+								Minimal
+							</label>
+							<div>
+								<img src="/img/pdf-styles/minimal.png" alt="Minimal Invoice Style" />
+							</div>
+						</div>
+
+						<div class="radio pdf-style-option" ng-class="{active: theme.style=='modern'}">
+							<label>
+								<input type="radio" ng-model="theme.style" value="modern" ng-change="changedStyle(theme.style)">
+								Modern
+							</label>
+							<div>
+								<img src="/img/pdf-styles/modern.png" alt="Modern Invoice Style" />
+							</div>
+						</div>
+
+						<div class="radio pdf-style-option" ng-class="{active: theme.style=='simple'}">
+							<label>
+								<input type="radio" ng-model="theme.style" value="simple" ng-change="changedStyle(theme.style)">
+								Simple
+							</label>
+							<div>
+								<img src="/img/pdf-styles/simple.png" alt="Simple Invoice Style" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Custom Templates -->
+				<div class="form-group">
+					<label class="control-label col-sm-3">Credit Note Template</label>
+					<div class="col-sm-3" ng-if="hasCustomTemplates">
+						<div class="invoiced-select">
+							<select ng-model="theme.credit_note_template_id" ng-options="option.id as option.name for option in templateOptions.credit_note"></select>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<a class="btn btn-default" href="" ng-click="preview('credit_notes', theme)">
+							<span class="fas fa-arrow-to-bottom"></span>
+							Preview
+						</a>
+					</div>
+				</div>
+
+				<div class="form-group" ng-show="hasEstimates">
+					<label class="control-label col-sm-3">Estimate Template</label>
+					<div class="col-sm-3" ng-if="hasCustomTemplates">
+						<div class="invoiced-select">
+							<select ng-model="theme.estimate_template_id" ng-options="option.id as option.name for option in templateOptions.estimate"></select>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<a class="btn btn-default" href="" ng-click="preview('estimates', theme)">
+							<span class="fas fa-arrow-to-bottom"></span>
+							Preview
+						</a>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-3">Invoice Template</label>
+					<div class="col-sm-3" ng-if="hasCustomTemplates">
+						<div class="invoiced-select">
+							<select ng-model="theme.invoice_template_id" ng-options="option.id as option.name for option in templateOptions.invoice"></select>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<a class="btn btn-default" href="" ng-click="preview('invoices', theme)">
+							<span class="fas fa-arrow-to-bottom"></span>
+							Preview
+						</a>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-3">Receipt Template</label>
+					<div class="col-sm-3" ng-if="hasCustomTemplates">
+						<div class="invoiced-select">
+							<select ng-model="theme.receipt_template_id" ng-options="option.id as option.name for option in templateOptions.receipt"></select>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<a class="btn btn-default" ng-click="preview('receipts', theme)">
+							<span class="fas fa-arrow-to-bottom"></span>
+							Preview
+						</a>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-3">Statement Template</label>
+					<div class="col-sm-3" ng-if="hasCustomTemplates">
+						<div class="invoiced-select">
+							<select ng-model="theme.statement_template_id" ng-options="option.id as option.name for option in templateOptions.statement"></select>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<a class="btn btn-default" ng-click="preview('statements', theme, 'balance_forward')">
+							<span class="fas fa-arrow-to-bottom"></span>
+							Preview (Balance Forward)
+						</a>
+						<a class="btn btn-default" ng-click="preview('statements', theme, 'open_item')">
+							<span class="fas fa-arrow-to-bottom"></span>
+							Preview (Open Item)
+						</a>
+					</div>
+				</div>
+				<hr/>
+
+				<!-- Misc Settings -->
+				<div class="form-group">
+					<label class="control-label col-sm-3">Show My Email Address</label>
+					<div class="col-sm-3">
+						<toggle ng-model="theme.show_company_email"></toggle>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-3">Show My Phone</label>
+					<div class="col-sm-3">
+						<toggle ng-model="theme.show_company_phone"></toggle>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-3">Show My Website</label>
+					<div class="col-sm-3">
+						<toggle ng-model="theme.show_company_website"></toggle>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-3">Show Account #</label>
+					<div class="col-sm-3">
+						<toggle ng-model="theme.show_customer_no"></toggle>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-3">Invoice Footer</label>
+					<div class="col-sm-6 textarea-2-lines">
+						<textarea class="form-control" ng-model="theme.terms" placeholder="Terms and conditions - late fees, payment methods, delivery schedule" expanding-textarea></textarea>
+					</div>
+				</div>
+
+				<div class="form-group" ng-show="hasEstimates">
+					<label class="control-label col-sm-3">Estimate Footer</label>
+					<div class="col-sm-6 textarea-2-lines">
+						<textarea class="form-control" ng-model="theme.estimate_footer" placeholder="Terms and conditions - late fees, payment methods, delivery schedule" expanding-textarea></textarea>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-3">Receipt Footer</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" ng-model="theme.receipt_footer" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-3">Use Default Translations</label>
+					<div class="col-sm-3">
+						<toggle ng-model="theme.use_translations"></toggle>
+					</div>
+					<div class="col-sm-6 help-text">
+						Turn this off if you want to override the translations provided by Invoiced.
+					</div>
+				</div>
+
+				<!-- Wording -->
+				<div ng-hide="theme.use_translations">
+					<hr/>
+					<div ng-repeat="field in fields">
+						<hr ng-show="field.hr" />
+						<div class="form-group" ng-show="field.title">
+							<div class="col-sm-9 col-sm-offset-3">
+								<h4>{{field.title}}</h4>
+							</div>
+						</div>
+						<div class="form-group" ng-show="field.property">
+							<label class="control-label col-sm-3">{{field.name}}</label>
+							<div class="col-sm-3" ng-hide="field.textarea">
+								<input type="text" class="form-control" ng-model="theme[field.property]" />
+							</div>
+							<div class="col-sm-6 textarea-2-lines" ng-show="field.textarea">
+								<textarea class="form-control" ng-model="theme[field.property]" placeholder="{{field.placeholder}}" expanding-textarea></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-9 col-sm-offset-3">
+						<button type="submit" class="btn btn-primary Button" ng-hide="loading" ng-disabled="!themeForm.$dirty||saving" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+							<span translate>general.save</span>
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Custom Templates -->
+			<div class="tab-pane pdf-templates" ng-class="{active:tab=='custom_templates'}">
+				<div class="panel panel-default settings-panel">
+					<div class="panel-heading">
+						<h4 class="panel-title button-title">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="searchbar light">
+										<div class="bar">
+											<div class="icon"><span class="fas fa-search"></span></div>
+											<input type="text" class="form-control" ng-model="search" tabindex="2000" />
+											<div class="icon right icon-btn" ng-show="search">
+												<button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+													<span class="fas fa-times-circle"></span>
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-5 col-sm-offset-3 text-right">
+									<div class="btn-group" dropdown>
+										<button type="button" class="btn btn-success dropdown-toggle" dropdown-toggle>
+											New Template
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu dropdown-menu-right">
+											<li>
+												<a href="" ng-click="newPdfTemplate('credit_note')">
+													Credit Note
+												</a>
+											</li>
+											<li ng-show="hasEstimates">
+												<a href="" ng-click="newPdfTemplate('estimate')">
+													Estimate
+												</a>
+											</li>
+											<li>
+												<a href="" ng-click="newPdfTemplate('invoice')">
+													Invoice
+												</a>
+											</li>
+											<li>
+												<a href="" ng-click="newPdfTemplate('receipt')">
+													Receipt
+												</a>
+											</li>
+											<li>
+												<a href="" ng-click="newPdfTemplate('statement')">
+													Statement
+												</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</h4>
+					</div>
+
+					<!-- No Results -->
+					<div class="list-group" ng-show="results.length === 0">
+						<div class="list-group-item">
+							<div class="empty">No custom templates found.</div>
+						</div>
+					</div>
+
+					<!-- Results Table -->
+					<table class="table table-striped search-results-table" ng-show="results.length > 0">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Document Type</th>
+								<th class="noborder">Created</th>
+								<th class="nopadding"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="pdfTemplate in pdfTemplates | searchObject:search:['name', 'document_type'] | orderBy:'name' as results">
+								<td>{{pdfTemplate.name}}</td>
+								<td class="nowrap"><theme-document-type document-type="pdfTemplate.document_type"></theme-document-type></td>
+								<td class="noborder light nowrap"><company-date date="pdfTemplate.created_at"></company-date></td>
+								<td class="nopadding hover-actions-holder mobile-last mobile-visible">
+									<div class="hover-actions">
+										<button type="button" class="btn btn-default btn-sm" ng-click="clonePdfTemplateModal(pdfTemplate)" tooltip="Clone Template">
+											<span class="fas fa-copy"></span>
+										</button>
+										<button type="button" class="btn btn-default btn-sm" ng-click="editPdfTemplateModal(pdfTemplate)" tooltip="Edit Template">
+											<span class="fas fa-pencil"></span>
+										</button>
+										<button type="button" class="btn btn-danger btn-sm" ng-click="deletePdfTemplate(pdfTemplate)" tooltip="Delete Template">
+											<span class="fas fa-trash"></span>
+										</button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<form method="post" target="_blank" id="themeForm">
+	<input type="hidden" name="company" value="{{company.id}}" />
+	<input type="hidden" name="theme" id="themeObject" />
+	<input type="hidden" name="statement_type" id="previewStatementType" />
+</form>

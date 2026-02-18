@@ -1,0 +1,161 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.payments'|trans %}
+{% extends "customerPortal/activity.twig" %}
+
+{% block data_table %}
+	<div class="filter">
+		<div class="row">
+			<div class="col-sm-12 form-section">
+				<form method="get" class="form-inline">
+					<div class="row align-items-center gx-1">
+						<div class="col-auto">
+							<span class="fas fa-filter"></span>
+						</div>
+
+						<!-- Date Range -->
+						<div class="col-auto ms-3">
+							<div class="input-group input-date">
+								<span class="input-group-text text-dark">
+									<span class="far fa-calendar"></span>
+								</span>
+								<input type="text" class="form-control date" id="startDate" placeholder="{{ 'labels.date'|trans }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+								<input type="hidden" id="startDateAlt" name="start_date" value="{{ app.request.query.get('start_date') }}" />
+							</div>
+						</div>
+						<div class="col-auto">
+							&mdash;
+						</div>
+						<div class="col-auto">
+							<div class="input-group input-date">
+								<span class="input-group-text text-dark">
+									<span class="far fa-calendar"></span>
+								</span>
+								<input type="text" class="form-control date" id="endDate" placeholder="{{ 'labels.date'|trans }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+								<input type="hidden" id="endDateAlt" name="end_date" value="{{ app.request.query.get('end_date') }}" />
+							</div>
+						</div>
+
+						<!-- Submit -->
+						<div class="col-auto ms-3">
+							<button type="submit" class="btn btn-default">
+								{{ 'labels.apply'|trans }}
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bulk Actions -->
+	<div class="selected hidden">
+		<div class="title">
+			<span class="num-checkbox-rows-selected"></span> {{ 'labels.selected'|trans }}
+			<a href="#" class="clear-selection"><span class="fas fa-times-circle"></span></a>
+		</div>
+	</div>
+
+	{% if results|length > 0 %}
+		<table class="table table-invoiced mobile-stack">
+			<thead>
+				<tr>
+					<th class="checkbox-column">
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="check-all" />
+							<label class="form-check-label" for="check-all"></label>
+						</div>
+					</th>
+					<th class="column-date">
+						<a href="{{ filter.sortBase }}&sort=date+{% if sort == 'date DESC' %}ASC{% else %}DESC{% endif %}" class="{% if sort == 'date DESC' %}down{% elseif sort == 'date ASC' %}up{% endif %}">
+							{{ 'labels.date'|trans }}
+							<span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+							<span class="sort down"><span class="fas fa-sort-amount-up-alt"></span></span>
+						</a>
+					</th>
+					<th class="column-document">{{ 'labels.invoice'|trans }}</th>
+					<th class="column-payment-method">
+						<a href="{{ filter.sortBase }}&sort=method+{% if sort == 'method ASC' %}DESC{% else %}ASC{% endif %}" class="{% if sort == 'method DESC' %}down{% elseif sort == 'method ASC' %}up{% endif %}">
+							{{ 'labels.method'|trans }}
+							<span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+							<span class="sort down"><span class="fas fa-sort-amount-up-alt"></span></span>
+						</a>
+					</th>
+					<th class="column-status">{{ 'labels.status'|trans }}</th>
+					<th class="column-amount money-column">
+						<a href="{{ filter.sortBase }}&sort=amount+{% if sort == 'amount ASC' %}DESC{% else %}ASC{% endif %}" class="{% if sort == 'amount DESC' %}down{% elseif sort == 'amount ASC' %}up{% endif %}">
+							{{ 'labels.amount'|trans }}
+							<span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+							<span class="sort down"><span class="fas fa-sort-amount-up-alt"></span></span>
+						</a>
+					</th>
+					<th class="column-actions"></th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for transaction in results %}
+				<tr class="{{ transaction.status }}">
+					<td class="checkbox-column">
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="check-all" />
+							<label class="form-check-label" for="check-all"></label>
+						</div>
+					</td>
+					<td class="column-date mobile-first">
+						{{ transaction.date }}
+					</td>
+					<td class="column-document">
+						{% if transaction.document %}
+							<a href="{{ transaction.document.url }}">
+								{{ transaction.document.number }}
+							</a>
+						{% endif %}
+					</td>
+					<td class="column-payment-method payment-method">
+						{% if transaction.icon %}
+							<span class="icon"><img src="{{ asset(transaction.icon) }}" /></span>
+						{% endif %}
+						{{ transaction.method }}
+					</td>
+					<td class="column-status">
+						{% if transaction.status == 'pending' %}
+							<span class="badge bg-warning">{{ 'labels.pending'|trans }}</span>
+						{% elseif transaction.status == 'failed' %}
+							<span class="badge bg-danger">{{ 'failed'|trans }}</span>
+							{% if transaction.failure_reason %}
+								{{ transaction.failure_reason }}
+							{% endif %}
+						{% endif %}
+					</td>
+					<td class="column-amount money-column">{{ transaction.amount|money(transaction.currency) }}</td>
+					<td class="column-actions mobile-last">
+						{% if transaction.pdf_url %}
+							<a href="{{ transaction.pdf_url }}">
+								<span class="fas fa-arrow-to-bottom"></span>
+								{{ 'buttons.receipt'|trans }}
+							</a>
+						{% endif %}
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+			<tfoot>
+				<tr>
+					<td class="checkbox-column"></td>
+					<td class="column-date"></td>
+					<td class="column-document"></td>
+					<td class="column-payment-method"></td>
+					<td class="column-status"></td>
+					<td class="column-amount money-column">{{ totals.amount|money(totals.amount_currency) }}</td>
+					<td class="column-actions"></td>
+				</tr>
+			</tfoot>
+		</table>
+
+		<!-- Pagination -->
+		{{ include('customerPortal/pagination.twig') }}
+	{% else %}
+		<p class="empty">
+            {{ 'messages.no_payments_found'|trans }}
+		</p>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,56 @@
+fields:
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  credit_note:
+    name: Credit Note
+    type: join
+  customer:
+    name: Customer
+    type: join
+  date:
+    name: Date
+    type: date
+    date_format: "Y-m-d"
+  discount:
+    name: Discount
+    type: money
+  id:
+    name: ID
+    type: string
+    writable: false
+  invoice:
+    name: Invoice
+    type: join
+  item:
+    name: Item
+    type: join
+    join_column: internal_id
+  line_item:
+    name: Line Item
+    type: join
+  month:
+    name: Month
+    type: date_month
+  movement_type:
+    name: Movement Type
+    type: enum
+    values:
+      1: New Business
+      2: Expansion
+      3: Contraction
+      4: Lost
+      5: Reactivation
+  mrr:
+    name: MRR
+    type: money
+  plan:
+    name: Plan
+    type: join
+    join_column: internal_id
+  subscription:
+    name: Subscription
+    type: join

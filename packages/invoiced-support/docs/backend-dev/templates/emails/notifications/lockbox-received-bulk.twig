@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}New checks received in lockbox{% endblock %}
+{% block notification %}
+    {% for payment in payments %}
+        <p><a href="{{ dashboardUrl}}/alerts?account={{ tenant_id  }}">{{ payment.cnt }} checks</a> were received in your check lockbox totaling {{ payment.amount | money(payment.currency)}}. These payments need to be applied.</p>
+    {% endfor %}
+{% endblock %}

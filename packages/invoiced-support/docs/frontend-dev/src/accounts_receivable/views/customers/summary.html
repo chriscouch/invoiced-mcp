@@ -1,0 +1,1175 @@
+<div class="row two-pane">
+	<div class="col-sm-4 left-pane">
+		<div class="details-list vertical">
+			<h4>
+				<div class="action" ng-if="'customers.edit'|hasPermission">
+					<a href="" ng-click="editModal(customer)">
+						{{'general.edit'|translate}}
+					</a>
+				</div>
+				Customer Details
+			</h4>
+
+			<!-- Email Address -->
+			<div ng-show="customer.email">
+				<div class="title">Email</div>
+				<div class="value">
+					<a href="mailto:{{customer.email}}">
+						{{customer.email}}
+					</a>
+				</div>
+			</div>
+
+			<!-- Payment Terms -->
+			<div ng-show="customer.autopay || customer.payment_terms">
+				<div class="title">Payment Terms</div>
+				<div class="value" ng-show="customer.autopay">
+					<span class="label label-success">AutoPay</span>
+				</div>
+				<div class="value" ng-show="customer.autopay && !customer.payment_source">
+					<span class="text-danger fas fa-exclamation-triangle"></span>
+					Missing payment method
+				</div>
+				<div class="value" ng-show="customer.payment_terms">
+					{{customer.payment_terms}}
+				</div>
+			</div>
+
+			<!-- AutoPay Payment Date -->
+			<div ng-show="customer.autopay_delay_days >= 0 && customer.autopay">
+				<div class="title">AutoPay Payment Date</div>
+				<div class="value">
+					+{{customer.autopay_delay_days}} days
+				</div>
+			</div>
+
+			<!-- Convenience Fees -->
+			<div ng-hide="customer.convenience_fee">
+				<div class="title">Convenience Fees</div>
+				<div class="value">
+					<span class="label label-default">Off</span>
+				</div>
+			</div>
+
+			<!-- Credit Holds / Limits -->
+			<div ng-show="customer.credit_hold">
+				<div class="title">Credit Hold</div>
+				<div class="value">
+					<span class="label label-danger">Yes</span>
+				</div>
+			</div>
+
+			<div ng-show="customer.credit_limit">
+				<div class="title">Credit Limit</div>
+				<div class="value">
+					<money currency="balance.currency" amount="customer.credit_limit"></money>
+				</div>
+			</div>
+
+			<!-- Address -->
+			<div ng-show="customer.attention_to||customer.address||(customer.country&&customer.country!=company.country)">
+				<div class="title">Address</div>
+				<div class="value">
+					<div class="pull-right"><country-icon country="customer.country"></country-icon></div>
+					<div ng-show="customer.attention_to">ATTN: {{customer.attention_to}}</div>
+					<div ng-bind-html="customer.address|nl2br"></div>
+				</div>
+			</div>
+
+			<!-- Owner -->
+			<div ng-show="customer.owner">
+				<div class="title">Owner</div>
+				<div class="value">
+					{{customer.owner.first_name}}
+					{{customer.owner.last_name}}
+				</div>
+			</div>
+
+			<!-- Currency -->
+			<div ng-show="('multi_currency'|hasFeature) && customer.currency">
+				<div class="title">Currency</div>
+				<div class="value">
+					{{customer.currency|uppercase}}
+				</div>
+			</div>
+
+			<!-- Language -->
+			<div ng-show="customer.language">
+				<div class="title">Language</div>
+				<div class="value">
+					{{customer.language|language}}
+				</div>
+			</div>
+
+			<!-- Phone # -->
+			<div ng-show="customer.phone">
+				<div class="title">Phone</div>
+				<div class="value">
+					<a href="tel:{{customer.phone}}">
+						{{customer.phone|formatPhoneNumber}}
+					</a>
+				</div>
+			</div>
+
+			<!-- Tax Rates -->
+			<div ng-show="customer.taxes.length>0||!customer.taxable">
+				<div class="title">Taxes</div>
+				<div class="value" ng-show="customer.taxable">
+					<tax-rates taxes="customer.taxes" currency="company.currency"></tax-rates>
+				</div>
+				<div class="value" ng-hide="customer.taxable">
+					<span class="label label-default">Not Taxed</span>
+				</div>
+			</div>
+
+			<!-- Entity Type -->
+			<div>
+				<div class="title">Entity Type</div>
+				<div class="value">
+					{{'entity_type.' + customer.type|translate}}
+				</div>
+			</div>
+
+			<!-- Avalara Information -->
+			<div ng-show="customer.avalara_entity_use_code">
+				<div class="title">{{'customers.exemption_reason'|translate}}</div>
+				<div class="value">
+					{{customer.avalara_entity_use_code|avalaraExemptionReason}}
+				</div>
+			</div>
+			<div ng-show="customer.avalara_exemption_number">
+				<div class="title">{{'customers.exemption_number'|translate}}</div>
+				<div class="value">
+					{{customer.avalara_exemption_number}}
+				</div>
+			</div>
+
+			<!-- Parent Customer -->
+			<div ng-if="customer.parent_customer">
+				<div class="title">Parent Customer</div>
+				<div class="value">
+					<a ui-sref="manage.customer.view.summary({id:customer.parent_customer.id})">
+						{{customer.parent_customer.name}}
+					</a>
+				</div>
+			</div>
+
+			<!-- Bill To Parent -->
+			<div ng-if="customer.parent_customer && customer.bill_to_parent">
+				<div class="title">{{'customers.bill_to'|translate}}</div>
+				<div class="value">
+					Parent
+				</div>
+			</div>
+
+			<!-- Consolidated Invoicing -->
+			<div ng-if="customer.consolidated">
+				<div class="title">{{'customers.consolidated_invoicing'|translate}}</div>
+				<div class="value">
+					<span class="label label-success">{{'general.on'|translate}}</span>
+				</div>
+			</div>
+
+			<!-- Late Fee Schedule -->
+			<div ng-if="customer.late_fee_schedule">
+				<div class="title">Late Fee Schedule</div>
+				<div class="value">
+					{{customer.late_fee_schedule.name}}
+				</div>
+			</div>
+
+			<!-- Active Status -->
+			<div ng-show="!customer.active">
+				<div class="title">{{'general.status'|translate}}</div>
+				<div class="value">
+					<span class="label label-danger">{{'general.inactive'|translate}}</span>
+				</div>
+			</div>
+
+			<!-- Created Date -->
+			<div ng-show="customer.created_at>0">
+				<div class="title">Created</div>
+				<div class="value">
+					<company-date date="customer.created_at"></company-date>
+				</div>
+			</div>
+
+			<!-- Metadata -->
+			<div class="metadata" ng-repeat="(key, value) in customer.metadata" ng-hide="key=='intacct_customer_id'||key=='imported_from_intacct'||key=='netsuite_customer_id'||key=='netsuite_id'||key=='imported_from_netsuite'||key=='quickbooks_customer_id'||key=='imported_from_quickbooks'||key=='xero_contact_id'||key=='imported_from_xero'||key=='last_synced'||key=='stripe_customer_id'||key=='solve_contact_id'">
+				<div class="title"><metadata-name field-id="key" object-type="'customer'"></metadata-name></div>
+				<div class="value">
+					<metadata-value field-id="key" object-type="'customer'" value="value"></metadata-value>
+				</div>
+			</div>
+
+			<!-- External Links -->
+			<div ng-show="customer.metadata.solve_contact_id">
+				<div class="title">Solve Contact</div>
+				<div class="value">
+					<a href="https://secure.solve360.com/#{{customer.metadata.solve_contact_id}}" target="_blank">
+						View on Solve
+					</a>
+				</div>
+			</div>
+
+			<div ng-show="customer.metadata.stripe_customer_id">
+				<div class="title">Stripe Customer</div>
+				<div class="value">
+					<a href="{{stripeDashboardUrl}}/customers/{{customer.metadata.stripe_customer_id}}" target="_blank">
+						View on Stripe
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- Network Profile -->
+		<div class="details-list vertical" ng-if="invitedToNetwork">
+			<h4>
+				Network Profile
+			</h4>
+
+			<p>An invitation to join your network has been sent to <span ng-show="invitedToNetworkEmail">{{invitedToNetworkEmail}}</span><span ng-hide="invitedToNetworkEmail">{{customer.name}}</span>.</p>
+		</div>
+
+		<div class="details-list vertical" ng-if="networkProfile">
+			<h4>
+				Network Profile
+			</h4>
+
+			<!-- Email -->
+			<div>
+				<div class="title">{{'general.email'|translate}}</div>
+				<div class="value">
+					<a href="mailto:{{networkProfile.email}}">
+						{{networkProfile.email}}
+					</a>
+				</div>
+			</div>
+
+			<!-- Username -->
+			<div>
+				<div class="title">Invoiced Username</div>
+				<div class="value">
+					@{{networkProfile.username}}
+				</div>
+			</div>
+
+			<!-- Address -->
+			<div>
+				<div class="title">Address</div>
+				<div class="value" ng-bind-html="networkProfile|address:true"></div>
+			</div>
+
+			<!-- Phone -->
+			<div ng-show="networkProfile.phone">
+				<div class="title">Phone</div>
+				<div class="value">
+					<a href="tel:{{networkProfile.phone}}">
+						{{networkProfile.phone|formatPhoneNumber}}
+					</a>
+				</div>
+			</div>
+
+			<!-- Website -->
+			<div ng-show="networkProfile.website">
+				<div class="title">Website</div>
+				<div class="value">
+					<a href="{{networkProfile.website}}">
+						{{networkProfile.website}}
+					</a>
+				</div>
+			</div>
+
+			<!-- Industry -->
+			<div ng-show="networkProfile.industry">
+				<div class="title">Industry</div>
+				<div class="value">
+					{{networkProfile.industry}}
+				</div>
+			</div>
+		</div>
+
+		<!-- Payment Methods -->
+		<div class="details-list vertical customer-account-payment-sources" ng-if="'autopay'|hasFeature">
+			<h4>
+				<div class="action" ng-if="'customers.edit'|hasPermission">
+					<a href="" ng-click="addPaymentSource(customer)">
+						{{'general.add'|translate}}
+					</a>
+				</div>
+				Payment Method<span ng-show="paymentSources.length > 1">s</span>
+			</h4>
+			<div ng-show="paymentSources.length == 0">
+				<div class="empty">
+					None
+				</div>
+			</div>
+			<div ng-show="paymentSources.length > 0">
+				<div class="payment-source" ng-repeat="paymentSource in paymentSources">
+					<!-- Title Line -->
+					<a href="" class="summary" ng-click="togglePaymentSource($index)">
+						<detailed-payment-source-icon source="paymentSource"></detailed-payment-source-icon>
+
+						<div class="name">
+							{{paymentSource.description}}
+						</div>
+
+						<div class="more-btn">
+							<span ng-show="showMorePaymentSource[$index]"><span class="fas fa-chevron-up"></span></span>
+							<span ng-hide="showMorePaymentSource[$index]"><span class="fas fa-chevron-down"></span></span>
+						</div>
+
+						<!-- Status Indicators -->
+						<div class="status-indicators">
+							<span class="label label-default" ng-show="isDefaultPaymentSource(paymentSource, customer)&&paymentSources.length>1">Default</span>
+							<span class="label label-warning" ng-show="paymentSource.object=='bank_account'&&!paymentSource.verified">Unverified</span>
+							<span class="label label-danger" ng-show="!paymentSource.chargeable">Disabled</span>
+						</div>
+					</a>
+
+					<!-- More Info -->
+					<div class="more-info" ng-show="showMorePaymentSource[$index]">
+						<div ng-if="paymentSource.object=='bank_account'">
+							<div>
+								<div class="title">Bank</div>
+								<div class="value">{{paymentSource.bank_name}}</div>
+							</div>
+							<div>
+								<div class="title">Account #</div>
+								<div class="value">*{{paymentSource.last4}}</div>
+							</div>
+							<div ng-show="paymentSource.routing_number">
+								<div class="title">Routing #</div>
+								<div class="value">{{paymentSource.routing_number}}</div>
+							</div>
+							<div ng-show="paymentSource.type">
+								<div class="title">Type</div>
+								<div class="value">{{paymentSource.type}}</div>
+							</div>
+							<div ng-show="paymentSource.account_holder_name">
+								<div class="title">Account Holder Name</div>
+								<div class="value">{{paymentSource.account_holder_name}}</div>
+							</div>
+							<div ng-show="paymentSource.account_holder_type">
+								<div class="title">Account Holder Type</div>
+								<div class="value">{{paymentSource.account_holder_type}}</div>
+							</div>
+							<div ng-show="paymentSource.failure_reason">
+								<div class="title">Failure Reason</div>
+								<div class="value danger">{{paymentSource.failure_reason}}</div>
+							</div>
+							<div>
+								<div class="title">Gateway</div>
+								<div class="value">{{paymentSource.gateway|gatewayName}}</div>
+							</div>
+							<div ng-show="paymentSource.gateway_id">
+								<div class="title">ID</div>
+								<div class="value">{{paymentSource.gateway_id}}</div>
+							</div>
+							<div ng-show="paymentSource.gateway_customer">
+								<div class="title">Customer</div>
+								<div class="value">{{paymentSource.gateway_customer}}</div>
+							</div>
+							<div ng-show="paymentSource.gateway_setup_intent">
+								<div class="title">Setup Intent</div>
+								<div class="value">{{paymentSource.gateway_setup_intent}}</div>
+							</div>
+							<div>
+								<div class="title">Added</div>
+								<div class="value">
+									<company-date date="paymentSource.created_at"></company-date>
+								</div>
+							</div>
+						</div>
+
+						<!-- Card -->
+						<div ng-if="paymentSource.object=='card'">
+							<div>
+								<div class="title">Brand</div>
+								<div class="value">{{paymentSource.brand}}</div>
+							</div>
+							<div>
+								<div class="title">Card #</div>
+								<div class="value">*{{paymentSource.last4}}</div>
+							</div>
+							<div>
+								<div class="title">Expires</div>
+								<div class="value">{{paymentSource.exp_month}} / {{paymentSource.exp_year}}</div>
+							</div>
+							<div>
+								<div class="title">Funding</div>
+								<div class="value">
+									<span ng-show="paymentSource.funding=='credit'">Credit</span>
+									<span ng-show="paymentSource.funding=='debit'">Debit</span>
+									<span ng-show="paymentSource.funding=='prepaid'">Prepaid</span>
+									<span ng-show="paymentSource.funding=='unknown'">Unknown</span>
+								</div>
+							</div>
+							<div ng-show="paymentSource.issuing_country">
+								<div class="title">Issuing Country</div>
+								<div class="value">
+									{{paymentSource.issuing_country}}
+								</div>
+							</div>
+							<div>
+								<div class="title">Gateway</div>
+								<div class="value">{{paymentSource.gateway|gatewayName}}</div>
+							</div>
+							<div ng-show="paymentSource.gateway_id">
+								<div class="title">ID</div>
+								<div class="value">{{paymentSource.gateway_id}}</div>
+							</div>
+							<div ng-show="paymentSource.gateway_customer">
+								<div class="title">Customer</div>
+								<div class="value">{{paymentSource.gateway_customer}}</div>
+							</div>
+							<div ng-show="paymentSource.gateway_setup_intent">
+								<div class="title">Setup Intent</div>
+								<div class="value">{{paymentSource.gateway_setup_intent}}</div>
+							</div>
+							<div>
+								<div class="title">Added</div>
+								<div class="value">
+									<company-date date="paymentSource.created_at"></company-date>
+								</div>
+							</div>
+						</div>
+
+						<div class="controls">
+							<a href="" ng-click="verifyBankAccount(customer, paymentSource)" ng-show="bankAccountCanBeVerified(paymentSource)" ng-if="'customers.edit'|hasPermission">
+								{{'payment_method.verify'|translate}}
+							</a>
+							<a href="" ng-click="makePaymentSourceDefault(customer, paymentSource)" ng-show="!makingDefault&&canMakeDefaultPaymentSource(paymentSource, customer)"  ng-if="'customers.edit'|hasPermission">
+								Make Default
+							</a>
+							<a href="" ng-click="reinstateMandate(customer, paymentSource)" ng-hide="reinstatingMandate" ng-if="('customers.edit'|hasPermission)&&mandateCanBeReinstated(paymentSource)">
+								Reinstate Mandate
+							</a>
+							<a href="{{stripeDashboardUrl}}/customers/{{paymentSource.gateway_customer}}" target="_blank" ng-show="paymentSource.gateway == 'stripe'">
+								View on Stripe
+							</a>
+							<a href="" class="delete" ng-click="deletePaymentSource(customer, paymentSource, $index)" ng-show="!deletingSource&&canDeletePaymentSource(paymentSource)" ng-if="'customers.edit'|hasPermission">
+								<span ng-show="paymentSource.object=='card'">Remove Card</span>
+								<span ng-show="paymentSource.object=='bank_account'">Remove Bank Account</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Notes -->
+		<div class="details-list vertical notes">
+			<h4>
+				<div class="action" ng-if="'customers.edit'|hasPermission">
+					<a href="" ng-click="editNotes(customer)" ng-hide="editingNotes">
+						{{'general.edit'|translate}}
+					</a>
+					<a href="" ng-click="saveNotes(customer, newNotes)" ng-show="editingNotes&&!saving">
+						{{'general.save'|translate}}
+					</a>
+					<a href="" ng-click="cancelNotesEdit()" ng-show="editingNotes&&!saving">
+						{{'general.cancel'|translate}}
+					</a>
+				</div>
+				Notes
+			</h4>
+			<div class="hover-edit">
+				<div ng-show="!editingNotes&&customer.notes" ng-bind-html="customer.notes|linky:'_blank'|nl2br"></div>
+				<div class="empty" ng-hide="editingNotes||customer.notes">
+					None
+				</div>
+				<div class="textarea-2-lines" ng-show="editingNotes">
+					<textarea class="form-control" ng-model="newNotes" placeholder="Enter any private customer notes here" expanding-textarea></textarea>
+				</div>
+			</div>
+		</div>
+
+		<!-- Contacts -->
+		<div class="details-list vertical">
+			<h4>
+				<div class="action" ng-if="'customers.edit'|hasPermission">
+					<a href="" ng-click="contactModal()">
+						{{'general.add'|translate}}
+					</a>
+				</div>
+				Contacts
+			</h4>
+			<div class="customer-contacts">
+				<div class="value" ng-hide="loaded.contacts">
+					<div class="loading inline"></div>
+				</div>
+				<div class="value" ng-show="loaded.contacts&&contacts.length>0">
+					<div class="contact" ng-repeat="contact in contacts">
+						<div class="element name">{{contact.name}}</div>
+
+						<div class="element job-title" ng-show="contact.title">
+							{{contact.title}}
+						</div>
+
+						<div class="element" ng-show="contact.role">
+							<div class="title">Role</div>
+							<div class="value">
+								{{contact.role.name}}
+							</div>
+						</div>
+
+						<div class="element billing-contact-designation" ng-show="contact.primary">
+							<a href="" tooltip="CC'd on emails sent to customer">
+								<span class="label label-success">Default</span>
+							</a>
+						</div>
+
+						<div class="element department" ng-show="contact.department">
+							{{contact.department}}
+						</div>
+
+						<div class="element with-icon email" ng-show="contact.email">
+							<div class="icon">
+								<span class="fad fa-at"></span>
+							</div>
+							<a href="mailto:{{contact.email}}">
+								{{contact.email}}
+							</a>
+						</div>
+
+						<div class="element with-icon phone" ng-show="contact.phone">
+							<div class="icon">
+								<span class="fad fa-phone-office"></span>
+							</div>
+							<a href="tel:{{contact.phone}}">
+								{{contact.phone|formatPhoneNumber}}
+							</a>
+						</div>
+
+						<div class="element with-icon address" ng-show="contact.address">
+							<div class="icon">
+								<span class="fad fa-map-marked-alt"></span>
+							</div>
+							<div ng-bind-html="contact.address|nl2br"></div>
+						</div>
+
+						<div class="actions">
+							<a href="" class="edit" ng-click="contactModal(contact)" tooltip="Edit Contact" ng-if="'customers.edit'|hasPermission">
+								<span class="fas fa-pencil"></span>
+							</a>
+							<a href="" class="delete" ng-click="deleteContact(contact)" tooltip="Delete Contact" ng-if="'customers.edit'|hasPermission">
+								<span class="fas fa-trash"></span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="empty" ng-show="loaded.contacts&&contacts.length==0">
+					None
+				</div>
+			</div>
+		</div>
+
+		<!-- Child Customers -->
+		<div class="details-list vertical" ng-show="loaded.childCustomers&&childCustomers.length>0">
+			<h4>
+				<div class="action" ng-if="childCustomers.originalLength>5">
+					<a href="/customers?parent_customer={{customer.id}}">
+						{{'general.view_all'|translate}}
+					</a>
+				</div>
+				{{'customers.child_customers.title'|translate}}
+			</h4>
+			<div class="child-customers">
+				<div class="value">
+					<div class="child-customer" ng-repeat="childCustomer in childCustomers">
+						<div class="element name">
+							<a ui-sref="manage.customer.view.summary({id:childCustomer.id})">
+								{{childCustomer.name}}
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Accounting Sync Status -->
+		<sync-status synced-object="syncedObject" editable="true" object-type="'customer'"></sync-status>
+	</div>
+
+	<div class="col-sm-8 right-pane">
+		<!-- Transactions -->
+		<div class="panel panel-invoiced customer-invoices light">
+			<div class="panel-heading with-tabs">
+				<ul class="nav nav-tabs">
+					<li ng-class="{active:transactionsTab=='invoices'}">
+						<a href="" ng-click="setTransactionsTab(customer, 'invoices')">
+							Invoices
+						</a>
+					</li>
+					<li ng-class="{active:transactionsTab=='credit_notes'}">
+						<a href="" ng-click="setTransactionsTab(customer, 'credit_notes')">
+							Credit Notes
+						</a>
+					</li>
+					<li ng-class="{active:transactionsTab=='payment_links'}" ng-show="'payment_links'|hasFeature">
+						<a href="" ng-click="setTransactionsTab(customer, 'payment_links')">
+							Payment Links
+						</a>
+					</li>
+					<li ng-class="{active:transactionsTab=='estimates'}" ng-show="'estimates'|hasFeature">
+						<a href="" ng-click="setTransactionsTab(customer, 'estimates')">
+							Estimates
+						</a>
+					</li>
+					<li ng-class="{active:transactionsTab=='payments'}">
+						<a href="" ng-click="setTransactionsTab(customer, 'payments')">
+							Payments
+						</a>
+					</li>
+					<li class="view-all-button">
+						<a href="/invoices?customer={{customer.id}}&status=" ng-show="transactionsTab=='invoices'">
+							{{'general.view_all'|translate}}
+						</a>
+						<a href="/credit_notes?customer={{customer.id}}&status=" ng-show="transactionsTab=='credit_notes'">
+							{{'general.view_all'|translate}}
+						</a>
+						<a href="/payment_links?customer={{customer.id}}" ng-show="transactionsTab=='payment_links'">
+							{{'general.view_all'|translate}}
+						</a>
+						<a href="/estimates?customer={{customer.id}}&status=" ng-show="transactionsTab=='estimates'">
+							{{'general.view_all'|translate}}
+						</a>
+						<a href="/payments?customer={{customer.id}}" ng-show="transactionsTab=='payments'">
+							{{'general.view_all'|translate}}
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="panel-body" ng-if="!loaded.transactions||transactions.length==0">
+				<div class="loading inline" ng-hide="loaded.transactions"></div>
+				<div class="empty" ng-show="loaded.transactions">
+					None found.
+				</div>
+			</div>
+
+			<table class="table search-results-table slim" ng-if="loaded.transactions && transactions.length>0 && transactionsTab=='invoices'">
+				<thead>
+					<tr>
+						<th class="hidden-xs">Age</th>
+						<th>{{'metadata.object_names.invoice'|translate}}</th>
+						<th>{{'general.date'|translate}}</th>
+						<th class="money-column">{{'general.total'|translate}}</th>
+						<th class="hidden-xs money-column">{{'general.balance'|translate}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="clickable" ng-repeat="invoice in transactions" ng-click="goToObject($event,'invoice',invoice.id)">
+						<td class="age hidden-xs">
+							<invoice-age invoice="invoice"></invoice-age>
+						</td>
+						<td class="title mobile-first">
+							<a ui-sref="manage.invoice.view.summary({id:invoice.id})">
+								<document-name document="invoice"></document-name>
+							</a>
+						</td>
+						<td class="date light">
+							<company-date date="invoice.date"></company-date>
+						</td>
+						<td class="total money-column">
+							<money currency="invoice.currency" amount="invoice.total"></money>
+						</td>
+						<td class="total money-column mobile-last">
+							<money currency="invoice.currency" amount="invoice.balance"></money>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr class="invoice-pagination">
+						<td colspan="5">
+							<div class="controls" ng-show="transactionPageCount > 1">
+								<div class="btn-group">
+									<button type="button" class="btn btn-link btn-sm" ng-click="prevTransactionPage(customer)" ng-show="transactionPage > 1">
+										<span class="fas fa-angle-left"></span>
+									</button>
+									<button type="button" class="btn btn-link btn-sm" ng-click="nextTransactionPage(customer)" ng-show="transactionPage < transactionPageCount">
+										<span class="fas fa-angle-right"></span>
+									</button>
+								</div>
+							</div>
+							<div class="total-records">
+								Showing {{transactionRange}} of <strong>{{totalTransactions|number}} invoices</strong>.
+							</div>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+
+			<!-- Credit Notes -->
+			<table class="search-results-table table slim" ng-if="loaded.transactions && transactions.length>0 && transactionsTab=='credit_notes'">
+				<thead>
+					<tr>
+						<th>{{'metadata.object_names.credit_note'|translate}}</th>
+						<th>{{'general.date'|translate}}</th>
+						<th>{{'general.status'|translate}}</th>
+						<th class="money-column">{{'general.total'|translate}}</th>
+						<th class="money-column">{{'general.balance'|translate}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="clickable" ng-repeat="creditNote in transactions" ng-click="goToObject($event,'credit_note',creditNote.id)">
+						<td class="title">
+							<a ui-sref="manage.credit_note.view.summary({id:creditNote.id})">
+								<document-name document="creditNote"></document-name>
+							</a>
+						</td>
+						<td class="nowrap light">
+							<company-date date="creditNote.date"></company-date>
+						</td>
+						<td class="status">
+							<credit-note-status credit-note="creditNote"></credit-note-status>
+						</td>
+						<td class="money-column">
+							<money amount="creditNote.total" currency="creditNote.currency"></money>
+						</td>
+						<td class="money-column mobile-last">
+							<money amount="creditNote.balance" currency="creditNote.currency"></money>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr class="invoice-pagination">
+						<td colspan="5">
+							<div class="controls" ng-show="transactionPageCount > 1">
+								<div class="btn-group">
+									<button type="button" class="btn btn-link btn-sm" ng-click="prevTransactionPage(customer)" ng-show="transactionPage > 1">
+										<span class="fas fa-angle-left"></span>
+									</button>
+									<button type="button" class="btn btn-link btn-sm" ng-click="nextTransactionPage(customer)" ng-show="transactionPage < transactionPageCount">
+										<span class="fas fa-angle-right"></span>
+									</button>
+								</div>
+							</div>
+							<div class="total-records">
+								Showing {{transactionRange}} of <strong>{{totalTransactions|number}} credit notes</strong>.
+							</div>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+
+			<!-- Payment Links -->
+			<table class="search-results-table table slim" ng-if="loaded.transactions && transactions.length>0 && transactionsTab=='payment_links'">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>{{'general.status'|translate}}</th>
+						<th class="money-column">{{'general.price'|translate}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="clickable" ng-repeat="paymentLink in transactions" ng-click="goToObject($event,'payment_link',paymentLink.id)">
+						<td class="title">
+							{{paymentLink.name}}
+						</td>
+						<td class="status">
+							<payment-link-status payment-link="paymentLink"></payment-link-status>
+						</td>
+						<td class="money-column mobile-last">
+							<money amount="paymentLink.price" currency="paymentLink.currency"></money>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr class="invoice-pagination">
+						<td colspan="5">
+							<div class="controls" ng-show="transactionPageCount > 1">
+								<div class="btn-group">
+									<button type="button" class="btn btn-link btn-sm" ng-click="prevTransactionPage(customer)" ng-show="transactionPage > 1">
+										<span class="fas fa-angle-left"></span>
+									</button>
+									<button type="button" class="btn btn-link btn-sm" ng-click="nextTransactionPage(customer)" ng-show="transactionPage < transactionPageCount">
+										<span class="fas fa-angle-right"></span>
+									</button>
+								</div>
+							</div>
+							<div class="total-records">
+								Showing {{transactionRange}} of <strong>{{totalTransactions|number}} payment links</strong>.
+							</div>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+
+			<!-- Estimates -->
+			<table class="search-results-table table slim" ng-if="loaded.transactions && transactions.length>0 && transactionsTab=='estimates'">
+				<thead>
+					<tr>
+						<th>{{'metadata.object_names.estimate'|translate}}</th>
+						<th>{{'general.date'|translate}}</th>
+						<th>{{'general.status'|translate}}</th>
+						<th class="money-column">{{'general.total'|translate}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="clickable" ng-repeat="estimate in transactions" ng-click="goToObject($event,'estimate',estimate.id)">
+						<td class="title">
+							<a ui-sref="manage.estimate.view.summary({id:estimate.id})">
+								<document-name document="estimate"></document-name>
+							</a>
+						</td>
+						<td class="nowrap light">
+							<company-date date="estimate.date"></company-date>
+						</td>
+						<td class="status">
+							<estimate-status estimate="estimate"></estimate-status>
+						</td>
+						<td class="money-column mobile-last">
+							<money amount="estimate.total" currency="estimate.currency"></money>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr class="invoice-pagination">
+						<td colspan="5">
+							<div class="controls" ng-show="transactionPageCount > 1">
+								<div class="btn-group">
+									<button type="button" class="btn btn-link btn-sm" ng-click="prevTransactionPage(customer)" ng-show="transactionPage > 1">
+										<span class="fas fa-angle-left"></span>
+									</button>
+									<button type="button" class="btn btn-link btn-sm" ng-click="nextTransactionPage(customer)" ng-show="transactionPage < transactionPageCount">
+										<span class="fas fa-angle-right"></span>
+									</button>
+								</div>
+							</div>
+							<div class="total-records">
+								Showing {{transactionRange}} of <strong>{{totalTransactions|number}} estimates</strong>.
+							</div>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+
+			<!-- Payments -->
+			<table class="table table-striped search-results-table slim transactions" ng-if="loaded.transactions && transactions.length>0 && transactionsTab=='payments'">
+				<thead>
+					<tr>
+						<th>{{'general.date'|translate}}</th>
+						<th>{{'payments.labels.method'|translate}}</th>
+						<th>{{'payments.labels.reference'|translate}}</th>
+						<th>{{'payments.labels.source'|translate}}</th>
+						<th>{{'general.status'|translate}}</th>
+						<th class="money-column noborder">{{'general.amount'|translate}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="clickable" ng-repeat="payment in transactions" ng-click="goToObject($event,'transaction_or_payment',payment)">
+						<td class="nowrap light"><company-date date="payment.date"></company-date></td>
+						<td>
+								<span ng-if="payment.charge.payment_source">
+									<detailed-payment-source-icon source="payment.charge.payment_source"></detailed-payment-source-icon>
+									<transaction-source source="payment.charge.payment_source" short="true"></transaction-source>
+								</span>
+							<span ng-hide="payment.charge.payment_source">{{payment.method|paymentMethodName}}</span>
+						</td>
+						<td>
+							<span ng-hide="payment.charge">{{payment.reference}}</span>
+						</td>
+						<td>
+							{{payment|paymentSourceName}}
+						</td>
+						<td>
+							<span class="label label-danger" ng-if="payment.voided">{{'payments.status.voided'|translate}}</span>
+							<span class="label label-success" ng-if="!payment.voided && payment.balance <= 0">{{'payments.status.applied'|translate}}</span>
+							<span class="label label-default" ng-if="!payment.voided && payment.balance > 0">{{'payments.status.not_applied'|translate}}</span>
+							<span class="label label-success" ng-if="!payment.voided && payment.balance > 0 && payment.matched">{{'payments.status.matched'|translate}}</span>
+						</td>
+						<td class="mobile-last money-column noborder">
+							<money amount="payment.amount" currency="payment.currency"></money>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr class="invoice-pagination">
+						<td colspan="6">
+							<div class="controls" ng-show="transactionPageCount > 1">
+								<div class="btn-group">
+									<button type="button" class="btn btn-link btn-sm" ng-click="prevTransactionPage(customer)" ng-show="transactionPage > 1">
+										<span class="fas fa-angle-left"></span>
+									</button>
+									<button type="button" class="btn btn-link btn-sm" ng-click="nextTransactionPage(customer)" ng-show="transactionPage < transactionPageCount">
+										<span class="fas fa-angle-right"></span>
+									</button>
+								</div>
+							</div>
+							<div class="total-records">
+								Showing {{transactionRange}} of <strong>{{totalTransactions|number}} payments</strong>.
+							</div>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+
+		<!-- Upcoming Invoice -->
+		<div class="panel panel-invoiced light" ng-show="loaded.upcomingInvoice && upcomingInvoice && upcomingInvoice.items.length > 0">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<div class="action" ng-if="'invoices.create'|hasPermission">
+						<a href="" ng-click="lineItemModal(customer)" ng-hide="invoicing">
+							Add Line
+						</a>
+						<a href="" ng-click="invoiceNow(customer)" ng-show="hasPendingLineItems&&!invoicing">
+							Bill Now
+						</a>
+					</div>
+					Upcoming Invoice
+					<a href="" ng-if="(subscriptions | filter:{id: upcomingInvoice.subscription})[0].paused" tooltip="{{'subscriptions.statuses.paused'|translate}}">
+						<span class="fas fa-pause-circle text-yellow"></span>
+					</a>
+				</h4>
+			</div>
+			<table class="table slim line-items">
+				<thead>
+					<tr>
+						<th class="item">Item</th>
+						<th class="quantity">Qty</th>
+						<th class="rate">Rate</th>
+						<th class="amount">Amount</th>
+						<th class="nopadding"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="line" ng-repeat-start="item in upcomingInvoice.items">
+						<td class="item">
+							<a href="" ng-click="item.showDetails=!item.showDetails" ng-show="item.hasMetadata">
+								<span ng-hide="item.showDetails">[+]</span>
+								<span ng-show="item.showDetails">[-]</span>
+							</a>
+							
+							<item-type item="item"></item-type>
+							<span class="item-name" ng-bind-html="item.name|nl2br"></span>
+						</td>
+						<td class="quantity">
+							{{item.quantity|number}}
+						</td>
+						<td class="rate">
+							<money amount="item.unit_cost" currency="upcomingInvoice.currency" precision="settings.unit_cost_precision"></money>
+						</td>
+						<td class="amount">
+							<span class="item-amount"><money amount="item.amount" currency="upcomingInvoice.currency"></money></span>
+						</td>
+						<td class="hover-actions">
+							<div ng-if="('invoices.create'|hasPermission)&&item.id">
+								<a href="" class="edit" ng-click="editLineItem(customer, item)" tooltip="Edit Line Item">
+									<span class="fas fa-pencil"></span>
+								</a>
+								<a href="" class="delete" ng-click="deleteLineItem(customer, item)" tooltip="Delete Line Item" ng-disabled="deletingLine">
+									<span class="fas fa-trash"></span>
+								</a>
+							</div>
+						</td>
+					</tr>
+					<tr class="line-description" ng-if="item.description||item.discounts.length>0||item.taxes.length>0||!item.taxable||!item.discountable||!item.id||(item.hasMetadata&&item.showDetails)" ng-repeat-end>
+						<td colspan="5">
+							<div class="billing-period" ng-show="item.period_start">
+								<span ng-show="item.prorated">Proration for</span>
+								<company-date date="item.period_start"></company-date>
+								&mdash;
+								<company-date date="item.period_end"></company-date>
+							</div>
+							<div class="description" ng-bind-html="item.description|nl2br" ng-show="item.description"></div>
+							<div class="rates" ng-bind-html="item|rateList:upcomingInvoice.currency" ng-show="item.discounts.length>0||item.taxes.length>0"></div>
+							<div class="exclusions" ng-hide="item.discountable&&item.taxable">
+								<span class="label label-default" ng-hide="item.discountable || upcomingInvoice.discounts.length == 0">Not discounted</span>
+								<span class="label label-default" ng-hide="item.taxable || upcomingInvoice.taxes.length == 0">Not taxed</span>
+							</div>
+							<div class="not-billed-yet-warning" ng-if="!item.id && !(subscriptions | filter:{id: upcomingInvoice.subscription})[0].paused">
+								Not billed until <company-date date="upcomingInvoice.date"></company-date>
+							</div>
+							<div class="metadata" ng-show="item.hasMetadata && item.showDetails">
+								<div class="group" ng-repeat="(key, value) in item.metadata">
+									<span class="title"><metadata-name field-id="key" object-type="'line_item'"></metadata-name>:</span>
+									<metadata-value field-id="key" object-type="'line_item'" value="value"></metadata-value>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<!-- Subtotal -->
+					<tr class="subtotal">
+						<td class="noborder"></td>
+						<td class="title" colspan="2">
+							Subtotal
+						</td>
+						<td class="amount">
+							<money amount="upcomingInvoice.subtotal" currency="upcomingInvoice.currency"></money>
+						</td>
+						<td></td>
+					</tr>
+
+					<!-- Discounts -->
+					<tr class="discounts" ng-show="upcomingInvoice.discounts.length > 0">
+						<td class="noborder"></td>
+						<td class="title" colspan="2">
+							Discounts
+							<discounts-breakdown invoice="upcomingInvoice"></discounts-breakdown>
+						</td>
+						<td class="amount">
+							<money amount="upcomingInvoiceTotals.discounts" currency="upcomingInvoice.currency"></money>
+						</td>
+						<td></td>
+					</tr>
+
+					<!-- Taxes -->
+					<tr class="taxes" ng-show="upcomingInvoice.taxes.length > 0">
+						<td class="noborder"></td>
+						<td class="title" colspan="2">
+							Taxes
+							<taxes-breakdown invoice="upcomingInvoice"></taxes-breakdown>
+						</td>
+						<td class="amount">
+							<money amount="upcomingInvoiceTotals.taxes" currency="upcomingInvoice.currency"></money>
+						</td>
+						<td></td>
+					</tr>
+
+					<!-- Total -->
+					<tr class="total">
+						<td class="noborder"></td>
+						<td class="title" colspan="2">
+							{{'general.total'|translate}}
+						</td>
+						<td class="amount">
+							<money amount="upcomingInvoice.total" currency="upcomingInvoice.currency"></money>
+						</td>
+						<td></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+
+		<!-- Subscriptions -->
+		<div class="panel panel-invoiced customer-subscriptions light" ng-show="subscriptions.length>0">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<div class="action">
+						<a href="/subscriptions?customer={{customer.id}}">
+							{{'general.view_all'|translate}}
+						</a>
+					</div>
+					Subscription<span ng-show="totalSubscriptions!=1">s</span>
+				</h4>
+			</div>
+			<table class="search-results-table table slim" ng-if="loaded.subscriptions">
+				<thead>
+					<tr>
+						<th>Plan</th>
+						<th>{{'general.status'|translate}}</th>
+						<th>Next Bill</th>
+						<th class="money-column">Amount</th>
+						<th class="nopadding noborder"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat-start="subscription in subscriptions" ng-class="{even:$even, odd:$odd}">
+						<td class="title">
+							<a ui-sref="manage.subscription.view.summary({id:subscription.id})">
+								{{subscription.plan.name}}
+							</a>
+						</td>
+						<td class="status">
+							<subscription-status subscription="subscription"></subscription-status>
+						</td>
+						<td class="light">
+							<div ng-show="subscription.renews_next > 0">
+								<span ng-hide="subscription.cancel_at_period_end"><company-date date="subscription.renews_next"></company-date></span>
+								<span class="text-danger" ng-show="subscription.cancel_at_period_end">
+									Cancels on <company-date date="subscription.renews_next"></company-date>
+								</span>
+							</div>
+						</td>
+						<td class="money-column mobile-last noborder">
+							<money amount="subscription.recurring_total" currency="subscription.plan.currency"></money>
+							{{subscription.plan.interval_count|recurringFrequency:subscription.plan.interval}}
+						</td>
+						<td class="hover-actions-holder nopadding">
+							<div class="hover-actions">
+								<button type="button" class="btn btn-sm btn-default" ng-click="editSubscriptionModal(subscription, customer)" ng-show="subscription.status!='finished'&&subscription.status!='canceled'" tooltip="Edit Subscription" ng-if="'subscriptions.edit'|hasPermission">
+									<span class="fas fa-pencil"></span>
+								</button>
+								<button type="button" class="btn btn-sm btn-danger" ng-click="cancelSubscription(subscription)" ng-show="subscription.status!='finished'&&subscription.status!='canceled'" tooltip="Cancel Subscription" ng-if="'subscriptions.edit'|hasPermission">
+									<span class="fas fa-times"></span>
+								</button>
+							</div>
+						</td>
+					</tr>
+
+					<!-- Metadata -->
+					<tr class="hidden-xs child-row" ng-repeat-end ng-class="{even:$even, odd:$odd}" ng-show="hasMetadata(subscription)">
+						<td colspan="5">
+							{{subscription|metadataList}}
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr class="subscription-pagination">
+						<td colspan="5">
+							<div class="controls" ng-show="subscriptionPageCount > 1">
+								<div class="btn-group">
+									<button type="button" class="btn btn-link btn-sm" ng-click="prevSubscriptionPage()" ng-show="subscriptionPage > 1">
+										<span class="fas fa-angle-left"></span>
+									</button>
+									<button type="button" class="btn btn-link btn-sm" ng-click="nextSubscriptionPage()" ng-show="subscriptionPage < subscriptionPageCount">
+										<span class="fas fa-angle-right"></span>
+									</button>
+								</div>
+							</div>
+							<div class="total-records">
+								Showing {{subscriptionRange}} of <strong>{{totalSubscriptions|number}} subscriptions</strong>.
+							</div>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+			<div class="panel-body" ng-if="!loaded.subscriptions">
+				<div class="loading inline"></div>
+			</div>
+		</div>
+
+		<!-- Emails -->
+		<div class="panel panel-invoiced light" ng-show="threads.length>0" ng-if="'inboxes'|hasFeature">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<div class="action" ng-show="inboxId">
+						<a href="/inboxes?id={{inboxId}}&customer={{customer.id}}&status=all">
+							{{'customers.summary.email_threads.view_all'|translate}}
+						</a>
+					</div>
+					{{'customers.summary.email_threads.title'|translate}}
+				</h4>
+			</div>
+			<table class="table table-striped search-results-table slim">
+				<thead>
+					<tr>
+						<th>{{'customers.summary.email_threads.name'|translate}}</th>
+						<th>{{'customers.summary.email_threads.date'|translate}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="clickable" ng-repeat="thread in threads" ui-sref="manage.inboxes.browse.view_thread({id: thread.inbox_id, threadId: thread.id, status: thread.status})">
+						<td>
+							{{thread.name}}
+							<span class="label" ng-class="{'label-success':thread.status=='open','label-warning':thread.status=='pending'}" ng-show="thread.status=='open'||thread.status=='pending'">
+								{{'inboxes.'+thread.status|translate}}
+							</span>
+						</td>
+						<td class="nowrap light mobile-last"><company-date-time date="thread.created_at"></company-date-time></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<files document="customer" attachments="attachments" type="customer" ng-show="loaded.attachments"></files>
+	</div>
+
+	<!-- Loading -->
+	<div class="col-sm-8" ng-hide="isLoaded()">
+		<div class="loading"></div>
+	</div>
+</div>

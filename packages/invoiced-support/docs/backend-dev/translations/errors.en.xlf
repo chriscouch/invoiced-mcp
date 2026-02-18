@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1" resname="pulsar.validation.alpha">
+                <source>%field_name% only allows letters</source>
+                <target>%field_name% only allows letters</target>
+            </trans-unit>
+            <trans-unit id="2" resname="pulsar.validation.alpha_numeric">
+                <source>%field_name% only allows letters and numbers</source>
+                <target>%field_name% only allows letters and numbers</target>
+            </trans-unit>
+            <trans-unit id="3" resname="pulsar.validation.alpha_dash">
+                <source>%field_name% only allows letters and dashes</source>
+                <target>%field_name% only allows letters and dashes</target>
+            </trans-unit>
+            <trans-unit id="4" resname="pulsar.validation.boolean">
+                <source>%field_name% must be yes or no</source>
+                <target>%field_name% must be yes or no</target>
+            </trans-unit>
+            <trans-unit id="5" resname="pulsar.validation.callable">
+                <source>%field_name% is invalid</source>
+                <target>%field_name% is invalid</target>
+            </trans-unit>
+            <trans-unit id="6" resname="pulsar.validation.email">
+                <source>%field_name% must be a valid email address</source>
+                <target>%field_name% must be a valid email address</target>
+            </trans-unit>
+            <trans-unit id="7" resname="pulsar.validation.enum">
+                <source>%field_name% must be one of the allowed values</source>
+                <target>%field_name% must be one of the allowed values</target>
+            </trans-unit>
+            <trans-unit id="8" resname="pulsar.validation.date">
+                <source>%field_name% must be a date</source>
+                <target>%field_name% must be a date</target>
+            </trans-unit>
+            <trans-unit id="9" resname="pulsar.validation.failed">
+                <source>%field_name% is invalid</source>
+                <target>%field_name% is invalid</target>
+            </trans-unit>
+            <trans-unit id="10" resname="pulsar.validation.ip">
+                <source>%field_name% only allows valid IP addresses</source>
+                <target>%field_name% only allows valid IP addresses</target>
+            </trans-unit>
+            <trans-unit id="11" resname="pulsar.validation.matching">
+                <source>%field_name% must match</source>
+                <target>%field_name% must match</target>
+            </trans-unit>
+            <trans-unit id="12" resname="pulsar.validation.numeric">
+                <source>%field_name% only allows numbers</source>
+                <target>%field_name% only allows numbers</target>
+            </trans-unit>
+            <trans-unit id="13" resname="pulsar.validation.password">
+                <source>%field_name% must meet the password requirements</source>
+                <target>%field_name% must meet the password requirements</target>
+            </trans-unit>
+            <trans-unit id="14" resname="pulsar.validation.password_php">
+                <source>%field_name% must meet the password requirements</source>
+                <target>%field_name% must meet the password requirements</target>
+            </trans-unit>
+            <trans-unit id="15" resname="pulsar.validation.range">
+                <source>%field_name% must be within the allowed range</source>
+                <target>%field_name% must be within the allowed range</target>
+            </trans-unit>
+            <trans-unit id="16" resname="pulsar.validation.required">
+                <source>%field_name% is missing</source>
+                <target>%field_name% is missing</target>
+            </trans-unit>
+            <trans-unit id="17" resname="pulsar.validation.string">
+                <source>%field_name% must be a string between %min% and %max% characters.</source>
+                <target>%field_name% must be a string between %min% and %max% characters.</target>
+            </trans-unit>
+            <trans-unit id="18" resname="pulsar.validation.time_zone">
+                <source>%field_name% only allows valid time zones</source>
+                <target>%field_name% only allows valid time zones</target>
+            </trans-unit>
+            <trans-unit id="19" resname="pulsar.validation.timestamp">
+                <source>%field_name% only allows timestamps</source>
+                <target>%field_name% only allows timestamps</target>
+            </trans-unit>
+            <trans-unit id="20" resname="pulsar.validation.unique">
+                <source>The %field_name% you chose has already been taken. Please try a different %field_name%.</source>
+                <target>The %field_name% you chose has already been taken. Please try a different %field_name%.</target>
+            </trans-unit>
+            <trans-unit id="21" resname="pulsar.validation.url">
+                <source>%field_name% only allows valid URLs</source>
+                <target>%field_name% only allows valid URLs</target>
+            </trans-unit>
+            <trans-unit id="22" resname="no_permission">
+                <source>You do not have permission to do that</source>
+                <target>You do not have permission to do that</target>
+            </trans-unit>
+            <trans-unit id="23" resname="invalid_password">
+                <source>Oops, looks like the password is incorrect.</source>
+                <target>Oops, looks like the password is incorrect.</target>
+            </trans-unit>
+            <trans-unit id="24" resname="validation_failed">
+                <source>%field_name% is invalid</source>
+                <target>%field_name% is invalid</target>
+            </trans-unit>
+            <trans-unit id="25" resname="required_field_missing">
+                <source>%field_name% missing</source>
+                <target>%field_name% missing</target>
+            </trans-unit>
+            <trans-unit id="26" resname="not_unique">
+                <source>The %field_name% you chose has already been taken. Please try a different %field_name%.</source>
+                <target>The %field_name% you chose has already been taken. Please try a different %field_name%.</target>
+            </trans-unit>
+            <trans-unit id="27" resname="field_cannot_be_modified">
+                <source>%field_name% cannot be modified</source>
+                <target>%field_name% cannot be modified</target>
+            </trans-unit>
+            <trans-unit id="28" resname="pulsar.validation.password">
+                <source>%field_name% must meet the password requirements</source>
+                <target>%field_name% must meet the password requirements</target>
+            </trans-unit>
+            <trans-unit id="29" resname="email_rejected">
+                <source>Sorry, your email could not be sent to %email% for reason: %reason%</source>
+                <target>Sorry, your email could not be sent to %email% for reason: %reason%</target>
+            </trans-unit>
+            <trans-unit id="30" resname="autopay_not_supported">
+                <source>Sorry, this business does not support AutoPay. Please enable a supported payment method in Settings > Payments first.</source>
+                <target>Sorry, this business does not support AutoPay. Please enable a supported payment method in Settings > Payments first.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "title": "Sales Summary",
+  "sections": [
+    {
+      "title": "",
+      "object": "sale",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "function": "count"
+          },
+          "name": "# Invoices"
+        },
+        {
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "subtotal"
+              }
+            ]
+          },
+          "name": "Subtotal"
+        },
+        {
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "total"
+              }
+            ]
+          },
+          "name": "Total"
+        },
+        {
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "balance"
+              }
+            ]
+          },
+          "name": "Balance"
+        }
+      ],
+      "filter": [
+        {
+          "operator": "between",
+          "value": "$dateRange",
+          "field": {
+            "id": "date"
+          }
+        },
+        {
+          "operator": "=",
+          "value": false,
+          "field": {
+            "id": "draft"
+          }
+        },
+        {
+          "operator": "=",
+          "value": false,
+          "field": {
+            "id": "voided"
+          }
+        },
+        {
+          "operator": "=",
+          "value": "$currency",
+          "field": {
+            "id": "currency"
+          }
+        }
+      ],
+      "group": [],
+      "sort": []
+    }
+  ]
+}

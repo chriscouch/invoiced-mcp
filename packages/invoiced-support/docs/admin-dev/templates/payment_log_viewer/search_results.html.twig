@@ -1,0 +1,70 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Payment Request Log Viewer <small>Search Results</small>{% endblock %}
+
+{% block body_class 'ea-index' %}
+
+{% block page_actions %}
+    {{ parent() }}
+    <a class="btn" href="{{ ea_url().setRoute('payment_log_viewer') }}">
+        New Search
+    </a>
+{% endblock %}
+
+{% block main %}
+    <div>
+        <span class="fas fa-filter text-secondary"></span>
+        {{ filter }}
+    </div>
+
+    <table class="table datagrid">
+        {% if count > 0 %}
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        <span>Timestamp</span>
+                    </th>
+                    <th>
+                        <span>Endpoint</span>
+                    </th>
+                    <th>
+                        <span>Status Code</span>
+                    </th>
+                    <th>
+                        <span>Response Time</span>
+                    </th>
+                    <th>
+                        <span>Gateway</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for request in results %}
+                <tr>
+                    <td>
+                        <a href="{{ ea_url().setRoute('view_payment_request', {requestId: request.request_id}) }}">
+                            View Details
+                        </a>
+                    </td>
+                    <td>{{ request.timestamp|date('n/j/Y g:i:s a') }}</td>
+                    <td>{{ request.method }} {{ request.endpoint }}</td>
+                    <td>{{ request.status_code }}</td>
+                    <td>{{ request.response_time / 1000.0 }}s</td>
+                    <td>{% if request.gateway is defined %}{{ request.gateway }}{% endif %}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        {% endif %}
+    </table>
+{% endblock %}
+
+{% block content_footer_wrapper %}
+    <section class="content-footer">
+        <div class="list-pagination">
+            <div class="list-pagination-counter">
+                {{ count }} results
+            </div>
+        </div>
+    </section>
+{% endblock %}

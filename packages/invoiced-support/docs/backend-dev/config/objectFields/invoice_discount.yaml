@@ -1,0 +1,29 @@
+fields:
+  amount: { name: Amount, type: money, summarize: true }
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  expires: { name: Expires, type: date }
+  id:
+    name: ID
+    type: string
+    writable: false
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  coupon:
+    name: Coupon
+    type: join
+    parent_column: rate_id
+    join_column: internal_id
+  invoice: { name: Invoice, type: join }

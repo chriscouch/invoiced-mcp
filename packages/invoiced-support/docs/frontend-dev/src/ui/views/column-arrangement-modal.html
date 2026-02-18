@@ -1,0 +1,39 @@
+<div class="modal-header">
+    <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+    <h4 class="modal-title">
+        {{'ui.columns.title'|translate}}
+    </h4>
+</div>
+<div class="modal-body">
+    <p class="alert alert-danger" ng-show="error">
+        {{error.message}}
+    </p>
+    <div class="sortable-container">
+        <div class="sortable-row">
+            <div class="sortable-column">
+                <h6>{{'ui.columns.all'|translate}}</h6>
+            </div>
+            <div class="sortable-column">
+                <h6>{{'ui.columns.visible'|translate}}</h6>
+            </div>
+        </div>
+        <div class="sortable-row">
+            <div ui-sortable="sortableOptionsList" class="sortable-column fields-container" ng-model="fields" connectWith=".selected-fields">
+                <div class="field" role="button" ng-repeat="field in fields">{{field.name}}</div>
+            </div>
+            <div ui-sortable="sortableOptionsList" class="sortable-column fields-container" ng-model="selected" connectWith=".all-fields">
+                <div class="field" role="button"  ng-repeat="field in selected">{{field.name}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer sortable-container">
+    <div class="sortable-row">
+        <div class="sortable-column">
+            <button ng-click="save()" type="submit" class="btn btn-primary">
+                <span translate>general.apply</span>
+            </button>
+        </div>
+    </div>
+</div>

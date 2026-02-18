@@ -1,0 +1,69 @@
+<p class="loading" ng-show="loading"></p>
+
+<div class="object-view invoice-summary" ng-hide="loading">
+	<div class="title-bar">
+		<!-- Title -->
+		<h2>{{paymentLink.name}}</h2>
+		<h3 ng-hide="paymentLink.items.length === 0">
+			<money amount="paymentLinkTotal" currency="paymentLink.currency"></money>
+			<span ng-if="paymentLink.customer">for {{paymentLink.customer.name}}</span>
+		</h3>
+	</div>
+
+	<ul class="nav nav-tabs">
+		<!-- Tab Links -->
+		<li ui-sref-active="active">
+			<a ui-sref=".summary">
+				{{'tabs.summary'|translate}}
+			</a>
+		</li>
+		<li ui-sref-active="active">
+			<a ui-sref=".history">
+				{{'tabs.history'|translate}}
+			</a>
+		</li>
+
+		<!-- Action Buttons -->
+		<li class="action right dropdown" dropdown>
+			<a href="" class="dropdown-toggle" dropdown-toggle>
+				<span class="actions-label"></span>
+				<span class="fas fa-chevron-down"></span>
+			</a>
+			<ul class="dropdown-menu dropdown-menu-right">
+				<li ng-if="paymentLink.url">
+					<a href="" ng-click="urlModal(paymentLink.url)">
+						Payment Link URL
+					</a>
+				</li>
+				<li ng-if="paymentLink.url">
+					<a href="" ng-click="qrCode(paymentLink.url)" tooltip="QR Code">
+						QR Code
+					</a>
+				</li>
+				<li ng-if="('catalog.edit'|hasPermission)">
+					<a ui-sref="manage.payment_link.duplicate({id:paymentLink.id})">
+						{{'general.make_copy'|translate}}
+					</a>
+				</li>
+				<li class="divider" ng-show="paymentLink.status=='active'"></li>
+				<li class="danger" ng-if="paymentLink.status=='active' && ('catalog.edit'|hasPermission)">
+					<a href="" ng-click="delete(paymentLink)" ng-hide="deleting">
+						Delete Payment Link
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li class="action right hidden-xs" ng-hide="paymentLink.status=='completed'||paymentLink.status=='deleted'">
+			<a ui-sref="manage.payment_link.edit({id:paymentLink.id})" ng-if="'catalog.edit'|hasPermission">
+				<div>{{'general.edit'|translate}}</div>
+			</a>
+		</li>
+	</ul>
+
+	<!-- Selected Tab Content -->
+	<div class="tab-content">
+		<div class="tab-pane active">
+			<ui-view/>
+		</div>
+	</div>
+</div>

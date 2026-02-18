@@ -1,0 +1,40 @@
+<p class="loading" ng-show="loading"></p>
+
+<div class="object-view import" ng-hide="loading">
+    <div class="title-bar">
+        <div class="row">
+            <div class="col-sm-10">
+                <!-- Title -->
+                <h2>Remittance Advice</h2>
+                <h3 ng-show="remittanceAdvice.customer">{{remittanceAdvice.customer.name}}</h3>
+            </div>
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs">
+        <!-- Tab Links -->
+        <li ui-sref-active="active">
+            <a ui-sref=".summary">
+                {{'tabs.summary'|translate}}
+            </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref=".history">
+                {{'tabs.history'|translate}}
+            </a>
+        </li>
+
+        <li class="action automation-action right" ng-if="'payments.edit'|hasPermission">
+            <div>
+                <automate-button btn-class="'nav-link-item'" object-type="modelObjectType" object-id="modelId"></automate-button>
+            </div>
+        </li>
+    </ul>
+
+    <!-- Selected Tab Content -->
+    <div class="tab-content">
+        <div class="tab-pane active">
+            <ui-view/>
+        </div>
+    </div>
+</div>

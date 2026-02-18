@@ -1,0 +1,132 @@
+<div class="modal-header">
+	<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+	<h4 class="modal-title">
+		Sync Details
+	</h4>
+</div>
+<div class="modal-body">
+	<div class="form-group">
+		<label class="control-label">
+			Integration
+		</label>
+		<div>
+			{{job.integration.name}}
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="control-label">
+			Timestamp
+		</label>
+		<div>
+			<company-date-time date="job.created_at"></company-date-time>
+			&mdash;
+			ran for {{duration}}
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="control-label">
+			# Synced
+		</label>
+		<div>
+			{{job.position|number}}<span ng-show="job.total_count > 0"> / {{job.total_count|number}}</span> Records
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="control-label">
+			Result
+		</label>
+		<div>
+			<span class="label" ng-class="{'label-danger':job.state=='failed'||job.state=='errored'||job.state=='canceled','label-success':job.state=='finished','label-warning':job.state=='started'||job.state=='pending'||job.state=='paused'}">{{job.state}}</span>
+		</div>
+	</div>
+
+	<!-- Error Message -->
+	<div class="form-group" ng-show="job.error_message">
+		<label class="control-label">
+			Error Message
+		</label>
+		<div class="sync-error-message">
+			{{job.error_message}}
+		</div>
+	</div>
+
+	<div ng-show="loading" class="loading inline"></div>
+	<div ng-hide="loading">
+		<!-- Synced Records -->
+		<div ng-if="failedRecords.length > 0">
+			<label class="control-label">
+				Failed Records
+				<span class="badge">{{failedRecords.length|number}}</span>
+			</label>
+			<p class="alert alert-danger" ng-show="skipError">
+				{{skipError.message}}
+			</p>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Description</th>
+						<th>Error Message</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="record in failedRecords">
+						<td>
+							<a href="{{record.link}}" ng-if="record.link">{{record.description}}</a>
+							<span ng-hide="record.link">{{record.description}}</span>
+						</td>
+						<td>
+							<div class="text-danger">
+								{{record.error_message}}
+							</div>
+							<div ng-hide="skipping||isSkipped(record)">
+								<a href="" class="btn btn-link btn-sm" ng-click="skipRecord(record)">
+									Skip in future syncs
+								</a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="2"></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+
+		<div ng-if="succeededRecords.length > 0">
+			<label class="control-label">
+				Successfully Synced
+				<span class="badge">{{succeededRecords.length|number}}</span>
+			</label>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="record in succeededRecords">
+						<td>
+							<a href="{{record.link}}" ng-if="record.link">{{record.description}}</a>
+							<span ng-hide="record.link">{{record.description}}</span>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-primary" ng-click="close()">
+		Done
+	</button>
+</div>

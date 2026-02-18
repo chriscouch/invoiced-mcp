@@ -1,0 +1,5 @@
+framework:
+    mailer:
+        dsn: '%env(MAILER_DSN)%'
+        headers:
+          from: 'Invoiced Customer Service Application <no-reply@invoiced.com>'

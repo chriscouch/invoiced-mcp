@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1" resname="payment_methods.ach">
+                <source>ACH</source>
+                <target>ACH</target>
+            </trans-unit>
+            <trans-unit id="2" resname="payment_methods.balance">
+                <source>Balance</source>
+                <target>Solde</target>
+            </trans-unit>
+            <trans-unit id="3" resname="payment_methods.bitcoin">
+                <source>Bitcoin</source>
+                <target>Bitcoin</target>
+            </trans-unit>
+            <trans-unit id="4" resname="payment_methods.cash">
+                <source>Cash</source>
+                <target>Espèces</target>
+            </trans-unit>
+            <trans-unit id="5" resname="payment_methods.check">
+                <source>Check</source>
+                <target>Chèque</target>
+            </trans-unit>
+            <trans-unit id="6" resname="payment_methods.credit_card">
+                <source>Credit Card</source>
+                <target>Carte bancaire</target>
+            </trans-unit>
+            <trans-unit id="7" resname="payment_methods.direct_debit">
+                <source>Direct Debit</source>
+                <target>Prélèvement bancaire</target>
+            </trans-unit>
+            <trans-unit id="8" resname="payment_methods.other">
+                <source>Other</source>
+                <target>Autre</target>
+            </trans-unit>
+            <trans-unit id="9" resname="payment_methods.paypal">
+                <source>PayPal</source>
+                <target>PayPal</target>
+            </trans-unit>
+            <trans-unit id="10" resname="payment_methods.wire_transfer">
+                <source>Wire Transfer</source>
+                <target>Virement bancaire</target>
+            </trans-unit>
+            <trans-unit id="11" resname="payment_terms.payment_plan">
+                <source>Payment Plan</source>
+                <target>Paiement en plusieurs fois</target>
+            </trans-unit>
+            <trans-unit id="12" resname="payment_terms.autopay">
+                <source>AutoPay</source>
+                <target>Prélèvement automatique</target>
+            </trans-unit>
+            <trans-unit id="26" resname="titles.xero_org" xml:space="preserve" approved="yes">
+                <source>Select Xero Organization</source>
+                <target state="translated">Sélectionnez le locataire Xero</target>
+      </trans-unit>
+            <trans-unit id="27" resname="messages.xero_org_lead" xml:space="preserve" approved="yes">
+                <source>Invoiced only supports one Xero organization per account. Please select the tenant you would like to connect.</source>
+                <target state="translated">Facturé ne prend en charge qu’une seule organisation Xero par compte. Veuillez sélectionner le locataire que vous souhaitez connecter.</target>
+      </trans-unit>
+            <trans-unit id="28" resname="messages.xero_org_label" xml:space="preserve" approved="yes">
+                <source>Select an organization</source>
+                <target state="translated">Sélectionnez une organisation</target>
+      </trans-unit>
+            <trans-unit id="u9NQ9im" resname="labels.address_line1" xml:space="preserve" approved="yes">
+                <source>labels.address_line1</source>
+                <target state="translated">Adresse Ligne 1</target>
+      </trans-unit>
+            <trans-unit id="2PtwTHW" resname="labels.address_line2" xml:space="preserve" approved="yes">
+                <source>labels.address_line2</source>
+                <target state="translated">Adresse Ligne 2</target>
+      </trans-unit>
+            <trans-unit id="LRthRI_" resname="labels.address_city" xml:space="preserve" approved="yes">
+                <source>labels.address_city</source>
+                <target state="translated">Ville</target>
+      </trans-unit>
+            <trans-unit id="96AtnmA" resname="labels.address_state" xml:space="preserve" approved="yes">
+                <source>labels.address_state</source>
+                <target state="translated">État/Province</target>
+      </trans-unit>
+            <trans-unit id="U9p1q3F" resname="labels.address_postal_code" xml:space="preserve" approved="yes">
+                <source>labels.address_postal_code</source>
+                <target state="translated">Zip / code postal</target>
+      </trans-unit>
+            <trans-unit id="RE__X4i" resname="labels.address_country" xml:space="preserve" approved="yes">
+                <source>labels.address_country</source>
+                <target state="translated">Pays</target>
+      </trans-unit>
+            <trans-unit id="29" resname="labels.aging_current" xml:space="preserve" approved="yes">
+                <source>labels.aging_current</source>
+                <target state="translated">Actuel</target>
+      </trans-unit>
+            <trans-unit id="30" resname="labels.aging_between_days" xml:space="preserve" approved="yes">
+                <source>labels.aging_between_days</source>
+                <target state="translated">%lowerDays% - %upperDays% Jours</target>
+      </trans-unit>
+            <trans-unit id="31" resname="labels.aging_between_days" xml:space="preserve" approved="yes">
+                <source>labels.aging_between_days</source>
+                <target state="translated">%lowerDays% - %upperDays% Jours</target>
+      </trans-unit>
+            <trans-unit id="32" resname="labels.aging_plus_days" xml:space="preserve" approved="yes">
+                <source>labels.aging_plus_days</source>
+                <target state="translated">%lowerDays%+ jours</target>
+      </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -1,0 +1,54 @@
+security:
+    enable_authenticator_manager: true
+
+    # https://symfony.com/doc/current/security.html#c-hashing-passwords
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        in_memory: { memory: ~ }
+        main:
+            entity:
+                class: App\Entity\CustomerAdmin\User
+                property: email
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        admin:
+            pattern: ^/(admin|saml)
+            provider: main
+            switch_user: true
+            entry_point: form_login
+            form_login:
+                login_path: login
+                check_path: login_check
+                username_parameter: _email
+                password_parameter: _password
+                default_target_path: index
+                enable_csrf: true
+            saml:
+                use_attribute_friendly_name: true
+                check_path: saml_acs
+                login_path: saml_login
+                always_use_default_target_path: true
+                default_target_path: index
+            logout:
+                path: logout
+                invalidate_session: true
+                target: signed_out
+
+    role_hierarchy:
+        ROLE_SALES: ROLE_USER
+        ROLE_MARKETING: ROLE_USER
+        ROLE_CUSTOMER_SUPPORT: ROLE_USER
+        ROLE_ADMIN: ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+         - { path: ^/admin, roles: IS_AUTHENTICATED_FULLY }

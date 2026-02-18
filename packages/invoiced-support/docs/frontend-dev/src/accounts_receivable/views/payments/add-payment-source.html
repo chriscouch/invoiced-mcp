@@ -1,0 +1,89 @@
+<form name="sourceForm" ng-submit="add(type)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			Add Payment Method
+		</h4>
+	</div>
+	<div class="modal-body" ng-show="loading">
+		<div class="loading"></div>
+	</div>
+	<div class="modal-body add-payment-source form-horizontal" ng-hide="loading">
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<div class="form-group" ng-show="customer">
+			<label class="control-label col-sm-3">Customer</label>
+			<div class="col-sm-9 form-control-static">
+				{{customer.name}}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-3">Type</label>
+			<div class="col-sm-9">
+			    <div class="btn-group btn-radio">
+			        <label id="credit-card-btn" class="btn" ng-model="type" btn-radio="'credit_card'">Card</label>
+			        <label id="ach-btn" class="btn" ng-model="type" btn-radio="'ach'">ACH</label>
+			    </div>
+			</div>
+		</div>
+
+		<!-- Card -->
+		<div class="alert alert-warning"  ng-if="type=='credit_card' && !acceptsCreditCards">
+			You do not currently have card payments enabled. You can enable this in <strong>Settings</strong> > <strong>Payments</strong>.
+		</div>
+		<div class="alert alert-warning" ng-if="type=='credit_card' && (acceptsCreditCards == 'flywire' || acceptsCreditCards == 'flywire_payments')">
+			{{'payment_method.warnings.card'|translate}}
+		</div>
+		<div ng-if="type=='credit_card' && acceptsCreditCards && acceptsCreditCards != 'flywire' && acceptsCreditCards != 'flywire_payments'">
+			<div class="form-group">
+				<label class="control-label col-sm-3">Card</label>
+				<div class="col-sm-8">
+					<credit-card card="card" options="{'requestAddress':true,'allowTestCard':false}"></credit-card>
+				</div>
+			</div>
+
+			<!-- Make Default -->
+			<div class="form-group" ng-hide="options.makeDefault || options.returnToken">
+				<div class="col-sm-9 col-sm-offset-3">
+					<label class="noselect">
+						<input type="checkbox" ng-model="$parent.makeDefault" />
+						Replace current default
+					</label>
+				</div>
+			</div>
+		</div>
+
+		<!-- ACH -->
+		<div class="alert alert-warning" ng-if="type=='ach' && !acceptsACH">
+			You do not currently have ACH payments enabled. You can enable this in <strong>Settings</strong> > <strong>Payments</strong>.
+		</div>
+		<div class="alert alert-warning" ng-if="type=='ach' && (acceptsACH == 'gocardless')">
+			{{'payment_method.warnings.payment_bank'|translate}}
+		</div>
+		<div ng-if="type=='ach' && acceptsACH && acceptsACH != 'gocardless'">
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-3">
+					<bank-account bank-account="bankAccount"></bank-account>
+				</div>
+			</div>
+
+			<!-- Make Default -->
+			<div class="form-group" ng-hide="options.makeDefault || options.returnToken">
+				<div class="col-sm-9 col-sm-offset-3">
+					<label class="noselect">
+						<input id="make-default-payment-method" type="checkbox" ng-model="$parent.makeDefault" />
+						Replace current default
+					</label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer" ng-hide="loading">
+		<button id="add-payment-method-btn" type="submit" class="btn btn-primary Button" ng-disabled="sourceForm.$invalid||saving||(type=='credit_card' && !acceptsCreditCards)||(type=='ach' && (!acceptsACH || acceptsACH == 'invoiced' || acceptsACH == 'gocardless'))" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.add'|translate}}
+		</button>
+	</div>
+</form>

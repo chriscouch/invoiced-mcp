@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="es" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="6SQX6Qy" resname="headers.invoice">
+        <source>headers.invoice</source>
+        <target>FACTURA</target>
+      </trans-unit>
+      <trans-unit id="wjsV3fl" resname="labels.paid">
+        <source>labels.paid</source>
+        <target>PAGADO</target>
+      </trans-unit>
+      <trans-unit id="xuZLJ1R" resname="labels.bill_from">
+        <source>labels.bill_from</source>
+        <target>Bill From</target>
+      </trans-unit>
+      <trans-unit id="t114NXp" resname="labels.bill_to">
+        <source>labels.bill_to</source>
+        <target>Cobrar a</target>
+      </trans-unit>
+      <trans-unit id="DlKW1PP" resname="labels.ship_to">
+        <source>labels.ship_to</source>
+        <target>Enviar a</target>
+      </trans-unit>
+      <trans-unit id="RJGJEPj" resname="labels.attention_to">
+        <source>labels.attention_to</source>
+        <target>ATTN</target>
+      </trans-unit>
+      <trans-unit id="8Fvy4ix" resname="labels.account_number">
+        <source>labels.account_number</source>
+        <target>Cuenta #</target>
+      </trans-unit>
+      <trans-unit id="AUA0lmg" resname="labels.invoice_number">
+        <source>labels.invoice_number</source>
+        <target>Factura #</target>
+      </trans-unit>
+      <trans-unit id="bOKmMiv" resname="labels.date">
+        <source>labels.date</source>
+        <target>Fecha</target>
+      </trans-unit>
+      <trans-unit id="QFQqxZU" resname="labels.due_date">
+        <source>labels.due_date</source>
+        <target>Fecha de vencimiento</target>
+      </trans-unit>
+      <trans-unit id="HgJm.nz" resname="labels.purchase_order">
+        <source>labels.purchase_order</source>
+        <target>Orden de Compra</target>
+      </trans-unit>
+      <trans-unit id="s.upHgu" resname="labels.payment_terms">
+        <source>labels.payment_terms</source>
+        <target>Condiciones de pago</target>
+      </trans-unit>
+      <trans-unit id="HI5nVQ." resname="labels.balance_due">
+        <source>labels.balance_due</source>
+        <target>Saldo Adeudado</target>
+      </trans-unit>
+      <trans-unit id="oBE4vHb" resname="columns.item">
+        <source>columns.item</source>
+        <target>Artículo</target>
+      </trans-unit>
+      <trans-unit id="MSqwBpW" resname="columns.quantity">
+        <source>columns.quantity</source>
+        <target>Cantidad</target>
+      </trans-unit>
+      <trans-unit id="E6SYPf3" resname="columns.unit_cost">
+        <source>columns.unit_cost</source>
+        <target>Tasa</target>
+      </trans-unit>
+      <trans-unit id="gpOlABV" resname="columns.amount">
+        <source>columns.amount</source>
+        <target>Cantidad</target>
+      </trans-unit>
+      <trans-unit id="CR4pyJ8" resname="labels.subtotal">
+        <source>labels.subtotal</source>
+        <target>Subtotal</target>
+      </trans-unit>
+      <trans-unit id="mE9Idjw" resname="labels.total">
+        <source>labels.total</source>
+        <target>Total</target>
+      </trans-unit>
+      <trans-unit id="7o2CC.r" resname="labels.amount_paid">
+        <source>labels.amount_paid</source>
+        <target>Cantidad Pagada</target>
+      </trans-unit>
+      <trans-unit id="g_9xYt." resname="labels.notes">
+        <source>labels.notes</source>
+        <target>Notas</target>
+      </trans-unit>
+      <trans-unit id="OPL8Sr6" resname="labels.terms">
+        <source>labels.terms</source>
+        <target>Términos</target>
+      </trans-unit>
+      <trans-unit id="0QzozfY" resname="labels.amount">
+        <source>labels.amount</source>
+        <target>Cantidad</target>
+      </trans-unit>
+      <trans-unit id="RRsvRXZ" resname="labels.expires_on">
+        <source>labels.expires_on</source>
+        <target>Vence %date%</target>
+      </trans-unit>
+      <trans-unit id="Wxtb7xI" resname="filenames.invoice">
+        <source>filenames.invoice</source>
+        <target>factura %number%</target>
+      </trans-unit>
+      <trans-unit id="fR_SPZX" resname="headers.credit_note">
+        <source>headers.credit_note</source>
+        <target>NOTA DE CREDITO</target>
+      </trans-unit>
+      <trans-unit id="3Ytdm_m" resname="labels.credit_note_number">
+        <source>labels.credit_note_number</source>
+        <target>Nota de crédito #</target>
+      </trans-unit>
+      <trans-unit id="r2amNw9" resname="filenames.credit_note">
+        <source>filenames.credit_note</source>
+        <target>Nota de crédito %number%</target>
+      </trans-unit>
+      <trans-unit id="8Ul_JSm" resname="headers.estimate">
+        <source>headers.estimate</source>
+        <target>ESTIMACIÓN</target>
+      </trans-unit>
+      <trans-unit id="4ZnDOXK" resname="labels.estimate_number">
+        <source>labels.estimate_number</source>
+        <target>Estimar #</target>
+      </trans-unit>
+      <trans-unit id="tsHCNqj" resname="labels.expires">
+        <source>labels.expires</source>
+        <target>Expira</target>
+      </trans-unit>
+      <trans-unit id="WjAV93L" resname="filenames.estimate">
+        <source>filenames.estimate</source>
+        <target>Estimar %number%</target>
+      </trans-unit>
+      <trans-unit id="80Ha_5k" resname="headers.receipt">
+        <source>headers.receipt</source>
+        <target>RECIBO</target>
+      </trans-unit>
+      <trans-unit id="ujCR3EW" resname="labels.payment_method">
+        <source>labels.payment_method</source>
+        <target>Método de Pago</target>
+      </trans-unit>
+      <trans-unit id="0HnXDdv" resname="labels.check_no">
+        <source>labels.check_no</source>
+        <target>Comprobar #</target>
+      </trans-unit>
+      <trans-unit id="bYnzQJs" resname="labels.invoice">
+        <source>labels.invoice</source>
+        <target>Factura</target>
+      </trans-unit>
+      <trans-unit id="SfvasqN" resname="labels.refunded">
+        <source>labels.refunded</source>
+        <target>Reembolsado</target>
+      </trans-unit>
+      <trans-unit id="jgE_YAD" resname="labels.credited">
+        <source>labels.credited</source>
+        <target>Acreditado</target>
+      </trans-unit>
+      <trans-unit id="xeeoylN" resname="filenames.receipt">
+        <source>filenames.receipt</source>
+        <target>Recibo</target>
+      </trans-unit>
+      <trans-unit id="Z_5Lkp." resname="headers.statement">
+        <source>headers.statement</source>
+        <target>DECLARACIÓN</target>
+      </trans-unit>
+      <trans-unit id="O_759wa" resname="titles.account_summary">
+        <source>titles.account_summary</source>
+        <target>Resumen de cuenta a partir de %date%</target>
+      </trans-unit>
+      <trans-unit id="F_puvNP" resname="titles.account_summary_since">
+        <source>titles.account_summary_since</source>
+        <target>Resumen de cuenta a partir de %end_date% desde %start_date%</target>
+      </trans-unit>
+      <trans-unit id="ntwoHp2" resname="labels.previous_balance">
+        <source>labels.previous_balance</source>
+        <target>Saldo Anterior</target>
+      </trans-unit>
+      <trans-unit id="RlttFCP" resname="labels.invoiced">
+        <source>labels.invoiced</source>
+        <target>Facturado</target>
+      </trans-unit>
+      <trans-unit id="QF1DrBW" resname="labels.statement_payments">
+        <source>labels.statement_payments</source>
+        <target>Pagos - ¡Gracias!</target>
+      </trans-unit>
+      <trans-unit id="Haa8P0l" resname="labels.account_balance">
+        <source>labels.account_balance</source>
+        <target>Saldo de la Cuenta</target>
+      </trans-unit>
+      <trans-unit id="OQDnT3C" resname="labels.credit_balance">
+        <source>labels.credit_balance</source>
+        <target>Saldo de Crédito</target>
+      </trans-unit>
+      <trans-unit id="lQpqwFm" resname="labels.total_issued">
+        <source>labels.total_issued</source>
+        <target>Total Emitido</target>
+      </trans-unit>
+      <trans-unit id="M7RpJEp" resname="labels.total_spent">
+        <source>labels.total_spent</source>
+        <target>total Gastado</target>
+      </trans-unit>
+      <trans-unit id="A6do3bL" resname="titles.account_detail">
+        <source>titles.account_detail</source>
+        <target>Detalle de la Cuenta</target>
+      </trans-unit>
+      <trans-unit id="EOZYJgQ" resname="columns.date">
+        <source>columns.date</source>
+        <target>Fecha</target>
+      </trans-unit>
+      <trans-unit id="dXRjZ.A" resname="columns.invoice_number">
+        <source>columns.invoice_number</source>
+        <target>Factura #</target>
+      </trans-unit>
+      <trans-unit id="zdRyTq0" resname="columns.paid">
+        <source>columns.paid</source>
+        <target>Pagado</target>
+      </trans-unit>
+      <trans-unit id="904eh0t" resname="columns.balance">
+        <source>columns.balance</source>
+        <target>Saldo</target>
+      </trans-unit>
+      <trans-unit id="CC2FWfH" resname="columns.invoiced">
+        <source>columns.invoiced</source>
+        <target>Facturado</target>
+      </trans-unit>
+      <trans-unit id="ixNmv3m" resname="labels.total_invoiced">
+        <source>labels.total_invoiced</source>
+        <target>Total Facturado</target>
+      </trans-unit>
+      <trans-unit id="RBug4mB" resname="labels.total_paid">
+        <source>labels.total_paid</source>
+        <target>Total Pagado</target>
+      </trans-unit>
+      <trans-unit id="bfG16Zp" resname="labels.unapplied_payments">
+        <source>labels.unapplied_payments</source>
+        <target>Total Pagado en Exceso</target>
+      </trans-unit>
+      <trans-unit id="Rlut1HG" resname="titles.credit_balance_history">
+        <source>titles.credit_balance_history</source>
+        <target>Historial de Saldo de Crédito</target>
+      </trans-unit>
+      <trans-unit id="apnILxs" resname="columns.description">
+        <source>columns.description</source>
+        <target>Descripción</target>
+      </trans-unit>
+      <trans-unit id=".IUwgFt" resname="columns.issued">
+        <source>columns.issued</source>
+        <target>Emitido</target>
+      </trans-unit>
+      <trans-unit id="FmIWbG9" resname="columns.spent">
+        <source>columns.spent</source>
+        <target>Gastado</target>
+      </trans-unit>
+      <trans-unit id="Qxba54H" resname="labels.total_balance">
+        <source>labels.total_balance</source>
+        <target>Saldo Total</target>
+      </trans-unit>
+      <trans-unit id="p0V_wp2" resname="labels.past_due_balance">
+        <source>labels.past_due_balance</source>
+        <target>Saldo Vencido</target>
+      </trans-unit>
+      <trans-unit id="u44iAJ." resname="titles.past_due_items">
+        <source>titles.past_due_items</source>
+        <target>Elementos Vencidos a Partir de %date%</target>
+      </trans-unit>
+      <trans-unit id="K0E2W71" resname="titles.open_items">
+        <source>titles.open_items</source>
+        <target>Artículos abiertos a partir de %date%</target>
+      </trans-unit>
+      <trans-unit id="LYFkje4" resname="columns.total">
+        <source>columns.total</source>
+        <target>Total</target>
+      </trans-unit>
+      <trans-unit id="Z7Lctzb" resname="columns.due_date">
+        <source>columns.due_date</source>
+        <target>Fecha de vencimiento</target>
+      </trans-unit>
+      <trans-unit id="s3OFhMN" resname="filenames.statement">
+        <source>filenames.statement</source>
+        <target>%customerName% Declaración</target>
+      </trans-unit>
+      <trans-unit id="Q3et9EE" resname="labels.credit_note">
+        <source>labels.credit_note</source>
+        <target>Nota de Credito</target>
+      </trans-unit>
+      <trans-unit id="A89s3EM" resname="labels.refund">
+        <source>labels.refund</source>
+        <target>Reembolso</target>
+      </trans-unit>
+      <trans-unit id="GyJQi1t" resname="labels.payment">
+        <source>labels.payment</source>
+        <target>Pago</target>
+      </trans-unit>
+      <trans-unit id="p2WBhF1" resname="labels.unapplied_payment">
+        <source>labels.unapplied_payment</source>
+        <target>Pago excesivo</target>
+      </trans-unit>
+      <trans-unit id="1z136ge" resname="labels.credit">
+        <source>labels.credit</source>
+        <target>Crédito</target>
+      </trans-unit>
+      <trans-unit id="vcKnPeU" resname="labels.adjustment">
+        <source>labels.adjustment</source>
+        <target>Ajuste</target>
+      </trans-unit>
+      <trans-unit id="5RhB6L4" resname="labels.applied_credit">
+        <source>labels.applied_credit</source>
+        <target>Crédito aplicado</target>
+      </trans-unit>
+      <trans-unit id="zhJmouq" resname="columns.type">
+        <source>columns.type</source>
+        <target>Tipo</target>
+      </trans-unit>
+      <trans-unit id="4ur1x3f" resname="labels.current">
+        <source>labels.current</source>
+        <target>Actual</target>
+      </trans-unit>
+      <trans-unit id="ryLL3CY" resname="labels.aging">
+        <source>labels.aging</source>
+        <target>Envejecimiento</target>
+      </trans-unit>
+      <trans-unit id="BW0.1KL" resname="labels.page">
+        <source>labels.page</source>
+        <target>Página</target>
+      </trans-unit>
+      <trans-unit id="xcBv4sd" resname="labels.payments_and_credits">
+        <source>labels.payments_and_credits</source>
+        <target>Pagos y Créditos</target>
+      </trans-unit>
+      <trans-unit id="m8Z_SG5" resname="columns.reference">
+        <source>columns.reference</source>
+        <target>Referencia</target>
+      </trans-unit>
+      <trans-unit id="OKJpx4u" resname="labels.days">
+        <source>labels.days</source>
+        <target>Dias</target>
+      </trans-unit>
+      <trans-unit id="8c1Fun1" resname="labels.date_from">
+        <source>labels.date_from</source>
+        <target>De</target>
+      </trans-unit>
+      <trans-unit id="8c1FunS2" resname="labels.date_to">
+        <source>labels.date_to</source>
+        <target>A</target>
+      </trans-unit>
+      <trans-unit id="23" resname="columns.customer" xml:space="preserve" approved="yes">
+        <source>columns.customer</source>
+        <target state="translated">Cliente</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,299 @@
+{% if invoice.balance == 0 %}
+    <div class="paid-stamp">
+        {{ trans('labels.paid')|upper }}
+    </div>
+{% endif %}
+
+{% if company.logo %}
+    <div class="logo-header">
+        <div class="logo-holder">
+            <img src="{{ company.logo }}" />
+        </div>
+        <div class="header-holder">
+            <div class="highlight-color-bg header-holder-context">
+                <div class="left-header">
+                    <span>{% if theme.use_translations %}{{ trans('headers.invoice') }}{% else %}{{ theme.header }}{% endif %}</span>
+                </div>
+                <div class="right-header">
+                    <div class="address-holder">
+                        <div class="name">{{ company.name }}</div>
+                        <div class="address">{{ company.address|nl2br }}</div>
+                        {% if company.email %}<div class="email">{{ company.email }}</div>{% endif %}
+                        {% if company.phone %}<div class="phone">{{ company.phone }}</div>{% endif %}
+                        {% if company.website %}<div class="website">{{ company.website }}</div>{% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div class="header highlight-color-bg">
+        <div class="title"><span>{% if theme.use_translations %}{{ trans('headers.invoice') }}{% else %}{{ theme.header }}{% endif %}</span></div>
+        <div class="contact-from">
+            <div class="name">{{ company.name }}</div>
+            <div class="address">{{ company.address|nl2br }}</div>
+            {% if company.email %}<div class="email">{{ company.email }}</div>{% endif %}
+            {% if company.phone %}<div class="phone">{{ company.phone }}</div>{% endif %}
+            {% if company.website %}<div class="website">{{ company.website }}</div>{% endif %}
+        </div>
+    </div>
+{% endif %}
+
+<div class="context-holder">
+    <div class="contact-to">
+        <div class="field">{% if theme.use_translations %}{{ trans('labels.bill_to') }}{% else %}{{ theme.to_title }}{% endif %}</div>
+        <div class="value">
+            {% if customer.attention_to %}<div class="attention_to">{{ trans('labels.attention_to') }}: {{ customer.attention_to }}</div>{% endif %}
+            <div class="name">{{ customer.name }}</div>
+            <div class="address">{{ customer.address|nl2br }}</div>
+        </div>
+    </div>
+
+    {% if invoice.ship_to %}
+        <div class="contact-to ship-to">
+            <div class="field">{% if theme.use_translations %}{{ trans('labels.ship_to') }}{% else %}{{ theme.ship_to_title }}{% endif %}</div>
+            <div class="value">
+                {% if invoice.ship_to.attention_to %}<div class="attention_to">{{ trans('labels.attention_to') }}: {{ invoice.ship_to.attention_to }}</div>{% endif %}
+                <div class="name">{{ invoice.ship_to.name }}</div>
+            <div class="address">{{ invoice.ship_to.address|nl2br }}</div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="invoice-number-holder">
+        <div class="field">{{ trans('labels.invoice_number') }}</div>
+        <div class="value">{{ invoice.number }}</div>
+    </div>
+</div>
+
+<div class="fields-holder">
+    {% if theme.show_customer_no %}
+        <div class="field-holder">
+            <div class="field">{% if theme.use_translations %}{{ trans('labels.account_number') }}{% else %}{{ theme.customer_number_title }}{% endif %}</div>
+            <div class="value">{{ customer.number }}</div>
+        </div>
+    {% endif %}
+    {% if invoice.date %}
+        <div class="field-holder">
+            <div class="field">{% if theme.use_translations %}{{ trans('labels.date') }}{% else %}{{ theme.date_title }}{% endif %}</div>
+            <div class="value">{{ invoice.date }}</div>
+        </div>
+    {% endif %}
+    {% if invoice.payment_terms %}
+        <div class="field-holder">
+            <div class="field">{% if theme.use_translations %}{{ trans('labels.payment_terms') }}{% else %}{{ theme.payment_terms_title }}{% endif %}</div>
+            <div class="value">{{ invoice.payment_terms }}</div>
+        </div>
+    {% endif %}
+    {% if invoice.due_date %}
+        <div class="field-holder">
+            <div class="field">{% if theme.use_translations %}{{ trans('labels.due_date') }}{% else %}{{ theme.due_date_title }}{% endif %}</div>
+            <div class="value">{{ invoice.due_date }}</div>
+        </div>
+    {% endif %}
+    {% if invoice.purchase_order %}
+        <div class="field-holder">
+            <div class="field">{% if theme.use_translations %}{{ trans('labels.purchase_order') }}{% else %}{{ theme.purchase_order_title }}{% endif %}</div>
+            <div class="value">{{ invoice.purchase_order }}</div>
+        </div>
+    {% endif %}
+    {% for field in invoice.custom_fields %}
+        <div class="field-holder">
+            <div class="field">{{ field.name }}</div>
+            <div class="value">{{ field.value|raw }}</div>
+        </div>
+    {% endfor %}
+    <div class="field-holder highlight">
+        <div class="field">{% if theme.use_translations %}{{ trans('labels.balance_due') }}{% else %}{{ theme.balance_title }}{% endif %}</div>
+        <div class="value">{{ invoice.balance|money }}</div>
+    </div>
+</div>
+
+<div class="spacer highlight-color-border"></div>
+
+{% if invoice.items|length % 2 != 0 %}
+    {% set lastItemShaded = true %}
+{% else %}
+    {% set lastItemShaded = false %}
+{% endif %}
+
+<div class="items-holder">
+    <table class="items" cellpadding=4 cellspacing=0>
+        <thead>
+            <tr>
+                <th>
+                    <div>{% if theme.use_translations %}{{ trans('columns.item') }}{% else %}{{ theme.item_header }}{% endif %}</div>
+                </th>
+                <th>
+                    <div>{% if theme.use_translations %}{{ trans('columns.quantity') }}{% else %}{{ theme.quantity_header }}{% endif %}</div>
+                </th>
+                <th class="money-column">
+                    <div>{% if theme.use_translations %}{{ trans('columns.unit_cost') }}{% else %}{{ theme.unit_cost_header }}{% endif %}</div>
+                </th>
+                <th class="money-column">
+                    <div>{% if theme.use_translations %}{{ trans('columns.amount') }}{% else %}{{ theme.amount_header }}{% endif %}</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in invoice.items %}
+                <tr class="item">
+                    <td class="name">
+                        {{ item.name|nl2br }}
+                        {% if item.billing_period %}
+                            <div class="details">
+                                {{ item.billing_period }}
+                            </div>
+                        {% endif %}
+                        {% if item.description %}
+                            <div class="details">
+                                {{ item.description|nl2br }}
+                            </div>
+                        {% endif %}
+                        {% if item.rates %}
+                            <div class="details">
+                                <div class="rates">{{ item.rates }}</div>
+                            </div>
+                        {% endif %}
+                        {% for name, value in item.custom_fields %}
+                            <div class="details">{{ name }}: {{ value }}</div>
+                        {% endfor %}
+                    </td>
+                    <td class="quantity">{{ item.quantity|number_format_no_round }}</td>
+                    <td class="unit_cost">{{ item.unit_cost|money_unit_cost }}</td>
+                    <td class="amount">{{ item.amount|money }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <table class="items total" cellpadding=4 cellspacing=0>
+        <tfoot>
+            {% if invoice.rates|length > 0 and lastItemShaded %}
+                <tr class="field-holder right-align">
+                    <td class="field">{% if theme.use_translations %}{{ trans('labels.subtotal') }}{% else %}{{ theme.subtotal_title }}{% endif %}</td>
+                    <td class="value">{{ invoice.subtotal|money }}</td>
+                </tr>
+            {% elseif invoice.rates|length > 0 %}
+                <tr class="field-holder top-border-enabled right-align">
+                    <td class="field">{% if theme.use_translations %}{{ trans('labels.subtotal') }}{% else %}{{ theme.subtotal_title }}{% endif %}</td>
+                    <td class="value">{{ invoice.subtotal|money }}</td>
+                </tr>
+            {% endif %}
+            {% for rate in invoice.rates %}
+                <tr class="field-holder right-align">
+                    <td class="field">{{ rate.name }}</td>
+                    <td class="value">{{ rate.total|money }}</td>
+                </tr>
+                {% if rate.expires %}
+                    <tr class="field-holder right-align">
+                        <td colspan="2" class="value expires">
+                            {{ trans('labels.expires_on', {'%date%': rate.expires}) }}
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            <tr class="field-holder right-align">
+            {% if lastItemShaded and invoice.rates|length == 0 %}
+                <td class="field">{% if theme.use_translations %}{{ trans('labels.total') }}{% else %}{{ theme.total_title }}{% endif %}</td>
+                <td class="value">{{ invoice.total|money }}</td>
+            {% else %}
+                <td class="field border-top">{% if theme.use_translations %}{{ trans('labels.total') }}{% else %}{{ theme.total_title }}{% endif %}</td>
+                <td class="value border-top">{{ invoice.total|money }}</td>
+            {% endif %}
+            </tr>
+            {% if invoice.amount_paid %}
+                {% for item in invoice.payments %}
+                    <tr class="field-holder right-align">
+                        <td class="field">{{ item.name }}</td>
+                        <td class="value">{{ item.amount|money }}</td>
+                    </tr>
+                {% endfor %}
+                <tr class="field-holder right-align">
+                    <td class="field bolder border-top-2">{% if theme.use_translations %}{{ trans('labels.balance_due') }}{% else %}{{ theme.balance_title }}{% endif %}</td>
+                    <td class="value bolder border-top-2">{{ invoice.balance|money }}</td>
+                </tr>
+            {% endif %}
+        </tfoot>
+    </table>
+</div>
+
+{% if invoice.notes or invoice.terms %}
+    <div class="footer">
+        {% if invoice.notes %}
+            <div class="notes-holder">
+                <div class="field">{% if theme.use_translations %}{{ trans('labels.notes') }}{% else %}{{ theme.notes_title }}{% endif %}</div>
+                <div class="notes">{{ invoice.notes|nl2br }}</div>
+            </div>
+        {% endif %}
+        {% if invoice.terms %}
+            <div class="terms-holder">
+                <div class="field">{% if theme.use_translations %}{{ trans('labels.terms') }}{% else %}{{ theme.terms_title }}{% endif %}</div>
+                <div class="terms">{{ invoice.terms|nl2br }}</div>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
+
+{% if paymentPlan %}
+    <div class="installment-holder">
+        <div class="logo">
+            {% if company.logo %}<img src="{{ company.logo }}" />{% endif %}
+        </div>
+        {% if invoice.ship_to %}
+        <div class="two-col clearfix">
+            <div class="col">
+                <div class="contact to">
+                    <div class="field">{% if theme.use_translations %}{{ trans('labels.bill_to') }}{% else %}{{ theme.to_title }}{% endif %}</div>
+                    <div class="value">
+                        {% if customer.attention_to %}<div class="attention_to">{{ trans('labels.attention_to') }}: {{ customer.attention_to }}</div>{% endif %}
+                        <div class="name">{{ customer.name }}</div>
+                        <div class="address">{{ customer.address|nl2br }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="contact to">
+                    <div class="field">{% if theme.use_translations %}{{ trans('labels.ship_to') }}{% else %}{{ theme.ship_to_title }}{% endif %}</div>
+                    <div class="value">
+                        {% if invoice.ship_to.attention_to %}<div class="attention_to">{{ trans('labels.attention_to') }}: {{ invoice.ship_to.attention_to }}</div>{% endif %}
+                        <div class="name">{{ invoice.ship_to.name }}</div>
+                        <div class="address">{{ invoice.ship_to.address|nl2br }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="contact to">
+            <div class="field">{% if theme.use_translations %}{{ trans('labels.bill_to') }}{% else %}{{ theme.to_title }}{% endif %}</div>
+            <div class="value">
+                {% if customer.attention_to %}<div class="attention_to">{{ trans('labels.attention_to') }}: {{ customer.attention_to }}</div>{% endif %}
+                <div class="name">{{ customer.name }}</div>
+                <div class="address">{{ customer.address|nl2br }}</div>
+            </div>
+        </div>
+    {% endif %}
+        <div class="table-summary">
+            Installment Balances as of {{ "now"|date('M j, Y') }}
+        </div>
+        <table class="installment-table" cellpadding=3 cellspacing=0>
+            <thead>
+                <tr>
+                    <th class="fixed-width">{{ trans('columns.due_date') }}</th>
+                    <th class="fixed-width">{{ trans('columns.amount') }}</th>
+                    <th class="fixed-width">{{ trans('columns.balance') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for line in paymentPlan.installments %}
+                    <tr>
+                        <td>{{ line.date }}</td>
+                        <td>{{ line.amount|money }}</td>
+                        <td>{{ line.balance|money }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+
+<div class="hidden"></div>

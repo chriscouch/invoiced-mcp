@@ -1,0 +1,29 @@
+{% trans_default_domain 'general' %}
+{% set title='Your check is ready for download' %}
+{% extends "accounts_payable/parent.twig" %}
+
+
+{% block header %}
+    <script type="text/javascript">
+        document.load(function() {
+            setTimeout(function() {
+                window.location.href = "{{ url }}";
+            }, 5000);
+        });
+    </script>
+{% endblock %}
+
+{% block main %}
+
+    <div class="container-lg container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12 col-xl-10 text-center">
+                <h1 class="mb-3 mt-4">
+                    Your check is ready for download
+                </h1>
+
+                <p>You will be automatically redirected to the check download URL in 5 seconds, or open a PDF <a href="{{ url }}">file</a> manually.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}Your business network is growing!{% endblock %}
+{% block notification %}
+    {% for connection in connections %}
+        <p><a href="{{ dashboardUrl }}/network/customers?account={{ tenant_id  }}">{{ connection.name }}</a> has accepted the invitation to join your business network.</p>
+    {% endfor %}
+{% endblock %}

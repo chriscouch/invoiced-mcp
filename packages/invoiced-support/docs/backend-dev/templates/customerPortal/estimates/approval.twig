@@ -1,0 +1,219 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.approve_estimate_number'|trans({'%number%': estimate.number}) %}
+{% extends "customerPortal/parentFrameTwoColumn.twig" %}
+
+{% block left %}
+	<div class="main">
+		<form id="approvalForm" class="approve-estimate-form" action="{{ approveUrl }}">
+			<input type="hidden" name="_csrf_token" value="{{ csrf_token('customer_portal_estimate_approval') }}" />
+			<input type="hidden" id="paymentSourceMethod" name="payment_source[method]" />
+			{% if isAjTutoring %}
+			{% elseif hasRequiredDeposit or (hasDeposit and needsPaymentInformation) %}
+				<input type="hidden" name="amount" id="amount" value="{{ estimate.deposit }}" />
+			{% else %}
+				<input type="hidden" name="amount" id="amount" value="{{ estimate.total }}">
+			{% endif %}
+
+			<div class="alert bg-danger-soft text-dark border border-danger errors estimate-approval-errors hidden"></div>
+
+			<!-- Billing Information -->
+			{% if verifyBillingInfo %}
+				<div class="form-section nopadding">
+					<div class="field">
+						<label class="form-label">{{ 'titles.billing_details'|trans }}</label>
+						<div>
+							{{ address|nl2br }}
+						</div>
+						<div>
+							<a href="{{ updateBillingInfoUrl }}">
+                                {{ 'buttons.modify'|trans }}
+								<span class="fas fa-caret-right"></span>
+							</a>
+						</div>
+					</div>
+				</div>
+			{% endif %}
+
+			{% if needsPaymentInformation and hasDeposit %}
+				<hr/>
+				<label class="form-label">{{ 'labels.payment_information'|trans }}</label>
+				<div>
+                    {{ 'labels.how_would_you_like_to_pay'|trans }}
+				</div>
+
+				<div class="payment-mode-column">
+					<div class="payment-mode-selector">
+						<div class="option">
+							<label class="noselect">
+								<input type="radio" name="payment_mode" value="autopay" required />
+								{{ 'labels.enroll_in_autopay'|trans }}
+								<a href="#" data-bs-toggle="tooltip" data-bs-title="{{ 'messages.autopay_explanation'|trans }}">
+									<span class="fas fa-info-circle"></span>
+								</a>
+							</label>
+						</div>
+						<div class="option">
+							<label class="noselect">
+								<input type="radio" name="payment_mode" value="deposit" required />
+                                {% if depositPaymentMethods|length == 1 %}
+                                    {{ 'labels.pay_up_front_with'|trans({'%method%': depositPaymentMethods.0.toString() | lower}) }}
+                                {% else %}
+                                    {{ 'labels.pay_up_front'|trans }}
+								{% endif %}
+							</label>
+						</div>
+					</div>
+				</div>
+			{% elseif needsPaymentInformation %}
+				<input type="radio" class="hidden" name="payment_mode" value="autopay" checked="checked" />
+            {% elseif hasRequiredDeposit %}
+				<input type="radio" class="hidden" name="payment_mode" value="deposit" checked="checked" />
+			{% endif %}
+
+			{% if needsPaymentInformation %}
+				<!-- Payment Information -->
+				<div class="payment-mode autopay hidden">
+					<hr/>
+					<div class="form-section nopadding">
+						<label class="section-title">{{ 'labels.payment_information'|trans }}</label>
+						<div class="description hidden-notitle">
+                            {{ 'messages.must_enroll_in_autopay'|trans }}
+						</div>
+
+						{% if autoPayMethods|length == 1 %}
+							<input type="radio" class="hidden radio-default" name="payment_method" value="{{ autoPayMethods.0.id }}" checked="checked" />
+						{% else %}
+							<div class="pay-with-column">
+								<label class="form-label">{{ 'labels.pay_with'|trans }}</label>
+								<div class="payment-method-selector">
+									{% for method in autoPayMethods %}
+										<div class="option">
+											<label class="noselect">
+												<input type="radio" name="payment_method" value="{{ method.id }}" required />
+												{{ method.toString() }}
+											</label>
+										</div>
+									{% endfor %}
+								</div>
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			{% else %}
+				<input type="hidden" id="autopay-enrolled" value="1" />
+			{% endif %}
+
+			{% if hasRequiredDeposit or (hasDeposit and needsPaymentInformation) %}
+				<!-- Deposit -->
+				<div class="payment-mode deposit hidden notitle">
+					<hr/>
+					<div class="form-section nopadding">
+						<label class="section-title">{{ 'labels.deposit'|trans }}</label>
+						<div class="description">
+							{% if isAjTutoring %}
+								Remit <strong>{{ deposit|money(estimate.currency) }}</strong> check prior to first session
+							{% else %}
+                                {{ 'messages.deposit_payment_required'|trans({'%amount%': deposit|money(estimate.currency)})|raw }}
+							{% endif %}
+						</div>
+
+                        {% if depositPaymentMethods|length == 1 %}
+							<input type="radio" class="hidden radio-default" name="payment_method" value="{{ depositPaymentMethods.0.id }}"  checked="checked" />
+                        {% else %}
+							<div class="pay-with-column">
+								<label class="form-label">{{ 'labels.pay_with'|trans }}</label>
+								<div class="payment-method-selector">
+								{% for method in depositPaymentMethods %}
+									<div class="option">
+										<label class="noselect">
+											<input type="radio" name="payment_method" value="{{ method.id }}" required />
+											{{ method.toString() }}
+										</label>
+									</div>
+								{% endfor %}
+								{% for v in depositPaymentMethods|filter(v => v.id == 'credit_card') -%}
+									{% if v.convenience_fee is defined and v.convenience_fee > 0 %}
+										<span class="text-warning hidden" id="convenience-fee-warning">{{ 'warnings.convenience_fee'|trans({'%fee%':(v.convenience_fee/100) ~ '%'}) }}</span>
+									{% endif %}
+								{% endfor %}
+								</div>
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			{% endif %}
+
+			<div class="payment-form">
+				<div class="payment-source-data"></div>
+				{% for row in sourceViews %}
+					<div class="payment-info-form {% if row.deposit is defined %}deposit{% endif %} {% if row.autopay is defined %}autopay{% endif %} {{ row.method.id }} hidden">
+						{{ row.view.render(companyObj, row.method, row.merchantAccount, tokenizationFlow)|raw }}
+					</div>
+				{% endfor %}
+			</div>
+
+			<!-- Terms -->
+			{% if terms %}
+				<hr/>
+				<label class="form-label">{{ 'labels.terms'|trans }}</label>
+				<div class="estimate-terms">
+					{{ terms|nl2br }}
+				</div>
+			{% endif %}
+
+			<!-- Agreement / Initials -->
+			<div class="from-section">
+				<div class="form-check">
+					<input type="checkbox" class="form-check-input" id="approvedCheckbox" value="1" required />
+					<label class="approve-estimate-checkbox form-check-label noselect" for="approvedCheckbox">
+						{{ 'messages.terms_i_agree_estimate'|trans }}
+					</label>
+				</div>
+			</div>
+
+			<div class="from-section initials-holder hidden">
+                {{ 'labels.please_initial'|trans }}<br/>
+				<input type="text" class="form-control initials" name="initials" maxlength="10" placeholder="{{ 'labels.initials'|trans }}" required autofocus />
+			</div>
+
+			<div class="row actions" id="approve-button-row">
+				<div class="col-sm-12">
+					<button type="submit" class="btn btn-success payment-button">
+                        {{ 'buttons.approve_estimate'|trans }}
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript" src="{{ asset('/js/views/estimate_approval_form.js') }}"></script>
+
+	<!-- Hidden Translation Strings -->
+	<div id="informationBeingSavedMessage" class="hidden">{{ 'messages.information_being_saved'|trans }}</div>
+{% endblock %}
+
+{% block right %}
+	<h4>{{ 'labels.summary'|trans }}</h4>
+
+	<table class="table payment-summary-lines">
+		<tbody>
+			<tr class="display-item">
+				<td class="description">{{ estimate.number }}</td>
+				<td class="money-amount"></td>
+			</tr>
+		</tbody>
+
+		<!-- Amount -->
+		{% if amount %}
+			<tfoot>
+				<tr class="payment-amount">
+					<td class="description">
+						{{ 'labels.estimate_amount'|trans }}
+					</td>
+					<td class="default-payment-amount money-amount">
+						{{ amount|money(estimate.currency) }}
+					</td>
+				</tr>
+			</tfoot>
+		{% endif %}
+	</table>
+{% endblock %}

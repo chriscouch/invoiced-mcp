@@ -1,0 +1,12 @@
+{% extends '@!EasyAdmin/crud/index.html.twig' %}
+
+{% block main %}
+    <div class="mb-3">
+        <span class="d-none d-md-inline">Shortcuts:</span>
+        <div class="btn-group" role="group">
+            <a class="btn btn-sm btn-default" href="{{ ea_url().setController('App\\Controller\\Admin\\PurchasePageCrudController').setAction('index').set('filters', {expiration_date: {comparison: '>=', value: {day: date('now').format('j'), month: date('now').format('n'), year: date('now').format('Y')}}, completed_by_name: {comparison: 'null'}}).set('sort', {expiration_date: 'DESC'}).setEntityId(null) }}">Open</a>
+            <a class="btn btn-sm btn-default" href="{{ ea_url().setController('App\\Controller\\Admin\\PurchasePageCrudController').setAction('index').set('filters', {completed_by_name: {comparison: 'not_null'}}).set('sort', {completed_at: 'DESC'}).setEntityId(null) }}">Complete</a>
+        </div>
+    </div>
+    {{ parent() }}
+{% endblock %}

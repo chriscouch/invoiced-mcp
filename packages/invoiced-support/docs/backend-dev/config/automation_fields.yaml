@@ -1,0 +1,452 @@
+# See object_fields.yaml for a reference of fields on each object
+# Parameters:
+# actions - Indicates what actions this object type and/or its properties can be used in. Not every available action type needs to be set for each object. This is mostly for the object CRUD actions.
+# associatedActionObjects - When a workflow is for this object type, this indicates which associated objects are usable in actions, if any.
+charge:
+  actions:
+    - Condition
+    - PostToSlack
+    - SendEmail
+    - SendInternalNotification
+  associatedActionObjects:
+    - payment
+    - customer
+  triggers:
+    - Event
+  fieldOverrides:
+    bank_account:
+      writable: false
+    card:
+      writable: false
+    customer:
+      writable: false
+    payment:
+      writable: false
+#if we want to completely replace definition with onw field
+#  fields:
+#    amount:
+#      - name: Amount
+#    ***
+
+contact:
+  actions:
+    - ModifyPropertyValue
+    - CopyPropertyValue
+    - ClearPropertyValue
+    - CreateObject
+    - DeleteObject
+    - SendEmail
+    - Condition
+    - PostToSlack
+    - SendInternalNotification
+    - Webhook
+  associatedActionObjects:
+    - customer
+  triggers:
+    - Event
+    - Schedule
+  subjectActions:
+    CreateObject:
+      - contact
+      - credit_note
+      - customer
+      - estimate
+      - invoice
+      - note
+      - payment
+  fieldOverrides:
+    customer:
+      required: true
+      writable: true
+
+credit_note:
+  actions:
+    - ModifyPropertyValue
+    - CopyPropertyValue
+    - ClearPropertyValue
+    - CreateObject
+    - DeleteObject
+    - SendEmail
+    - Condition
+    - PostToSlack
+    - SendInternalNotification
+    - Webhook
+  associatedActionObjects:
+    - customer
+  triggers:
+    - Event
+    - Schedule
+    - Manual
+  subjectActions:
+    CreateObject:
+      - contact
+      - credit_note
+      - customer
+      - estimate
+      - invoice
+      - note
+      - payment
+      - task
+  fieldOverrides:
+    customer:
+      required: true
+      writable: true
+    line_items:
+      required: true
+      writable: true
+      type: join
+      name: 'Line Items'
+      foreign_key: 'invoice_id'
+      has_many: \App\AccountsReceivable\Models\LineItem
+    date_voided:
+      getter: 'getDateVoided'
+
+customer:
+  actions:
+    - ModifyPropertyValue
+    - CopyPropertyValue
+    - ClearPropertyValue
+    - CreateObject
+    - DeleteObject
+    - SendEmail
+    - SendDocument
+    - Condition
+    - PostToSlack
+    - SendInternalNotification
+    - Webhook
+  triggers:
+    - Event
+    - Schedule
+    - Manual
+  subjectActions:
+    CreateObject:
+      - contact
+      - credit_note
+      - customer
+      - estimate
+      - invoice
+      - note
+      - payment
+      - task
+
+estimate:
+  actions:
+    - ModifyPropertyValue
+    - CopyPropertyValue
+    - ClearPropertyValue
+    - CreateObject
+    - DeleteObject
+    - SendEmail
+    - SendDocument
+    - Condition
+    - PostToSlack
+    - SendInternalNotification
+    - Webhook
+  associatedActionObjects:
+    - customer
+  triggers:
+    - Event
+    - Schedule
+    - Manual
+  subjectActions:
+    CreateObject:
+      - contact
+      - credit_note
+      - customer
+      - estimate
+      - invoice
+      - note
+      - payment
+      - task
+  fieldOverrides:
+    customer:
+      required: true
+      writable: true
+    date_voided:
+      getter: 'getDateVoided'
+
+inbox_email:
+  actions:
+    - SendEmail
+    - Condition
+    - PostToSlack
+    - SendInternalNotification
+    - Webhook
+  triggers:
+    - Event
+
+invoice:
+  actions:
+    - ModifyPropertyValue
+    - CopyPropertyValue
+    - ClearPropertyValue
+    - CreateObject
+    - DeleteObject
+    - SendEmail
+    - SendDocument
+    - Condition
+    - PostToSlack
+    - SendInternalNotification
+    - Webhook
+  associatedActionObjects:
+    - customer
+  triggers:
+    - Event
+    - Schedule
+    - Manual
+  subjectActions:
+    CreateObject:
+      - contact
+      - credit_note
+      - customer
+      - estimate
+      - invoice
+      - note
+      - payment
+      - task
+  fieldOverrides:
+    payment_plan:
+      postSetRelation: true
+      writable: true
+    line_items:
+      required: true
+      writable: true
+      type: join
+      name: 'Line Items'
+      foreign_key: 'invoice_id'
+      has_many: \App\AccountsReceivable\Models\LineItem
+    customer:
+      required: true
+      writable: true
+    chase:
+      writable: true
+      type: boolean
+      name: 'Chase'
+    delivery:
+      postSetRelation: true
+      setter: 'createInvoiceDelivery'
+      unSetter: 'deleteInvoiceDelivery'
+      writable: true
+      type: array
+      name: 'Chasing Cadence'
+    discounts:
+      writable: true
+      type: array
+      name: 'Discounts'
+      setter: 'setDiscountRate'
+    taxes:
+      writable: true
+      type: array
+      name: 'Taxes'
+      setter: 'setTaxRate'
+    date_voided:
+      getter: 'getDateVoided'
+    amount_paid:
+      getter: 'getAmountPaid'
+
+note:
+  actions:
+    - ModifyPropertyValue
+    - CopyPropertyValue
+    - ClearPropertyValue
+    - CreateObject
+    - DeleteObject
+    - SendEmail
+    - Condition
+    - PostToSlack
+    - SendInternalNotification
+    - Webhook
+  associatedActionObjects:
+    - customer
+  triggers:
+    - Event
+    - Schedule
+  subjectActions:
+    CreateObject:
+      - contact
+      - credit_note
+      - customer
+      - estimate
+      - invoice
+      - note
+      - payment
+      - task
+  fieldOverrides:
+    customer:
+      required: true
+      writable: true
+
+
+payment:
+  actions:
+    - ModifyPropertyValue
+    - CopyPropertyValue
+    - ClearPropertyValue
+    - CreateObject
+    - DeleteObject
+    - SendEmail
+    - Condition
+    - PostToSlack
+    - SendInternalNotification
+    - Webhook
+  associatedActionObjects:
+    - customer
+  triggers:
+    - Event
+    - Schedule
+    - Manual
+  subjectActions:
+    CreateObject:
+      - contact
+      - credit_note
+      - customer
+      - estimate
+      - invoice
+      - note
+      - payment
+      - task
+  fieldOverrides:
+    customer:
+      required: true
+      writable: true
+
+payment_plan:
+  actions:
+    - SendEmail
+    - Condition
+    - PostToSlack
+    - SendInternalNotification
+    - Webhook
+  associatedActionObjects:
+    - customer
+    - invoice
+  triggers:
+    - Event
+    - Schedule
+
+pending_line_item:
+  actions:
+    - ModifyPropertyValue
+    - CopyPropertyValue
+    - ClearPropertyValue
+    - DeleteObject
+    - SendEmail
+    - Condition
+    - PostToSlack
+    - SendInternalNotification
+    - Webhook
+  associatedActionObjects:
+    - customer
+  triggers:
+    - Event
+    - Schedule
+
+promise_to_pay:
+  actions:
+    - ModifyPropertyValue
+    - CopyPropertyValue
+    - ClearPropertyValue
+    - CreateObject
+    - DeleteObject
+    - SendEmail
+    - Condition
+    - PostToSlack
+    - SendInternalNotification
+    - Webhook
+  subjectActions:
+    CreateObject:
+      - contact
+      - credit_note
+      - customer
+      - estimate
+      - invoice
+      - note
+      - payment
+      - subscription
+      - task
+  associatedActionObjects:
+    - customer
+    - invoice
+  triggers:
+    - Event
+
+refund:
+  actions:
+    - SendEmail
+    - Condition
+    - PostToSlack
+    - SendInternalNotification
+    - Webhook
+  associatedActionObjects:
+    - customer
+    - charge
+    - payment
+  triggers:
+    - Event
+
+subscription:
+  actions:
+    - SendEmail
+    - Condition
+    - PostToSlack
+    - SendInternalNotification
+    - Webhook
+  associatedActionObjects:
+    - customer
+  triggers:
+    - Event
+    - Schedule
+    - Manual
+
+task:
+  actions:
+    - ModifyPropertyValue
+    - CopyPropertyValue
+    - ClearPropertyValue
+    - CreateObject
+    - DeleteObject
+    - SendEmail
+    - Condition
+    - PostToSlack
+    - SendInternalNotification
+    - Webhook
+  associatedActionObjects:
+    - customer
+  triggers:
+    - Event
+    - Schedule
+  subjectActions:
+    CreateObject:
+      - contact
+      - credit_note
+      - customer
+      - estimate
+      - invoice
+      - note
+      - payment
+      - subscription
+      - task
+  fieldOverrides:
+    customer:
+      required: true
+      writable: true
+    due_date:
+      name: 'Days Until Due'
+      type: 'integer'
+      normalizer: days_from
+
+vendor:
+  actions:
+    - ModifyPropertyValue
+    - CopyPropertyValue
+    - ClearPropertyValue
+    - DeleteObject
+    - SendEmail
+    - Condition
+    - PostToSlack
+    - SendInternalNotification
+    - Webhook
+  triggers:
+    - Event
+    - Schedule
+    - Manual

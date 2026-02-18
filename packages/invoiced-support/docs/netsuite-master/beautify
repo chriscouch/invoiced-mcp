@@ -1,0 +1,7 @@
+#!/bin/sh
+
+function beautify() {
+	find $1 -type f -name "*.js" -exec js-beautify -r {} \;
+}
+
+beautify ".bundle"

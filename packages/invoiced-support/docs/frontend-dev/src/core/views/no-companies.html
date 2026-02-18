@@ -1,0 +1,34 @@
+<h1 class="logo">
+	<a href="{{baseUrl}}">
+		<img src="/img/auth-logo@2x.png" width="181" height="46" alt="Invoiced" />
+	</a>
+</h1>
+
+<div class="body minimal skinny container no-companies">
+	<h4 class="title">No Companies</h4>
+
+	<p class="">
+		Your user account is not associated with any companies. If you are new to Invoiced then you can get started by creating a new company.
+	</p>
+
+	<p class="text-muted">
+		If you should have access to an existing Invoiced account then please contact your Invoiced administrator.
+	</p>
+
+	<div class="form-group">
+		<a href="" class="btn btn-primary btn-lg btn-block" ng-click="addBusiness()">
+			Create Company
+		</a>
+	</div>
+	<hr/>
+
+	<div class="form-group">
+		<div class="row">
+			<div class="col-sm-6">
+				<a ui-sref="auth.logout" class="btn btn-link">
+					Sign Out
+				</a>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,4 @@
+framework:
+    router:
+        http_port: 1234
+        strict_requirements: true

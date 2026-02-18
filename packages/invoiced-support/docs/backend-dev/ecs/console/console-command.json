@@ -1,0 +1,14 @@
+{
+  "containerOverrides": [
+    {
+      "name": "php",
+      "command": [
+        "php",
+        "-d",
+        "memory_limit=1750M",
+        "bin/console",
+        "<!--COMMAND-->"
+      ]
+    }
+  ]
+}

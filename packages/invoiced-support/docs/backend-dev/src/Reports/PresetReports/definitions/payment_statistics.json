@@ -1,0 +1,298 @@
+{
+  "version": 1,
+  "title": "Payment Statistics",
+  "sections": [
+    {
+      "title": "Payments by Method",
+      "object": "payment",
+      "type": "chart",
+      "chart_type": "doughnut",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "method"
+          }
+        },
+        {
+          "name": "Amount Paid",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "amount"
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "currency"
+          },
+          "value": "$currency"
+        },
+        {
+          "operator": "=",
+          "value": false,
+          "field": {
+            "id": "voided"
+          }
+        },
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        },
+        {
+          "operator": ">",
+          "value": 0,
+          "field": {
+            "id": "amount"
+          }
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "method"
+          },
+          "expanded": false
+        }
+      ],
+      "sort": []
+    },
+    {
+      "title": "Time to Pay by Method",
+      "object": "transaction",
+      "type": "chart",
+      "chart_type": "bar",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "method"
+          }
+        },
+        {
+          "name": "Avg. Time to Pay (Days)",
+          "field": [
+            {
+              "function": "round",
+              "arguments": [
+                [
+                  [
+                    {
+                      "function": "avg",
+                      "arguments": [
+                        {
+                          "id": "date"
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "function": "avg",
+                      "arguments": [
+                        {
+                          "id": "invoice.date"
+                        }
+                      ]
+                    }
+                  ],
+                  "\/",
+                  86400
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "currency"
+          },
+          "value": "$currency"
+        },
+        {
+          "field": {
+            "id": "status"
+          },
+          "value": "succeeded"
+        },
+        {
+          "field": {
+            "id": "method"
+          },
+          "operator": "<>",
+          "value": "balance"
+        },
+        {
+          "field": {
+            "id": "invoice.paid"
+          },
+          "value": true
+        },
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "method"
+          },
+          "expanded": false
+        }
+      ],
+      "sort": []
+    },
+    {
+      "title": "Payments by Term",
+      "object": "invoice",
+      "type": "chart",
+      "chart_type": "doughnut",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "payment_terms"
+          }
+        },
+        {
+          "name": "Amount Paid",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "amount_paid"
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "currency"
+          },
+          "value": "$currency"
+        },
+        {
+          "field": {
+            "id": "paid"
+          },
+          "value": true
+        },
+        {
+          "field": {
+            "id": "date_paid"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "payment_terms"
+          },
+          "expanded": false
+        }
+      ],
+      "sort": []
+    },
+    {
+      "title": "Time to Pay by Term",
+      "object": "invoice",
+      "type": "chart",
+      "chart_type": "bar",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "payment_terms"
+          }
+        },
+        {
+          "name": "Avg. Time to Pay (Days)",
+          "field": [
+            {
+              "function": "round",
+              "arguments": [
+                [
+                  [
+                    {
+                      "function": "avg",
+                      "arguments": [
+                        {
+                          "id": "date_paid"
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "function": "avg",
+                      "arguments": [
+                        {
+                          "id": "date"
+                        }
+                      ]
+                    }
+                  ],
+                  "\/",
+                  86400
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "currency"
+          },
+          "value": "$currency"
+        },
+        {
+          "field": {
+            "id": "paid"
+          },
+          "value": true
+        },
+        {
+          "field": {
+            "id": "date_paid"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        },
+        {
+          "field": {
+            "id": "amount_paid"
+          },
+          "operator": ">",
+          "value": 0
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "payment_terms"
+          },
+          "expanded": false
+        }
+      ],
+      "sort": []
+    }
+  ]
+}

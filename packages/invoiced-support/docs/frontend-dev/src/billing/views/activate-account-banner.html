@@ -1,0 +1,23 @@
+<div class="activate-banner clearfix" ng-if="'not_activated'|hasFeature">
+    <div class="logo">
+        <img src="/img/logo@2x.png" alt="Invoiced" />
+    </div>
+    <div class="description">
+        <p>
+            Welcome to Invoiced! Feel free to take a look around.
+        </p>
+        <p ng-show="'accounts_payable'|hasFeature">
+            Your account is currently not able to invite new vendors. When you’re ready to start receiving invoices and paying vendors, activate.
+        </p>
+        <p ng-hide="'accounts_payable'|hasFeature">
+            Your account is currently not able to send invoices or receive payments. When you’re ready to start sending invoices and accepting payments, activate.
+        </p>
+    </div>
+    <div class="buttons">
+        <div>
+            <a class="btn btn-success" ng-href="{{activateUrl}}">
+                Activate
+            </a>
+        </div>
+    </div>
+</div>

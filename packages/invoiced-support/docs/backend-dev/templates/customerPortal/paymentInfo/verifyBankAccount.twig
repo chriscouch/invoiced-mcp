@@ -1,0 +1,65 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.verify_bank_account'|trans %}
+{% extends "customerPortal/parentFrameOneColumn.twig" %}
+
+{% block left %}
+	<div class="main form-horizontal">
+		{% if connected %}
+			<p class="alert bg-success-soft text-dark border border-success">
+                {{ 'messages.bank_account_added_unverified'|trans }}
+			</p>
+		{% endif %}
+
+		{% for msg in app.flashes('verify_bank_account_errors') %}
+			<div class="alert bg-danger-soft text-dark border border-danger" role="alert">{{ msg|trans }}</div>
+		{% endfor %}
+
+		<p>
+			{{ 'messages.verify_microdeposits_prompt'|trans|raw }}
+		</p>
+
+		{% if verifyUrl %}
+			<a href="{{ verifyUrl }}" class="btn btn-success" target="_blank">
+				{{ 'buttons.verify_account'|trans }}
+			</a>
+		{% else %}
+			<form method="POST">
+				<input type="hidden" name="_csrf_token" value="{{ csrf_token('customer_portal_verify_payment_method') }}" />
+				<div class="form-group">
+					<label class="form-label col-sm-5">{{ 'labels.bank_account'|trans }}</label>
+					<div class="col-sm-7 form-control-plaintext">
+						{{ bankAccount.toString() }}
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="form-label col-sm-5">{{ 'labels.deposit_n'|trans({'%num%': 1}) }}</label>
+					<div class="col-sm-7">
+						<div class="input-amount input-medium">
+							<div class="addon currency-sign">{{ currencySymbol }}0.</div>
+							<input type="number" step="any" name="amount1" class="form-control" placeholder="00" required />
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="form-label col-sm-5">{{ 'labels.deposit_n'|trans({'%num%': 2}) }}</label>
+					<div class="col-sm-7">
+						<div class="input-amount input-medium">
+							<div class="addon currency-sign">{{ currencySymbol }}0.</div>
+							<input type="number" step="any" name="amount2" class="form-control" placeholder="00" required />
+						</div>
+					</div>
+				</div>
+
+				<div class="row actions">
+					<div class="col-sm-7 col-sm-offset-5">
+						<button type="submit" class="btn btn-success payment-button">
+							{{ 'buttons.verify_account'|trans }}
+						</button>
+					</div>
+				</div>
+			</form>
+		{% endif %}
+	</div>
+{% endblock %}

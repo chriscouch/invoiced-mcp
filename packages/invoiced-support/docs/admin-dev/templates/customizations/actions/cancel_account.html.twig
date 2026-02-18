@@ -1,0 +1,39 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Cancel Account{% endblock %}
+
+{% block body_class 'ea-edit cancel-account-form' %}
+
+{% block main %}
+    <form action="{{ ea_url().setController('App\\Controller\\Admin\\CompanyCrudController').setAction('cancelCompany').setEntityId(companyId) }}" method="post">
+        <p>
+            When do you want to cancel the account for <strong>{{ companyName }}</strong>?
+        </p>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="at_period_end" id="exampleRadios1" value="0">
+            <label class="form-check-label" for="exampleRadios1">
+                Immediately
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="at_period_end" id="exampleRadios2" value="1" checked>
+            <label class="form-check-label" for="exampleRadios2">
+                At end of next billing period
+            </label>
+        </div><br/>
+
+        <p class="alert alert-info">
+            <span class="fa fa-warning"></span>
+            This will cancel the subscription in the billing system. If you want to cancel the account WITHOUT canceling the subscription then you must go to the <em>Edit</em> screen and set <em>Canceled = True</em>.<br/>
+            Billing System: <strong>{{ billingSystem }}</strong>
+            {% if billingSystemId %}<br/>Billing System ID: <strong>{{ billingSystemId }}</strong>{% endif %}
+        </p>
+
+        <section class="content-footer">
+            <div class="form-actions">
+                <button type="submit" class="btn btn-danger btn">Cancel</button>
+            </div>
+        </section>
+    </form>
+
+{% endblock %}

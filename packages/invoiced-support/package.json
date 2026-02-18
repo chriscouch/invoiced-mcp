@@ -1,0 +1,29 @@
+{
+  "name": "@invoiced/mcp-support",
+  "version": "1.0.0",
+  "description": "Invoiced Support MCP server with documentation and guided workflows",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "invoiced-support": "./src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "build": "node ../../scripts/build-mcpb.js invoiced-support"
+  },
+  "keywords": [
+    "mcp",
+    "invoiced",
+    "billing",
+    "support",
+    "documentation"
+  ],
+  "author": "Invoiced",
+  "license": "MIT",
+  "dependencies": {
+    "@invoiced/mcp-core": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,15 @@
+<div class="loading" ng-show="loading"></div>
+<div class="dashboard-component-top-vendors" ng-show="!loading">
+    <div class="actions">
+        <a href="/vendors" ng-show="topVendors.length > 0">
+            {{'general.view_all'|translate}}
+        </a>
+    </div>
+    <h4>
+        Top Vendors
+    </h4>
+    <div class="chart-holder" ng-show="topVendors.length">
+        <canvas id="top-vendors-chart"></canvas>
+    </div>
+    <div class="empty" ng-hide="topVendors.length">No vendor spend</div>
+</div>

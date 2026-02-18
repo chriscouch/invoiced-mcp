@@ -1,0 +1,27 @@
+{
+  "name": "invoiced-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for the Invoiced billing platform with support workflows, prompts, and read-only mode",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "node scripts/build-mcpb.js",
+    "build:support": "node scripts/build-mcpb.js invoiced-support",
+    "test": "node test/test-mcp-server.js",
+    "test:support": "node test/test-mcp-server.js invoiced-support",
+    "clean": "rm -rf dist packages/*/node_modules node_modules"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.25.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/invoiced/invoiced-mcp"
+  },
+  "license": "MIT"
+}

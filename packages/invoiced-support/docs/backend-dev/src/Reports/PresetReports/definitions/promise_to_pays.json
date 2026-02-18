@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "title": "Promise-to-Pays",
+  "sections": [
+    {
+      "title": "",
+      "object": "promise_to_pay",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "invoice.number"
+          }
+        },
+        {
+          "name": "Expected Payment Date",
+          "field": {
+            "id": "date"
+          }
+        },
+        {
+          "name": "Payment Method",
+          "field": {
+            "id": "method"
+          }
+        },
+        {
+          "field": {
+            "id": "reference"
+          }
+        },
+        {
+          "field": {
+            "id": "invoice.paid"
+          }
+        },
+        {
+          "name": "Amount Promised",
+          "field": {
+            "id": "amount"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "operator": "=",
+          "value": "$currency",
+          "field": {
+            "id": "currency"
+          }
+        },
+        {
+          "operator": "between",
+          "value": "$dateRange",
+          "field": {
+            "id": "date"
+          }
+        },
+        {
+          "operator": "<>",
+          "value": null,
+          "field": {
+            "id": "date"
+          }
+        },
+        {
+          "operator": "=",
+          "value": false,
+          "field": {
+            "id": "invoice.voided"
+          }
+        }
+      ],
+      "group": [
+        {
+          "name": "Customer",
+          "expanded": true,
+          "field": {
+            "id": "customer.name"
+          },
+          "ascending": true
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "date"
+          },
+          "ascending": true
+        }
+      ]
+    }
+  ]
+}

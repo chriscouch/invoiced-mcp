@@ -1,0 +1,500 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.sign_up'|trans %}
+{% extends "customerPortal/parentLogo.twig" %}
+
+{% block main %}
+    {% if headerText %}
+        <div class="signup-form-header-text">
+            <div class="container">
+                {{ headerText|nl2br }}
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="container">
+        <div class="the-form wide">
+            <div class="signup-form main">
+                <div class="title-header">
+                    <h1>{{ 'titles.sign_up'|trans }}</h1>
+                    <div class="lock"><span class="fas fa-lock"></span></div>
+                </div>
+
+                <form id="signupForm" action="{{ submitUrl }}" data-url="{{ url }}">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('customer_portal_sign_up_page') }}" />
+                    <input type="hidden" name="_signUpPage" value="1" />
+                    <input type="hidden" id="signUpPageType" value="{{ type }}" />
+
+                    <div class="signup-form-panes clearfix">
+                        <div class="left">
+                            <div class="alert bg-danger-soft text-dark border border-danger errors sign-up-page-errors hidden"></div>
+
+                            <!-- Account Profile -->
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            {{ 'labels.name'|trans }}
+                                        </label>
+                                        {% if customer %}
+                                            {{ customer.name }}
+                                            <input type="hidden" class="cc-name" value="{{ prefilled.get('customer.name') }}" />
+                                        {% else %}
+                                            <input type="text" class="form-control cc-name" name="customer[name]" value="{{ prefilled.get('customer.name') }}" required />
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            {{ 'labels.email_address'|trans }}
+                                        </label>
+                                        <input type="email" class="form-control customer-email" name="customer[email]" value="{{ prefilled.get('customer.email') }}" required />
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 tax-id-field hidden">
+                                    <div class="form-group">
+                                        <label class="form-label" id="taxIdLabel"></label>
+                                        <input type="text" class="form-control" name="customer[tax_id]" value="{{ prefilled.get('customer.tax_id') }}" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Custom Fields -->
+                            {% if customFields %}
+                                <div class="row">
+                                    {% for customField in customFields %}
+                                        {% if customField.external %}
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">
+                                                        {{ customField.name }}
+                                                    </label>
+                                                    {% if customField.choices %}
+                                                        <select class="form-select" name="metadata[{{ customField.id }}]">
+                                                            {% for choice in customField.choices %}
+                                                                <option value="{{ choice }}">{{ choice }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    {% else %}
+                                                        <input type="text" class="form-control" name="metadata[{{ customField.id }}]" value="{{ prefilled.get(customField.prefillKey) }}" required />
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        {% else %}
+                                            <input type="hidden" name="metadata[{{ customField.id }}]" value="{{ prefilled.get(customField.prefillKey) }}" />
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            <!-- Billing Address -->
+                            {% if hasBillingAddress %}
+                                <div class="address billing">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="form-label">
+                                                    {{ 'labels.address_line1'|trans }}
+                                                </label>
+                                                <input type="text" class="form-control cc-address1 billing-address1" name="customer[address1]" value="{{ prefilled.get('customer.address1') }}" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="form-label">
+                                                    {{ 'labels.address_line2'|trans }}
+                                                </label>
+                                                <input type="text" class="form-control cc-address2 billing-address2" name="customer[address2]" value="{{ prefilled.get('customer.address2') }}" placeholder="{{ 'labels.optional'|trans }}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="form-label">
+                                                    {{ 'labels.address_city'|trans }}
+                                                </label>
+                                                <input type="text" class="form-control cc-city billing-city" name="customer[city]" value="{{ prefilled.get('customer.city') }}" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="form-label">
+                                                    {{ 'labels.address_state'|trans }}
+                                                </label>
+                                                <div class="state-select hidden">
+                                                    <select class="form-select"></select>
+                                                </div>
+                                                <input type="text" class="form-control cc-state billing-state state-text" name="customer[state]" value="{{ prefilled.get('customer.state') }}" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="form-label">
+                                                    {{ 'labels.address_postal_code'|trans }}
+                                                </label>
+                                                <input type="text" class="form-control cc-postal-code billing-postal-code" name="customer[postal_code]" value="{{ prefilled.get('customer.postal_code') }}" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="form-label">
+                                                    {{ 'labels.address_country'|trans }}
+                                                </label>
+                                                <select name="customer[country]" class="form-select country-selector billing cc-country billing-country" data-section="billing">
+                                                    {% for country in countries %}
+                                                        <option value="{{ country.code }}"{% if country.code == selectedCountryBilling %} selected="selected"{% endif %}>{{ country.country }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <hr/>
+
+                            <!-- Order Form -->
+                            {% if type == 'recurring' %}
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="form-label">
+                                                {{ 'labels.plan'|trans }}
+                                            </label>
+                                            {% if plans|length == 1 %}
+                                                <input type="hidden" class="plan-selector" name="plan" value="{{ plans.0.id }}" />
+                                                {% if plans.0.tiers is defined and plans.0.tiers is not null %}
+                                                    {{ plans.0.name }} &mdash; {{ 'labels.tiered'|trans }} {{ plans.0.interval_str }}
+                                                {% else %}
+                                                    {{ plans.0.name }} &mdash; <span class="money">{{ plans.0.amount_formatted|raw }}</span> {{ plans.0.interval_str }}
+                                                {% endif %}
+                                            {% else %}
+                                                <select class="form-select plan-selector" name="plan">
+                                                    {% for plan in plans %}
+                                                        <option value="{{ plan.id }}" {% if plan.id==selectedPlan.id %}selected="selected"{% endif %}>
+                                                            {% if plan.tiers is defined and plan.tiers is not null %}
+                                                                {{ plan.name }} &mdash; {{ 'labels.tiered'|trans }} {{ plan.interval_str }}
+                                                            {% else %}
+                                                                {{ plan.name }} &mdash; {{ plan.amount_formatted|raw }} {{ plan.interval_str }}
+                                                            {% endif %}
+                                                        </option>
+                                                    {% endfor %}
+                                                </select>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {% if hasQuantity %}
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="form-label">
+                                                    {{ 'labels.quantity'|trans }}
+                                                </label>
+                                                <input type="number" class="form-control plan-quantity" name="quantity" value="{{ prefilled.get('quantity') }}" required />
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <input type="hidden" value="1" class="plan-quantity" />
+                                    {% endif %}
+                                </div>
+
+                                <!-- Addons -->
+                                {% if addons|length > 0 %}
+                                    <div class="form-group addons">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <label class="form-label">
+                                                    {{ 'labels.addons'|trans }}
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        {% for addon in addons %}
+                                            <div class="row addon {% if addon.interval_str is defined %}hidden recurring{% endif %}" {% if addon.interval_str is defined %}data-interval="{{ addon.interval_str }}"{% endif %}>
+                                                <!-- Addon Toggle -->
+                                                <div class="col-sm-9">
+                                                    <label class="addon-name noselect">
+                                                        <div class="enabled">
+                                                            <input {% if addon.required %}type="hidden"{% else %}type="checkbox" {% if prefilled.get('addons.' ~ addon.id ~ '.enabled') %}checked="checked"{% endif %}{% endif %} data-addon="{{ addon.id }}" data-recurring="{{ addon.recurring }}" data-amount="{{ addon._amount }}" data-name="{{ addon.name }}" data-taxable="{{ addon.taxable }}" data-discountable="{{ addon.discountable }}" {% if addon.interval_str is defined %}data-interval="{{ addon.interval_str }}"{% endif %} class="addon-enabled" name="addons[{{ addon.id }}][enabled]" value="1" />
+                                                        </div>
+                                                        <strong>{{ addon.name }}</strong>:
+                                                        {% if addon.tiered is not defined or addon.tiered == false %}
+                                                            <span class="money">{{ addon.amount|raw }}</span>
+                                                        {% else %}
+                                                            {{ 'labels.tiered'|trans }}
+                                                        {% endif %}
+                                                        {% if addon.interval_str is defined %}
+                                                            {{ addon.interval_str }}
+                                                        {% elseif addon.recurring %}
+                                                            <span class="billing-interval"></span>
+                                                        {% endif %}
+                                                    </label>
+                                                </div>
+
+                                                <!-- Addon Quantity -->
+                                                <div class="col-sm-3">
+                                                    {% if addon.type == 'quantity' %}
+                                                        <div class="addon-qty-holder-{{ addon.id }} {% if not(addon.required) %}hidden{% endif %}">
+                                                            <input type="number" class="form-control input-small addon-qty addon-qty-{{ addon.id }}" name="addons[{{ addon.id }}][quantity]" value="{{ prefilled.get('addons.' ~ addon.id ~ '.quantity') }}" {% if addon.required %}required{% endif %} />
+                                                        </div>
+                                                    {% else %}
+                                                        <input type="hidden" class="addon-qty-{{ addon.id }}" name="addons[{{ addon.id }}][quantity]" value="1" />
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+
+                                {% if hasCouponCode %}
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <a href="#" class="coupon-code-link">
+                                                    {{ 'labels.have_a_coupon'|trans }}
+                                                </a>
+                                                <input type="hidden" name="coupon" id="formCouponCode" />
+                                                <div class="coupon-code-form hidden">
+                                                    <div class="alert bg-danger-soft text-dark border border-danger coupon-code-error hidden"></div>
+                                                    <label class="form-label">
+                                                        {{ 'labels.coupon_code'|trans }}
+                                                    </label>
+                                                    <div class="input">
+                                                        <input type="text" class="form-control" id="couponCode" value="{{ prefilled.get('coupon') }}" placeholder="{{ 'labels.enter_coupon'|trans }}" />
+                                                    </div>
+                                                    <div class="form-actions">
+                                                        <a href="#" class="btn btn-link btn-sm coupon-code-cancel">
+                                                            {{ 'buttons.cancel'|trans }}
+                                                        </a>
+                                                        <button type="button" class="btn btn-primary btn-sm coupon-code-apply">
+                                                            {{ 'buttons.apply'|trans }}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <hr/>
+                            {% endif %}
+
+                            <!-- Shipping -->
+                            {% if hasShippingAddress %}
+                                <div class="address shipping">
+                                    <h2>{{ 'labels.shipping_information'|trans }}</h2>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="form-label">
+                                                    {{ 'labels.name'|trans }}
+                                                </label>
+                                                <input type="text" class="form-control" name="shipping[name]" value="{{ prefilled.get('shipping.name') }}" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="form-label">
+                                                    {{ 'labels.address_line1'|trans }}
+                                                </label>
+                                                <input type="text" class="form-control billing-address1" name="shipping[address1]" value="{{ prefilled.get('shipping.address1') }}" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="form-label">
+                                                    {{ 'labels.address_line2'|trans }}
+                                                </label>
+                                                <input type="text" class="form-control billing-address2" name="shipping[address2]" value="{{ prefilled.get('shipping.address2') }}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="form-label">
+                                                    {{ 'labels.address_city'|trans }}
+                                                </label>
+                                                <input type="text" class="form-control billing-city" name="shipping[city]" value="{{ prefilled.get('shipping.city') }}" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="form-label">
+                                                    {{ 'labels.address_state'|trans }}
+                                                </label>
+                                                <div class="state-select hidden">
+                                                    <select class="form-select"></select>
+                                                </div>
+                                                <input type="text" class="form-control state-text billing-state" name="shipping[state]" value="{{ prefilled.get('shipping.state') }}" required></select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="form-label">
+                                                    {{ 'labels.address_postal_code'|trans }}
+                                                </label>
+                                                <input type="text" class="form-control billing-postal-code" name="shipping[postal_code]" value="{{ prefilled.get('shipping.postal_code') }}" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="form-label">
+                                                    {{ 'labels.address_country'|trans }}
+                                                </label>
+                                                <select name="shipping[country]" class="form-select country-selector shipping billing-country" data-section="shipping">
+                                                    {% for country in countries %}
+                                                        <option value="{{ country.code }}"{% if country.code == selectedCountryShipping %} selected="selected"{% endif %}>{{ country.country }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                </div>
+                            {% endif %}
+
+                            <!-- Payment Information -->
+                            <div class="payment-information">
+                                <div id="paymentSourceData"></div>
+                                <div class="divider"></div>
+
+                                <div class="row">
+                                    <div class="col-sm-4 pay-with-column">
+                                        <label class="form-label">{{ 'labels.pay_with'|trans }}</label>
+                                        <div class="payment-method-selector">
+                                            {% if paymentSource %}
+                                                <div class="option">
+                                                    <label class="noselect">
+                                                        <input type="radio" name="payment_source[method]" class="payment-method-type" value="__default__" checked="checked" />
+                                                        {{ paymentSource.toString(true) }}
+                                                    </label>
+                                                </div>
+                                            {% endif %}
+                                            {% for method in paymentMethods|filter(method => method.id not in disabledMethods) %}
+                                                <div class="option">
+                                                    <label class="noselect">
+                                                        <input type="radio" name="payment_source[method]" class="payment-method-type" value="{{ method.id }}" {% if not(paymentSource) and method.id == prefilled.get('payment_source.method') %}checked="checked"{% endif %} />
+                                                        {{ method.toString() }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                            {% if paymentMethods.credit_card.convenience_fee is defined and paymentMethods.credit_card.convenience_fee > 0 %}
+                                                <span class="text-warning" id="convenience-fee-warning">{{ 'warnings.convenience_fee'|trans({'%fee%': (paymentMethods.credit_card.convenience_fee/100) ~ '%'}) }}</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-8">
+                                        {% for row in paymentSourceViews %}
+                                            <div class="payment-method-form {{ row.method.id }} {% if row.method.id != prefilled.get('payment_source.method') %}hidden{% endif %}">
+                                                {{ row.view.render(companyObj, row.method, row.merchantAccount, tokenizationFlow)|raw }}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Terms of Service -->
+                            {% if hasToS %}
+                                <div class="form-group signup-form-tos">
+                                    <label class="noselect">
+                                        <input type="checkbox" name="tos_accepted" value="1" id="acceptToS" />
+                                        {{ 'labels.accept_tos'|trans({'%url%': tosUrl})|raw }}
+                                    </label>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="right">
+                            <!-- Order Summary -->
+                            {% if type == 'recurring' %}
+                                <div class="signup-form-total">
+                                    <label class="form-label">
+                                        {{ 'labels.order_summary'|trans }}
+                                    </label>
+                                    <div class="amount money">
+                                        <span class="currency"></span><span class="total"></span>
+                                    </div>
+                                    <div class="interval"></div>
+
+                                    {% if hasCouponCode %}
+                                        <!-- Discounts -->
+                                        <div class="signup-form-line-item discounts hidden">
+                                            {{ 'labels.coupon'|trans }}:
+                                            <span class="code"></span>
+                                            (<span class="value"></span>)
+                                            <a href="#" class="coupon-code-remove">{{ 'buttons.remove'|trans }}</a>
+                                        </div>
+                                    {% endif %}
+
+                                    <!-- Taxes -->
+                                    <div class="signup-form-taxes hidden">
+                                        <div class="signup-form-line-item taxes">
+                                            <span>{{ 'includes'|trans|capitalize }}</span>
+                                            <span id="tax-amount"></span>
+                                            <span>{{ 'tax'|trans }}</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Start Date -->
+                                    {% if trialPeriodDays > 0 %}
+                                        <div class="signup-form-start-date trial">
+                                            {{ 'labels.free_trial'|trans({'%numDays%': trialPeriodDays}) }}
+                                            {% if renewsOn %}
+                                                <div>
+                                                    {{ 'labels.first_bill_prorated'|trans({'%nthDay%': renewsOn}) }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    {% else %}
+                                        <div class="signup-form-start-date now">
+                                            {{ 'labels.starts_now'|trans }}
+                                            {% if renewsOn %}
+                                                <div>
+                                                    {{ 'labels.first_bill_prorated'|trans({'%nthDay%': renewsOn}) }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+
+                                    <!-- Line Items -->
+                                    <div class="signup-form-line-items"></div>
+                                </div>
+                            {% elseif type == 'autopay' %}
+                                <div class="signup-form-total">
+                                    <label class="form-label">
+                                        {{ 'labels.order_summary'|trans }}
+                                    </label>
+                                    <div class="signup-form-line-item autopay">
+                                        {{ 'labels.you_will_be_enrolled_in_autopay'|trans }}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <!-- Subscribe Button -->
+                            <div class="signup-form-button">
+                                <button type="submit" class="btn btn-primary btn-lg" {% if hasToS %}disabled="disabled"{% endif %}>
+                                    {% if type == 'recurring' %}
+                                        {{ 'buttons.subscribe'|trans }}
+                                    {% elseif type == 'autopay' %}
+                                        {{ 'buttons.submit'|trans }}
+                                    {% endif %}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{{ asset('/js/views/sign_up_page.js') }}"></script>
+
+    <!-- Hidden Translation Strings -->
+    <div id="informationBeingSavedMessage" class="hidden">{{ 'messages.information_being_saved'|trans }}</div>
+{% endblock %}

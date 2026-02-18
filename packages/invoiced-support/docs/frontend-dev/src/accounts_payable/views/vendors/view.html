@@ -1,0 +1,84 @@
+<p class="loading" ng-show="loading"></p>
+
+<div class="object-view vendor-summary" ng-hide="loading">
+    <div class="title-bar with-avatar clearfix">
+        <!-- Balance -->
+        <div class="balance" ng-show="loaded.balance">
+            <div class="owes" ng-class="{'paid':balance.total_balance<=0,'past-due':balance.past_due}">
+                <span class="balance-label">Owed</span>
+                <span class="amount"><money amount="balance.total_balance" currency="balance.currency"></money></span>
+            </div>
+        </div>
+        <div class="balance" ng-hide="loaded.balance">
+            <div class="loading inline"></div>
+        </div>
+
+        <!-- Avatar -->
+        <customer-icon customer="networkProfile"></customer-icon>
+
+        <!-- Title -->
+        <h2>{{vendor.name}}</h2>
+        <h3>{{vendor.number}}</h3>
+    </div>
+
+    <ul class="nav nav-tabs">
+        <!-- Tab Links -->
+        <li ui-sref-active="active">
+            <a ui-sref=".summary">
+                {{'tabs.summary'|translate}}
+            </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref=".history">
+                {{'tabs.history'|translate}}
+            </a>
+        </li>
+
+        <!-- Action Buttons -->
+        <li class="action dropdown right" dropdown>
+            <a href="" class="dropdown-toggle" dropdown-toggle>
+                <span class="actions-label"></span>
+                <span class="fas fa-chevron-down"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li ng-if="('network'|hasFeature) && ('vendors.edit'|hasPermission) && ('network_invitations'|hasFeature)">
+                    <a href="" ng-click="inviteToNetwork(vendor)" ng-hide="vendor.network_connection || invitedToNetwork">
+                        Add to Network
+                    </a>
+                </li>
+                <li>
+                    <a ui-sref="manage.bills.new({vendor:vendor.id})">
+                        Add Bill
+                    </a>
+                </li>
+                <li>
+                    <a ui-sref="manage.vendor_credits.new({vendor:vendor.id})">
+                        Add Vendor Credit
+                    </a>
+                </li>
+                <li class="danger" ng-if="'vendors.delete'|hasPermission">
+                    <a href="" ng-click="deleteNetworkConnection(vendor)" ng-hide="deleting || !vendor.network_connection">
+                        Remove from My Network
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="action right hidden-xs" ng-hide="vendor.active" ng-if="('vendors.edit'|hasPermission)">
+            <a href="" ng-click="editModal(vendor)">
+                <div>{{'general.edit'|translate}}</div>
+            </a>
+        </li>
+        <li class="action automation-action right" ng-if="'vendors.edit'|hasPermission">
+            <div>
+                <automate-button btn-class="'nav-link-item'" object-type="modelObjectType" object-id="modelId"></automate-button>
+            </div>
+        </li>
+    </ul>
+
+    <!-- Selected Tab Content -->
+    <div class="tab-content">
+        <div class="tab-pane active">
+            <ui-view/>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+{% trans_default_domain 'customer_portal' %}
+
+<div class="alert bg-danger-soft text-dark border border-danger errors stripe-card-errors hidden"></div>
+<div class="mb-3" id="stripe-card-payment-element"></div>
+
+<script id="stripe-card-publishable-key" type="text/json">
+  {{ publishableKey|json_encode|raw }}
+</script>
+<script id="stripe-card-client-secret" type="text/json">
+  {{ clientSecret|json_encode|raw }}
+</script>
+<script id="stripe-card-default-values" type="text/json">
+  {{ defaultValues|json_encode|raw }}
+</script>
+<script type="text/javascript" src="{{ asset('/js/views/paymentForms/cardStripe.js') }}"></script>

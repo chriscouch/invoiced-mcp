@@ -1,0 +1,822 @@
+<form name="setupForm" ng-submit="save(gateway)">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			<span>Edit Payment Gateway</span>
+		</h4>
+	</div>
+
+	<div class="modal-body form-horizontal">
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<!-- Payment Gateway Selector -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">
+				Gateway
+			</label>
+			<div class="col-sm-8 form-control-static">
+				{{gateway|gatewayName}}
+			</div>
+		</div>
+
+		<!-- LawPay Setup -->
+		<div class="credentials" ng-if="gateway=='lawpay'">
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4">
+					<connect-to-lawpay></connect-to-lawpay>
+				</div>
+			</div>
+		</div>
+
+		<!-- Authorize.Net Setup -->
+		<div class="credentials" ng-if="gateway=='authorizenet'">
+			<div class="form-group slim">
+				<label class="control-label col-sm-4">
+					Name
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="authorizenet.name" required />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4 help-text text-muted">
+					This is to help you identify this gateway on Invoiced.
+				</div>
+			</div>
+			<hr/>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					API Login ID
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="authorizenet.credentials.login_id" required />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Transaction Key
+				</label>
+				<div class="col-sm-6">
+					<input type="password" class="form-control" ng-model="authorizenet.credentials.transaction_key" required />
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-6  col-sm-offset-4">
+					<h4>Options</h4>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					ACH SEC Code
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="authorizenet.credentials.ach_sec_code" placeholder="Recommended to leave empty" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Mode
+				</label>
+				<div class="col-sm-4 form-control-static">
+					<span class="label label-success" ng-hide="authorizenet.credentials.test_mode">Live</span>
+					<span class="label label-warning" ng-show="authorizenet.credentials.test_mode">Test Mode</span>
+				</div>
+			</div>
+
+			<div class="form-group" ng-hide="setupForm.$invalid">
+				<div class="col-sm-8 col-sm-offset-4">
+					<button type="button" class="btn btn-default Button" ng-click="test(gateway, authorizenet.credentials)" ng-disabled="testing" v-busy="testing" v-busy-label="Testing" v-pressable>
+						Test Connection
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Braintree Setup -->
+		<div class="credentials" ng-if="gateway=='braintree'">
+			<div class="form-group slim">
+				<label class="control-label col-sm-4">
+					{{'settings.payments.name'|translate}}
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="braintree.name" required />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4 help-text text-muted">
+					{{'settings.payments.name_help_text'|translate}}
+				</div>
+			</div>
+			<hr/>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					{{'settings.payments.merchant_id'|translate}}
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="braintree.credentials.merchant_id" required />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					{{'settings.payments.public_key'|translate}}
+				</label>
+				<div class="col-sm-6">
+					<input type="password" class="form-control" ng-model="braintree.credentials.public_key" required />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					{{'settings.payments.private_key'|translate}}
+				</label>
+				<div class="col-sm-6">
+					<input type="password" class="form-control" ng-model="braintree.credentials.private_key" required />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					{{'settings.payments.mode'|translate}}
+				</label>
+				<div class="col-sm-4 form-control-static">
+					<span class="label label-success" ng-hide="braintree.credentials.test_mode">Live</span>
+					<span class="label label-warning" ng-show="braintree.credentials.test_mode">Test Mode</span>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<table class="table table-striped search-results-table">
+					<thead>
+						<tr>
+							<th>{{'settings.payments.currency'|translate}}</th>
+							<th class="noborder">{{'settings.payments.merchant_account_id'|translate}}</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="account in braintree.credentials.merchant_account_ids">
+							<td>
+								<currency-selector ng-model="account.currency" required></currency-selector>
+							</td>
+							<td class="noborder">
+								<input type="text" class="form-control" ng-model="account.id" required />
+							</td>
+							<td>
+								<button type="button" class="btn btn-link" ng-show="$index > 0" ng-click="braintree.credentials.merchant_account_ids.pop()" tooltip="Delete Account">
+									<span class="fas fa-times"></span>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-2 col-sm-offset-9">
+					<button type="button" class="btn btn-default" ng-click="braintree.credentials.merchant_account_ids.push({})">
+						<span class="fas fa-plus"></span>
+						{{'settings.payments.currency'|translate}}
+					</button>
+				</div>
+			</div>
+
+			<div class="form-group" ng-hide="setupForm.$invalid">
+				<div class="col-sm-8 col-sm-offset-4">
+					<button type="button" class="btn btn-default Button" ng-click="test(gateway, braintree.credentials)" ng-disabled="testing" v-busy="testing" v-busy-label="Testing" v-pressable>
+						{{'settings.payments.test_connection'|translate}}
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Cardknox Setup -->
+		<div class="credentials" ng-if="gateway=='cardknox'">
+			<div class="form-group slim">
+				<label class="control-label col-sm-4">
+					Name
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="cardknox.name" required />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4 help-text text-muted">
+					Name to help you identify this gateway on Invoiced.
+				</div>
+			</div>
+			<hr/>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Key
+				</label>
+				<div class="col-sm-6">
+					<input type="password" class="form-control" ng-model="cardknox.credentials.key" required />
+				</div>
+			</div>
+
+			<div class="form-group" ng-hide="setupForm.$invalid">
+				<div class="col-sm-8 col-sm-offset-4">
+					<button type="button" class="btn btn-default Button" ng-click="test(gateway, cardknox.credentials)" ng-disabled="testing" v-busy="testing" v-busy-label="Testing" v-pressable>
+						Test Connection
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- CyberSource Setup -->
+		<div class="credentials" ng-if="gateway=='cybersource'">
+			<div class="form-group slim">
+				<label class="control-label col-sm-4">
+					Name
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="cybersource.name" required />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4 help-text text-muted">
+					Name to help you identify this gateway on Invoiced.
+				</div>
+			</div>
+			<hr/>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Merchant ID
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="cybersource.credentials.merchant_id" required />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Transaction Key
+				</label>
+				<div class="col-sm-6">
+					<input type="password" class="form-control" ng-model="cybersource.credentials.transaction_key" required />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Mode
+				</label>
+				<div class="col-sm-4 form-control-static">
+					<span class="label label-success" ng-hide="cybersource.credentials.test_mode">Live</span>
+					<span class="label label-warning" ng-show="cybersource.credentials.test_mode">Test Mode</span>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-6  col-sm-offset-4">
+					<h4>Options</h4>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					{{'settings.payments.currency'|translate}}
+				</label>
+				<div class="col-sm-6">
+					<currency-selector ng-model="cybersource.credentials.currency" required></currency-selector>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					ACH SEC Code
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="cybersource.credentials.ach_sec_code" placeholder="Recommended to leave empty" />
+				</div>
+			</div>
+
+			<div class="form-group" ng-hide="setupForm.$invalid">
+				<div class="col-sm-8 col-sm-offset-4">
+					<button type="button" class="btn btn-default Button" ng-click="test(gateway, cybersource.credentials)" ng-disabled="testing" v-busy="testing" v-busy-label="Testing" v-pressable>
+						Test Connection
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- GoCardless Setup -->
+		<div class="credentials" ng-if="gateway=='gocardless'">
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4">
+					<a href="https://docs.invoiced.com/accounts-receivable/payments/gateways/gocardless" target="_blank">
+						<span class="fas fa-external-link"></span>
+						Read the instructions for help
+					</a>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4">
+					<connect-to-gocardless></connect-to-gocardless>
+				</div>
+			</div>
+		</div>
+
+		<!-- Intuit Payments -->
+		<div class="credentials" ng-if="gateway=='intuit'">
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4">
+					<connect-to-quickbooks redirect="'payments'" with-payments="true"></connect-to-quickbooks>
+				</div>
+			</div>
+		</div>
+
+		<!-- Flywire Setup -->
+		<div class="credentials" ng-if="gateway=='flywire'">
+			<div class="form-group slim">
+				<label class="control-label col-sm-4">
+					{{'settings.payments.name'|translate}}
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="flywire.name" required />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4 help-text text-muted">
+					{{'settings.payments.name_help_text'|translate}}
+				</div>
+			</div>
+
+
+			<div class="form-group slim">
+				<label class="control-label col-sm-4">
+					{{'settings.payments.shared_secret'|translate}}
+				</label>
+				<div class="col-sm-6">
+					<input type="password" class="form-control" ng-model="flywire.credentials.shared_secret" required />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4 help-text text-muted">
+					{{'settings.payments.flywire_secret_help_text'|translate}}
+				</div>
+			</div>
+			<hr/>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					{{'settings.payments.mode'|translate}}
+				</label>
+				<div class="col-sm-4 form-control-static">
+					<span class="label label-success" ng-hide="flywire.credentials.test_mode">Live</span>
+					<span class="label label-warning" ng-show="flywire.credentials.test_mode">Test Mode</span>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<table class="table table-striped search-results-table">
+					<thead>
+						<tr>
+							<th>{{'settings.payments.currency'|translate}}</th>
+							<th class="noborder">{{'settings.payments.flywire_portal_code'|translate}}</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="account in flywire.credentials.flywire_portal_codes">
+							<td>
+								<currency-selector ng-model="account.currency" required></currency-selector>
+							</td>
+							<td class="noborder">
+								<input type="text" class="form-control" ng-model="account.id" required />
+							</td>
+							<td>
+								<button type="button" class="btn btn-link" ng-show="$index > 0" ng-click="flywire.credentials.flywire_portal_codes.pop()" tooltip="Delete Account">
+									<span class="fas fa-times"></span>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-2 col-sm-offset-9">
+					<button type="button" class="btn btn-default" ng-click="flywire.credentials.flywire_portal_codes.push({})">
+						<span class="fas fa-plus"></span>
+						{{'settings.payments.currency'|translate}}
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Flywire Payments Setup -->
+		<div class="credentials" ng-if="gateway=='flywire_payments'">
+			<div class="form-group slim">
+				<label class="control-label col-sm-4">
+					{{'settings.payments.name'|translate}}
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="flywire_payments.name" required />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4 help-text text-muted">
+					{{'settings.payments.name_help_text'|translate}}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					{{'settings.payments.mode'|translate}}
+				</label>
+				<div class="col-sm-4 form-control-static">
+					<span class="label label-success" ng-hide="flywire_payments.credentials.test_mode">Live</span>
+					<span class="label label-warning" ng-show="flywire_payments.credentials.test_mode">Test Mode</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- Moneris Setup -->
+		<div class="credentials" ng-if="gateway=='moneris'">
+			<div class="form-group slim">
+				<label class="control-label col-sm-4">
+					Name
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="moneris.name" required />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4 help-text text-muted">
+					Name to help you identify this gateway on Invoiced.
+				</div>
+			</div>
+			<hr/>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Store ID
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="moneris.credentials.store_id" required />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					API Token
+				</label>
+				<div class="col-sm-6">
+					<input type="password" class="form-control" ng-model="moneris.credentials.api_token" required />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Processing Country
+				</label>
+				<div class="col-sm-4">
+					<div class="invoiced-select">
+						<select ng-model="moneris.credentials.processing_country">
+							<option value="CA">Canada</option>
+							<option value="US">United States</option>
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Mode
+				</label>
+				<div class="col-sm-4 form-control-static">
+					<span class="label label-success" ng-hide="moneris.credentials.test_mode">Live</span>
+					<span class="label label-warning" ng-show="moneris.credentials.test_mode">Test Mode</span>
+				</div>
+			</div>
+
+			<div class="form-group" ng-hide="setupForm.$invalid">
+				<div class="col-sm-8 col-sm-offset-4">
+					<button type="button" class="btn btn-default Button" ng-click="test(gateway, moneris.credentials)" ng-disabled="testing" v-busy="testing" v-busy-label="Testing" v-pressable>
+						Test Connection
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- NMI Setup -->
+		<div class="credentials" ng-if="gateway=='nmi'">
+			<div class="form-group slim">
+				<label class="control-label col-sm-4">
+					Name
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="nmi.name" required />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4 help-text text-muted">
+					Name to help you identify this gateway on Invoiced.
+				</div>
+			</div>
+			<hr/>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Username
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="nmi.credentials.username" required />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Password
+				</label>
+				<div class="col-sm-6">
+					<input type="password" class="form-control" ng-model="nmi.credentials.password" required />
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-6  col-sm-offset-4">
+					<h4>Options</h4>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					ACH SEC Code
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="nmi.credentials.ach_sec_code" placeholder="Recommended to leave empty" />
+				</div>
+			</div>
+
+			<div class="form-group" ng-hide="setupForm.$invalid">
+				<div class="col-sm-8 col-sm-offset-4">
+					<button type="button" class="btn btn-default Button" ng-click="test(gateway, nmi.credentials)" ng-disabled="testing" v-busy="testing" v-busy-label="Testing" v-pressable>
+						Test Connection
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Orbital Setup -->
+		<div class="credentials" ng-if="gateway=='orbital'">
+			<div class="form-group slim">
+				<label class="control-label col-sm-4">
+					Name
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="orbital.name" required />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4 help-text text-muted">
+					Name to help you identify this gateway on Invoiced.
+				</div>
+			</div>
+			<hr/>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Merchant ID
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="orbital.credentials.merchant_id" required />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Username
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="orbital.credentials.username" required />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Password
+				</label>
+				<div class="col-sm-6">
+					<input type="password" class="form-control" ng-model="orbital.credentials.password" required />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Platform
+				</label>
+				<div class="col-sm-6">
+					<div class="invoiced-select">
+						<select ng-model="orbital.credentials.bin">
+							<option value="000001">Stratus (BIN 000001)</option>
+							<option value="000002">PNS / Tandem (BIN 000002)</option>
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group" ng-show="orbital.credentials.bin == '000002'">
+				<label class="control-label col-sm-4">
+					Terminal ID
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="orbital.credentials.terminal_id" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Mode
+				</label>
+				<div class="col-sm-4 form-control-static">
+					<span class="label label-success" ng-hide="orbital.credentials.test_mode">Live</span>
+					<span class="label label-warning" ng-show="orbital.credentials.test_mode">Test Mode</span>
+				</div>
+			</div>
+
+			<div class="form-group" ng-hide="setupForm.$invalid">
+				<div class="col-sm-8 col-sm-offset-4">
+					<button type="button" class="btn btn-default Button" ng-click="test(gateway, orbital.credentials)" ng-disabled="testing" v-busy="testing" v-busy-label="Testing" v-pressable>
+						Test Connection
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- PayPal Payflow Pro Setup -->
+		<div class="credentials" ng-if="gateway=='payflowpro'">
+			<div class="form-group slim">
+				<label class="control-label col-sm-4">
+					Name
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="payflowpro.name" required />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4 help-text text-muted">
+					Name to help you identify this gateway on Invoiced.
+				</div>
+			</div>
+			<hr/>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Partner
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="payflowpro.credentials.partner" required />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Merchant Login
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="payflowpro.credentials.vendor" required />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					User
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="payflowpro.credentials.user" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Password
+				</label>
+				<div class="col-sm-6">
+					<input type="password" class="form-control" ng-model="payflowpro.credentials.password" required />
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-6  col-sm-offset-4">
+					<h4>Options</h4>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					ACH SEC Code
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="payflowpro.credentials.ach_sec_code" placeholder="Recommended to leave empty" />
+				</div>
+			</div>
+
+			<div class="form-group" ng-hide="setupForm.$invalid">
+				<div class="col-sm-8 col-sm-offset-4">
+					<button type="button" class="btn btn-default Button" ng-click="test(gateway, payflowpro.credentials)" ng-disabled="testing" v-busy="testing" v-busy-label="Testing" v-pressable>
+						Test Connection
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Stripe Setup -->
+		<div class="credentials" ng-if="gateway=='stripe'">
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4">
+					<connect-to-stripe method="'credit_card'"></connect-to-stripe>
+				</div>
+			</div>
+		</div>
+
+		<!-- Vantiv Setup -->
+		<div class="credentials" ng-if="gateway=='vantiv'">
+			<div class="form-group slim">
+				<label class="control-label col-sm-4">
+					Name
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="vantiv.name" required />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4 help-text text-muted">
+					Name to help you identify this gateway on Invoiced.
+				</div>
+			</div>
+			<hr/>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Account ID
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="vantiv.credentials.account_id" required />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Account Token
+				</label>
+				<div class="col-sm-6">
+					<input type="password" class="form-control" ng-model="vantiv.credentials.account_token" required />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Acceptor ID
+				</label>
+				<div class="col-sm-6">
+					<input type="text" class="form-control" ng-model="vantiv.credentials.acceptor_id" required />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">
+					Mode
+				</label>
+				<div class="col-sm-4 form-control-static">
+					<span class="label label-success" ng-hide="vantiv.credentials.test_mode">Live</span>
+					<span class="label label-warning" ng-show="vantiv.credentials.test_mode">Test Mode</span>
+				</div>
+			</div>
+
+			<div class="form-group" ng-hide="setupForm.$invalid">
+				<div class="col-sm-8 col-sm-offset-4">
+					<button type="button" class="btn btn-default Button" ng-click="test(gateway, vantiv.credentials)" ng-disabled="testing" v-busy="testing" v-busy-label="Testing" v-pressable>
+						Test Connection
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Test Credentials Result -->
+		<div class="form-group" ng-show="testSuccessful||testError">
+			<div class="col-sm-8 col-sm-offset-4">
+				<div class="alert alert-success" ng-show="testSuccessful">
+					Connected successfully!
+				</div>
+				<div class="alert alert-danger" ng-show="!testSuccessful&&testError">
+					{{testError.message}}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer" ng-hide="isOauthGateway(gateway)">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="saving||setupForm.$invalid" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

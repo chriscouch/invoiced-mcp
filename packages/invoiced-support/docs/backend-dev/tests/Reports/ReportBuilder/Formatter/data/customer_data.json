@@ -1,0 +1,67 @@
+[
+  [
+    {
+      "id_1": "1",
+      "name_2": "Test Customer 1",
+      "customer_reference": "1",
+      "group_state": "TX",
+      "group_city": "Austin"
+    },
+    {
+      "id_1": "2",
+      "name_2": "Test Customer 2",
+      "customer_reference": "2",
+      "group_state": "TX",
+      "group_city": "Austin"
+    },
+    {
+      "id_1": "3",
+      "name_2": "Test Customer 3",
+      "customer_reference": "3",
+      "group_state": "TX",
+      "group_city": "Austin"
+    },
+    {
+      "id_1": "4",
+      "name_2": "Test Customer 4",
+      "customer_reference": "4",
+      "group_state": "TX",
+      "group_city": "Dallas"
+    },
+    {
+      "id_1": "5",
+      "name_2": "Test Customer 5",
+      "customer_reference": "5",
+      "group_state": "TX",
+      "group_city": "Dallas"
+    },
+    {
+      "id_1": "6",
+      "name_2": "Test Customer 6",
+      "customer_reference": "6",
+      "group_state": "NJ",
+      "group_city": "Newark"
+    },
+    {
+      "id_1": "7",
+      "name_2": "Test Customer 7",
+      "customer_reference": "7",
+      "group_state": "NJ",
+      "group_city": "Newark"
+    },
+    {
+      "id_1": "8",
+      "name_2": "Test Customer 8",
+      "customer_reference": "8",
+      "group_state": "FL",
+      "group_city": "Miami"
+    },
+    {
+      "id_1": "9",
+      "name_2": "Test Customer 9",
+      "customer_reference": "9",
+      "group_state": "FL",
+      "group_city": "Orlando"
+    }
+  ]
+]

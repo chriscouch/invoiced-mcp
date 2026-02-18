@@ -1,0 +1,52 @@
+<form name="cadenceForm" ng-submit="save(cadence, nextStep)">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
+		<h4 class="modal-title">Chasing Settings</h4>
+	</div>
+	<div class="modal-body" ng-show="loading">
+		<div class="loading"></div>
+	</div>
+	<div class="modal-body" ng-hide="loading">
+		<div class="form-group">
+			<div>
+				<label class="control-label">Customer</label>
+			</div>
+			<div>
+				{{customer.name}}
+			</div>
+		</div>
+
+
+		<div class="form-group">
+			<div>
+				<label class="control-label">Enable Chasing</label>
+			</div>
+			<div>
+				<toggle ng-model="hasCadence"></toggle>
+			</div>
+		</div>
+
+		<div ng-if="hasCadence">
+			<div class="form-group">
+				<div>
+					<label class="control-label">Cadence</label>
+				</div>
+				<div class="invoiced-select">
+					<select ng-model="$parent.cadence" ng-options="_cadence as _cadence.name for _cadence in cadences track by _cadence.id" required ng-change="changedCadence()"></select>
+				</div>
+			</div>
+
+			<div class="form-group" ng-if="$parent.cadence">
+				<label class="control-label">Next Step</label>
+				<div class="invoiced-select">
+					<select ng-model="$parent.$parent.nextStep" ng-options="step.id as step.name for step in cadence.steps" required></select>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="saving||cadenceForm.$invalid" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

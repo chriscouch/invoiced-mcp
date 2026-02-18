@@ -1,0 +1,77 @@
+<p class="loading" ng-show="loading"></p>
+
+<div class="object-view bill-summary" ng-hide="loading">
+    <div class="title-bar clearfix">
+        <!-- Title -->
+        <h2>Bill</h2>
+        <h3>{{bill.number}}</h3>
+    </div>
+
+    <ul class="nav nav-tabs">
+        <!-- Tab Links -->
+        <li ui-sref-active="active">
+            <a ui-sref=".summary">
+                {{'tabs.summary'|translate}}
+            </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref=".messages">
+                {{'inboxes.messages.title'|translate}}
+            </a>
+        </li>
+
+        <!-- Action Buttons -->
+        <li class="action dropdown right" dropdown>
+            <a href="" class="dropdown-toggle" dropdown-toggle>
+                <span class="actions-label"></span>
+                <span class="fas fa-chevron-down"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li ng-if="bill.status != 'Paid' && bill.status != 'Voided' && ('vendor_payments.create'|hasPermission)">
+                    <a ui-sref="manage.bill.pay({id:bill.id})">
+                        Pay Bill
+                    </a>
+                </li>
+                <li ng-if="bill.status != 'Paid' && bill.status != 'Voided' && ('vendor_payments.create'|hasPermission)">
+                    <a href="" ng-click="addPayment(bill)">
+                        Record Payment
+                    </a>
+                </li>
+                <li ng-if="bill.status != 'Paid' && bill.status != 'Voided' && ('vendor_payments.create'|hasPermission)">
+                    <a href="" ng-click="addAdjustment(bill)">
+                        Add Adjustment
+                    </a>
+                </li>
+                <li ng-if="bill.status != 'Paid' && bill.status != 'Voided' && ('bills.edit'|hasPermission)">
+                    <assign-workflow workflow="bill.approval_workflow" callback="assignWorkflow"></assign-workflow>
+                </li>
+                <li ng-if="bill.status == 'PendingApproval'">
+                    <a href="" ng-click="approverModal()">
+                        Assign Approver
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li class="danger" ng-show="bill.status == 'PendingApproval' || bill.status == 'Approved'">
+                    <a href="" ng-click="rejectDocument(bill)" ng-hide="changingStatus">
+                        Reject Bill
+                    </a>
+                </li>
+                <li class="danger" ng-if="'bills.delete'|hasPermission">
+                    <a href="" ng-click="delete(bill)" ng-hide="deleting || bill.voided">
+                        Void Bill
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="action right" ng-if="bill.source != 'Network'">
+            <a ui-sref="manage.bill.edit({id: bill.id})">{{'general.edit'|translate}}</a>
+        </li>
+    </ul>
+
+    <!-- Selected Tab Content -->
+    <div class="tab-content">
+        <div class="tab-pane active">
+            <ui-view/>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="search-results-holder history-holder" ng-class="{'has-filter': filterStr}">
+	<div class="box">
+		<div class="header clearfix">
+			<!-- Tabs -->
+			<ul class="nav nav-tabs">
+				<li class="action">
+					<a href="" ng-click="openFilter()">
+						<div>
+							<span class="fas fa-filter"></span> Filter
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<!-- Applied Filter -->
+		<div class="applied-filter" ng-show="filterStr">
+			<span class="fas fa-filter filter-icon"></span>
+			<strong>{{filterStr}}</strong>
+			<a href="" ng-click="clearEventFilter()">
+				<span class="fas fa-times-circle"></span>
+			</a>
+		</div>
+
+		<!-- Data Table -->
+		<event-list filter="filter" options="eventOptions"></event-list>
+	</div>
+</div>

@@ -1,0 +1,205 @@
+<p class="loading" ng-show="loading"></p>
+
+<div class="object-view event" ng-hide="loading">
+	<div class="title-bar">
+		<!-- Title -->
+		<h2>Event</h2>
+		<h3><company-date-time date="event.timestamp"></company-date-time></h3>
+	</div>
+
+	<ul class="nav nav-tabs">
+		<!-- Tab Links -->
+		<li class="active">
+			<a href="">
+				{{'tabs.summary'|translate}}
+			</a>
+		</li>
+	</ul>
+
+	<!-- Selected Tab Content -->
+	<div class="tab-content">
+		<div class="tab-pane active">
+			<div class="row two-pane">
+				<div class="col-sm-4 left-pane">
+					<div class="details-list vertical">
+						<h4>
+							Event Details
+						</h4>
+
+						<!-- User -->
+						<div>
+							<div class="title">User</div>
+							<div class="value">{{person}}</div>
+						</div>
+
+						<!-- Type -->
+						<div>
+							<div class="title">Type</div>
+							<div class="value">{{event.type}}</div>
+						</div>
+
+						<!-- Timestamp -->
+						<div>
+							<div class="title">Timestamp</div>
+							<div class="value"><company-date-time date="event.timestamp"></company-date-time></div>
+						</div>
+
+						<!-- Webhooks -->
+						<div ng-hide="loadingWebhooks">
+							<div class="title"># Webhooks</div>
+							<div class="value">{{webhooks.length}}</div>
+						</div>
+					</div>
+
+					<!-- Relationships -->
+					<div class="details-list vertical" ng-show="relatedTo.length > 0">
+						<h4>
+							Related To
+						</h4>
+
+						<div ng-repeat="association in relatedTo">
+							<div ng-show="association.object == 'customer'">
+								<div class="title">Customer</div>
+								<div class="value">
+									<a ui-sref="manage.customer.view.summary({id:association.id})">
+										{{association.name}}
+									</a>
+								</div>
+							</div>
+
+							<div ng-show="association.object == 'invoice'">
+								<div class="title">Invoice</div>
+								<div class="value">
+									<a ui-sref="manage.invoice.view.summary({id:association.id})">
+										{{association.name}}
+									</a>
+								</div>
+							</div>
+
+							<div ng-show="association.object == 'estimate'">
+								<div class="title">Estimate</div>
+								<div class="value">
+									<a ui-sref="manage.estimate.view.summary({id:association.id})">
+										{{association.name}}
+									</a>
+								</div>
+							</div>
+
+							<div ng-show="association.object == 'credit_note'">
+								<div class="title">Credit Note</div>
+								<div class="value">
+									<a ui-sref="manage.credit_note.view.summary({id:association.id})">
+										{{association.name}}
+									</a>
+								</div>
+							</div>
+
+							<div ng-show="association.object == 'payment'">
+								<div class="title">Payment</div>
+								<div class="value">
+									<a ui-sref="manage.payment.view.summary({id:association.id})">
+										{{association.name}}
+									</a>
+								</div>
+							</div>
+
+							<div ng-show="association.object == 'transaction'">
+								<div class="title">Transaction</div>
+								<div class="value">
+									<a ui-sref="manage.transaction.view.summary({id:association.id})">
+										{{association.name}}
+									</a>
+								</div>
+							</div>
+
+							<div ng-show="association.object == 'subscription'">
+								<div class="title">Subscription</div>
+								<div class="value">
+									<a ui-sref="manage.subscription.view.summary({id:association.id})">
+										{{association.name}}
+									</a>
+								</div>
+							</div>
+
+							<div ng-show="association.object == 'vendor'">
+								<div class="title">Vendor</div>
+								<div class="value">
+									<a ui-sref="manage.vendor.view.summary({id:association.id})">
+										{{association.name}}
+									</a>
+								</div>
+							</div>
+
+							<div ng-show="association.object == 'network_document'">
+								<div class="title">Document</div>
+								<div class="value">
+									<a ui-sref="manage.document.view.summary({id:association.id})">
+										{{association.name}}
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-8 right-pane">
+					<!-- Event Data -->
+					<div class="panel panel-invoiced light event-data">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								Event Data
+							</h4>
+						</div>
+						<div class="event-object" ng-class="{more:showMore}">
+							<textarea ui-codemirror="cmOptions" ng-model="eventData" ui-refresh="cmRefresh"></textarea>
+							<div class="show-all-bg" ng-hide="showMore"></div>
+							<div class="show-all-btn" ng-hide="showMore">
+								<a href="" class="btn" ng-click="showAll()">Expand</a>
+							</div>
+						</div>
+					</div>
+
+					<!-- Webhook Attempts -->
+					<div class="panel panel-invoiced light" ng-repeat="webhook in webhooks">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<div class="action" ng-hide="noRetry[webhook.id]">
+									<a href="" ng-click="retryWebhook(webhook.id)">{{'general.retry'|translate}}</a>
+								</div>
+								Webhook
+								<small ng-show="webhook.next_attempt">
+									<span class="label label-default">Retry Pending</span>
+								</small>
+							</h4>
+							<div>
+								URL: <code>{{webhook.url}}</code>
+							</div>
+						</div>
+						<div class="panel-body" ng-if="attempts.length==0">
+							<div class="empty">No recorded attempts yet</div>
+						</div>
+						<table class="search-results-table table table-striped slim" ng-if="webhook.attempts.length > 0">
+							<thead>
+								<tr>
+									<th>Attempt</th>
+									<th>Timestamp</th>
+									<th>Status Code</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="attempt in webhook.attempts">
+									<td># {{$index + 1}}</td>
+									<td><company-date-time date="attempt.timestamp"></company-date-time></td>
+									<td class="mobile-last">
+										<code ng-show="attempt.status_code">{{attempt.status_code}}</code>
+										<div class="text-danger" ng-show="attempt.error">{{attempt.error}}</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

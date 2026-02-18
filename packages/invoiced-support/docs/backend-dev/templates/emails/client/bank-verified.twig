@@ -1,0 +1,9 @@
+{% extends "emails/client/parent.twig" %}
+
+{% block body %}
+<p>Hello,</p>
+
+<p>
+	We are writing to let you know that your bank account ending in <em>{{ last4 }}</em> has been verified. Thank you.
+</p>
+{% endblock %}

@@ -1,0 +1,226 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.estimates'|trans %}
+{% extends "customerPortal/activity.twig" %}
+
+{% block data_table %}
+	<div class="filter">
+		<div class="row">
+			<div class="col-sm-3 form-section">
+				<form method="get">
+					<!-- Search -->
+					<div class="input-group">
+						<input type="text" name="search" class="form-control" placeholder="{{ 'labels.estimate_number'|trans }}" value="{{ app.request.query.get('search') }}">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit">
+								<span class="fas fa-search"></span>
+							</button>
+						</span>
+					</div>
+				</form>
+			</div>
+			<div class="col-sm-9 form-section">
+				<form method="get" class="form-inline">
+					<div class="row align-items-center gx-1">
+						<div class="col-auto">
+							<span class="fas fa-filter"></span>
+						</div>
+
+						<!-- Status -->
+						<div class="col-auto ms-3">
+							<select class="form-select input-medium" name="status">
+								<option value="all" {% if app.request.query.get('status') == 'all' %}selected="selected"{% endif %}>{{ 'labels.all'|trans }}</option>
+								<option disabled="disabled">---</option>
+								<option value="open" {% if app.request.query.get('status') == 'open' %}selected="selected"{% endif %}>{{ 'labels.open'|trans }}</option>
+								<option value="approved" {% if app.request.query.get('status') == 'approved' %}selected="selected"{% endif %}>{{ 'labels.approved'|trans }}</option>
+							</select>
+						</div>
+
+						<!-- Date Range -->
+						<div class="col-auto ms-3">
+							<div class="input-group input-date">
+								<span class="input-group-text text-dark">
+									<span class="far fa-calendar"></span>
+								</span>
+								<input type="text" class="form-control date" id="startDate" placeholder="{{ 'labels.date'|trans }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+								<input type="hidden" id="startDateAlt" name="start_date" value="{{ app.request.query.get('start_date') }}" />
+							</div>
+						</div>
+						<div class="col-auto">
+							&mdash;
+						</div>
+						<div class="col-auto">
+							<div class="input-group input-date">
+								<span class="input-group-text text-dark">
+									<span class="far fa-calendar"></span>
+								</span>
+								<input type="text" class="form-control date" id="endDate" placeholder="{{ 'labels.date'|trans }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+								<input type="hidden" id="endDateAlt" name="end_date" value="{{ app.request.query.get('end_date') }}" />
+								</div>
+						</div>
+
+						<div class="col-auto ms-3">
+							<button type="submit" class="btn btn-default">
+								{{ 'labels.apply'|trans }}
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bulk Actions -->
+	<div class="selected hidden">
+		<div class="title">
+			<span class="num-checkbox-rows-selected"></span> {{ 'labels.selected'|trans }}
+			<a href="#" class="clear-selection"><span class="fas fa-times-circle"></span></a>
+		</div>
+	</div>
+
+	{% if results|length > 0 %}
+		<table class="table table-invoiced mobile-stack">
+			<thead>
+				<tr>
+					<th class="checkbox-column">
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="check-all" />
+							<label class="form-check-label" for="check-all"></label>
+						</div>
+					</th>
+					<th class="column-estimate-number">
+						<a href="{{ filter.sortBase }}&sort=number+{% if sort == 'number ASC' %}DESC{% else %}ASC{% endif %}" class="{% if sort == 'number DESC' %}down{% elseif sort == 'number ASC' %}up{% endif %}">
+							{{ 'labels.estimate_number'|trans }}
+							<span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+							<span class="sort down"><span class="fas fa-sort-amount-up-alt"></span></span>
+						</a>
+					</th>
+					{% if showCustomer %}
+						<th class="column-customer">
+							{{ 'labels.customer'|trans }}
+						</th>
+					{% endif %}
+					<th class="column-date">
+						<a href="{{ filter.sortBase }}&sort=date+{% if sort == 'date DESC' %}ASC{% else %}DESC{% endif %}" class="{% if sort == 'date DESC' %}down{% elseif sort == 'date ASC' %}up{% endif %}">
+							{{ 'labels.date'|trans }}
+							<span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+							<span class="sort down"><span class="fas fa-sort-amount-up-alt"></span></span>
+						</a>
+					</th>
+					<th class="column-status">
+						<a href="{{ filter.sortBase }}&sort=status+{% if sort == 'status ASC' %}DESC{% else %}ASC{% endif %}" class="{% if sort == 'status DESC' %}down{% elseif sort == 'status ASC' %}up{% endif %}">
+							{{ 'labels.status'|trans }}
+							<span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+							<span class="sort down"><span class="fas fa-sort-amount-up-alt"></span></span>
+						</a>
+					</th>
+					<th class="column-expiration-date">
+						<a href="{{ filter.sortBase }}&sort=expiration_date+{% if sort == 'expiration_date ASC' %}DESC{% else %}ASC{% endif %}" class="{% if sort == 'expiration_date DESC' %}down{% elseif sort == 'expiration_date ASC' %}up{% endif %}">
+							{{ 'labels.expiration_date'|trans }}
+							<span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+							<span class="sort down"><span class="fas fa-sort-amount-up-alt"></span></span>
+						</a>
+					</th>
+					<th class="column-total money-column">
+						<a href="{{ filter.sortBase }}&sort=total+{% if sort == 'total ASC' %}DESC{% else %}ASC{% endif %}" class="{% if sort == 'total DESC' %}down{% elseif sort == 'total ASC' %}up{% endif %}">
+							{{ 'labels.total'|trans }}
+							<span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+							<span class="sort down"><span class="fas fa-sort-amount-up-alt"></span></span>
+						</a>
+					</th>
+					<th class="column-deposit money-column">
+						<a href="{{ filter.sortBase }}&sort=deposit+{% if sort == 'deposit ASC' %}DESC{% else %}ASC{% endif %}" class="{% if sort == 'deposit DESC' %}down{% elseif sort == 'deposit ASC' %}up{% endif %}">
+							{{ 'labels.deposit'|trans }}
+							<span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+							<span class="sort down"><span class="fas fa-sort-amount-up-alt"></span></span>
+						</a>
+					</th>
+					<th class="column-actions"></th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for estimate in results %}
+				<tr>
+					<td class="checkbox-column">
+						<div class="form-check">
+                            {% for name, value in estimate.metadata %}
+                                <input type="hidden" name="metadata[{{ estimate.client_id }}][{{ name }}]" value="{{ value }}" />
+                            {% endfor %}
+							<input type="checkbox" class="form-check-input" id="check-all" />
+							<label class="form-check-label" for="check-all"></label>
+						</div>
+					</td>
+					<td class="column-estimate-number mobile-first">
+                		{% if estimate.status == 'expired' %}
+							{{ estimate.number }}
+						{% else %}
+							<a href="{{ estimate.url }}">
+								{{ estimate.number }}
+							</a>
+						{% endif %}
+					</td>
+					{% if showCustomer %}
+						<td class="column-customer">
+							{{ estimate.customer.name }}
+						</td>
+					{% endif %}
+					<td class="column-date">{{ estimate.date }}</td>
+					<td class="column-status status">
+						{% if estimate.status == 'approved' %}
+							<span class="badge bg-success">{{ 'labels.approved'|trans }}</span>
+						{% elseif estimate.status == 'invoiced' %}
+							<span class="badge bg-info text-dark">{{ 'labels.invoiced'|trans }}</span>
+						{% elseif estimate.status == 'expired' %}
+							<span class="badge bg-danger">{{ 'labels.expired'|trans }}</span>
+						{% elseif estimate.status == 'declined' %}
+							<span class="badge bg-danger">{{ 'labels.declined'|trans }}</span>
+						{% else %}
+							<span class="badge bg-light text-dark">{{ 'labels.open'|trans }}</span>
+						{% endif %}
+					</td>
+					<td class="column-expiration-date">{{ estimate.expiration_date }}</td>
+					<td class="column-total money-column">{{ estimate.total|money(estimate.currency) }}</td>
+					<td class="column-deposit money-column">{{ estimate.deposit|money(estimate.currency) }}</td>
+					<td class="column-actions mobile-last">
+						<a href="{{ estimate.pdf_url }}">
+							<span class="fas fa-arrow-to-bottom"></span>
+							{{ 'labels.pdf'|trans }}
+						</a>
+						{% if estimate.invoice_url %}
+							<a href="{{ estimate.invoice_url }}">
+								<span class="fas fa-eye"></span>
+								{{ 'buttons.view_invoice'|trans }}
+							</a>
+						{% endif %}
+						{% if estimate.approve_url %}
+							<a href="{{ estimate.approve_url }}">
+								<span class="fas fa-check-circle"></span>
+								{{ 'buttons.approve'|trans }}
+							</a>
+						{% endif %}
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+			<tfoot>
+				<tr>
+					<td class="checkbox-column"></td>
+					<td class="column-estimate-number"></td>
+					{% if showCustomer %}<td class="column-customer"></td>{% endif %}
+					<td class="column-date"></td>
+					<td class="column-status"></td>
+					<td class="column-expiration-date"></td>
+					<td class="column-total money-column">{{ totals.total|money(totals.total_currency) }}</td>
+					<td class="column-deposit money-column">{{ totals.deposit|money(totals.deposit_currency) }}</td>
+					<td class="column-actions"></td>
+				</tr>
+			</tfoot>
+		</table>
+
+		<!-- Pagination -->
+		{{ include('customerPortal/pagination.twig') }}
+	{% else %}
+		<p class="empty">
+            {{ 'messages.no_estimates_found'|trans }}
+		</p>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,52 @@
+<feature-upgrade ng-if="!('automations'|hasFeature)"></feature-upgrade>
+
+<div class="contents" ng-show="'automations'|hasFeature">
+	<div class="settings-title-bar">
+		<h2 class="title">
+			<div class="docs-link">
+				<a href="https://docs.invoiced.com/automations" target="_blank">
+					{{'general.documentation'|translate}}
+					<span class="fas fa-external-link"></span>
+				</a>
+			</div>
+			<div class="back-link">
+				<a ui-sref="manage.settings.default">
+					<span class="fas fa-arrow-left"></span>
+					{{'general.settings'|translate}}
+				</a>
+			</div>
+			{{'settings.titles.automations'|translate}}
+		</h2>
+
+		<p class="lead">
+			Automation does the repetitive work so your team can focus on what matters most. Anyone can build an automation rule in minutes.
+		</p>
+	</div>
+
+	<p class="alert alert-danger" ng-show="error">
+		{{error.message}}
+	</p>
+
+	<div class="form-group">
+		<ul class="nav nav-tabs">
+			<!-- Tab Links -->
+			<li ui-sref-active="active">
+				<a ui-sref=".list">
+					{{'settings.automations.list'|translate}}
+				</a>
+			</li>
+			<li ui-sref-active="active">
+				<a ui-sref=".runs">
+					{{'settings.automations.runs'|translate}}
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	<!-- Selected Tab Content -->
+	<div class="tab-content">
+		<div class="tab-pane active">
+			<ui-view/>
+		</div>
+	</div>
+</div>

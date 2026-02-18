@@ -1,0 +1,11 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.submit_payment'|trans %}
+{% extends "customerPortal/parentFrameOneColumn.twig" %}
+
+{% block left %}
+    <div class="main">
+        <p>
+            {{ message }}
+        </p>
+    </div>
+{% endblock %}

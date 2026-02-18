@@ -1,0 +1,27 @@
+{% extends "emails/parent.twig" %}
+{% block title %}Thank You{% endblock %}
+{% block content %}
+    <row>
+        <columns>
+            <p>Hi {{ username }},</p>
+
+            <p>Thank you for selecting Invoiced! Please click this button to activate your <b>{{ companyName }}</b> account:</p>
+        </columns>
+    </row>
+    <row>
+        <columns>
+            <center>
+                <spacer size="5"></spacer>
+                <button class="radius" href="{{ signInUrl }}">Activate Account</button>
+                <spacer size="5"></spacer>
+            </center>
+        </columns>
+    </row>
+    <row>
+        <columns>
+            <p>If you have any questions then please contact us at <a href="mailto:support@invoiced.com">support@invoiced.com</a>.</p>
+
+            <p>Sincerely,<br> The team at Invoiced</p>
+        </columns>
+    </row>
+{% endblock %}

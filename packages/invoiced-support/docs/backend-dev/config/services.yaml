@@ -1,0 +1,1152 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration c d
+
+parameters:
+    # Adds a fallbacks if the env var is not set.
+    # This allows you to run cache:warmup even if your
+    # environment variables are not available yet.
+    # You should not need to change this value.
+    env(AUTHY_SECRET): ''
+    env(COMPLIANCELY_KEY): ''
+    env(DATABASE_URL): ''
+    env(ECS_AGENT_URI): ''
+    env(ECS_CONTAINER_METADATA_URI_V4): ''
+    env(ELASTICSEARCH_HOSTS): ''
+    env(ENCRYPTION_KEY): 'def00000bb3097536e4a8ea109d8348c42e1d859d7775082ea0fe5c6b37884df68e9cc7c15973cf51ce12a2fb719a075f377565ea41002306c96ebeb84d2db43fa7c6d21'
+    env(FALLBACK_CUSTOMER_MAILERS): ''
+    env(GOOGLE_ADDRESS_VERIFICATION_KEY): ''
+    env(HUBSPOT_KEY): ''
+    env(INVOICED_CLIENT_SECRET): ''
+    env(INVOICED_VERSION): ''
+    env(IPINFO_KEY): ''
+    env(PAYMENT_HOST): ''
+    env(PAYPAL_ENCRYPT_SECRET): ''
+    env(REDIS_HOST): 'localhost'
+    env(SENGRID_WEBHOOK_KEY): ''
+    env(SENTRY_DSN): ''
+    env(SLACK_CLIENT_ID): ''
+    env(SLACK_CLIENT_SECRET): ''
+    env(STATSD_HOST): ''
+    env(STATSD_PORT): ''
+    env(STRIPE_CLIENT_ID): ''
+    env(STRIPE_SECRET): ''
+
+    ########################
+    # Service Parameters
+    ########################
+
+    app.adyen_api_key: '%env(ADYEN_API_KEY)%'
+    app.adyen_bcl_api_key: '%env(ADYEN_BCL_API_KEY)%'
+    app.adyen_client_key: ''
+    app.adyen_hmac_webhook_configuration: '%env(ADYEN_HMAC_WEBHOOK_BALANCE)%'
+    app.adyen_hmac_webhook_payments: '%env(ADYEN_HMAC_WEBHOOK_CHARGEBACK)%'
+    app.adyen_hmac_webhook_report: '%env(ADYEN_HMAC_WEBHOOK_REPORT)%'
+    app.adyen_hmac_webhook_transaction: '%env(ADYEN_HMAC_WEBHOOK_TRANSACTION)%'
+    app.adyen_hmac_webhook_transfer: '%env(ADYEN_HMAC_WEBHOOK_TRANSFER)%'
+    app.adyen_lem_api_key: '%env(ADYEN_LEM_API_KEY)%'
+    app.adyen_live_mode: false
+    app.adyen_report_api_key: '%env(ADYEN_REPORT_API_KEY)%'
+    app.adyen_settlement_report_api_key: '%env(ADYEN_SETTLEMENT_REPORT_API_KEY)%'
+    app.adyen_theme_id: ''
+    app.affinipay_client_id: '%env(AFFINIPAY_CLIENT_ID)%'
+    app.affinipay_secret: '%env(AFFINIPAY_CLIENT_SECRET)%'
+    app.authy_key: '%env(AUTHY_SECRET)%'
+    app.avalara_environment: production
+    app.business_central_client_id: '%env(BUSINESS_CENTRAL_CLIENT_ID)%'
+    app.business_central_client_secret: '%env(BUSINESS_CENTRAL_CLIENT_SECRET)%'
+    app.cache_namespace: invoiced
+    app.compliancely_key: '%env(COMPLIANCELY_KEY)%'
+    app.csadmin_secret: '%env(CSADMIN_SECRET)%'
+    app.csadmin_url: https://corp.invoicedhq.com
+    app.currency_layer_key: '%env(CURRENCY_LAYER_KEY)%'
+    app.custom_domain_url: localhost
+    app.database_url: '%env(DATABASE_URL)%'
+    app.default_from_email: no-reply@invoiced.com
+    app.default_from_name: Invoiced
+    app.default_search_backend: database
+    app.ecs_agent_uri: '%env(ECS_AGENT_URI)%'
+    app.ecs_metadata_uri: '%env(ECS_CONTAINER_METADATA_URI_V4)%'
+    app.elasticsearch_hosts: '%env(csv:ELASTICSEARCH_HOSTS)%'
+    app.encryption_key: '%env(ENCRYPTION_KEY)%'
+    app.flywire_api_key: '%env(FLYWIRE_API_KEY)%'
+    app.flywire_checkout_url: https://checkout-api.flywire.com/rest/payor/charge
+    app.flywire_client_id: '%env(FLYWIRE_CLIENT_ID)%'
+    app.flywire_client_secret: '%env(FLYWIRE_CLIENT_SECRET)%'
+    app.flywire_doc_verify_url: https://doc-verify.flywire.com/api
+    app.flywire_private_api_url: https://api.flywire.com
+    app.flywire_shared_secret: '%env(FLYWIRE_SHARED_SECRET)%'
+    app.flywire_refund_approval_client_id: '%env(FLYWIRE_REFUND_APPROVAL_CLIENT_ID)%'
+    app.flywire_refund_approval_client_secret: '%env(FLYWIRE_REFUND_APPROVAL_CLIENT_SECRET)%'
+    app.freshbooks_client_id: '%env(FRESHBOOKS_CLIENT_ID)%'
+    app.freshbooks_client_secret: '%env(FRESHBOOKS_CLIENT_SECRET)%'
+    app.gocardless_client_id: '%env(GOCARDLESS_CLIENT_ID)%'
+    app.gocardless_client_secret: '%env(GOCARDLESS_CLIENT_SECRET)%'
+    app.gocardless_oauth_domain: '%env(GOCARDLESS_CONNECT_ENDPOINT)%'
+    app.gocardless_verify_domain: '%env(GOCARDLESS_VERIFY_ENDPOINT)%'
+    app.gocardless_webhook_secret: '%env(GOCARDLESS_WEBHOOK_SECRET)%'
+    app.google_address_verification_key: '%env(GOOGLE_ADDRESS_VERIFICATION_KEY)%'
+    app.google_client_id: '%env(GOOGLE_CLIENT_ID)%'
+    app.google_secret: '%env(GOOGLE_SECRET)%'
+    app.hubspot_key: '%env(HUBSPOT_KEY)%'
+    app.intacct_sender_id: '%env(INTACCT_SENDER_ID)%'
+    app.intacct_sender_password: '%env(INTACCT_SENDER_PASSWORD)%'
+    app.invoiced_client_secret: '%env(INVOICED_CLIENT_SECRET)%'
+    app.invoiced_publishable_key: '%env(INVOICED_PUBLISHABLE_KEY)%'
+    app.invoiced_sandbox: false
+    app.invoiced_tokenization_url: https://tokenization.invoiced.com
+    app.invoiced_files_url: https://files.invoiced.com
+    app.ipinfo_key: '%env(IPINFO_KEY)%'
+    app.netsuite_consumer_key: '%env(NETSUITE_CONSUMER_KEY)%'
+    app.netsuite_consumer_secret: '%env(NETSUITE_CONSUMER_SECRET)%'
+    app.oauth_private_key: '%env(OAUTH_PRIVATE_KEY)%'
+    app.oauth_public_key: '%env(OAUTH_PUBLIC_KEY)%'
+    app.opp_access_token: '%env(OPP_INVOICED_ACCESS_TOKEN)%'
+    app.opp_key: '%env(OPP_INVOICED_KEY)%'
+    app.opp_public_access_token: '%env(OPP_INVOICED_PUBLIC_ACCESS_TOKEN)%'
+    app.opp_public_key: '%env(OPP_INVOICED_PUBLIC_KEY)%'
+    app.opp_client_url: 'https://qa.onplanprocessing.com'
+    app.opp_url: 'https://qa.onplanprocessing.com:8443'
+    app.opp_ui_url: 'https://qa.onplanprocessing.com'
+    app.payments_app_id: '%env(PAYMENTS_APP_ID)%'
+    app.payments_host: https://payments.invoiced.com/
+    app.payments_key: '%env(PAYMENTS_KEY)%'
+    app.payments_publishable_key: '%env(PAYMENTS_PUBLISHABLE_KEY)%'
+    app.paypal_encrypt_secret: '%env(PAYPAL_ENCRYPT_SECRET)%'
+    app.plaid_client_id: '%env(PLAID_CLIENT_ID)%'
+    app.plaid_sandbox: false
+    app.plaid_secret: '%env(PLAID_SECRET)%'
+    app.quickbooks_client_id: '%env(QUICKBOOKS_CLIENT_ID)%'
+    app.quickbooks_secret: '%env(QUICKBOOKS_SECRET)%'
+    app.quickbooks_userinfo_url: https://accounts.platform.intuit.com/v1/openid_connect/userinfo
+    app.recaptcha_secret: '%env(RECAPTCHA_SECRET)%'
+    app.redis_host: '%env(REDIS_HOST)%'
+    app.resque_namespace: resque
+    app.robots_default: noindex,nofollow
+    app.s3_bucket_adyen_reports: ''
+    app.s3_bucket_attachments: invoiced-attachments
+    app.s3_bucket_checks: invoiced-attachments
+    app.s3_bucket_document_pdfs: invoiced-attachments
+    app.s3_bucket_documents: ''
+    app.s3_bucket_emails: invoiced-email-bodies
+    app.s3_bucket_events: ''
+    app.s3_bucket_exports: invoiced-exports-2
+    app.s3_bucket_imports: invoiced-imports-2
+    app.s3_bucket_logos: invoiced-logos-2
+    app.s3_bucket_qwc: invoiced-qwc
+    app.s3_bucket_region: ''
+    app.s3_bucket_reports: invoiced-reports
+    app.s3_bucket_webhooks: ''
+    app.s3_textract_upload: invoiced-attachments
+    app.sage_accounting_client_id: '%env(SAGE_ACCOUNTING_CLIENT_ID)%'
+    app.sage_accounting_client_secret: '%env(SAGE_ACCOUNTING_CLIENT_SECRET)%'
+    app.slack_api_url: 'https://slack.com/api/'
+    app.slack_client_id: '%env(SLACK_CLIENT_ID)%'
+    app.slack_client_secret: '%env(SLACK_CLIENT_SECRET)%'
+    app.statsd_host: '%env(STATSD_HOST)%'
+    app.statsd_namespace: invoiced
+    app.statsd_port: '%env(STATSD_PORT)%'
+    app.stripe_billing_secret: '%env(STRIPE_BILLING_SECRET)%'
+    app.stripe_platform_client_id: '%env(STRIPE_CLIENT_ID)%'
+    app.stripe_platform_secret: '%env(STRIPE_SECRET)%'
+    app.syncserver_host: '%env(SYNCSERVER_HOST)%'
+    app.syncserver_password: '%env(SYNCSERVER_PASSWORD)%'
+    app.syncserver_username: '%env(SYNCSERVER_USERNAME)%'
+    app.textract_adapter_id: bdf9a8c95bf6
+    app.textract_adapter_version: 2
+    app.textract_sns_region: us-east-2
+    app.textract_sns_role: arn:aws:iam::868432922877:role/Invoiced-Textract-Publisher-Role
+    app.textract_sns_topic: arn:aws:sns:us-east-2:868432922877:AmazonTextract-Invoiced-Dev-Invoice-Capture-SNS
+    app.title: Invoiced
+    app.tokenization_url: https://tknz.sandbox.invoiced.com
+    app.files_url: https://files.sandbox.invoiced.com
+    app.twilio_account_sid: '%env(TWILIO_ACCOUNT_SID)%'
+    app.twilio_auth_token: '%env(TWILIO_AUTH_TOKEN)%'
+    app.twilio_verify_service_sid: '%env(TWILIO_VERIFY_SERVICE_SID)%'
+    app.wave_client_id: '%env(WAVE_CLIENT_ID)%'
+    app.wave_client_secret: '%env(WAVE_CLIENT_SECRET)%'
+    app.xero_client_id: '%env(XERO_CLIENT_ID)%'
+    app.xero_secret: '%env(XERO_SECRET)%'
+    app.zendesk_api_key: '%env(ZENDESK_API_KEY)%'
+    app.zendesk_profile_key: '%env(ZENDESK_PROFILE_KEY)%'
+
+services:
+    ##############################
+    # Default argument bindings
+    ##############################
+    # default configuration for services in *this* file
+
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            $adyenClientKey: '%app.adyen_client_key%'
+            $adyenHmacWebhookConfiguration: '%app.adyen_hmac_webhook_configuration%'
+            $adyenHmacWebhookPayments: '%app.adyen_hmac_webhook_payments%'
+            $adyenHmacWebhookReport: '%app.adyen_hmac_webhook_report%'
+            $adyenHmacWebhookTransaction: '%app.adyen_hmac_webhook_transaction%'
+            $adyenHmacWebhookTransfer: '%app.adyen_hmac_webhook_transfer%'
+            $adyenLiveMode: '%app.adyen_live_mode%'
+            $adyenThemeId: '%app.adyen_theme_id%'
+            $apiUrlBase: '%app.api_url%'
+            $appDomain: '%app.domain%'
+            $appPort: '%app.port%'
+            $appProtocol: '%app.protocol%'
+            $appTitle: '%app.title%'
+            $bucketRegion: '%app.s3_bucket_region%'
+            $cacheNamespace: '%app.cache_namespace%'
+            $csAdminSecret: '%app.csadmin_secret%'
+            $csAdminUrl: '%app.csadmin_url%'
+            $customDomainUrl: '%app.custom_domain_url%'
+            $dashboardUrl: '%app.dashboard_url%'
+            $databaseUrl: '%app.database_url%'
+            $defaultFromEmail: '%app.default_from_email%'
+            $defaultFromName: '%app.default_from_name%'
+            $ecsAgentUri: '%app.ecs_agent_uri%'
+            $ecsMetadataUri: '%app.ecs_metadata_uri%'
+            $environment: '%kernel.environment%'
+            $flywireAPIKey: '%app.flywire_api_key%'
+            $flywireCheckoutUrl: '%app.flywire_checkout_url%'
+            $flywireClientId: '%app.flywire_client_id%'
+            $flywireClientSecret: '%app.flywire_client_secret%'
+            $flywireDocVerifyUrl: '%app.flywire_doc_verify_url%'
+            $flywirePrivateApiUrl: '%app.flywire_private_api_url%'
+            $flywireSharedSecret: '%app.flywire_shared_secret%'
+            $flywireRefundApprovalClientId: '%app.flywire_refund_approval_client_id%'
+            $flywireRefundApprovalClientSecret: '%app.flywire_refund_approval_client_secret%'
+            $inboundEmailDomain: '%app.inbound_email_domain%'
+            $intacctSenderId: '%app.intacct_sender_id%'
+            $intacctSenderPassword: '%app.intacct_sender_password%'
+            $invoicedClientSecret: '%app.invoiced_client_secret%'
+            $invoicedPublishableKey: '%app.invoiced_publishable_key%'
+            $invoicedTokenizationUrl: '%app.invoiced_tokenization_url%'
+            $invoicedFilesUrl: '%app.invoiced_files_url%'
+            $ipinfoKey: '%app.ipinfo_key%'
+            $netSuiteConsumerKey: '%app.netsuite_consumer_key%'
+            $netSuiteConsumerSecret: '%app.netsuite_consumer_secret%'
+            $oauthPublicKey: '%app.oauth_public_key%'
+            $oppAccessToken: '%app.opp_access_token%'
+            $oppKey: '%app.opp_key%'
+            $oppPublicAccessToken: '%app.opp_public_access_token%'
+            $oppClientUrl: '%app.opp_client_url%'
+            $oppPublicKey: '%app.opp_public_key%'
+            $oppUiUrl: '%app.opp_ui_url%'
+            $oppUrl: '%app.opp_url%'
+            $paymentsAppId: '%app.payments_app_id%'
+            $paymentsHost: '%app.payments_host%'
+            $paymentsKey: '%app.payments_key%'
+            $paymentsPublishableKey: '%app.payments_publishable_key%'
+            $paypalEncryptSecret: '%app.paypal_encrypt_secret%'
+            $projectDir: '%kernel.project_dir%'
+            $quickBooksClientId: '%app.quickbooks_client_id%'
+            $quickBooksSecret: '%app.quickbooks_secret%'
+            $redisClient: '@app.redis'
+            $resqueNamespace: '%app.resque_namespace%'
+            $stripeBillingSecret: '%app.stripe_billing_secret%'
+            $stripePlatformSecret: '%app.stripe_platform_secret%'
+            $syncserverHost: '%app.syncserver_host%'
+            $syncserverPassword: '%app.syncserver_password%'
+            $syncserverUser: '%app.syncserver_username%'
+            $tokenizationUrl: '%app.tokenization_url%'
+            $filesUrl: '%app.files_url%'
+            $xeroClientId: '%app.xero_client_id%'
+            $xeroSecret: '%app.xero_secret%'
+            $zendeskApiKey: '%app.zendesk_api_key%'
+            $zendeskProfileKey: '%app.zendesk_profile_key%'
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*/*'
+        exclude:
+            - '../src/*/{EmailVariables,Enums,Events,Exception,Exceptions,Interfaces,Models,Pdf,Traits,ValueObjects}/*'
+            - '../src/*/*/{EmailVariables,Enums,Events,Exception,Exceptions,Interfaces,Models,Pdf,Traits,ValueObjects}/*'
+            - '../src/CashApplication/bai2/*'
+            - '../src/Catalog/Libs/Rules/*'
+            - '../src/Events/Libs/Messages/*'
+            - '../src/Integrations/Services/*'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\EntryPoint\Controller\:
+        resource: '../src/EntryPoint/Controller'
+        tags: ['controller.service_arguments']
+
+    ##################################
+    # Explicit service configuration
+    ##################################
+
+    # Add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones.
+    # Please keep this list alphabetized to the extent possible.
+
+    App\Core\Files\Interfaces\FileCreatorInterface: '@App\Core\Files\Libs\S3FileCreator'
+
+    App\Core\RestApi\Interfaces\EncoderInterface: '@App\Core\RestApi\Encoders\JsonEncoder'
+
+    App\Core\RestApi\Libs\ApiIdempotencyKey:
+        lazy: true
+
+    App\Core\RestApi\Libs\ApiKeyAuth:
+        lazy: true
+
+    App\Core\RestApi\Libs\ConcurrentRateLimiter:
+        lazy: true
+        arguments:
+            $capacity: 20
+
+    App\Core\RestApi\Libs\RequestLogger:
+        lazy: true
+
+    App\Core\RestApi\Serializer\Serializer:
+        arguments:
+            $normalizers:
+                - '@App\Core\RestApi\Normalizers\ModelApiNormalizer'
+                - '@App\Core\RestApi\Normalizers\ArrayNormalizer'
+
+    App\Core\Authentication\Libs\UserContext:
+        lazy: true
+
+    App\Core\Authentication\Libs\LoginHelper:
+        lazy: true
+
+    App\Core\Authentication\Libs\TwoFactorHelper:
+        lazy: true
+
+    App\Core\Authentication\Libs\RememberMeHelper:
+        lazy: true
+
+    App\Core\Authentication\LoginStrategy\GoogleLoginStrategy:
+        lazy: true
+        arguments:
+            $settings:
+                clientId: '%app.google_client_id%'
+                clientSecret: '%app.google_secret%'
+                authorizationUrl: https://accounts.google.com/o/oauth2/v2/auth
+                redirectPath: google_login
+                strategyId: google
+                scope: openid email profile
+                tokenUrl: https://oauth2.googleapis.com/token
+                jwksUrl: https://www.googleapis.com/oauth2/v3/certs
+                revokeUrl: https://oauth2.googleapis.com/revoke
+                userinfoUrl: https://openidconnect.googleapis.com/v1/userinfo
+
+    App\Core\Authentication\LoginStrategy\IntuitLoginStrategy:
+        lazy: true
+        arguments:
+            $settings:
+                clientId: '%app.quickbooks_client_id%'
+                clientSecret: '%app.quickbooks_secret%'
+                authorizationUrl: https://appcenter.intuit.com/connect/oauth2
+                redirectPath: intuit_login
+                strategyId: intuit
+                scope: openid email profile
+                tokenUrl: https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer
+                jwksUrl: https://oauth.platform.intuit.com/op/v1/jwks
+                revokeUrl: https://developer.api.intuit.com/v2/oauth2/tokens/revoke
+                userinfoUrl: '%app.quickbooks_userinfo_url%'
+
+    App\Core\Authentication\LoginStrategy\MicrosoftLoginStrategy:
+        lazy: true
+        arguments:
+            $settings:
+                clientId: '%app.business_central_client_id%'
+                clientSecret: '%app.business_central_client_secret%'
+                authorizationUrl: https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize
+                redirectPath: microsoft_login
+                strategyId: microsoft
+                scope: openid email profile
+                tokenUrl: https://login.microsoftonline.com/organizations/oauth2/v2.0/token
+                jwksUrl: https://login.microsoftonline.com/organizations/discovery/v2.0/keys
+                defaultAlg: RS256
+                revokeUrl: https://oauth2.googleapis.com/revoke
+                userinfoUrl: https://graph.microsoft.com/oidc/userinfo
+
+    App\Core\Authentication\LoginStrategy\XeroLoginStrategy:
+        lazy: true
+        arguments:
+            $settings:
+                clientId: '%app.xero_client_id%'
+                clientSecret: '%app.xero_secret%'
+                authorizationUrl: https://login.xero.com/identity/connect/authorize
+                redirectPath: xero_login
+                scope: openid email profile
+                strategyId: xero
+                tokenUrl: https://identity.xero.com/connect/token
+                jwksUrl: https://identity.xero.com/.well-known/openid-configuration/jwks
+                revokeUrl: https://identity.xero.com/connect/revocation
+                userinfoUrl: https://identity.xero.com/connect/userinfo
+
+    App\Core\Authentication\Interfaces\StorageInterface: '@App\Core\Authentication\Storage\SessionStorage'
+
+    App\Core\Authentication\Interfaces\TwoFactorInterface: '@App\Core\Authentication\TwoFactor\AuthyVerification'
+
+    App\Automations\Actions\AutomationActionFactory:
+        arguments:
+            $actions: !tagged_locator { tag: 'app.automation_action' }
+
+    App\Automations\Libs\NormalizerFactory:
+        arguments:
+            $handlerLocator: !tagged_locator { tag: 'app.automation_normalizer', default_index_method: 'getId' }
+
+    App\CustomerPortal\Libs\CustomerPortalRateLimiter:
+        lazy: true
+
+    App\CustomerPortal\Libs\CardFactory:
+        arguments:
+            $cardLocator: !tagged_locator { tag: 'app.customer_portal_card' }
+
+    App\Chasing\CustomerChasing\ActionCollection:
+        arguments: [!tagged_locator { tag: 'app.chasing_action' }]
+
+    App\EntryPoint\Command\QueueWorkerCommand:
+        arguments:
+            $resqueJobLocator: !tagged_locator { tag: 'app.resque_job' }
+
+    App\EntryPoint\Command\QueueScheduledWorkerCommand:
+        tags:
+            - { name: monolog.logger, channel: resque }
+
+    App\Companies\Libs\LogoUploader:
+        arguments:
+            $bucket: '%app.s3_bucket_logos%'
+            $bucketRegion: us-east-2
+
+    App\Companies\Libs\SignUpFraudDetector:
+        arguments:
+            $scorers: !tagged_iterator { tag: 'app.fraud_scorer' }
+
+    App\Companies\Verification\AddressVerification:
+        arguments:
+            $googleApiKey: '%app.google_address_verification_key%'
+
+    App\Companies\Verification\PhoneVerification:
+        arguments:
+            $verifyServiceId: '%app.twilio_verify_service_sid%'
+
+    App\Companies\Verification\UsTaxIdVerification:
+        arguments:
+            $compliancelyKey: '%app.compliancely_key%'
+
+    App\Core\Billing\Audit\BillingAudit:
+        arguments:
+            $bucket: '%app.s3_bucket_reports%'
+
+    App\Core\Billing\Disputes\DisputeEvidenceGenerator:
+        arguments:
+            $bucket: '%app.s3_bucket_reports%'
+
+    App\Core\Cron\CronStatsdEventSubscriber:
+        tags: ['app.cron_subscriber']
+
+    App\Core\Cron\Libs\JobSchedule:
+        arguments:
+            $jobLocator: !tagged_locator { tag: 'app.cron_job' }
+            $jobs: '%app.cron_jobs%'
+            $namespace: '%app.domain%'
+            $subscribers: !tagged { tag: 'app.cron_subscriber' }
+
+    App\Core\I18n\CurrencyConverter:
+        arguments:
+            $key: '%app.currency_layer_key%'
+
+    App\Core\I18n\CurrencyExchangerFactory:
+        arguments:
+            $currencyLayerKey: '%app.currency_layer_key%'
+
+    App\Core\ListQueryBuilders\ListQueryBuilderFactory:
+        lazy: true
+        arguments:
+            $handlerLocator: !tagged_locator { tag: 'app.abstract_list_query_builder', default_index_method: 'getClassString' }
+
+    App\Core\Pdf\HtmlToPdf:
+
+    App\Core\Queue\Resque:
+        tags:
+            - { name: monolog.logger, channel: resque }
+
+    App\Core\Queue\EventSubscriber\ResqueConcurrencySubscriber:
+        tags:
+            - { name: monolog.logger, channel: resque }
+
+    App\Core\Queue\ResqueInitializer:
+        lazy: true
+
+    App\Core\Statsd\StatsdClient:
+        arguments:
+            $host: '%app.statsd_host%'
+            $port: '%app.statsd_port%'
+            $namespace: '%app.statsd_namespace%'
+
+    App\Core\Search\Driver\Elasticsearch\ElasticsearchDriver:
+        arguments:
+            $hosts: '%app.elasticsearch_hosts%'
+
+    App\Core\Search\Libs\Search:
+        arguments:
+            $defaultDriver: '%app.default_search_backend%'
+
+    App\Core\Templating\TwigExtension:
+        tags: ['twig.extension']
+
+    App\ActivityLog\Libs\EventWriter:
+        lazy: true
+
+    App\ActivityLog\Interfaces\EventStorageInterface: '@App\ActivityLog\Storage\S3Storage'
+
+    App\EntryPoint\CronJob\SyncLeadsToHubSpot:
+        arguments:
+            $hubspotKey: '%app.hubspot_key%'
+
+    App\EntryPoint\QueueJob\SendECheckQueueJob:
+        arguments:
+            $bucket: '%app.s3_bucket_checks%'
+
+    App\ActivityLog\Storage\S3Storage:
+        arguments:
+            $bucket: '%app.s3_bucket_events%'
+
+    App\Core\Files\Libs\AttachmentUploader:
+        arguments:
+            $bucket: '%app.s3_bucket_attachments%'
+
+    App\Core\Files\Libs\DocumentPdfUploader:
+        arguments:
+            $bucket: '%app.s3_bucket_document_pdfs%'
+
+    App\EntryPoint\QueueJob\ImportJob:
+        arguments:
+            $bucket: '%app.s3_bucket_imports%'
+
+    App\Exports\Libs\ExporterFactory:
+        lazy: true
+        arguments:
+            $handlerLocator: !tagged_locator { tag: 'app.exporter', default_index_method: 'getId' }
+
+    App\Exports\Libs\ExportStorage:
+        arguments:
+            $bucket: '%app.s3_bucket_exports%'
+
+    App\Imports\Libs\ImporterFactory:
+        arguments:
+            $handlerLocator: !tagged_locator { tag: 'app.importer' }
+
+    App\Integrations\Adyen\AdyenClient:
+        arguments:
+            $apiKey: '%app.adyen_api_key%'
+            $bclApiKey: '%app.adyen_bcl_api_key%'
+            $lemApiKey: '%app.adyen_lem_api_key%'
+            $reportApiKey: '%app.adyen_report_api_key%'
+            $settlementReportApiKey: '%app.adyen_settlement_report_api_key%'
+
+    App\Integrations\Adyen\Reconciliation\AdyenReportStorage:
+        lazy: true
+        arguments:
+            $bucket: '%app.s3_bucket_adyen_reports%'
+
+    App\Integrations\LawPay\LawPayOAuth:
+        tags: [{ name: 'app.oauth_integration', key: lawpay }]
+        arguments:
+            $settings:
+                clientId: '%app.affinipay_client_id%'
+                clientSecret: '%app.affinipay_secret%'
+                authorizationUrl: "%%url%%/oauth/authorize"
+                scope: chargeio
+                serviceKey: lawpay
+                tokenUrl: "%%url%%/oauth/token"
+                revokeUrl: "%%url%%/oauth/deauthorize"
+                successUrl: '%app.dashboard_url%/settings/payments'
+
+    App\Integrations\Avalara\AvalaraApi:
+        arguments:
+            $environment: '%app.avalara_environment%'
+
+    App\Integrations\BusinessCentral\BusinessCentralApi:
+        lazy: true
+
+    App\Integrations\BusinessCentral\BusinessCentralOAuth:
+        tags: [{ name: 'app.oauth_integration', key: business_central }]
+        arguments:
+            $settings:
+                clientId: '%app.business_central_client_id%'
+                clientSecret: '%app.business_central_client_secret%'
+                authorizationUrl: https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize
+                scope: offline_access https://api.businesscentral.dynamics.com/Financials.ReadWrite.All
+                serviceKey: business_central
+                tokenUrl: https://login.microsoftonline.com/organizations/oauth2/v2.0/token
+                # There is no known revocation feature with Business Central
+                revokeUrl: https://login.microsoftonline.com/organizations/oauth2/v2.0/revoke
+                successUrl: '%app.dashboard_url%/settings/apps/business_central'
+
+    App\Integrations\ChartMogul\ChartMogulSync:
+        arguments:
+            $syncs: !tagged_iterator { tag: 'app.chartmogul_sync' }
+
+    App\EntryPoint\QueueJob\FlywireSyncJob:
+        arguments:
+            $syncs: !tagged_iterator { tag: 'app.flywire_sync' }
+
+    App\Integrations\FreshBooks\FreshBooksApi:
+        lazy: true
+
+    App\Integrations\FreshBooks\FreshBooksOAuth:
+        tags: [{ name: 'app.oauth_integration', key: freshbooks }]
+        arguments:
+            $settings:
+                clientId: '%app.freshbooks_client_id%'
+                clientSecret: '%app.freshbooks_client_secret%'
+                authorizationUrl: https://my.freshbooks.com/service/auth/oauth/authorize
+                scope: ''
+                serviceKey: freshbooks
+                tokenUrl: https://api.freshbooks.com/auth/oauth/token
+                revokeUrl: https://api.freshbooks.com/auth/oauth/revoke
+                successUrl: '%app.dashboard_url%/settings/apps/freshbooks'
+
+    App\Integrations\GoCardless\GoCardlessWebhook:
+        arguments:
+            $webhookSecret: '%app.gocardless_webhook_secret%'
+
+    App\Integrations\GoCardless\GoCardlessOAuth:
+        tags: [{ name: 'app.oauth_integration', key: gocardless }]
+        arguments:
+            $settings:
+                clientId: '%app.gocardless_client_id%'
+                clientSecret: '%app.gocardless_client_secret%'
+                authMode: body
+                authorizationUrl: '%app.gocardless_oauth_domain%/oauth/authorize'
+                scope: read_write
+                serviceKey: gocardless
+                tokenUrl: '%app.gocardless_oauth_domain%/oauth/access_token'
+                revokeUrl: '%app.gocardless_oauth_domain%/oauth/revoke'
+                successUrl: '%app.dashboard_url%/settings/payments'
+                verifyUrl: '%app.gocardless_verify_domain%'
+                goCardlessEnvironment: '%app.gocardless_environment%'
+
+    App\Integrations\QuickBooksDesktop\QuickBooksDesktopSyncManager:
+        arguments:
+            $bucket: '%app.s3_bucket_qwc%'
+
+    App\Integrations\OAuth\OAuthIntegrationFactory:
+        arguments: [!tagged_locator { tag: 'app.oauth_integration', index_by: 'key' }]
+
+    App\Integrations\Plaid\Libs\PlaidApi:
+        arguments:
+            $clientId: '%app.plaid_client_id%'
+            $secret: '%app.plaid_secret%'
+            $sandbox: '%app.plaid_sandbox%'
+
+    App\Integrations\Plaid\Libs\PlaidTransactionWebhook:
+        calls:
+            - method: setStrategies
+              arguments:
+                  - '@App\Integrations\Plaid\Libs\PlaidTransactionWebhookStrategy\PlaidTransactionErrorStrategy'
+                  - '@App\Integrations\Plaid\Libs\PlaidTransactionWebhookStrategy\PlaidTransactionHistoricalStrategy'
+                  - '@App\Integrations\Plaid\Libs\PlaidTransactionWebhookStrategy\PlaidTransactionInitialStrategy'
+                  - '@App\Integrations\Plaid\Libs\PlaidTransactionWebhookStrategy\PlaidTransactionLoginRepairedStrategy'
+                  - '@App\Integrations\Plaid\Libs\PlaidTransactionWebhookStrategy\PlaidTransactionNewStrategy'
+                  - '@App\Integrations\Plaid\Libs\PlaidTransactionWebhookStrategy\PlaidTransactionPendingExpirationStrategy'
+                  - '@App\Integrations\Plaid\Libs\PlaidTransactionWebhookStrategy\PlaidTransactionRemoveStrategy'
+
+    App\Integrations\QuickBooksOnline\Libs\QuickBooksOAuth:
+        tags: [{ name: 'app.oauth_integration', key: quickbooks_online }]
+        arguments:
+            $settings:
+                clientId: '%app.quickbooks_client_id%'
+                clientSecret: '%app.quickbooks_secret%'
+                authorizationUrl: https://appcenter.intuit.com/connect/oauth2
+                serviceKey: quickbooks_online
+                tokenUrl: https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer
+                revokeUrl: https://developer.api.intuit.com/v2/oauth2/tokens/revoke
+                successUrl: '%app.dashboard_url%/settings/apps/quickbooks_online'
+
+    App\Integrations\SageAccounting\SageAccountingOAuth:
+        tags: [{ name: 'app.oauth_integration', key: sage_accounting }]
+        arguments:
+            $settings:
+                clientId: '%app.sage_accounting_client_id%'
+                clientSecret: '%app.sage_accounting_client_secret%'
+                authMode: body
+                authorizationUrl: https://www.sageone.com/oauth2/auth/central
+                scope: full_access
+                serviceKey: sage_accounting
+                tokenUrl: https://oauth.accounting.sage.com/token
+                revokeUrl: https://oauth.accounting.sage.com/revoke
+                successUrl: '%app.dashboard_url%/settings/apps/sage_accounting'
+
+
+    App\Integrations\Slack\SlackClient:
+        arguments:
+            $endpoint: '%app.slack_api_url%'
+
+    App\Integrations\Slack\SlackOAuth:
+        tags: [{ name: 'app.oauth_integration', key: slack }]
+        arguments:
+            $settings:
+                clientId: '%app.slack_client_id%'
+                clientSecret: '%app.slack_client_secret%'
+                authorizationUrl: https://slack.com/oauth/v2/authorize
+                scope: channels:join,channels:read,chat:write,groups:read,im:read,mpim:read
+                serviceKey: slack
+                tokenUrl: https://slack.com/api/oauth.v2.access
+                revokeUrl: https://slack.com/api/auth.revoke
+                successUrl: '%app.dashboard_url%/settings/automations'
+
+    App\Integrations\Stripe\StripeOAuth:
+        tags: [{ name: 'app.oauth_integration', key: stripe }]
+        arguments:
+            $settings:
+                clientId: '%app.stripe_platform_client_id%'
+                clientSecret: '%app.stripe_platform_secret%'
+                authMode: body
+                authorizationUrl: https://connect.stripe.com/oauth/authorize
+                scope: read_write
+                serviceKey: stripe
+                tokenUrl: https://connect.stripe.com/oauth/token
+                revokeUrl: https://connect.stripe.com/oauth/deauthorize
+                successUrl: '%app.dashboard_url%/settings/payments'
+
+    App\Integrations\Textract\Libs\AIAnalyzer:
+        arguments:
+            $bucket: '%app.s3_textract_upload%'
+            $bucketRegion: '%app.textract_sns_region%'
+            $textractRole: '%app.textract_sns_role%'
+            $textractTopic: '%app.textract_sns_topic%'
+            $adapterId: '%app.textract_adapter_id%'
+            $adapterVersion: '%app.textract_adapter_version%'
+
+    App\Integrations\Textract\Libs\ExpenseAnalyzer:
+        arguments:
+            $bucket: '%app.s3_textract_upload%'
+            $bucketRegion: '%app.textract_sns_region%'
+            $textractRole: '%app.textract_sns_role%'
+            $textractTopic: '%app.textract_sns_topic%'
+        calls:
+            - setNext: ['@App\Integrations\Textract\Libs\AIAnalyzer']
+
+    App\Integrations\Wave\WaveOAuth:
+        tags: [{ name: 'app.oauth_integration', key: wave }]
+        arguments:
+            $settings:
+                clientId: '%app.wave_client_id%'
+                clientSecret: '%app.wave_client_secret%'
+                authMode: body
+                authorizationUrl: https://api.waveapps.com/oauth2/authorize/
+                scope: business:read customer:read invoice:* product:read vendor:*
+                serviceKey: wave
+                tokenUrl: https://api.waveapps.com/oauth2/token/
+                revokeUrl: https://api.waveapps.com/oauth2/token-revoke/
+                successUrl: '%app.dashboard_url%/settings/apps/wave'
+
+    App\Integrations\Xero\Libs\XeroOAuth:
+        tags: [{ name: 'app.oauth_integration', key: xero }]
+        arguments:
+            $settings:
+                clientId: '%app.xero_client_id%'
+                clientSecret: '%app.xero_secret%'
+                authorizationUrl: https://login.xero.com/identity/connect/authorize
+                scope: offline_access openid profile email accounting.transactions accounting.settings accounting.contacts
+                serviceKey: xero
+                tokenUrl: https://identity.xero.com/connect/token
+                revokeUrl: https://identity.xero.com/connect/revocation
+                successUrl: '%app.dashboard_url%/settings/apps/xero'
+
+    App\EntryPoint\QueueJob\QuickBooksSyncJob:
+        arguments:
+            $readers: !tagged_iterator  { tag: 'app.quickbooks_syncs' }
+
+    App\EntryPoint\QueueJob\IntacctSyncJob:
+        arguments:
+            $readers: !tagged_iterator  { tag: 'app.intacct_syncs' }
+
+    App\EntryPoint\QueueJob\XeroSyncJob:
+        arguments:
+            $readers: !tagged_iterator  { tag: 'app.xero_syncs' }
+
+    App\EntryPoint\QueueJob\BusinessCentralSyncJob:
+        arguments:
+            $readers: !tagged_iterator  { tag: 'app.business_central_syncs' }
+
+    App\EntryPoint\QueueJob\FreshBooksSyncJob:
+        arguments:
+            $readers: !tagged_iterator  { tag: 'app.freshbooks_syncs' }
+
+    App\EntryPoint\QueueJob\SageAccountingSyncJob:
+        arguments:
+            $readers: !tagged_iterator  { tag: 'app.sage_accounting_syncs' }
+
+    App\PaymentProcessing\Gateways\PaymentGatewayFactory:
+        lazy: true
+        arguments:
+            $gatewayLocator: !tagged_locator { tag: 'app.payment_gateway', default_index_method: 'getId' }
+
+    App\PaymentProcessing\Libs\PaymentMethodViewFactory:
+        arguments:
+            $viewLocator: !tagged_locator { tag: 'app.payment_view' }
+
+    App\PaymentProcessing\Operations\UpdateChargeStatus:
+        lazy: true
+
+    App\PaymentProcessing\Reconciliation\ChargeReconciler:
+        lazy: true
+
+    App\PaymentProcessing\Reconciliation\RefundReconciler:
+        lazy: true
+
+    App\EntryPoint\QueueJob\NotificationJob:
+        arguments:
+            $emitterLocator: !tagged_locator { tag: 'app.notification_emitter' }
+
+    App\Network\Interfaces\DocumentStorageInterface: '@App\Network\DocumentStorage\S3Storage'
+
+    App\Network\DocumentStorage\S3Storage:
+        arguments:
+            $bucket: '%app.s3_bucket_documents%'
+
+    App\Reports\Api\DashboardMetricRoute:
+        arguments:
+            $metricLocator: !tagged_locator { tag: 'app.dashboard_metric', default_index_method: 'getName' }
+
+    App\Reports\Dashboard\ActivityChart:
+        arguments:
+            $database: '@doctrine.dbal.reporting_connection'
+
+    App\Reports\DashboardMetrics\ActionItemsMetric:
+        arguments:
+            $database: '@doctrine.dbal.reporting_connection'
+
+    App\Reports\Libs\AgingReport:
+        arguments:
+            $database: '@doctrine.dbal.reporting_connection'
+
+    App\Reports\Dashboard\Dashboard:
+        arguments:
+            $database: '@doctrine.dbal.reporting_connection'
+
+    App\Reports\DashboardMetrics\ExpectedPaymentsMetric:
+        arguments:
+            $database: '@doctrine.dbal.reporting_connection'
+
+    App\Reports\Libs\ReportHelper:
+        arguments:
+            $database: '@doctrine.dbal.reporting_connection'
+
+    App\Reports\Libs\PresetReportFactory:
+        lazy: true
+        arguments:
+            $reportLocator: !tagged_locator { tag: 'app.preset_report', default_index_method: 'getId' }
+
+    App\Reports\Libs\ReportStorage:
+        arguments:
+            $bucket: '%app.s3_bucket_reports%'
+
+    App\Reports\ReportBuilder\ReportBuilder:
+        lazy: true
+
+    App\Reports\ReportBuilder\DataService:
+        arguments:
+            $database: '@doctrine.dbal.reporting_connection'
+
+    App\Sending\Email\Libs\AdapterFactory:
+        arguments:
+            $fallbackAdapters: '%env(FALLBACK_CUSTOMER_MAILERS)%'
+
+    App\Sending\Email\Libs\EmailSender:
+        lazy: true
+
+    App\Sending\Email\InboundParse\Router:
+        arguments:
+            $handlers: !tagged { tag: 'app.inbound_parse' }
+
+    App\Sending\Email\Interfaces\EmailBodyStorageInterface: '@App\Sending\Email\Storage\S3Storage'
+
+    App\Sending\Email\Storage\S3Storage:
+        arguments:
+            $bucket: '%app.s3_bucket_emails%'
+
+    App\Notifications\Libs\NotificationEmailFactory:
+        arguments: [!tagged_locator { tag: 'app.notification_email' }]
+
+    App\SalesTax\Calculator\AvalaraTaxCalculator:
+        lazy: true
+
+    App\Webhooks\Interfaces\PayloadStorageInterface: '@App\Webhooks\Storage\S3Storage'
+
+    App\Webhooks\Storage\S3Storage:
+        arguments:
+            $bucket: '%app.s3_bucket_webhooks%'
+
+    ##################################
+    # External dependencies
+    ##################################
+
+    Authy\AuthyApi:
+        arguments:
+            - '%app.authy_key%'
+
+    Aws\Sdk: '@aws_sdk'
+
+    Aws\PsrCacheAdapter: {}
+
+    Defuse\Crypto\Key:
+        factory: ['Defuse\Crypto\Key', 'loadFromAsciiSafeString']
+        public: true
+        arguments:
+            - '%app.encryption_key%'
+
+    app.database:
+        alias: Doctrine\DBAL\Connection
+        public: true
+
+    Invoiced\Client:
+        arguments:
+            $apiKey: '%app.invoiced_client_secret%'
+            $sandbox: '%app.invoiced_sandbox%'
+
+    League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface: '@App\Core\Authentication\OAuth\Repository\AccessTokenRepository'
+    League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface: '@App\Core\Authentication\OAuth\Repository\AuthCodeRepository'
+    League\OAuth2\Server\Repositories\ClientRepositoryInterface: '@App\Core\Authentication\OAuth\Repository\ClientRepository'
+    League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface: '@App\Core\Authentication\OAuth\Repository\RefreshTokenRepository'
+    League\OAuth2\Server\Repositories\ScopeRepositoryInterface: '@App\Core\Authentication\OAuth\Repository\ScopeRepository'
+
+    League\OAuth2\Server\AuthorizationServer:
+        lazy: true
+        arguments:
+            $privateKey: '%app.oauth_private_key%'
+            $encryptionKey: '@Defuse\Crypto\Key'
+
+    League\OAuth2\Server\ResourceServer:
+        lazy: true
+        arguments:
+            $publicKey: '%app.oauth_public_key%'
+
+    ReCaptcha\ReCaptcha:
+        arguments:
+            - '%app.recaptcha_secret%'
+
+    app.redis:
+        class: Redis
+        factory: ['Symfony\Component\Cache\Adapter\RedisAdapter', 'createConnection']
+        arguments:
+            - 'redis://%app.redis_host%'
+            - {lazy: true}
+
+    Symfony\Component\Lock\LockFactory:
+        arguments:
+            - '@app.lock_store'
+
+    Symfony\Component\RateLimiter\Storage\CacheStorage:
+        arguments:
+            - '@cache.app'
+
+    app.lock_store:
+        class: Symfony\Component\Lock\Store\RedisStore
+        factory: ['Symfony\Component\Lock\Store\StoreFactory', 'createStore']
+        arguments:
+            - '@app.redis'
+
+    Symfony\Component\Semaphore\SemaphoreFactory:
+        arguments:
+            - '@app.semaphore_store'
+
+    app.semaphore_store:
+        class: Symfony\Component\Semaphore\Store\RedisStore
+        factory: ['Symfony\Component\Semaphore\Store\StoreFactory', 'createStore']
+        arguments:
+            - '@app.redis'
+
+    app.translator:
+        alias: Symfony\Contracts\Translation\TranslatorInterface
+        public: true
+
+    Twilio\Rest\Client:
+        arguments:
+            $username: '%app.twilio_account_sid%'
+            $accountSid: '%app.twilio_account_sid%'
+            $password: '%app.twilio_auth_token%'
+            $environment: []
+
+    ##################################
+    # Interface configuration
+    ##################################
+
+    _instanceof:
+        App\Automations\Interfaces\AutomationActionInterface:
+            tags: ['app.automation_action']
+            lazy: true
+
+        App\Automations\Interfaces\NormalizerInterface:
+            tags: ['app.automation_normalizer']
+            lazy: true
+
+        App\CustomerPortal\Interfaces\CardInterface:
+            tags: ['app.customer_portal_card']
+            lazy: true
+
+        App\Chasing\Interfaces\ActionInterface:
+            tags: ['app.chasing_action']
+            lazy: true
+
+        App\Companies\Interfaces\FraudScoreInterface:
+            tags: ['app.fraud_scorer']
+            lazy: true
+
+        App\Core\Cron\Interfaces\CronJobInterface:
+            tags: ['app.cron_job']
+
+        App\Core\Queue\Interfaces\ResqueJobInterface:
+            tags: ['app.resque_job']
+            lazy: true
+
+        App\Core\Search\Interfaces\DriverInterface:
+            lazy: true
+
+        App\Core\Statsd\Interfaces\StatsdAwareInterface:
+            calls:
+                - method: setStatsd
+
+        App\Exports\Interfaces\ExporterInterface:
+            tags: ['app.exporter']
+            lazy: true
+
+        App\Imports\Interfaces\ImporterInterface:
+            tags: ['app.importer']
+            lazy: true
+
+        App\Integrations\AccountingSync\Interfaces\LoaderInterface:
+            lazy: true
+
+        App\Integrations\ChartMogul\Interfaces\ChartMogulSyncInterface:
+            tags: ['app.chartmogul_sync']
+
+        App\Integrations\Flywire\Interfaces\FlywireSyncInterface:
+            tags: ['app.flywire_sync']
+
+        App\Integrations\OAuth\Interfaces\OAuthIntegrationInterface:
+            lazy: true
+
+        App\Integrations\QuickBooksOnline\Readers\AbstractQuickBooksReader:
+            tags: ['app.quickbooks_syncs']
+            lazy: true
+
+        App\Integrations\Intacct\Readers\AbstractIntacctReader:
+            tags: ['app.intacct_syncs']
+            lazy: true
+
+        App\Integrations\Xero\Readers\AbstractXeroReader:
+            tags: ['app.xero_syncs']
+            lazy: true
+
+        App\Integrations\BusinessCentral\Readers\AbstractBusinessCentralReader:
+            tags: ['app.business_central_syncs']
+            lazy: true
+
+        App\Integrations\FreshBooks\Readers\AbstractFreshBooksReader:
+            tags: ['app.freshbooks_syncs']
+            lazy: true
+
+        App\Integrations\SageAccounting\Readers\AbstractSageAccountingReader:
+            tags: ['app.sage_accounting_syncs']
+            lazy: true
+
+        App\Notifications\Interfaces\EmitterInterface:
+            tags: ['app.notification_emitter']
+            lazy: true
+
+        App\Notifications\Interfaces\NotificationEmailInterface:
+            tags: ['app.notification_email']
+            lazy: true
+
+        App\PaymentProcessing\Interfaces\PaymentGatewayInterface:
+            tags: ['app.payment_gateway']
+            lazy: true
+
+        App\PaymentProcessing\Interfaces\PaymentViewInterface:
+            tags: ['app.payment_view']
+            lazy: true
+
+        App\PaymentProcessing\Interfaces\PaymentInfoViewInterface:
+            tags: ['app.payment_view']
+            lazy: true
+
+        App\Reports\Interfaces\DashboardMetricInterface:
+            tags: ['app.dashboard_metric']
+            lazy: true
+
+        App\Reports\Interfaces\PresetReportInterface:
+            tags: ['app.preset_report']
+            lazy: true
+
+        App\Sending\Email\InboundParse\Handlers\HandlerInterface:
+            tags: ['app.inbound_parse']
+            lazy: true
+
+        App\Core\ListQueryBuilders\ListQueryBuilderInterface:
+            tags: ['app.abstract_list_query_builder']
+            shared: false
+            lazy: true
+
+    ###########################
+    # Logging configuration
+    ###########################
+
+    Sentry\Integration\EnvironmentIntegration: ~
+
+    Sentry\Integration\FrameContextifierIntegration: ~
+
+    Sentry\Integration\RequestIntegration:
+        arguments:
+            - ~
+
+    Sentry\Integration\TransactionIntegration: ~
+
+    sentry.monolog.handler:
+        class: Sentry\Monolog\Handler
+        arguments:
+            $level: 'warning'
+
+    Symfony\Bridge\Monolog\Processor\RouteProcessor:
+        tags: ['monolog.processor']
+
+    Monolog\Processor\MemoryPeakUsageProcessor:
+        tags: ['monolog.processor']
+
+    Monolog\Processor\MemoryUsageProcessor:
+        tags: ['monolog.processor']
+
+    Symfony\Bridge\Monolog\Processor\WebProcessor:
+        tags: ['monolog.processor']
+
+    App\Core\Utils\DebugProcessor:
+        tags: ['monolog.processor']
+
+    App\Core\Utils\SentryProcessor:
+        tags:
+            - { name: monolog.processor, handler: sentry }
+
+    #############
+    # Facades
+    #############
+
+    App\Core\Authentication\Libs\UserContextFacade: {public: true}
+    App\Core\CacheFacade: {public: true}
+    App\Core\EnvironmentFacade: {public: true}
+    App\Core\I18n\TranslatorFacade: {public: true}
+    App\Core\LockFactoryFacade: {public: true}
+    App\Core\LoggerFacade: {public: true}
+    App\Core\Mailer\MailerFacade: {public: true}
+    App\Core\Multitenant\TenantContextFacade: {public: true}
+    App\Core\Queue\QueueFacade: {public: true}
+    App\Core\Search\Libs\SearchFacade: {public: true}
+    App\Core\Statsd\StatsdFacade: {public: true}
+    App\Core\Templating\TwigFacade: {public: true}
+    App\ActivityLog\Libs\EventSpoolFacade: {public: true}
+    App\Integrations\AccountingSync\WriteSync\AccountingWriteSpoolFacade: {public: true}
+    App\Metadata\Libs\AttributeStorageFacade: {public: true}
+    App\Metadata\Libs\LegacyStorageFacade: {public: true}
+    App\Notifications\Libs\NotificationSpoolFacade: {public: true}
+    App\PaymentProcessing\Libs\VaultPaymentInfoFacade: {public: true}
+    App\SalesTax\Libs\TaxCalculatorFactoryFacade: {public: true}
+    App\Sending\Email\Libs\EmailSpoolFacade: {public: true}
+    App\SubscriptionBilling\Libs\CancelSubscriptionFacade: {public: true}

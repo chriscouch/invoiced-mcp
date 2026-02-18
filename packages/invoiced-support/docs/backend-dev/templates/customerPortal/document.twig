@@ -1,0 +1,693 @@
+{% trans_default_domain 'customer_portal' %}
+{% import 'customerPortal/macros.twig' as macros %}
+{% set title=documentNumberTitle %}
+{% extends "customerPortal/parentFrame.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style type="text/css" media="print">
+        html,body {
+            font-family: sans-serif;
+            font-size: 10pt;
+            text-align: center;
+            margin: 10px;
+            background: none;
+        }
+
+        body:before {
+            content: 'Please click "Download" to print {{ title }}.';
+            text-align: center;
+            padding-top: 30px;
+            font-size: 18px;
+            color: #404040;
+        }
+
+        div,iframe {
+            display: none;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+
+    <div class="document-client-view type-{{ document.documentType }}">
+        <div class="container-fluid p-0">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10 col-xl-8 p-0">
+                    <!-- Header -->
+                    <div class="header mt-lg-3 mb-3 mb-lg-5">
+                        <div class="header-body py-3 py-xl-4">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h1 class="header-title d-none d-lg-block">
+                                        {{ documentNumberTitle }}
+                                    </h1>
+                                </div>
+                                <div class="document-buttons col-md-auto text-end">
+                                    <!-- Buttons -->
+                                    {% if document.saveUrl %}
+                                        <button type="button" class="btn btn-white save-to-invoiced">
+                                            {{ 'buttons.save_to_invoiced'|trans }}
+                                        </button>
+                                    {% endif %}
+                                    {% if document.viewOnInvoicedUrl %}
+                                        <a href="{{ document.viewOnInvoicedUrl }}" class="btn btn-white view-on-invoiced">
+                                            {{ 'buttons.view_on_invoiced'|trans }}
+                                        </a>
+                                    {% endif %}
+                                    {% if document.paymentPlan is defined and document.paymentPlan %}
+                                        <a class="btn btn-white payment-plan-installments-btn" href="#" data-bs-toggle="modal" data-bs-target="#installmentScheduleModal">{{ 'buttons.view_installment_schedule'|trans }}</a>
+                                    {% endif %}
+                                    <div class="btn-group dropdown download-document">
+                                        <a href="#" class="btn btn-white lift dropdown-toggle" title="{{ 'download'|trans }}" data-bs-toggle="dropdown">
+                                            <i class="fa-solid fa-download"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li class="download-document-pdf">
+                                                <a class="dropdown-item" href="{{ document.downloadPdfUrl }}">
+                                                    {{ 'buttons.pdf'|trans }}
+                                                </a>
+                                            </li>
+                                            <li class="download-document-csv">
+                                                <a class="dropdown-item" href="{{ document.downloadCsvUrl }}">
+                                                    {{ 'buttons.csv'|trans }}
+                                                </a>
+                                            </li>
+                                            <li class="download-document-xml">
+                                                <a class="dropdown-item" href="{{ document.downloadXmlUrl }}">
+                                                    {{ 'buttons.xml'|trans }}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <a href="#" class="btn btn-white lift document-messages-btn" data-bs-toggle="modal" data-bs-target="#commentsModal" title="{{ 'discussion'|trans }}">
+                                        <i class="fa-solid fa-messages"></i>
+                                        {% if document.emails|length > 0 %}
+                                            {% if document.emails|length > 0 %}<div class="has-messages-badge"></div>{% endif %}
+                                        {% endif %}
+                                    </a>
+                                    {% if document.paymentUrl is defined and document.paymentUrl %}
+                                        <a href="{{ document.paymentUrl }}" class="btn btn-primary ms-2 lift document-payment-btn">
+                                            {% if document.paymentPlan is defined and document.paymentPlan and document.paymentPlan.status == 'pending_signup' %}
+                                                {{ 'buttons.approve_payment_plan'|trans }}
+                                            {% else %}
+                                                {{ 'buttons.pay'|trans }}
+                                            {% endif %}
+                                        </a>
+                                    {% endif %}
+                                    {% if document.approveUrl is defined and document.approveUrl %}
+                                        <a href="{{ document.approveUrl }}" class="btn btn-primary ms-2 lift document-approve-btn">
+                                            {{ 'buttons.approve'|trans }}
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Save to Invoiced -->
+                    {% if document.saveUrl %}
+                        <div class="card d-none" id="saveToInvoicedBanner">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-12 col-lg-4 order-lg-2 d-none d-lg-block">
+                                        <div class="text-center">
+                                            <img src="{{ asset('/img/client-view/invoice-to-cash@2x.png') }}" class="img-fluid mt-n5 mt-lg-0 mb-4 me-md-n5" style="max-width: 272px;">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-8 px-4 py-3 order-lg-1">
+                                        <h2>
+                                            Save to your Invoiced account
+                                        </h2>
+                                        <p class="text-secondary">
+                                            Sign up for a free Invoiced account where you can securely receive invoices from {{ document.billFrom.name }} and other vendors. You can access historical invoices, search and filter, generate reports, connect your accounting system, and more.
+                                        </p>
+                                        <a href="{{ document.saveUrl }}" class="btn btn-primary lift">
+                                            {{ 'buttons.save_to_invoiced'|trans }}
+                                        </a>
+                                        <a href="https://docs.invoiced.com/accounts-payable/save-to-invoiced" class="btn btn-default" target="_blank">
+                                            {{ 'buttons.learn_more'|trans }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% block document_banner %}{% endblock %}
+
+                    <!-- Content -->
+                    <div class="card card-body py-5 px-3 px-md-5">
+                        <div class="row">
+                            <!-- Document Status -->
+                            <div class="col text-end fs-3 document-status">
+                                {% if document.status == 'paid' %}
+                                    <div class="badge bg-success mt-n6 me-n4 mb-3 status-paid">
+                                        {{ 'labels.paid'|trans }}
+                                    </div>
+                                {% elseif document.status == 'pending' %}
+                                    <div class="badge bg-warning mt-n6 me-n4 mb-3 status-pending">
+                                        {{ 'status_pending'|trans }}
+                                    </div>
+                                {% elseif document.status == 'draft' %}
+                                    <div class="badge bg-warning mt-n6 me-n4 mb-3 status-draft">
+                                        {{ 'status_draft'|trans }}
+                                    </div>
+                                {% elseif document.status == 'past_due' %}
+                                    <div class="badge bg-danger mt-n6 me-n4 mb-3 status-past-due">
+                                        {{ 'labels.past_due'|trans }}
+                                    </div>
+                                {% elseif document.status == 'expired' %}
+                                    <div class="badge bg-danger mt-n6 me-n4 mb-3 status-expired">
+                                        {{ 'labels.expired'|trans }}
+                                    </div>
+                                {% elseif document.status == 'approved' %}
+                                    <div class="badge bg-success mt-n6 me-n4 mb-3 status-approved">
+                                        {{ 'labels.approved'|trans }}
+                                    </div>
+                                {% elseif document.status == 'declined' %}
+                                    <div class="badge bg-warning mt-n6 me-n4 mb-3 status-declined">
+                                        {{ 'labels.declined'|trans }}
+                                    </div>
+                                {% elseif document.status == 'invoiced' %}
+                                    <div class="badge bg-success mt-n6 me-n4 mb-3 status-invoiced">
+                                        {{ 'labels.invoiced'|trans }}
+                                    </div>
+                                {% elseif document.status == 'bad_debt' %}
+                                    <div class="badge bg-danger mt-n6 me-n4 mb-3 status-bad-debt">
+                                        {{ 'status_bad_debt'|trans }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col text-center">
+                                {% if document.billFrom.logo %}
+                                    <img src="{{ document.billFrom.logo }}" alt="Logo" class="img-fluid mb-4 document-logo" style="max-height: 100px;">
+                                {% endif %}
+                                <h2 class="mb-2 document-from-title">
+                                    {{ documentFromTitle }}
+                                </h2>
+                                <p class="text-secondary mb-4 document-number-title">
+                                    {{ documentNumberTitle }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row mt-lg-4">
+                            {% set billToColSize = document.shipTo ? 4 : 6 %}
+                            <!-- Bill From -->
+                            <div class="col-lg-{{ billToColSize}} p-0 document-bill-from">
+                                <h6 class="text-uppercase text-secondary">
+                                    {{ 'labels.bill_from'|trans }}
+                                </h6>
+                                <div class="text-secondary mb-4">
+                                    {{ macros.billFrom(document.billFrom) }}
+                                </div>
+                            </div>
+
+                            {% if document.shipTo %}
+                                <!-- Ship To -->
+                                <div class="col-lg-4 px-0 px-lg-3 text-lg-center document-ship-to">
+                                    <h6 class="text-uppercase text-secondary">
+                                        {{ 'labels.ship_to'|trans }}
+                                    </h6>
+                                    <div class="text-secondary mb-4">
+                                        {% if document.shipTo.attentionTo %}
+                                            <div class="ship-to-attention-to">{{ 'labels.attention_to'|trans }}: {{ document.shipTo.attentionTo }}</div>
+                                        {% endif %}
+                                        <div class="text-body ship-to-name">{{ document.shipTo.name }}</div>
+                                        {% if document.shipTo.address %}
+                                            <div class="ship-to-address">{{ document.shipTo.address|nl2br }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <!-- Bill To -->
+                            <div class="col-lg-{{ billToColSize}} p-0 text-lg-end document-bill-to">
+                                <h6 class="text-uppercase text-secondary">
+                                    {{ 'labels.bill_to'|trans }}
+                                </h6>
+                                <div class="text-secondary mb-4">
+                                    {{ macros.billTo(document.billTo) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-start flex-wrap mt-4">
+                            <!-- Date -->
+                            <div class="me-6 document-date">
+                                <h6 class="text-uppercase text-secondary">
+                                    {{ 'labels.date'|trans }}
+                                </h6>
+                                <p class="mb-4">
+                                    {{ document.date.format(dateFormat) }}
+                                </p>
+                            </div>
+                            {% if document.paymentTerms is defined and document.paymentTerms %}
+                                <!-- Payment Terms -->
+                                <div class="me-6 document-payment-terms">
+                                    <h6 class="text-uppercase text-secondary">
+                                        {{ 'labels.payment_terms'|trans }}
+                                    </h6>
+                                    <p class="mb-4">
+                                        {% if document.paymentPlan is defined and document.paymentPlan %}
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#installmentScheduleModal">{{ document.paymentTerms }}</a>
+                                        {% else %}
+                                            {{ document.paymentTerms }}
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            {% endif %}
+                            {% if document.dueDate is defined and document.dueDate %}
+                                <!-- Due Date -->
+                                <div class="me-6 document-due-date">
+                                    <h6 class="text-uppercase text-secondary">
+                                        {{ 'labels.due_date'|trans }}
+                                    </h6>
+                                    <p class="mb-4">
+                                        {{ document.dueDate.format(dateFormat) }}
+                                    </p>
+                                </div>
+                            {% endif %}
+                            {% if document.expirationDate is defined and document.expirationDate %}
+                                <!-- Expiration Date -->
+                                <div class="me-6 document-expiration-date">
+                                    <h6 class="text-uppercase text-secondary">
+                                        {{ 'labels.expiration_date'|trans }}
+                                    </h6>
+                                    <p class="mb-4">
+                                        {{ document.expirationDate.format(dateFormat) }}
+                                    </p>
+                                </div>
+                            {% endif %}
+                            {% if document.billTo.accountNumber %}
+                                <!-- Account # -->
+                                <div class="me-6 document-account-number">
+                                    <h6 class="text-uppercase text-secondary">
+                                        {{ 'labels.account_number'|trans }}
+                                    </h6>
+                                    <p class="mb-4">
+                                        {{ document.billTo.accountNumber }}
+                                    </p>
+                                </div>
+                            {% endif %}
+                            {% if document.purchaseOrder %}
+                                <!-- Purchase Order -->
+                                <div class="me-6 document-purchase-order">
+                                    <h6 class="text-uppercase text-secondary">
+                                        {{ 'labels.po_number'|trans }}
+                                    </h6>
+                                    <p class="mb-4">
+                                        {{ document.purchaseOrder }}
+                                    </p>
+                                </div>
+                            {% endif %}
+                            {% if document.approved is defined and document.approved %}
+                                <!-- Approved By -->
+                                <div class="me-6 document-approved-by">
+                                    <h6 class="text-uppercase text-secondary">
+                                        {{ 'labels.initials'|trans }}
+                                    </h6>
+                                    <p class="mb-4">
+                                        {{ document.approved }}
+                                    </p>
+                                </div>
+                            {% endif %}
+                            {% for row in document.customFields %}
+                                <div class="me-6 document-custom-field document-custom-field-{{ row.id }}">
+                                    <h6 class="text-uppercase text-secondary">
+                                        {{ row.name }}
+                                    </h6>
+                                    <p class="mb-4">
+                                        {{ row.value|raw }}
+                                    </p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="row document-line-items">
+                            <div class="col-12 p-0">
+                                <div class="table-responsive">
+                                    <table class="table my-4">
+                                        <thead>
+                                            <tr>
+                                                <th class="px-0 bg-transparent border-top-0 text-secondary line-item-description">
+                                                    <span class="h6">{{ 'labels.description'|trans }}</span>
+                                                </th>
+                                                <th class="px-3 bg-transparent border-top-0 text-secondary text-end line-item-quantity">
+                                                    <span class="h6">{{ 'labels.quantity'|trans }}</span>
+                                                </th>
+                                                <th class="px-3 bg-transparent border-top-0 text-secondary text-end line-item-unit-cost">
+                                                    <span class="h6">{{ 'labels.unit_cost'|trans }}</span>
+                                                </th>
+                                                <th class="px-3 bg-transparent border-top-0 text-secondary text-end line-item-total">
+                                                    <span class="h6">{{ 'labels.total'|trans }}</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for lineItem in document.lineItems %}
+                                            <tr class="document-line-item">
+                                                <td class="px-0 line-item-description">
+                                                    {{ lineItem.name }}
+                                                    {% if lineItem.description %}
+                                                        <div class="text-secondary line-item-description-text">{{ lineItem.description|nl2br }}</div>
+                                                    {% endif %}
+                                                    {% if lineItem.billingPeriod %}
+                                                        <div class="text-secondary line-item-billing-period">{{ lineItem.billingPeriod|nl2br }}</div>
+                                                    {% endif %}
+                                                    {% for row in lineItem.customFields %}
+                                                        <div class="text-secondary line-item-custom-field line-item-custom-field-{{ row.id }}">
+                                                            {{ row.name }}: {{ row.value|raw }}
+                                                        </div>
+                                                    {% endfor %}
+                                                </td>
+                                                <td class="px-3 text-end line-item-quantity">
+                                                    {{ lineItem.quantity }}
+                                                </td>
+                                                <td class="px-3 text-end line-item-unit-cost">
+                                                    {{ lineItem.unitCost|money_unit_cost(document.currency) }}
+                                                    {% if lineItem.type == 'hours' %}
+                                                        /hour
+                                                    {% elseif lineItem.type == 'days' %}
+                                                        /day
+                                                    {% elseif lineItem.type == 'month' %}
+                                                        /month
+                                                    {% elseif lineItem.type == 'year' %}
+                                                        /year
+                                                    {% endif %}
+                                                </td>
+                                                <td class="px-3 text-end line-item-total">
+                                                    {{ lineItem.amount|money(document.currency) }}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                        <!-- Total Lines -->
+                                        <tfoot>
+                                            {% if document.discounts > 0 or document.taxes > 0 or document.shipping > 0 %}
+                                                <tr class="subtotal-line-subtotal">
+                                                    <td class="border-top border-top-2 py-3"></td>
+                                                    <td colspan="2" class="px-3 py-3 border-top border-top-2 text-end fw-bold">
+                                                        {{ 'subtotal'|trans }}
+                                                    </td>
+                                                    <td class="px-3 py-3 text-end border-top border-top-2">
+                                                        {{ document.subtotal|money(document.currency) }}
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+                                            {% if document.discounts > 0 %}
+                                                <tr class="subtotal-line-discounts">
+                                                    <td class="pt-0 pb-3 border-0"></td>
+                                                    <td colspan="2" class="px-3 pt-0 pb-3 border-0 text-end">
+                                                        {{ 'discounts'|trans }}
+                                                        <a href="#" data-bs-toggle="tooltip" data-bs-title="{{ document.discountBreakdown }}">
+                                                            <span class="fas fa-info-circle"></span>
+                                                        </a>
+                                                    </td>
+                                                    <td class="px-3 pt-0 pb-3 border-0 text-end">
+                                                        {{ document.discounts|money(document.currency) }}
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+                                            {% if document.taxes > 0 %}
+                                                <tr class="subtotal-line-taxes">
+                                                    <td class="pt-0 pb-3 border-0"></td>
+                                                    <td colspan="2" class="px-3 pt-0 pb-3 border-0 text-end">
+                                                        {{ 'taxes'|trans }}
+                                                        <a href="#" data-bs-toggle="tooltip" data-bs-title="{{ document.taxBreakdown }}">
+                                                            <span class="fas fa-info-circle"></span>
+                                                        </a>
+                                                    </td>
+                                                    <td class="px-3 pt-0 pb-3 border-0 text-end">
+                                                        {{ document.taxes|money(document.currency) }}
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+                                            {% if document.shipping > 0 %}
+                                                <tr class="subtotal-line-shipping">
+                                                    <td class="border-0 pt-0 pb-3 border-0"></td>
+                                                    <td colspan="2" class="px-3 pt-0 pb-3 border-0 text-end">
+                                                        {{ 'shipping'|trans }}
+                                                        <a href="#" data-bs-toggle="tooltip" data-bs-title="{{ document.shippingBreakdown }}">
+                                                            <span class="fas fa-info-circle"></span>
+                                                        </a>
+                                                    </td>
+                                                    <td class="px-3 pt-0 pb-3 border-0 text-end">
+                                                        {{ document.shipping|money(document.currency) }}
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+                                            <tr class="subtotal-line-total">
+                                                <td class="py-3 {% if document.discounts > 0 or document.taxes > 0 or document.shipping > 0 %}border-top-0{% else %}border-top border-top-2{% endif %}"></td>
+                                                <td colspan="2" class="px-3 py-3 border-top border-top-2 text-end">
+                                                    <strong>{{ 'labels.total'|trans }}</strong>
+                                                </td>
+                                                <td class="px-3 py-3 text-end border-top border-top-2 text-end">
+                                                    {{ document.total|money(document.currency) }}
+                                                </td>
+                                            </tr>
+                                            {% if document.amountPaid is defined and document.amountPaid > 0 %}
+                                                <tr class="subtotal-line-amount-paid">
+                                                    <td class="pt-0 pb-3 border-0"></td>
+                                                    <td colspan="2" class="px-3 pt-0 pb-3 border-0 text-end">
+                                                        {{ 'amount_paid'|trans }}
+                                                    </td>
+                                                    <td class="px-3 pt-0 pb-3 border-0 text-end">
+                                                        {{ document.amountPaid|money(document.currency) }}
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+                                            {% if document.amountCredited is defined and document.amountCredited > 0 %}
+                                                <tr class="subtotal-line-amount-credited">
+                                                    <td class="pt-0 pb-3 border-0"></td>
+                                                    <td colspan="2" class="px-3 pt-0 pb-3 border-0 text-end">
+                                                        {{ 'labels.credits_applied'|trans }}
+                                                    </td>
+                                                    <td class="px-3 pt-0 pb-3 border-0 text-end">
+                                                        {{ document.amountCredited|money(document.currency) }}
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+                                            {% if document.balance is defined and document.balance > 0 %}
+                                                <tr class="subtotal-line-balance">
+                                                    <td class="border-0 py-3"></td>
+                                                    <td colspan="2" class="px-3 py-3 border-top border-top-4 text-end fw-bold fs-3">
+                                                        {{ 'labels.balance_due'|trans }}
+                                                    </td>
+                                                    <td class="px-3 py-3 text-end border-top border-top-4 text-end fw-bold fs-3">
+                                                        <span class="h3">
+                                                            {{ document.balance|money(document.currency) }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+                                            {% if document.deposit is defined and document.deposit > 0 %}
+                                                <tr class="subtotal-line-deposit">
+                                                    <td class="border-0 py-3"></td>
+                                                    <td colspan="2" class="px-3 py-3 border-top border-top-4 text-end fw-bold fs-3">
+                                                        {{ 'labels.deposit'|trans }}
+                                                    </td>
+                                                    <td class="px-3 py-3 text-end border-top border-top-4 text-end fw-bold fs-3">
+                                                        <span class="h3">
+                                                            {{ document.deposit|money(document.currency) }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+                                        </tfoot>
+                                    </table>
+                                </div>
+
+                                {% if document.notes or document.terms %}
+                                    <!-- Notes -->
+                                    <hr class="my-5">
+                                    <h6 class="text-uppercase">
+                                        {{ 'labels.notes'|trans }}
+                                    </h6>
+                                    {% if document.notes %}
+                                        <p class="mb-4 document-notes">
+                                            {{ document.notes|nl2br }}
+                                        </p>
+                                    {% endif %}
+                                    {% if document.terms %}
+                                        <p class="mb-4 document-terms">
+                                            {{ document.terms|nl2br }}
+                                        </p>
+                                    {% endif %}
+                                {% endif %}
+
+                                {% if document.attachments %}
+                                    <!-- File Attachments -->
+                                    <hr class="my-5">
+                                    <h6 class="text-uppercase">
+                                        {{ 'attachments'|trans }}
+                                    </h6>
+                                    {% for attachment in document.attachments %}
+                                        <div class="mt-2 document-attachment">
+                                            <a href="{{ attachment.file.url }}" target="_blank" rel="noopener noreferrer" title="{{ 'download'|trans }}">
+                                                <i class="fa-solid fa-download"></i>
+                                                {{ attachment.file.name }}
+                                                <span class="text-muted ms-3">({{ attachment.size }})</span>
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Buttons Repeated -->
+                    <div class="document-buttons mb-5 text-end px-3">
+                        <div class="btn-group dropdown download-document">
+                            <a href="#" class="btn btn-white lift dropdown-toggle" title="{{ 'download'|trans }}" data-bs-toggle="dropdown">
+                                <i class="fa-solid fa-download"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li class="download-document-pdf">
+                                    <a class="dropdown-item" href="{{ document.downloadPdfUrl }}">
+                                        {{ 'buttons.pdf'|trans }}
+                                    </a>
+                                </li>
+                                <li class="download-document-csv">
+                                    <a class="dropdown-item" href="{{ document.downloadCsvUrl }}">
+                                        {{ 'buttons.csv'|trans }}
+                                    </a>
+                                </li>
+                                <li class="download-document-xml">
+                                    <a class="dropdown-item" href="{{ document.downloadXmlUrl }}">
+                                        {{ 'buttons.xml'|trans }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <a href="#" class="btn btn-white lift document-messages-btn" data-bs-toggle="modal" data-bs-target="#commentsModal" title="{{ 'discussion'|trans }}">
+                            <i class="fa-solid fa-messages"></i>
+                            {% if document.emails|length > 0 %}
+                                {% if document.emails|length > 0 %}<div class="has-messages-badge"></div>{% endif %}
+                            {% endif %}
+                        </a>
+                        {% if document.paymentUrl is defined and document.paymentUrl %}
+                            <a href="{{ document.paymentUrl }}" class="btn btn-primary ms-2 lift document-payment-btn">
+                                {{ 'buttons.pay'|trans }}
+                            </a>
+                        {% endif %}
+                        {% if document.approveUrl is defined and document.approveUrl %}
+                            <a href="{{ document.approveUrl }}" class="btn btn-primary ms-2 lift document-approve-btn">
+                                {{ 'buttons.approve'|trans }}
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{{ asset('/js/views/document.js') }}"></script>
+{% endblock %}
+
+{% block content_post %}
+    {{ parent() }}
+    <div class="modal fade comments-modal{% if app.request.query.get('comments') %} show-on-load{% endif %}" id="commentsModal" tabindex="-1" role="dialog" aria-labelledby="commentsModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="commentsModalLabel">{{ 'discussion'|trans }}</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Messages -->
+                    {{ macros.comment(document.emails, title) }}
+                </div>
+                <div class="leave-comment">
+                    <form id="documentCommentForm" action="{{ document.commentsUrl }}" method="post">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('customer_portal_leave_comment') }}" />
+
+                        <div class="from">
+                            <input id="commentEmail" class="form-control" name="email" placeholder="{{ 'labels.email_address'|trans }}" value="{{ document.customerEmail }}" />
+                        </div>
+
+                        <div class="message">
+                            <textarea id="commentBox" class="form-control" name="comment" placeholder="{{ 'placeholder_leave_comment'|trans }}"></textarea>
+                        </div>
+
+                        <div class="action">
+                            <button type="submit" class="btn btn-primary" id="commentSend">
+                                {{ 'buttons.submit_comment'|trans }}
+                            </button>
+                            <div class="file-attachment">
+                                <div class="fileContainer select-file">
+                                    <span class="fas fa-paperclip"></span>
+                                    {{ 'buttons.attach_file'|trans }}
+                                    <input type="file" name="file" id="commentFile" />
+                                </div>
+
+                                <div class="selected-file hidden">
+                                    <a href="#" class="deselect-comment-file">
+                                        <span class="fas fa-arrow-up"></span>
+                                        <span class="title" id="selectedCommentFile"></span>
+                                        <span class="fas fa-times-circle"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if document.paymentPlan is defined and document.paymentPlan %}
+        <!-- Installment Schedule -->
+        <div class="modal fade" id="installmentScheduleModal" tabindex="-1" role="dialog" aria-labelledby="installmentScheduleModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="installmentScheduleModalLabel">{{ 'installment_schedule'|trans }}</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-0">
+                        <div class="table-responsive">
+                            <table class="table m-0 payment-plan-installments">
+                                <thead>
+                                    <tr>
+                                        <th class="bg-transparent border-top-0 text-secondary payment-plan-installment-number">
+                                            <span class="h5">#</span>
+                                        </th>
+                                        <th class="bg-transparent border-top-0 text-secondary payment-plan-installment-due-date">
+                                            <span class="h5">{{ 'labels.due_date'|trans }}</span>
+                                        </th>
+                                        <th class="bg-transparent border-top-0 text-secondary text-end payment-plan-installment-amount">
+                                            <span class="h5">{{ 'labels.amount'|trans }}</span>
+                                        </th>
+                                        <th class="bg-transparent border-top-0 text-secondary text-end payment-plan-installment-balance">
+                                            <span class="h5">{{ 'labels.balance'|trans }}</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for installment in document.paymentPlan.installments %}
+                                    <tr>
+                                        <td class="payment-plan-installment-number">{{ loop.index }}.</td>
+                                        <td class="payment-plan-installment-due-date {% if installment.pastDue %}text-danger{% endif %}">{{ installment.date.format(dateFormat) }}</td>
+                                        <td class="text-end payment-plan-installment-amount">{{ installment.amount|money(document.currency) }}</td>
+                                        <td class="text-end payment-plan-installment-balance">{{ installment.balance|money(document.currency) }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="2">{{ 'labels.total'|trans }}</td>
+                                        <td class="text-end">{{ document.paymentPlan.total|money(document.currency) }}</td>
+                                        <td class="text-end fw-bold">{{ document.balance|money(document.currency) }}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

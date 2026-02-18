@@ -1,0 +1,25 @@
+<form name="dateRangeForm" ng-submit="save(period)">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title">
+            <span>{{'settings.cash_application.modals.import_historical'|translate}}</span>
+        </h4>
+    </div>
+    <div class="modal-body">
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <div class="form-group">
+            <label class="control-label">{{'settings.cash_application.labels.date_range'|translate}}</label>
+            <div>
+                <date-range-picker period="period"></date-range-picker>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" ng-disabled="dateRangeForm.$invalid||saving">
+            Import
+        </button>
+    </div>
+</form>

@@ -1,0 +1,170 @@
+{
+  "version": 1,
+  "title": "Expiring Cards",
+  "sections": [
+    {
+      "type": "table",
+      "object": "card",
+      "title": "Expired Cards",
+      "fields": [
+        {
+          "field": {
+            "id": "customer.name"
+          },
+          "name": "Customer"
+        },
+        {
+          "field": {
+            "id": "merchant_account.name"
+          },
+          "name": "Payment Gateway"
+        },
+        {
+          "field": {
+            "id": "brand"
+          }
+        },
+        {
+          "field": {
+            "id": "last4"
+          }
+        },
+        {
+          "name": "Expired After",
+          "field": {
+            "function": "month",
+            "arguments": [
+              {
+                "id": "exp_date"
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "exp_date"
+          },
+          "operator": "<",
+          "value": "$now"
+        },
+        {
+          "field": {
+            "id": "chargeable"
+          },
+          "value": true
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "exp_year"
+          },
+          "ascending": true
+        },
+        {
+          "field": {
+            "id": "exp_month"
+          },
+          "ascending": true
+        },
+        {
+          "field": {
+            "id": "customer.name"
+          },
+          "ascending": true
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "object": "card",
+      "title": "Cards Expiring Soon",
+      "fields": [
+        {
+          "field": {
+            "id": "customer.name"
+          },
+          "name": "Customer"
+        },
+        {
+          "field": {
+            "id": "merchant_account.name"
+          },
+          "name": "Payment Gateway"
+        },
+        {
+          "field": {
+            "id": "brand"
+          }
+        },
+        {
+          "field": {
+            "id": "last4"
+          }
+        },
+        {
+          "name": "Expires After",
+          "field": {
+            "function": "month",
+            "arguments": [
+              {
+                "id": "exp_date"
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "exp_date"
+          },
+          "operator": ">",
+          "value": "$now"
+        },
+        {
+          "field": {
+            "function": "date_sub",
+            "arguments": [
+              {
+                "id": "exp_date"
+              },
+              "3",
+              "month"
+            ]
+          },
+          "operator": "<",
+          "value": "$now"
+        },
+        {
+          "field": {
+            "id": "chargeable"
+          },
+          "value": true
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "exp_year"
+          },
+          "ascending": true
+        },
+        {
+          "field": {
+            "id": "exp_month"
+          },
+          "ascending": true
+        },
+        {
+          "field": {
+            "id": "customer.name"
+          },
+          "ascending": true
+        }
+      ]
+    }
+  ]
+}

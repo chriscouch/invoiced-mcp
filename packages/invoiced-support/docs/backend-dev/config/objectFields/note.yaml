@@ -1,0 +1,44 @@
+fields:
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  id:
+    name: ID
+    type: string
+    writable: false
+  notes: { name: Notes, type: string }
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  customer_id:
+    name: "Customer ID"
+    type: string
+    writable: false
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  customer:
+    name: Customer
+    type: join
+    writable: false
+  invoice:
+    name: Invoice
+    type: join
+    writable: false
+  invoice_id:
+    name: "Invoice ID"
+    type: string
+    writable: false
+  member:
+    name: Created By
+    type: join
+    parent_column: user_id
+    join_column: user_id
+    writable: false

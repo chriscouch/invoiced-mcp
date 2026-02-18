@@ -1,0 +1,386 @@
+{
+  "title": "Metric Testing",
+  "sections": [
+    {
+      "type": "metric",
+      "object": "invoice",
+      "title": "Metrics",
+      "fields": [
+        {
+          "field": {
+            "function": "count",
+            "arguments": [
+              {
+                "id": "id"
+              }
+            ]
+          },
+          "name": "# Open Invoices"
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "draft"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "closed"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "voided"
+          },
+          "value": false
+        }
+      ]
+    },
+    {
+      "type": "metric",
+      "object": "estimate",
+      "title": "Metrics",
+      "fields": [
+        {
+          "field": {
+            "function": "count",
+            "arguments": [
+              {
+                "id": "id"
+              }
+            ]
+          },
+          "name": "# Open Estimates"
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "draft"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "closed"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "voided"
+          },
+          "value": false
+        }
+      ]
+    },
+    {
+      "type": "metric",
+      "object": "customer",
+      "title": "Metrics",
+      "fields": [
+        {
+          "field": {
+            "function": "count",
+            "arguments": [
+              {
+                "id": "id"
+              }
+            ]
+          },
+          "name": "# Customers"
+        }
+      ]
+    },
+    {
+      "type": "metric",
+      "object": "invoice",
+      "title": "Metrics",
+      "fields": [
+        {
+          "name": "A/R Balance (Invoices)",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "balance"
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "draft"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "closed"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "voided"
+          },
+          "value": false
+        }
+      ]
+    },
+    {
+      "type": "metric",
+      "object": "credit_note",
+      "title": "Metrics",
+      "fields": [
+        {
+          "name": "A/R Balance (Credit Notes)",
+          "field": {
+            "formula": [
+              {
+                "function": "sum",
+                "arguments": [
+                  {
+                    "id": "balance"
+                  }
+                ]
+              },
+              "*",
+              "-1"
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "draft"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "closed"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "voided"
+          },
+          "value": false
+        }
+      ]
+    },
+    {
+      "type": "metric",
+      "object": "invoice",
+      "title": "Metrics",
+      "fields": [
+        {
+          "name": "Days Sales Outstanding",
+          "field": {
+            "formula": [
+              {
+                "function": "round",
+                "arguments": [
+                  {
+                    "formula": [
+                      {
+                        "function": "sum",
+                        "arguments": [
+                          {
+                            "id": "balance"
+                          }
+                        ]
+                      },
+                      "/",
+                      {
+                        "function": "sum",
+                        "arguments": [
+                          {
+                            "id": "total"
+                          }
+                        ]
+                      },
+                      "*",
+                      "365"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "draft"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "voided"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": ">=",
+          "value": 1588389994
+        }
+      ]
+    },
+    {
+      "type": "metric",
+      "object": "invoice",
+      "title": "Metrics",
+      "fields": [
+        {
+          "name": "Collections Efficiency",
+          "unit": "%",
+          "field": {
+            "function": "round",
+            "arguments": [
+              {
+                "formula": [
+                  {
+                    "formula": [
+                      "1",
+                      "-",
+                      {
+                        "function": "sum",
+                        "arguments": [
+                          {
+                            "id": "balance"
+                          }
+                        ]
+                      },
+                      "/",
+                      {
+                        "function": "sum",
+                        "arguments": [
+                          {
+                            "id": "total"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "*",
+                  "100"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "draft"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "voided"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": ">=",
+          "value": 1588389994
+        }
+      ]
+    },
+    {
+      "type": "metric",
+      "object": "subscription",
+      "title": "Metrics",
+      "fields": [
+        {
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "mrr"
+              }
+            ]
+          },
+          "name": "MRR"
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "canceled"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "finished"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "paused"
+          },
+          "value": false
+        }
+      ]
+    },
+    {
+      "type": "metric",
+      "object": "subscription",
+      "title": "Metrics",
+      "fields": [
+        {
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "recurring_total"
+              }
+            ]
+          },
+          "name": "Recurring Total"
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "canceled"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "finished"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "paused"
+          },
+          "value": false
+        }
+      ]
+    }
+  ]
+}

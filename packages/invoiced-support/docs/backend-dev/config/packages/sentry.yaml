@@ -1,0 +1,31 @@
+sentry:
+    dsn: '%env(SENTRY_DSN)%'
+    options:
+        environment: '%kernel.environment%'
+        release: '%env(INVOICED_VERSION)%'
+        error_types: "E_ALL & ~E_DEPRECATED & ~E_STRICT"
+        # Disables the Sentry PHP error/exception listeners because
+        # Symfony already does this and we do not want duplicate entries.
+        default_integrations: false
+        attach_stacktrace: true
+        context_lines: 5
+        integrations:
+          - Sentry\Integration\IgnoreErrorsIntegration
+          - Sentry\Integration\RequestIntegration
+          - Sentry\Integration\TransactionIntegration
+          - Sentry\Integration\FrameContextifierIntegration
+          - Sentry\Integration\EnvironmentIntegration
+
+services:
+  Sentry\Integration\IgnoreErrorsIntegration:
+    arguments:
+      $options:
+        ignore_exceptions:
+          - 'App\Core\RestApi\Exception\ApiHttpException'
+          - 'Symfony\Component\Console\Exception\CommandNotFoundException'
+          - 'Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException'
+          - 'Symfony\Component\HttpKernel\Exception\BadRequestHttpException'
+          - 'Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException'
+          - 'Symfony\Component\HttpKernel\Exception\NotFoundHttpException'
+          - 'Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException'
+          - 'Symfony\Component\Security\Csrf\Exception\TokenNotFoundException'

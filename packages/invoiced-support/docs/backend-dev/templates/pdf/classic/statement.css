@@ -1,0 +1,200 @@
+body {
+    text-align: center;
+    color: #232e38;
+}
+
+.two-col {
+    clear: both;
+    margin: 0 0 10px;
+    width: 100%;
+}
+
+.two-col .col {
+    float: left;
+    width: 50%;
+    padding: 0 15px;
+}
+
+.two-col .col-offset {
+    margin-left: 50%;
+}
+
+.field {
+    color: #879099;
+    text-align: right;
+    height: 26px;
+    line-height: 26px;
+}
+
+.field:not(:empty):after {
+    content: ':';
+}
+
+.logo {
+    text-align: left;
+    padding: 0 0 0 15px;
+}
+
+.logo img {
+    border-radius: 4px;
+    max-width: 200px;
+    max-height: 150px;
+}
+
+.contact {
+    padding: 0 0 0 30px;
+    min-height: 50px;
+}
+
+.contact .field {
+    text-align: left;
+}
+
+.contact .value {
+    text-align: left;
+    padding-top: 0;
+}
+
+.contact .value .name,
+.contact .value strong {
+    font-weight: bold;
+}
+
+.contact.from {
+    margin: 15px 0 0;
+}
+
+.contact.from .field {
+    display: none;
+}
+
+.contact.to {
+    margin: 15px 0 0;
+}
+
+.title {
+    margin: 0 0 45px;
+    padding: 15px 30px 0 15px;
+    font-size: 2.75em;
+    font-weight: 200;
+    color: #232e38;
+    text-align: right;
+    float: right;
+    width: 50%;
+}
+
+.summary {
+    margin: 15px 45px 0;
+}
+
+.detailed-summary {
+    margin: 45px 45px 0;
+}
+
+h3 {
+    margin: 30px 0 0;
+    padding: 0;
+    text-align: left;
+}
+
+table {
+    width: 100%;
+    margin: 15px 0 0;
+    border-spacing: 0;
+    border-collapse: collapse;
+    text-align: right;
+}
+
+table thead th {
+    border-bottom: 1px solid #c4cdd5;
+    padding: 10px 5px;
+}
+
+table td {
+    padding: 7px 5px;
+}
+
+table tbody tr {
+    page-break-inside: avoid;
+}
+
+table tbody tr td {
+    background: #fff;
+    page-break-inside: avoid;
+}
+
+table tbody tr:nth-child(2n + 1) td {
+    background: #f5f6f9;
+}
+
+table.no-stripe tbody tr td {
+    background: #fff !important;
+}
+
+table tr.border td {
+    border-top: 1px solid #dfe3e8;
+    padding: 0 !important;
+    height: 0;
+}
+
+table tr.totals td {
+    font-weight: bold;
+    background: #fff !important;
+}
+
+table tfoot th {
+    border-top: 1px solid #3d4c59;
+    padding: 15px 5px 0;
+    font-weight: bold;
+}
+
+table tfoot tr + tr th {
+    border-top: none;
+    padding-top: 0;
+}
+
+.summary table tr th:nth-child(1),
+.summary table tr td:nth-child(1) {
+    text-align: left;
+}
+
+.detailed-summary table tr th:nth-child(1),
+.detailed-summary table tr td:nth-child(1),
+.detailed-summary table tr th:nth-child(2),
+.detailed-summary table tr td:nth-child(2) {
+    text-align: left;
+}
+
+.detailed-summary table tbody tr td {
+    font-size: 12px;
+    padding: 3px 7px;
+}
+
+.detailed-summary.credits {
+    page-break-inside: avoid;
+}
+
+/*
+ -----
+ Money Amounts
+ -----
+*/
+
+.negative-sign {
+    margin-right: 2px;
+}
+
+.currency-amount {
+    line-height: 1;
+}
+
+.currency-symbol {
+    font-size: 0.95em;
+    margin-right: 2px;
+}
+
+.currency-decimal,
+.currency-fraction {
+    font-size: 0.9em;
+    font-weight: normal;
+}

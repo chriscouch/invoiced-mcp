@@ -1,0 +1,26 @@
+fields:
+  amount: { name: Amount, type: money, summarize: true }
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency: { name: Currency, type: string }
+  date: { name: Date, type: date }
+  id:
+    name: ID
+    type: string
+    writable: false
+  notes: { name: Notes, type: string }
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  customer: { name: Customer, type: join, parent_column: customer }

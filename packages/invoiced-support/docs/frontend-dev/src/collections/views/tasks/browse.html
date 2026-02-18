@@ -1,0 +1,214 @@
+<div class="search-results-holder" ng-class="{'has-filter': filterStr}">
+	<div class="box">
+		<div class="header clearfix">
+			<!-- Title Bar -->
+			<div class="actions" ng-if="'tasks.create'|hasPermission">
+				<a href="" ng-click="newTask()" class="btn btn-success">
+					New Task
+				</a>
+			</div>
+			<h2>Tasks</h2>
+
+			<!-- Tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+				<li ng-class="{active:filter.complete=='0' && filter.user_id.value==myUserId}">
+					<a href="" ng-click="addToFilter({complete:'0',user_id:myUserId,sort:'due_date ASC'})">
+						My To Do
+					</a>
+				</li>
+				<li ng-class="{active:filter.complete!='1' && filter.user_id.value!=myUserId}">
+					<a href="" ng-click="addToFilter({complete:'0',user_id:null,sort:'due_date ASC'})">
+						To Do
+					</a>
+				</li>
+				<li ng-class="{active:filter.complete=='1'}">
+					<a href="" ng-click="addToFilter({complete:'1',user_id:null,sort:'completed_date DESC'})">
+						Completed
+					</a>
+				</li>
+				<li class="action">
+					<a href="" ng-click="openFilter()">
+						<div>
+							<span class="fas fa-filter"></span> Filter
+						</div>
+					</a>
+				</li>
+				<li class="action">
+					<filter-dropdown type="task"  saved-filters="savedFilters" apply-filter="applyFilter" filter="filter"></filter-dropdown>
+				</li>
+			</ul>
+		</div>
+
+		<!-- Applied Filter -->
+		<div class="applied-filter" ng-show="filterStr">
+			<span class="fas fa-filter filter-icon"></span>
+			<strong>{{filterStr}}</strong>
+			<a href="" ng-click="resetFilter()">
+				<span class="fas fa-times-circle"></span>
+			</a>
+		</div>
+
+		<p class="loading" ng-show="loading"></p>
+
+		<!-- No Results :-( -->
+		<div class="empty-table" ng-show="noResults()&&!loading">
+			<div class="icon">
+				<img src="/img/event-icons/task.png" />
+			</div>
+			<span ng-show="usingFilter">
+				No results. <a href="" ng-click="resetFilter()">Reset Filter</a>
+			</span>
+			<span ng-hide="usingFilter">
+				No tasks.
+			</span>
+		</div>
+
+		<!-- Data Table -->
+		<div class="custom-table-wrapper">
+			<table class="search-results-table table table-striped tasks" ng-show="tasks.length > 0 && !loading">
+				<thead>
+					<tr>
+						<th class="nopadding noborder"></th>
+						<th ng-repeat="column in columns" ng-class="{'custom-column-th-container':$last}" ng-hide="(filter.complete == '0' && ['completed_by_user_id', 'completed_date'].indexOf(column.id) != -1) || (filter.complete == '1' && ['contact', 'balance', 'last_note', 'assigned_to'].indexOf(column.id) != -1)">
+							<div ng-if="column.id=='contact'">Contact Information</div>
+							<div ng-if="column.id=='balance'" class="money-column">Balance</div>
+							<div ng-if="column.id=='last_note'">Last Note</div>
+							<div ng-if="column.id=='assigned_to'">
+								<a href="" ng-click="toggleSort('user_id')" ng-class="{down:filter.sort=='user_id DESC',up:filter.sort=='user_id ASC'}">
+									Assigned To
+									<span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+									<span class="sort down"><span class="fas fa-sort-amount-up"></span></span>
+								</a>
+							</div>
+							<div ng-if="column.id=='completed_date'">
+								<a href="" ng-click="toggleSort('completed_date')" ng-class="{down:filter.sort=='completed_date DESC',up:filter.sort=='completed_date ASC'}">
+									Date Completed
+									<span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+									<span class="sort down"><span class="fas fa-sort-amount-up"></span></span>
+								</a>
+							</div>
+							<div ng-if="column.id=='completed_by_user_id'">
+								<a href="" ng-click="toggleSort('completed_by_user_id')" ng-class="{down:filter.sort=='completed_by_user_id DESC',up:filter.sort=='completed_by_user_id ASC'}">
+									Completed By
+									<span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+									<span class="sort down"><span class="fas fa-sort-amount-up"></span></span>
+								</a>
+							</div>
+							<div ng-if="['completed_by_user_id', 'completed_date', 'assigned_to', 'last_note', 'balance', 'contact'].indexOf(column.id) == -1" ng-class="{'money-column': column.type=='money'}">
+								<column-arrangement-header-cell></column-arrangement-header-cell>
+							</div>
+							<column-arrangement-button type="task" ng-if="$last" all-columns="allColumns" callback="loadSettings"></column-arrangement-button>
+						</th>
+						<th class="nopadding"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="task in tasks" ng-class="{completed: task.complete}">
+						<td class="mobile-first visible-xs-block"></td>
+						<td class="task-icons hidden-xs">
+							<div class="icon-col">
+								<task-type task="task"></task-type>
+							</div>
+						</td>
+						<td ng-repeat="column in columns" ng-class="{'title': column.id=='name', 'light': column.type=='date'}" ng-hide="(filter.complete == '0' && ['completed_by_user_id', 'completed_date'].indexOf(column.id) != -1) || (filter.complete == '1' && ['contact', 'balance', 'last_note', 'assigned_to'].indexOf(column.id) != -1)">
+							<div ng-if="column.id=='name' && task.action=='approve_bill'">
+								<div>
+									<a ui-sref="manage.bill.view.summary({id:task.bill_id})">
+										{{task.name}}
+									</a>
+								</div>
+							</div>
+							<div ng-if="column.id=='Customers.name'">
+								<div>
+									<a ui-sref="manage.customer.view.collections({id:task.customer.id})">
+										{{task.customer.name}}
+									</a>
+								</div>
+								<div class="account-number">
+									{{task.customer.number}}
+								</div>
+							</div>
+
+							<div ng-if="column.id=='contact'" class="contact-information hidden-xs">
+								<div class="contact-item" ng-if="task.customer.attention_to">
+									<label class="control-label">Main Contact</label> {{task.customer.attention_to}}
+								</div>
+								<div class="contact-item" ng-if="task.customer.phone">
+									<label class="control-label">Phone</label>
+									<a href="tel:{{task.customer.phone}}">
+										{{task.customer.phone|formatPhoneNumber}}
+									</a>
+								</div>
+								<div class="contact-item" ng-if="task.customer.email">
+									<label class="control-label">Email</label>
+									<a href="mailto:{{task.customer.email}}">
+										{{task.customer.email}}
+									</a>
+								</div>
+								<div class="contact-item" ng-if="task.customer.address1">
+									<label class="control-label">Address</label><br/>
+									<div ng-bind-html="task.customer|address:false"></div>
+								</div>
+							</div>
+
+							<div ng-if="column.id=='balance'" class="money-column">
+								<div>
+									<span ng-if="!task.balance">&mdash;</span>
+									<money amount="task.balance" currency="task.currency" ng-if="task.balance"></money>
+								</div>
+								<div class="num-invoices" ng-show="task.balance_count > 0">
+									{{task.balance_count}} invoice<span ng-show="task.balance_count!=1">s</span>
+								</div>
+							</div>
+							<div ng-if="column.id=='last_note'" class="last-note hidden-xs">
+								<div ng-hide="task.most_recent_note_expands">
+									<div ng-bind-html="task.most_recent_note|nl2br"></div>
+								</div>
+								<div class="expandable" ng-class="{expanded:task._expandNote}" ng-show="task.most_recent_note_expands" ng-click="task._expandNote = true">
+									<div class="preview">{{task.most_recent_note_preview}} [+]</div>
+									<div class="full-note" ng-bind-html="task.most_recent_note|nl2br"></div>
+								</div>
+							</div>
+							<div ng-if="column.id == 'assigned_to'" class="nowrap">
+								<span class="label label-info" ng-show="task.user_id.id == myUserId">Me</span>
+								<span ng-show="task.user_id && task.user_id.id != myUserId">{{task.user_id.name}}</span>
+								<span ng-hide="task.user_id"><em>Unassigned</em></span>
+							</div>
+							<div ng-if="column.id == 'due_date'" class="due-date nowrap" ng-class="{'past-due':task.past_due}">
+								{{task.due_date|taskDueDate}}
+							</div>
+							<div ng-if="column.id == 'completed_date'" class="nowrap">
+								<company-date date="task.completed_date"></company-date>
+							</div>
+							<div ng-if="column.id == 'completed_by_user_id'" class="mobile-last nowrap">
+								<span ng-show="task.completed_by_user_id">{{task.completed_by_user_id.first_name}} {{task.completed_by_user_id.last_name}}</span>
+							</div>
+							<div ng-if="(['customer', 'balance', 'last_note', 'balance', 'contact', 'assigned_to', 'due_date', 'completed_date', 'completed_by_user_id'].indexOf(column.id) == -1) && (column.id!='name' || task.action!='approve_bill')"  ng-class="{'money-column': column.type=='money'}">
+								<column-arrangement-cell column="column" data="task" currency="task.currency"></column-arrangement-cell>
+							</div>
+						</td>
+						<td class="nopadding hover-actions-holder">
+							<div class="hover-actions">
+								<a href="" ng-click="edit(task)" class="btn btn-sm btn-default" tooltip="Edit Task" tooltip-placement="left" ng-hide="task.complete" ng-if="'tasks.edit'|hasPermission">
+									<span class="fas fa-pencil"></span>
+								</a>
+								<a href="" ng-click="markComplete(task, true)" class="btn btn-sm btn-success" tooltip="Mark Complete" tooltip-placement="left" ng-hide="task.complete" ng-if="'tasks.edit'|hasPermission">
+									<span class="fas fa-check"></span>
+								</a>
+								<a href="" ng-click="markComplete(task, false)" class="btn btn-sm btn-default" tooltip="Mark Incomplete" tooltip-placement="left" ng-show="task.complete" ng-if="'tasks.edit'|hasPermission">
+									<span class="fas fa-undo"></span>
+								</a>
+								<a href="" ng-click="delete(task)" class="btn btn-sm btn-danger" tooltip="Delete Task" tooltip-placement="left" ng-if="'tasks.delete'|hasPermission">
+									<span class="fas fa-trash"></span>
+								</a>
+							</div>
+						</td>
+						<td class="mobile-last visible-xs-block"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- Pagination -->
+		<pagination-bar total-count="total_count" page-count="page_count" ng-change="goToPage(page, perPage)" ng-model="filter" ng-show="tasks.length > 0 && !loading"></pagination-bar>
+	</div>
+</div>

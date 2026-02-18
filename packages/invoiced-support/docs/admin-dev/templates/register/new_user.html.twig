@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Invoiced | Register{% endblock %}
+
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('build/css/auth.css') }}" />
+{% endblock %}
+
+
+{% block body %}
+
+  <div class="register-page">
+    <div id="form" class="form">
+    <img src="{{ asset('/img/logo.png') }}" alt="Invoiced" width="175" style="padding-bottom: 25px">
+    <div class="form-errors"> 
+      {{ form_errors(form) }}
+    </div>
+      {{ form_start(form) }}
+        {{ form_row(form.first_name, {'attr' : {'placeholder': 'first name'}}) }}
+        {{ form_row(form.last_name, {'attr' : {'placeholder': 'last name'}}) }}
+        {{ form_row(form.email, {'attr' : {'placeholder': 'email'}}) }}
+        {{ form_row(form.role, {'attr' : {'placeholder': 'user role'}}) }}
+        <button type="submit">Register</button>
+      {{ form_end(form) }}
+    </div>
+  </div>
+
+{% endblock %}

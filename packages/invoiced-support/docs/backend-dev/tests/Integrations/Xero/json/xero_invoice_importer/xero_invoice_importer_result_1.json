@@ -1,0 +1,109 @@
+{
+  "Invoices": [
+    {
+      "Type": "ACCREC",
+      "Contact": {
+        "ContactID": "bd2270c3-8706-4c11-9cfb-000b551c3f51",
+        "Name": "Test"
+      },
+      "Date": "\/Date(1518685950940+0000)\/",
+      "DueDate": "\/Date(1518685950940+0000)\/",
+      "DateString": "2017-01-30T00:00:00",
+      "DueDateString": "2017-02-05T00:00:00",
+      "Status": "AUTHORISED",
+      "LineAmountTypes": "Inclusive",
+      "LineItems": [
+        {
+          "ItemCode": "12",
+          "Description": "Marketing guides",
+          "Quantity": "4.0000",
+          "UnitAmount": "99.00",
+          "TaxType": "OUTPUT",
+          "TaxAmount": "30.18",
+          "LineAmount": "396.00",
+          "AccountCode": "200",
+          "LineItemID": "8dd05881-be4a-4765-b95e-cce0d7395f9f"
+        }
+      ],
+      "SubTotal": "365.82",
+      "TotalTax": "30.18",
+      "Total": "396.00",
+      "UpdatedDateUTC": "\/Date(1518685950940+0000)\/",
+      "CurrencyCode": "USD",
+      "InvoiceID": "fee88eea-f2aa-4a71-a372-33d6d83d3c45",
+      "InvoiceNumber": "INV-0027",
+      "Reference": "Ref MK815",
+      "Payments": [
+        {
+          "Date": "\/Date(1485928800000+0000)\/",
+          "Amount": "1.51",
+          "PaymentID": "5dd05881-be4a-4765-b95e-cce0d7395f9c"
+        }
+      ],
+      "AmountDue": "393.49",
+      "AmountPaid": "1.51",
+      "AmountCredited": "1.00"
+    },
+    {
+      "Type": "ACCREC",
+      "Contact": {
+        "ContactID": "7c913d33-39d5-4a1c-b8b1-e23f5fc999e9",
+        "Name": "Sherlock Holmes"
+      },
+      "Date": "\/Date(1518685950940+0000)\/",
+      "DueDate": "\/Date(1518685950940+0000)\/",
+      "DateString": "2017-06-13T00:00:00",
+      "DueDateString": "2017-07-13T00:00:00",
+      "Status": "AUTHORISED",
+      "LineAmountTypes": "Inclusive",
+      "LineItems": [
+        {
+          "ItemCode": "12",
+          "Description": "Test",
+          "Quantity": "1.0000",
+          "UnitAmount": "5000.00",
+          "TaxType": "OUTPUT",
+          "TaxAmount": "321.84",
+          "LineAmount": "4000.00",
+          "AccountCode": "200",
+          "LineItemID": "59007e1d-558b-44ae-844c-547ec0714954",
+          "DiscountRate": "20.00"
+        }
+      ],
+      "SubTotal": "3678.16",
+      "TotalTax": "321.84",
+      "Total": "4000.00",
+      "TotalDiscount": "919.54",
+      "UpdatedDateUTC": "\/Date(1518685950940+0000)\/",
+      "CurrencyCode": "USD",
+      "InvoiceID": "03fa8843-dc71-4492-a366-d3bb6c600d3b",
+      "InvoiceNumber": "INV-100657",
+      "AmountDue": "4000.00",
+      "AmountPaid": "0.00",
+      "AmountCredited": "0.00"
+    },
+    {
+      "Type": "ACCREC",
+      "Contact": {
+        "ContactID": "4ec12cb8-3cd5-4e93-a598-b120e26f72e9",
+        "Name": "Test 2"
+      },
+      "Date": "\/Date(1518685950940+0000)\/",
+      "DueDate": "\/Date(1518685950940+0000)\/",
+      "DateString": "2017-01-30T00:00:00",
+      "DueDateString": "2017-02-05T00:00:00",
+      "Status": "AUTHORISED",
+      "LineAmountTypes": "Inclusive",
+      "SubTotal": "365.82",
+      "TotalTax": "30.18",
+      "Total": "396.00",
+      "UpdatedDateUTC": "\/Date(1518685950940+0000)\/",
+      "CurrencyCode": "USD",
+      "InvoiceID": "fee88eea-f2aa-4a71-a372-33d6d83d3c46",
+      "Reference": "Ref MK815",
+      "AmountDue": "393.49",
+      "AmountPaid": "2.51",
+      "AmountCredited": "0.00"
+    }
+  ]
+}

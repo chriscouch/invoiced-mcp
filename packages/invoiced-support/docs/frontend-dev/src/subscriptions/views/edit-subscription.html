@@ -1,0 +1,231 @@
+<form name="subscriptionForm" ng-submit="save(subscription,prorate)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">Edit Subscription</h4>
+	</div>
+	<div class="modal-body form-horizontal edit-subscription">
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<!-- Summary / Preview -->
+		<p class="alert" ng-class="{'alert-success':subscription.customer.autopay,'alert-info':!subscription.customer.autopay}" ng-show="subscription.plan">
+			{{subscription.customer.name}} will be <span ng-show="subscription.customer.autopay">charged</span><span ng-hide="subscription.customer.autopay">invoiced</span> <strong><money ng-hide="subscriptionTotal == null" amount="subscriptionTotal" currency="subscription.plan.currency"></money></strong>
+			{{subscription.plan.interval_count|recurringFrequency:subscription.plan.interval}}. <span ng-hide="subscription.customer.autopay">They will be able to pay using any of the payment methods you accept.</span>
+		</p>
+
+		<!-- Plan -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">Plan <span class="required"></span></label>
+			<div class="col-sm-7">
+				<select-plan ng-model="subscription.plan"></select-plan>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-12">
+				<table class="table table-striped table-subscription-addons">
+					<thead>
+						<tr>
+							<th class="item">Item</th>
+							<th class="quantity">Quantity</th>
+							<th class="amount">Amount</th>
+							<th class="delete"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="item">
+								<div class="name">{{subscription.plan.name}}</div>
+								<div class="description">
+									<textarea class="form-control" ng-model="subscription.description" placeholder="Optional description..." expanding-textarea></textarea>
+								</div>
+							</td>
+							<td class="quantity">
+								<input type="number" class="form-control" placeholder="Qty" ng-model="subscription.quantity" required />
+							</td>
+							<td class="amount" ng-if="subscription.plan.pricing_mode != 'custom'">
+								<money ng-hide="planTotal == null" amount="planTotal" currency="subscription.plan.currency" precision="settings.unit_cost_precision"></money>
+							</td>
+							<td class="amount" ng-if="subscription.plan.pricing_mode == 'custom'">
+								<div ng-model="subscription.amount" currency="subscription.plan.currency" input-amount ng-required="true"></div>
+							</td>
+							<td class="delete"></td>
+						</tr>
+						<tr ng-repeat="addon in subscription.addons">
+							<td class="item">
+								<div class="name" ng-if="addon.catalog_item">{{addon.catalog_item.name}}</div>
+								<div class="name" ng-if="addon.plan">{{addon.plan.name}}</div>
+								<div class="description">
+									<textarea class="form-control" ng-model="addon.description" placeholder="Optional description..." expanding-textarea></textarea>
+								</div>
+							</td>
+							<td class="quantity">
+								<input type="number" class="form-control" placeholder="Qty" ng-model="addon.quantity" required />
+							</td>
+							<td class="amount" ng-if="addon.plan.pricing_mode != 'custom'">
+								<money ng-hide="addon.catalog_item.unit_cost == null || addon.quantity == null" amount="addon.catalog_item.unit_cost * addon.quantity" currency="addon.catalog_item.currency" precision="settings.unit_cost_precision" ng-if="addon.catalog_item"></money>
+								<money ng-hide="addon.total == null" amount="addon.total" currency="addon.plan.currency" precision="settings.unit_cost_precision" ng-if="addon.plan"></money>
+							</td>
+							<td class="amount" ng-if="addon.plan.pricing_mode == 'custom'">
+								<div ng-model="addon.amount" currency="addon.plan.currency" input-amount ng-required="true"></div>
+							</td>
+							<td class="delete">
+								<button type="button" class="btn btn-link btn-sm" ng-click="deleteAddon(addon)">
+									<span class="fas fa-trash"></span>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr class="subtotal" ng-repeat="discount in subscription.discounts">
+							<td class="title">
+								<label class="control-label">Discount</label>
+							</td>
+							<td class="name" colspan="3">
+								{{discount.name}}
+								<a class="delete" href="" ng-click="deleteDiscount(subscription.discounts, $index)">
+									<span class="fas fa-trash"></span>
+								</a>
+							</td>
+						</tr>
+						<tr class="subtotal" ng-repeat="tax in subscription.taxes">
+							<td class="title">
+								<label class="control-label">Tax</label>
+							</td>
+							<td class="name" colspan="3">
+								{{tax.name}}
+								<a class="delete" href="" ng-click="deleteTax(subscription.taxes, $index)">
+									<span class="fas fa-trash"></span>
+								</a>
+							</td>
+						</tr>
+						<tr class="addon-controls">
+							<td colspan="4">
+								<a href="" class="btn btn-default" ng-click="addItem()" ng-show="supportsItems">
+									<span class="fas fa-plus"></span>
+									Item
+								</a>
+								<a href="" class="btn btn-default" ng-click="addPlan()" ng-hide="!subscription.plan">
+									<span class="fas fa-plus"></span>
+									Plan
+								</a>
+								<a href="" class="btn btn-default" ng-click="selectRatesModal(subscription.discounts, 'discount')">
+									<span class="fas fa-plus"></span>
+									Discount
+								</a>
+								<a href="" class="btn btn-default" ng-click="selectRatesModal(subscription.taxes, 'tax')">
+									<span class="fas fa-plus"></span>
+									Tax
+								</a>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+
+		<!-- Prorations -->
+		<div ng-show="canProrate(subscription, original)">
+			<hr/>
+			<div class="form-group">
+				<label class="control-label col-sm-4">Prorations</label>
+				<div class="col-sm-8 form-control-static">
+					<label class="noselect">
+						<input type="checkbox" ng-model="prorate" />
+						Prorate changes
+					</label>
+				</div>
+			</div>
+
+			<div class="form-group" ng-show="prorate">
+				<label class="control-label col-sm-4">Proration Date</label>
+				<div class="col-sm-8">
+				    <div class="btn-group btn-radio">
+				    	<label class="btn" ng-model="prorateNow" btn-radio="true">Now</label>
+				        <label class="btn" ng-model="prorateNow" btn-radio="false">On Date</label>
+				    </div>
+				</div>
+			</div>
+
+			<div class="form-group" ng-show="prorate && !prorateNow">
+				<div class="col-sm-4 col-sm-offset-4">
+					<div class="input-group">
+						<input class="form-control" type="text" ng-model="prorationDate" ui-date="dateOptions" is-open="dpOpened" readonly="readonly" placeholder="Select a date" required />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'dpOpened')">
+								<span class="fas fa-calendar-alt"></span>
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4">
+					<p class="text-muted" ng-show="differentCycle">
+						A new billing cycle will start <em>immediately</em>. An invoice will be generated for the plan amount with any prorations.
+					</p>
+					<p class="text-muted" ng-hide="differentCycle">
+						The prorated amount will be added to the next invoice at the end of this billing cycle.
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Payment Method -->
+		<div class="form-group" ng-show="subscription.customer.autopay && paymentSources.length > 1">
+			<label class="control-label col-sm-4">Payment Method</label>
+			<div class="col-sm-6 form-control-static">
+				<div>
+					<label class="noselect">
+						<input type="checkbox" ng-model="useDefaultPaymentSource" />
+						Charge default payment method
+					</label>
+				</div>
+				<div ng-hide="useDefaultPaymentSource">
+					<div class="invoiced-select">
+						<select ng-model="paymentSource" ng-options="source as source.name for source in paymentSources"></select>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Ship To -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">Ship To</label>
+			<div class="col-sm-8 form-control-static" ng-if="subscription.ship_to">
+				<div ng-bind-html="subscription.ship_to|address"></div>
+				<a href="" ng-click="addShipping(subscription)">
+					<span class="fas fa-pencil"></span>
+				</a>
+			</div>
+			<div class="col-sm-8" ng-if="!subscription.ship_to">
+				<a href="" class="btn btn-default" ng-click="addShipping(subscription)">
+					<span class="fas fa-plus"></span>
+					Address
+				</a>
+			</div>
+		</div>
+
+		<!-- Custom Fields -->
+		<div ng-show="customFields.length > 0">
+			<hr/>
+			<div class="form-group" ng-repeat="field in customFields">
+				<label class="control-label col-sm-4">{{field.name}}</label>
+				<div class="col-sm-5">
+					<custom-field-input field="field" metadata="subscription.metadata" set-defaults="true"></custom-field-input>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="subscriptionForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

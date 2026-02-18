@@ -1,0 +1,87 @@
+fields:
+  amount_from:
+    name: Amount From
+    type: money
+  amount_to:
+    name: Amount To
+    type: money
+  ar_payment:
+    name: AR Payment
+    type: join
+    join_object: payment
+  cancellation_reason:
+    name: Cancellation Reason
+    type: string
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency_from:
+    name: Currency From
+    type: string
+  currency_to:
+    name: Currency To
+    type: string
+  expiration_date:
+    name: Expiration Date
+    type: datetime
+  id:
+    name: ID
+    type: string
+    writable: false
+  initiated_at:
+    name: Initiated At
+    type: datetime
+  merchant_account:
+    name: Merchant Account
+    type: join
+  payment_id:
+    name: Payment ID
+    type: string
+  payment_method_brand:
+    name: Payment Method Brand
+    type: string
+  payment_method_card_classification:
+    name: Payment Method Card Classification
+    type: string
+  payment_method_card_expiration:
+    name: Payment Method Card Expiration
+    type: string
+  payment_method_last4:
+    name: Payment Method Last4
+    type: string
+  payment_method_type:
+    name: Payment Method Type
+    type: string
+  reason:
+    name: Reason
+    type: string
+  reason_code:
+    name: Reason Code
+    type: string
+  recipient_id:
+    name: Portal Code
+    type: string
+  status:
+    name: Status
+    type: enum
+    values:
+      initiated: Initiated
+      processed: Processed
+      guaranteed: Guaranteed
+      delivered: Delivered
+      failed: Failed
+      canceled: Canceled
+      reversed: Reversed
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false

@@ -1,0 +1,26 @@
+{% trans_default_domain 'customer_portal' %}
+{% set metaDescription='View your invoice from ' ~ document.billFrom.name ~ ' securely online, download a copy, and make payments.' %}
+{% set documentNumberTitle='titles.invoice_number'|trans({'%number%': document.number}) %}
+{% set documentFromTitle='titles.invoice_from'|trans({'%fromName%': document.billFrom.name|slice(0, 50)}) %}
+{% extends 'customerPortal/document.twig' %}
+
+{% block document_banner %}
+    {% if document.nextAutoPayAttempt and document.paymentSource %}
+        <div class="card mb-3">
+            <div class="card-body fs-3">
+                <h3 class="fw-bold fs-3 text-dark">{{ 'autopay'|trans }}</h3>
+                {{ 'next_charge_on'|trans({'%amount%': document.nextAutoPayAmount|money(document.currency), '%date%': document.nextAutoPayAttempt})|raw }}
+                from {{ document.paymentSource.name }}
+                <a href="{{ document.updatePaymentInfoUrl }}" class="ms-2">
+                    <span class="fa-solid fa-edit"></span>
+                </a>
+                {% if document.paymentSource.needsVerification %}
+                    <hr/>
+                    <a href="{{ document.paymentSource.verifyUrl }}" class="btn btn-success">
+                        {{ 'buttons.verify_account'|trans }}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

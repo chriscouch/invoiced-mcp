@@ -1,0 +1,212 @@
+<div class="row two-pane">
+	<div class="col-sm-4 left-pane">
+		<div class="details-list vertical">
+			<h4>
+				<div class="action" ng-if="'catalog.edit'|hasPermission" ng-show="paymentLink.status == 'active'">
+					<a class="visible-xs" ui-sref="manage.payment_link.edit({id:paymentLink.id})">
+						{{'general.edit'|translate}}
+					</a>
+				</div>
+				Payment Link Details
+			</h4>
+
+			<!-- Customer -->
+			<div ng-if="paymentLink.customer">
+				<div class="title">Customer</div>
+				<div class="value">
+					<a ui-sref="manage.customer.view.summary({id: paymentLink.customer.id})">
+						{{paymentLink.customer.name}}
+					</a>
+				</div>
+			</div>
+
+			<!-- Status -->
+			<div>
+				<div class="title">{{'general.status'|translate}}</div>
+				<div class="value">
+					<payment-link-status payment-link="paymentLink"></payment-link-status>
+				</div>
+			</div>
+
+			<!-- Type -->
+			<div>
+				<div class="title">Type</div>
+				<div class="value">
+					<span ng-show="paymentLink.reusable">Reusable</span>
+					<span ng-hide="paymentLink.reusable">Single-Use</span>
+				</div>
+			</div>
+
+			<!-- Data Collection -->
+			<div ng-show="paymentLink.collect_billing_address || paymentLink.collect_shipping_address || paymentLink.collect_phone_number">
+				<div class="title">Collect</div>
+				<div class="value">
+					<div ng-show="paymentLink.collect_billing_address">Billing Address</div>
+					<div ng-show="paymentLink.collect_shipping_address">Shipping Address</div>
+					<div ng-show="paymentLink.collect_phone_number">Phone Number</div>
+				</div>
+			</div>
+
+			<!-- Custom Fields -->
+			<div ng-show="paymentLink.fields.length">
+				<div class="title">Custom Fields</div>
+				<div class="value">
+					<div ng-repeat="field in paymentLink.fields">
+						{{('metadata.object_names.'+field.object_type)|translate}}: <code>{{field.custom_field_id}}</code>
+						<span class="label label-info" ng-show="field.required">Required</span>
+					</div>
+				</div>
+			</div>
+
+			<!-- Terms of Service URL -->
+			<div ng-show="paymentLink.terms_of_service_url">
+				<div class="title">Terms of Service URL</div>
+				<div class="value">
+					<a ng-href="{{paymentLink.terms_of_service_url}}" target="_blank">
+						URL
+					</a>
+				</div>
+			</div>
+
+			<!-- Redirect URL -->
+			<div ng-show="paymentLink.after_completion_url">
+				<div class="title">Redirect URL After Complete</div>
+				<div class="value">
+					<a ng-href="{{paymentLink.after_completion_url}}" target="_blank">
+						URL
+					</a>
+				</div>
+			</div>
+
+			<!-- Created Date -->
+			<div>
+				<div class="title">Created</div>
+				<div class="value">
+					<company-date date="payment_link.created_at"></company-date>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-sm-8 right-pane">
+		<!-- Action Items -->
+		<div class="action-items">
+			<!-- Active -->
+			<div class="action-item info" ng-if="hasActionItem('active')">
+				<div class="icon"></div>
+				<p>
+					Your payment link is active and ready to be sent to a customer.
+				</p>
+				<div>
+					<div class="input-group payment-link-url">
+						<input id="payment-lnk-clipboard-url" type="text" class="form-control" value="{{paymentLink.url}}" readonly="readonly" />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-primary btn-copy" data-clipboard-target="#payment-lnk-clipboard-url">
+								<span class="far fa-clipboard"></span>
+							</button>
+						</span>
+					</div>
+					<a href="{{paymentLink.url}}" target="_blank" rel="noopener noreferrer" class="btn btn-default">
+						{{'general.preview'|translate}}
+						<span class="fas fa-external-link"></span>
+					</a>
+					<a href="" class="btn btn-default" ng-click="qrCode(paymentLink.url)" tooltip="QR Code">
+						<span class="fas fa-qrcode"></span>
+					</a>
+					<a href="" class="btn btn-default" ng-click="urlParameters(paymentLink)">
+						<span class="fas fa-plus"></span>
+						URL Parameters
+					</a>
+				</div>
+			</div>
+
+			<!-- Deleted -->
+			<div class="action-item warning" ng-if="hasActionItem('deleted')">
+				<div class="icon"></div>
+				<p>
+					This payment link has been deleted and is no longer active.
+				</p>
+			</div>
+
+			<!-- Completed -->
+			<div class="action-item success" ng-if="hasActionItem('completed')">
+				<div class="icon"></div>
+				<p>
+					This payment link has been completed.
+				</p>
+			</div>
+		</div>
+
+		<!-- Line Items -->
+		<div class="panel panel-invoiced light" ng-if="paymentLink.items.length > 0">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					Line Items
+				</h4>
+			</div>
+			<table class="table slim line-items">
+				<thead>
+					<tr>
+						<th class="item">Item</th>
+						<th class="amount">Amount</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="line" ng-repeat="lineItem in paymentLink.items">
+						<td class="item">
+							{{lineItem.description}}
+						</td>
+						<td class="amount">
+							<money amount="lineItem.amount" currency="paymentLink.currency"></money>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr class="total" ng-show="paymentLinkTotal">
+						<td class="title">
+							{{'general.total'|translate}}
+						</td>
+						<td class="amount">
+							<money amount="paymentLinkTotal" currency="paymentLink.currency"></money>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+
+		<!-- Completed Sessions -->
+		<div class="panel panel-invoiced light" ng-if="completedSessions.length > 0">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					Completed Payments
+				</h4>
+			</div>
+			<table class="table search-results-table slim">
+				<thead>
+					<tr>
+						<th>Customer</th>
+						<th>Payment</th>
+						<th>Time</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="session in completedSessions">
+						<td>
+							<a ui-sref="manage.customer.view.summary({id: session.customer.id})">
+								{{session.customer.name}}
+							</a>
+						</td>
+						<td>
+							<a ui-sref="manage.payment.view.summary({id: session.payment})" ng-if="session.payment">
+								View
+							</a>
+						</td>
+						<td class="mobile-last">
+							<company-date-time date="session.completed_at"></company-date-time>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

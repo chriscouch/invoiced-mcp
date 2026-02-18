@@ -1,0 +1,13 @@
+{
+  "id": 4989258,
+  "name": "Zenwork",
+  "tin": "111232312",
+  "status": "Did Not Match",
+  "created_by": "compliancely",
+  "irs_code": 3,
+  "irs_reason": "TIN and Name combination does not match IRS records.",
+  "irs_service_status": "RUNNING",
+  "last_irs_check_date": "2023-02-20T18:02:33Z",
+  "created_date": "2023-02-20T18:02:33Z",
+  "updated_date": "2023-02-20T18:02:33Z"
+}

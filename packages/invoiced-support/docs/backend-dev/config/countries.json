@@ -1,0 +1,2768 @@
+[
+	{
+		"code": "AD",
+		"country": "Andorra",
+		"currency": "EUR",
+		"phone_code": "376",
+		"alpha3Code": "AND",
+		"numeric": 20
+	},
+	{
+		"code": "AE",
+		"country": "United Arab Emirates",
+		"currency": "AED",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "TRN",
+			"government": "TRN",
+			"non_profit": "TRN",
+			"person": "TRN"
+		},
+		"alpha3Code": "ARE",
+		"numeric": 784,
+		"phone_code": "971"
+	},
+	{
+		"code": "AF",
+		"country": "Afghanistan",
+		"currency": "AFN",
+		"alpha3Code": "AFG",
+		"numeric": 4,
+		"phone_code": "93"
+	},
+	{
+		"code": "AG",
+		"country": "Antigua and Barbuda",
+		"currency": "XCD",
+		"alpha3Code": "ATG",
+		"numeric": 28,
+		"phone_code": "1268"
+	},
+	{
+		"code": "AI",
+		"country": "Anguilla",
+		"currency": "XCD",
+		"alpha3Code": "AIA",
+		"numeric": 660,
+		"phone_code": "1264"
+	},
+	{
+		"code": "AL",
+		"country": "Albania",
+		"currency": "ALL",
+		"phone_code": "355",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "NIPT",
+			"government": "NIPT",
+			"non_profit": "NIPT",
+			"person": "NIPT"
+		},
+		"alpha3Code": "ALB",
+		"numeric": 8
+	},
+	{
+		"code": "AM",
+		"country": "Armenia",
+		"currency": "AMD",
+		"phone_code": "374",
+		"alpha3Code": "ARM",
+		"numeric": 51
+	},
+	{
+		"code": "AO",
+		"country": "Angola",
+		"currency": "AOA",
+		"alpha3Code": "AGO",
+		"numeric": 24,
+		"phone_code": "244"
+	},
+	{
+		"code": "AQ",
+		"country": "Antarctica",
+		"currency": "USD",
+		"alpha3Code": "ATA",
+		"numeric": 10,
+		"phone_code": "672"
+	},
+	{
+		"code": "AR",
+		"country": "Argentina",
+		"currency": "ARS",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "CUIT",
+			"government": "CUIT",
+			"non_profit": "CUIT",
+			"person": "CUIT"
+		},
+		"alpha3Code": "ARG",
+		"numeric": 32,
+		"phone_code": "54"
+	},
+	{
+		"code": "AS",
+		"country": "American Samoa",
+		"currency": "USD",
+		"phone_code": "1",
+		"alpha3Code": "ASM",
+		"numeric": 16
+	},
+	{
+		"code": "AT",
+		"country": "Austria",
+		"currency": "EUR",
+		"phone_code": "43",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "UID",
+			"government": "UID",
+			"non_profit": "UID",
+			"person": "UID"
+		},
+		"alpha3Code": "AUT",
+		"numeric": 40
+	},
+	{
+		"code": "AU",
+		"country": "Australia",
+		"currency": "AUD",
+		"phone_code": "61",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "ABN",
+			"government": "ABN",
+			"non_profit": "ABN",
+			"person": "TFN"
+		},
+		"tax_label": "GST",
+		"states": [
+			{
+				"code": "ACT",
+				"name": "Australian Capital Territory"
+			},
+			{
+				"code": "NSW",
+				"name": "New South Wales"
+			},
+			{
+				"code": "NT",
+				"name": "Northern Territory"
+			},
+			{
+				"code": "QLD",
+				"name": "Queensland"
+			},
+			{
+				"code": "SA",
+				"name": "South Australia"
+			},
+			{
+				"code": "TAS",
+				"name": "Tasmania"
+			},
+			{
+				"code": "VIC",
+				"name": "Victoria"
+			},
+			{
+				"code": "WA",
+				"name": "Western Australia"
+			}
+		],
+		"alpha3Code": "AUS",
+		"numeric": 36
+	},
+	{
+		"code": "AW",
+		"country": "Aruba",
+		"currency": "AWG",
+		"alpha3Code": "ABW",
+		"numeric": 533,
+		"phone_code": "297"
+	},
+	{
+		"code": "AX",
+		"country": "\u00c5land Islands",
+		"currency": "EUR",
+		"phone_code": "35818",
+		"alpha3Code": "ALA",
+		"numeric": 248
+	},
+	{
+		"code": "AZ",
+		"country": "Azerbaijan",
+		"currency": "AZN",
+		"alpha3Code": "AZE",
+		"numeric": 31,
+		"phone_code": "994"
+	},
+	{
+		"code": "BA",
+		"country": "Bosnia and Herzegovina",
+		"currency": "BAM",
+		"phone_code": "387",
+		"alpha3Code": "BIH",
+		"numeric": 70
+	},
+	{
+		"code": "BB",
+		"country": "Barbados",
+		"currency": "BBD",
+		"alpha3Code": "BRB",
+		"numeric": 52,
+		"phone_code": "1246"
+	},
+	{
+		"code": "BD",
+		"country": "Bangladesh",
+		"currency": "BDT",
+		"alpha3Code": "BGD",
+		"numeric": 50,
+		"phone_code": "880"
+	},
+	{
+		"code": "BE",
+		"country": "Belgium",
+		"currency": "EUR",
+		"phone_code": "32",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "BTW-nr",
+			"government": "BTW-nr",
+			"non_profit": "BTW-nr",
+			"person": "BTW-nr"
+		},
+		"alpha3Code": "BEL",
+		"numeric": 56
+	},
+	{
+		"code": "BF",
+		"country": "Burkina Faso",
+		"currency": "XOF",
+		"alpha3Code": "BFA",
+		"numeric": 854,
+		"phone_code": "226"
+	},
+	{
+		"code": "BG",
+		"country": "Bulgaria",
+		"currency": "BGN",
+		"phone_code": "359",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "\u0414\u0414\u0421 \u043d\u043e\u043c\u0435\u0440",
+			"government": "\u0414\u0414\u0421 \u043d\u043e\u043c\u0435\u0440",
+			"non_profit": "\u0414\u0414\u0421 \u043d\u043e\u043c\u0435\u0440",
+			"person": "\u0414\u0414\u0421 \u043d\u043e\u043c\u0435\u0440"
+		},
+		"alpha3Code": "BGR",
+		"numeric": 100
+	},
+	{
+		"code": "BH",
+		"country": "Bahrain",
+		"currency": "BHD",
+		"alpha3Code": "BHR",
+		"numeric": 48,
+		"phone_code": "973"
+	},
+	{
+		"code": "BI",
+		"country": "Burundi",
+		"currency": "BIF",
+		"alpha3Code": "BDI",
+		"numeric": 108,
+		"phone_code": "257"
+	},
+	{
+		"code": "BJ",
+		"country": "Benin",
+		"currency": "XOF",
+		"alpha3Code": "BEN",
+		"numeric": 204,
+		"phone_code": "229"
+	},
+	{
+		"code": "BL",
+		"country": "Saint Barth\u00e9lemy",
+		"currency": "EUR",
+		"alpha3Code": "BLM",
+		"numeric": 652,
+		"phone_code": "590"
+	},
+	{
+		"code": "BM",
+		"country": "Bermuda",
+		"currency": "BMD",
+		"alpha3Code": "BMU",
+		"numeric": 60,
+		"phone_code": "1441"
+	},
+	{
+		"code": "BN",
+		"country": "Brunei Darussalam",
+		"currency": "BND",
+		"alpha3Code": "BRN",
+		"numeric": 96,
+		"phone_code": "673"
+	},
+	{
+		"code": "BO",
+		"country": "Bolivia, Plurinational State of",
+		"currency": "BOB",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "NIT",
+			"government": "NIT",
+			"non_profit": "NIT",
+			"person": "NIT"
+		},
+		"alpha3Code": "BOL",
+		"numeric": 68,
+		"phone_code": "591"
+	},
+	{
+		"code": "BQ",
+		"country": "Bonaire, Sint Eustatius and Saba",
+		"currency": "USD",
+		"alpha3Code": "BES",
+		"numeric": 535
+	},
+	{
+		"code": "BR",
+		"country": "Brazil",
+		"currency": "BRL",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "CNPJ",
+			"government": "CNPJ",
+			"non_profit": "CNPJ",
+			"person": "CPF"
+		},
+		"alpha3Code": "BRA",
+		"numeric": 76,
+		"phone_code": "55"
+	},
+	{
+		"code": "BS",
+		"country": "Bahamas",
+		"currency": "BSD",
+		"alpha3Code": "BHS",
+		"numeric": 44,
+		"phone_code": "1242"
+	},
+	{
+		"code": "BT",
+		"country": "Bhutan",
+		"currency": "BTN",
+		"alpha3Code": "BTN",
+		"numeric": 64,
+		"phone_code": "975"
+	},
+	{
+		"code": "BV",
+		"country": "Bouvet Island",
+		"currency": "USD",
+		"alpha3Code": "BVT",
+		"numeric": 74
+	},
+	{
+		"code": "BW",
+		"country": "Botswana",
+		"currency": "BWP",
+		"alpha3Code": "BWA",
+		"numeric": 72,
+		"phone_code": "267"
+	},
+	{
+		"code": "BY",
+		"country": "Belarus",
+		"currency": "BYN",
+		"phone_code": "375",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "\u0423\u041d\u041f (UNP)",
+			"government": "\u0423\u041d\u041f (UNP)",
+			"non_profit": "\u0423\u041d\u041f (UNP)",
+			"person": "\u0423\u041d\u041f (UNP)"
+		},
+		"alpha3Code": "BLR",
+		"numeric": 112
+	},
+	{
+		"code": "BZ",
+		"country": "Belize",
+		"currency": "BZD",
+		"alpha3Code": "BLZ",
+		"numeric": 84,
+		"phone_code": "501"
+	},
+	{
+		"code": "CA",
+		"country": "Canada",
+		"currency": "CAD",
+		"seller_has_tax_id": true,
+		"phone_code": "1",
+		"tax_id": {
+			"company": "BN",
+			"government": "BN",
+			"non_profit": "BN",
+			"person": "BN"
+		},
+		"states": [
+			{
+				"code": "AB",
+				"name": "Alberta"
+			},
+			{
+				"code": "BC",
+				"name": "British Columbia"
+			},
+			{
+				"code": "MB",
+				"name": "Manitoba"
+			},
+			{
+				"code": "NB",
+				"name": "New Brunswick"
+			},
+			{
+				"code": "NL",
+				"name": "Newfoundland and Labrador"
+			},
+			{
+				"code": "NT",
+				"name": "Northwest Territories"
+			},
+			{
+				"code": "NS",
+				"name": "Nova Scotia"
+			},
+			{
+				"code": "NU",
+				"name": "Nunavut"
+			},
+			{
+				"code": "ON",
+				"name": "Ontario"
+			},
+			{
+				"code": "PE",
+				"name": "Prince Edward Island"
+			},
+			{
+				"code": "QC",
+				"name": "Qu\u00e9bec"
+			},
+			{
+				"code": "SK",
+				"name": "Saskatchewan"
+			},
+			{
+				"code": "YT",
+				"name": "Yukon"
+			}
+		],
+		"alpha3Code": "CAN",
+		"numeric": 124
+	},
+	{
+		"code": "CC",
+		"country": "Cocos (Keeling) Islands",
+		"currency": "AUD",
+		"alpha3Code": "CCK",
+		"numeric": 166,
+		"phone_code": "61"
+	},
+	{
+		"code": "CD",
+		"country": "Congo, the Democratic Republic of the",
+		"currency": "CDF",
+		"alpha3Code": "COD",
+		"numeric": 180,
+		"phone_code": "243"
+	},
+	{
+		"code": "CF",
+		"country": "Central African Republic",
+		"currency": "XAF",
+		"alpha3Code": "CAF",
+		"numeric": 140,
+		"phone_code": "236"
+	},
+	{
+		"code": "CG",
+		"country": "Congo",
+		"currency": "XAF",
+		"alpha3Code": "COG",
+		"numeric": 178,
+		"phone_code": "242"
+	},
+	{
+		"code": "CH",
+		"country": "Switzerland",
+		"currency": "CHF",
+		"phone_code": "41",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "MWST",
+			"government": "MWST",
+			"non_profit": "MWST",
+			"person": "MWST"
+		},
+		"alpha3Code": "CHE",
+		"numeric": 756
+	},
+	{
+		"code": "CI",
+		"country": "C\u00f4te d'Ivoire",
+		"currency": "XOF",
+		"alpha3Code": "CIV",
+		"numeric": 384,
+		"phone_code": "225"
+	},
+	{
+		"code": "CK",
+		"country": "Cook Islands",
+		"currency": "NZD",
+		"alpha3Code": "COK",
+		"numeric": 184,
+		"phone_code": "682"
+	},
+	{
+		"code": "CL",
+		"country": "Chile",
+		"currency": "CLP",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "RUT",
+			"government": "RUT",
+			"non_profit": "RUT",
+			"person": "RUT"
+		},
+		"alpha3Code": "CHL",
+		"numeric": 152,
+		"phone_code": "56"
+	},
+	{
+		"code": "CM",
+		"country": "Cameroon",
+		"currency": "XAF",
+		"alpha3Code": "CMR",
+		"numeric": 120,
+		"phone_code": "237"
+	},
+	{
+		"code": "CN",
+		"country": "China",
+		"currency": "CNY",
+		"alpha3Code": "CHN",
+		"numeric": 156,
+		"phone_code": "86"
+	},
+	{
+		"code": "CO",
+		"country": "Colombia",
+		"currency": "COP",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "NIT",
+			"government": "NIT",
+			"non_profit": "NIT",
+			"person": "NIT"
+		},
+		"alpha3Code": "COL",
+		"numeric": 170,
+		"phone_code": "57"
+	},
+	{
+		"code": "CR",
+		"country": "Costa Rica",
+		"currency": "CRC",
+		"alpha3Code": "CRI",
+		"numeric": 188,
+		"phone_code": "506"
+	},
+	{
+		"code": "CU",
+		"country": "Cuba",
+		"currency": "CUP",
+		"alpha3Code": "CUB",
+		"numeric": 192,
+		"phone_code": "53"
+	},
+	{
+		"code": "CV",
+		"country": "Cabo Verde",
+		"currency": "CVE",
+		"alpha3Code": "CPV",
+		"numeric": 132,
+		"phone_code": "238"
+	},
+	{
+		"code": "CW",
+		"country": "Cura\u00e7ao",
+		"currency": "XCG",
+		"alpha3Code": "CUW",
+		"numeric": 531
+	},
+	{
+		"code": "CX",
+		"country": "Christmas Island",
+		"currency": "AUD",
+		"alpha3Code": "CXR",
+		"numeric": 162,
+		"phone_code": "61"
+	},
+	{
+		"code": "CY",
+		"country": "Cyprus",
+		"currency": "EUR",
+		"phone_code": "357",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "VAT No",
+			"government": "VAT No",
+			"non_profit": "VAT No",
+			"person": "VAT No"
+		},
+		"alpha3Code": "CYP",
+		"numeric": 196
+	},
+	{
+		"code": "CZ",
+		"country": "Czech Republic",
+		"currency": "CZK",
+		"phone_code": "420",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "DI\u010c",
+			"government": "DI\u010c",
+			"non_profit": "DI\u010c",
+			"person": "DI\u010c"
+		},
+		"alpha3Code": "CZE",
+		"numeric": 203
+	},
+	{
+		"code": "DE",
+		"country": "Germany",
+		"currency": "EUR",
+		"phone_code": "49",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "USt-IdNr.",
+			"government": "USt-IdNr.",
+			"non_profit": "USt-IdNr.",
+			"person": "USt-IdNr."
+		},
+		"alpha3Code": "DEU",
+		"numeric": 276
+	},
+	{
+		"code": "DJ",
+		"country": "Djibouti",
+		"currency": "DJF",
+		"alpha3Code": "DJI",
+		"numeric": 262,
+		"phone_code": "253"
+	},
+	{
+		"code": "DK",
+		"country": "Denmark",
+		"currency": "DKK",
+		"phone_code": "45",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "CVR",
+			"government": "CVR",
+			"non_profit": "CVR",
+			"person": "CVR"
+		},
+		"alpha3Code": "DNK",
+		"numeric": 208
+	},
+	{
+		"code": "DM",
+		"country": "Dominica",
+		"currency": "XCD",
+		"alpha3Code": "DMA",
+		"numeric": 212,
+		"phone_code": "1767"
+	},
+	{
+		"code": "DO",
+		"country": "Dominican Republic",
+		"currency": "DOP",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "RNC",
+			"government": "RNC",
+			"non_profit": "RNC",
+			"person": "RNC"
+		},
+		"alpha3Code": "DOM",
+		"numeric": 214,
+		"phone_code": "1849",
+		"alternative_phone_codes": ["1809","1829"]
+	},
+	{
+		"code": "DZ",
+		"country": "Algeria",
+		"currency": "DZD",
+		"alpha3Code": "DZA",
+		"numeric": 12,
+		"phone_code": "213"
+	},
+	{
+		"code": "EC",
+		"country": "Ecuador",
+		"currency": "USD",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "RUC",
+			"government": "RUC",
+			"non_profit": "RUC",
+			"person": "RUC"
+		},
+		"alpha3Code": "ECU",
+		"numeric": 218,
+		"phone_code": "593"
+	},
+	{
+		"code": "EE",
+		"country": "Estonia",
+		"currency": "EUR",
+		"phone_code": "372",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "KMKR",
+			"government": "KMKR",
+			"non_profit": "KMKR",
+			"person": "KMKR"
+		},
+		"alpha3Code": "EST",
+		"numeric": 233
+	},
+	{
+		"code": "EG",
+		"country": "Egypt",
+		"currency": "EGP",
+		"alpha3Code": "EGY",
+		"numeric": 818,
+		"phone_code": "20"
+	},
+	{
+		"code": "EH",
+		"country": "Western Sahara",
+		"currency": "USD",
+		"alpha3Code": "ESH",
+		"numeric": 732
+	},
+	{
+		"code": "ER",
+		"country": "Eritrea",
+		"currency": "ERN",
+		"alpha3Code": "ERI",
+		"numeric": 232,
+		"phone_code": "291"
+	},
+	{
+		"code": "ES",
+		"country": "Spain",
+		"currency": "EUR",
+		"phone_code": "34",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "CIF",
+			"government": "CIF",
+			"non_profit": "CIF",
+			"person": "NIF"
+		},
+		"alpha3Code": "ESP",
+		"numeric": 724
+	},
+	{
+		"code": "ET",
+		"country": "Ethiopia",
+		"currency": "ETB",
+		"alpha3Code": "ETH",
+		"numeric": 231,
+		"phone_code": "251"
+	},
+	{
+		"code": "FI",
+		"country": "Finland",
+		"currency": "EUR",
+		"phone_code": "358",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "ALV nro",
+			"government": "ALV nro",
+			"non_profit": "ALV nro",
+			"person": "ALV nro"
+		},
+		"alpha3Code": "FIN",
+		"numeric": 246
+	},
+	{
+		"code": "FJ",
+		"country": "Fiji",
+		"currency": "FJD",
+		"alpha3Code": "FJI",
+		"numeric": 242,
+		"phone_code": "679"
+	},
+	{
+		"code": "FK",
+		"country": "Falkland Islands (Malvinas)",
+		"currency": "FKP",
+		"alpha3Code": "FLK",
+		"numeric": 238,
+		"phone_code": "500"
+	},
+	{
+		"code": "FM",
+		"country": "Micronesia, Federated States of",
+		"currency": "USD",
+		"alpha3Code": "FSM",
+		"numeric": 583,
+		"phone_code": "691"
+	},
+	{
+		"code": "FO",
+		"country": "Faroe Islands",
+		"currency": "DKK",
+		"alpha3Code": "FRO",
+		"numeric": 234,
+		"phone_code": "298"
+	},
+	{
+		"code": "FR",
+		"country": "France",
+		"currency": "EUR",
+		"phone_code": "33",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "n\u00b0 TVA",
+			"government": "n\u00b0 TVA",
+			"non_profit": "n\u00b0 TVA",
+			"person": "n\u00b0 TVA"
+		},
+		"alpha3Code": "FRA",
+		"numeric": 250
+	},
+	{
+		"code": "GA",
+		"country": "Gabon",
+		"alpha3Code": "GAB",
+		"numeric": 266,
+		"phone_code": "241"
+	},
+	{
+		"code": "GB",
+		"country": "United Kingdom",
+		"currency": "GBP",
+		"phone_code": "44",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "VAT Reg No",
+			"government": "VAT Reg No",
+			"non_profit": "VAT Reg No",
+			"person": "VAT Reg No"
+		},
+		"alpha3Code": "GBR",
+		"numeric": 826
+	},
+	{
+		"code": "GD",
+		"country": "Grenada",
+		"currency": "XCD",
+		"alpha3Code": "GRD",
+		"numeric": 308,
+		"phone_code": "1473"
+	},
+	{
+		"code": "GE",
+		"country": "Georgia",
+		"currency": "GEL",
+		"alpha3Code": "GEO",
+		"numeric": 268,
+		"phone_code": "995"
+	},
+	{
+		"code": "GF",
+		"country": "French Guiana",
+		"currency": "EUR",
+		"alpha3Code": "GUF",
+		"numeric": 254,
+		"phone_code": "594"
+	},
+	{
+		"code": "GG",
+		"country": "Guernsey",
+		"currency": "GGP",
+		"alpha3Code": "GGY",
+		"numeric": 831,
+		"phone_code": "44"
+	},
+	{
+		"code": "GH",
+		"country": "Ghana",
+		"currency": "GHS",
+		"alpha3Code": "GHA",
+		"numeric": 288,
+		"phone_code": "233"
+	},
+	{
+		"code": "GI",
+		"country": "Gibraltar",
+		"currency": "GIP",
+		"phone_code": "350",
+		"alpha3Code": "GIB",
+		"numeric": 292
+	},
+	{
+		"code": "GL",
+		"country": "Greenland",
+		"currency": "DKK",
+		"alpha3Code": "GRL",
+		"numeric": 304,
+		"phone_code": "299"
+	},
+	{
+		"code": "GM",
+		"country": "Gambia",
+		"currency": "GMD",
+		"alpha3Code": "GMB",
+		"numeric": 270,
+		"phone_code": "220"
+	},
+	{
+		"code": "GN",
+		"country": "Guinea",
+		"currency": "GNF",
+		"alpha3Code": "GIN",
+		"numeric": 324,
+		"phone_code": "224"
+	},
+	{
+		"code": "GP",
+		"country": "Guadeloupe",
+		"currency": "EUR",
+		"alpha3Code": "GLP",
+		"numeric": 312,
+		"phone_code": "590"
+	},
+	{
+		"code": "GQ",
+		"country": "Equatorial Guinea",
+		"currency": "XAF",
+		"alpha3Code": "GNQ",
+		"numeric": 226,
+		"phone_code": "240"
+	},
+	{
+		"code": "GR",
+		"country": "Greece",
+		"currency": "EUR",
+		"phone_code": "30",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "\u0391\u03a6\u039c",
+			"government": "\u0391\u03a6\u039c",
+			"non_profit": "\u0391\u03a6\u039c",
+			"person": "\u0391\u03a6\u039c"
+		},
+		"alpha3Code": "GRC",
+		"numeric": 300
+	},
+	{
+		"code": "GS",
+		"country": "South Georgia and the South Sandwich Islands",
+		"currency": "GBP",
+		"alpha3Code": "SGS",
+		"numeric": 239,
+		"phone_code": "500"
+	},
+	{
+		"code": "GT",
+		"country": "Guatemala",
+		"currency": "GTQ",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "NIT",
+			"government": "NIT",
+			"non_profit": "NIT",
+			"person": "NIT"
+		},
+		"alpha3Code": "GTM",
+		"numeric": 320,
+		"phone_code": "502"
+	},
+	{
+		"code": "GU",
+		"country": "Guam",
+		"currency": "USD",
+		"phone_code": "1",
+		"alpha3Code": "GUM",
+		"numeric": 316
+	},
+	{
+		"code": "GW",
+		"country": "Guinea-Bissau",
+		"currency": "XOF",
+		"alpha3Code": "GNB",
+		"numeric": 624,
+		"phone_code": "245"
+	},
+	{
+		"code": "GY",
+		"country": "Guyana",
+		"currency": "GYD",
+		"alpha3Code": "GUY",
+		"numeric": 328,
+		"phone_code": "595"
+	},
+	{
+		"code": "HK",
+		"country": "Hong Kong",
+		"currency": "HKD",
+		"phone_code": "852",
+		"alpha3Code": "HKG",
+		"numeric": 344
+	},
+	{
+		"code": "HM",
+		"country": "Heard Island and McDonald Islands",
+		"currency": "USD",
+		"alpha3Code": "HMD",
+		"numeric": 334
+	},
+	{
+		"code": "HN",
+		"country": "Honduras",
+		"currency": "HNL",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "RTN",
+			"government": "RTN",
+			"non_profit": "RTN",
+			"person": "RTN"
+		},
+		"alpha3Code": "HND",
+		"numeric": 340,
+		"phone_code": "504"
+	},
+	{
+		"code": "HR",
+		"country": "Croatia",
+		"currency": "HRK",
+		"phone_code": "385",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "PDV-ID; OIB",
+			"government": "PDV-ID; OIB",
+			"non_profit": "PDV-ID; OIB",
+			"person": "PDV-ID; OIB"
+		},
+		"alpha3Code": "HRV",
+		"numeric": 191
+	},
+	{
+		"code": "HT",
+		"country": "Haiti",
+		"currency": "HTG",
+		"alpha3Code": "HTI",
+		"numeric": 332,
+		"phone_code": "509"
+	},
+	{
+		"code": "HU",
+		"country": "Hungary",
+		"currency": "HUF",
+		"phone_code": "36",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "ANUM",
+			"government": "ANUM",
+			"non_profit": "ANUM",
+			"person": "ANUM"
+		},
+		"alpha3Code": "HUN",
+		"numeric": 348
+	},
+	{
+		"code": "ID",
+		"country": "Indonesia",
+		"currency": "IDR",
+		"alpha3Code": "IDN",
+		"numeric": 360,
+		"phone_code": "62"
+	},
+	{
+		"code": "IE",
+		"country": "Ireland",
+		"currency": "EUR",
+		"phone_code": "353",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "VAT No",
+			"government": "VAT No",
+			"non_profit": "VAT No",
+			"person": "VAT No"
+		},
+		"alpha3Code": "IRL",
+		"numeric": 372
+	},
+	{
+		"code": "IL",
+		"country": "Israel",
+		"currency": "ILS",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "VAT No",
+			"government": "VAT No",
+			"non_profit": "VAT No",
+			"person": "VAT No"
+		},
+		"alpha3Code": "ISR",
+		"numeric": 376,
+		"phone_code": "972"
+	},
+	{
+		"code": "IM",
+		"country": "Isle of Man",
+		"currency": "IMP",
+		"alpha3Code": "IMN",
+		"numeric": 833,
+		"phone_code": "44"
+	},
+	{
+		"code": "IN",
+		"country": "India",
+		"currency": "INR",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "GSTIN",
+			"government": "GSTIN",
+			"non_profit": "GSTIN",
+			"person": "GSTIN"
+		},
+		"alpha3Code": "IND",
+		"numeric": 356,
+		"phone_code": "91"
+	},
+	{
+		"code": "IO",
+		"country": "British Indian Ocean Territory",
+		"currency": "USD",
+		"alpha3Code": "IOT",
+		"numeric": 86,
+		"phone_code": "246"
+	},
+	{
+		"code": "IQ",
+		"country": "Iraq",
+		"currency": "IQD",
+		"alpha3Code": "IRQ",
+		"numeric": 368,
+		"phone_code": "964"
+	},
+	{
+		"code": "IR",
+		"country": "Iran, Islamic Republic of",
+		"currency": "IRR",
+		"alpha3Code": "IRN",
+		"numeric": 364,
+		"phone_code": "98"
+	},
+	{
+		"code": "IS",
+		"country": "Iceland",
+		"currency": "ISK",
+		"phone_code": "354",
+		"alpha3Code": "ISL",
+		"numeric": 352
+	},
+	{
+		"code": "IT",
+		"country": "Italy",
+		"currency": "EUR",
+		"phone_code": "39",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "P.IVA",
+			"government": "P.IVA",
+			"non_profit": "P.IVA",
+			"person": "P.IVA"
+		},
+		"alpha3Code": "ITA",
+		"numeric": 380
+	},
+	{
+		"code": "JE",
+		"country": "Jersey",
+		"currency": "JEP",
+		"alpha3Code": "JEY",
+		"numeric": 832,
+		"phone_code": "44"
+	},
+	{
+		"code": "JM",
+		"country": "Jamaica",
+		"currency": "JMD",
+		"alpha3Code": "JAM",
+		"numeric": 388,
+		"phone_code": "1876"
+	},
+	{
+		"code": "JO",
+		"country": "Jordan",
+		"currency": "JOD",
+		"alpha3Code": "JOR",
+		"numeric": 400,
+		"phone_code": "962"
+	},
+	{
+		"code": "JP",
+		"country": "Japan",
+		"currency": "JPY",
+		"alpha3Code": "JPN",
+		"numeric": 392,
+		"phone_code": "81"
+	},
+	{
+		"code": "KE",
+		"country": "Kenya",
+		"currency": "KES",
+		"alpha3Code": "KEN",
+		"numeric": 404,
+		"phone_code": "254"
+	},
+	{
+		"code": "KG",
+		"country": "Kyrgyzstan",
+		"currency": "KGS",
+		"alpha3Code": "KGZ",
+		"numeric": 417,
+		"phone_code": "996"
+	},
+	{
+		"code": "KH",
+		"country": "Cambodia",
+		"currency": "KHR",
+		"alpha3Code": "KHM",
+		"numeric": 116,
+		"phone_code": "855"
+	},
+	{
+		"code": "KI",
+		"country": "Kiribati",
+		"currency": "AUD",
+		"alpha3Code": "KIR",
+		"numeric": 296,
+		"phone_code": "686"
+	},
+	{
+		"code": "KM",
+		"country": "Comoros",
+		"currency": "KMF",
+		"alpha3Code": "COM",
+		"numeric": 174,
+		"phone_code": "269"
+	},
+	{
+		"code": "KN",
+		"country": "Saint Kitts and Nevis",
+		"currency": "XCD",
+		"alpha3Code": "KNA",
+		"numeric": 659,
+		"phone_code": "1869"
+	},
+	{
+		"code": "KP",
+		"country": "Korea, Democratic People's Republic of",
+		"currency": "KPW",
+		"alpha3Code": "PRK",
+		"numeric": 408,
+		"phone_code": "850"
+	},
+	{
+		"code": "KR",
+		"country": "Korea, Republic of",
+		"currency": "KRW",
+		"alpha3Code": "KOR",
+		"numeric": 410,
+		"phone_code": "82"
+	},
+	{
+		"code": "KW",
+		"country": "Kuwait",
+		"currency": "KWD",
+		"alpha3Code": "KWT",
+		"numeric": 414,
+		"phone_code": "965"
+	},
+	{
+		"code": "KY",
+		"country": "Cayman Islands",
+		"currency": "KYD",
+		"alpha3Code": "CYM",
+		"numeric": 136,
+		"phone_code": " 345"
+	},
+	{
+		"code": "KZ",
+		"country": "Kazakhstan",
+		"currency": "KZT",
+		"alpha3Code": "KAZ",
+		"numeric": 398,
+		"phone_code": "77"
+	},
+	{
+		"code": "LA",
+		"country": "Lao People's Democratic Republic",
+		"currency": "LAK",
+		"alpha3Code": "LAO",
+		"numeric": 418,
+		"phone_code": "856"
+	},
+	{
+		"code": "LB",
+		"country": "Lebanon",
+		"currency": "LBP",
+		"alpha3Code": "LBN",
+		"numeric": 422,
+		"phone_code": "961"
+	},
+	{
+		"code": "LC",
+		"country": "Saint Lucia",
+		"currency": "XCD",
+		"alpha3Code": "LCA",
+		"numeric": 662,
+		"phone_code": "1758"
+	},
+	{
+		"code": "LI",
+		"country": "Liechtenstein",
+		"currency": "CHF",
+		"phone_code": "423",
+		"alpha3Code": "LIE",
+		"numeric": 438
+	},
+	{
+		"code": "LK",
+		"country": "Sri Lanka",
+		"currency": "LKR",
+		"alpha3Code": "LKA",
+		"numeric": 144,
+		"phone_code": "94"
+	},
+	{
+		"code": "LR",
+		"country": "Liberia",
+		"currency": "LRD",
+		"alpha3Code": "LBR",
+		"numeric": 430,
+		"phone_code": "231"
+	},
+	{
+		"code": "LS",
+		"country": "Lesotho",
+		"currency": "LSL",
+		"alpha3Code": "LSO",
+		"numeric": 426,
+		"phone_code": "266"
+	},
+	{
+		"code": "LT",
+		"country": "Lithuania",
+		"currency": "EUR",
+		"phone_code": "370",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "PVM kodas",
+			"government": "PVM kodas",
+			"non_profit": "PVM kodas",
+			"person": "PVM kodas"
+		},
+		"alpha3Code": "LTU",
+		"numeric": 440
+	},
+	{
+		"code": "LU",
+		"country": "Luxembourg",
+		"currency": "EUR",
+		"phone_code": "352",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "No. TVA",
+			"government": "No. TVA",
+			"non_profit": "No. TVA",
+			"person": "No. TVA"
+		},
+		"alpha3Code": "LUX",
+		"numeric": 442
+	},
+	{
+		"code": "LV",
+		"country": "Latvia",
+		"currency": "EUR",
+		"phone_code": "371",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "PVN",
+			"government": "PVN",
+			"non_profit": "PVN",
+			"person": "PVN"
+		},
+		"alpha3Code": "LVA",
+		"numeric": 428
+	},
+	{
+		"code": "LY",
+		"country": "Libya",
+		"currency": "LYD",
+		"alpha3Code": "LBY",
+		"numeric": 434,
+		"phone_code": "218"
+	},
+	{
+		"code": "MA",
+		"country": "Morocco",
+		"currency": "MAD",
+		"alpha3Code": "MAR",
+		"numeric": 504,
+		"phone_code": "212"
+	},
+	{
+		"code": "MC",
+		"country": "Monaco",
+		"currency": "EUR",
+		"phone_code": "377",
+		"alpha3Code": "MCO",
+		"numeric": 492
+	},
+	{
+		"code": "MD",
+		"country": "Moldova, Republic of",
+		"currency": "MDL",
+		"phone_code": "373",
+		"alpha3Code": "MDA",
+		"numeric": 498
+	},
+	{
+		"code": "ME",
+		"country": "Montenegro",
+		"currency": "EUR",
+		"phone_code": "382",
+		"alpha3Code": "MNE",
+		"numeric": 499
+	},
+	{
+		"code": "MF",
+		"country": "Saint Martin (French part)",
+		"currency": "EUR",
+		"alpha3Code": "MAF",
+		"numeric": 663,
+		"phone_code": "590"
+	},
+	{
+		"code": "MG",
+		"country": "Madagascar",
+		"currency": "MGA",
+		"alpha3Code": "MDG",
+		"numeric": 450,
+		"phone_code": "261"
+	},
+	{
+		"code": "MH",
+		"country": "Marshall Islands",
+		"currency": "USD",
+		"alpha3Code": "MHL",
+		"numeric": 584,
+		"phone_code": "692"
+	},
+	{
+		"code": "MK",
+		"country": "North Macedonia",
+		"currency": "MKD",
+		"phone_code": "389",
+		"alpha3Code": "MKD",
+		"numeric": 807
+	},
+	{
+		"code": "ML",
+		"country": "Mali",
+		"currency": "XOF",
+		"alpha3Code": "MLI",
+		"numeric": 466,
+		"phone_code": "223"
+	},
+	{
+		"code": "MM",
+		"country": "Myanmar",
+		"currency": "MMK",
+		"alpha3Code": "MMR",
+		"numeric": 104,
+		"phone_code": "95"
+	},
+	{
+		"code": "MN",
+		"country": "Mongolia",
+		"currency": "MNT",
+		"alpha3Code": "MNG",
+		"numeric": 496,
+		"phone_code": "976"
+	},
+	{
+		"code": "MO",
+		"country": "Macao",
+		"currency": "MOP",
+		"alpha3Code": "MAC",
+		"numeric": 446,
+		"phone_code": "853"
+	},
+	{
+		"code": "MP",
+		"country": "Northern Mariana Islands",
+		"currency": "USD",
+		"phone_code": "1",
+		"alpha3Code": "MNP",
+		"numeric": 580
+	},
+	{
+		"code": "MQ",
+		"country": "Martinique",
+		"currency": "EUR",
+		"alpha3Code": "MTQ",
+		"numeric": 474,
+		"phone_code": "596"
+	},
+	{
+		"code": "MR",
+		"country": "Mauritania",
+		"currency": "MRO",
+		"alpha3Code": "MRT",
+		"numeric": 478,
+		"phone_code": "222"
+	},
+	{
+		"code": "MS",
+		"country": "Montserrat",
+		"currency": "XCD",
+		"alpha3Code": "MSR",
+		"numeric": 500,
+		"phone_code": "1664"
+	},
+	{
+		"code": "MT",
+		"country": "Malta",
+		"currency": "EUR",
+		"phone_code": "356",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "VAT No",
+			"government": "VAT No",
+			"non_profit": "VAT No",
+			"person": "VAT No"
+		},
+		"alpha3Code": "MLT",
+		"numeric": 470
+	},
+	{
+		"code": "MU",
+		"country": "Mauritius",
+		"currency": "MUR",
+		"alpha3Code": "MUS",
+		"numeric": 480,
+		"phone_code": "230"
+	},
+	{
+		"code": "MV",
+		"country": "Maldives",
+		"currency": "MVR",
+		"alpha3Code": "MDV",
+		"numeric": 462,
+		"phone_code": "960"
+	},
+	{
+		"code": "MW",
+		"country": "Malawi",
+		"currency": "MWK",
+		"alpha3Code": "MWI",
+		"numeric": 454,
+		"phone_code": "265"
+	},
+	{
+		"code": "MX",
+		"country": "Mexico",
+		"currency": "MXN",
+		"phone_code": "52",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "RFC",
+			"government": "RFC",
+			"non_profit": "RFC",
+			"person": "RFC"
+		},
+		"alpha3Code": "MEX",
+		"numeric": 484
+	},
+	{
+		"code": "MY",
+		"country": "Malaysia",
+		"currency": "MYR",
+		"alpha3Code": "MYS",
+		"numeric": 458,
+		"phone_code": "60"
+	},
+	{
+		"code": "MZ",
+		"country": "Mozambique",
+		"currency": "MZN",
+		"alpha3Code": "MOZ",
+		"numeric": 508,
+		"phone_code": "258"
+	},
+	{
+		"code": "NA",
+		"country": "Namibia",
+		"currency": "NAD",
+		"alpha3Code": "NAM",
+		"numeric": 516,
+		"phone_code": "264"
+	},
+	{
+		"code": "NC",
+		"country": "New Caledonia",
+		"currency": "XPF",
+		"alpha3Code": "NCL",
+		"numeric": 540,
+		"phone_code": "687"
+	},
+	{
+		"code": "NE",
+		"country": "Niger",
+		"currency": "XOF",
+		"alpha3Code": "NER",
+		"numeric": 562,
+		"phone_code": "227"
+	},
+	{
+		"code": "NF",
+		"country": "Norfolk Island",
+		"currency": "AUD",
+		"alpha3Code": "NFK",
+		"numeric": 574,
+		"phone_code": "672"
+	},
+	{
+		"code": "NG",
+		"country": "Nigeria",
+		"currency": "NGN",
+		"alpha3Code": "NGA",
+		"numeric": 566,
+		"phone_code": "234"
+	},
+	{
+		"code": "NI",
+		"country": "Nicaragua",
+		"currency": "NIO",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "RUC",
+			"government": "RUC",
+			"non_profit": "RUC",
+			"person": "RUC"
+		},
+		"alpha3Code": "NIC",
+		"numeric": 558,
+		"phone_code": "505"
+	},
+	{
+		"code": "NL",
+		"country": "Netherlands",
+		"currency": "EUR",
+		"phone_code": "31",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "Btw-nr.",
+			"government": "Btw-nr.",
+			"non_profit": "Btw-nr.",
+			"person": "Btw-nr."
+		},
+		"alpha3Code": "NLD",
+		"numeric": 528
+	},
+	{
+		"code": "NO",
+		"country": "Norway",
+		"currency": "NOK",
+		"phone_code": "47",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "Orgnr",
+			"government": "Orgnr",
+			"non_profit": "Orgnr",
+			"person": "Orgnr"
+		},
+		"alpha3Code": "NOR",
+		"numeric": 578
+	},
+	{
+		"code": "NP",
+		"country": "Nepal",
+		"currency": "NPR",
+		"alpha3Code": "NPL",
+		"numeric": 524,
+		"phone_code": "977"
+	},
+	{
+		"code": "NR",
+		"country": "Nauru",
+		"currency": "AUD",
+		"alpha3Code": "NRU",
+		"numeric": 520,
+		"phone_code": "674"
+	},
+	{
+		"code": "NU",
+		"country": "Niue",
+		"currency": "NZD",
+		"alpha3Code": "NIU",
+		"numeric": 570,
+		"phone_code": "683"
+	},
+	{
+		"code": "NZ",
+		"country": "New Zealand",
+		"currency": "NZD",
+		"phone_code": "64",
+		"seller_has_tax_id": true,
+		"tax_id": {
+			"company": "GST Reg.",
+			"government": "GST Reg.",
+			"non_profit": "GST Reg.",
+			"person": "GST Reg."
+		},
+		"alpha3Code": "NZL",
+		"numeric": 554
+	},
+	{
+		"code": "OM",
+		"country": "Oman",
+		"currency": "OMR",
+		"alpha3Code": "OMN",
+		"numeric": 512,
+		"phone_code": "968"
+	},
+	{
+		"code": "PA",
+		"country": "Panama",
+		"currency": "USD",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "RUC",
+			"government": "RUC",
+			"non_profit": "RUC",
+			"person": "RUC"
+		},
+		"alpha3Code": "PAN",
+		"numeric": 591,
+		"phone_code": "507"
+	},
+	{
+		"code": "PE",
+		"country": "Peru",
+		"currency": "PEN",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "RUC",
+			"government": "RUC",
+			"non_profit": "RUC",
+			"person": "RUC"
+		},
+		"alpha3Code": "PER",
+		"numeric": 604,
+		"phone_code": "51"
+	},
+	{
+		"code": "PF",
+		"country": "French Polynesia",
+		"currency": "XPF",
+		"alpha3Code": "PYF",
+		"numeric": 258,
+		"phone_code": "689"
+	},
+	{
+		"code": "PG",
+		"country": "Papua New Guinea",
+		"currency": "PGK",
+		"alpha3Code": "PNG",
+		"numeric": 598,
+		"phone_code": "675"
+	},
+	{
+		"code": "PH",
+		"country": "Philippines",
+		"currency": "PHP",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "TIN",
+			"government": "TIN",
+			"non_profit": "TIN",
+			"person": "TIN"
+		},
+		"alpha3Code": "PHL",
+		"numeric": 608,
+		"phone_code": "63"
+	},
+	{
+		"code": "PK",
+		"country": "Pakistan",
+		"currency": "PKR",
+		"alpha3Code": "PAK",
+		"numeric": 586,
+		"phone_code": "92"
+	},
+	{
+		"code": "PL",
+		"country": "Poland",
+		"currency": "PLN",
+		"phone_code": "48",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "NIP",
+			"government": "NIP",
+			"non_profit": "NIP",
+			"person": "NIP"
+		},
+		"alpha3Code": "POL",
+		"numeric": 616
+	},
+	{
+		"code": "PM",
+		"country": "Saint Pierre and Miquelon",
+		"currency": "EUR",
+		"alpha3Code": "SPM",
+		"numeric": 666,
+		"phone_code": "508"
+	},
+	{
+		"code": "PN",
+		"country": "Pitcairn",
+		"currency": "NZD",
+		"alpha3Code": "PCN",
+		"numeric": 612,
+		"phone_code": "872"
+	},
+	{
+		"code": "PR",
+		"country": "Puerto Rico",
+		"currency": "USD",
+		"phone_code": "1",
+		"alpha3Code": "PRI",
+		"numeric": 630
+	},
+	{
+		"code": "PS",
+		"country": "Palestine, State of",
+		"currency": "ILS",
+		"alpha3Code": "PSE",
+		"numeric": 275,
+		"phone_code": "970"
+	},
+	{
+		"code": "PT",
+		"country": "Portugal",
+		"currency": "EUR",
+		"phone_code": "351",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "NIPC",
+			"government": "NIPC",
+			"non_profit": "NIPC",
+			"person": "NIF"
+		},
+		"alpha3Code": "PRT",
+		"numeric": 620
+	},
+	{
+		"code": "PW",
+		"country": "Palau",
+		"currency": "USD",
+		"alpha3Code": "PLW",
+		"numeric": 585,
+		"phone_code": "680"
+	},
+	{
+		"code": "PY",
+		"country": "Paraguay",
+		"currency": "PYG",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "RUC",
+			"government": "RUC",
+			"non_profit": "RUC",
+			"person": "RUC"
+		},
+		"alpha3Code": "PRY",
+		"numeric": 600,
+		"phone_code": "595"
+	},
+	{
+		"code": "QA",
+		"country": "Qatar",
+		"currency": "QAR",
+		"alpha3Code": "QAT",
+		"numeric": 634,
+		"phone_code": "974"
+	},
+	{
+		"code": "RE",
+		"country": "R\u00e9union",
+		"currency": "EUR",
+		"alpha3Code": "REU",
+		"numeric": 638,
+		"phone_code": "262"
+	},
+	{
+		"code": "RO",
+		"country": "Romania",
+		"currency": "RON",
+		"phone_code": "40",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "CIF",
+			"government": "CIF",
+			"non_profit": "CIF",
+			"person": "CIF"
+		},
+		"alpha3Code": "ROU",
+		"numeric": 642
+	},
+	{
+		"code": "RS",
+		"country": "Serbia",
+		"currency": "RSD",
+		"phone_code": "381",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "PIB",
+			"government": "PIB",
+			"non_profit": "PIB",
+			"person": "PIB"
+		},
+		"alpha3Code": "SRB",
+		"numeric": 688
+	},
+	{
+		"code": "RU",
+		"country": "Russian Federation",
+		"currency": "RUB",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "\u0418\u041d\u041d",
+			"government": "\u0418\u041d\u041d",
+			"non_profit": "\u0418\u041d\u041d",
+			"person": "\u0418\u041d\u041d"
+		},
+		"alpha3Code": "RUS",
+		"numeric": 643,
+		"phone_code": "7"
+	},
+	{
+		"code": "RW",
+		"country": "Rwanda",
+		"currency": "RWF",
+		"alpha3Code": "RWA",
+		"numeric": 646,
+		"phone_code": "250"
+	},
+	{
+		"code": "SA",
+		"country": "Saudi Arabia",
+		"currency": "SAR",
+		"alpha3Code": "SAU",
+		"numeric": 682,
+		"phone_code": "966"
+	},
+	{
+		"code": "SB",
+		"country": "Solomon Islands",
+		"currency": "SBD",
+		"alpha3Code": "SLB",
+		"numeric": 90,
+		"phone_code": "677"
+	},
+	{
+		"code": "SC",
+		"country": "Seychelles",
+		"currency": "SCR",
+		"alpha3Code": "SYC",
+		"numeric": 690,
+		"phone_code": "248"
+	},
+	{
+		"code": "SD",
+		"country": "Sudan",
+		"currency": "SDG",
+		"alpha3Code": "SDN",
+		"numeric": 729,
+		"phone_code": "249"
+	},
+	{
+		"code": "SE",
+		"country": "Sweden",
+		"currency": "SEK",
+		"phone_code": "46",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "Momsnr.",
+			"government": "Momsnr.",
+			"non_profit": "Momsnr.",
+			"person": "Momsnr."
+		},
+		"alpha3Code": "SWE",
+		"numeric": 752
+	},
+	{
+		"code": "SG",
+		"country": "Singapore",
+		"currency": "SGD",
+		"phone_code": "65",
+		"alpha3Code": "SGP",
+		"numeric": 702
+	},
+	{
+		"code": "SH",
+		"country": "Saint Helena, Ascension and Tristan da Cunha",
+		"currency": "SHP",
+		"alpha3Code": "SHN",
+		"numeric": 654,
+		"phone_code": "290"
+	},
+	{
+		"code": "SI",
+		"country": "Slovenia",
+		"currency": "EUR",
+		"phone_code": "386",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "ID za DDV",
+			"government": "ID za DDV",
+			"non_profit": "ID za DDV",
+			"person": "ID za DDV"
+		},
+		"alpha3Code": "SVN",
+		"numeric": 705
+	},
+	{
+		"code": "SJ",
+		"country": "Svalbard and Jan Mayen",
+		"currency": "NOK",
+		"alpha3Code": "SJM",
+		"numeric": 744,
+		"phone_code": "47"
+	},
+	{
+		"code": "SK",
+		"country": "Slovakia",
+		"currency": "EUR",
+		"phone_code": "421",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "I\u010c DPH",
+			"government": "I\u010c DPH",
+			"non_profit": "I\u010c DPH",
+			"person": "I\u010c DPH"
+		},
+		"alpha3Code": "SVK",
+		"numeric": 703
+	},
+	{
+		"code": "SL",
+		"country": "Sierra Leone",
+		"currency": "SLL",
+		"alpha3Code": "SLE",
+		"numeric": 694,
+		"phone_code": "232"
+	},
+	{
+		"code": "SM",
+		"country": "San Marino",
+		"currency": "EUR",
+		"phone_code": "378",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "C.O.E.",
+			"government": "C.O.E.",
+			"non_profit": "C.O.E.",
+			"person": "C.O.E."
+		},
+		"alpha3Code": "SMR",
+		"numeric": 674
+	},
+	{
+		"code": "SN",
+		"country": "Senegal",
+		"currency": "XOF",
+		"alpha3Code": "SEN",
+		"numeric": 686,
+		"phone_code": "221"
+	},
+	{
+		"code": "SO",
+		"country": "Somalia",
+		"currency": "SOS",
+		"alpha3Code": "SOM",
+		"numeric": 706,
+		"phone_code": "252"
+	},
+	{
+		"code": "SR",
+		"country": "Suriname",
+		"currency": "SRD",
+		"alpha3Code": "SUR",
+		"numeric": 740,
+		"phone_code": "597"
+	},
+	{
+		"code": "SS",
+		"country": "South Sudan",
+		"currency": "SSP",
+		"alpha3Code": "SSD",
+		"numeric": 728,
+		"phone_code": "211"
+	},
+	{
+		"code": "ST",
+		"country": "Sao Tome and Principe",
+		"currency": "STD",
+		"alpha3Code": "STP",
+		"numeric": 678,
+		"phone_code": "239"
+	},
+	{
+		"code": "SV",
+		"country": "El Salvador",
+		"currency": "USD",
+		"alpha3Code": "SLV",
+		"numeric": 222,
+		"phone_code": "503"
+	},
+	{
+		"code": "SX",
+		"country": "Sint Maarten (Dutch part)",
+		"currency": "XCG",
+		"alpha3Code": "SXM",
+		"numeric": 534
+	},
+	{
+		"code": "SY",
+		"country": "Syrian Arab Republic",
+		"currency": "SYP",
+		"alpha3Code": "SYR",
+		"numeric": 760,
+		"phone_code": "963"
+	},
+	{
+		"code": "SZ",
+		"country": "Swaziland",
+		"currency": "SZL",
+		"alpha3Code": "SWZ",
+		"numeric": 748,
+		"phone_code": "268"
+	},
+	{
+		"code": "TC",
+		"country": "Turks and Caicos Islands",
+		"currency": "USD",
+		"alpha3Code": "TCA",
+		"numeric": 796,
+		"phone_code": "1649"
+	},
+	{
+		"code": "TD",
+		"country": "Chad",
+		"currency": "XAF",
+		"alpha3Code": "TCD",
+		"numeric": 148,
+		"phone_code": "235"
+	},
+	{
+		"code": "TF",
+		"country": "French Southern Territories",
+		"currency": "XPF",
+		"alpha3Code": "ATF",
+		"numeric": 260
+	},
+	{
+		"code": "TG",
+		"country": "Togo",
+		"currency": "XOF",
+		"alpha3Code": "TGO",
+		"numeric": 768,
+		"phone_code": "228"
+	},
+	{
+		"code": "TH",
+		"country": "Thailand",
+		"currency": "THB",
+		"alpha3Code": "THA",
+		"numeric": 764,
+		"phone_code": "66"
+	},
+	{
+		"code": "TJ",
+		"country": "Tajikistan",
+		"currency": "TJS",
+		"alpha3Code": "TJK",
+		"numeric": 762,
+		"phone_code": "992"
+	},
+	{
+		"code": "TK",
+		"country": "Tokelau",
+		"currency": "NZD",
+		"alpha3Code": "TKL",
+		"numeric": 772,
+		"phone_code": "690"
+	},
+	{
+		"code": "TL",
+		"country": "Timor-Leste",
+		"currency": "USD",
+		"alpha3Code": "TLS",
+		"numeric": 626,
+		"phone_code": "670"
+	},
+	{
+		"code": "TM",
+		"country": "Turkmenistan",
+		"currency": "TMT",
+		"alpha3Code": "TKM",
+		"numeric": 795,
+		"phone_code": "993"
+	},
+	{
+		"code": "TN",
+		"country": "Tunisia",
+		"currency": "TND",
+		"alpha3Code": "TUN",
+		"numeric": 788,
+		"phone_code": "216"
+	},
+	{
+		"code": "TO",
+		"country": "Tonga",
+		"currency": "TOP",
+		"alpha3Code": "TON",
+		"numeric": 776,
+		"phone_code": "676"
+	},
+	{
+		"code": "TR",
+		"country": "Turkey",
+		"currency": "TRY",
+		"alpha3Code": "TUR",
+		"numeric": 792,
+		"phone_code": "90"
+	},
+	{
+		"code": "TT",
+		"country": "Trinidad and Tobago",
+		"currency": "TTD",
+		"alpha3Code": "TTO",
+		"numeric": 780,
+		"phone_code": "1868"
+	},
+	{
+		"code": "TV",
+		"country": "Tuvalu",
+		"currency": "AUD",
+		"alpha3Code": "TUV",
+		"numeric": 798,
+		"phone_code": "688"
+	},
+	{
+		"code": "TW",
+		"country": "Taiwan",
+		"currency": "TWD",
+		"alpha3Code": "TWN",
+		"numeric": 158,
+		"phone_code": "886"
+	},
+	{
+		"code": "TZ",
+		"country": "Tanzania, United Republic of",
+		"currency": "TZS",
+		"alpha3Code": "TZA",
+		"numeric": 834,
+		"phone_code": "255"
+	},
+	{
+		"code": "UA",
+		"country": "Ukraine",
+		"currency": "UAH",
+		"phone_code": "380",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "\u0406\u041d\u041d",
+			"government": "\u0406\u041d\u041d",
+			"non_profit": "\u0406\u041d\u041d",
+			"person": "\u0406\u041d\u041d"
+		},
+		"alpha3Code": "UKR",
+		"numeric": 804
+	},
+	{
+		"code": "UG",
+		"country": "Uganda",
+		"currency": "UGX",
+		"alpha3Code": "UGA",
+		"numeric": 800,
+		"phone_code": "256"
+	},
+	{
+		"code": "UM",
+		"country": "United States Minor Outlying Islands",
+		"currency": "USD",
+		"alpha3Code": "UMI",
+		"numeric": 581
+	},
+	{
+		"code": "US",
+		"country": "United States",
+		"currency": "USD",
+		"hide_tax_id": true,
+		"phone_code": "1",
+		"states": [
+			{
+				"code": "AL",
+				"name": "Alabama"
+			},
+			{
+				"code": "AK",
+				"name": "Alaska"
+			},
+			{
+				"code": "AZ",
+				"name": "Arizona"
+			},
+			{
+				"code": "AR",
+				"name": "Arkansas"
+			},
+			{
+				"code": "CA",
+				"name": "California"
+			},
+			{
+				"code": "CO",
+				"name": "Colorado"
+			},
+			{
+				"code": "CT",
+				"name": "Connecticut"
+			},
+			{
+				"code": "DE",
+				"name": "Delaware"
+			},
+			{
+				"code": "DC",
+				"name": "District Of Columbia"
+			},
+			{
+				"code": "FL",
+				"name": "Florida"
+			},
+			{
+				"code": "GA",
+				"name": "Georgia"
+			},
+			{
+				"code": "HI",
+				"name": "Hawaii"
+			},
+			{
+				"code": "ID",
+				"name": "Idaho"
+			},
+			{
+				"code": "IL",
+				"name": "Illinois"
+			},
+			{
+				"code": "IN",
+				"name": "Indiana"
+			},
+			{
+				"code": "IA",
+				"name": "Iowa"
+			},
+			{
+				"code": "KS",
+				"name": "Kansas"
+			},
+			{
+				"code": "KY",
+				"name": "Kentucky"
+			},
+			{
+				"code": "LA",
+				"name": "Louisiana"
+			},
+			{
+				"code": "ME",
+				"name": "Maine"
+			},
+			{
+				"code": "MD",
+				"name": "Maryland"
+			},
+			{
+				"code": "MA",
+				"name": "Massachusetts"
+			},
+			{
+				"code": "MI",
+				"name": "Michigan"
+			},
+			{
+				"code": "MN",
+				"name": "Minnesota"
+			},
+			{
+				"code": "MS",
+				"name": "Mississippi"
+			},
+			{
+				"code": "MO",
+				"name": "Missouri"
+			},
+			{
+				"code": "MT",
+				"name": "Montana"
+			},
+			{
+				"code": "NE",
+				"name": "Nebraska"
+			},
+			{
+				"code": "NV",
+				"name": "Nevada"
+			},
+			{
+				"code": "NH",
+				"name": "New Hampshire"
+			},
+			{
+				"code": "NJ",
+				"name": "New Jersey"
+			},
+			{
+				"code": "NM",
+				"name": "New Mexico"
+			},
+			{
+				"code": "NY",
+				"name": "New York"
+			},
+			{
+				"code": "NC",
+				"name": "North Carolina"
+			},
+			{
+				"code": "ND",
+				"name": "North Dakota"
+			},
+			{
+				"code": "OH",
+				"name": "Ohio"
+			},
+			{
+				"code": "OK",
+				"name": "Oklahoma"
+			},
+			{
+				"code": "OR",
+				"name": "Oregon"
+			},
+			{
+				"code": "PA",
+				"name": "Pennsylvania"
+			},
+			{
+				"code": "RI",
+				"name": "Rhode Island"
+			},
+			{
+				"code": "SC",
+				"name": "South Carolina"
+			},
+			{
+				"code": "SD",
+				"name": "South Dakota"
+			},
+			{
+				"code": "TN",
+				"name": "Tennessee"
+			},
+			{
+				"code": "TX",
+				"name": "Texas"
+			},
+			{
+				"code": "UT",
+				"name": "Utah"
+			},
+			{
+				"code": "VT",
+				"name": "Vermont"
+			},
+			{
+				"code": "VA",
+				"name": "Virginia"
+			},
+			{
+				"code": "WA",
+				"name": "Washington"
+			},
+			{
+				"code": "WV",
+				"name": "West Virginia"
+			},
+			{
+				"code": "WI",
+				"name": "Wisconsin"
+			},
+			{
+				"code": "WY",
+				"name": "Wyoming"
+			}
+		],
+		"alpha3Code": "USA",
+		"numeric": 840
+	},
+	{
+		"code": "UY",
+		"country": "Uruguay",
+		"currency": "UYU",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "RUT",
+			"government": "RUT",
+			"non_profit": "RUT",
+			"person": "RUT"
+		},
+		"alpha3Code": "URY",
+		"numeric": 858,
+		"phone_code": "598"
+	},
+	{
+		"code": "UZ",
+		"country": "Uzbekistan",
+		"currency": "UZS",
+		"alpha3Code": "UZB",
+		"numeric": 860,
+		"phone_code": "998"
+	},
+	{
+		"code": "VA",
+		"country": "Holy See (Vatican City State)",
+		"currency": "EUR",
+		"phone_code": "379",
+		"alpha3Code": "VAT",
+		"numeric": 336
+	},
+	{
+		"code": "VC",
+		"country": "Saint Vincent and the Grenadines",
+		"currency": "XCD",
+		"alpha3Code": "VCT",
+		"numeric": 670,
+		"phone_code": "1784"
+	},
+	{
+		"code": "VE",
+		"country": "Venezuela, Bolivarian Republic of",
+		"currency": "VEF",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "RIF",
+			"government": "RIF",
+			"non_profit": "RIF",
+			"person": "RIF"
+		},
+		"alpha3Code": "VEN",
+		"numeric": 862,
+		"phone_code": "58"
+	},
+	{
+		"code": "VG",
+		"country": "Virgin Islands, British",
+		"currency": "USD",
+		"alpha3Code": "VGB",
+		"numeric": 92,
+		"phone_code": "1284"
+	},
+	{
+		"code": "VI",
+		"country": "Virgin Islands, U.S.",
+		"currency": "USD",
+		"phone_code": "1",
+		"alpha3Code": "VIR",
+		"numeric": 850
+	},
+	{
+		"code": "VN",
+		"country": "Viet Nam",
+		"currency": "VND",
+		"alpha3Code": "VNM",
+		"numeric": 704,
+		"phone_code": "84"
+	},
+	{
+		"code": "VU",
+		"country": "Vanuatu",
+		"currency": "VUV",
+		"alpha3Code": "VUT",
+		"numeric": 548,
+		"phone_code": "678"
+	},
+	{
+		"code": "WF",
+		"country": "Wallis and Futuna",
+		"currency": "XPF",
+		"alpha3Code": "WLF",
+		"numeric": 876,
+		"phone_code": "681"
+	},
+	{
+		"code": "WS",
+		"country": "Samoa",
+		"currency": "WST",
+		"alpha3Code": "WSM",
+		"numeric": 882,
+		"phone_code": "685"
+	},
+	{
+		"code": "XK",
+		"country": "Kosovo",
+		"currency": "EUR",
+		"phone_code": "383",
+		"alpha3Code": "RKS",
+		"numeric": 383
+	},
+	{
+		"code": "YE",
+		"country": "Yemen",
+		"currency": "YER",
+		"alpha3Code": "YEM",
+		"numeric": 887,
+		"phone_code": "967"
+	},
+	{
+		"code": "YT",
+		"country": "Mayotte",
+		"currency": "EUR",
+		"alpha3Code": "MYT",
+		"numeric": 175,
+		"phone_code": "262"
+	},
+	{
+		"code": "ZA",
+		"country": "South Africa",
+		"currency": "ZAR",
+		"seller_has_tax_id": true,
+		"buyer_has_tax_id": true,
+		"tax_id": {
+			"company": "VAT No",
+			"government": "VAT No",
+			"non_profit": "VAT No",
+			"person": "VAT No"
+		},
+		"alpha3Code": "ZAF",
+		"numeric": 710,
+		"phone_code": "27"
+	},
+	{
+		"code": "ZM",
+		"country": "Zambia",
+		"currency": "ZMW",
+		"alpha3Code": "ZMB",
+		"numeric": 894,
+		"phone_code": "260"
+	},
+	{
+		"code": "ZW",
+		"country": "Zimbabwe",
+		"currency": "USD",
+		"alpha3Code": "ZWE",
+		"numeric": 716,
+		"phone_code": "263"
+	}
+]

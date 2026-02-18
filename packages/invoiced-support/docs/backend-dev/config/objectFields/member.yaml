@@ -1,0 +1,30 @@
+fields:
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  last_accessed:
+    name: "Last Accessed"
+    type: datetime
+    filterable: false
+  restriction_mode:
+    name: "Restriction Mode"
+    type: enum
+    values:
+      none: None
+      custom_field: Custom Field
+      owner: Account Owner
+    filterable: false
+  restrictions:
+    name: Restrictions
+    type: string
+    filterable: false
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  role: { name: Role, type: join, parent_column: role }
+  user: { name: User, type: join }

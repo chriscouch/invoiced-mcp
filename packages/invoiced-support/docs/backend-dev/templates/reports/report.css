@@ -1,0 +1,304 @@
+html,
+body {
+    color: #333;
+    padding: 0;
+    margin: 0;
+    font-family: Helvetica, sans-serif;
+}
+
+#title {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1.5em;
+    color: #3a3a3a;
+    text-align: center;
+    margin: 0 0 30px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.report-date {
+    width: 100%;
+    font-size: 13px;
+    color: #5e6a73;
+    text-align: center;
+    margin: 10px 0 30px;
+}
+
+.report-parameters {
+    width: 100%;
+    font-size: 14px;
+    color: #3d4c59;
+    text-align: center;
+    margin: 15px 0 0;
+}
+
+.report-parameter {
+    padding: 0 8px;
+}
+
+.section {
+    margin: 0 45px 45px;
+    page-break-inside: avoid;
+}
+
+.section:last-child {
+    margin-bottom: 0;
+}
+
+h3 {
+    margin: 30px 0 0;
+    padding: 0;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.clearfix:after {
+    content: '.';
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+.clearfix {
+    display: inline-block;
+}
+html[xmlns] .clearfix {
+    display: block;
+}
+* html .clearfix {
+    height: 1%;
+}
+
+/*
+ -----
+ Money Amounts
+ -----
+*/
+
+.negative-sign {
+    margin-right: 2px;
+}
+
+.currency-amount {
+    line-height: 1;
+}
+
+.currency-symbol {
+    font-size: 0.95em;
+    margin-right: 2px;
+}
+
+.currency-decimal,
+.currency-fraction {
+    font-size: 0.9em;
+    font-weight: normal;
+}
+
+/*
+ -----
+ Key Value
+ -----
+*/
+
+.key-value {
+    text-align: left;
+    margin: 15px 0 0;
+}
+
+.key-value .row {
+    padding: 3px 0;
+    clear: both;
+    width: 100%;
+}
+
+.key-value .row .key {
+    float: left;
+    text-align: left;
+    font-size: 14px;
+    padding: 0 10px 0 0;
+}
+
+.key-value .row .key:after {
+    content: ':';
+}
+
+.key-value .row .value {
+    padding-left: 15px;
+    text-align: right;
+    font-size: 14px;
+}
+
+/*
+ -----
+ Nested Table
+ -----
+*/
+
+.nested-table table {
+    width: 100%;
+    margin: 15px 0 0;
+    border-spacing: 0;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.nested-table table thead th {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 5px;
+    color: #777;
+    font-size: 14px;
+    text-align: right;
+}
+
+.nested-table table thead th:first-child {
+    text-align: left;
+}
+
+.nested-table table tbody tr th {
+    text-align: right;
+}
+
+.nested-table table tbody tr th:first-child {
+    text-align: left;
+}
+
+.nested-table table tbody tr td {
+    padding: 7px 5px;
+    font-size: 14px;
+    text-align: right;
+}
+
+.nested-table table tbody tr td:first-child {
+    text-align: left;
+}
+
+.nested-table table tbody tr,
+.nested-table table tbody tr td {
+    background: #fff;
+    page-break-inside: avoid;
+}
+
+.nested-table table tbody tr:nth-child(2n + 1),
+.nested-table table tbody tr:nth-child(2n + 1) td {
+    background: #eee;
+}
+
+.nested-table table tr.border-top td {
+    border-top: 1px solid #ccc;
+}
+
+.nested-table table tfoot td {
+    border-top: 1px solid #999;
+    padding: 15px 5px 0;
+    font-weight: bold;
+    text-align: right;
+}
+
+/*
+ -----
+ Financial Report
+ -----
+*/
+
+.financial-report table {
+    width: 100%;
+    margin: 15px 0 0;
+    border-spacing: 0;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.financial-report table thead tr th {
+    font-weight: normal;
+    font-size: 13px;
+    text-transform: uppercase;
+    padding-top: 8px;
+    padding-bottom: 3px;
+    white-space: nowrap;
+    border-bottom: 1px solid #353940;
+    text-align: left;
+}
+.financial-report table thead tr th:first-child {
+    padding-left: 45px;
+}
+.financial-report table thead tr th:last-child {
+    padding-right: 45px;
+}
+.financial-report table thead tr th.type-integer,
+.financial-report table thead tr th.type-float,
+.financial-report table thead tr th.type-money {
+    text-align: right;
+}
+.financial-report table thead tr th.type-string,
+.financial-report table thead tr th.type-boolean,
+.financial-report table thead tr th.type-date {
+    text-align: left;
+}
+.financial-report tbody tr td {
+    text-align: left;
+    border: none;
+    padding: 5px 0;
+}
+.financial-report tbody tr td a {
+    color: inherit;
+    display: block;
+    width: 100%;
+}
+.financial-report tbody tr td a:hover {
+    color: #10806f;
+}
+.financial-report tbody tr td:first-child {
+    padding-left: 45px;
+}
+.financial-report tbody tr td:last-child {
+    padding-right: 45px;
+}
+.financial-report tbody tr td.type-integer,
+.financial-report tbody tr td.type-float,
+.financial-report tbody tr td.type-money {
+    text-align: right;
+}
+.financial-report tbody tr td.type-string,
+.financial-report tbody tr td.type-boolean,
+.financial-report tbody tr td.type-date {
+    text-align: left;
+}
+.financial-report tbody tr:first-child td {
+    padding-top: 15px;
+}
+.financial-report tbody tr.level-2 td:first-child {
+    padding-left: 55px;
+}
+.financial-report tbody tr.level-3 td:first-child {
+    padding-left: 65px;
+}
+.financial-report tbody tr.level-4 td:first-child {
+    padding-left: 70px;
+}
+.financial-report tbody tr.level-5 td:first-child {
+    padding-left: 75px;
+}
+.financial-report tbody tr.row-header {
+    text-transform: uppercase;
+}
+.financial-report tbody tr.row-summary.level-0 td {
+    border-bottom: 4px double #353940;
+}
+.financial-report tbody tr.row-summary.level-0 td:first-child {
+    text-transform: uppercase;
+}
+.financial-report tbody tr.row-summary.level-0 td:not(:first-child) {
+    font-weight: 500;
+}
+.financial-report tbody tr.row-summary.level-1 td,
+.financial-report tbody tr.row-summary.level-2 td,
+.financial-report tbody tr.row-summary.level-3 td,
+.financial-report tbody tr.row-summary.level-4 td,
+.financial-report tbody tr.row-summary.level-5 td {
+    font-weight: 500;
+    border-top: 1px solid #e7e9eb;
+    border-bottom: 1px solid #e7e9eb;
+}

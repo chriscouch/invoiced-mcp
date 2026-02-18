@@ -1,0 +1,137 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.payment_selection'|trans %}
+{% extends "customerPortal/parentFrame.twig" %}
+{% import 'customerPortal/macros.twig' as macros %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('/js/views/checkbox-lib.js') }}"></script>
+{% endblock %}
+
+{% block main %}
+    {{ macros.companyLogo() }}
+
+    <div class="title-header payment-selection">
+        <h1>{{ title }}</h1>
+    </div>
+
+    <div class="transactions-list">
+        <form action="{{ path('customer_portal_payment_select_amounts_form', {subdomain: subdomain}) }}" method="post" id="pay-all-invoices-form">
+            <table class="table table-invoiced table-select-invoices">
+                <thead class="d-none-xs">
+                    <tr>
+                        <th class="checkbox-column">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="check-all" />
+                                <label class="form-check-label" for="check-all"></label>
+                            </div>
+                        </th>
+                        <th class="column-invoice-number">
+                            {{ 'labels.document_number'|trans }}
+                        </th>
+                        <th class="column-date">
+                            {{ 'labels.date'|trans }}
+                        </th>
+                        <th class="column-status">
+                            {{ 'labels.status'|trans }}
+                        </th>
+                        <th class="column-due-date">
+                            {{ 'labels.due_date'|trans }}
+                        </th>
+                        <th class="column-po-number">
+                            {{ 'labels.po_number'|trans }}
+                        </th>
+                        <th class="column-total money-column">
+                            {{ 'labels.total'|trans }}
+                        </th>
+                        <th class="column-balance money-column">
+                            {{ 'labels.balance'|trans }}
+                        </th>
+                        <th class="column-actions"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for document in documents %}
+                    <tr>
+                        <td class="checkbox-column">
+                            {% for name, value in document.metadata %}
+                                <input type="hidden" name="metadata[{{ document.clientId }}][{{ name }}]" value="{{ value }}" />
+                            {% endfor %}
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" value="{{ document.clientId }}" name="{% if document.type == 'CreditBalance' %}CreditBalance{% else %}{{ document.type }}[]{% endif %}" {% if document.selected %} checked="checked"{% endif %} data-payable="{% if document.type == 'Invoice' or document.type == 'Quote' %}1{% else %}0{% endif %}" id="col-checkbox-{{ loop.index }}" />
+                                <label class="form-check-label" for="col-checkbox-{{ loop.index }}"></label>
+                            </div>
+                        </td>
+                        <td class="column-invoice-number">{{ document.number }}</td>
+                        <td class="column-date">{{ document.date }}</td>
+                        <td class="column-status status column-right column-right-first">
+                            {% if document.status == 'paid' %}
+                                <span class="badge bg-success">{{ 'labels.paid'|trans }}</span>
+                            {% elseif document.status == 'past_due' %}
+                                <span class="badge bg-danger">{{ 'labels.past_due'|trans }}</span>
+                            {% elseif document.status == 'bad_debt' %}
+                                <span class="badge bg-danger">{{ 'labels.bad_debt'|trans }}</span>
+                            {% elseif document.status == 'pending' %}
+                                <span class="badge bg-warning">{{ 'labels.pending'|trans }}</span>
+                            {% else %}
+                                <span class="badge bg-light text-dark">{{ 'labels.open'|trans }}</span>
+                            {% endif %}
+                        </td>
+                        <td class="column-due-date {% if document.due_date is empty %}p-0{% endif %}">{{ document.due_date }}</td>
+                        <td class="column-po-number {% if document.purchaseOrder is empty %}p-0{% endif %}">{{ document.purchaseOrder }}</td>
+                        <td class="column-total money-column">{{ document.total|money(document.currency) }}</td>
+                        <td class="column-balance money-column">{{ document.balance|money(document.currency) }}</td>
+                        <td class="column-actions mobile-last column-right column-right-second">
+                            <a href="{{ document.pdf_url }}">
+                                <span class="fas fa-arrow-to-bottom"></span>
+                                {{ 'labels.pdf'|trans }}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% if allowAdvancePayment %}
+                    <tr>
+                        <td class="checkbox-column">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" value="1" name="advance" {% if advancePaymentSelected %} checked="checked"{% endif %} data-payable="1" id="col-checkbox-advance" />
+                                <label class="form-check-label" for="col-checkbox-advance"></label>
+                            </div>
+                        </td>
+                        <td class="column-invoice-number">{{ 'labels.AdvancePayment'|trans }}</td>
+                        <td class="column-date p-0"></td>
+                        <td class="column-status status column-right column-right-first p-0"></td>
+                        <td class="column-due-date p-0"></td>
+                        <td class="column-po-number p-0"></td>
+                        <td class="column-total money-column p-0"></td>
+                        <td class="column-balance money-column p-0"></td>
+                        <td class="column-actions mobile-last column-right column-right-second p-0"></td>
+                    </tr>
+                {% endif %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="checkbox-column"></td>
+                        <td class="column-invoice-number"></td>
+                        <td class="column-date"></td>
+                        <td class="column-status"></td>
+                        <td class="column-due-date"></td>
+                        <td class="column-po-number"></td>
+                        <td class="column-total money-column">{{ totals.total|money(totals.total_currency) }}</td>
+                        <td class="column-balance money-column">{{ totals.balance|money(totals.balance_currency) }}</td>
+                        <td class="column-actions"></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div class="pagination-bar">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-primary pay-selected">
+                            {{ 'buttons.next'|trans }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

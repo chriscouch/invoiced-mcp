@@ -1,0 +1,33 @@
+<div ng-hide="loading&&events.length==0">
+	<div class="history" ng-if="options.byDay">
+		<div class="bucket" ng-repeat="(key,bucket) in matched">
+			<div class="bucket-title">{{buckets[key]}}</div>
+
+			<div class="item" ng-repeat="event in bucket" event-message event="event"></div>
+		</div>
+		<div class="bucket" ng-show="matched.length==0">
+			<div class="item empty">
+				No activity to report
+			</div>
+		</div>
+	</div>
+
+	<div class="history" ng-hide="matched.length==0" ng-if="!options.byDay">
+		<div class="bucket">
+			<div class="item" ng-repeat="event in matched" event-message event="event"></div>
+		</div>
+	</div>
+
+	<div class="empty-table" ng-show="matched.length==0" ng-if="!options.byDay">
+		<p class="empty">
+			No recent activity to report
+		</p>
+	</div>
+
+	<div class="history-load-more" ng-show="!loading&&hasMore">
+		<button type="button" class="btn btn-default" ng-click="nextPage()">
+			{{'pagination.more' | translate}}
+		</button>
+	</div>
+</div>
+<div class="loading inline" ng-show="loading"></div>

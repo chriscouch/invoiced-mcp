@@ -1,0 +1,95 @@
+mapping:
+  - sourceField: id
+    destinationField: accounting_id
+
+  - sourceField: number
+    destinationField: number
+
+  - sourceField: invoiceDate
+    destinationField: date
+    type: date_unix
+    timeOfDay: 6
+
+  - sourceField: dueDate
+    destinationField: due_date
+    type: date_unix
+    timeOfDay: 18
+
+  - sourceField: customerPurchaseOrderReference
+    destinationField: purchase_order
+
+  - sourceField: currencyCode
+    destinationField: currency
+    type: currency
+
+  - sourceField: salesperson
+    destinationField: metadata/salesperson
+
+  - sourceField: pdf
+    destinationField: pdf
+    documentContext: false
+
+  - sourceField: discountAmount
+    destinationField: discount
+    type: float
+
+  - sourceField: totalTaxAmount
+    destinationField: tax
+    type: float
+
+# Business Central does not make customer payments and how they are applied
+# available in a clean way through the API. Therefore, we only sync the
+# known balance of the invoice.
+  - sourceField: remainingAmount
+    destinationField: balance
+    type: float
+
+  - sourceField: customerId
+    destinationField: customer/accounting_id
+
+  - sourceField: customerNumber
+    destinationField: customer/number
+
+  - sourceField: customerName
+    destinationField: customer/name
+
+  - sourceField: shipToName
+    destinationField: ship_to/name
+
+  - sourceField: shipToContact
+    destinationField: ship_to/attention_to
+
+  - sourceField: shipToAddressLine1
+    destinationField: ship_to/address1
+
+  - sourceField: shipToAddressLine2
+    destinationField: ship_to/address2
+
+  - sourceField: shipToCity
+    destinationField: ship_to/city
+
+  - sourceField: shipToCountry
+    destinationField: ship_to/country
+    type: country
+
+  - sourceField: shipToState
+    destinationField: ship_to/state
+
+  - sourceField: shipToPostCode
+    destinationField: ship_to/postal_code
+
+  - sourceField: 'salesInvoiceLines[]/description'
+    destinationField: 'items[]/name'
+
+  - sourceField: 'salesInvoiceLines[]/description2'
+    destinationField: 'items[]/description'
+
+  - sourceField: 'salesInvoiceLines[]/quantity'
+    destinationField: 'items[]/quantity'
+    type: float
+
+  - sourceField: 'salesInvoiceLines[]/unitPrice'
+    destinationField: 'items[]/unit_cost'
+    type: float
+
+  # TODO payment terms

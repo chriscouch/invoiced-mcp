@@ -1,0 +1,6 @@
+{% trans_default_domain 'customer_portal' %}
+{% import 'customerPortal/paymentMethods/macros.twig' as macros %}
+
+{{ macros.achForm(achDebitTerms, accountHolderType, address, countries, true, 'CHECKING') }}
+
+<script type="text/javascript" src="{{ asset('/js/views/paymentInfoForms/achOPP.js') }}"></script>

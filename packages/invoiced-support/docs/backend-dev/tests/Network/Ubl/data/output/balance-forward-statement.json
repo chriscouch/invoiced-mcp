@@ -1,0 +1,316 @@
+{
+  "StatementPeriod": [
+    {
+      "StartDate": [
+        {
+          "_": "2022-11-01"
+        }
+      ],
+      "EndDate": [
+        {
+          "_": "2022-11-30"
+        }
+      ]
+    }
+  ],
+  "AccountingSupplierParty": [
+    {
+      "Party": [
+        {
+          "PartyIdentification": [
+            {
+              "ID": [
+                {
+                  "_": "{FROM_USERNAME}"
+                }
+              ]
+            }
+          ],
+          "PartyName": [
+            {
+              "Name": [
+                {
+                  "_": "TEST & <Corp> Ara\u00fajo"
+                }
+              ]
+            }
+          ],
+          "PostalAddress": [
+            {
+              "AddressLine": [
+                {
+                  "Line": [
+                    {
+                      "_": "Company"
+                    }
+                  ]
+                },
+                {
+                  "Line": [
+                    {
+                      "_": "Address"
+                    }
+                  ]
+                }
+              ],
+              "Country": [
+                {
+                  "IdentificationCode": [
+                    {
+                      "_": "US"
+                    }
+                  ]
+                }
+              ],
+              "CityName": [
+                {
+                  "_": "Austin"
+                }
+              ],
+              "PostalZone": [
+                {
+                  "_": "78701"
+                }
+              ],
+              "CountrySubentity": [
+                {
+                  "_": "TX"
+                }
+              ]
+            }
+          ],
+          "Contact": [
+            {
+              "Name": [
+                {
+                  "_": "TEST & <Corp> Ara\u00fajo"
+                }
+              ],
+              "Telephone": [
+                {
+                  "_": "12345678"
+                }
+              ],
+              "ElectronicMail": [
+                {
+                  "_": "test@example.com"
+                }
+              ]
+            }
+          ],
+          "WebsiteURI": [
+            {
+              "_": "https:\/\/invoiced.com"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "AccountingCustomerParty": [
+    {
+      "Party": [
+        {
+          "PartyName": [
+            {
+              "Name": [
+                {
+                  "_": "Sherlock"
+                }
+              ]
+            }
+          ],
+          "PostalAddress": [
+            {
+              "AddressLine": [
+                {
+                  "Line": [
+                    {
+                      "_": "Test"
+                    }
+                  ]
+                },
+                {
+                  "Line": [
+                    {
+                      "_": "Address"
+                    }
+                  ]
+                }
+              ],
+              "Country": [
+                {
+                  "IdentificationCode": [
+                    {
+                      "_": "US"
+                    }
+                  ]
+                }
+              ],
+              "CityName": [
+                {
+                  "_": "Austin"
+                }
+              ],
+              "PostalZone": [
+                {
+                  "_": "78701"
+                }
+              ],
+              "CountrySubentity": [
+                {
+                  "_": "TX"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "SupplierAssignedAccountID": [
+        {
+          "_": "CUST-00001"
+        }
+      ]
+    }
+  ],
+  "StatementLine": [
+    {
+      "ID": [
+        {
+          "_": "1"
+        }
+      ],
+      "Note": [
+        {
+          "_": "Previous Balance"
+        }
+      ],
+      "BalanceBroughtForwardIndicator": [
+        {
+          "_": "true"
+        }
+      ],
+      "DebitLineAmount": [
+        {
+          "_": "0.00",
+          "currencyID": "USD"
+        }
+      ],
+      "CreditLineAmount": [
+        {
+          "_": "0.00",
+          "currencyID": "USD"
+        }
+      ],
+      "BalanceAmount": [
+        {
+          "_": "0.00",
+          "currencyID": "USD"
+        }
+      ]
+    },
+    {
+      "ID": [
+        {
+          "_": "2"
+        }
+      ],
+      "Note": [
+        {
+          "_": "INV-00001"
+        }
+      ],
+      "BalanceBroughtForwardIndicator": [
+        {
+          "_": "false"
+        }
+      ],
+      "DebitLineAmount": [
+        {
+          "_": "100.00",
+          "currencyID": "USD"
+        }
+      ],
+      "CreditLineAmount": [
+        {
+          "_": "0.00",
+          "currencyID": "USD"
+        }
+      ],
+      "BalanceAmount": [
+        {
+          "_": "100.00",
+          "currencyID": "USD"
+        }
+      ]
+    },
+    {
+      "ID": [
+        {
+          "_": "3"
+        }
+      ],
+      "Note": [
+        {
+          "_": "CN-00001"
+        }
+      ],
+      "BalanceBroughtForwardIndicator": [
+        {
+          "_": "false"
+        }
+      ],
+      "DebitLineAmount": [
+        {
+          "_": "0.00",
+          "currencyID": "USD"
+        }
+      ],
+      "CreditLineAmount": [
+        {
+          "_": "100.00",
+          "currencyID": "USD"
+        }
+      ],
+      "BalanceAmount": [
+        {
+          "_": "-100.00",
+          "currencyID": "USD"
+        }
+      ]
+    }
+  ],
+  "ID": [
+    {
+      "_": "CUST-00001-20221130"
+    }
+  ],
+  "IssueDate": [
+    {
+      "_": "2022-11-30"
+    }
+  ],
+  "DocumentCurrencyCode": [
+    {
+      "_": "USD"
+    }
+  ],
+  "TotalDebitAmount": [
+    {
+      "_": "0.00",
+      "currencyID": "USD"
+    }
+  ],
+  "TotalCreditAmount": [
+    {
+      "_": "0.00",
+      "currencyID": "USD"
+    }
+  ],
+  "TotalBalanceAmount": [
+    {
+      "_": "0.00",
+      "currencyID": "USD"
+    }
+  ]
+}

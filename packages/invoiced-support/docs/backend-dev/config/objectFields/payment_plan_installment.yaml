@@ -1,0 +1,30 @@
+fields:
+  amount: { name: Amount, type: money, summarize: true }
+  balance: { name: Balance, type: money, summarize: true }
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  date: { name: "Due Date", type: date }
+  id:
+    name: ID
+    type: string
+    writable: false
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  payment_plan: { name: "Payment Plan", type: join }
+  invoice:
+    name: Invoice
+    type: join
+    parent_column: payment_plan_id
+    join_column: payment_plan_id

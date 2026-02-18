@@ -1,0 +1,45 @@
+<p class="loading" ng-show="loading"></p>
+
+<div class="object-view vendor-adjustment-summary" ng-hide="loading">
+    <div class="title-bar clearfix">
+        <!-- Title -->
+        <h2>Adjustment</h2>
+        <h3>{{adjustment.vendor.name}}</h3>
+    </div>
+
+    <ul class="nav nav-tabs">
+        <!-- Tab Links -->
+        <li ui-sref-active="active">
+            <a ui-sref=".summary">
+                {{'tabs.summary'|translate}}
+            </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref=".history">
+                {{'tabs.history'|translate}}
+            </a>
+        </li>
+
+        <!-- Action Buttons -->
+        <li class="action dropdown right" dropdown>
+            <a href="" class="dropdown-toggle" dropdown-toggle>
+                <span class="actions-label"></span>
+                <span class="fas fa-chevron-down"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li class="danger" ng-if="'vendor_payments.delete'|hasPermission">
+                    <a href="" ng-click="delete(adjustment)" ng-hide="deleting || adjustment.voided">
+                        Void Adjustment
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <!-- Selected Tab Content -->
+    <div class="tab-content">
+        <div class="tab-pane active">
+            <ui-view/>
+        </div>
+    </div>
+</div>

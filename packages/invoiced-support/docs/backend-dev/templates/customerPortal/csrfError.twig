@@ -1,0 +1,13 @@
+{% trans_default_domain 'customer_portal' %}
+{% extends "customerPortal/parentLogo.twig" %}
+
+{% block main %}
+
+    <section class="error not-found">
+        <div class="container">
+            <h1>{{ 'labels.please_try_again'|trans }}</h1>
+            <p class="lead">{{ 'messages.csrf_error'|trans }}</p>
+        </div>
+    </section>
+
+{% endblock %}

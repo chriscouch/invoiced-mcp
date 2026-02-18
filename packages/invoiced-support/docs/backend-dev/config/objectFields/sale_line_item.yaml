@@ -1,0 +1,45 @@
+fields:
+  amount: { name: Amount, type: money, summarize: true }
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  description: { name: Description, type: string }
+  discountable: { name: Discountable, type: boolean }
+  id:
+    name: ID
+    type: string
+    writable: false
+  name: { name: Name, type: string }
+  period_end: { name: "Period End", type: date }
+  period_start: { name: "Period Start", type: date }
+  plan: { name: Plan, type: join, join_column: internal_id }
+  prorated: { name: Prorated, type: boolean }
+  quantity: { name: Quantity, type: float, summarize: true }
+  taxable: { name: Taxable, type: boolean }
+  type: { name: Type, type: string }
+  unit_cost: { name: "Unit Cost", type: money, summarize: true }
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  sale:
+    name: Sale
+    type: join
+    parent_type_column: sale_type
+    join_type_column: type
+  item:
+    name: Item
+    type: join
+    parent_column: catalog_item_id
+    join_column: internal_id
+  metadata: { name: 'Metadata', type: metadata }
+  subscription: { name: Subscription, type: join }

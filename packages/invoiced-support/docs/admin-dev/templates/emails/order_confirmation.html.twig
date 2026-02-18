@@ -1,0 +1,41 @@
+{% apply inky_to_html|inline_css(source('@styles/emails/foundation-emails.css')) %}
+    <container>
+        <row class="header">
+            <columns>
+                <center>
+                    <img src="{{ email.image('@images/emails/logo.png') }}" class="logo" alt="Invoiced" height="35">
+                </center>
+            </columns>
+        </row>
+        <row>
+            <columns>
+                <spacer size="35"></spacer>
+                <h1>
+                    <center>
+                        New Sales Order
+                    </center>
+                </h1>
+                <h2>
+                    <center>
+                        <small>Order # {{ orderNumber }}</small>
+                    </center>
+                </h2>
+                <spacer size="10"></spacer>
+
+                <p>
+                    Type: {{ orderType }}{% if orderType == 'Change Order' %} - {{ changeOrderType }}{% endif %}<br/>
+                    Customer: {% if invoicedCustomerId %}<a href="https://app.invoiced.com/customers/{{ invoicedCustomerId }}">{{ customer }}</a>{% else %}{{ customer }}{% endif %}<br/>
+                    Start Date: {{ startDate }}<br/>
+                    Sales Rep: {{ salesRep }}
+                </p>
+            </columns>
+        </row>
+        <row>
+            <columns>
+                <center>
+                    <button class="radius" href="{{ ea_url().setController('App\\Controller\\Admin\\OrderCrudController').setAction('detail').setEntityId(orderId) }}">View Order</button>
+                </center>
+            </columns>
+        </row>
+    </container>
+{% endapply %}

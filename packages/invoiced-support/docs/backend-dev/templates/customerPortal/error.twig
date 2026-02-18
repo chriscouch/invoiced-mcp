@@ -1,0 +1,13 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'labels.error'|trans %}
+{% extends "customerPortal/parentLogo.twig" %}
+
+{% block main %}
+
+    <section class="error not-found">
+        <div class="container">
+            <p class="lead">{{ message }}</p>
+        </div>
+    </section>
+
+{% endblock %}

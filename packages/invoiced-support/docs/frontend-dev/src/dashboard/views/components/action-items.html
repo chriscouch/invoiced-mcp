@@ -1,0 +1,149 @@
+<div class="dashboard-component-action-items">
+    <h4>
+        Action Items
+        <span class="badge" ng-show="actionItems.count > 0">{{actionItems.count}}</span>
+    </h4>
+    <div class="loading" ng-show="loading"></div>
+    <div class="action-items-holder" ng-show="!loading && actionItems.count > 0">
+        <table class="table table-action-items">
+            <tbody>
+                <tr ng-show="actionItems.num_my_todo > 0">
+                    <td class="num-items">
+                        {{actionItems.num_my_todo}}
+                    </td>
+                    <td class="icon">
+                        <span class="fal fa-tasks"></span>
+                    </td>
+                    <td>
+                        <a href="/activities?tab=mine">
+                            {{'dashboard.action_items.tasks_due'|translate}}
+                        </a>
+                    </td>
+                </tr>
+                <tr ng-show="actionItems.num_needs_attention > 0">
+                    <td class="num-items">
+                        {{actionItems.num_needs_attention}}
+                    </td>
+                    <td class="icon">
+                        <span class="fal fa-comment-alt-exclamation"></span>
+                    </td>
+                    <td>
+                        <a href="/invoices?status=unpaid&amp;needs_attention=1&amp;sort=date+ASC">
+                            {{'dashboard.action_items.needs_attention'|translate}}
+                        </a>
+                    </td>
+                </tr>
+                <tr ng-show="actionItems.num_broken_promises > 0">
+                    <td class="num-items">
+                        {{actionItems.num_broken_promises}}
+                    </td>
+                    <td class="icon">
+                        <span class="fal fa-handshake-slash"></span>
+                    </td>
+                    <td>
+                        <a href="/invoices?status=broken_promise&amp;needs_attention=&amp;sort=date+ASC">
+                            {{'dashboard.action_items.broken_promises'|translate}}
+                        </a>
+                    </td>
+                </tr>
+                <tr ng-show="actionItems.num_autopay_invoices_missing_payment_info > 0">
+                    <td class="num-items">
+                        {{actionItems.num_autopay_invoices_missing_payment_info}}
+                    </td>
+                    <td class="icon">
+                        <span class="fal fa-credit-card-blank"></span>
+                    </td>
+                    <td>
+                        <a href="/invoices?autopay=no_payment_info&amp;sort=date+ASC">
+                            {{'dashboard.action_items.payment_info_missing'|translate}}
+                        </a>
+                    </td>
+                </tr>
+                <tr ng-show="actionItems.num_unapproved_payment_plans > 0">
+                    <td class="num-items">
+                        {{actionItems.num_unapproved_payment_plans}}
+                    </td>
+                    <td class="icon">
+                        <span class="fal fa-calendar-check"></span>
+                    </td>
+                    <td>
+                        <a href="/payment_plans?status=needs_approval">
+                            {{'dashboard.action_items.payment_plans'|translate}}
+                        </a>
+                    </td>
+                </tr>
+                <tr ng-show="actionItems.num_unapplied_payments > 0">
+                    <td class="num-items">
+                        {{actionItems.num_unapplied_payments}}
+                    </td>
+                    <td class="icon">
+                        <span class="fal fa-money-bill-wave"></span>
+                    </td>
+                    <td>
+                        <a href="/payments?applied=0&voided=0">
+                            {{'dashboard.action_items.unapplied_payments'|translate}}
+                        </a>
+                    </td>
+                </tr>
+                <tr ng-show="actionItems.num_remittance_advice_exceptions > 0">
+                    <td class="num-items">
+                        {{actionItems.num_remittance_advice_exceptions}}
+                    </td>
+                    <td class="icon">
+                        <span class="fal fa-comment-alt-exclamation"></span>
+                    </td>
+                    <td>
+                        <a href="/remittance_advice?status=Exception">
+                            {{'dashboard.action_items.num_remittance_advice_exceptions'|translate}}
+                        </a>
+                    </td>
+                </tr>
+
+                <tr ng-show="actionItems.num_open_email_threads > 0 && ('accounts_receivable'|hasFeature)">
+                    <td class="num-items">
+                        {{actionItems.num_open_email_threads}}
+                    </td>
+                    <td class="icon">
+                        <span class="fal fa-comments"></span>
+                    </td>
+                    <td>
+                        <a ui-sref="manage.ar_inbox" class="ng-binding">
+                            {{'dashboard.action_items.open_email_threads'|translate}}
+                        </a>
+                    </td>
+                </tr>
+
+                <tr ng-show="actionItems.num_open_email_threads > 0 && ('accounts_payable'|hasFeature)">
+                    <td class="num-items">
+                        {{actionItems.num_open_email_threads}}
+                    </td>
+                    <td class="icon">
+                        <span class="fal fa-comments"></span>
+                    </td>
+                    <td>
+                        <a ui-sref="manage.ap_inbox" class="ng-binding">
+                            {{'dashboard.action_items.open_email_threads'|translate}}
+                        </a>
+                    </td>
+                </tr>
+
+                <tr ng-show="actionItems.num_reconciliation_errors > 0">
+                    <td class="num-items">
+                        {{actionItems.num_reconciliation_errors}}
+                    </td>
+                    <td class="icon">
+                        <span class="fal fa-sync"></span>
+                    </td>
+                    <td>
+                        <a ui-sref="manage.settings.app.accounting_sync({id: actionItems.accounting_system})" class="ng-binding">
+                            {{'dashboard.action_items.num_reconciliation_errors'|translate}}
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="empty" ng-show="!loading && actionItems.count == 0">
+        🎉 You're all caught up
+    </div>
+</div>

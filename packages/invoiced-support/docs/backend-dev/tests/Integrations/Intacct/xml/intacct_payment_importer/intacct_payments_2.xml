@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+    <control>
+        <status>success</status>
+        <senderid>Invoiced</senderid>
+        <controlid>1620757805</controlid>
+        <uniqueid>false</uniqueid>
+        <dtdversion>3.0</dtdversion>
+    </control>
+    <operation>
+        <authentication>
+            <status>success</status>
+            <userid>Guest</userid>
+            <companyid>Invoiced-DEV SE</companyid>
+            <locationid></locationid>
+            <sessiontimestamp>2021-05-11T18:30:05+00:00</sessiontimestamp>
+            <sessiontimeout>2021-05-12T06:30:05+00:00</sessiontimeout>
+        </authentication>
+        <result>
+            <status>success</status>
+            <function>read</function>
+            <controlid>dafc04be-edea-4d4a-8ee1-143fefa08b7e</controlid>
+            <data listtype="arpayment" count="3">
+                <arpayment>
+                    <RECORDNO>0000</RECORDNO>
+                    <CUSTOMERID>C-0000</CUSTOMERID>
+                    <CUSTOMERNAME>Customer Zero</CUSTOMERNAME>
+                    <STATE></STATE>
+                    <CURRENCY>USD</CURRENCY>
+                    <RECEIPTDATE>2018-06-01</RECEIPTDATE>
+                    <DOCNUMBER>0000</DOCNUMBER>
+                    <RECORDID></RECORDID>
+                    <PAYMENTTYPE>Printed Check</PAYMENTTYPE>
+                    <AUWHENCREATED></AUWHENCREATED>
+                    <INVOICES>
+                        <RECORD>0000</RECORD>
+                        <APPLIEDAMOUNT>50</APPLIEDAMOUNT>
+                        <RECORDID>INV-0564</RECORDID>
+                    </INVOICES>
+                    <CREDITS></CREDITS>
+                </arpayment>
+                <arpayment>
+                    <RECORDNO>0001</RECORDNO>
+                    <CUSTOMERID>C-0000</CUSTOMERID>
+                    <CUSTOMERNAME>Customer Zero</CUSTOMERNAME>
+                    <STATE></STATE>
+                    <CURRENCY>USD</CURRENCY>
+                    <RECEIPTDATE>2018-06-01</RECEIPTDATE>
+                    <DOCNUMBER>0001</DOCNUMBER>
+                    <RECORDID></RECORDID>
+                    <PAYMENTTYPE>Printed Check</PAYMENTTYPE>
+                    <AUWHENCREATED></AUWHENCREATED>
+                    <INVOICES>
+                        <RECORD>0000</RECORD>
+                        <APPLIEDAMOUNT>50</APPLIEDAMOUNT>
+                        <RECORDID>INV-0564</RECORDID>
+                    </INVOICES>
+                    <CREDITS></CREDITS>
+                </arpayment>
+                <arpayment>
+                    <RECORDNO>0002</RECORDNO>
+                    <CUSTOMERID>C-0000</CUSTOMERID>
+                    <CUSTOMERNAME>Customer Zero</CUSTOMERNAME>
+                    <STATE></STATE>
+                    <CURRENCY>USD</CURRENCY>
+                    <RECEIPTDATE>2018-06-01</RECEIPTDATE>
+                    <DOCNUMBER>0002</DOCNUMBER>
+                    <RECORDID></RECORDID>
+                    <PAYMENTTYPE>Printed Check</PAYMENTTYPE>
+                    <AUWHENCREATED></AUWHENCREATED>
+                    <INVOICES>
+                        <RECORD>0001</RECORD>
+                        <APPLIEDAMOUNT>100</APPLIEDAMOUNT>
+                        <RECORDID>INV-0564578</RECORDID>
+                    </INVOICES>
+                    <CREDITS></CREDITS>
+                </arpayment>
+            </data>
+        </result>
+    </operation>
+</response>

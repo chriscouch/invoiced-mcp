@@ -1,0 +1,55 @@
+# Asserts that same day sends are only skipped when the invoices are the same
+
+operations:
+  - operation: create
+    mock_time: '2022-01-01 18:01:54' # Time chosen at random, date was not
+    data:
+      invoice:
+        date: '2022-01-01 18:01:54' # Same as create time
+        items:
+          - quantity: 1
+            unit_cost: 100
+      invoice2:
+        date: '2022-01-01 18:01:54' # Same as create time
+        items:
+          - quantity: 1
+            unit_cost: 100
+      # Both deliveries have the same schedule
+      delivery:
+        chase_schedule:
+          - trigger: 4
+            options:
+              hour: 8
+              date: '2022-01-06 18:01:54'
+              email: true
+              sms: false
+              letter: false
+      delivery2:
+        chase_schedule:
+          - trigger: 4
+            options:
+              hour: 8
+              date: '2022-01-06 18:01:54'
+              email: true
+              sms: false
+              letter: false
+
+    expect:
+      scheduled_sends: []
+
+  - operation: schedule
+    mock_time: '2022-01-01 18:01:54' # Same as previous
+    expect:
+      scheduled_sends:
+        - send_after: '2022-01-06 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+        - send_after: '2022-01-06 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false

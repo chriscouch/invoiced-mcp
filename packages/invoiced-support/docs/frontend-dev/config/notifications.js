@@ -1,0 +1,118 @@
+(function () {
+    'use strict';
+
+    this.InvoicedConfig.notifications = [
+        {
+            id: 'invoice_viewed',
+            notification_type: 'invoice.viewed',
+            frequency: 'never',
+            feature: 'billing_portal',
+            category: 'customer_portal',
+        },
+        {
+            id: 'payment_done',
+            notification_type: 'payment.done',
+            frequency: 'never',
+            feature: 'billing_portal',
+            category: 'customer_portal',
+        },
+        {
+            id: 'promise_created',
+            notification_type: 'promise.created',
+            frequency: 'never',
+            feature: 'billing_portal',
+            category: 'customer_portal',
+        },
+        {
+            id: 'payment_plan_approved',
+            notification_type: 'payment_plan.approved',
+            frequency: 'never',
+            feature: 'billing_portal',
+            category: 'customer_portal',
+        },
+        {
+            id: 'estimate_viewed',
+            notification_type: 'estimate.viewed',
+            frequency: 'never',
+            allFeatures: ['estimates', 'billing_portal'],
+            category: 'customer_portal',
+        },
+        {
+            id: 'estimate_approved',
+            notification_type: 'estimate.approved',
+            frequency: 'never',
+            allFeatures: ['estimates', 'billing_portal'],
+            category: 'customer_portal',
+        },
+        {
+            id: 'payment_link_completed',
+            notification_type: 'payment_link.completed',
+            frequency: 'never',
+            someFeatures: ['payment_links'],
+            category: 'customer_portal',
+        },
+        {
+            id: 'sign_up_page_completed',
+            notification_type: 'sign_up_page.completed',
+            frequency: 'never',
+            someFeatures: ['autopay', 'billing_portal'],
+            category: 'customer_portal',
+        },
+        {
+            id: 'subscription_canceled',
+            notification_type: 'subscription.canceled',
+            frequency: 'never',
+            allFeatures: ['subscriptions', 'billing_portal'],
+            category: 'customer_portal',
+        },
+        {
+            id: 'task_assigned',
+            notification_type: 'task.assigned',
+            frequency: 'never',
+            someFeatures: ['smart_chasing', 'accounts_payable'],
+            category: 'collections',
+        },
+        {
+            id: 'email_received',
+            notification_type: 'email.received',
+            frequency: 'never',
+            someFeatures: ['accounts_receivable', 'accounts_payable'],
+            category: 'collections',
+        },
+        {
+            id: 'thread_assigned',
+            notification_type: 'thread.assigned',
+            frequency: 'never',
+            feature: 'inboxes',
+            category: 'collections',
+        },
+        {
+            id: 'lock_box_received',
+            notification_type: 'lock_box.received',
+            frequency: 'never',
+            feature: 'accounts_receivable',
+            category: 'collections',
+        },
+        {
+            id: 'autopay_failed',
+            notification_type: 'autopay.failed',
+            frequency: 'never',
+            feature: 'autopay',
+            category: 'autopay',
+        },
+        {
+            id: 'autopay_succeeded',
+            notification_type: 'autopay.succeeded',
+            frequency: 'never',
+            feature: 'autopay',
+            category: 'autopay',
+        },
+        {
+            id: 'subscription_expired',
+            notification_type: 'subscription.expired',
+            frequency: 'never',
+            feature: 'subscriptions',
+            category: 'autopay',
+        },
+    ];
+}).call(this);

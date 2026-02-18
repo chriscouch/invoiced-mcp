@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}New sign up page completions{% endblock %}
+{% block notification %}
+    {% for customer in customers %}
+        <p><a href="{{ dashboardUrl }}/alerts?account={{ tenant_id  }}">{{ customer.cnt }} customers completed a sign up page</a></p>
+    {% endfor %}
+{% endblock %}

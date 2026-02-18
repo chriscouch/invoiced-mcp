@@ -1,0 +1,211 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title='titles.submit_payment'|trans %}
+{% extends "customerPortal/parentFrameTwoColumn.twig" %}
+
+{% block left %}
+    <div class="main">
+        {% if noPaymentMethods %}
+            <div class="alert bg-danger-soft text-dark border border-danger">
+                {{ 'messages.online_payments_not_accepted'|trans }}
+            </div>
+        {% else %}
+            <form id="paymentSubmitForm" method="post" action="{{ submitUrl }}">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('customer_portal_invoice_payment') }}" />
+                <div id="paymentSourceData"></div>
+                <input type="hidden" name="payment_flow" value="{{ paymentFlow.identifier }}" />
+                <input type="hidden" name="currency" value="{{ currency }}" />
+                {% for formItem in formItems %}
+                    <input type="hidden" name="{{ formItem.type }}{% if formItem.hasMultiple %}[]{% endif %}" value="{{ formItem.clientId }}" />
+                    <input type="hidden" name="amount_type[{{ formItem.type }}][{{ formItem.clientId }}]" value="{{ formItem.amountType }}" />
+                    <input type="hidden" name="amount[{{ formItem.type }}][{{ formItem.clientId }}]" value="{{ formItem.amount }}" />
+                {% endfor %}
+                <input type="hidden" name="receipt_email" id="receiptEmail" />
+                {% if not(allowAutoPayEnrollment) %}
+                    <input type="hidden" name="make_default" id="paymentMakeDefault" value="{% if makeDefault %}1{% else %}0{% endif %}" />
+                {% else %}
+                    <input type="hidden" name="enroll_autopay" id="paymentEnrollAutoPay" value="0" />
+                {% endif %}
+            </form>
+
+            <form class="payment-form" id="paymentInfoForm">
+                <div class="alert bg-danger-soft text-dark border border-danger errors invoice-payment-errors {% if errors is not defined or errors is empty %}hidden{% endif %}">
+                    {% if errors is defined %}
+                        {% for error in errors %}
+                            {{ error }}
+                            {% if loop.last == false  %}<br/>{% endif%}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="form-section nopadding">
+                    <div class="row two-column-row">
+                        <!-- Payment Method Selector -->
+                        <div class="col-lg-6 {% if (paymentSources|length + paymentViews|length) == 1 %}d-none{% endif %}">
+                            <div class="field pay-with-div hidden">
+                                <label class="form-label">{{ 'labels.pay_with'|trans }}</label>
+                                <div>
+                                    <select class="form-select input-large" name="method" id="paymentMethodSelector">
+                                        <!-- Saved Payment Sources -->
+                                        {% for k, source in paymentSources %}
+                                            <option value="{{ k }}" data-gateway="" data-is-submittable="true" data-supports-vaulting="false" data-supports-autopay="true" data-supports-convenience-fee="{% if source.supportsConvenienceFees() %}true{% else %}false{% endif %}" data-has-receipt-email="true" {% if selectedPaymentMethod == k %}selected="selected"{% endif %}>{{ source.toString(true) }}</option>
+                                        {% endfor %}
+
+                                        {% if paymentSources|length > 0 %}
+                                            <option disabled="disabled">----</option>
+                                        {% endif %}
+
+                                        <!-- One-Off Payments -->
+                                        {% for row in paymentViews %}
+                                            <option value="{{ row.method.id }}" data-gateway="{{ row.gateway }}" data-is-submittable="{% if row.capabilities.isSubmittable %}true{% else %}false{% endif %}" data-supports-vaulting="{% if row.capabilities.supportsVaulting %}true{% else %}false{% endif %}" data-supports-autopay="{% if row.capabilities.supportsVaulting %}true{% else %}false{% endif %}" data-supports-convenience-fee="{% if row.capabilities.supportsConvenienceFee %}true{% else %}false{% endif %}" data-has-receipt-email="{% if row.capabilities.hasReceiptEmail %}true{% else %}false{% endif %}" {% if selectedPaymentMethod == row.method.id %}selected="selected"{% endif %}>{{ row.method.toString() }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Receipt Email -->
+                        <div class="col-lg-6">
+                            <div class="field receipt-email-div hidden">
+                                <label class="form-label">
+                                    {{ 'labels.receipt_email'|trans }}
+                                </label>
+                                <div>
+                                    <input class="form-control receipt-email" id="receiptEmailForm" name="receipt_email" value="{{ receiptEmail|default(customerEmail) }}" />
+                                </div>
+                            </div>
+                            {% for k, source in paymentSources %}
+                                <input class="receipt-email-data hidden {{ k|replace({':':'_'}) }}" value="{{ source.receipt_email }}"/>
+                            {% endfor %}
+                            {% for row in paymentViews %}
+                                <input class="receipt-email-data hidden {{ row.method.id }}" value="{{ customerEmail }}" />
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Form -->
+                {% for row in paymentViews %}
+                    <div class="payment-method-form hidden {{ row.method.id }}">
+                        {{ row.view.render(form, row.method, row.merchantAccount, paymentFlow)|raw }}
+                    </div>
+                {% endfor %}
+
+                <!-- Require a CVC code for saved credit cards (optional) -->
+                {% if requireSavedCardCvc %}
+                    <div class="form-section hidden saved-card-cvc">
+                        <div class="field slim">
+                            <label class="form-label">
+                                {{ 'labels.cvc'|trans }}
+                            </label>
+                            <input type="tel" class="form-control cc-cvc required input-small" autocomplete="cc-csc" autocorrect="off" spellcheck="off" autocapitalize="off" placeholder="123" />
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="form-section submittable-hidden-field hidden">
+                    {% if not(allowAutoPayEnrollment) %}
+                        <!-- Save as default source -->
+                        <div class="form-check make-default-source vaulting-hidden-field hidden">
+                            <input type="checkbox" class="form-check-input" id="makeDefault" {% if makeDefault %}disabled="disabled" checked="checked"{% endif %} />
+                            <label class="form-check-label noselect" for="makeDefault">
+                                {{ 'labels.make_default_payment_method'|trans }}
+                            </label>
+                        </div>
+                    {% else %}
+                        <!-- AutoPay Enrollment -->
+                        <div class="form-check autopay-enrollment autopay-hidden-field hidden">
+                            <input type="checkbox" class="form-check-input" id="enrollAutoPay" />
+                            <label class="form-check-label noselect" for="enrollAutoPay">
+                                {{ 'labels.enroll_in_autopay'|trans }}
+                                <a href="#" data-bs-toggle="tooltip" data-bs-title="{{ 'messages.autopay_explanation'|trans }}">
+                                    <span class="fas fa-info-circle"></span>
+                                </a>
+                            </label>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-section nopadding">
+                    <div class="row actions submittable-hidden-field hidden">
+                        <div class="col-xs-12">
+                            <button type="submit" class="btn btn-primary payment-button">
+                                {{ 'buttons.pay'|trans }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+
+    <script type="text/javascript" src="{{ asset('/js/views/payment_form.js') }}"></script>
+
+    <!-- Hidden Translation Strings -->
+    <div id="paymentProcessingMessage" class="hidden">{{ 'messages.payment_processing'|trans }}</div>
+{% endblock %}
+
+{% block right %}
+    <h4>
+        <div class="float-end">
+            <form class="mb-0" method="post" action="{{ modifyUrl }}">
+                {% for key,value in modifySelectionParams %}
+                    {% if value is iterable %}
+                        {% for value2 in value %}
+                            <input type="hidden" name="{{ key }}[]" value="{{ value2 }}" />
+                        {% endfor %}
+                    {% else %}
+                        <input type="hidden" name="{{ key }}" value="{{ value }}" />
+                    {% endif %}
+                {% endfor %}
+                <button type="submit" class="btn btn-link py-0">{{ 'buttons.modify'|trans }}</button>
+            </form>
+        </div>
+        {{ 'labels.summary'|trans }}
+    </h4>
+
+    <table class="table payment-summary-lines">
+        <tbody>
+            {% for displayItem in displayItems %}
+                <tr class="display-item {% if loop.index > 5 %}hidden{% endif %}">
+                    <td class="description py-2">{{ displayItem.description }}</td>
+                    <td class="money-amount py-2 text-end">{{ displayItem.amount|money(currency) }}</td>
+                </tr>
+            {% endfor %}
+
+            {% if displayItems|length > 5 %}
+                <tr class="display-item view-all">
+                    <td class="py-2" colspan="2">
+                        <a href="#" class="view-all-display-items">
+                            {{ 'buttons.view_all'|trans }}
+                        </a>
+                    </td>
+                </tr>
+            {% endif %}
+
+            <!-- Convenience Fee -->
+            {% if convenienceFeeAmount > 0 %}
+                <tr class="display-item convenience-fee hidden" id="convenience-fee-warning">
+                    <td class="description py-2">
+                        {{ 'labels.convenience_fee'|trans }}
+                        ({{ convenienceFeePercent }}%)
+                    </td>
+                    <td class="money-amount py-2 text-end">{{ convenienceFeeAmount|money(currency) }}</td>
+                </tr>
+            {% endif %}
+        </tbody>
+
+        <!-- Payment Amount -->
+        <tfoot>
+            <tr class="payment-amount">
+                <td class="description">
+                    {{ 'labels.total'|trans }}
+                </td>
+                <td class="default-payment-amount money-amount text-end">
+                    <input type="hidden" id="amount" value="{{ amount }}" />
+                    <span class="money" id="normal-payment-total">{{ amount|money(currency) }}</span>
+                    <span class="money hidden" id="convenience-fee-payment-total">{{ (convenienceFeeTotal|default(amount))|money(currency) }}</span>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+{% endblock %}

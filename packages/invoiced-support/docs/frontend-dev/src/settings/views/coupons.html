@@ -1,0 +1,107 @@
+<div class="contents">
+	<div class="settings-title-bar">
+		<h2 class="title">
+			<div class="docs-link">
+				<a href="https://docs.invoiced.com/subscription-billing/coupons" target="_blank">
+					{{'general.documentation'|translate}}
+					<span class="fas fa-external-link"></span>
+				</a>
+			</div>
+			<div class="back-link">
+				<a ui-sref="manage.settings.default">
+					<span class="fas fa-arrow-left"></span>
+					{{'general.settings'|translate}}
+				</a>
+			</div>
+			{{'settings.titles.coupons'|translate}}
+		</h2>
+
+		<p class="lead">
+			Manage your coupons here. They can be applied to line items and subtotals.
+		</p>
+	</div>
+
+	<p class="alert alert-danger" ng-show="error">
+		{{error.message}}
+	</p>
+
+	<p class="loading" ng-show="loading"></p>
+
+	<div class="panel panel-default" ng-hide="loading">
+		<div class="panel-heading">
+			<h4 class="panel-title button-title">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="searchbar light">
+							<div class="bar">
+								<div class="icon"><span class="fas fa-search"></span></div>
+								<input type="text" class="form-control" ng-model="search" tabindex="2000" />
+								<div class="icon right icon-btn" ng-show="search">
+									<button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+										<span class="fas fa-times-circle"></span>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-8 text-right">
+						<a ui-sref="manage.imports.new.spreadsheet({type:'coupon'})" class="btn btn-default hidden-xs" ng-if="'imports.create'|hasPermission">
+							Import
+						</a>
+						<button type="button" class="btn btn-success" ng-click="newCouponModal(type)">
+							New Coupon
+						</button>
+					</div>
+				</div>
+			</h4>
+		</div>
+
+		<!-- No Results -->
+		<div class="list-group" ng-show="results.length === 0">
+			<div class="list-group-item">
+				<div class="empty">No coupons found.</div>
+			</div>
+		</div>
+
+		<!-- Results Table -->
+		<table class="table table-striped search-results-table" ng-show="results.length > 0">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Code</th>
+					<th class="money-column">Discount</th>
+					<th class="noborder">Duration</th>
+					<th class="nopadding"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="coupon in coupons | searchObject:search:['name','id'] | orderBy:['name'] | limitTo:100 as results">
+					<td>
+						{{coupon.name}}
+					</td>
+					<td><code>{{coupon.id}}</code></td>
+					<td class="money-column">
+						<span ng-show="coupon.is_percent">{{coupon.value}} %</span>
+						<span ng-hide="coupon.is_percent"><money amount="coupon.value" currency="coupon.currency"></money></span>
+					</td>
+					<td class="nowrap noborder">
+						<span ng-show="coupon.duration==0">Forever</span>
+						<span ng-show="coupon.duration==1">One-time</span>
+						<span ng-show="coupon.duration>1">{{coupon.duration}} Cycles</span>
+					</td>
+					<td class="nopadding hover-actions-holder mobile-last mobile-visible">
+						<div class="hover-actions">
+							<button type="button" class="btn btn-default btn-sm" ng-click="editCouponModal(coupon)" tooltip="Edit Coupon">
+								<span class="fas fa-pencil"></span>
+							</button>
+							<button type="button" class="btn btn-danger btn-sm" ng-click="delete(coupon)" ng-disabled="deleting[coupon.id]" tooltip="Delete Coupon">
+								<span class="fas fa-trash"></span>
+							</button>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<cut-list-label count="results.length" total="(coupons | searchObject:search:['name','id']).length"></cut-list-label>
+</div>

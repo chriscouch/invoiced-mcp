@@ -1,0 +1,111 @@
+<div class="loading inline" ng-show="loading"></div>
+<div ng-show="!loading">
+    <form name="settingsForm" class="form-horizontal" ng-submit="save(syncProfile)">
+        <div class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </div>
+
+        <div class="required-indicator">
+            <span class="required"></span> {{'general.indicates_required_field'|translate}}
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-12">
+                <h4 class="settings-section-title">{{'quickbooks_desktop.data_flow'|translate}}</h4>
+            </div>
+        </div>
+        <table class="table search-results-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="text-center">{{'quickbooks_desktop.read_from_quickbooks'|translate}}</th>
+                    <th class="text-center">{{'quickbooks_desktop.write_to_quickbooks'|translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{'quickbooks_desktop.customers'|translate}}</td>
+                    <td class="text-center">
+                        <toggle ng-model="syncProfile.read_customers"></toggle>
+                    </td>
+                    <td class="text-center">
+                        <span>&mdash;</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{'quickbooks_desktop.invoices'|translate}}</td>
+                    <td class="text-center">
+                        <toggle ng-model="syncProfile.read_invoices"></toggle>
+                    </td>
+                    <td class="text-center">
+                        <span>&mdash;</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{'quickbooks_desktop.payments'|translate}}</td>
+                    <td class="text-center">
+                        <toggle ng-model="syncProfile.read_payments"></toggle>
+                    </td>
+                    <td class="text-center">
+                        <toggle ng-model="syncProfile.write_payments"></toggle>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{'quickbooks_desktop.credit_notes'|translate}}</td>
+                    <td class="text-center">
+                        <toggle ng-model="syncProfile.read_credit_notes"></toggle>
+                    </td>
+                    <td class="text-center">
+                        <span>&mdash;</span>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3"></td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-4">
+                <h4 class="settings-section-title">{{'quickbooks_desktop.sync_settings'|translate}}</h4>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-4">
+                {{'accounting_sync.date_range'|translate}}
+            </label>
+            <div class="col-sm-8 form-control-static">
+                <label class="noselect">
+                    <input type="checkbox" ng-model="syncAllInvoices" />
+                    {{'accounting_sync.all_invoices'|translate}}
+                </label>
+                <div ng-if="!syncAllInvoices">
+                    <div>{{'accounting_sync.only_invoices_on_after'|translate}}</div>
+                    <div class="input-group input-medium">
+                        <input type="text" class="form-control" ng-model="syncProfile.invoice_start_date" ui-date="dateOptions" is-open="dpOpened" readonly="readonly" required />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'dpOpened')">
+                                <span class="fas fa-calendar-alt"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+
+        <div class="form-group form-actions">
+            <div class="col-sm-offset-4 col-sm-8">
+                <button type="submit" class="btn btn-primary" ng-disabled="saving||settingsForm.$invalid" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+                    <span translate>general.save</span>
+                </button>
+                <button type="button" class="btn btn-default" ng-click="connect()">
+                    {{'quickbooks_desktop.download'|translate}}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

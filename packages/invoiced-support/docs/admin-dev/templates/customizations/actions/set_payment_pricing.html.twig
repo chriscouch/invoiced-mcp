@@ -1,0 +1,100 @@
+{% form_theme form with '@EasyAdmin/crud/form_theme.html.twig' %}
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Set Payment Pricing{% endblock %}
+
+{% block body_class 'ea-edit extend-trial-form' %}
+
+{% block main %}
+    {{ form_start(form, {attr: {id: 'pricingForm'}}) }}
+
+    <fieldset>
+        <p>
+            Set all Flywire Payments pricing parameters for <strong>{{ companyName }} (# {{ companyId }})</strong> below. This form will create a corresponding split configuration on Adyen and assign the pricing configuration to the account.
+        </p>
+
+        <div class="my-custom-class-for-errors">
+            {{ form_errors(form) }}
+        </div>
+
+        <h4 class="mt-4">Card</h4>
+        <div class="row gx-5">
+            <div class="col-auto">
+                {{ form_row(form.card_interchange_passthrough) }}
+            </div>
+            <div class="col-auto">
+                {{ form_row(form.card_variable_fee) }}
+            </div>
+            <div class="col-auto">
+                {{ form_row(form.card_fixed_fee) }}
+            </div>
+            <div class="col-auto" id="international-card-pricing">
+                {{ form_row(form.card_international_added_variable_fee) }}
+            </div>
+        </div>
+
+        <hr/>
+        <h4 class="mt-4">American Express</h4>
+        <div class="row gx-5">
+            <div class="col-sm-12">
+                {{ form_row(form.amex_interchange_variable_markup) }}
+            </div>
+        </div>
+
+        <hr/>
+        <h4 class="mt-4">ACH Direct Debit</h4>
+        <div class="row gx-5">
+            <div class="col-auto">
+                {{ form_row(form.ach_variable_fee) }}
+            </div>
+            <div class="col-auto">
+                {{ form_row(form.ach_fixed_fee) }}
+            </div>
+            <div class="col-auto">
+                {{ form_row(form.ach_max_fee) }}
+            </div>
+        </div>
+
+        <hr/>
+        <h4 class="mt-4">Other</h4>
+        <div class="row gx-5">
+            <div class="col-auto">
+                {{ form_row(form.chargeback_fee) }}
+            </div>
+            <div class="col-auto">
+                {{ form_row(form.override_split_configuration_id) }}
+            </div>
+        </div>
+    </fieldset>
+
+    <section class="content-footer">
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn">Save</button>
+        </div>
+    </section>
+
+    {{ form_end(form) }}
+
+    <style type="text/css">
+        .input-group {
+            max-width: 150px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(function() {
+            $('#form_card_interchange_passthrough').change(setCostPlus);
+            setCostPlus();
+        });
+
+        function setCostPlus() {
+            const enabled = $('#form_card_interchange_passthrough').is(':checked');
+
+            if (enabled) {
+                $('#international-card-pricing').addClass('d-none');
+            } else {
+                $('#international-card-pricing').removeClass('d-none');
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}Subscription has been canceled{% endblock %}
+{% block notification %}
+    {% for subscription in subscriptions %}
+        <p><a href="{{ dashboardUrl}}/customer/{{ subscription.customer.id  }}?account={{ tenant_id  }}">{{ subscription.customer.name }}</a> has canceled <a href="{{ dashboardUrl}}/subscriptions/{{ subscription.id  }}?account={{ tenant_id  }}">subscription</a> for {{ subscription.plan }}</p>
+    {% endfor %}
+{% endblock %}

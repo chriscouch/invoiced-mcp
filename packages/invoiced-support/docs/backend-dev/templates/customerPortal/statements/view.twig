@@ -1,0 +1,394 @@
+{% trans_default_domain 'customer_portal' %}
+{% import 'customerPortal/macros.twig' as macros %}
+{% set title=('titles.account_statement'|trans) %}
+{% extends "customerPortal/parentFrame.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style type="text/css" media="print">
+        html,body {
+            font-family: sans-serif;
+            font-size: 10pt;
+            text-align: center;
+            margin: 10px;
+            background: none;
+        }
+
+        body:before {
+            content: 'Please click "Download" to print {{ title }}.';
+            text-align: center;
+            padding-top: 30px;
+            font-size: 18px;
+            color: #404040;
+        }
+
+        div,iframe {
+            display: none;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+
+    <div class="document-client-view type-statement">
+        <div class="container-fluid p-0">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10 col-xl-8 p-0">
+                    <!-- Header -->
+                    <div class="header mt-lg-3 mb-3 mb-lg-5">
+                        <div class="header-body py-3 py-xl-4">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h1 class="header-title d-none d-lg-block">
+                                        {{ 'titles.account_statement'|trans }}
+                                    </h1>
+                                    <div class="statement-type-selector text-end text-lg-start">
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-link btm-sm dropdown-toggle" data-bs-toggle="dropdown">
+                                                {% if statement.type == 'open_item' %}
+                                                    {{ 'labels.open_item'|trans }}
+                                                {% else %}
+                                                    {% for month in statement.months %}
+                                                        {% if month.id == statement.selectedMonth %}{{ month.name }}{% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+                                                <span class="fas fa-chevron-down"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li {% if statement.type == 'open_item' %}class="active"{% endif %}>
+                                                    <a class="dropdown-item" href="?type=open_item">
+                                                        {{ 'labels.open_item'|trans }}
+                                                    </a>
+                                                </li>
+                                                <li class="dropdown-divider"></li>
+                                                {% for month in statement.months %}
+                                                    <li {% if statement.type == 'balance_forward' and statement.selectedMonth == month.id %}class="active"{% endif %}>
+                                                        <a class="dropdown-item" href="?month={{ month.id }}&type=balance_forward">
+                                                            {{ month.name }}
+                                                        </a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="document-buttons col-md-auto text-end">
+                                    <!-- Buttons -->
+                                    <a href="{{ statement.downloadUrl }}" class="btn btn-white lift download-document" title="{{ 'download'|trans }}">
+                                        <i class="fa-solid fa-download"></i>
+                                    </a>
+                                    {% if statement.paymentUrl is defined and statement.paymentUrl %}
+                                        <a href="{{ statement.paymentUrl }}" class="btn btn-primary ms-2 lift document-payment-btn">
+                                            {{ 'buttons.pay'|trans }}
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="card card-body py-5 px-3 px-md-5">
+                        <!-- Document Status -->
+                        <div class="col text-end fs-3 document-status">
+                            {% if statement.owesMoney and statement.pastDueOnly %}
+                                <div class="badge bg-danger mt-n6 me-n4 mb-3">
+                                    {{ 'labels.past_due'|trans }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="row">
+                            <div class="col text-center">
+                                {% if statement.billFrom.logo %}
+                                    <img src="{{ statement.billFrom.logo }}" alt="Logo" class="img-fluid mb-4 document-logo" style="max-height: 100px;">
+                                {% endif %}
+                                <h2 class="mb-2 document-from-title">
+                                    {{ 'titles.account_statement'|trans }}
+                                </h2>
+                                <p class="text-secondary mb-4 document-number-title">
+                                    {{ 'titles.statement_from'|trans({'%fromName%': statement.billFrom.name|slice(0, 50)}) }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row mt-lg-4">
+                            <!-- Bill From -->
+                            <div class="col-lg-6 p-0 document-bill-from">
+                                <h6 class="text-uppercase text-secondary">
+                                    {{ 'labels.bill_from'|trans }}
+                                </h6>
+                                <div class="text-secondary mb-4">
+                                    {{ macros.billFrom(statement.billFrom) }}
+                                </div>
+                            </div>
+
+                            <!-- Bill To -->
+                            <div class="col-lg-6 p-0 text-lg-end document-bill-to">
+                                <h6 class="text-uppercase text-secondary">
+                                    {{ 'labels.bill_to'|trans }}
+                                </h6>
+                                <div class="text-secondary mb-4">
+                                    {{ macros.billTo(statement.billTo) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-start flex-wrap mt-4">
+                            {% if statement.startDate and statement.endDate %}
+                                <!-- Date Range -->
+                                <div class="me-6 document-date-range">
+                                    <h6 class="text-uppercase text-secondary">
+                                        {{ 'labels.date_range'|trans }}
+                                    </h6>
+                                    <p class="mb-4">
+                                        {{ statement.startDate.format(dateFormat) }}
+                                        &mdash;
+                                        {{ statement.endDate.format(dateFormat) }}
+                                    </p>
+                                </div>
+                            {% elseif statement.endDate %}
+                                <!-- Date -->
+                                <div class="me-6 document-end-date">
+                                    <h6 class="text-uppercase text-secondary">
+                                        {{ 'labels.date'|trans }}
+                                    </h6>
+                                    <p class="mb-4">
+                                        {{ statement.endDate.format(dateFormat) }}
+                                    </p>
+                                </div>
+                            {% endif %}
+                            {% if statement.billTo.accountNumber %}
+                                <!-- Account # -->
+                                <div class="me-6 document-account-number">
+                                    <h6 class="text-uppercase text-secondary">
+                                        {{ 'labels.account_number'|trans }}
+                                    </h6>
+                                    <p class="mb-4">
+                                        {{ statement.billTo.accountNumber }}
+                                    </p>
+                                </div>
+                            {% endif %}
+                            {% for row in statement.customFields %}
+                                <div class="me-6 document-custom-field document-custom-field-{{ row.id }}">
+                                    <h6 class="text-uppercase text-secondary">
+                                        {{ row.name }}
+                                    </h6>
+                                    <p class="mb-4">
+                                        {{ row.value|raw }}
+                                    </p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="row statement-line-items">
+                            <div class="col-12 p-0">
+                                <div class="table-responsive">
+                                    {% if statement.type == 'balance_forward' %}
+                                        <table class="table my-4">
+                                            <thead>
+                                                <tr>
+                                                    <th class="px-0 bg-transparent border-top-0 text-secondary line-item-date">
+                                                        <span class="h6">{{ 'labels.date'|trans }}</span>
+                                                    </th>
+                                                    {% if statement.showCustomer %}
+                                                        <th class="px-3 bg-transparent border-top-0 text-secondary line-item-customer">
+                                                            <span class="h6">{{ 'labels.customer'|trans }}</span>
+                                                        </th>
+                                                    {% endif %}
+                                                    <th class="px-3 bg-transparent border-top-0 text-secondary line-item-description">
+                                                        <span class="h6">{{ 'labels.description'|trans }}</span>
+                                                    </th>
+                                                    <th class="px-3 bg-transparent border-top-0 text-secondary text-end line-item-amount">
+                                                        <span class="h6">{{ 'labels.amount'|trans }}</span>
+                                                    </th>
+                                                    <th class="px-3 bg-transparent border-top-0 text-secondary text-end d-none d-md-table-cell line-item-balance">
+                                                        <span class="h6">{{ 'labels.balance'|trans }}</span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for lineItem in statement.lineItems %}
+                                                <tr class="statement-line-item">
+                                                    <td class="px-0 line-item-date">
+                                                        {{ lineItem.date.format(dateFormat) }}
+                                                    </td>
+                                                    {% if statement.showCustomer %}
+                                                        <td class="px-3 line-item-customer">
+                                                            {{ lineItem.customer }}
+                                                        </td>
+                                                    {% endif %}
+                                                    <td class="px-3 line-item-description">
+                                                        {% if lineItem.url is defined and lineItem.url %}
+                                                            <a href="{{ lineItem.url }}">{{ lineItem.description }}</a>
+                                                        {% else %}
+                                                            {{ lineItem.description }}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="px-3 text-end line-item-amount">
+                                                        {{ lineItem.amount|money(statement.currency) }}
+                                                    </td>
+                                                    <td class="px-3 text-end d-none d-md-table-cell line-item-balance">
+                                                        {% if lineItem.balance %}
+                                                            {{ lineItem.balance|money(statement.currency) }}
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                            <!-- Total Lines -->
+                                            <tfoot>
+                                                {% if statement.previousBalance > 0 %}
+                                                    <tr class="subtotal-line-previous-balance">
+                                                        <td colspan="{% if statement.showCustomer %}3{% else %}2{% endif %}" class="px-0 py-3 border-top border-top-2">
+                                                            {{ 'labels.previous_balance'|trans }}
+                                                        </td>
+                                                        <td class="px-3 py-3 text-end border-top border-top-2 text-end">
+                                                            {{ statement.previousBalance|money(statement.currency) }}
+                                                        </td>
+                                                        <td class="p-0 border-top border-top-2 d-none d-md-table-cell"></td>
+                                                    </tr>
+                                                {% endif %}
+                                                <tr class="subtotal-line-total-billed">
+                                                    <td colspan="{% if statement.showCustomer %}3{% else %}2{% endif %}" class="px-0 py-3 border-top {% if statement.previousBalance > 0 %}border-top-1{% else %}border-top-2{% endif %}">
+                                                        {{ 'labels.total_billed'|trans }}
+                                                    </td>
+                                                    <td class="px-3 py-3 text-end border-top {% if statement.previousBalance > 0 %}border-top-1{% else %}border-top-2{% endif %} text-end">
+                                                        {{ statement.total|money(statement.currency) }}
+                                                    </td>
+                                                    <td class="p-0 border-top {% if statement.previousBalance > 0 %}border-top-1{% else %}border-top-2{% endif %} d-none d-md-table-cell"></td>
+                                                </tr>
+                                                <tr class="subtotal-line-total-paid">
+                                                    <td colspan="{% if statement.showCustomer %}3{% else %}2{% endif %}" class="px-0 py-3 border-top border-top-1">
+                                                        {{ 'labels.total_paid'|trans }}
+                                                    </td>
+                                                    <td class="px-3 py-3 text-end border-top border-top-1 text-end">
+                                                        {{ statement.totalPaid|money(statement.currency) }}
+                                                    </td>
+                                                    <td class="p-0 border-top border-top-1 d-none d-md-table-cell"></td>
+                                                </tr>
+                                                <tr class="subtotal-line-balance">
+                                                    <td colspan="{% if statement.showCustomer %}3{% else %}2{% endif %}" class="px-0 py-3 border-top border-top-4 fw-bold fs-3">
+                                                        {% if statement.pastDueOnly %}
+                                                            {{ 'labels.past_due_balance'|trans }}
+                                                        {% else %}
+                                                            {{ 'labels.balance_due'|trans }}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="px-3 py-3 text-end border-top border-top-4 fw-bold fs-3 text-end">
+                                                        {{ statement.balance|money(statement.currency) }}
+                                                    </td>
+                                                    <td class="p-0 border-top border-top-4 fw-bold fs-3 d-none d-md-table-cell"></td>
+                                                </tr>
+                                                {% if statement.creditBalance > 0 %}
+                                                    <tr class="subtotal-line-credit-balance">
+                                                        <td colspan="{% if statement.showCustomer %}3{% else %}2{% endif %}" class="px-0 py-3 border-top border-top-2">
+                                                            {{ 'labels.available_credits'|trans }}
+                                                        </td>
+                                                        <td class="px-3 py-3 text-end border-top border-top-2 text-end">
+                                                            {{ statement.creditBalance|money(statement.currency) }}
+                                                        </td>
+                                                        <td class="p-0 border-top border-top-2 d-none d-md-table-cell"></td>
+                                                    </tr>
+                                            {% endif %}
+                                            </tfoot>
+                                        </table>
+                                    {% endif %}
+                                    {% if statement.type == 'open_item' %}
+                                        <table class="table my-4">
+                                            <thead>
+                                                <tr>
+                                                    <th class="px-0 bg-transparent border-top-0 text-secondary line-item-date">
+                                                        <span class="h6">{{ 'labels.date'|trans }}</span>
+                                                    </th>
+                                                    {% if statement.showCustomer %}
+                                                        <th class="px-3 bg-transparent border-top-0 text-secondary line-item-customer">
+                                                            <span class="h6">{{ 'labels.customer'|trans }}</span>
+                                                        </th>
+                                                    {% endif %}
+                                                    <th class="px-3 bg-transparent border-top-0 text-secondary line-item-description">
+                                                        <span class="h6">{{ 'labels.description'|trans }}</span>
+                                                    </th>
+                                                    <th class="px-3 bg-transparent border-top-0 text-secondary text-end line-item-total">
+                                                        <span class="h6">{{ 'labels.total'|trans }}</span>
+                                                    </th>
+                                                    <th class="px-3 bg-transparent border-top-0 text-secondary line-item-due-date">
+                                                        <span class="h6">{{ 'labels.due_date'|trans }}</span>
+                                                    </th>
+                                                    <th class="px-3 bg-transparent border-top-0 text-secondary text-end line-item-balance">
+                                                        <span class="h6">{{ 'labels.balance'|trans }}</span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for lineItem in statement.lineItems %}
+                                                <tr class="line-item-date">
+                                                    <td class="px-0">
+                                                        {{ lineItem.date.format(dateFormat) }}
+                                                    </td>
+                                                    {% if statement.showCustomer %}
+                                                        <td class="px-3 line-item-customer">
+                                                            {{ lineItem.customer }}
+                                                        </td>
+                                                    {% endif %}
+                                                    <td class="px-3 line-item-description">
+                                                        {% if lineItem.url is defined and lineItem.url %}
+                                                            <a href="{{ lineItem.url }}">{{ lineItem.description }}</a>
+                                                        {% else %}
+                                                            {{ lineItem.description }}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="px-3 text-end line-item-total">
+                                                        {{ lineItem.total|money(statement.currency) }}
+                                                    </td>
+                                                    <td class="px-3 line-item-due-date">
+                                                        {% if lineItem.dueDate %}
+                                                            {{ lineItem.dueDate.format(dateFormat) }}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="px-3 text-end line-item-balance">
+                                                        {{ lineItem.balance|money(statement.currency) }}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                            <!-- Total Lines -->
+                                            <tfoot>
+                                                <tr class="subtotal-line-balance">
+                                                    <td colspan="{% if statement.showCustomer %}3{% else %}2{% endif %}" class="px-0 py-3 border-top border-top-2">
+                                                        {% if statement.pastDueOnly %}
+                                                            {{ 'labels.past_due_balance'|trans }}
+                                                        {% else %}
+                                                            {{ 'labels.balance_due'|trans }}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="px-3 py-3 text-end border-top border-top-2 text-end">
+                                                        {{ statement.total|money(statement.currency) }}
+                                                    </td>
+                                                    <td class="p-0 border-top border-top-2"></td>
+                                                    <td class="px-3 py-3 text-end border-top border-top-2 text-end">
+                                                        {{ statement.balance|money(statement.currency) }}
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Buttons Repeated -->
+                    <div class="document-buttons mb-5 text-end px-3">
+                        <a href="{{ statement.downloadUrl }}" class="btn btn-white lift download-document" title="{{ 'download'|trans }}">
+                            <i class="fa-solid fa-download"></i>
+                        </a>
+                        {% if statement.paymentUrl is defined and statement.paymentUrl %}
+                            <a href="{{ statement.paymentUrl }}" class="btn btn-primary ms-2 lift document-payment-btn">
+                                {{ 'buttons.pay'|trans }}
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

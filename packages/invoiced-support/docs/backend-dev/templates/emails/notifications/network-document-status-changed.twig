@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}Document status has been updated{% endblock %}
+{% block notification %}
+    {% for document in documents %}
+        <p>{{ document.from }} has updated the status of <a href="{{ dashboardUrl }}/documents/{{ document.id }}?account={{ tenant_id  }}">{{ document.type }} # {{ document.reference }}</a>: {{ document.status }}{% if document.description %} - {{ document.description }}{% endif %}</p>
+    {% endfor %}
+{% endblock %}

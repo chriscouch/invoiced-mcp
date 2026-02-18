@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}New payment from AutoPay{% endblock %}
+{% block notification %}
+    {% for charge in charges %}
+        <p>You have received a new payment from customer <a href="{{ dashboardUrl}}/customers/{{ charge.customer.id  }}?account={{ tenant_id  }}">{{ charge.customer.name }}</a> for {{ charge.amount | money(charge.currency)}}</p>
+    {% endfor %}
+{% endblock %}

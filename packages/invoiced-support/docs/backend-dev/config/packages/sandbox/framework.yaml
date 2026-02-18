@@ -1,0 +1,4 @@
+framework:
+  session:
+    name: sandboxinvoicedcom
+    cookie_secure: true

@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "title": "Merchant Account Detail",
+  "sections": [
+    {
+      "title": "",
+      "object": "merchant_account_transaction",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "name": "Date",
+          "field": {
+            "id": "available_on"
+          }
+        },
+        {
+          "field": {
+            "id": "type"
+          }
+        },
+        {
+          "field": {
+            "id": "description"
+          }
+        },
+        {
+          "field": {
+            "id": "reference"
+          }
+        },
+        {
+          "field": {
+            "id": "amount"
+          }
+        },
+        {
+          "field": {
+            "id": "fee"
+          }
+        },
+        {
+          "field": {
+            "id": "net"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "merchant_account.id"
+          },
+          "operator": "=",
+          "value": "$merchantAccount"
+        },
+        {
+          "field": {
+            "id": "available_on"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        }
+      ],
+      "group": [],
+      "sort": [
+        {
+          "field": {
+            "id": "available_on"
+          },
+          "ascending": true
+        }
+      ]
+    }
+  ]
+}

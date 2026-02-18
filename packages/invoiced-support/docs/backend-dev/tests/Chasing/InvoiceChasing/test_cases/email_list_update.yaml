@@ -1,0 +1,161 @@
+# Tests that updates to the InvoiceDelivery email list are reflected
+# in the unsent ScheduledSends
+
+
+operations:
+
+  # PART 1: Create and send ScheduledSends for a repeater option. Only send the first one.
+
+  - operation: create
+    mock_time: '2022-01-02 15:12:01' # Time chosen at random, date was not
+    data:
+      invoice:
+        due_date: '2022-01-08 15:12:01'
+        items:
+          - quantity: 1
+            unit_cost: 100
+      delivery:
+        chase_schedule:
+          - trigger: 3
+            # Option specifies a two day repeater which happens 3 times.
+            options:
+              hour: 8
+              days: 2
+              repeats: 2
+              email: true
+              sms: false
+              letter: false
+    expect:
+      delivery:
+        processed: false
+      delivery_state:
+        - state:
+            - date: '2022-01-10 08:00:00'
+              skipped: false
+              sent:
+                email: false
+            - date: '2022-01-12 08:00:00'
+              skipped: false
+              sent:
+                email: false
+      scheduled_sends: []
+
+  - operation: schedule
+    mock_time: '2022-01-02 15:12:01'
+    expect:
+      delivery:
+        processed: true
+      delivery_state:
+        - state:
+            - date: '2022-01-10 08:00:00'
+              skipped: false
+              sent:
+                email: false
+            - date: '2022-01-12 08:00:00'
+              skipped: false
+              sent:
+                email: false
+      scheduled_sends:
+        - send_after: '2022-01-10 08:00:00'
+          parameters: null
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+        - send_after: '2022-01-12 08:00:00'
+          parameters: null
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+
+  - operation: send
+    mock_time: '2022-01-11 15:12:01' # 9 days from create date
+    delivery_state:
+      - state:
+          - date: '2022-01-10 08:00:00'
+            skipped: false
+            sent:
+              email: true
+          - date: '2022-01-12 08:00:00'
+            skipped: false
+            sent:
+              email: false
+    scheduled_sends:
+      - send_after: '2022-01-10 08:00:00'
+        parameters: null
+        channel: 0
+        sent: true
+        canceled: false
+        skipped: false
+        failed: false
+      - send_after: '2022-01-12 08:00:00'
+        parameters: null
+        channel: 0
+        sent: false
+        canceled: false
+        skipped: false
+        failed: false
+
+  # PART 2: Update the InvoiceDelivery email list to show that it's reflected in the unsent ScheduledSend
+  # and not reflected in the sent ScheduledSend
+
+  - operation: edit
+    mock_time: '2022-01-11 15:12:01' # Same as previous step
+    data:
+      delivery:
+        emails: 'test@example.com'
+    expect:
+      delivery:
+        processed: false
+      # NOTE: state is not tested here because the email change has no affect on the ScheduledSend timing.
+      scheduled_sends:
+        - send_after: '2022-01-10 08:00:00'
+          parameters: null
+          channel: 0
+          sent: true
+          canceled: false
+          skipped: false
+          failed: false
+        - send_after: '2022-01-12 08:00:00'
+          parameters: null # Still null because not processed yet
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+
+  - operation: schedule
+    mock_time: '2022-01-11 15:12:01' # Same as previous step
+    expect:
+      delivery:
+        processed: true
+      delivery_state:
+        - state:
+            - date: '2022-01-10 08:00:00'
+              skipped: false
+              sent:
+                email: true
+            - date: '2022-01-12 08:00:00'
+              skipped: false
+              sent:
+                email: false
+      scheduled_sends:
+        - send_after: '2022-01-10 08:00:00'
+          parameters: null
+          channel: 0
+          sent: true
+          canceled: false
+          skipped: false
+          failed: false
+        - send_after: '2022-01-12 08:00:00'
+          parameters:
+            to:
+              - email: 'test@example.com'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false

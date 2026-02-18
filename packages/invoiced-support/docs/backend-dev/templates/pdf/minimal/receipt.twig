@@ -1,0 +1,91 @@
+<div class="header">
+    {% if company.logo %}
+        <img src="{{ company.logo }}" />
+    {% else %}
+        {{ company.name }}
+    {% endif %}
+    <div class="company-address">
+        {% if company.logo %}
+            <div class="name"><span style="font-weight: bold;">{{ company.name }}</span></div>
+        {% endif %}
+        <div class="address">{{ company.address|nl2br }}</div>
+        {% if company.email %}<div class="email">{{ company.email }}</div>{% endif %}
+        {% if company.phone %}<div class="phone">{{ company.phone }}</div>{% endif %}
+        {% if company.website %}<div class="website">{{ company.website }}</div>{% endif %}
+    </div>
+
+    <div class="subtitle-line">
+        <span style="font-weight: bold;">{% if theme.use_translations %}{{ trans('headers.receipt') }}{% else %}{{ theme.header_receipt }}{% endif %}</span><br>
+    </div>
+</div>
+
+<div class="context-holder">
+    <div class="context-item">
+        <div class="bolder">{% if theme.use_translations %}{{ trans('labels.bill_to') }}{% else %}{{ theme.to_title }}{% endif %}</div>
+        {% if customer.attention_to %}<div class="attention_to">{{ trans('labels.attention_to') }}: {{ customer.attention_to }}</div>{% endif %}
+        <div class="name">{{ customer.name }}</div>
+        <div class="address">{{ customer.address|nl2br }}</div>
+    </div>
+    {% if theme.show_customer_no %}
+        <div class="context-item">
+            <div class="bolder">{% if theme.use_translations %}{{ trans('labels.account_number') }}{% else %}{{ theme.customer_number_title }}{% endif %}</div>
+            <div class="value">{{ customer.number }}</div>
+        </div>
+    {% endif %}
+    <div class="context-item">
+        <div class="bolder">{% if theme.use_translations %}{{ trans('labels.date') }}{% else %}{{ theme.date_title }}{% endif %}</div>
+        <div class="value">{{ transaction.date }}</div>
+    </div>
+    <div class="context-item">
+        <div class="bolder">{% if theme.use_translations %}{{ trans('labels.amount') }}{% else %}{{ theme.amount_title }}{% endif %}</div>
+        <div class="value">{{ transaction.amount|money }}</div>
+    </div>
+    {% for invoice in transaction.invoices %}
+        <div class="context-item">
+            <div class="bolder">{{ trans('labels.invoice') }}</div>
+            <div class="value">{{invoice.number}}</div>
+        </div>
+    {% endfor %}
+    {% for creditNote in transaction.credit_notes %}
+        <div class="context-item">
+            <div class="bolder">{{ trans('labels.credit_note') }}</div>
+            <div class="value">{{creditNote.number}}</div>
+        </div>
+    {% endfor %}
+    {% for estimate in transaction.estimates %}
+        <div class="context-item">
+            <div class="bolder">{{ trans('labels.estimate') }}</div>
+            <div class="value">{{estimate.number}}</div>
+        </div>
+    {% endfor %}
+    {% if transaction.amount_refunded %}
+        <div class="context-item">
+            <div class="bolder">{{ trans('labels.refunded') }}</div>
+            <div class="value">{{ transaction.amount_refunded|money }}</div>
+        </div>
+    {% endif %}
+    {% if transaction.amount_credited %}
+        <div class="context-item">
+            <div class="bolder">{{ trans('labels.credited') }}</div>
+            <div class="value">{{ transaction.amount_credited|money }}</div>
+        </div>
+    {% endif %}
+    {% if transaction.amount_convenience_fee %}
+        <div class="context-item">
+            <div class="bolder">{{ trans('labels.convenience_fee') }}</div>
+            <div class="value">{{ transaction.amount_convenience_fee|money }}</div>
+        </div>
+    {% endif %}
+    <div class="context-item">
+        <div class="bolder">{% if theme.use_translations %}{{ trans('labels.payment_method') }}{% else %}{{ theme.payment_method_title }}{% endif %}</div>
+        <div class="value">{{ transaction.method }}{% if transaction.payment_source %} - {{ transaction.payment_source }}{% endif %}</div>
+    </div>
+    {% if transaction.check_no %}
+        <div class="context-item">
+            <div class="bolder">{% if theme.use_translations %}{{ trans('labels.check_no') }}{% else %}{{ theme.check_no_title }}{% endif %}</div>
+            <div class="value">{{ transaction.check_no }}</div>
+        </div>
+    {% endif %}
+</div>
+
+<p id="footer">{{ theme.receipt_footer }}</p>

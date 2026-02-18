@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Statement xmlns="urn:oasis:names:specification:ubl:schema:xsd:Statement-2"
+           xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+           xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+    <cbc:ID>CUST-00001-20221130</cbc:ID>
+    <cbc:IssueDate>2022-11-30</cbc:IssueDate>
+    <cbc:DocumentCurrencyCode>USD</cbc:DocumentCurrencyCode>
+    <cbc:TotalDebitAmount currencyID="USD">0.00</cbc:TotalDebitAmount>
+    <cbc:TotalCreditAmount currencyID="USD">0.00</cbc:TotalCreditAmount>
+    <cbc:TotalBalanceAmount currencyID="USD">0.00</cbc:TotalBalanceAmount>
+    <cac:StatementPeriod>
+        <cbc:StartDate>2022-11-01</cbc:StartDate>
+        <cbc:EndDate>2022-11-30</cbc:EndDate>
+    </cac:StatementPeriod>
+    <cac:AccountingSupplierParty>
+        <cac:Party>
+            <cbc:WebsiteURI>https://invoiced.com</cbc:WebsiteURI>
+            <cac:PartyIdentification>
+                <cbc:ID>{FROM_USERNAME}</cbc:ID>
+            </cac:PartyIdentification>
+            <cac:PartyName>
+                <cbc:Name>TEST &amp; &lt;Corp&gt; Ara&#xFA;jo</cbc:Name>
+            </cac:PartyName>
+            <cac:PostalAddress>
+                <cbc:CityName>Austin</cbc:CityName>
+                <cbc:PostalZone>78701</cbc:PostalZone>
+                <cbc:CountrySubentity>TX</cbc:CountrySubentity>
+                <cac:AddressLine>
+                    <cbc:Line>Company</cbc:Line>
+                </cac:AddressLine>
+                <cac:AddressLine>
+                    <cbc:Line>Address</cbc:Line>
+                </cac:AddressLine>
+                <cac:Country>
+                    <cbc:IdentificationCode>US</cbc:IdentificationCode>
+                </cac:Country>
+            </cac:PostalAddress>
+            <cac:Contact>
+                <cbc:Name>TEST &amp; &lt;Corp&gt; Ara&#xFA;jo</cbc:Name>
+                <cbc:Telephone>12345678</cbc:Telephone>
+                <cbc:ElectronicMail>test@example.com</cbc:ElectronicMail>
+            </cac:Contact>
+        </cac:Party>
+    </cac:AccountingSupplierParty>
+    <cac:AccountingCustomerParty>
+        <cbc:SupplierAssignedAccountID>CUST-00001</cbc:SupplierAssignedAccountID>
+        <cac:Party>
+            <cac:PartyName>
+                <cbc:Name>Sherlock</cbc:Name>
+            </cac:PartyName>
+            <cac:PostalAddress>
+                <cbc:CityName>Austin</cbc:CityName>
+                <cbc:PostalZone>78701</cbc:PostalZone>
+                <cbc:CountrySubentity>TX</cbc:CountrySubentity>
+                <cac:AddressLine>
+                    <cbc:Line>Test</cbc:Line>
+                </cac:AddressLine>
+                <cac:AddressLine>
+                    <cbc:Line>Address</cbc:Line>
+                </cac:AddressLine>
+                <cac:Country>
+                    <cbc:IdentificationCode>US</cbc:IdentificationCode>
+                </cac:Country>
+            </cac:PostalAddress>
+        </cac:Party>
+    </cac:AccountingCustomerParty>
+    <cac:StatementLine>
+        <cbc:ID>1</cbc:ID>
+        <cbc:Note>Previous Balance</cbc:Note>
+        <cbc:BalanceBroughtForwardIndicator>true</cbc:BalanceBroughtForwardIndicator>
+        <cbc:DebitLineAmount currencyID="USD">0.00</cbc:DebitLineAmount>
+        <cbc:CreditLineAmount currencyID="USD">0.00</cbc:CreditLineAmount>
+        <cbc:BalanceAmount currencyID="USD">0.00</cbc:BalanceAmount>
+    </cac:StatementLine>
+    <cac:StatementLine>
+        <cbc:ID>2</cbc:ID>
+        <cbc:Note>INV-00001</cbc:Note>
+        <cbc:BalanceBroughtForwardIndicator>false</cbc:BalanceBroughtForwardIndicator>
+        <cbc:DebitLineAmount currencyID="USD">100.00</cbc:DebitLineAmount>
+        <cbc:CreditLineAmount currencyID="USD">0.00</cbc:CreditLineAmount>
+        <cbc:BalanceAmount currencyID="USD">100.00</cbc:BalanceAmount>
+    </cac:StatementLine>
+    <cac:StatementLine>
+        <cbc:ID>3</cbc:ID>
+        <cbc:Note>CN-00001</cbc:Note>
+        <cbc:BalanceBroughtForwardIndicator>false</cbc:BalanceBroughtForwardIndicator>
+        <cbc:DebitLineAmount currencyID="USD">0.00</cbc:DebitLineAmount>
+        <cbc:CreditLineAmount currencyID="USD">100.00</cbc:CreditLineAmount>
+        <cbc:BalanceAmount currencyID="USD">-100.00</cbc:BalanceAmount>
+    </cac:StatementLine>
+</Statement>

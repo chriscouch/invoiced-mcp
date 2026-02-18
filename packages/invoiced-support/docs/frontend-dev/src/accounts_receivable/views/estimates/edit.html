@@ -1,0 +1,115 @@
+<div class="dark-bg">
+	<p class="loading" ng-show="loading"></p>
+
+	<div class="contents large" ng-hide="loading">
+		<form name="modelForm" ng-submit="save(estimate)" class="form-horizontal">
+			<div class="title-bar">
+				<div class="btns" ng-hide="estimate.draft">
+					<button type="submit" class="btn btn-primary Button" ng-disabled="modelForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+						Save Estimate
+					</button>
+				</div>
+				<div class="btns" ng-show="estimate.draft">
+					<button type="submit" class="btn btn-default Button" ng-disabled="modelForm.$invalid||saving||issuing" v-busy="saving&&!issuing" v-busy-label="Saving" v-pressable>
+						Save as Draft
+					</button>
+					<button type="button" class="btn btn-success Button" ng-click="issue(estimate)" ng-disabled="modelForm.$invalid||saving||issuing" v-busy="issuing" v-busy-label="Saving" v-pressable ng-if="'estimates.issue'|hasPermission">
+						Save and Issue
+					</button>
+				</div>
+				<h2 class="title">
+					<a ui-sref="manage.estimate.view.summary({id:modelId})" ng-show="modelTitle" class="btn btn-link">
+						<span class="fas fa-arrow-left"></span>
+					</a>
+					<span ng-show="modelTitle">Edit Estimate</span>
+					<span ng-hide="modelTitle">New Estimate</span>
+					<span ng-show="estimate.draft" class="draft-label hidden-xs">Draft</span>
+				</h2>
+			</div>
+
+			<p class="required-indicator">
+				<span class="required"></span> {{'general.indicates_required_field'|translate}}
+			</p>
+
+			<div class="invoice-editor-controls form-horizontal clearfix">
+				<div class="main">
+					<!-- Customer -->
+					<div class="bill-to" ng-if="!modelTitle">
+						<label class="control-label">Customer <span class="required"></span></label>
+						<div class="customer-selector">
+							<select-customer ng-model="estimate.customer" allow-new="true" tabi="1" is-required="true"></select-customer>
+						</div>
+					</div>
+
+					<!-- Options -->
+					<div class="options-btns">
+						<!-- Apply Template -->
+						<div class="btn-group dropdown apply-template-btn hidden-xs" ng-show="templates.length>0&&!modelTitle" dropdown>
+							<a class="btn btn-default dropdown-toggle" dropdown-toggle>
+								Apply Template
+								<span class="fas fa-chevron-down"></span>
+							</a>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li ng-repeat="template in templates">
+									<a href="" ng-click="applyTemplate(estimate, template)">
+										{{template.name}}
+									</a>
+								</li>
+							</ul>
+						</div>
+
+						<button type="button" class="btn btn-link btn-lg" ng-click="optionsVisible=!optionsVisible">
+							Options
+							<span ng-show="optionsVisible"><span class="fas fa-chevron-up"></span></span>
+							<span ng-hide="optionsVisible"><span class="fas fa-chevron-down"></span></span>
+						</button>
+					</div>
+				</div>
+
+				<!-- Estimate Options -->
+				<div class="options" ng-show="optionsVisible">
+					<div class="form-group">
+						<label class="control-label col-sm-3">Title</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" ng-model="estimate.name" />
+						</div>
+					</div>
+
+					<div class="form-group" ng-if="hasMultiCurrency">
+						<label class="control-label col-sm-3">{{'general.currency'|translate}} <span class="required"></span></label>
+						<div class="col-sm-3">
+							<currency-selector ng-model="estimate.currency" required></currency-selector>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="control-label col-sm-3">Calculate Taxes</label>
+						<div class="col-sm-9">
+							<toggle ng-model="estimate.calculate_taxes"></toggle>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<editable-invoice invoice="estimate" company="company" options="estimateOptions"></editable-invoice>
+
+			<div class="title-bar">
+				<div class="btns" ng-hide="estimate.draft">
+					<button type="submit" class="btn btn-primary Button" tabindex="3000" ng-disabled="modelForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+						Save Estimate
+					</button>
+				</div>
+				<div class="btns" ng-show="estimate.draft">
+					<button type="submit" class="btn btn-default Button" tabindex="3000" ng-disabled="modelForm.$invalid||saving||issuing" v-busy="saving&&!issuing" v-busy-label="Saving" v-pressable>
+						Save as Draft
+					</button>
+					<button type="button" class="btn btn-success Button" tabindex="3001" ng-click="issue(estimate)" ng-disabled="modelForm.$invalid||saving||issuing" v-busy="issuing" v-busy-label="Saving" v-pressable ng-if="'estimates.issue'|hasPermission">
+						Save and Issue
+					</button>
+				</div>
+				<h2>&nbsp;</h2>
+			</div>
+			<br/>
+		</form>
+	</div>
+</div>

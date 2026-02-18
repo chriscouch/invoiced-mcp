@@ -1,0 +1,113 @@
+<div class="search-results-holder" ng-class="{'has-filter': filterStr}">
+    <div class="box">
+        <div class="header clearfix">
+            <!-- Title Bar -->
+            <div class="actions" ng-if="'vendors.create'|hasPermission">
+                <a ui-sref="manage.imports.new.spreadsheet({type:'vendor'})" class="btn btn-default hidden-xs hidden-sm" ng-if="'imports.create'|hasPermission">
+                    Import
+                </a>
+                <a href="" class="btn btn-success" ng-click="create()">
+                    New Vendor
+                </a>
+            </div>
+            <h2>Vendors</h2>
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs">
+                <li class="action">
+                    <a href="" ng-click="openFilter()">
+                        <div>
+                            <span class="fas fa-filter"></span> Filter
+                        </div>
+                    </a>
+                </li>
+                <li class="action">
+                    <filter-dropdown type="vendor"  saved-filters="savedFilters" apply-filter="applyFilter" filter="filter"></filter-dropdown>
+                </li>
+                <li class="action automation-action right" ng-if="('vendors.edit'|hasPermission) && ('automations'|hasFeature)">
+                    <div>
+                        <a href="" ng-click="automate()" ng-hide="loading||!total_count">
+                            <span class="fas fa-bolt"></span>
+                            <span class="hidden-xs">Automate</span>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Applied Filter -->
+        <div class="applied-filter" ng-show="filterStr">
+            <span class="fas fa-filter filter-icon"></span>
+            <strong>{{filterStr}}</strong>
+            <a href="" ng-click="resetFilter()">
+                <span class="fas fa-times-circle"></span>
+            </a>
+        </div>
+
+        <p class="loading" ng-show="loading"></p>
+
+        <!-- No Results :-( -->
+        <div class="empty-table" ng-show="noResults()&&!loading">
+            <div class="icon">
+                <img src="/img/event-icons/vendor.png" />
+            </div>
+            No vendors are in your business network yet.
+            <a href="" ng-click="create()" ng-if="'vendors.create'|hasPermission">New Vendor</a>
+        </div>
+
+        <!-- Data Table -->
+        <div class="custom-table-wrapper">
+            <table class="search-results-table table table-striped vendors" id="vendors-table" ng-show="vendors.length > 0 && !loading">
+                <thead>
+                    <tr>
+                        <th>
+                            <a href="" ng-click="toggleSort('name')" ng-class="{down:filter.sort=='name DESC',up:filter.sort=='name ASC'}">
+                                Vendor
+                                <span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+                                <span class="sort down"><span class="fas fa-sort-amount-up"></span></span>
+                            </a>
+                        </th>
+                        <th>
+                            <a href="" ng-click="toggleSort('number')" ng-class="{down:filter.sort=='number DESC',up:filter.sort=='number ASC'}">
+                                Vendor #
+                                <span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+                                <span class="sort down"><span class="fas fa-sort-amount-up"></span></span>
+                            </a>
+                        </th>
+                        <th>{{'general.status'|translate}}</th>
+                        <th class="money-column">Balance</th>
+                        <th class="nopadding noborder"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="clickable" ng-repeat="vendor in vendors" ng-click="goToObject($event,'vendor',vendor.id)">
+                        <td class="title mobile-first">
+                            <a ui-sref="manage.vendor.view.summary({id:vendor.id})">
+                                {{vendor.name}}
+                            </a>
+                        </td>
+                        <td>{{vendor.number}}</td>
+                        <td>
+                            <span class="label label-success" ng-if="vendor.active">{{'general.active'|translate}}</span>
+                            <span class="label label-danger" ng-if="!vendor.active">{{'general.inactive'|translate}}</span>
+                        </td>
+                        <td class="money-column mobile-last">
+                            <money currency="vendor.balance.currency" amount="vendor.balance.amount" ng-if="vendor.balance"></money>
+                            <span ng-if="!vendor.balance">&mdash;</span>
+                        </td>
+                        <td class="nopadding hover-actions-holder">
+                            <div class="hover-actions">
+                                <a href="" ng-click="delete(vendor, $index)" class="btn btn-sm btn-danger" tooltip="Delete" tooltip-placement="left" ng-show="vendor.network_connection">
+                                    <span class="fas fa-trash"></span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <pagination-bar total-count="total_count" page-count="page_count" ng-change="goToPage(page, perPage)" ng-model="filter" ng-show="vendors.length > 0 && !loading"></pagination-bar>
+    </div>
+</div>

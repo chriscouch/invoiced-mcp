@@ -1,0 +1,142 @@
+# Tests that "Send on issue" step
+# - The date used for the ScheduledSend is no earlier than now (it should never be backdated)
+# - Should be scheduled on the invoice issue date (if greater than now)
+
+operations:
+
+  # PART 1: Test that a ScheduledSend is created for the invoice issue date
+
+  - operation: create
+    mock_time: '2022-01-04 14:51:12' # Time chosen at random
+    data:
+      invoice:
+        date: '2022-01-08 14:51:12' # Use a future date to test it's scheduled on the issue date
+        due_date: '2022-01-12 14:51:12' # This date is not used but is in the test to show that the issue date is used instead of the due date
+        items:
+          - quantity: 1
+            unit_cost: 100
+      delivery:
+        chase_schedule:
+          - trigger: 0
+            options:
+              hour: 8
+              email: true
+              sms: false
+              letter: false
+    expect:
+      delivery:
+        processed: false
+      delivery_state:
+        - state:
+            - date: '2022-01-08 08:00:00'
+              skipped: false
+              sent:
+                email: false
+      scheduled_sends: []
+
+  - operation: schedule
+    mock_time: '2022-01-04 14:51:12' # Same a previous
+    expect:
+      delivery:
+        processed: true
+      delivery_state:
+        - state:
+            - date: '2022-01-08 08:00:00'
+              skipped: false
+              sent:
+                email: false
+      scheduled_sends:
+        - send_after: '2022-01-08 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+
+    # PART 2: Test that the ScheduledSend is updated to be sent now if the invoice date
+    # is edited to be in the past
+
+  - operation: edit
+    mock_time: '2022-01-04 14:51:12' # Same as previous
+    data:
+      invoice:
+        date: '2022-01-03 14:51:12' # in the past
+    expect:
+      delivery:
+        processed: false
+      delivery_state:
+        - state:
+            - date: '2022-01-04 15:00:00'
+              skipped: false
+              sent:
+                email: false
+      scheduled_sends: # not updated yet
+        - send_after: '2022-01-08 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+
+  - operation: schedule
+    mock_time: '2022-01-04 14:51:12' # Same as previous
+    expect:
+      delivery:
+        processed: true
+      delivery_state:
+        - state:
+            - date: '2022-01-04 15:00:00'
+              skipped: false
+              sent:
+                email: false
+      scheduled_sends:
+        - send_after: '2022-01-04 15:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+
+    # PART 3: Tests that updating the issue date of the invoice to a future date will cause
+    # the send to be updated and pushed back.
+
+  - operation: edit
+    mock_time: '2022-01-04 14:51:12' # Same as previous
+    data:
+      invoice:
+        date: '2022-01-08 14:51:12'
+    expect:
+      delivery:
+        processed: false
+      delivery_state:
+        - state:
+            - date: '2022-01-08 08:00:00'
+              skipped: false # no longer skipped even though the ScheduledSend hasn't been processed yet
+              sent:
+                email: false
+      scheduled_sends:
+        - send_after: '2022-01-04 15:00:00' # same value before processing
+          channel: 0
+          sent: false
+          canceled: false # still canceled before processing
+          skipped: false
+          failed: false
+
+  - operation: schedule
+    mock_time: '2022-01-04 14:51:12' # Same as previous
+    expect:
+      delivery:
+        processed: true
+      delivery_state:
+        - state:
+            - date: '2022-01-08 08:00:00'
+              skipped: false
+              sent:
+                email: false
+      scheduled_sends:
+        - send_after: '2022-01-08 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false

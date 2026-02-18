@@ -1,0 +1,23 @@
+{
+  "esversion": 12,
+  "camelcase": false,
+  "curly": true,
+  "eqnull": true,
+  "eqeqeq": false,
+  "indent": 4,
+  "immed": true,
+  "nonbsp": true,
+  "strict": true,
+  "undef": true,
+  "unused": true,
+  "browser": true,
+  "jquery": true,
+  "jasmine": true,
+  "laxbreak": true,
+  "globals": {
+    "angular": true,
+    "exports": true,
+    "module": true,
+    "require": true
+  }
+}

@@ -1,0 +1,44 @@
+fields:
+  amount: { name: Amount, type: money, summarize: true }
+  broken: { name: Broken, type: boolean }
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency: { name: Currency, type: string }
+  date: { name: Date, type: date }
+  id:
+    name: ID
+    type: string
+    writable: false
+  kept: { name: Kept, type: boolean }
+  method:
+    name: Method
+    type: enum
+    values:
+      ach: ACH
+      balance: Balance
+      bank_transfer: Bank Transfer
+      cash: Cash
+      check: Check
+      credit_card: Credit Card
+      direct_debit: Direct Debit
+      online: Online
+      other: Other
+      paypal: PayPal
+      wire_transfer: Wire Transfer
+  reference: { name: Reference, type: string }
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  customer: { name: Customer, type: join }
+  invoice: { name: Invoice, type: join }

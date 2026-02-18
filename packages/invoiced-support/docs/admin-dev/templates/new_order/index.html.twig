@@ -1,0 +1,180 @@
+{% form_theme form with '@EasyAdmin/crud/form_theme.html.twig' %}
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}New Order{% endblock %}
+
+{% block body_class 'ea-new new-purchase-page' %}
+
+{% block page_actions %}
+    {{ parent() }}
+    <button type="submit" class="btn btn-primary" form="newForm">Create</button>
+{% endblock %}
+
+{% block main %}
+    {{ form_start(form, {attr: {id: 'newForm'}}) }}
+
+    <div class="col-12">
+        <div class="row">
+            <div class="col-sm-8">
+                <p>You can submit executed sales orders here. Submitting a sales order will begin the fulfillment process and initiate billing.</p>
+            </div>
+        </div>
+
+        <div class="my-custom-class-for-errors">
+            {{ form_errors(form) }}
+        </div>
+
+        <div class="form-panel">
+            <div class="form-panel-header">
+                <div class="form-panel-title">
+                    <a href="#" class="not-collapsible">
+                        Order Details
+                    </a>
+                </div>
+            </div>
+
+            <div class="form-panel-body show">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class=" form-group">
+                            <label class="form-control-label required" for="new_order_type">Billing Profile</label>
+                            <div class="form-widget">
+                                {{ form.vars.data.customer }}
+                            </div>
+                        </div>
+                        {{ form_row(form.customer) }}
+                    </div>
+                    <div class="col-sm-4">
+                        {{ form_row(form.type) }}
+                    </div>
+                    <div class="col-sm-4" id="startDate">
+                        {{ form_row(form.startDate) }}
+                    </div>
+                    <div class="col-sm-4">
+                        {{ form_row(form.attachment_file) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-panel" id="sowAmount">
+            <div class="form-panel-header">
+                <div class="form-panel-title">
+                    <a href="#" class="not-collapsible">
+                        Statement of Work Details
+                    </a>
+                </div>
+            </div>
+
+            <div class="form-panel-body show">
+                <div class="col-sm-4">
+                    {{ form_row(form.sowAmount) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-panel" id="changeOrderDetails">
+            <div class="form-panel-header">
+                <div class="form-panel-title">
+                    <a href="#" class="not-collapsible">
+                        Change Order Details
+                    </a>
+                </div>
+            </div>
+
+            <div class="form-panel-body show">
+                <div class="row">
+                    <div class="col-sm-4 d-none" id="tenantId">
+                        {{ form_row(form.tenantId) }}
+                    </div>
+                    <div class="col-sm-6 d-none" id="productPricingPlans">
+                        {{ form_row(form.productPricingPlans) }}
+                    </div>
+                    <div class="col-sm-6 d-none" id="usagePricingPlans">
+                        {{ form_row(form.usagePricingPlans) }}
+                    </div>
+                    <div class="col-sm-4 d-none" id="newUserCount">
+                        {{ form_row(form.newUserCount) }}
+                    </div>
+                    <div class="col-sm-4 d-none" id="billingInterval">
+                        {{ form_row(form.billingInterval) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+
+    <script type="text/javascript">
+        $(function() {
+            $('.order-type').change(selectType);
+            selectType();
+        });
+
+        function selectType() {
+            var type = $('.order-type option:selected').attr('value');
+
+            showSowAmount(false);
+            showStartDate(true);
+            showChangeOrder(false, ['productPricingPlans', 'usagePricingPlans', 'tenantId', 'newUserCount', 'billingInterval']);
+            var changeOrderFields = {
+                add_product: ['tenantId', 'productPricingPlans'],
+                remove_product: ['tenantId'],
+                user_count_change: ['tenantId', 'newUserCount'],
+                cancel_entity: ['tenantId'],
+                usage_pricing_plan_change: ['tenantId', 'usagePricingPlans'],
+                billing_interval_change: ['billingInterval'],
+            };
+
+            if (type === 'sow') {
+                showSowAmount(true);
+            }
+
+            if (typeof changeOrderFields[type] !== 'undefined') {
+                showChangeOrder(true, changeOrderFields[type]);
+            }
+        }
+
+        function showStartDate(visible) {
+            if (visible) {
+                $('#startDate').removeClass('d-none');
+                $('.start-date').attr('required', 'required');
+            } else {
+                $('#startDate').addClass('d-none');
+                $('.start-date').removeAttr('required');
+            }
+        }
+
+        function showSowAmount(visible) {
+            if (visible) {
+                $('#sowAmount').removeClass('d-none');
+                $('.order-sow-amount').attr('required', 'required');
+            } else {
+                $('#sowAmount').addClass('d-none');
+                $('.order-sow-amount').removeAttr('required');
+            }
+        }
+
+        function showChangeOrder(visible, ids) {
+            var i;
+            if (visible) {
+                $('#changeOrderDetails').removeClass('d-none');
+                for (i in ids) {
+                    var el = $('#'+ids[i]);
+                    el.removeClass('d-none');
+                    $('input,select', el).attr('required', 'required');
+                }
+            } else {
+                $('#changeOrderDetails').addClass('d-none');
+                for (i in ids) {
+                    var el = $('#'+ids[i]);
+                    el.addClass('d-none');
+                    $('input,select[required="required"]', el).removeAttr('required');
+                }
+            }
+        }
+    </script>
+
+    <script type="text/javascript" src="{{ asset('build/bundles/easyadmin/field-collection.js') }}"></script>
+{% endblock %}

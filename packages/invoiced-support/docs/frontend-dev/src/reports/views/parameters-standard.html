@@ -1,0 +1,120 @@
+<form name="reportParametersForm" ng-submit="generate(reportParameters, selectedCustomerCustomFields, selectedInvoiceCustomFields)" class="below0">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title">Generate Report</h4>
+    </div>
+    <div class="modal-body">
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <div ng-if="availableParameters.date">
+            <div class="form-group">
+                <label class="control-label">Date</label>
+                <div>
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="reportParameters.$date" ui-date="dateOptions" is-open="dpOpened" readonly="readonly" />
+                        <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'dpOpened')">
+                            <span class="fas fa-calendar-alt"></span>
+                        </button>
+                    </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="availableParameters.dateRange">
+            <div class="form-group">
+                <label class="control-label">Date Range</label>
+                <div>
+                    <date-range-picker period="reportParameters.$dateRange"></date-range-picker>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="availableParameters.currency">
+            <div class="form-group">
+                <label class="control-label">{{'general.currency' | translate}}</label>
+                <div>
+                    <currency-selector ng-model="reportParameters.$currency"
+                                       available="availableCurrencies"></currency-selector>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="availableParameters.taxRecognitionDate">
+            <label class="control-label">Tax Recognition Date</label>
+            <div>
+                <div class="btn-group btn-radio">
+                    <label class="btn" ng-model="reportParameters.$taxRecognitionDate"
+                           btn-radio="'invoice'">Invoice</label>
+                    <label class="btn" ng-model="reportParameters.$taxRecognitionDate"
+                           btn-radio="'payment'">Payment</label>
+                </div>
+            </div>
+            <div class="help-block">
+                When should tax be recognized, when it was billed or when payment is received?
+            </div>
+        </div>
+
+        <!-- Group By -->
+        <div ng-if="availableParameters.groupBy">
+            <div class="form-group">
+                <label class="control-label">Group By</label>
+                <div>
+                    <div class="invoiced-select">
+                        <select ng-model="reportParameters.$groupBy"
+                                ng-options="option.id as option.text for option in availableParameters.groupBy"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer Custom Fields -->
+        <div ng-if="availableParameters.customerCustomFields">
+            <div class="form-group" ng-show="customerCustomFields.length > 0">
+                <label class="control-label">Customer Filter</label>
+                <div class="custom-fields">
+                    <div class="custom-field-line" ng-repeat="field in customerCustomFields">
+                        <div class="checkbox">
+                            <label class="noselect">
+                                <input type="checkbox" ng-model="selectedCustomerCustomFields[field.id]"/>
+                                {{field.name}}
+                            </label>
+                        </div>
+                        <div ng-show="selectedCustomerCustomFields[field.id]">
+                            <custom-field-input field="field" metadata="reportParameters.$customerMetadata"></custom-field-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Invoice Custom Fields -->
+        <div ng-if="availableParameters.invoiceCustomFields">
+            <div class="form-group" ng-show="invoiceCustomFields.length > 0">
+                <label class="control-label">Invoice Filter</label>
+                <div class="custom-fields">
+                    <div class="custom-field-line" ng-repeat="field in invoiceCustomFields">
+                        <div class="checkbox">
+                            <label class="noselect">
+                                <input type="checkbox" ng-model="selectedInvoiceCustomFields[field.id]"/>
+                                {{field.name}}
+                            </label>
+                        </div>
+                        <div ng-show="selectedInvoiceCustomFields[field.id]">
+                            <custom-field-input field="field" metadata="reportParameters.$invoiceMetadata"></custom-field-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">
+            Generate
+        </button>
+    </div>
+</form>

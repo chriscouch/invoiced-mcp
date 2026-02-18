@@ -1,0 +1,494 @@
+<div class="row two-pane">
+	<div class="col-sm-4 left-pane">
+		<div class="details-list vertical">
+			<h4>
+				Subscription Details
+			</h4>
+
+			<!-- Customer -->
+			<div>
+				<div class="title">Customer</div>
+				<div class="value">
+					<a ui-sref="manage.customer.view.summary({id:subscription.customer.id})">
+						{{subscription.customer.name}}
+					</a>
+				</div>
+			</div>
+
+			<!-- Status -->
+			<div>
+				<div class="title">Status</div>
+				<div class="value">
+					<subscription-status subscription="subscription"></subscription-status>
+				</div>
+			</div>
+
+			<!-- Payment Terms -->
+			<div ng-show="subscription.customer.autopay || subscription.customer.payment_terms">
+				<div class="title">Payment Terms</div>
+				<div class="value" ng-show="subscription.customer.autopay">
+					<span class="label label-success">AutoPay</span>
+					<span ng-show="subscription.payment_source">
+						&mdash;
+						<transaction-source source="subscription.payment_source" short="true"></transaction-source>
+					</span>
+				</div>
+				<div class="value" ng-show="subscription.customer.payment_terms">
+					{{subscription.customer.payment_terms}}
+				</div>
+			</div>
+
+			<!-- Recurring Amount -->
+			<div>
+				<div class="title">Amount</div>
+				<div class="value">
+					<money amount="subscription.recurring_total" currency="subscription.plan.currency"></money>
+					{{subscription.plan.interval_count|recurringFrequency:subscription.plan.interval}}
+				</div>
+			</div>
+
+			<!-- MRR -->
+			<div>
+				<div class="title">MRR</div>
+				<div class="value">
+					<money amount="subscription.mrr" currency="subscription.plan.currency"></money>
+				</div>
+			</div>
+
+			<!-- Coupons -->
+			<div ng-show="subscription.discounts.length>0">
+				<div class="title">Coupon<span ng-show="subscription.discounts.length!=1">s</span></div>
+				<div class="value">
+					<coupons coupons="subscription.discounts" currency="company.currency"></coupons>
+				</div>
+			</div>
+
+			<!-- Taxes -->
+			<div ng-show="subscription.taxes.length>0">
+				<div class="title">Taxes</div>
+				<div class="value">
+					<tax-rates taxes="subscription.taxes" currency="company.currency"></tax-rates>
+				</div>
+			</div>
+
+			<!-- Ship To -->
+			<div ng-if="subscription.ship_to">
+				<div class="title">Ship To</div>
+				<div class="value" ng-bind-html="subscription.ship_to|address:true:true:showCountry"></div>
+			</div>
+
+			<!-- Approval -->
+			<div ng-show="subscription.approval">
+				<div class="title">Approved</div>
+				<div class="value">
+					<a href="" ng-click="viewApproval(subscription)">
+						<company-date date="subscription.approval.timestamp"></company-date>
+					</a>
+				</div>
+			</div>
+			
+			<hr ng-show="subscription.period_start||nextPeriod||subscription.start_date > 0" />
+
+			<!-- Current Period -->
+			<div ng-show="subscription.period_start&&subscription.period_end">
+				<div class="title"><span ng-hide="subscription.status=='not_started'">Current</span><span ng-show="subscription.status=='not_started'">Trial</span> Period</div>
+				<div class="value">
+					<company-date date="subscription.period_start"></company-date>
+					&mdash;
+					<company-date date="subscription.period_end"></company-date>
+					<div class="text-danger" ng-show="subscription.cancel_at_period_end&&!subscription.cycles">
+						(will be canceled at end of billing period)
+					</div>
+				</div>
+			</div>
+
+			<!-- Next Bill Date -->
+			<div ng-show="nextPeriod">
+				<div class="title"><span ng-hide="subscription.status=='not_started'">Next</span><span ng-show="subscription.status=='not_started'">First</span> Bill</div>
+				<div class="value" ng-if="subscription.bill_in=='advance' || subscription.status=='not_started'">
+					<span class="renewal-date"><company-date date="nextPeriod.renewal"></company-date></span>
+					<br/>
+					(<company-date date="nextPeriod.start"></company-date>
+					&mdash;
+					<company-date date="nextPeriod.end"></company-date>
+					period)
+				</div>
+				<div class="value" ng-if="subscription.bill_in=='arrears' && subscription.status!='not_started'">
+					<span class="renewal-date"><company-date date="nextPeriod.renewal"></company-date></span>
+					<br/>
+					(<company-date date="subscription.period_start"></company-date>
+					&mdash;
+					<company-date date="subscription.period_end"></company-date>
+					period)
+				</div>
+			</div>
+
+			<!-- Billed In -->
+			<div ng-show="subscription.bill_in=='advance'">
+				<div class="title">Billed In</div>
+				<div class="value">Advance<span ng-if="subscription.bill_in_advance_days>0">, {{subscription.bill_in_advance_days}} day<span ng-if="subscription.bill_in_advance_days>1">s</span></span></div>
+			</div>
+			<div ng-show="subscription.bill_in=='arrears'">
+				<div class="title">Billed In</div>
+				<div class="value">Arrears</div>
+			</div>
+
+			<!-- Start Date -->
+			<div ng-hide="subscription.start_date<=0">
+				<div class="title" ng-show="subscription.status=='not_started'">Starts</div>
+				<div class="title" ng-show="subscription.status!='not_started'">Started</div>
+				<div class="value">
+					<company-date date="subscription.start_date"></company-date>
+				</div>
+			</div>
+
+			<!-- Contract Term -->
+			<div ng-show="subscription.contract_length">
+				<div class="title">Contract Term</div>
+				<div class="value">
+					{{subscription.contract_length}}
+					<div class="text-danger" ng-show="subscription.cancel_at_period_end&&subscription.renews_next">
+						(will be canceled at end of contract term)
+					</div>
+				</div>
+			</div>
+
+			<!-- Remaining Billing Cycles -->
+			<div ng-show="subscription.remaining_cycles > 0">
+				<div class="title">Remaining Billing Cycles</div>
+				<div class="value">
+					{{subscription.remaining_cycles}} / {{subscription.cycles}} billing cycle<span ng-show="subscription.cycles!=1">s</span>
+				</div>
+			</div>
+
+			<!-- Contract Renewal Mode -->
+			<div ng-show="subscription.cycles">
+				<div class="title">When Contract Ends</div>
+				<div class="value">
+					<span ng-show="subscription.contract_renewal_mode=='auto'">Auto-renew</span>
+					<span ng-show="subscription.contract_renewal_mode=='manual'">Require approval to renew</span>
+					<span ng-show="subscription.contract_renewal_mode=='renew_once'">Auto-renew next term</span>
+					<span ng-show="subscription.contract_renewal_mode=='none'">Stop billing</span>
+				</div>
+			</div>
+
+			<!-- Contract Renewal Term -->
+			<div ng-show="subscription.contract_renewal_length">
+				<div class="title">Renewal Term</div>
+				<div class="value">
+					{{subscription.contract_renewal_length}}
+				</div>
+			</div>
+
+			<!-- Canceled At -->
+			<div ng-hide="subscription.canceled_at<=0">
+				<div class="title">Canceled On</div>
+				<div class="value">
+					<company-date date="subscription.canceled_at"></company-date>
+				</div>
+			</div>
+
+			<!-- Canceled Reason -->
+			<div ng-show="subscription.canceled_reason">
+				<div class="title">Canceled Reason</div>
+				<div class="value">
+					{{subscription.canceled_reason}}
+				</div>
+			</div>
+
+			<!-- Metadata -->
+			<div class="metadata" ng-repeat="(key, value) in subscription.metadata">
+				<div class="title"><metadata-name field-id="key" object-type="'subscription'"></metadata-name></div>
+				<div class="value">
+					<metadata-value field-id="key" object-type="'subscription'" value="value"></metadata-value>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-sm-8 right-pane">
+		<div class="action-items">
+			<div class="action-item warning" ng-if="hasActionItem('needs_onboarding')">
+				<div class="icon"></div>
+				<p>
+					{{'subscriptions.messages.add_payment_method'|translate}}
+				</p>
+				<p ng-if="'customers.edit'|hasPermission">
+					<button type="button" class="btn btn-primary" ng-click="addPaymentSource(subscription.customer)">
+						{{'subscriptions.buttons.add_payment_method'|translate}}
+					</button>
+				</p>
+			</div>
+
+			<div class="action-item info" ng-if="hasActionItem('paused')">
+				<div class="icon"></div>
+				<p>
+					{{'subscriptions.messages.resume'|translate}}
+				</p>
+				<p ng-if="'subscriptions.edit'|hasPermission">
+					<button type="button" class="btn btn-primary" ng-click="resume(subscription)">
+						{{'subscriptions.buttons.resume'|translate}}
+					</button>
+				</p>
+			</div>
+
+			<div class="action-item info" ng-if="hasActionItem('expired_contract')">
+				<div class="icon"></div>
+				<p>
+					{{'subscriptions.messages.renew'|translate}}
+				</p>
+				<p ng-if="'subscriptions.edit'|hasPermission">
+					<button type="button" class="btn btn-primary" ng-click="renewContract(subscription)">
+						{{'subscriptions.buttons.renew'|translate}}
+					</button>
+					<button type="button" class="btn btn-danger" ng-click="cancelModal(subscription)">
+						{{'general.cancel'|translate}}
+					</button>
+				</p>
+			</div>
+
+			<div class="action-item info" ng-if="hasActionItem('is_renewable')">
+				<div class="icon"></div>
+				<p>
+					{{'subscriptions.messages.renew_in_advance'|translate}}
+				</p>
+				<p ng-if="'subscriptions.edit'|hasPermission">
+					<button type="button" class="btn btn-primary" ng-click="renewContract(subscription)">
+						{{'subscriptions.buttons.renew'|translate}}
+					</button>
+				</p>
+			</div>
+
+			<div class="action-item info" ng-if="hasActionItem('expiring_contract')">
+				<div class="icon"></div>
+				<p>
+					This term for this contract is ending. In order for billing to continue, it must be renewed for another term.
+				</p>
+				<p ng-if="'subscriptions.edit'|hasPermission">
+					<button type="button" class="btn btn-primary" ng-click="renewContract(subscription)">
+						{{'subscriptions.buttons.renew'|translate}}
+					</button>
+					<button type="button" class="btn btn-danger" ng-click="cancelModal(subscription)">
+						{{'general.cancel'|translate}}
+					</button>
+				</p>
+			</div>
+
+			<div class="action-item info" ng-if="hasActionItem('will_cancel')">
+				<div class="icon"></div>
+				<p ng-show="subscription.cycles > 0">
+					{{'subscriptions.messages.reactivate'|translate}}
+				</p>
+				<p ng-hide="subscription.cycles">
+					This subscription will be canceled on <company-date date="subscription.period_end"></company-date>. No further invoices will be generated.
+				</p>
+				<p ng-if="'subscriptions.edit'|hasPermission">
+					<button type="button" class="btn btn-primary Button" ng-click="reactivate(subscription)" ng-disabled="saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+						{{'subscriptions.buttons.reactivate'|translate}}
+					</button>
+				</p>
+			</div>
+		</div>
+
+		<!-- Subscription Items -->
+		<div class="panel panel-invoiced light">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					Subscription Items
+				</h4>
+			</div>
+			<table class="search-results-table table table-striped slim">
+				<thead>
+					<tr>
+						<th>Plan</th>
+						<th class="money-column">Quantity</th>
+						<th class="money-column">Price</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- Base Plan -->
+					<tr ng-repeat="subscriptionItem in subscriptionItems">
+						<td>
+							<item-type item="subscriptionItem.item" ng-if="subscriptionItem.item"></item-type>
+							<strong ng-if="subscriptionItem.item">{{subscriptionItem.item.name}}</strong>
+							<strong ng-if="subscriptionItem.plan">{{subscriptionItem.plan.name}}</strong>
+							<div ng-show="subscriptionItem.description">
+								{{subscriptionItem.description}}
+							</div>
+						</td>
+						<td class="money-column">{{subscriptionItem.quantity|number}}</td>
+						<td class="money-column mobile-last" ng-if="subscriptionItem.item">
+							<money ng-hide="subscriptionItem.item.unit_cost == null || subscriptionItem.quantity == null" amount="subscriptionItem.item.unit_cost * addon.quantity" currency="subscriptionItem.item.currency" precision="settings.unit_cost_precision"></money>
+						</td>
+						<td class="money-column mobile-last" ng-if="subscriptionItem.plan">
+							<span ng-show="subscriptionItem.plan.pricing_mode == 'custom'">
+								<money amount="subscriptionItem.amount" currency="subscriptionItem.plan.currency"></money>
+							</span>
+							<span ng-show="subscriptionItem.plan.pricing_mode == 'tiered'">
+								Tiered
+							</span>
+							<span ng-show="subscriptionItem.plan.pricing_mode == 'volume'">
+								Volume
+							</span>
+							<span ng-show="subscriptionItem.plan.pricing_mode == 'per_unit'">
+								<money amount="subscriptionItem.plan.amount" currency="subscriptionItem.plan.currency"></money>
+							</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- Upcoming Invoice -->
+		<div class="panel panel-invoiced light" ng-show="upcomingInvoice && upcomingInvoice.items.length > 0">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					Upcoming Invoice
+				</h4>
+			</div>
+			<table class="table slim line-items">
+				<thead>
+					<tr>
+						<th class="item">Item</th>
+						<th class="quantity">Qty</th>
+						<th class="rate">Rate</th>
+						<th class="amount">Amount</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="line" ng-repeat-start="item in upcomingInvoice.items">
+						<td class="item">
+							<a href="" ng-click="item.showDetails=!item.showDetails" ng-show="item.hasMetadata">
+								<span ng-hide="item.showDetails">[+]</span>
+								<span ng-show="item.showDetails">[-]</span>
+							</a>
+							
+							<item-type item="item"></item-type>
+							<span class="item-name" ng-bind-html="item.name|nl2br"></span>
+						</td>
+						<td class="quantity">
+							{{item.quantity|number}}
+						</td>
+						<td class="rate">
+							<money amount="item.unit_cost" currency="upcomingInvoice.currency" precision="settings.unit_cost_precision"></money>
+						</td>
+						<td class="amount">
+							<span class="item-amount"><money amount="item.amount" currency="upcomingInvoice.currency" precision="settings.unit_cost_precision"></money></span>
+						</td>
+					</tr>
+					<tr class="line-description" ng-if="item.description||item.discounts.length>0||item.taxes.length>0||!item.taxable||!item.discountable||!item.id||(item.hasMetadata&&item.showDetails)" ng-repeat-end>
+						<td colspan="4">
+							<div class="billing-period" ng-show="item.period_start">
+								<span ng-show="item.prorated">Proration for</span>
+								<company-date date="item.period_start"></company-date>
+								&mdash;
+								<company-date date="item.period_end"></company-date>
+							</div>
+							<div class="description" ng-bind-html="item.description|nl2br" ng-show="item.description"></div>
+							<div class="rates" ng-bind-html="item|rateList:upcomingInvoice.currency" ng-show="item.discounts.length>0||item.taxes.length>0"></div>
+							<div class="exclusions" ng-hide="item.discountable&&item.taxable">
+								<span class="label label-default" ng-hide="item.discountable || upcomingInvoice.discounts.length == 0">Not discounted</span>
+								<span class="label label-default" ng-hide="item.taxable || upcomingInvoice.taxes.length == 0">Not taxed</span>
+							</div>
+							<div class="metadata" ng-show="item.hasMetadata && item.showDetails">
+								<div class="group" ng-repeat="(key, value) in item.metadata">
+									<span class="title"><metadata-name field-id="key" object-type="'line_item'"></metadata-name>:</span>
+									<metadata-value field-id="key" object-type="'line_item'" value="value"></metadata-value>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<!-- Subtotal -->
+					<tr class="subtotal">
+						<td class="noborder"></td>
+						<td class="title" colspan="2">
+							Subtotal
+						</td>
+						<td class="amount">
+							<money amount="upcomingInvoice.subtotal" currency="upcomingInvoice.currency"></money>
+						</td>
+					</tr>
+
+					<!-- Discounts -->
+					<tr class="discounts" ng-show="upcomingInvoice.discounts.length > 0">
+						<td class="noborder"></td>
+						<td class="title" colspan="2">
+							Discounts
+							<discounts-breakdown invoice="upcomingInvoice"></discounts-breakdown>
+						</td>
+						<td class="amount">
+							<money amount="upcomingInvoiceTotals.discounts" currency="upcomingInvoice.currency"></money>
+						</td>
+					</tr>
+
+					<!-- Taxes -->
+					<tr class="taxes" ng-show="upcomingInvoice.taxes.length > 0">
+						<td class="noborder"></td>
+						<td class="title" colspan="2">
+							Taxes
+							<taxes-breakdown invoice="upcomingInvoice"></taxes-breakdown>
+						</td>
+						<td class="amount">
+							<money amount="upcomingInvoiceTotals.taxes" currency="upcomingInvoice.currency"></money>
+						</td>
+					</tr>
+
+					<!-- Total -->
+					<tr class="total">
+						<td class="noborder"></td>
+						<td class="title" colspan="2">
+							{{'general.total'|translate}}
+						</td>
+						<td class="amount">
+							<money amount="upcomingInvoice.total" currency="upcomingInvoice.currency"></money>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+
+		<!-- Invoices -->
+		<div class="panel panel-invoiced light">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					Invoices
+				</h4>
+			</div>
+			<div class="panel-body" ng-if="!loaded.invoices||invoices.length==0">
+				<div class="loading" ng-hide="loaded.invoices"></div>
+				<div class="empty" ng-show="loaded.invoices && invoices.length == 0">
+					No invoices for this subscription yet.
+				</div>
+			</div>
+			<table class="search-results-table table table-striped slim" ng-show="invoices.length > 0 && loaded.invoices">
+				<thead>
+					<tr>
+						<th>Invoice</th>
+						<th>Date</th>
+						<th class="money-column">{{'general.total'|translate}}</th>
+						<th>{{'general.status'|translate}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="clickable" ng-repeat="invoice in invoices" ng-click="goToObject($event,'invoice',invoice.id)">
+						<td class="title"><a ui-sref="manage.invoice.view.summary({id:invoice.id})"><document-name document="invoice"></document-name></a></td>
+						<td class="nowrap light"><company-date date="invoice.date"></company-date></td>
+						<td class="money-column nowrap mobile-last"><money amount="invoice.total" currency="invoice.currency"></money></td>
+						<td class="status"><invoice-status invoice="invoice"></invoice-status></td>
+					</tr>
+				</tbody>
+				<tfoot ng-show="moreInvoices">
+					<tr class="view-more">
+						<td colspan="4">
+							<a href="/invoices?status=&amp;subscription={{subscription.id}}">
+								View more
+							</a>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>

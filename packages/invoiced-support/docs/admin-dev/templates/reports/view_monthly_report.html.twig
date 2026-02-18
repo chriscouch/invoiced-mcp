@@ -1,0 +1,379 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Monthly Report <small>{{ month }}</small>{% endblock %}
+
+{% block body_class 'ea-detail' %}
+
+{% block page_actions %}
+    {{ parent() }}
+    <a class="btn" href="{{ ea_url().setRoute('bi_report_form') }}">
+        New Report
+    </a>
+{% endblock %}
+
+{% block main %}
+    {% if error is defined %}
+        <p class="alert alert-danger">{{ error }}</p>
+    {% else %}
+        <div class="form-horizontal">
+            {% for metric in report %}
+                {% set value = metric.value %}
+
+                {% if metric.type == 'cancellationReasons' %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ metric.name }}</h5>
+                        </div>
+                        <table class="table table-sm">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Reason</th>
+                                    <th>Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for row in value %}
+                                <tr>
+                                    <td>{{ row.canceled_reason }}</td>
+                                    <td>{{ row.n }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+
+                {% if metric.type == 'invoicedPaymentsVolume' %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ metric.name }}</h5>
+                            <div class="row">
+                                <div class="col-xl-2">
+                                    <label class="mt-3">TPV</label>
+                                    <div class="fs-1">
+                                        ${{ value.volume|number_format }}
+                                    </div>
+                                </div>
+                                <div class="col-xl-2">
+                                    <label class="mt-3">Card TPV</label>
+                                    <div class="fs-1">
+                                        ${{ value.card_volume|number_format }}
+                                    </div>
+                                </div>
+                                <div class="col-xl-2">
+                                    <label class="mt-3">ACH TPV</label>
+                                    <div class="fs-1">
+                                        ${{ value.ach_volume|number_format }}
+                                    </div>
+                                </div>
+                                <div class="col-xl-2">
+                                    <label class="mt-3">Active Merchants</label>
+                                    <div class="fs-1">
+                                        {{ value.active_merchants|number_format }}
+                                    </div>
+                                </div>
+                                <div class="col-xl-2">
+                                    <label class="mt-3">New Merchants</label>
+                                    <div class="fs-1">
+                                        {{ value.new_merchants|number_format }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if metric.type == 'overageCharges' %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ metric.name }}</h5>
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class="mt-3">Revenue</label>
+                                    <div class="fs-1">
+                                        ${{ value.total|number_format }}
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="mt-3"># Overage Charges</label>
+                                    <div class="fs-1">
+                                        {{ value.count|number_format }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <table class="table table-sm">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Usage Type</th>
+                                            <th>Total</th>
+                                            <th>Count</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for row in value.by_dimension %}
+                                        <tr>
+                                            <td>{{ row.dimension }}</td>
+                                            <td>${{ row.total|number_format }}</td>
+                                            <td>{{ row.count|number_format }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if metric.type == 'totalInvoices' %}
+                    {{ _self.simple_metric(metric.name, value|number_format) }}
+                {% endif %}
+
+                {% if metric.type == 'totalBills' %}
+                    {{ _self.simple_metric(metric.name, value|number_format) }}
+                {% endif %}
+
+                {% if metric.type == 'totalPaymentsVolume' %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ metric.name }}</h5>
+                            <div class="row">
+                                <div class="col-xl-4">
+                                    <label class="mt-3">TPV</label>
+                                    <div class="fs-1">
+                                        ${{ value.volume|number_format }}
+                                    </div>
+                                </div>
+                                <div class="col-xl-4">
+                                    <label class="mt-3">Card TPV</label>
+                                    <div class="fs-1">
+                                        ${{ value.card_volume|number_format }}
+                                    </div>
+                                </div>
+                                <div class="col-xl-4">
+                                    <label class="mt-3">Direct Debit TPV</label>
+                                    <div class="fs-1">
+                                        ${{ value.direct_debit_volume|number_format }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if metric.type == 'timeToGoLive' %}
+                    {{ _self.simple_metric(metric.name, value|number_format) }}
+                {% endif %}
+
+                {% if metric.type == 'customersNotYetLive' %}
+                    {{ _self.simple_metric(metric.name, value|number_format) }}
+                {% endif %}
+
+                {% if metric.type == 'monthlyActiveUsers' %}
+                    {{ _self.simple_metric(metric.name, value|number_format) }}
+                {% endif %}
+
+                {% if metric.type == 'autoPayPayments' %}
+                    {{ _self.simple_metric(metric.name, value|number_format) }}
+                {% endif %}
+
+                {% if metric.type == 'activePaymentPlans' %}
+                    {{ _self.simple_metric(metric.name, value|number_format) }}
+                {% endif %}
+
+                {% if metric.type == 'activeSubscriptions' %}
+                    {{ _self.simple_metric(metric.name, value|number_format) }}
+                {% endif %}
+
+                {% if metric.type == 'paymentsApplied' %}
+                    {{ _self.simple_metric(metric.name, value|number_format) }}
+                {% endif %}
+
+                {% if metric.type == 'customerPortalLogins' %}
+                    {{ _self.simple_metric(metric.name, value|number_format) }}
+                {% endif %}
+
+                {% if metric.type == 'uniqueInvoiceViews' %}
+                    {{ _self.simple_metric(metric.name, value|number_format) }}
+                {% endif %}
+
+                {% if metric.type == 'totalNetworkSize' %}
+                    {{ _self.simple_metric(metric.name, value|number_format) }}
+                {% endif %}
+
+                {% if metric.type == 'billApprovals' %}
+                    {{ _self.simple_metric(metric.name, value|number_format) }}
+                {% endif %}
+
+                {% if metric.type == 'totalVendorPayments' %}
+                    {{ _self.simple_metric(metric.name, value|number_format) }}
+                {% endif %}
+
+                {% if metric.type == 'networkDocumentsSent' %}
+                    {{ _self.simple_metric(metric.name, value|number_format) }}
+                {% endif %}
+
+                {% if metric.type == 'newNetworkConnections' %}
+                    {{ _self.simple_metric(metric.name, value|number_format) }}
+                {% endif %}
+
+                {% if metric.type == 'trialFunnel' %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ metric.name }}</h5>
+                            <div class="row">
+                                <div class="col-xl-2">
+                                    <label class="mt-3">Trials Started</label>
+                                    <div class="fs-1">
+                                        {{ value.trialsStarted|number_format }}
+                                    </div>
+                                </div>
+                                <div class="col-xl-2">
+                                    <label class="mt-3">Trials Activated</label>
+                                    <div class="fs-1">
+                                        {{ value.trialsActivated|number_format }}
+                                    </div>
+                                </div>
+                                <div class="col-xl-2">
+                                    <label class="mt-3">Purchase Pages Created</label>
+                                    <div class="fs-1">
+                                        {{ value.purchasePages|number_format }}
+                                    </div>
+                                </div>
+                                <div class="col-xl-2">
+                                    <label class="mt-3"># Purchases</label>
+                                    <div class="fs-1">
+                                        {{ value.totalPurchases|number_format }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-2">
+                                    <label class="mt-3">Total MRR</label>
+                                    <div class="fs-1">
+                                        ${{ value.totalMrr|number_format }}
+                                    </div>
+                                </div>
+                                <div class="col-xl-2">
+                                    <label class="mt-3">Total ARR</label>
+                                    <div class="fs-1">
+                                        ${{ value.totalArr|number_format }}
+                                    </div>
+                                </div>
+                                <div class="col-xl-2">
+                                    <label class="mt-3">ARPU</label>
+                                    <div class="fs-1">
+                                        ${{ value.arpu|number_format }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-sm mt-3">
+                            <tbody>
+                                <tr>
+                                    <td class="fw-bold fs-5 ps-3">Product</td>
+                                    <td class="fw-bold fs-5 text-end"># Purchases</td>
+                                    <td class="fw-bold fs-5 text-end">MRR</td>
+                                    <td class="fw-bold fs-5 text-end">ARR</td>
+                                    <td class="fw-bold fs-5 text-end pe-3">ARPU</td>
+                                </tr>
+                            {% for row in value.purchasesByProduct %}
+                                <tr>
+                                    <td class="ps-3">{{ row.name }}</td>
+                                    <td class="text-end">{{ row.num_companies|number_format }}</td>
+                                    <td class="text-end">${{ row.mrr|number_format }}</td>
+                                    <td class="text-end">${{ row.arr|number_format }}</td>
+                                    <td class="text-end pe-3">${{ row.arpu|number_format }}</td>
+                                </tr>
+                            {% endfor %}
+                                <tr>
+                                    <td class="fw-bold fs-5 pt-5 ps-3">UTM Source</td>
+                                    <td class="fw-bold fs-5 pt-5 text-end"># Purchases</td>
+                                    <td class="fw-bold fs-5 pt-5 text-end">MRR</td>
+                                    <td class="fw-bold fs-5 pt-5 text-end">ARR</td>
+                                    <td class="fw-bold fs-5 pt-5 text-end pe-3">ARPU</td>
+                                </tr>
+                            {% for row in value.purchasesBySource %}
+                                <tr>
+                                    <td class="ps-3">{{ row.utm_source }}</td>
+                                    <td class="text-end">{{ row.num_companies }}</td>
+                                    <td class="text-end">${{ row.mrr|number_format }}</td>
+                                    <td class="text-end">${{ row.arr|number_format }}</td>
+                                    <td class="text-end pe-3">${{ row.arpu|number_format }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+
+                {% if metric.type == 'integrationsInstalled' %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ metric.name }}</h5>
+                            <div class="row">
+                                <div class="col-xl-2">
+                                    <label class="mt-3">Total</label>
+                                    <div class="fs-1">
+                                        {{ value.total|number_format }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-sm">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Integration</th>
+                                    <th># Installs</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in value.by_integration %}
+                                    <tr>
+                                        <td>{{ row.name }}</td>
+                                        <td>{{ row.total|number_format }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+
+                {% if metric.type == 'industries' %}
+                    <div class="card">
+                        <table class="table table-sm mt-3">
+                            <tbody>
+                                <tr>
+                                    <td class="fw-bold fs-5 ps-3">Industry</td>
+                                    <td class="fw-bold fs-5 text-end"># Companies</td>
+                                    <td class="fw-bold fs-5 text-end">MRR</td>
+                                    <td class="fw-bold fs-5 text-end pe-3">ARR</td>
+                                </tr>
+                                {% for row in value %}
+                                    <tr>
+                                        <td class="ps-3">{{ row.industry }}</td>
+                                        <td class="text-end">{{ row.num_companies }}</td>
+                                        <td class="text-end">${{ row.mrr|number_format }}</td>
+                                        <td class="text-end pe-3">${{ (row.mrr * 12)|number_format }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+{% macro simple_metric(name, value) %}
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ name }}</h5>
+            <div class="fs-1">
+                {{ value }}
+            </div>
+        </div>
+    </div>
+{% endmacro %}

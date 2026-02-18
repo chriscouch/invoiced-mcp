@@ -1,0 +1,141 @@
+{
+  "version": 1,
+  "title": "Payment Summary",
+  "sections": [
+    {
+      "title": "Payments Received",
+      "object": "payment",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "function": "count"
+          },
+          "name": "# Payments"
+        },
+        {
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "amount"
+              }
+            ]
+          },
+          "name": "Amount"
+        },
+        {
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "balance"
+              }
+            ]
+          },
+          "name": "Amount Unapplied"
+        }
+      ],
+      "filter": [
+        {
+          "operator": "=",
+          "value": false,
+          "field": {
+            "id": "voided"
+          }
+        },
+        {
+          "operator": "between",
+          "value": "$dateRange",
+          "field": {
+            "id": "date"
+          }
+        },
+        {
+          "operator": "=",
+          "value": "$currency",
+          "field": {
+            "id": "currency"
+          }
+        },
+        {
+          "operator": ">",
+          "value": 0,
+          "field": {
+            "id": "amount"
+          }
+        }
+      ],
+      "group": [],
+      "sort": []
+    },
+    {
+      "title": "Payments Applied",
+      "object": "transaction",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "function": "count"
+          },
+          "name": "# Transactions"
+        },
+        {
+          "name": "Amount",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "amount"
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "operator": "=",
+          "value": "$currency",
+          "field": {
+            "id": "currency"
+          }
+        },
+        {
+          "operator": "between",
+          "value": "$dateRange",
+          "field": {
+            "id": "date"
+          }
+        },
+        {
+          "operator": "=",
+          "value": "succeeded",
+          "field": {
+            "id": "status"
+          }
+        },
+        {
+          "operator": "=",
+          "value": [
+            "charge",
+            "payment"
+          ],
+          "field": {
+            "id": "type"
+          }
+        },
+        {
+          "operator": "<>",
+          "value": "balance",
+          "field": {
+            "id": "method"
+          }
+        }
+      ],
+      "group": [],
+      "sort": []
+    }
+  ]
+}

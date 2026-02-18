@@ -1,0 +1,121 @@
+{
+  "QueryResponse": {
+    "startPosition": 1,
+    "CreditMemo": [
+      {
+        "Id": "158",
+        "DocNumber": "CN-1039",
+        "Balance": 52.0,
+        "TxnDate": "2021-01-08",
+        "TotalAmt": 52.0,
+        "CustomerMemo": {
+          "value": "Updated customer memo."
+        },
+        "CustomerRef": {
+          "name": "Test",
+          "value": "1"
+        },
+        "CurrencyRef": {
+          "name": "United States Dollar",
+          "value": "USD"
+        },
+        "Line": [
+          {
+            "Id": "4",
+            "LineNum": 1,
+            "Amount": -55.00,
+            "DetailType": "SalesItemLineDetail",
+            "SalesItemLineDetail": {
+              "ItemRef": {
+                "name": "Some Item",
+                "value": "45"
+              },
+              "UnitPrice": -54.9999384,
+              "Qty": 1.0,
+              "TaxCodeRef": {
+                "value": "TAX"
+              }
+            }
+          },
+          {
+            "Id": "5",
+            "LineNum": 2,
+            "Amount": 110.00,
+            "DetailType": "SalesItemLineDetail",
+            "SalesItemLineDetail": {
+              "ItemRef": {
+                "name": "Line 2",
+                "value": "46"
+              },
+              "UnitPrice": 109.9998768,
+              "Qty": 1.0,
+              "TaxCodeRef": {
+                "value": "TAX"
+              }
+            }
+          },
+          {
+            "Id": "6",
+            "LineNum": 3,
+            "Amount": 1.00,
+            "DetailType": "SalesItemLineDetail",
+            "SalesItemLineDetail": {
+              "ItemRef": {
+                "name": "Line 3",
+                "value": "46"
+              },
+              "TaxCodeRef": {
+                "value": "TAX"
+              }
+            }
+          },
+          {
+            "Id": "7",
+            "LineNum": 4,
+            "Amount": 1.00,
+            "DetailType": "DescriptionOnly",
+            "Description": "Line 4",
+            "DescriptionLineDetail": {
+              "ClassRef": {
+                "name": "Louisville",
+                "value": "300000000000781137"
+              },
+              "ServiceDate": "2015-12-04",
+              "TaxCodeRef": {
+                "value": "TAX"
+              }
+            }
+          },
+          {
+            "Amount": 55.00,
+            "DetailType": "SubTotalLineDetail",
+            "SubTotalLineDetail": {}
+          },
+          {
+            "Amount": 5.00,
+            "DetailType": "DiscountLineDetail",
+            "DiscountLineDetail": {
+              "PercentBased": false,
+              "DiscountAccountRef": {
+                "name": "Discounts given",
+                "value": "86"
+              }
+            }
+          }
+        ],
+        "CustomField": [
+          {
+            "DefinitionId": "1",
+            "Type": "StringType",
+            "Name": "Crew #"
+          }
+        ],
+        "TxnTaxDetail": {
+          "TotalTax": 0
+        }
+      }
+    ],
+    "maxResults": 1
+  },
+  "time": "2021-01-08T09:13:36.246-07:00"
+}

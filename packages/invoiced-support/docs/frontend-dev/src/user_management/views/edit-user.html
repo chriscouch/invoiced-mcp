@@ -1,0 +1,120 @@
+<form name="editForm" ng-submit="save(member, role, restrictionMode, restrictionsList)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">Edit Member</h4>
+	</div>
+	<div class="modal-body form-horizontal">
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<!-- Person -->
+		<div class="form-group">
+			<label class="control-label col-sm-5">Person</label>
+			<div class="col-sm-7 form-control-static">
+				{{member.user.first_name}} {{member.user.last_name}}
+			</div>
+		</div>
+
+		<!-- Role -->
+		<div class="form-group">
+			<label class="control-label col-sm-5">Role <span class="required"></span></label>
+			<div class="col-sm-6">
+				<div class="invoiced-select">
+					<select ng-model="role" ng-options="_role.id as _role.name for _role in roles | orderBy:'score'"></select>
+				</div>
+			</div>
+		</div>
+
+		<!-- Role Permissions -->
+		<div class="form-group">
+			<div class="col-sm-6 col-sm-offset-5 text-right">
+				<button type="button" class="btn btn-link" ng-click="showPermissions = !showPermissions">
+					Role Permissions
+					<span class="fas fa-chevron-down" ng-hide="showPermissions"></span>
+					<span class="fas fa-chevron-up" ng-show="showPermissions"></span>
+				</button>
+			</div>
+		</div>
+
+		<div ng-show="showPermissions">
+			<div class="form-group">
+				<div class="col-sm-12">
+					<p>This user will be able to:</p>
+					<div class="row">
+						<div class="col-sm-4" ng-repeat="permission in permissions[role]">
+							{{permission}}
+						</div>
+					</div>
+				</div>
+			</div>
+			<hr/>
+		</div>
+
+		<!-- Customer Restrictions -->
+		<div class="form-group">
+			<label class="control-label col-sm-5">Customer Restrictions</label>
+			<div class="col-sm-6">
+				<div class="invoiced-select">
+					<select ng-model="restrictionMode">
+						<option value="none">No restrictions</option>
+						<option value="custom_field">Restrict by custom field</option>
+						<option value="owner">Restrict by account ownership</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group" ng-if="restrictionMode == 'custom_field'">
+			<div class="col-sm-12">
+				<div class="restrictions">
+					<table class="table table-striped search-results-table" ng-show="restrictionsList.length > 0">
+						<thead>
+							<tr>
+								<th>Field</th>
+								<th>Value</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="entry in restrictionsList">
+								<td>
+									<div class="invoiced-select">
+										<select ng-model="entry.field" ng-options="field.id as field.name for field in customFields" required></select>
+									</div>
+								</td>
+								<td>
+									<input type="text" class="form-control" ng-model="entry.value" required />
+								</td>
+								<td>
+									<button type="button" class="btn btn-link" ng-click="deleteRestriction($index)">
+										<span class="fas fa-times"></span>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="3"></td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				<div class="new-btn">
+					<button type="button" class="btn btn-default" ng-click="addRestriction()">
+						<span class="fas fa-plus"></span>
+						Restriction
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="editForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

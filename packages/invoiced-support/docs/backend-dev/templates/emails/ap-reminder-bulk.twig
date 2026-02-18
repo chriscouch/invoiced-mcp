@@ -1,0 +1,9 @@
+{% extends "emails/parent.twig" %}
+{% block title %}You have assigned documents for approval{% endblock %}
+{% block content %}
+    <row>
+        <columns>
+            <p><a href="{{ dashboardUrl}}/bills">{{ count }} Documents</a> were assigned to you</p>
+        </columns>
+    </row>
+{% endblock %}

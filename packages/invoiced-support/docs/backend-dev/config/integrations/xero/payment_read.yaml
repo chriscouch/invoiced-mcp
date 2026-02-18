@@ -1,0 +1,16 @@
+mapping:
+  - sourceField: PaymentID
+    destinationField: accounting_id
+
+  - sourceField: Invoice/Contact/ContactID
+    destinationField: customer/accounting_id
+
+  - sourceField: Invoice/Contact/Name
+    destinationField: customer/name
+
+  - sourceField: Reference
+    destinationField: reference
+
+  - sourceField: Invoice/CurrencyCode
+    destinationField: currency
+    type: currency

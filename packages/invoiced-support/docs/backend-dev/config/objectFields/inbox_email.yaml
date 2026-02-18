@@ -1,0 +1,41 @@
+fields:
+  bounce:
+    name: Bounced
+    type: boolean
+    writable: false
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  complaint:
+    name: Spam Complaint
+    type: boolean
+    writable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  date: { name: Date, type: date }
+  email_thread: { name: "Email Thread", type: join, parent_column: thread_id }
+  id:
+    name: ID
+    type: string
+    writable: false
+  inbox_email: { name: "Reply To Email", type: join, parent_column: reply_to_email }
+  incoming: { name: Incoming, type: boolean }
+  member:
+    name: Sent By
+    type: join
+    parent_column: sent_by_id
+    join_column: user_id
+  message_id: { name: "Message ID", type: string }
+  opens: { name: Opens, type: integer, summarize: true }
+  subject: { name: Subject, type: string }
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false

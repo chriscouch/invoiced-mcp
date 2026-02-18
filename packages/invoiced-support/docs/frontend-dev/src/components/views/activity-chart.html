@@ -1,0 +1,39 @@
+<div class="activity-chart-holder clearfix">
+	<div class="activity-chart-header clearfix">
+		<h4>Collections</h4>
+
+		<!-- Date Range Selector -->
+		<date-range-picker period="period"></date-range-picker>
+	</div>
+
+	<!-- The Chart -->
+	<div class="activity-chart-bound" ng-hide="loading">
+		<div class="drawing" ng-show="drawing"><div class="loading"></div></div>
+		<div class="empty-chart" ng-show="noChartData()">
+			<p class="empty">No activity for the selected period.</p>
+		</div>
+		<canvas id="activity-chart"></canvas>
+	</div>
+
+	<div class="activity-chart-bound" ng-show="loading">
+		<div class="loading"></div>
+	</div>
+
+	<div class="activity-chart-footer clearfix" ng-hide="noChartData()">
+		<!-- Chart Legend -->
+		<div class="activity-chart-legend">
+			<div class="legend clearfix">
+				<a href="/invoices?status=&amp;sort=date+ASC&amp;date={{dateRangeQuery}}&amp;customer={{customer.id}}">
+					<div class="color invoices"></div>
+					<div class="value">Invoiced: <strong><money amount="totals.invoices" currency="currency"></money></strong></div>
+				</a>
+			</div>
+			<div class="legend clearfix">
+				<a href="/payments?sort=date+ASC&amp;date={{dateRangeQuery}}&amp;customer={{customer.id}}">
+					<div class="color payments"></div>
+					<div class="value">Collected: <strong><money amount="totals.payments" currency="currency"></money></strong></div>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,145 @@
+<div class="email-thread">
+	<div class="header" ng-show="withHeader">
+		<h2>
+			{{thread.name}}
+			<a class="edit-btn" href="" ng-click="editThread(thread)" ng-if="'emails.send'|hasPermission">
+				<span class="fas fa-pencil"></span>
+			</a>
+		</h2>
+		<div class="controls">
+			<!-- Thread Status -->
+			<div class="control thread-status">
+				<div class="dropdown" dropdown>
+					<a href="" class="dropdown-toggle" dropdown-toggle>
+					<span class="label" ng-class="{'label-danger':thread.status=='closed','label-success':thread.status=='open','label-warning':thread.status=='pending'}">
+						{{'inboxes.'+thread.status|translate}}
+						<span class="fas fa-chevron-down"></span>
+					</span>
+					</a>
+					<ul class="dropdown-menu" ng-if="'emails.send'|hasPermission">
+						<li>
+							<a href="" ng-click="changeStatus(thread, 'open')">
+								{{'inboxes.open'|translate}}
+							</a>
+						</li>
+						<li>
+							<a href="" ng-click="changeStatus(thread, 'pending')">
+								{{'inboxes.pending'|translate}}
+							</a>
+						</li>
+						<li>
+							<a href="" ng-click="changeStatus(thread, 'closed')">
+								{{'inboxes.closed'|translate}}
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<!-- Assign User -->
+			<div class="control assigned-user">
+				<div class="dropdown" dropdown>
+					<a href="" class="dropdown-toggle" dropdown-toggle>
+						Assigned To:
+						<span ng-if="thread.assignee">{{ thread.assignee.first_name}} {{ thread.assignee.last_name}}</span>
+						<span ng-if="!thread.assignee">{{'inboxes.unassigned'|translate}}</span>
+						<span class="fas fa-chevron-down"></span>
+					</a>
+					<ul class="dropdown-menu" ng-if="'emails.send'|hasPermission">
+						<li ng-repeat="user in users">
+							<a href="" ng-click="changeOwner(thread, user.id)">
+								{{user.name}}
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<!-- Related Customer / Transaction -->
+			<div class="control related-transaction" ng-show="thread.customer || doc">
+				<a href="" ng-click="goToObject('customer', thread.customer.id)">
+					{{thread.customer.name}}
+				</a>
+				<span ng-show="thread.customer && doc">/</span>
+				<a href="" ng-click="goToObject(thread.object_type, thread.related_to_id)" ng-show="doc">
+					{{doc}}
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- Email Thread Items (Includes Emails & Internal Notes) -->
+	<div class="loading" ng-show="loading"></div>
+
+
+	<div class="text-center position-relative my-4 col-12" ng-show="threadItemsToShow < threadItems.length" ng-click="loadMore()">
+		<a href="" class="load-more stretched-link">{{'inboxes.threads.load_previous'|translate}}</a>
+	</div>
+
+	<div class="thread-email-list" ng-hide="loading">
+		<!-- No Results -->
+		<div class="thread-email-list-item" ng-if="!threadItems.length">
+			<div class="thread-empty-message">{{'inboxes.threads.empty_thread'|translate}}</div>
+		</div>
+
+		<div class="thread-email-list-item" ng-repeat="item in threadItems" id="thread-{{item.type}}-{{item.id}}" ng-show="shouldDisplayThreadItem($index)">
+			<!-- Email -->
+			<email thread="thread" email="item.email" ng-if="item.type == 'email'" to-label="!threadOptions.includeTexts && !threadOptions.includeLetters ? false : true"></email>
+
+			<!-- Note -->
+			<email-thread-note thread="thread" note="item.note" delete-callback="deleteNote(note)" ng-if="item.type == 'note'"></email-thread-note>
+
+			<!-- Text -->
+			<email-thread-text ng-if="item.type == 'text'" text="item.text"></email-thread-text>
+
+			<!-- Letter -->
+			<email-thread-letter ng-if="item.type == 'letter'" letter="item.letter"></email-thread-letter>
+		</div>
+	</div>
+
+	<!-- Send Reply -->
+	<div id="send-reply"></div>
+	<form name="emailForm" ng-submit="send(newReply)">
+		<div class="new-reply send-email-form" ng-hide="loading || !sendReply" ng-if="'emails.send'|hasPermission">
+			<h4>
+				<div class="action" ng-show="thread.id">
+					<a href="" ng-click="$parent.sendReply = false">
+						{{'inboxes.notes.add'|translate}}
+					</a>
+				</div>
+				<span ng-show="emails.length > 0">{{'inboxes.email.send_reply'|translate}}</span>
+				<span ng-hide="emails.length > 0">{{'inboxes.email.send_email'|translate}}</span>
+			</h4>
+
+			<email-form options="newReply"></email-form>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary Button" ng-disabled="saving||!newReply.to||!newReply.message" v-busy="sending" v-busy-label="{{'inboxes.email.sending'|translate}}" v-busy-text="{{'inboxes.email.send'|translate}}" v-pressable>
+					<span translate>inboxes.email.send</span>
+				</button>
+			</div>
+		</div>
+	</form>
+
+	<!-- Add Note -->
+	<form name="notesForm" ng-submit="addNote(newNote)">
+		<div class="new-reply add-note-form" ng-hide="loading || sendReply" ng-if="'notes.create'|hasPermission">
+			<h4>
+				<div class="action">
+					<a href="" ng-click="$parent.sendReply = true">
+						{{'inboxes.email.new_reply'|translate}}
+					</a>
+				</div>
+				{{'inboxes.notes.add'|translate}}
+			</h4>
+
+			<div class="message">
+				<textarea class="form-control" ng-model="newNote.note" placeholder="Note here..." expanding-textarea></textarea>
+			</div>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary Button" ng-disabled="creatingNote||!newNote.note" v-busy="creatingNote" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.add'|translate}}" v-pressable>
+					<span translate>general.add</span>
+				</button>
+			</div>
+		</div>
+	</form>
+</div>

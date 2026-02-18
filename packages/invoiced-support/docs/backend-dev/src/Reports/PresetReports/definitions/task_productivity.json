@@ -1,0 +1,125 @@
+{
+  "version": 1,
+  "title": "Task Productivity",
+  "sections": [
+    {
+      "title": "",
+      "object": "task",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "name": "Task Type",
+          "field": {
+            "id": "action"
+          }
+        },
+        {
+          "name": "# Assigned",
+          "field": {
+            "function": "count"
+          }
+        },
+        {
+          "name": "# Complete",
+          "field": {
+            "function": "count",
+            "arguments": [
+              {
+                "id": "completed_date"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Avg. Time to Complete (Days)",
+          "field": {
+            "function": "greatest",
+            "arguments": [
+              {
+                "function": "round",
+                "arguments": [
+                  [
+                    [
+                      {
+                        "function": "avg",
+                        "arguments": [
+                          {
+                            "id": "completed_date"
+                          }
+                        ]
+                      },
+                      "-",
+                      {
+                        "function": "avg",
+                        "arguments": [
+                          {
+                            "function": "unix_timestamp",
+                            "arguments": [
+                              {
+                                "id": "created_at"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "/",
+                    86400
+                  ]
+                ]
+              },
+              0
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "created_at"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        },
+        {
+          "field": {
+            "id": "member.user.id"
+          },
+          "operator": "<>",
+          "value": null
+        }
+      ],
+      "group": [
+        {
+          "expanded": true,
+          "field": {
+            "id": "member.user.name"
+          },
+          "ascending": true
+        },
+        {
+          "expanded": false,
+          "field": {
+            "id": "action"
+          },
+          "ascending": true
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "member.user.last_name"
+          },
+          "ascending": true
+        },
+        {
+          "field": {
+            "id": "action"
+          },
+          "ascending": true
+        }
+      ]
+    }
+  ]
+}

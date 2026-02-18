@@ -1,0 +1,50 @@
+{
+  "Invoices": [
+    {
+      "Type": "ACCREC",
+      "Contact": {
+        "ContactID": "2f4c2a04-ceb1-428f-b7e8-4e423cd7d360",
+        "Name": "After"
+      },
+      "Date": "\/Date(1518685950940+0000)\/",
+      "DueDate": "\/Date(1518685950940+0000)\/",
+      "DateString": "2017-01-25T00:00:00",
+      "DueDateString": "2017-02-09T00:00:00",
+      "Status": "AUTHORISED",
+      "LineAmountTypes": "Exclusive",
+      "LineItems": [
+        {
+          "ItemCode": "DevD",
+          "Description": "Development work - develper onsite per day",
+          "Quantity": "1.0000",
+          "UnitAmount": "812.50",
+          "TaxType": "OUTPUT",
+          "TaxAmount": "53.63",
+          "LineAmount": "650.00",
+          "DiscountRate": "650.00",
+          "AccountCode": "200",
+          "Tracking": [
+            {
+              "TrackingCategoryID": "e2f2f732-e92a-4f3a9c4d-ee4da0182a13",
+              "Name": "Activity/Workstream",
+              "Option": "Onsite consultancy"
+            }
+          ],
+          "LineItemID": "52208ff9-528a-4985-a9ad-b2b1d4210e38"
+        }
+      ],
+      "SubTotal": "650.00",
+      "TotalTax": "53.63",
+      "Total": "703.63",
+      "TotalDiscount": "162.50",
+      "UpdatedDateUTC": "\/Date(1518685950940+0000)\/",
+      "CurrencyCode": "USD",
+      "InvoiceID": "a909dda4-555b-414b-a395-ba7a4077de72",
+      "InvoiceNumber": "INV-0024",
+      "Reference": "P/O 9711 012345678901234567890123456789",
+      "AmountDue": "703.63",
+      "AmountPaid": "1000.00",
+      "AmountCredited": "0.00"
+    }
+  ]
+}

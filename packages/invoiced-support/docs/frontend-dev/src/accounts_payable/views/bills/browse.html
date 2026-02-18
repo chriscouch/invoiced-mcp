@@ -1,0 +1,167 @@
+<div class="search-results-holder" ng-class="{'has-filter': filterStr}">
+    <div class="box">
+        <div class="header clearfix">
+            <!-- Title Bar -->
+            <div class="actions" ng-if="'bills.create'|hasPermission">
+                <a ui-sref="manage.imports.new.spreadsheet({type:'bill'})" class="btn btn-default hidden-xs hidden-sm" ng-if="'imports.create'|hasPermission">
+                    Import
+                </a>
+                <a ui-sref="manage.bills.new" class="btn btn-success">
+                    New Bill
+                </a>
+            </div>
+            <h2>
+                <div class="btn-group dropdown" dropdown>
+                    <a href="" class="dropdown-toggle" dropdown-toggle>
+                        Bills
+                        <span class="fas fa-chevron-down"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="active">
+                            <a ui-sref="manage.bills.browse">
+                                Bills
+                            </a>
+                        </li>
+                        <li>
+                            <a ui-sref="manage.vendor_credits.browse">
+                                Vendor Credits
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </h2>
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs">
+                <li ng-class="{active:filter.status.value=='PendingApproval'}">
+                    <a href="" ng-click="addToFilter({status:'PendingApproval',sort:'date ASC'})">
+                        Needs Approval
+                    </a>
+                </li>
+                <li ng-class="{active:filter.status.value=='Approved'}">
+                    <a href="" ng-click="addToFilter({status:'Approved',sort:'date ASC'})">
+                        Approved
+                    </a>
+                </li>
+                <li ng-class="{active:filter.status.value=='Paid'}">
+                    <a href="" ng-click="addToFilter({status:'Paid',sort:'date DESC'})">
+                        Paid
+                    </a>
+                </li>
+                <li ng-class="{active:filter.status.value!='PendingApproval'&&filter.status.value!='Approved'&&filter.status.value!='Paid'}">
+                    <a href="" ng-click="addToFilter({status:'',sort:'date DESC'})">
+                        All
+                    </a>
+                </li>
+                <li class="action">
+                    <a href="" ng-click="openFilter()">
+                        <div>
+                            <span class="fas fa-filter"></span> Filter
+                        </div>
+                    </a>
+                </li>
+                <li class="action">
+                    <filter-dropdown type="bill"  saved-filters="savedFilters" apply-filter="applyFilter" filter="filter"></filter-dropdown>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Applied Filter -->
+        <div class="applied-filter" ng-show="filterStr">
+            <span class="fas fa-filter filter-icon"></span>
+            <strong>{{filterStr}}</strong>
+            <a href="" ng-click="resetFilter()">
+                <span class="fas fa-times-circle"></span>
+            </a>
+        </div>
+
+        <p class="loading" ng-show="loading"></p>
+
+        <!-- No Results :-( -->
+        <div class="empty-table" ng-show="noResults()&&!loading">
+            <div class="icon">
+                <img src="/img/event-icons/invoice.png" />
+            </div>
+            You have not received any bills yet.
+        </div>
+
+        <!-- Data Table -->
+        <div class="custom-table-wrapper">
+            <table class="search-results-table table table-striped network" id="network-table" ng-show="bills.length > 0 && !loading">
+                <thead>
+                    <tr>
+                        <th>From</th>
+                        <th>
+                            <a href="" ng-click="toggleSort('number')" ng-class="{down:filter.sort=='number DESC',up:filter.sort=='number ASC'}">
+                                Number
+                                <span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+                                <span class="sort down"><span class="fas fa-sort-amount-up"></span></span>
+                            </a>
+                        </th>
+                        <th>
+                            <a href="" ng-click="toggleSort('total')" ng-class="{down:filter.sort=='total DESC',up:filter.sort=='total ASC'}">
+                                Total
+                                <span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+                                <span class="sort down"><span class="fas fa-sort-amount-up"></span></span>
+                            </a>
+                        </th>
+                        <th>
+                            <a href="" ng-click="toggleSort('date')" ng-class="{down:filter.sort=='date DESC',up:filter.sort=='date ASC'}">
+                                Date
+                                <span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+                                <span class="sort down"><span class="fas fa-sort-amount-up"></span></span>
+                            </a>
+                        </th>
+                        <th>
+                            <a href="" ng-click="toggleSort('due_date')" ng-class="{down:filter.sort=='due_date DESC',up:filter.sort=='due_date ASC'}">
+                                Due Date
+                                <span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+                                <span class="sort down"><span class="fas fa-sort-amount-up"></span></span>
+                            </a>
+                        </th>
+                        <th>
+                            <a href="" ng-click="toggleSort('status')" ng-class="{down:filter.sort=='status DESC',up:filter.sort=='status ASC'}">
+                                Status
+                                <span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+                                <span class="sort down"><span class="fas fa-sort-amount-up"></span></span>
+                            </a>
+                        </th>
+                        <th class="nopadding noborder"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="clickable" ng-repeat="bill in bills" ng-click="goToObject($event,'bill', bill.id)">
+                        <td class="mobile-first">
+                            {{bill.vendor.name}}
+                        </td>
+                        <td>
+                            {{bill.number}}
+                        </td>
+                        <td>
+                            <money amount="bill.total" currency="bill.currency"></money>
+                        </td>
+                        <td>
+                            {{bill.date|formatCompanyDate}}
+                        </td>
+                        <td>
+                            {{bill.due_date|formatCompanyDate}}
+                        </td>
+                        <td class="mobile-last">
+                            {{bill.status}}
+                        </td>
+                        <td class="nopadding hover-actions-holder">
+                            <div class="hover-actions">
+                                <a href="" ng-click="download(bill)" class="btn btn-sm btn-default" tooltip="Download PDF" tooltip-placement="left" ng-show="bill.network_document">
+                                    <span class="fas fa-arrow-to-bottom"></span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <pagination-bar total-count="total_count" page-count="page_count" ng-change="goToPage(page, perPage)" ng-model="filter" ng-show="bills.length > 0 && !loading"></pagination-bar>
+    </div>
+</div>

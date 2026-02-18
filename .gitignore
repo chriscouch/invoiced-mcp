@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+.env.*
+.DS_Store
+*.mcpb
+packages/*/node_modules/
+.claude/
+TEST_RESULTS.md
+TEST_SUMMARY.md
+ISSUES.md

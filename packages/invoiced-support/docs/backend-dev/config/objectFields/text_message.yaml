@@ -1,0 +1,28 @@
+fields:
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  id:
+    name: ID
+    type: string
+    writable: false
+  message: { name: Message, type: string }
+  to: { name: To, type: string }
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  member:
+    name: Sent By
+    type: join
+    parent_column: sent_by_id
+    join_column: user_id

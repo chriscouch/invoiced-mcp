@@ -1,0 +1,21 @@
+{% extends "emails/client/parent.twig" %}
+
+{% block body %}
+	<p>Hello,</p>
+
+	<p>
+		Please sign in to our customer portal here:
+	</p>
+
+	<table border="0" cellpadding="4" cellspacing="0" width="100%" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;border-collapse: collapse;display:inline-table;"><tr>
+		<tr>
+			<td width="100%">
+				{{ button|raw }}
+			</td>
+		</tr>
+	</table>
+
+	<p>
+		This sign in link will expire in 1 day.
+	</p>
+{% endblock %}

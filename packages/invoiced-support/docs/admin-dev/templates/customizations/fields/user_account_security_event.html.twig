@@ -1,0 +1,40 @@
+{% if field.value|length > 0 %}
+    <table class="table table-sm">
+        <thead class="thead-light">
+        <tr>
+            <th>Type</th>
+            <th>IP</th>
+            <th>Auth Strategy</th>
+            <th>Timestamp</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for event in field.value %}
+            <tr>
+                <td>
+                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\AccountSecurityEventCrudController').setAction('detail').setEntityId(event.id) }}">
+                        {{ event.getType }}
+                    </a>
+                </td>
+                <td>{{ event.getIp|ipInfoLink }}</td>
+                <td>{{ event.getAuthStrategy }}</td>
+                <td>{{ event.getCreatedAt|date('n/j/Y g:i:s a') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <a href="{{ ea_url().setController('App\\Controller\\Admin\\AccountSecurityEventCrudController').setAction('index').set('filters', {user_id: {comparison: '=', value: entity.instance.id}}).setEntityId(null) }}" class="btn btn-link btn-sm">
+                        View All
+                        <span class="fa fa-caret-right"></span>
+                    </a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+{% else %}
+    <div class="empty collection-empty">
+        {{ include('@EasyAdmin/label/empty.html.twig') }}
+    </div>
+{% endif %}

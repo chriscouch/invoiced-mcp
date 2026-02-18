@@ -1,0 +1,48 @@
+<form name="savedReportForm">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title">
+            Save Report
+        </h4>
+    </div>
+    <div class="modal-body">
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <div class="form-group" ng-hide="savedReport.id || savedReports.length === 0">
+            <label class="checkbox-inline noselect">
+                <input type="checkbox" ng-model="updateExisting" />
+                Update existing report
+            </label>
+        </div>
+
+        <div class="form-group" ng-if="updateExisting">
+            <label class="control-label">Report To Update</label>
+            <div class="invoiced-select">
+                <select ng-options="_report as _report.name for _report in savedReports" ng-model="$parent.existingReport" required></select>
+            </div>
+        </div>
+
+        <div class="form-group" ng-hide="updateExisting">
+            <label class="control-label">{{'ui.filters.name'|translate}}</label>
+            <div>
+                <input class="form-control" type="text" ng-model="savedReport.name" required />
+            </div>
+        </div>
+
+        <div class="form-group" ng-hide="updateExisting">
+            <label class="control-label">{{'ui.filters.private'|translate}}</label>
+            <div>
+                <toggle ng-model="savedReport.private"></toggle>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button ng-click="save(savedReport, updateExisting, existingReport)" type="submit" class="btn btn-primary Button" ng-disabled="savedReportForm.$invalid||saving" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+            <span translate ng-hide="savedReport.id || updateExisting">general.create</span>
+            <span translate ng-show="savedReport.id || updateExisting">general.update</span>
+        </button>
+    </div>
+</form>

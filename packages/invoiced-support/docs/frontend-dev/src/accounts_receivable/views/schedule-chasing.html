@@ -1,0 +1,22 @@
+<form name="chaseForm" ng-submit="save(next, invoice)">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			Schedule Follow Up
+		</h4>
+	</div>
+	<div class="modal-body">
+		<p>
+			When would you like to follow up on <document-name document="invoice"></document-name> next?
+		</p>
+
+		<div class="row">
+			<div class="col-sm-8">
+				<input type="text" class="form-control" ng-model="next" ui-date="dateOptions" placeholder="Next chase date" required />
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="chaseForm.$invalid" v-pressable>{{'general.save'|translate}}</button>
+	</div>
+</form>

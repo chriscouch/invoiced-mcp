@@ -1,0 +1,3 @@
+new_user:
+    path: /admin/register
+    controller: App\Controller\RegisterController::register

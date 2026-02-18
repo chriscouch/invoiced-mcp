@@ -1,0 +1,37 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.select_customer'|trans %}
+{% extends "customerPortal/parentLogo.twig" %}
+
+{% block main %}
+	<div class="container select-customer-list">
+		<h2 class="mt-4">{{ 'titles.select_customer'|trans }}</h2>
+
+		{% for customer in customers %}
+			<div class="card mb-3 select-customer-row">
+				<div class="card-body">
+					<div class="row align-items-center">
+						<div class="col ms-n2">
+							<h4 class="mb-1 select-customer-name">
+								<a href="{{ customer.url }}">{{ customer.name }}</a>
+							</h4>
+							<p class="card-text small text-body-secondary mb-1 select-customer-address">
+								{{ customer.address|join(', ') }}
+							</p>
+							{% if customer.accountNumber %}
+								<p class="card-text small text-secondary select-customer-account-number">
+									{{ customer.accountNumber }}
+								</p>
+							{% endif %}
+						</div>
+						<div class="col-auto select-customer-arrow">
+							<a href="{{ customer.url }}" class="btn btn-white btn-lg d-none d-md-inline-block">
+								<span class="fas fa-arrow-up-right"></span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+
+{% endblock %}

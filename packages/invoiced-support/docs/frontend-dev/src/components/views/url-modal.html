@@ -1,0 +1,34 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
+	<h4 class="modal-title">Customer Portal URL</h4>
+</div>
+<div class="modal-body">
+	<p>
+		You can copy the URL to send to your customer directly or use it to preview what they will see.
+	</p>
+
+	<div class="url-textbox">
+		<div class="input-group">
+			<input id="clipboard-url" type="text" class="form-control" value="{{url}}" readonly="readonly" />
+			<span class="input-group-btn">
+				<button type="button" class="btn btn-primary btn-copy" data-clipboard-target="#clipboard-url">
+					<span class="far fa-clipboard"></span>
+				</button>
+			</span>
+			<span class="input-group-btn">
+				<a href="{{url}}" target="_blank" rel="noopener noreferrer" class="btn btn-link">
+					<span class="fas fa-external-link"></span>
+				</a>
+			</span>
+		</div>
+	</div>
+
+	<p class="alert alert-success alert-sm" ng-show="copied">
+		Copied!
+	</p>
+</div>
+<div class="modal-footer" ng-if="customer">
+	<button type="button" class="btn btn-primary" ng-click="sendModal()">
+		{{'general.send'|translate}}
+	</button>
+</div>

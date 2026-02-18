@@ -1,0 +1,46 @@
+{% trans_default_domain 'customer_portal' %}
+{% if paymentPlans|length > 0 %}
+    <div id="payment-plan-panel" class="card card-account payment-plan">
+        <div class="card-header">
+            <h4 class="card-title">
+                <span>{{ 'payment_plan'|trans }}</span>
+            </h4>
+        </div>
+        <div class="card-body">
+            {% for paymentPlan in paymentPlans %}
+                <div class="section">
+                    {% if paymentPlan.status == 'pending_signup' %}
+                        <div class="subsection total-balance">
+                            {{ 'labels.total'|trans }}: <a href="{{ paymentPlan.url }}" class="money">{{ paymentPlan.total_balance|money(paymentPlan.currency) }}</a>
+                        </div>
+                        <div class="subsection start-date">
+                            {{ 'labels.start_date'|trans }}: {{ paymentPlan.start_date }}
+                        </div>
+                        <div class="subsection actions">
+                            <a href="{{ paymentPlan.payment_url }}" class="btn btn-primary">
+                                {{ 'buttons.approve_payment_plan'|trans }}
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="subsection currently-due">
+                            {{ 'labels.currently_due'|trans }}: <a href="{{ paymentPlan.url }}" class="money"><strong>{{ paymentPlan.due_now|money(paymentPlan.currency)}}</strong></a>
+                        </div>
+                        <div class="subsection total-balance">
+                            {{ 'labels.balance'|trans }}: <span class="money">{{ paymentPlan.total_balance|money(paymentPlan.currency) }}</span> ({{ 'percent_paid'|trans({'%percent%': paymentPlan.percent_paid}) }})
+                        </div>
+                        <div class="subsection next-due-date">
+                            {{ 'labels.next_due_date'|trans }}: {{ paymentPlan.next_due_date }}
+                        </div>
+                        {% if paymentPlan.payment_url %}
+                            <div class="subsection actions">
+                                <a href="{{ paymentPlan.payment_url }}" class="btn btn-primary">
+                                    {{ 'buttons.pay_now'|trans }}
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}

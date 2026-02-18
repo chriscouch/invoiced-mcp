@@ -1,0 +1,30 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.successful_payment'|trans %}
+{% extends "customerPortal/parentFrameOneColumn.twig" %}
+
+{% block left %}
+	<div class="main">
+		<p>
+		{% if pending is defined and pending %}
+            {{ 'messages.payment_pending'|trans({'%amount%': amount|money(currency)})|raw }}
+		{% elseif zeroAmount is defined and zeroAmount %}
+			{{ 'messages.payment_zero_success'|trans }}
+		{% elseif amount is defined and amount %}
+            {{ 'messages.payment_successful'|trans({'%amount%': amount|money(currency)})|raw }}
+		{% else %}
+			{{ 'messages.payment_expected'|trans }}
+		{% endif %}
+		</p>
+
+		<div class="row actions">
+			{% if receiptUrl is defined and receiptUrl %}
+				<div class="col-sm-6">
+					<a href="{{ receiptUrl }}" class="btn btn-primary">
+						<span class="fas fa-arrow-to-bottom"></span>
+                        {{ 'buttons.download_receipt'|trans }}
+					</a>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}

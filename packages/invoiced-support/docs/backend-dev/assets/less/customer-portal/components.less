@@ -1,0 +1,422 @@
+/* PayPal Buttons */
+
+.paypal-checkout-button {
+    background: url('/img/billing-portal/paypal-checkout-button.png');
+    background-size: 207px 40px;
+    background-repeat: no-repeat;
+    border: none;
+    box-shadow: none;
+    text-shadow: none;
+    text-indent: -9999px;
+    width: 207px;
+    height: 40px;
+}
+
+/* PleaseWait.js */
+
+/* line 17, ../src/please-wait.scss */
+body.pg-loading {
+    overflow: hidden;
+}
+
+/* line 21, ../src/please-wait.scss */
+.pg-loading-screen {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 1000000;
+    opacity: 1;
+    background-color: #fff;
+    -webkit-transition: background-color 0.4s ease-in-out 0s;
+    -moz-transition: background-color 0.4s ease-in-out 0s;
+    -ms-transition: background-color 0.4s ease-in-out 0s;
+    -o-transition: background-color 0.4s ease-in-out 0s;
+    transition: background-color 0.4s ease-in-out 0s;
+}
+/* line 32, ../src/please-wait.scss */
+.pg-loading-screen.pg-loaded {
+    opacity: 0;
+    -webkit-animation: pgAnimLoaded 0.5s cubic-bezier(0.7, 0, 0.3, 1) both;
+    -moz-animation: pgAnimLoaded 0.5s cubic-bezier(0.7, 0, 0.3, 1) both;
+    -ms-animation: pgAnimLoaded 0.5s cubic-bezier(0.7, 0, 0.3, 1) both;
+    -o-animation: pgAnimLoaded 0.5s cubic-bezier(0.7, 0, 0.3, 1) both;
+    animation: pgAnimLoaded 0.5s cubic-bezier(0.7, 0, 0.3, 1) both;
+}
+/* line 38, ../src/please-wait.scss */
+.pg-loading-screen.pg-loading .pg-loading-logo-header,
+.pg-loading-screen.pg-loading .pg-loading-html {
+    opacity: 1;
+}
+/* line 42, ../src/please-wait.scss */
+.pg-loading-screen.pg-loading .pg-loading-logo-header,
+.pg-loading-screen.pg-loading .pg-loading-html:not(.pg-loaded) {
+    -webkit-animation: pgAnimLoading 1s cubic-bezier(0.7, 0, 0.3, 1) both;
+    -moz-animation: pgAnimLoading 1s cubic-bezier(0.7, 0, 0.3, 1) both;
+    -ms-animation: pgAnimLoading 1s cubic-bezier(0.7, 0, 0.3, 1) both;
+    -o-animation: pgAnimLoading 1s cubic-bezier(0.7, 0, 0.3, 1) both;
+    animation: pgAnimLoading 1s cubic-bezier(0.7, 0, 0.3, 1) both;
+}
+/* line 46, ../src/please-wait.scss */
+.pg-loading-screen.pg-loading .pg-loading-html:not(.pg-loaded) {
+    -webkit-animation-delay: 0.3s;
+    -moz-animation-delay: 0.3s;
+    -ms-animation-delay: 0.3s;
+    -o-animation-delay: 0.3s;
+    animation-delay: 0.3s;
+}
+/* line 51, ../src/please-wait.scss */
+.pg-loading-screen .pg-loading-inner {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    position: static;
+}
+/* line 59, ../src/please-wait.scss */
+.pg-loading-screen .pg-loading-center-outer {
+    width: 100%;
+    padding: 0;
+    display: table !important;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+}
+/* line 70, ../src/please-wait.scss */
+.pg-loading-screen .pg-loading-center-middle {
+    padding: 0;
+    vertical-align: middle;
+    display: table-cell !important;
+    margin: 0;
+    text-align: center;
+}
+/* line 78, ../src/please-wait.scss */
+.pg-loading-screen .pg-loading-logo-header,
+.pg-loading-screen .pg-loading-html {
+    width: 100%;
+    opacity: 0;
+}
+/* line 83, ../src/please-wait.scss */
+.pg-loading-screen .pg-loading-logo-header {
+    text-align: center;
+}
+/* line 86, ../src/please-wait.scss */
+.pg-loading-screen .pg-loading-logo-header img {
+    display: inline-block !important;
+}
+/* line 91, ../src/please-wait.scss */
+.pg-loading-screen .pg-loading-html {
+    margin-top: 90px;
+}
+/* line 94, ../src/please-wait.scss */
+.pg-loading-screen .pg-loading-html.pg-loaded {
+    -webkit-transition: opacity 0.5s cubic-bezier(0.7, 0, 0.3, 1);
+    -moz-transition: opacity 0.5s cubic-bezier(0.7, 0, 0.3, 1);
+    -ms-transition: opacity 0.5s cubic-bezier(0.7, 0, 0.3, 1);
+    -o-transition: opacity 0.5s cubic-bezier(0.7, 0, 0.3, 1);
+    transition: opacity 0.5s cubic-bezier(0.7, 0, 0.3, 1);
+}
+/* line 97, ../src/please-wait.scss */
+.pg-loading-screen .pg-loading-html.pg-loaded.pg-removing {
+    opacity: 0;
+}
+/* line 101, ../src/please-wait.scss */
+.pg-loading-screen .pg-loading-html.pg-loaded.pg-loading {
+    opacity: 1;
+}
+.pg-loading-screen .pg-loading-html p {
+    color: #fff;
+    font-weight: 300;
+}
+.pg-loading-screen .pg-loading-html p.loading-message {
+    font-size: 20px;
+    margin-bottom: 100px;
+}
+
+@-webkit-keyframes pgAnimLoading {
+    from {
+        opacity: 0;
+    }
+}
+@-moz-keyframes pgAnimLoading {
+    from {
+        opacity: 0;
+    }
+}
+@-o-keyframes pgAnimLoading {
+    from {
+        opacity: 0;
+    }
+}
+@-ms-keyframes pgAnimLoading {
+    from {
+        opacity: 0;
+    }
+}
+@keyframes pgAnimLoading {
+    from {
+        opacity: 0;
+    }
+}
+@-webkit-keyframes pgAnimLoaded {
+    from {
+        opacity: 1;
+    }
+}
+@-moz-keyframes pgAnimLoaded {
+    from {
+        opacity: 1;
+    }
+}
+@-o-keyframes pgAnimLoaded {
+    from {
+        opacity: 1;
+    }
+}
+@-ms-keyframes pgAnimLoaded {
+    from {
+        opacity: 1;
+    }
+}
+@keyframes pgAnimLoaded {
+    from {
+        opacity: 1;
+    }
+}
+
+/* SpinKit */
+
+.spinner {
+    margin: 100px auto;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    text-align: center;
+
+    -webkit-animation: rotate 2s infinite linear;
+    animation: rotate 2s infinite linear;
+}
+
+.dot1,
+.dot2 {
+    width: 60%;
+    height: 60%;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    background-color: #fff;
+    border-radius: 100%;
+
+    -webkit-animation: bounce 2s infinite ease-in-out;
+    animation: bounce 2s infinite ease-in-out;
+}
+
+.dot2 {
+    top: auto;
+    bottom: 0px;
+    -webkit-animation-delay: -1s;
+    animation-delay: -1s;
+}
+
+@-webkit-keyframes rotate {
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes bounce {
+    0%,
+    100% {
+        -webkit-transform: scale(0);
+    }
+    50% {
+        -webkit-transform: scale(1);
+    }
+}
+
+@keyframes bounce {
+    0%,
+    100% {
+        transform: scale(0);
+        -webkit-transform: scale(0);
+    }
+    50% {
+        transform: scale(1);
+        -webkit-transform: scale(1);
+    }
+}
+
+/*
+ -----
+ Animated Hamburger
+ https://codepen.io/designcouch/pen/Atyop
+ -----
+*/
+
+.hamburger {
+    width: 22px;
+    height: 16px;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-transition: 0.5s ease-in-out;
+    -moz-transition: 0.5s ease-in-out;
+    -o-transition: 0.5s ease-in-out;
+    transition: 0.5s ease-in-out;
+    cursor: pointer;
+    background: none;
+    box-shadow: none;
+    text-shadow: none;
+    border: none;
+}
+
+.hamburger span {
+    display: block;
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    background: @ink;
+    border-radius: 2px;
+    opacity: 1;
+    left: 0;
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-transition: 0.25s ease-in-out;
+    -moz-transition: 0.25s ease-in-out;
+    -o-transition: 0.25s ease-in-out;
+    transition: 0.25s ease-in-out;
+}
+
+.hamburger span:nth-child(1) {
+    top: 0px;
+}
+
+.hamburger span:nth-child(2),
+.hamburger span:nth-child(3) {
+    top: 6px;
+}
+
+.hamburger span:nth-child(4) {
+    top: 12px;
+}
+
+.hamburger.open span:nth-child(1) {
+    top: 6px;
+    width: 0%;
+    left: 50%;
+}
+
+.hamburger.open span:nth-child(2) {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.hamburger.open span:nth-child(3) {
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+.hamburger.open span:nth-child(4) {
+    top: 6px;
+    width: 0%;
+    left: 50%;
+}
+
+/*
+ -----
+ Aging Breakdown
+ -----
+*/
+
+.aging-breakdown {
+    margin: 0 0 10px;
+    @agingBarHeight: 20px;
+
+    .bar {
+        height: @agingBarHeight;
+        width: 100%;
+        position: relative;
+
+        a.bg:first-child {
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+
+        a.bg:last-child {
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+
+        a.bg {
+            display: block;
+            float: left;
+            height: @agingBarHeight;
+            z-index: 1;
+            width: 0%;
+            transition: width 1s ease;
+            outline: none;
+        }
+
+        .bg.age-severity-1 {
+            background-color: @mintDark;
+        }
+        .bg.age-severity-2 {
+            background-color: @mint;
+        }
+        .bg.age-severity-3 {
+            background-color: @yellow;
+        }
+        .bg.age-severity-4 {
+            background-color: @peachDark;
+        }
+        .bg.age-severity-5 {
+            background-color: #e64a2e;
+        }
+        .bg.age-severity-6 {
+            background-color: #c93318;
+        }
+    }
+}
+
+/*
+ -----
+ Paddings
+ -----
+*/
+.p-0 {
+    padding: 0 !important;
+}
+.py-6 {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+}
+.pb-6 {
+    padding-bottom: 1.5rem !important;
+}
+.px-4 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+.mx-0 {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}

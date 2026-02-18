@@ -1,0 +1,37 @@
+fields:
+  amount: { name: Amount, type: money, summarize: true }
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  currency: { name: Currency, type: string }
+  failure_message: { name: "Failure Message", type: string }
+  gateway: { name: "Payment Gateway", type: string }
+  gateway_id: { name: "Transaction ID", type: string }
+  id:
+    name: ID
+    type: string
+    writable: false
+  merchant_account_transaction:
+    name: Merchant Account Transaction
+    type: join
+  status:
+    name: Status
+    type: enum
+    values:
+      failed: Failed
+      pending: Pending
+      succeeded: Succeeded
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  charge: { name: Charge, type: join }
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false

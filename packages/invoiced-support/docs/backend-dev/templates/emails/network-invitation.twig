@@ -1,0 +1,62 @@
+{% extends 'emails/parent.twig' %}
+{% if isCustomer %}
+    {% set relationshipType = 'Vendor' %}
+{% else %}
+    {% set relationshipType = 'Customer' %}
+{% endif %}
+{% block title %}{{ relationshipType }} Approval Request{% endblock %}
+{% block content %}
+    <row>
+        <columns>
+            {% if isCustomer %}
+                <p>{{ fromCompanyName }} wants to add you to their Invoiced network. Invoiced is the simple, secure way to send, receive, approve, and pay invoices. After you approve {{ fromCompanyName }} as your vendor, they'll be able to send you invoices through the secure network.</p>
+                <p>If you don't have an Invoiced account, you can join the world's fastest growing invoicing network by creating your free account.</p>
+                <p>Already have an account? You can sign in to approve the request.</p>
+            {% else %}
+                <p>{{ fromCompanyName }} wants to add you to their Invoiced network. Invoiced is the simple, secure way to send, receive, approve, and pay invoices. After you approve {{ fromCompanyName }} as your customer, you'll be able to send invoices to them through the secure network.</p>
+                <p>If you don't have an Invoiced account, you can join the world's fastest growing invoicing network by creating your free account.</p>
+                <p>Already have an account? You can sign in to approve the request.</p>
+            {% endif %}
+            <spacer size="10"></spacer>
+        </columns>
+    </row>
+    <row>
+        <columns>
+            <center>
+                <button class="radius" href="{{ url('network_accept_invitation', {id: invitationId}) }}">
+                    Approve {{ relationshipType }}
+                </button>
+                <span class="text-muted">This link is valid until {{ expiresAt }}.</span>
+                <h-line></h-line>
+            </center>
+        </columns>
+    </row>
+    <row>
+        <columns>
+            <center>
+                <h5>{{ relationshipType}} Details</h5>
+                <row>
+                    <columns small="12" large="6">
+                        <p class="invitation-contact-information">
+                            Legal Name: {{ fromCompanyName }}
+                        </p>
+                        <p class="invitation-contact-information">
+                            Email: <a href="mailto:{{ fromCompanyEmail }}">{{ fromCompanyEmail }}</a>
+                        </p>
+                    </columns>
+                    <columns small="12" large="6">
+                        <p class="invitation-contact-information">
+                            Mailing Address: {% if address %}<br/>{{ address|nl2br }}{% else %}None Given{% endif %}
+                        </p>
+                    </columns>
+                </row>
+                <spacer size="10"></spacer>
+                <a href="{{ url('network_decline_invitation', {id: invitationId}) }}" class="decline-invitation">
+                    Don't recognize or not expecting this {{ relationshipType|lower }}? <strong>Click here to decline</strong>
+                </a>
+            </center>
+        </columns>
+    </row>
+{% endblock %}
+
+{% block email_reason %}You are receiving this email because {{ fromCompanyName }} invited you to join their business network on Invoiced.com. This message was sent by Invoiced, Inc.{% endblock %}

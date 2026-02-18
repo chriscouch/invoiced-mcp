@@ -1,0 +1,103 @@
+<form name="emailForm" ng-submit="save(template)">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title"><span ng-show="template.id">Edit</span><span ng-hide="template.id">New</span> Email Template</h4>
+	</div>
+	<div class="modal-body">
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<!-- Type -->
+		<div class="form-group" ng-if="canEditType">
+			<label class="control-label">Type <span class="required"></span></label>
+			<div class="invoiced-select input-medium">
+				<select ng-model="template.type" ng-change="changeType(template.type)">
+					<option value="invoice">Invoice</option>
+					<option value="chasing">Chasing</option>
+					<option value="credit_note">Credit Note</option>
+					<option value="statement">Statement</option>
+					<option value="transaction">Payment</option>
+					<option value="payment_plan">Payment Plan</option>
+					<option value="subscription">Subscription</option>
+					<option value="estimate">Estimate</option>
+				</select>
+			</div>
+		</div>
+
+		<!-- Name -->
+		<div class="form-group" ng-if="canEditName">
+			<label class="control-label">Template Name <span class="required"></span></label>
+			<div>
+				<input type="text" class="form-control" ng-model="template.name" required />
+			</div>
+		</div>
+		<div class="form-group" ng-if="!canEditName">
+			<label class="control-label">Template</label>
+			<div>
+				{{template.name}}
+			</div>
+		</div>
+
+		<!-- Subject -->
+		<div class="form-group">
+			<div class="email-variable-selector">
+				<div class="invoiced-select">
+					<select ng-options="v for v in variables" ng-model="variable" ng-change="addVariable(variable, 'subject')"></select>
+				</div>
+			</div>
+
+			<label class="control-label">Subject <span class="required"></span></label>
+			<div>
+				<input type="text" id="email-template-subject" class="form-control" ng-model="template.subject" />
+			</div>
+		</div>
+
+		<!-- Message -->
+		<div class="form-group">
+			<div class="email-variable-selector">
+				<div class="invoiced-select">
+					<select ng-options="v for v in variables" ng-model="variable" ng-change="addVariable(variable, 'body')"></select>
+				</div>
+			</div>
+
+			<label class="control-label">Message <span class="required"></span></label>
+			<textarea id="email-template-body" class="form-control" ng-model="template.body" expanding-textarea></textarea>
+		</div>
+
+		<!-- Help -->
+		<div class="form-group">
+			<p class="text-muted">
+				<span class="label label-success">Tip</span>
+				The funny-looking values like <strong><span>{{</span>customer_name}}</strong> are placeholders that get replaced with the correct value after you click Send.
+				Learn more in the <a href="https://docs.invoiced.com/dev/template-language" target="_blank" rel="noopener noreferrer">Invoiced Template Language documentation</a>.
+			</p>
+			<p class="text-muted">
+
+			</p>
+		</div>
+
+		<!-- Options -->
+		<div class="form-group email-template-options" ng-show="options">
+			<hr/>
+			<label class="control-label">Options</label>
+			<div class="option" ng-hide="option.hidden" ng-repeat="option in options">
+				<div class="title">{{option.name}}</div>
+				<div class="value">
+					<toggle ng-model="template.options[option.id]" ng-if="option.boolean"></toggle>
+					<div ng-if="option.text">
+						<input type="text" class="form-control" ng-model="template.options[option.id]" />
+					</div>
+					<div ng-if="option.number">
+						<input type="number" class="form-control" ng-model="template.options[option.id]" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="emailForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

@@ -1,0 +1,30 @@
+monolog:
+    handlers:
+        main:
+            type: rotating_file
+            path: "%kernel.logs_dir%/%kernel.environment%.log"
+            level: info
+            channels: ["!event", "!resque"]
+            max_files: 10
+        sentry:
+            type: service
+            id: sentry.monolog.handler
+            level: warning
+        console:
+            type: console
+            process_psr_3_messages: false
+            channels: ["!event", "!doctrine", "!console", "!resque"]
+            console_formatter_options:
+                date_format: Y-m-d H:i:s
+                format: "[%%datetime%%] %%start_tag%%%%level_name%%%%end_tag%% <comment>[%%channel%%]</> %%message%%%%context%%%%extra%%\n"
+        resque_stderr:
+            type: stream
+            path: "php://stderr"
+            level: warning
+            channels: ["resque"]
+            bubble: false
+        resque_stdout:
+            type: stream
+            path: "php://stdout"
+            level: notice
+            channels: ["resque"]

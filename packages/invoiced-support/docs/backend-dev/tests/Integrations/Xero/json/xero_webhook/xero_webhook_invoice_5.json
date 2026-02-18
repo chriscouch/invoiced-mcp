@@ -1,0 +1,45 @@
+{
+  "Invoices": [
+    {
+      "Type": "ACCREC",
+      "Contact": {
+        "ContactID": "bd2270c3-8706-4c11-9cfb-000b551c3f51",
+        "ContactStatus": "ACTIVE",
+        "Name": "Test 2",
+        "UpdatedDateUTC": "\/Date(1518685950940+0000)\/",
+        "IsSupplier": "false",
+        "IsCustomer": "true"
+      },
+      "Date": "\/Date(1518685950940+0000)\/",
+      "DueDate": "\/Date(1518685950940+0000)\/",
+      "DateString": "2016-12-19T00:00:00",
+      "DueDateString": "2016-12-29T00:00:00",
+      "Status": "AUTHORISED",
+      "LineAmountTypes": "Exclusive",
+      "LineItems": [
+        {
+          "ItemCode": "BOOK",
+          "Description": "'Fish out of Water: Finding Your Brand'",
+          "Quantity": "1.0000",
+          "UnitAmount": "19.95",
+          "TaxType": "OUTPUT",
+          "TaxAmount": "1.75",
+          "LineAmount": "19.95",
+          "AccountCode": "200",
+          "LineItemID": "8dbdc273-ac9d-4950-9376-83d57a08d548"
+        }
+      ],
+      "SubTotal": "19.95",
+      "TotalTax": "1.75",
+      "Total": "21.70",
+      "UpdatedDateUTC": "\/Date(1518685950940+0000)\/",
+      "CurrencyCode": "USD",
+      "InvoiceID": "07e71ce4-9801-4cce-914b-dc07e9c0ca5e",
+      "InvoiceNumber": "INV-0017",
+      "Reference": "Book",
+      "AmountDue": "21.70",
+      "AmountPaid": "0.00",
+      "AmountCredited": "0.00"
+    }
+  ]
+}

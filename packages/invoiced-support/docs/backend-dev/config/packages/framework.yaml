@@ -1,0 +1,40 @@
+framework:
+    secret: '%env(APP_SECRET)%'
+    csrf_protection: true
+    http_method_override: false
+    handle_all_throwables: true
+
+    # Enables session support. Note that the session will ONLY be started if you read or write from it.
+    # Remove or comment this section to explicitly disable session support.
+    session:
+        handler_id: null
+        save_path: null
+        cookie_secure: auto
+        storage_factory_id: session.storage.factory.native
+        # This should be disabled because some customer portal pages
+        # are embedded as an Iframe on external sites. The session
+        # will not work with a Strict or Lax mode because the browser
+        # does not send the session cookie.
+        cookie_samesite: none
+
+    #esi: true
+    #fragments: true
+    php_errors:
+        log: true
+
+    assets:
+        json_manifest_path: '%kernel.project_dir%/assets/static.assets.json'
+
+    cache:
+        # Put the unique name of your app here: the prefix seed
+        # is used to compute stable namespaces for cache keys.
+        prefix_seed: '%app.domain%'
+        default_redis_provider: app.redis
+        app: cache.adapter.redis
+
+    lock: 'redis://%app.redis_host%'
+
+    http_client:
+        default_options:
+            headers:
+                'User-Agent': 'Invoiced/1.0'

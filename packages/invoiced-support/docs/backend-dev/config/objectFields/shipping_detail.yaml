@@ -1,0 +1,23 @@
+fields:
+  address1: { name: "Address Line 1", type: string }
+  address2: { name: "Address Line 2", type: string }
+  attention_to: { name: "Attention To", type: string }
+  city: { name: City, type: string }
+  country: { name: Country, type: string }
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  id:
+    name: ID
+    type: string
+    writable: false
+  name: { name: Name, type: string }
+  postal_code: { name: "Postal Code", type: string }
+  state: { name: State, type: string }
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false

@@ -1,0 +1,329 @@
+<div class="row two-pane">
+	<div class="col-sm-4 left-pane">
+		<div class="details-list vertical">
+			<h4>
+				<div class="action" ng-if="('credit_notes.edit'|hasPermission) && editable" ng-hide="creditNote.status=='voided'">
+					<a class="visible-xs" ui-sref="manage.credit_note.edit(creditNote)" ng-hide="creditNote.closed">
+						Edit Credit Note
+					</a>
+				</div>
+				Credit Note Details
+			</h4>
+
+			<!-- Customer -->
+			<div>
+				<div class="title">Customer</div>
+				<div class="value">
+					<a href="/customers/{{creditNote.customer.id}}">
+						{{creditNote.customer.name}}
+					</a>
+				</div>
+			</div>
+
+			<!-- Status -->
+			<div>
+				<div class="title">Status</div>
+				<div class="value">
+					<credit-note-status credit-note="creditNote"></credit-note-status>
+				</div>
+			</div>
+
+			<!-- Date -->
+			<div>
+				<div class="title">{{'general.date'|translate}}</div>
+				<div class="value">
+					<company-date date="creditNote.date"></company-date>
+				</div>
+			</div>
+
+			<!-- Purchase Order -->
+			<div ng-show="creditNote.purchase_order">
+				<div class="title">Purchase Order</div>
+				<div class="value">
+					{{creditNote.purchase_order}}
+				</div>
+			</div>
+
+			<!-- Metadata -->
+			<div class="metadata" ng-repeat="(key, value) in creditNote.metadata">
+				<div class="title"><metadata-name field-id="key" object-type="'credit_note'"></metadata-name></div>
+				<div class="value">
+					<metadata-value field-id="key" object-type="'credit_note'" value="value"></metadata-value>
+				</div>
+			</div>
+
+			<!-- Closed -->
+			<div ng-show="creditNote.closed">
+				<div class="title">Closed</div>
+				<div class="value">
+					<span class="text-danger">Yes</span>
+					<span ng-if="('credit_notes.edit'|hasPermission) && editable" ng-hide="creditNote.status=='voided'">
+						&mdash;
+						<a href="" ng-click="setClosed(false, creditNote)">
+							Reopen
+						</a>
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- Accounting Sync Status -->
+		<sync-status synced-object="syncedObject" editable="editable" object-type="'credit_note'"></sync-status>
+	</div>
+
+	<div class="col-sm-8 right-pane">
+		<!-- Action Items -->
+		<div class="action-items">
+			<div class="action-item suggestion" ng-if="hasActionItem('draft')">
+				<div class="icon"></div>
+				<p>
+					This credit note has not been added to your customer's account yet. Are you ready to issue it?
+				</p>
+				<p ng-if="'credit_notes.issue'|hasPermission">
+					<button type="button" class="btn btn-success" ng-click="issue({id:creditNote.id})" ng-disabled="issuing" v-busy="issuing" v-busy-label="{{'general.saving'|translate}}" v-pressable>
+						Issue credit note
+					</button>
+					<a class="btn btn-default" ui-sref="manage.credit_note.edit({id:creditNote.id})" ng-if="editable" ng-hide="creditNote.closed">
+						Edit credit note
+					</a>
+				</p>
+			</div>
+			<div class="action-item suggestion" ng-if="hasActionItem('issued')">
+				<div class="icon"></div>
+				<p>
+					This credit note has an outstanding balance. How would you like to pay back your customer?
+				</p>
+				<p ng-if="'credits.create'|hasPermission">
+					<button type="button" class="btn btn-primary" ng-click="paymentModal(creditNote)">
+						Apply Credit Note
+					</button>
+				</p>
+			</div>
+			<div class="action-item warning" ng-if="hasActionItem('closed')">
+				<div class="icon"></div>
+				<p>
+					The credit note was closed before it was paid in full.
+				</p>
+			</div>
+			<!-- Voided -->
+			<div class="action-item warning" ng-if="hasActionItem('voided')">
+				<div class="icon"></div>
+				<p>
+					The credit note has been voided.
+				</p>
+			</div>
+			<div class="action-item success" ng-if="hasActionItem('paid')">
+				<div class="icon"></div>
+				<p>
+					The amount owed to <strong>{{creditNote.customer.name}}</strong> has been paid in full.
+				</p>
+			</div>
+		</div>
+
+		<!-- Line Items -->
+		<div class="panel panel-invoiced light" ng-show="loaded.lineItems">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<div class="action" ng-if="('credit_notes.edit'|hasPermission) && editable" ng-hide="creditNote.status=='voided'">
+						<a class="visible-xs" ui-sref="manage.credit_note.edit({id:creditNote.id})" ng-hide="creditNote.closed">
+							Edit Credit Note
+						</a>
+					</div>
+					Line Items
+				</h4>
+			</div>
+			<table class="table slim line-items" ng-show="lineItems.length > 0">
+				<thead>
+					<tr>
+						<th class="item">Item</th>
+						<th class="quantity">Qty</th>
+						<th class="rate">Rate</th>
+						<th class="amount">Amount</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="line" ng-repeat-start="item in lineItems">
+						<td class="item">
+							<a href="" ng-click="item.showDetails=!item.showDetails" ng-show="item.hasMetadata">
+								<span ng-hide="item.showDetails">[+]</span>
+								<span ng-show="item.showDetails">[-]</span>
+							</a>
+
+							<item-type item="item"></item-type>
+							<span class="item-name" ng-bind-html="item.name|nl2br"></span>
+						</td>
+						<td class="quantity">
+							{{item.quantity|number}}
+						</td>
+						<td class="rate">
+							<money amount="item.unit_cost" currency="creditNote.currency" precision="settings.unit_cost_precision"></money>
+						</td>
+						<td class="amount">
+							<span class="item-amount"><money amount="item.amount" currency="creditNote.currency"></money></span>
+						</td>
+					</tr>
+					<tr class="line-description" ng-if="item.description||item.discounts.length>0||item.taxes.length>0||!item.taxable||!item.discountable||item.hasMetadata" ng-repeat-end>
+						<td colspan="4">
+							<div class="billing-period" ng-show="item.period_start">
+								<span ng-show="item.prorated">Proration for</span>
+								<company-date date="item.period_start"></company-date>
+								&mdash;
+								<company-date date="item.period_end"></company-date>
+							</div>
+							<div class="description" ng-bind-html="item.description|nl2br" ng-show="item.description"></div>
+							<div class="rates" ng-bind-html="item|rateList:creditNote.currency" ng-show="item.discounts.length>0||item.taxes.length>0"></div>
+							<div class="exclusions" ng-hide="item.discountable&&item.taxable">
+								<span class="label label-default" ng-hide="item.discountable || creditNote.discounts.length == 0">Not discounted</span>
+								<span class="label label-default" ng-hide="item.taxable || creditNote.taxes.length == 0">Not taxed</span>
+							</div>
+							<div class="metadata" ng-show="item.hasMetadata && item.showDetails">
+								<div class="group" ng-repeat="(key, value) in item.metadata">
+									<span class="title"><metadata-name field-id="key" object-type="'line_item'"></metadata-name>:</span>
+									<metadata-value field-id="key" object-type="'line_item'" value="value"></metadata-value>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr class="line-item-pagination" ng-show="lineItemPageCount > 1">
+						<td colspan="4">
+							<div class="controls">
+								<div class="btn-group">
+									<button type="button" class="btn btn-link btn-sm" ng-click="prevLineItemPage(lineItem)" ng-show="lineItemPage > 1">
+										<span class="fas fa-angle-left"></span>
+									</button>
+									<button type="button" class="btn btn-link btn-sm" ng-click="nextLineItemPage(lineItem)" ng-show="lineItemPage < lineItemPageCount">
+										<span class="fas fa-angle-right"></span>
+									</button>
+								</div>
+							</div>
+							<div class="total-records">
+								Showing {{lineItemRange}} of <strong>{{totalLineItems|number}} line items</strong>.
+							</div>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<!-- Subtotal -->
+					<tr class="subtotal">
+						<td class="noborder"></td>
+						<td class="title" colspan="2">
+							Subtotal
+						</td>
+						<td class="amount">
+							<money amount="creditNote.subtotal" currency="creditNote.currency"></money>
+						</td>
+					</tr>
+
+					<!-- Discounts -->
+					<tr class="discounts" ng-show="creditNote.discounts.length > 0">
+						<td class="noborder"></td>
+						<td class="title" colspan="2">
+							Discounts
+							<discounts-breakdown invoice="creditNote"></discounts-breakdown>
+						</td>
+						<td class="amount">
+							<money amount="totals.discounts" currency="creditNote.currency"></money>
+						</td>
+					</tr>
+
+					<!-- Taxes -->
+					<tr class="taxes" ng-show="creditNote.taxes.length > 0">
+						<td class="noborder"></td>
+						<td class="title" colspan="2">
+							Taxes
+							<taxes-breakdown invoice="creditNote"></taxes-breakdown>
+						</td>
+						<td class="amount">
+							<money amount="totals.taxes" currency="creditNote.currency"></money>
+						</td>
+					</tr>
+
+					<!-- Shipping (deprecated) -->
+					<tr class="shipping" ng-show="creditNote.shipping.length > 0">
+						<td class="noborder"></td>
+						<td class="title" colspan="2">
+							Shipping
+							<shipping-breakdown invoice="creditNote"></shipping-breakdown>
+						</td>
+						<td class="amount">
+							<money amount="totals.shipping" currency="creditNote.currency"></money>
+						</td>
+					</tr>
+
+					<!-- Total -->
+					<tr class="total">
+						<td class="noborder"></td>
+						<td class="title" colspan="2">
+							{{'general.total'|translate}}
+						</td>
+						<td class="amount">
+							<money amount="creditNote.total" currency="creditNote.currency"></money>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+			<div class="panel-body" ng-show="lineItems.length==0">
+				<div class="empty">
+					No line items found.
+				</div>
+			</div>
+		</div>
+
+		<!-- Notes -->
+		<div class="panel panel-invoiced light" ng-show="creditNote.notes">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					Notes
+				</h4>
+			</div>
+			<div class="panel-body" ng-bind-html="creditNote.notes|linky:'_blank'|nl2br"></div>
+		</div>
+
+		<!-- Payments -->
+		<div class="panel panel-invoiced light" ng-show="loaded.transactions&&transactions.length > 0">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					Applied To
+				</h4>
+			</div>
+			<table class="table table-striped search-results-table slim transactions" ng-show="transactions.length > 0">
+				<thead>
+					<tr>
+						<th>{{'general.date'|translate}}</th>
+						<th class="document-title">Document</th>
+						<th class="money-column noborder">Amount</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="clickable" ng-repeat="transaction in transactions">
+						<td class="nowrap light" ng-click="goToObject($event,'transaction_or_payment',transaction)">
+							<company-date date="transaction.date"></company-date>
+						</td>
+						<td>
+							<div ng-show="transaction.invoice">
+								<a ui-sref="manage.invoice.view.summary({id:transaction.invoice.id})">
+									<document-name document="transaction.invoice"></document-name>
+								</a>
+							</div>
+							<div ng-show="!transaction.invoice && transaction.type != 'document_adjustment'">
+								<a ui-sref="manage.transaction.view.summary({id:transaction.id})">
+									Credit Balance
+								</a>
+							</div>
+							<div ng-show="!transaction.invoice && transaction.type == 'document_adjustment'">
+								<a ui-sref="manage.transaction.view.summary({id:transaction.id})">
+									{{'transactions.transaction_types.document_adjustment' | translate }}
+								</a>
+							</div>
+						</td>
+						<td class="money-column noborder" ng-click="goToObject($event,'transaction_or_payment',transaction)">
+							<money amount="-transaction.amount" currency="transaction.currency"></money>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<files document="creditNote" attachments="attachments" type="credit_note"></files>
+	</div>
+</div>

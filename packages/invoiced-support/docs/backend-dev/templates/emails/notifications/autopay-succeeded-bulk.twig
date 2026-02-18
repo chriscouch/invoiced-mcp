@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}New payments from AutoPay{% endblock %}
+{% block notification %}
+    {% for charge in charges %}
+        <p><a href="{{ dashboardUrl }}/alerts?account={{ tenant_id  }}">{{ charge.cnt }} AutoPay payments</a> received for {{ charge.amount | money(charge.currency)}}</p>
+    {% endfor %}
+{% endblock %}

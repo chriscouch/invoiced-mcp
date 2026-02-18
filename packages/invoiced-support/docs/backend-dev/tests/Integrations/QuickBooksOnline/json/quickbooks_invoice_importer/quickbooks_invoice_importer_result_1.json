@@ -1,0 +1,98 @@
+{
+  "QueryResponse": {
+    "startPosition": 1,
+    "maxResults": 1,
+    "Invoice": [
+      {
+        "Id": "456",
+        "SyncToken": "0",
+        "MetaData": {
+          "CreateTime": "2017-01-12T10:56:57-08:00",
+          "LastUpdatedTime": "2017-01-12T10:56:57-08:00"
+        },
+        "DocNumber": "INV-1012",
+        "TxnDate": "2017-01-12",
+        "CurrencyRef": {
+          "name": "United States Dollar",
+          "value": "USD"
+        },
+        "DepartmentRef": {
+          "name": "Test Location",
+          "value": "1"
+        },
+        "Line": [
+          {
+            "Id": "1",
+            "LineNum": 1,
+            "Amount": 396.00,
+            "DetailType": "SalesItemLineDetail",
+            "SalesItemLineDetail": {
+              "ItemRef": {
+                "value": "SHIPPING_ITEM_ID"
+              },
+              "UnitPrice": 99.00,
+              "Qty": 4,
+              "TaxCodeRef": {
+                "value": "NON"
+              }
+            }
+          },
+          {
+            "Amount": 396.00,
+            "DetailType": "SubTotalLineDetail",
+            "SubTotalLineDetail": {}
+          }
+        ],
+        "TxnDetails": {
+          "TotalTax": 0
+        },
+        "CustomerRef": {
+          "name": "Test",
+          "value": "1"
+        },
+        "SalesTermRef": {
+          "value": "3"
+        },
+        "DueDate": "2017-02-11",
+        "TotalAmt": 396.00,
+        "ApplyTaxAfterDiscount": false,
+        "PrintStatus": "NotSet",
+        "EmailStatus": "NotSet",
+        "Balance": 393.49,
+        "LinkedTxn": [
+          {
+            "TxnId": "3833",
+            "TxnType": "Payment"
+          }
+        ],
+        "Deposit": 0,
+        "AllowIPNPayment": false,
+        "AllowOnlinePayment": false,
+        "AllowOnlineCreditCardPayment": false,
+        "AllowOnlineACHPayment": false,
+        "ShipAddr": {
+          "Id": "25",
+          "Line1": "5647 Cypress Hill Ave.",
+          "City": "Middlefield",
+          "CountrySubDivisionCode": "CA",
+          "PostalCode": "94303",
+          "Lat": "37.4238562",
+          "Long": "-122.1141681"
+        },
+        "CustomField": [
+          {
+            "DefinitionId": "1",
+            "Name": "Crew #",
+            "Type": "StringType"
+          },
+          {
+            "DefinitionId": "2",
+            "Name": "SalesRep",
+            "Type": "StringType"
+          }
+        ]
+      }
+    ]
+  },
+  "time": "2021-01-03T10:38:50.01-07:00"
+}

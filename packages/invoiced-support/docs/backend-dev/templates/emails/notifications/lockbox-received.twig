@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}New check received in lockbox{% endblock %}
+{% block notification %}
+    {% for payment in payments %}
+        <p>You have received a <a href="{{ dashboardUrl}}/payments/{{ payment.id  }}?account={{ tenant_id  }}">new check in your lockbox for {{ payment.amount | money(payment.currency)}}</a> that needs to be applied.</p>
+    {% endfor %}
+{% endblock %}

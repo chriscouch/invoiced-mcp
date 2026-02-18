@@ -1,0 +1,9 @@
+<div class="thread-view">
+    <p class="loading" ng-show="loading"></p>
+    <div class="close-btn">
+        <a ui-sref="manage.inboxes.browse({id: inboxId})">
+            <span class="fas fa-times"></span>
+        </a>
+    </div>
+    <email-thread thread="thread" with-header="true" ng-hide="loading"></email-thread>
+</div>

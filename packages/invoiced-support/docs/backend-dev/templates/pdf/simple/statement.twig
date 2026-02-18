@@ -1,0 +1,271 @@
+<div class="container">
+    <div class="title-bar">
+        {% if company.logo %}
+            <div class="logo">
+                <img src="{{ company.logo }}"  alt="logo"/>
+            </div>
+            <div class="title">
+                {%  if statement.type == 'balance_forward' %}
+                    {% if statement.start %}
+                        {{ trans('titles.account_summary_since', {'%start_date%': statement.start, '%end_date%': statement.end}) }}
+                    {% else %}
+                        {{ trans('titles.account_summary', {'%date%': statement.end}) }}
+                    {% endif %}
+                {%  elseif statement.type == 'open_item' %}
+                    {{ trans('titles.account_detail') }}
+                {%  endif %}
+            </div>
+        {% else %}
+            <div class="title text">
+                {%  if statement.type == 'balance_forward' %}
+                    {% if statement.start %}
+                        {{ trans('titles.account_summary_since', {'%start_date%': statement.start, '%end_date%': statement.end}) }}
+                    {% else %}
+                        {{ trans('titles.account_summary', {'%date%': statement.end}) }}
+                    {% endif %}
+                {%  elseif statement.type == 'open_item' %}
+                    {{ trans('titles.account_detail') }}
+                {%  endif %}
+            </div>
+            <div class="title">{% if theme.use_translations %}{{ trans('headers.statement') }}{% else %}{{ theme.header }}{% endif %}</div>
+        {% endif %}
+        <div class="invoice-number">{{ customer.name }}</div>
+    </div>
+
+    <div class="spacer highlight-color-border"></div>
+
+    <div class="context-holder">
+        <div class="contact-from">
+            <div class="field bolder">{% if theme.use_translations %}{{ trans('labels.bill_from') }}{% else %}{{ theme.from_title }}{% endif %}</div>
+            <div class="name">{{ company.name }}</div>
+            <div class="address">{{ company.address|nl2br }}</div>
+            {% if company.email %}<div class="email">{{ company.email }}</div>{% endif %}
+            {% if company.phone %}<div class="phone">{{ company.phone }}</div>{% endif %}
+            {% if company.website %}<div class="website">{{ company.website }}</div>{% endif %}
+        </div>
+
+        <div class="context">
+            <table class="context-table">
+                {% if statement.previousBalance %}
+                    <tr class="field-holder">
+                        <td class="field">{{ trans('labels.previous_balance') }}</td>
+                        <td class="value">{{ statement.previousBalance|money }}</td></tr>
+                {% endif %}
+                <tr class="field-holder">
+                    <td class="field">{{ trans('labels.invoiced') }}</td>
+                    <td class="value">{{ statement.totalInvoiced|money }}</td></tr>
+                <tr class="field-holder">
+                    <td class="field">{{ trans('labels.statement_payments') }}</td>
+                    <td class="value"><span class="negative-sign">&#8211;</span>{{ statement.totalPaid|money }}</td>
+                </tr>
+                {% if statement.totalUnapplied %}
+                    <tr class="field-holder">
+                        <td class="field">{{ trans('labels.unapplied_payments') }}</td>
+                        <td class="value">{{ statement.totalUnapplied|money }}</td>
+                    </tr>
+                {% endif %}
+                <tr class="field-holder bolder">
+                    <td class="field">{{ trans('labels.account_balance') }}</td>
+                    <td class="value">{{ statement.balance|money }}</td>
+                </tr>
+                {% if statement.hasCredits %}
+                    <tr class="field-holder bolder">
+                        <td class="field">{{ trans('labels.credit_balance') }}</td>
+                        <td class="value">{{ statement.creditBalance|money }}</td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="spacer highlight-color-border"></div>
+
+{%  if statement.type == 'balance_forward' %}
+    <div class="items-holder">
+        <table class="items">
+            <thead>
+                <tr>
+                    <th colspan="{% if statement.subCustomers %}6{% else %}5{% endif %}" class="highlight-color-border">
+                        {{ trans('titles.account_detail') }}
+                    </th>
+                </tr>
+                <tr>
+                    <th class="highlight-color-border narrow">{{ trans('columns.date') }}</th>
+                    {% if statement.subCustomers %}<th class="highlight-color-border">{{ trans('columns.customer') }}{% endif %}</th>
+                    <th class="highlight-color-border">{{ trans('columns.description') }}</th>
+                    <th class="highlight-color-border narrow money-column">{{ trans('columns.invoiced') }}</th>
+                    <th class="highlight-color-border narrow money-column">{{ trans('columns.paid') }}</th>
+                    <th class="highlight-color-border narrow money-column">{{ trans('columns.balance') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for line in statement.accountDetail %}
+                    <tr class="item">
+                        <td>{{ line.date }}</td>
+                        {% if statement.subCustomers %}
+                            <td>{{ line.customer.name }}</td>
+                        {% endif %}
+                        <td>{{ line.number }}</td>
+                        <td class="money-column">
+                            {% if line.invoiced %}
+                                {{ line.invoiced|money }}
+                            {% endif %}
+                        </td>
+                        <td class="money-column">
+                            {% if line.paid %}
+                                {{ line.paid|money }}
+                            {% endif %}
+                        </td>
+                        <td class="money-column">{{ line.balance|money }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="totals-holder">
+        <table class="totals">
+            <tbody>
+                {% if statement.previousBalance %}
+                    <tr class="field-holder">
+                        <td class="field">{{ trans('labels.previous_balance') }}</td>
+                        <td class="value">{{ statement.previousBalance|money }}</td>
+                    </tr>
+                {% endif %}
+                <tr class="field-holder">
+                    <td class="field">{{ trans('labels.total_invoiced') }}</td>
+                    <td class="value">{{ statement.totalInvoiced|money }}</td>
+                </tr>
+                <tr class="field-holder">
+                    <td class="field">{{ trans('labels.total_paid') }}</td>
+                    <td class="value">{{ statement.totalPaid|money }}</td>
+                </tr>
+                {% if statement.totalUnapplied %}
+                    <tr class="field-holder">
+                        <td class="field">{{ trans('labels.unapplied_payments') }}</td>
+                        <td class="value">{{ statement.totalUnapplied|money }}</td>
+                    </tr>
+                {% endif %}
+                <tr class="field-holder border-top-2 bolder">
+                    <td class="field">{{ trans('labels.account_balance') }}</td>
+                    <td class="value">{{ statement.balance|money }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Credit Balance History -->
+    {% if statement.hasCredits %}
+        <div class="items-holder">
+            <table class="items">
+                <thead>
+                    <tr>
+                        <th colspan="5" class="highlight-color-border">
+                            {{ trans('titles.credit_balance_history') }}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="highlight-color-border narrow">{{ trans('columns.date') }}</th>
+                        <th class="highlight-color-border">{{ trans('columns.description') }}</th>
+                        <th class="highlight-color-border narrow money-column">{{ trans('columns.issued') }}</th>
+                        <th class="highlight-color-border narrow money-column">{{ trans('columns.spent') }}</th>
+                        <th class="highlight-color-border narrow money-column">{{ trans('columns.balance') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for line in statement.creditDetail %}
+                        <tr class="item">
+                            <td>{{ line.date }}</td>
+                            <td>{{ line.description }}</td>
+                            <td class="money-column">{{ line.issued|money }}</td>
+                            <td class="money-column">{{ line.charged|money }}</td>
+                            <td class="money-column">{{ line.creditBalance|money }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="totals-holder">
+            <table class="totals">
+                <tbody>
+                    {% if statement.previousCreditBalance %}
+                        <tr class="field-holder">
+                            <td class="field">{{ trans('labels.previous_balance') }}</td>
+                            <td class="value">{{ statement.previousCreditBalance|money }}</td>
+                        </tr>
+                    {% endif %}
+                    <tr class="field-holder">
+                        <td class="field">{{ trans('labels.total_issued') }}</td>
+                        <td class="value">{{ statement.totalCreditsIssued|money }}</td>
+                    </tr>
+                    <tr class="field-holder">
+                        <td class="field">{{ trans('labels.total_spent') }}</td>
+                        <td class="value">{{ statement.totalCreditsSpent|money }}</td>
+                    </tr>
+                    <tr class="field-holder border-top-2 bolder">
+                        <td class="field">{{ trans('labels.credit_balance') }}</td>
+                        <td class="value">{{ statement.creditBalance|money }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% elseif statement.type == 'open_item' %}
+    <div class="items-holder">
+        <table class="items">
+            <thead>
+                <tr>
+                    <th colspan="{% if statement.subCustomers %}6{% else %}5{% endif %}">
+                        {% if statement.pastDueOnly %}
+                            {{ trans('titles.past_due_items', {'%date%': statement.end}) }}
+                        {% else %}
+                            {{ trans('titles.open_items', {'%date%': statement.end}) }}
+                        {% endif %}
+                    </th>
+                </tr>
+                <tr>
+                    <th class="highlight-color-border narrow">{{ trans('columns.date') }}</th>
+                    {% if statement.subCustomers %}<th class="highlight-color-border">{{ trans('columns.customer') }}{% endif %}</th>
+                    <th class="highlight-color-border">{{ trans('columns.description') }}</th>
+                    <th class="highlight-color-border narrow money-column">{{ trans('columns.total') }}</th>
+                    <th class="highlight-color-border narrow money-column">{{ trans('columns.due_date') }}</th>
+                    <th class="highlight-color-border narrow money-column">{{ trans('columns.balance') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for line in statement.accountDetail %}
+                    <tr class="item">
+                        <td>{{ line.date }}</td>
+                        {% if statement.subCustomers %}
+                            <td>{{ line.customer.name }}</td>
+                        {% endif %}
+                        <td>{{ line.number }}</td>
+                        <td class="money-column">{{ line.total|money }}</td>
+                        <td class="money-column">{{ line.dueDate }}</td>
+                        <td class="money-column">{{ line.balance|money }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="totals-holder">
+        <table class="totals">
+            <tbody>
+                <tr class="field-holder border-top-2 bolder">
+                    <td class="field">
+                        {% if statement.pastDueOnly %}
+                            {{ trans('labels.past_due_balance') }}
+                        {% else %}
+                            {{ trans('labels.total_balance') }}
+                        {% endif %}
+                    </td>
+                    <td class="value">{{ statement.balance|money }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+
+<div class="hidden"></div>

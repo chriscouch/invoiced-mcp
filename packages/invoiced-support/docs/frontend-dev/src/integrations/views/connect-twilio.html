@@ -1,0 +1,36 @@
+<form name="setupForm" ng-submit="save()">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			Connect Twilio
+		</h4>
+	</div>
+	<div class="modal-body form-horizontal">
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<div class="form-group slim">
+			<label class="control-label col-sm-4">
+				Account SID
+			</label>
+			<div class="col-sm-6">
+				<input type="text" class="form-control" ng-model="twilio.account_sid" required />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">
+				Auth Token
+			</label>
+			<div class="col-sm-6">
+				<input type="password" class="form-control" ng-model="twilio.auth_token" required />
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="saving||setupForm.$invalid" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

@@ -1,0 +1,1212 @@
+{
+  "needs_approval": [
+    {
+      "code": "3121A",
+      "description": "Alcoholic beverage manufacturing"
+    },
+    {
+      "code": "324",
+      "description": "Petroleum and coal products manufacturing"
+    },
+    {
+      "code": "3254",
+      "description": "Pharmaceutical and medicine manufacturing"
+    },
+    {
+      "code": "3259",
+      "description": "Other chemical product and preparation manufacturing"
+    },
+    {
+      "code": "339A",
+      "description": "Jewelry, precious stone, precious metal and silverware manufacturing"
+    },
+    {
+      "code": "339C",
+      "description": "Medical equipment and supplies manufacturing"
+    },
+    {
+      "code": "42311",
+      "description": "Automobile and other motor vehicle merchant wholesalers"
+    },
+    {
+      "code": "42312",
+      "description": "Motor vehicle supplies and new parts merchant wholesalers"
+    },
+    {
+      "code": "42313",
+      "description": "Tire and tube merchant wholesalers"
+    },
+    {
+      "code": "42314",
+      "description": "Motor vehicle parts (used) merchant wholesalers"
+    },
+    {
+      "code": "42345",
+      "description": "Medical, dental, and hospital equipment and supplies merchant wholesalers"
+    },
+    {
+      "code": "42394",
+      "description": "Jewelry, watch, precious stone, and precious metal merchant wholesalers"
+    },
+    {
+      "code": "4242",
+      "description": "Drugs and druggists' sundries merchant wholesalers"
+    },
+    {
+      "code": "4246",
+      "description": "Chemical and allied products merchant wholesalers"
+    },
+    {
+      "code": "4247",
+      "description": "Petroleum and petroleum products merchant wholesalers"
+    },
+    {
+      "code": "4248",
+      "description": "Beer, wine, and distilled alcoholic beverage merchant wholesalers"
+    },
+    {
+      "code": "44111",
+      "description": "New car dealers"
+    },
+    {
+      "code": "4411B",
+      "description": "Used cars - reputable dealers"
+    },
+    {
+      "code": "44132",
+      "description": "Tire dealers"
+    },
+    {
+      "code": "4461A",
+      "description": "Nutraceutical stores (non-food)"
+    },
+    {
+      "code": "44611",
+      "description": "Pharmacies and drug stores"
+    },
+    {
+      "code": "44619A",
+      "description": "Food (Health) supplement stores (nutraceuticals, food) - regulated"
+    },
+    {
+      "code": "446191",
+      "description": "Food (Health) supplement stores (nutraceuticals, food) - non-regulated"
+    },
+    {
+      "code": "44831",
+      "description": "Jewelry stores"
+    },
+    {
+      "code": "4453",
+      "description": "Beer, wine, and liquor stores"
+    },
+    {
+      "code": "452A",
+      "description": "Buying and shopping services and clubs"
+    },
+    {
+      "code": "4539B",
+      "description": "Stamp and coin stores"
+    },
+    {
+      "code": "4539D",
+      "description": "Auction houses"
+    },
+    {
+      "code": "45392",
+      "description": "Art dealers"
+    },
+    {
+      "code": "45431",
+      "description": "Fuel dealers"
+    },
+    {
+      "code": "487",
+      "description": "Scenic and sightseeing transportation"
+    },
+    {
+      "code": "52231",
+      "description": "Mortgage and non-mortgage loan brokers"
+    },
+    {
+      "code": "524114",
+      "description": "Direct health and medical insurance carriers"
+    },
+    {
+      "code": "52412",
+      "description": "Direct insurance (except life, health, and medical) carriers"
+    },
+    {
+      "code": "52413",
+      "description": "Reinsurance carriers"
+    },
+    {
+      "code": "5242",
+      "description": "Agencies, brokerages, and other insurance related activities"
+    },
+    {
+      "code": "5311",
+      "description": "Lessors of real estate"
+    },
+    {
+      "code": "5312",
+      "description": "Offices of real estate agents and brokers"
+    },
+    {
+      "code": "5313",
+      "description": "Activities related to real estate"
+    },
+    {
+      "code": "5417A",
+      "description": "Ancestry research"
+    },
+    {
+      "code": "56145",
+      "description": "Credit bureaus"
+    },
+    {
+      "code": "5615",
+      "description": "Travel arrangement and reservation services"
+    },
+    {
+      "code": "6211",
+      "description": "Office of physicians"
+    },
+    {
+      "code": "6212",
+      "description": "Office of dentists"
+    },
+    {
+      "code": "62131",
+      "description": "Office of chiropractors"
+    },
+    {
+      "code": "62132",
+      "description": "Offices of optometrists"
+    },
+    {
+      "code": "62133",
+      "description": "Offices of mental health practitioners"
+    },
+    {
+      "code": "62134",
+      "description": "Offices of physical, occupational and speech therapists, and audiologists"
+    },
+    {
+      "code": "62139",
+      "description": "Offices of all other health practitioners"
+    },
+    {
+      "code": "6215",
+      "description": "Medical and diagnostic laboratories"
+    },
+    {
+      "code": "6216",
+      "description": "Home health care services"
+    },
+    {
+      "code": "621A",
+      "description": "Commercial private health and e-doctor services"
+    },
+    {
+      "code": "622",
+      "description": "Hospitals"
+    },
+    {
+      "code": "623",
+      "description": "Nursing and residential care facilities"
+    },
+    {
+      "code": "711A",
+      "description": "Ticketing agencies"
+    },
+    {
+      "code": "7211A",
+      "description": "Timeshares"
+    },
+    {
+      "code": "7224",
+      "description": "Drinking places (alcoholic beverages)"
+    },
+    {
+      "code": "8129C",
+      "description": "Pseudo science services (astrology, psychokinesis, clairvoyance, fortune telling, etc.)"
+    },
+    {
+      "code": "81394",
+      "description": "Political organizations"
+    },
+    {
+      "code": "921",
+      "description": "Executive, legislative, and other general government support"
+    },
+    {
+      "code": "922A",
+      "description": "Fines and penalties of any kind"
+    },
+    {
+      "code": "92219",
+      "description": "Other justice, public order, and safety activities"
+    },
+    {
+      "code": "92B",
+      "description": "Other public administrations"
+    }
+  ],
+  "no_approval_needed": [
+    {
+      "code": "11",
+      "description": "Agriculture, forestry, fishing, and hunting"
+    },
+    {
+      "code": "2211",
+      "description": "Electric power generation, transmission, and distribution"
+    },
+    {
+      "code": "2212",
+      "description": "Natural gas distribution"
+    },
+    {
+      "code": "2213",
+      "description": "Water, sewage, and other systems"
+    },
+    {
+      "code": "23",
+      "description": "Construction & installation"
+    },
+    {
+      "code": "311",
+      "description": "Food manufacturing"
+    },
+    {
+      "code": "3121B",
+      "description": "Non-alcoholic beverage manufacturing"
+    },
+    {
+      "code": "313",
+      "description": "Textile mills"
+    },
+    {
+      "code": "314",
+      "description": "Textile product mills"
+    },
+    {
+      "code": "315",
+      "description": "Apparel manufacturing"
+    },
+    {
+      "code": "316",
+      "description": "Leather and allied product manufacturing"
+    },
+    {
+      "code": "321",
+      "description": "Wood product manufacturing"
+    },
+    {
+      "code": "322",
+      "description": "Paper manufacturing"
+    },
+    {
+      "code": "323",
+      "description": "Printing and related support activities"
+    },
+    {
+      "code": "3255",
+      "description": "Paint, coating, and adhesive manufacturing"
+    },
+    {
+      "code": "326",
+      "description": "Plastics and rubber products manufacturing"
+    },
+    {
+      "code": "327",
+      "description": "Nonmetallic mineral product manufacturing"
+    },
+    {
+      "code": "331",
+      "description": "Primary metal manufacturing"
+    },
+    {
+      "code": "332",
+      "description": "Fabricated metal product manufacturing"
+    },
+    {
+      "code": "333",
+      "description": "Machinery manufacturing"
+    },
+    {
+      "code": "334",
+      "description": "Computer and electronic product manufacturing"
+    },
+    {
+      "code": "335",
+      "description": "Electrical equipment, appliance, and component manufacturing"
+    },
+    {
+      "code": "336",
+      "description": "Transportation (equipment) manufacturing"
+    },
+    {
+      "code": "337",
+      "description": "Furniture and related product manufacturing"
+    },
+    {
+      "code": "339D",
+      "description": "Other miscellaneous durable goods manufacturing"
+    },
+    {
+      "code": "339E",
+      "description": "Other miscellaneous nondurable goods manufacturing"
+    },
+    {
+      "code": "4232",
+      "description": "Furniture and home furnishing merchant wholesalers"
+    },
+    {
+      "code": "4233",
+      "description": "Lumber and other construction materials merchant wholesalers"
+    },
+    {
+      "code": "42341",
+      "description": "Photographic equipment and supplies merchant wholesalers"
+    },
+    {
+      "code": "42342",
+      "description": "Office equipment merchant wholesalers"
+    },
+    {
+      "code": "42343",
+      "description": "Computer and computer peripheral equipment and software merchant wholesalers"
+    },
+    {
+      "code": "42344",
+      "description": "Other commercial equipment merchant wholesalers"
+    },
+    {
+      "code": "42349",
+      "description": "Other professional equipment and supplies merchant wholesalers"
+    },
+    {
+      "code": "4235",
+      "description": "Metal and mineral (except petroleum) merchant wholesalers"
+    },
+    {
+      "code": "4236",
+      "description": "Household appliances, electrical, and electronic goods merchant wholesalers"
+    },
+    {
+      "code": "4237",
+      "description": "Hardware, plumbing, and heating equipment and supplies merchant wholesalers"
+    },
+    {
+      "code": "4238",
+      "description": "Machinery, equipment, and supplies merchant wholesalers"
+    },
+    {
+      "code": "42399",
+      "description": "Other miscellaneous durable goods merchant wholesalers"
+    },
+    {
+      "code": "4241",
+      "description": "Paper and paper products merchant wholesalers"
+    },
+    {
+      "code": "4243",
+      "description": "Apparel, piece goods, and notions merchant wholesalers"
+    },
+    {
+      "code": "4244",
+      "description": "Grocery and related products merchant wholesalers"
+    },
+    {
+      "code": "4245",
+      "description": "Farm product raw material merchant wholesalers"
+    },
+    {
+      "code": "42491",
+      "description": "Farm supplies merchant wholesalers"
+    },
+    {
+      "code": "42492",
+      "description": "Book, periodical, and newspaper merchant wholesalers"
+    },
+    {
+      "code": "42493",
+      "description": "Flower, nursery stock, and florists' supplies merchant wholesalers"
+    },
+    {
+      "code": "42495",
+      "description": "Paint, varnish, and supplies merchant wholesalers"
+    },
+    {
+      "code": "42499",
+      "description": "Other miscellaneous nondurable goods merchant wholesalers"
+    },
+    {
+      "code": "42511",
+      "description": "Business-to-business electronic markets"
+    },
+    {
+      "code": "42512",
+      "description": "Wholesale trade agents and brokers"
+    },
+    {
+      "code": "44121",
+      "description": "Recreational vehicle dealers"
+    },
+    {
+      "code": "4412A",
+      "description": "Mobile home dealers"
+    },
+    {
+      "code": "4412B",
+      "description": "Utility trailer dealers"
+    },
+    {
+      "code": "441222",
+      "description": "Boat dealers"
+    },
+    {
+      "code": "441228",
+      "description": "Motorcycle, ATV, and all other motor vehicle dealers"
+    },
+    {
+      "code": "442A",
+      "description": "Furniture stores"
+    },
+    {
+      "code": "442B",
+      "description": "Home furnishings stores"
+    },
+    {
+      "code": "443141",
+      "description": "Household appliance stores"
+    },
+    {
+      "code": "443142",
+      "description": "Electronics stores"
+    },
+    {
+      "code": "4431A",
+      "description": "Computer software stores"
+    },
+    {
+      "code": "4431B",
+      "description": "Telecommunication Equipment and Telephone Stores"
+    },
+    {
+      "code": "44411",
+      "description": "Home centers"
+    },
+    {
+      "code": "44412",
+      "description": "Paint and wallpaper stores"
+    },
+    {
+      "code": "44413",
+      "description": "Hardware stores"
+    },
+    {
+      "code": "44419",
+      "description": "Other building material stores"
+    },
+    {
+      "code": "4451",
+      "description": "Grocery stores, Supermarkets"
+    },
+    {
+      "code": "4452",
+      "description": "Specialty food stores"
+    },
+    {
+      "code": "311811",
+      "description": "Bakeries"
+    },
+    {
+      "code": "44612",
+      "description": "Cosmetics, beauty supplies, and perfume stores"
+    },
+    {
+      "code": "44613",
+      "description": "Optical goods store"
+    },
+    {
+      "code": "446199",
+      "description": "All other health and personal care stores"
+    },
+    {
+      "code": "447",
+      "description": "Gasoline stations"
+    },
+    {
+      "code": "44811",
+      "description": "Men's clothing stores"
+    },
+    {
+      "code": "44812",
+      "description": "Women's clothing stores"
+    },
+    {
+      "code": "4481A",
+      "description": "Men's and Women's clothing stores"
+    },
+    {
+      "code": "44813",
+      "description": "Children's and Infants' clothing stores"
+    },
+    {
+      "code": "44814",
+      "description": "Family clothing stores"
+    },
+    {
+      "code": "4481B",
+      "description": "Sports and riding apparel stores"
+    },
+    {
+      "code": "44819",
+      "description": "Other Clothing (accessories) stores"
+    },
+    {
+      "code": "4482",
+      "description": "Shoe stores"
+    },
+    {
+      "code": "44832",
+      "description": "Luggage and leather goods stores"
+    },
+    {
+      "code": "45111",
+      "description": "Sporting goods stores"
+    },
+    {
+      "code": "45112",
+      "description": "Hobby, toy, and game stores"
+    },
+    {
+      "code": "45113",
+      "description": "Sewing, needlework, and piece Goods stores"
+    },
+    {
+      "code": "45114",
+      "description": "Musical instrument and supplies stores"
+    },
+    {
+      "code": "4512",
+      "description": "Book stores and news dealers"
+    },
+    {
+      "code": "4522",
+      "description": "Department stores"
+    },
+    {
+      "code": "4523",
+      "description": "General merchandise stores, including warehouse clubs and supercenters"
+    },
+    {
+      "code": "4531",
+      "description": "Florists"
+    },
+    {
+      "code": "45321",
+      "description": "Office supplies and stationery stores"
+    },
+    {
+      "code": "45322",
+      "description": "Gift, novelty, and souvenir stores"
+    },
+    {
+      "code": "4533",
+      "description": "Used merchandise stores"
+    },
+    {
+      "code": "45391",
+      "description": "Pet and Pet Supplies stores"
+    },
+    {
+      "code": "45393",
+      "description": "Manufactured (mobile) home dealers"
+    },
+    {
+      "code": "4539H",
+      "description": "Discount stores"
+    },
+    {
+      "code": "4539I",
+      "description": "Duty-free stores"
+    },
+    {
+      "code": "4539J",
+      "description": "Second hand stores"
+    },
+    {
+      "code": "4539K",
+      "description": "Antique stores"
+    },
+    {
+      "code": "453998",
+      "description": "All other miscellaneous store retailers"
+    },
+    {
+      "code": "4542A",
+      "description": "Vending machines (Food)"
+    },
+    {
+      "code": "4542B",
+      "description": "Vending machines (Non-Food)"
+    },
+    {
+      "code": "481B",
+      "description": "Other air transportation"
+    },
+    {
+      "code": "482A",
+      "description": "Passenger rail transportation"
+    },
+    {
+      "code": "482B",
+      "description": "Freight rail transportation"
+    },
+    {
+      "code": "483B",
+      "description": "Ferries"
+    },
+    {
+      "code": "483C",
+      "description": "Water Freight"
+    },
+    {
+      "code": "484",
+      "description": "Truck transportation"
+    },
+    {
+      "code": "4851",
+      "description": "Urban transit systems"
+    },
+    {
+      "code": "4852",
+      "description": "Interurban and rural bus transportation"
+    },
+    {
+      "code": "4853",
+      "description": "Taxi and limousine service"
+    },
+    {
+      "code": "4854",
+      "description": "School and employee bus transportation"
+    },
+    {
+      "code": "4855",
+      "description": "Charter bus industry"
+    },
+    {
+      "code": "4859",
+      "description": "Other transit and ground passenger transportation"
+    },
+    {
+      "code": "4881A",
+      "description": "Airports, airport terminals, flying fields"
+    },
+    {
+      "code": "48819",
+      "description": "Other support activities for air transportation"
+    },
+    {
+      "code": "4882",
+      "description": "Support activities for rail transportation"
+    },
+    {
+      "code": "4883",
+      "description": "Support Activities for water Transportation"
+    },
+    {
+      "code": "48841",
+      "description": "Motor vehicle towing"
+    },
+    {
+      "code": "4884A",
+      "description": "Bridge and road fees, tolls"
+    },
+    {
+      "code": "4884B",
+      "description": "Electric vehicle charging"
+    },
+    {
+      "code": "48849",
+      "description": "Other support activities for road transportation"
+    },
+    {
+      "code": "4889",
+      "description": "Other support activities for transportation"
+    },
+    {
+      "code": "491",
+      "description": "Postal service"
+    },
+    {
+      "code": "492",
+      "description": "Couriers and messengers"
+    },
+    {
+      "code": "493",
+      "description": "Warehousing and storage"
+    },
+    {
+      "code": "5111",
+      "description": "Newspaper, periodical, book, and directory publishers (except internet)"
+    },
+    {
+      "code": "5112A",
+      "description": "Digital goods - audiovisual media including books, movies, and music"
+    },
+    {
+      "code": "5112B",
+      "description": "Digital goods - games"
+    },
+    {
+      "code": "51121",
+      "description": "Digital goods - software applications"
+    },
+    {
+      "code": "51211",
+      "description": "Motion picture and video production"
+    },
+    {
+      "code": "51212",
+      "description": "Motion picture and video distribution"
+    },
+    {
+      "code": "51213",
+      "description": "Motion picture and video exhibition"
+    },
+    {
+      "code": "5122",
+      "description": "Sound recording industries"
+    },
+    {
+      "code": "515",
+      "description": "Broadcasting (except internet)"
+    },
+    {
+      "code": "517311",
+      "description": "Wired and Wireless Telecommunications Carriers"
+    },
+    {
+      "code": "51731B",
+      "description": "Wireless telecommunications carriers - Prepaid"
+    },
+    {
+      "code": "51731D",
+      "description": "Other wireless telecommunications carriers"
+    },
+    {
+      "code": "5179",
+      "description": "Other telecommunications"
+    },
+    {
+      "code": "517911",
+      "description": "Telecommunications Resellers"
+    },
+    {
+      "code": "51911",
+      "description": "News Agency"
+    },
+    {
+      "code": "51913",
+      "description": "Internet publishing and broadcasting and web search portals"
+    },
+    {
+      "code": "5191A",
+      "description": "All other information services"
+    },
+    {
+      "code": "53211",
+      "description": "Passenger car rental and leasing"
+    },
+    {
+      "code": "53212",
+      "description": "Truck, and utility trailer rental and leasing"
+    },
+    {
+      "code": "5321B",
+      "description": "Motor home and recreational vehicle rental"
+    },
+    {
+      "code": "53221",
+      "description": "Consumer electronics and appliances rental"
+    },
+    {
+      "code": "532281",
+      "description": "Formal wear and costume rental"
+    },
+    {
+      "code": "532282",
+      "description": "Video tape and disc rental"
+    },
+    {
+      "code": "532283",
+      "description": "Home health equipment rental"
+    },
+    {
+      "code": "532284",
+      "description": "Recreational goods rental"
+    },
+    {
+      "code": "532289",
+      "description": "All other consumer goods rental"
+    },
+    {
+      "code": "5324",
+      "description": "Commercial, industrial machinery and equipment rental and leasing"
+    },
+    {
+      "code": "5411A",
+      "description": "Lawyers (except bankruptcy)"
+    },
+    {
+      "code": "541211",
+      "description": "Offices of certified public accountants"
+    },
+    {
+      "code": "541213",
+      "description": "Tax preparation services"
+    },
+    {
+      "code": "5413",
+      "description": "Architectural, engineering, and related services"
+    },
+    {
+      "code": "5414",
+      "description": "Specialized design services"
+    },
+    {
+      "code": "5415",
+      "description": "Computer systems design and related services"
+    },
+    {
+      "code": "5416",
+      "description": "Management, scientific, and technical consulting services"
+    },
+    {
+      "code": "54171",
+      "description": "Research and development in the Physical, Engineering, and Life Sciences"
+    },
+    {
+      "code": "5417B",
+      "description": "Other research and development in the Social Sciences and Humanities"
+    },
+    {
+      "code": "5418",
+      "description": "Advertising, public relations, and related services"
+    },
+    {
+      "code": "54192",
+      "description": "Photographic services"
+    },
+    {
+      "code": "54194",
+      "description": "Veterinary services"
+    },
+    {
+      "code": "54199",
+      "description": "All other professional, scientific, and technical services"
+    },
+    {
+      "code": "55",
+      "description": "Management of companies and enterprises"
+    },
+    {
+      "code": "5611",
+      "description": "Office administrative services"
+    },
+    {
+      "code": "5612",
+      "description": "Facilities support services"
+    },
+    {
+      "code": "5613",
+      "description": "Employment services"
+    },
+    {
+      "code": "56141",
+      "description": "Document preparation services"
+    },
+    {
+      "code": "56142",
+      "description": "Telephone call centers"
+    },
+    {
+      "code": "56143",
+      "description": "Business service centers"
+    },
+    {
+      "code": "56149",
+      "description": "Other business support services"
+    },
+    {
+      "code": "5616A",
+      "description": "Security services"
+    },
+    {
+      "code": "56171",
+      "description": "Exterminating and pest control services"
+    },
+    {
+      "code": "56172",
+      "description": "Janitorial services"
+    },
+    {
+      "code": "56173",
+      "description": "Landscaping services"
+    },
+    {
+      "code": "56174",
+      "description": "Carpet and upholstery cleaning services"
+    },
+    {
+      "code": "56179",
+      "description": "Other services to buildings and dwellings"
+    },
+    {
+      "code": "5619",
+      "description": "Other support services"
+    },
+    {
+      "code": "562",
+      "description": "Waste management and remediation services"
+    },
+    {
+      "code": "6111",
+      "description": "Elementary and secondary schools"
+    },
+    {
+      "code": "6112",
+      "description": "Junior colleges"
+    },
+    {
+      "code": "6113",
+      "description": "Colleges, universities, and professional schools"
+    },
+    {
+      "code": "6114",
+      "description": "Business schools, and computer and management training"
+    },
+    {
+      "code": "6115",
+      "description": "Technical and trade schools"
+    },
+    {
+      "code": "6116A",
+      "description": "Dance Schools"
+    },
+    {
+      "code": "61161",
+      "description": "Fine arts schools"
+    },
+    {
+      "code": "61162",
+      "description": "Sports and recreation instruction"
+    },
+    {
+      "code": "61163",
+      "description": "Language schools"
+    },
+    {
+      "code": "61169",
+      "description": "All other schools and instruction"
+    },
+    {
+      "code": "6214",
+      "description": "Outpatient care centers"
+    },
+    {
+      "code": "6219",
+      "description": "Other ambulatory health care services"
+    },
+    {
+      "code": "6241",
+      "description": "Individual and family services"
+    },
+    {
+      "code": "6242",
+      "description": "Community food and housing, and emergency and other relief services"
+    },
+    {
+      "code": "6243",
+      "description": "Vocational rehabilitation services"
+    },
+    {
+      "code": "6244",
+      "description": "Child day care services"
+    },
+    {
+      "code": "624A",
+      "description": "All other social services"
+    },
+    {
+      "code": "7111",
+      "description": "Performing arts companies"
+    },
+    {
+      "code": "7112",
+      "description": "Spectator sports"
+    },
+    {
+      "code": "7113",
+      "description": "Promoters of performing arts, sports, and similar events"
+    },
+    {
+      "code": "7114",
+      "description": "Agents and managers for artists, athletes, entertainers, and other public figures"
+    },
+    {
+      "code": "7115",
+      "description": "Independent artists, writers, and performers"
+    },
+    {
+      "code": "712",
+      "description": "Museums, historical sites, and similar institutions"
+    },
+    {
+      "code": "71311",
+      "description": "Amusement and theme parks"
+    },
+    {
+      "code": "71312",
+      "description": "Amusement arcades"
+    },
+    {
+      "code": "7139A",
+      "description": "Public golf courses"
+    },
+    {
+      "code": "7139B",
+      "description": "Private golf courses and country clubs"
+    },
+    {
+      "code": "71392",
+      "description": "Skiing facilities"
+    },
+    {
+      "code": "71393",
+      "description": "Marinas"
+    },
+    {
+      "code": "71394",
+      "description": "Fitness and recreational sports centers"
+    },
+    {
+      "code": "71395",
+      "description": "Bowling centers"
+    },
+    {
+      "code": "7139C",
+      "description": "All other amusement and recreation industries"
+    },
+    {
+      "code": "7139D",
+      "description": "Billiard and pool establishments"
+    },
+    {
+      "code": "7139E",
+      "description": "Aquariums, seaquariums, dolphinariums, and zoos"
+    },
+    {
+      "code": "72111",
+      "description": "Hotels (except casino hotels) and motels"
+    },
+    {
+      "code": "7211B",
+      "description": "Other traveler accommodation"
+    },
+    {
+      "code": "7212",
+      "description": "Recreational vehicle parks and recreational camps"
+    },
+    {
+      "code": "7223",
+      "description": "Special food services"
+    },
+    {
+      "code": "722511",
+      "description": "Full-service restaurants"
+    },
+    {
+      "code": "722513",
+      "description": "Limited-service restaurants (Fast food restaurants)"
+    },
+    {
+      "code": "722514",
+      "description": "Cafeterias, grill buffets, and buffets"
+    },
+    {
+      "code": "722515",
+      "description": "Snacks and nonalcoholic beverage bars"
+    },
+    {
+      "code": "8111",
+      "description": "Automotive repair and maintenance"
+    },
+    {
+      "code": "8112",
+      "description": "Electronic and precision equipment repair and maintenance (including computers)"
+    },
+    {
+      "code": "8113",
+      "description": "Commercial and industrial machinery and equipment (except automotive and electronic) repair and maintenance"
+    },
+    {
+      "code": "8114",
+      "description": "Personal and household goods repair and maintenance"
+    },
+    {
+      "code": "81211",
+      "description": "Hair, nail, and skin care services"
+    },
+    {
+      "code": "8121B",
+      "description": "Health and beauty spas"
+    },
+    {
+      "code": "8122",
+      "description": "Death care services"
+    },
+    {
+      "code": "8123",
+      "description": "Drycleaning and Laundry services"
+    },
+    {
+      "code": "8134",
+      "description": "Civic and social organizations"
+    },
+    {
+      "code": "81391",
+      "description": "Business associations"
+    },
+    {
+      "code": "81392",
+      "description": "Professional organizations"
+    },
+    {
+      "code": "81393",
+      "description": "Labor unions and similar labor organizations"
+    },
+    {
+      "code": "81399",
+      "description": "Other similar organizations (except business, professional, labor, and political organizations)"
+    }
+  ],
+  "not_allowed": [
+    {
+      "code": "7213",
+      "description": "Rooming and boarding houses, dormitories, and workers' Camps"
+    },
+    {
+      "code": "8121A",
+      "description": "Massage parlors"
+    },
+    {
+      "code": "8129E",
+      "description": "Other personal services"
+    }
+  ]
+}

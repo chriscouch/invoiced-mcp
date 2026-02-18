@@ -1,0 +1,12 @@
+{% extends "emails/parent.twig" %}
+{% block title %}Please finish your SSO log in!{% endblock %}
+{% block content %}
+<row>
+	<columns>
+		<p>Select a company to log in with:</p>
+		{% for company in companies %}
+			<p><a href="{{ url }}/auth/sso/login?company_id={{ company.id }}&email={{ email.to[0].address }}">{{ company.name }}</a></p>
+		{% endfor %}
+	</columns>
+</row>
+{% endblock %}

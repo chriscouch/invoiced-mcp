@@ -1,0 +1,142 @@
+<div class="contents form-horizontal">
+    <div class="settings-title-bar">
+        <h2 class="title">
+            <div class="docs-link">
+                <a href="https://docs.invoiced.com/accounts-receivable/late-fees" target="_blank">
+                    {{'general.documentation'|translate}}
+                    <span class="fas fa-external-link"></span>
+                </a>
+            </div>
+            <div class="back-link">
+                <a ui-sref="manage.settings.default">
+                    <span class="fas fa-arrow-left"></span>
+                    {{'general.settings'|translate}}
+                </a>
+            </div>
+            {{'settings.titles.late_fees'|translate}}
+        </h2>
+
+        <p class="lead">
+            Late fees can be used to provide an incentive for customers to not pay you late, less they incur a penalty. Here you can define different late fee schedules to selectively apply to customers.
+        </p>
+    </div>
+
+    <div class="loading" ng-show="loading"></div>
+
+    <p class="alert alert-danger" ng-show="error">
+        {{error.message}}
+    </p>
+
+    <div class="panel panel-default settings-panel" ng-hide="loading">
+        <div class="panel-heading">
+            <h4 class="panel-title button-title">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="searchbar light">
+                            <div class="bar">
+                                <div class="icon"><span class="fas fa-search"></span></div>
+                                <input type="text" class="form-control" ng-model="search" tabindex="2000" />
+                                <div class="icon right icon-btn" ng-show="search">
+                                    <button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+                                        <span class="fas fa-times-circle"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 text-right">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-success" ng-click="edit(null)">
+                                {{'settings.late_fee_schedules.add'|translate}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </h4>
+        </div>
+
+        <!-- No Results -->
+        <div class="list-group" ng-show="results.length === 0">
+            <div class="list-group-item">
+                <div class="empty">{{'settings.late_fee_schedules.empty'|translate}}</div>
+            </div>
+        </div>
+
+        <!-- Results Table -->
+        <table class="table table-striped search-results-table" ng-show="results.length > 0">
+            <thead>
+                <tr>
+                    <th>{{'settings.late_fee_schedules.name'|translate}}</th>
+                    <th>{{'settings.late_fee_schedules.start_date'|translate}}</th>
+                    <th>{{'settings.late_fee_schedules.last_run'|translate}}</th>
+                    <th class="money-column">{{'general.amount'|translate}}</th>
+                    <th class="money-column">{{'settings.late_fee_schedules.grace'|translate}}</th>
+                    <th class="money-column">{{'settings.late_fee_schedules.repeats_every'|translate}}</th>
+                    <th class="money-column noborder">{{'settings.late_fee_schedules.assigned'|translate}}</th>
+                    <th class="nopadding"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="schedule in schedules | searchObject:search:['name'] | orderBy:['name'] as results">
+                    <td>
+                        {{schedule.name}}
+                        <a href="" tooltip="New customers will be assigned to this schedule by default." ng-show="schedule.default">
+                            <span class="label label-info">{{'general.default'|translate}}</span>
+                        </a>
+                        <span class="label label-warning" ng-hide="schedule.enabled">{{'general.paused'|translate}}</span>
+                    </td>
+                    <td><company-date date="schedule.start_date"></company-date></td>
+                    <td class="nowrap">
+                        <span ng-show="schedule.last_run">{{schedule.last_run|formatDateCalendar}}</span>
+                        <span class="label label-default" ng-hide="schedule.last_run">{{'general.never'|translate}}</span>
+                    </td>
+                    <td class="money-column">
+                        <span ng-show="schedule.is_percent">{{schedule.amount}} %</span>
+                        <money ng-hide="schedule.is_percent" amount="schedule.amount" currency="currency"></money>
+                    <td class="money-column">
+                        <span ng-show="schedule.grace_period > 0">{{schedule.grace_period}} {{'general.days'|translate}}</span>
+                    </td>
+                    <td class="money-column">
+                        <span ng-show="schedule.recurring_days > 0">{{schedule.recurring_days}} {{'general.days'|translate}}</span>
+                        <span ng-hide="schedule.recurring_days > 0">&mdash;</span>
+                    </td>
+                    <td class="money-column noborder">{{schedule.num_customers}}</td>
+                    <td class="nopadding hover-actions-holder mobile-last mobile-visible">
+                        <div class="hover-actions">
+                            <a ng-if="schedule.num_customers" class="btn btn-default btn-sm" href="/customers?late_fee_schedule={{schedule.id}}" tooltip="{{'settings.late_fee_schedules.view_customers'|translate}}">
+                                <span class="fas fa-users"></span>
+                            </a>
+                            <a class="btn btn-default btn-sm" href="" ng-click="assign(schedule)" tooltip="{{'settings.late_fee_schedules.assign_customers'|translate}}">
+                                <span class="fas fa-user-plus"></span>
+                            </a>
+                            <a class="btn btn-default btn-sm" ng-click="duplicate(schedule)" tooltip="{{'general.duplicate'|translate}}">
+                                <span class="fas fa-copy"></span>
+                            </a>
+                            <a class="btn btn-default btn-sm" ng-click="edit(schedule)" tooltip="{{'general.edit'|translate}}">
+                                <span class="fas fa-pencil"></span>
+                            </a>
+                            <a href="" class="btn btn-default btn-sm" ng-click="setProperty(schedule, 'default', false)" ng-show="schedule.default && !deleting" tooltip="{{'settings.late_fee_schedules.unset_default'|translate}}">
+                                <span class="far fa-star"></span>
+                            </a>
+                            <a href="" class="btn btn-default btn-sm" ng-click="setProperty(schedule, 'default', true)" ng-show="!schedule.default && !deleting" tooltip="{{'settings.late_fee_schedules.make_default'|translate}}">
+                                <span class="fas fa-star"></span>
+                            </a>
+                            <a href="" class="btn btn-default btn-sm" ng-click="setProperty(schedule, 'enabled', false)" ng-show="schedule.enabled && !deleting" tooltip="{{'general.pause'|translate}}">
+                                <span class="fas fa-pause"></span>
+                            </a>
+                            <a href="" class="btn btn-primary btn-sm" ng-click="setProperty(schedule, 'enabled', true)" ng-show="!schedule.enabled && !deleting" tooltip="{{'general.resume'|translate}}">
+                                <span class="fas fa-play"></span>
+                            </a>
+                            <a href="" class="btn btn-primary btn-sm" ng-click="run(schedule)" ng-show="schedule.enabled" tooltip="{{'settings.late_fee_schedules.run_now'|translate}}">
+                                <span class="fas fa-forward"></span>
+                            </a>
+                            <a class="btn btn-danger btn-sm revoke-btn" ng-click="delete(schedule)" ng-disabled="deleting" tooltip="{{'general.delete'|translate}}" ng-hide="schedule.num_customers > 0">
+                                <span class="fas fa-trash"></span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

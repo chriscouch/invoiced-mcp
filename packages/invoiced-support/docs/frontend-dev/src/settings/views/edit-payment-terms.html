@@ -1,0 +1,82 @@
+<form name="paymentTermsForm" ng-submit="save(paymentTerm, hasEarlyDiscount)" class="below0">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title"><span ng-show="paymentTerm.id">{{'settings.payment_terms.edit'|translate}}</span><span ng-hide="paymentTerm.id">{{'settings.payment_terms.new'|translate}}</span></h4>
+    </div>
+    <div class="modal-body edit-late-fee form-horizontal">
+        <p class="required-indicator">
+            <span class="required"></span> {{'general.indicates_required_field'|translate}}
+        </p>
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <!-- Name -->
+        <div class="form-group">
+            <label class="control-label col-sm-4">{{'settings.payment_terms.name'|translate}} <span class="required"></span></label>
+            <div class="col-sm-7">
+                <input class="form-control" ng-model="paymentTerm.name" required />
+            </div>
+        </div>
+
+        <!-- Due In Days -->
+        <div class="form-group">
+            <label class="control-label col-sm-4">{{'settings.payment_terms.due_in'|translate}}</label>
+            <div class="col-sm-4">
+                <div class="input-group">
+                    <input type="number" class="form-control" ng-model="paymentTerm.due_in_days" />
+                    <span class="input-group-addon">{{'general.days'|translate}}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active -->
+        <div class="form-group">
+            <label class="control-label col-sm-4">{{'general.active'|translate}}</label>
+            <div class="col-sm-4">
+                <toggle ng-model="paymentTerm.active"></toggle>
+            </div>
+        </div>
+        <hr/>
+
+        <!-- Early Payment Discount -->
+        <div class="form-group">
+            <div class="col-sm-8 col-sm-offset-4">
+                <h4 class="settings-section-title">{{'settings.payment_terms.early_discount'|translate}}</h4>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-4">{{'settings.payment_terms.has_discount'|translate}}</label>
+            <div class="col-sm-4">
+                <toggle ng-model="hasEarlyDiscount"></toggle>
+            </div>
+        </div>
+
+        <div ng-show="hasEarlyDiscount">
+            <div class="form-group">
+                <label class="control-label col-sm-4">{{'general.amount'|translate}} <span class="required"></span></label>
+                <div class="col-sm-4">
+                    <div ng-required="hasEarlyDiscount" ng-model="paymentTerm.discount_value" currency="currency" is-rate="paymentTerm.discount_is_percent" has-selector="true" input-amount></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-4">{{'settings.payment_terms.expires_in'|translate}} <span class="required"></span></label>
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <input ng-required="hasEarlyDiscount" type="number" class="form-control" ng-model="paymentTerm.discount_expires_in_days"/>
+                        <span class="input-group-addon">{{'general.days'|translate}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary Button" ng-disabled="paymentTermsForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+            <span ng-show="paymentTerm.id">{{'general.save'|translate}}</span>
+            <span ng-hide="paymentTerm.id">{{'general.create'|translate}}</span>
+        </button>
+    </div>
+</form>

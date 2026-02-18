@@ -1,0 +1,38 @@
+<form ng-submit="save(customDomain)">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title">
+            {{'settings.customer_portal.setup_custom_domain'|translate}}
+        </h4>
+    </div>
+    <feature-upgrade ng-if="!('custom_domain'|hasFeature)"></feature-upgrade>
+    <div class="modal-body" ng-if="'custom_domain'|hasFeature">
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <p>
+            You can use your own domain for the customer portal instead of your invoiced.com subdomain. In order to activate this feature you must first create a <strong>CNAME</strong> DNS record for the domain that is set to:
+        </p>
+        <pre>custom.invoiced.com</pre>
+        <br/>
+
+        <div class="form-group">
+            <label class="control-label">{{ 'settings.customer_portal.domain' | translate }}</label>
+            <div>
+                <input type="text" class="form-control" ng-model="$parent.customDomain" required />
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer" ng-if="'custom_domain'|hasFeature">
+        <div class="left" ng-show="hasCustomDomain">
+            <a href="" class="danger" ng-click="delete()">
+                {{'settings.customer_portal.remove_domain'|translate}}
+            </a>
+        </div>
+        <button type="submit" class="btn btn-primary Button" ng-disabled="saving" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+            <span translate>general.save</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,10 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}New Message on Invoiced{% endblock %}
+{% block notification %}
+    {% for email in emails %}
+        <p>
+            <a href="{{ email.link }}">{{ email.subject }}</a><br/>
+            From: {% if email.customer %}<a href="{{ dashboardUrl}}/customers/{{ email.customer.id }}?account={{ tenant_id  }}">{{ email.customer.name }}</a>{% else %}{{ email.from }}{% endif %}
+        </p>
+    {% endfor %}
+{% endblock %}

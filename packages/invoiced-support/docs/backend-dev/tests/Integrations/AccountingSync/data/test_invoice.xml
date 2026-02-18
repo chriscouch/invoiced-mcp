@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sodocument>
+    <RECORDNO>456</RECORDNO>
+    <PRRECORDKEY>4567</PRRECORDKEY>
+    <DOCNO>INV-1012</DOCNO>
+    <CURRENCY>USD</CURRENCY>
+    <WHENPOSTED>2017-01-12</WHENPOSTED>
+    <WHENDUE>2017-02-11</WHENDUE>
+    <TRX_TOTALPAID>2.51</TRX_TOTALPAID>
+    <TERM>
+        <NAME>NET 30</NAME>
+    </TERM>
+    <MESSAGE>Testing</MESSAGE>
+    <PONUMBER>PO-123456789012345678901234567890</PONUMBER>
+    <CONTRACTID>483</CONTRACTID>
+    <CUSTREC>2</CUSTREC>
+    <TESTBOOL>false</TESTBOOL>
+    <CUSTVENDID>CUST-0002</CUSTVENDID>
+    <CUSTVENDNAME>
+        Test 2
+    </CUSTVENDNAME>
+    <SHIPTO>
+        <PRINTAS>Bojangle Jones</PRINTAS>
+        <MAILADDRESS>
+            <ADDRESS1>1234 Main St</ADDRESS1>
+            <ADDRESS2></ADDRESS2>
+            <CITY>Austin</CITY>
+            <STATE>TX</STATE>
+            <ZIP>78701</ZIP>
+            <COUNTRYCODE>US</COUNTRYCODE>
+        </MAILADDRESS>
+    </SHIPTO>
+    <SODOCUMENTENTRIES>
+        <sodocumententry>
+            <ITEMDESC>Marketing guides:</ITEMDESC>
+            <QUANTITY>5.5</QUANTITY>
+            <UIPRICE>72</UIPRICE>
+            <UIVALUE>396</UIVALUE>
+            <TRX_PRICE>144</TRX_PRICE>
+            <TRX_VALUE>792</TRX_VALUE>
+            <MULTIPLIER>1</MULTIPLIER>
+        </sodocumententry>
+        <sodocumententry>
+            <ITEMDESC>Contract discount test</ITEMDESC>
+            <QUANTITY>10.1234</QUANTITY>
+            <UIPRICE>72</UIPRICE>
+            <UIVALUE>721.31</UIVALUE>
+            <TRX_PRICE>144</TRX_PRICE>
+            <TRX_VALUE>1442.62</TRX_VALUE>
+            <MULTIPLIER>2</MULTIPLIER>
+        </sodocumententry>
+    </SODOCUMENTENTRIES>
+    <SUBTOTALS>
+        <sodocumentsubtotals>
+            <RECORDNO>1</RECORDNO>
+            <DESCRIPTION>Sales Tax</DESCRIPTION>
+            <TOTAL>20</TOTAL>
+            <TRX_TOTAL>40</TRX_TOTAL>
+        </sodocumentsubtotals>
+    </SUBTOTALS>
+</sodocument>

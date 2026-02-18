@@ -1,0 +1,661 @@
+<div class="network-document">
+    <div class="panel panel-invoiced light">
+        <div class="header-actions">
+            <div class="dropdown" dropdown>
+                <a href="" class="btn btn-link dropdown-toggle" dropdown-toggle>
+                    Options
+                    <span class="fas fa-chevron-down"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li ng-hide="downloading">
+                        <a href="" ng-click="download(doc, true)">
+                            Download as PDF
+                        </a>
+                    </li>
+                    <li ng-hide="downloading">
+                        <a href="" ng-click="download(doc, false)">
+                            Download as XML
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Credit Note Detail -->
+        <div class="panel-body" ng-if="doc.type == 'CreditNote'">
+            <div class="row header-row">
+                <div class="col-sm-6">
+                    <!-- Bill From -->
+                    <div class="header-value">
+                        <div class="title">Bill From</div>
+                        <div class="value">
+                            {{doc.detail.AccountingSupplierParty[0].Party[0].PartyName[0].Name[0]['_']}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <!-- Bill To -->
+                    <div class="header-value">
+                        <div class="title">Bill To</div>
+                        <div class="value">
+                            {{doc.detail.AccountingCustomerParty[0].Party[0].PartyName[0].Name[0]['_']}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row header-row">
+                <div class="col-sm-4">
+                    <!-- Issue Date -->
+                    <div class="header-value">
+                        <div class="title">Issue Date</div>
+                        <div class="value">
+                            <company-date date="doc.detail.IssueDate[0]['_']"></company-date>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <!-- Payment Terms -->
+                    <div class="header-value" ng-show="doc.detail.PaymentTerms">
+                        <div class="title">Payment Terms</div>
+                        <div class="value">
+                            {{ doc.detail.PaymentTerms[0].Note[0]['_'] }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <!-- Purchase Order -->
+                    <div class="header-value" ng-show="doc.detail.OrderReference">
+                        <div class="title">Payment Terms</div>
+                        <div class="value">
+                            {{ doc.detail.OrderReference[0].ID[0]['_'] }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Line Items -->
+        <table class="table slim line-items" ng-if="doc.type == 'CreditNote'">
+            <thead>
+                <tr>
+                    <th class="item">Item</th>
+                    <th class="quantity">Qty</th>
+                    <th class="rate">Rate</th>
+                    <th class="amount">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="line" ng-repeat-start="item in doc.detail.CreditNoteLine">
+                    <td class="item">
+                        <span class="item-name" ng-bind-html="item.Item[0].Name[0]['_']|nl2br"></span>
+                    </td>
+                    <td class="quantity">
+                        {{item.CreditedQuantity[0]['_']|number}}
+                    </td>
+                    <td class="rate">
+                        <money amount="item.Price[0].PriceAmount[0]['_']" currency="item.Price[0].PriceAmount[0]['currencyID']" precision="settings.unit_cost_precision"></money>
+                    </td>
+                    <td class="amount">
+                        <span class="item-amount"><money amount="item.LineExtensionAmount[0]['_']" currency="item.LineExtensionAmount[0]['currencyID']"></money></span>
+                    </td>
+                </tr>
+                <tr class="line-description" ng-if="item.Item[0].Description" ng-repeat-end>
+                    <td colspan="4">
+                        <div class="description" ng-bind-html="item.Item[0].Description[0]['_']|nl2br"></div>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <!-- Subtotal -->
+                <tr class="subtotal">
+                    <td class="noborder"></td>
+                    <td class="title" colspan="2">
+                        Subtotal
+                    </td>
+                    <td class="amount">
+                        <money amount="doc.detail.LegalMonetaryTotal[0].LineExtensionAmount[0]['_']" currency="doc.detail.LegalMonetaryTotal[0].LineExtensionAmount[0].currencyID"></money>
+                    </td>
+                </tr>
+
+                <!-- Discounts -->
+                <tr class="discounts">
+                    <td class="noborder"></td>
+                    <td class="title" colspan="2">
+                        Discounts
+                    </td>
+                    <td class="amount">
+                        <money amount="doc.detail.LegalMonetaryTotal[0].AllowanceTotalAmount[0]['_']" currency="doc.detail.LegalMonetaryTotal[0].AllowanceTotalAmount[0].currencyID"></money>
+                    </td>
+                </tr>
+
+                <!-- Taxes -->
+                <tr class="taxes" ng-show="doc.detail.TaxTotal[0].TaxAmount[0]">
+                    <td class="noborder"></td>
+                    <td class="title" colspan="2">
+                        Taxes
+                    </td>
+                    <td class="amount">
+                        <money amount="doc.detail.TaxTotal[0].TaxAmount[0]['_']" currency="doc.detail.TaxTotal[0].TaxAmount[0].currencyID"></money>
+                    </td>
+                </tr>
+
+                <!-- Total -->
+                <tr class="total">
+                    <td class="noborder"></td>
+                    <td class="title" colspan="2">
+                        {{'general.total'|translate}}
+                    </td>
+                    <td class="amount">
+                        <money amount="doc.detail.LegalMonetaryTotal[0].TaxInclusiveAmount[0]['_']" currency="doc.detail.LegalMonetaryTotal[0].TaxInclusiveAmount[0].currencyID"></money>
+                    </td>
+                </tr>
+
+                <!-- Amount Refunded -->
+                <tr class="amount-paid">
+                    <td class="noborder"></td>
+                    <td class="title" colspan="2">
+                        Amount Refunded
+                    </td>
+                    <td class="amount">
+                        <money amount="doc.detail.LegalMonetaryTotal[0].PrepaidAmount[0]['_']" currency="doc.detail.LegalMonetaryTotal[0].PrepaidAmount[0].currencyID"></money>
+                    </td>
+                </tr>
+
+                <!-- Payments and Adjustments -->
+                <tr class="amount-paid" ng-repeat="transaction in transactions">
+                    <td class="noborder"></td>
+                    <td class="title" colspan="2">
+                        <a ui-sref="manage.vendor_adjustment.view.summary({id: transaction.reference})" ng-show="transaction.document_type == 'Adjustment'">
+                            Adjustment
+                            &mdash;
+                            <company-date date="transaction.date"></company-date>
+                        </a>
+                        <a ui-sref="manage.vendor_payment.view.summary({id: transaction.reference})" ng-show="transaction.document_type == 'Payment'">
+                            Payment
+                            &mdash;
+                            <company-date date="transaction.date"></company-date>
+                        </a>
+                        <a ui-sref="manage.bill.view.summary({id: transaction.reference})" ng-show="transaction.document_type == 'Invoice'">
+                            Invoice
+                            &mdash;
+                            <company-date date="transaction.date"></company-date>
+                        </a>
+                        <span ng-show="transaction.document_type != 'Adjustment' && transaction.document_type != 'Payment'">
+                                    {{transaction.document_type}} {{transaction.reference}}
+                                </span>
+                    </td>
+                    <td class="amount">
+                        <money currency="transaction.currency" amount="transaction.amount * -1"></money>
+                    </td>
+                </tr>
+
+                <!-- Balance -->
+                <tr class="balance" ng-if="balance">
+                    <td class="noborder"></td>
+                    <td class="title" colspan="2">
+                        Balance
+                    </td>
+                    <td class="amount">
+                        <money currency="balance.currency" amount="balance.balance * -1"></money>
+                    </td>
+                </tr>
+
+                <tr class="balance" ng-if="!balance">
+                    <td class="noborder"></td>
+                    <td class="title" colspan="2">
+                        {{'general.balance'|translate}}
+                    </td>
+                    <td class="amount">
+                        <money amount="doc.detail.LegalMonetaryTotal[0].PayableAmount[0]['_']" currency="doc.detail.LegalMonetaryTotal[0].PayableAmount[0].currencyID"></money>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <!-- Notes -->
+        <div class="panel-body" ng-show="doc.detail.Note" ng-if="doc.type == 'CreditNote'">
+            <h4>
+                Notes
+            </h4>
+            <div ng-bind-html="doc.detail.Note[0]['_']|linky:'_blank'|nl2br"></div>
+        </div>
+
+        <!-- Estimate Detail -->
+        <div class="panel-body" ng-if="doc.type == 'Quotation'">
+            <div class="row header-row">
+                <div class="col-sm-6">
+                    <!-- Bill From -->
+                    <div class="header-value">
+                        <div class="title">Bill From</div>
+                        <div class="value">
+                            {{doc.detail.SellerSupplierParty[0].Party[0].PartyName[0].Name[0]['_']}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <!-- Bill To -->
+                    <div class="header-value">
+                        <div class="title">Bill To</div>
+                        <div class="value">
+                            {{doc.detail.BuyerCustomerParty[0].Party[0].PartyName[0].Name[0]['_']}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row header-row">
+                <div class="col-sm-4">
+                    <!-- Issue Date -->
+                    <div class="header-value">
+                        <div class="title">Issue Date</div>
+                        <div class="value">
+                            <company-date date="doc.detail.IssueDate[0]['_']"></company-date>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <!-- Purchase Order -->
+                    <div class="header-value" ng-show="doc.detail.OrderReference">
+                        <div class="title">Payment Terms</div>
+                        <div class="value">
+                            {{ doc.detail.OrderReference[0].ID[0]['_'] }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Line Items -->
+        <table class="table slim line-items" ng-if="doc.type == 'Quotation'">
+            <thead>
+                <tr>
+                    <th class="item">Item</th>
+                    <th class="quantity">Qty</th>
+                    <th class="rate">Rate</th>
+                    <th class="amount">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="line" ng-repeat-start="item in doc.detail.QuotationLine">
+                    <td class="item">
+                        <span class="item-name" ng-bind-html="item.LineItem[0].Item[0].Name[0]['_']|nl2br"></span>
+                    </td>
+                    <td class="quantity">
+                        {{item.LineItem[0].Quantity[0]['_']|number}}
+                    </td>
+                    <td class="rate">
+                        <money amount="item.LineItem[0].Price[0].PriceAmount[0]['_']" currency="item.Price[0].PriceAmount[0]['currencyID']" precision="settings.unit_cost_precision"></money>
+                    </td>
+                    <td class="amount">
+                        <span class="item-amount"><money amount="item.LineItem[0].LineExtensionAmount[0]['_']" currency="item.LineItem[0].LineExtensionAmount[0]['currencyID']"></money></span>
+                    </td>
+                </tr>
+                <tr class="line-description" ng-if="item.Item[0].Description" ng-repeat-end>
+                    <td colspan="4">
+                        <div class="description" ng-bind-html="item.Item[0].Description[0]['_']|nl2br"></div>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <!-- Subtotal -->
+                <tr class="subtotal">
+                    <td class="noborder"></td>
+                    <td class="title" colspan="2">
+                        Subtotal
+                    </td>
+                    <td class="amount">
+                        <money amount="doc.detail.QuotedMonetaryTotal[0].LineExtensionAmount[0]['_']" currency="doc.detail.QuotedMonetaryTotal[0].LineExtensionAmount[0].currencyID"></money>
+                    </td>
+                </tr>
+
+                <!-- Discounts -->
+                <tr class="discounts">
+                    <td class="noborder"></td>
+                    <td class="title" colspan="2">
+                        Discounts
+                    </td>
+                    <td class="amount">
+                        <money amount="doc.detail.QuotedMonetaryTotal[0].AllowanceTotalAmount[0]['_']" currency="doc.detail.QuotedMonetaryTotal[0].AllowanceTotalAmount[0].currencyID"></money>
+                    </td>
+                </tr>
+
+                <!-- Taxes -->
+                <tr class="taxes" ng-show="doc.detail.TaxTotal[0].TaxAmount[0]">
+                    <td class="noborder"></td>
+                    <td class="title" colspan="2">
+                        Taxes
+                    </td>
+                    <td class="amount">
+                        <money amount="doc.detail.TaxTotal[0].TaxAmount[0]['_']" currency="doc.detail.TaxTotal[0].TaxAmount[0].currencyID"></money>
+                    </td>
+                </tr>
+
+                <!-- Total -->
+                <tr class="total">
+                    <td class="noborder"></td>
+                    <td class="title" colspan="2">
+                        {{'general.total'|translate}}
+                    </td>
+                    <td class="amount">
+                        <money amount="doc.detail.QuotedMonetaryTotal[0].TaxInclusiveAmount[0]['_']" currency="doc.detail.QuotedMonetaryTotal[0].TaxInclusiveAmount[0].currencyID"></money>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <!-- Notes -->
+        <div class="panel-body" ng-show="doc.detail.Note" ng-if="doc.type == 'Quotation'">
+            <h4>
+                Notes
+            </h4>
+            <div ng-bind-html="doc.detail.Note[0]['_']|linky:'_blank'|nl2br"></div>
+        </div>
+
+        <!-- Invoice Detail -->
+        <div class="panel-body" ng-if="doc.type == 'Invoice'">
+            <div class="row header-row">
+                <div class="col-sm-6">
+                    <!-- Bill From -->
+                    <div class="header-value">
+                        <div class="title">Bill From</div>
+                        <div class="value">
+                            {{doc.detail.AccountingSupplierParty[0].Party[0].PartyName[0].Name[0]['_']}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <!-- Bill To -->
+                    <div class="header-value">
+                        <div class="title">Bill To</div>
+                        <div class="value">
+                            {{doc.detail.AccountingCustomerParty[0].Party[0].PartyName[0].Name[0]['_']}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row header-row">
+                <div class="col-sm-4">
+                    <!-- Issue Date -->
+                    <div class="header-value">
+                        <div class="title">Issue Date</div>
+                        <div class="value">
+                            <company-date date="doc.detail.IssueDate[0]['_']"></company-date>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <!-- Due Date -->
+                    <div class="header-value" ng-show="doc.detail.DueDate">
+                        <div class="title">Due Date</div>
+                        <div class="value">
+                            <company-date date="doc.detail.DueDate[0]['_']"></company-date>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <!-- Payment Terms -->
+                    <div class="header-value" ng-show="doc.detail.PaymentTerms">
+                        <div class="title">Payment Terms</div>
+                        <div class="value">
+                            {{ doc.detail.PaymentTerms[0].Note[0]['_'] }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <!-- Purchase Order -->
+                    <div class="header-value" ng-show="doc.detail.OrderReference">
+                        <div class="title">Payment Terms</div>
+                        <div class="value">
+                            {{ doc.detail.OrderReference[0].ID[0]['_'] }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Line Items -->
+        <table class="table slim line-items" ng-if="doc.type == 'Invoice'">
+            <thead>
+                <tr>
+                    <th class="item">Item</th>
+                    <th class="quantity">Qty</th>
+                    <th class="rate">Rate</th>
+                    <th class="amount">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="line" ng-repeat-start="item in doc.detail.InvoiceLine">
+                    <td class="item">
+                        <span class="item-name" ng-bind-html="item.Item[0].Name[0]['_']|nl2br"></span>
+                    </td>
+                    <td class="quantity">
+                        {{item.InvoicedQuantity[0]['_']|number}}
+                    </td>
+                    <td class="rate">
+                        <money amount="item.Price[0].PriceAmount[0]['_']" currency="item.Price[0].PriceAmount[0]['currencyID']" precision="settings.unit_cost_precision"></money>
+                    </td>
+                    <td class="amount">
+                        <span class="item-amount"><money amount="item.LineExtensionAmount[0]['_']" currency="item.LineExtensionAmount[0]['currencyID']"></money></span>
+                    </td>
+                </tr>
+                <tr class="line-description" ng-if="item.Item[0].Description" ng-repeat-end>
+                    <td colspan="4">
+                        <div class="description" ng-bind-html="item.Item[0].Description[0]['_']|nl2br"></div>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <!-- Subtotal -->
+                <tr class="subtotal">
+                    <td class="noborder"></td>
+                    <td class="title" colspan="2">
+                        Subtotal
+                    </td>
+                    <td class="amount">
+                        <money amount="doc.detail.LegalMonetaryTotal[0].LineExtensionAmount[0]['_']" currency="doc.detail.LegalMonetaryTotal[0].LineExtensionAmount[0].currencyID"></money>
+                    </td>
+                </tr>
+
+                <!-- Discounts -->
+                <tr class="discounts">
+                    <td class="noborder"></td>
+                    <td class="title" colspan="2">
+                        Discounts
+                    </td>
+                    <td class="amount">
+                        <money amount="doc.detail.LegalMonetaryTotal[0].AllowanceTotalAmount[0]['_']" currency="doc.detail.LegalMonetaryTotal[0].AllowanceTotalAmount[0].currencyID"></money>
+                    </td>
+                </tr>
+
+                <!-- Taxes -->
+                <tr class="taxes" ng-show="doc.detail.TaxTotal[0].TaxAmount[0]">
+                    <td class="noborder"></td>
+                    <td class="title" colspan="2">
+                        Taxes
+                    </td>
+                    <td class="amount">
+                        <money amount="doc.detail.TaxTotal[0].TaxAmount[0]['_']" currency="doc.detail.TaxTotal[0].TaxAmount[0].currencyID"></money>
+                    </td>
+                </tr>
+
+                <!-- Total -->
+                <tr class="total">
+                    <td class="noborder"></td>
+                    <td class="title" colspan="2">
+                        {{'general.total'|translate}}
+                    </td>
+                    <td class="amount">
+                        <money amount="doc.detail.LegalMonetaryTotal[0].TaxInclusiveAmount[0]['_']" currency="doc.detail.LegalMonetaryTotal[0].TaxInclusiveAmount[0].currencyID"></money>
+                    </td>
+                </tr>
+
+                <!-- Payments and Adjustments -->
+                <tr class="amount-paid" ng-repeat="transaction in transactions">
+                    <td class="noborder"></td>
+                    <td class="title" colspan="2">
+                        <a ui-sref="manage.vendor_adjustment.view.summary({id: transaction.reference})" ng-show="transaction.document_type == 'Adjustment'">
+                            Adjustment
+                            &mdash;
+                            <company-date date="transaction.date"></company-date>
+                        </a>
+                        <a ui-sref="manage.vendor_payment.view.summary({id: transaction.reference})" ng-show="transaction.document_type == 'Payment'">
+                            Payment
+                            &mdash;
+                            <company-date date="transaction.date"></company-date>
+                        </a>
+                        <a ui-sref="manage.vendor_credit.view.summary({id: transaction.reference})" ng-show="transaction.document_type == 'CreditNote'">
+                            Credit Note
+                            &mdash;
+                            <company-date date="transaction.date"></company-date>
+                        </a>
+                        <span ng-show="transaction.document_type != 'Adjustment' && transaction.document_type != 'Payment'">
+                                    {{transaction.document_type}} {{transaction.reference}}
+                                </span>
+                    </td>
+                    <td class="amount">
+                        <money currency="transaction.currency" amount="transaction.amount"></money>
+                    </td>
+                </tr>
+
+                <!-- Balance -->
+                <tr class="balance" ng-if="balance">
+                    <td class="noborder"></td>
+                    <td class="title" colspan="2">
+                        Balance
+                    </td>
+                    <td class="amount">
+                        <money currency="balance.currency" amount="balance.balance"></money>
+                    </td>
+                </tr>
+
+                <!-- Amount Paid -->
+                <tr class="amount-paid" ng-if="!balance">
+                    <td class="noborder"></td>
+                    <td class="title" colspan="2">
+                        Amount Paid
+                    </td>
+                    <td class="amount">
+                        <money amount="doc.detail.LegalMonetaryTotal[0].PrepaidAmount[0]['_']" currency="doc.detail.LegalMonetaryTotal[0].PrepaidAmount[0].currencyID"></money>
+                    </td>
+                </tr>
+
+                <tr class="balance" ng-if="!balance">
+                    <td class="noborder"></td>
+                    <td class="title" colspan="2">
+                        {{'general.balance'|translate}}
+                    </td>
+                    <td class="amount">
+                        <money amount="doc.detail.LegalMonetaryTotal[0].PayableAmount[0]['_']" currency="doc.detail.LegalMonetaryTotal[0].PayableAmount[0].currencyID"></money>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <!-- Notes -->
+        <div class="panel-body" ng-show="doc.detail.Note" ng-if="doc.type == 'Invoice'">
+            <h4>
+                Notes
+            </h4>
+            <div ng-bind-html="doc.detail.Note[0]['_']|linky:'_blank'|nl2br"></div>
+        </div>
+
+        <!-- Statement Detail -->
+        <div class="panel-body" ng-if="doc.type == 'Statement'">
+            <div class="row header-row">
+                <div class="col-sm-6">
+                    <!-- Bill From -->
+                    <div class="header-value">
+                        <div class="title">Bill From</div>
+                        <div class="value">
+                            {{doc.detail.AccountingSupplierParty[0].Party[0].PartyName[0].Name[0]['_']}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <!-- Bill To -->
+                    <div class="header-value">
+                        <div class="title">Bill To</div>
+                        <div class="value">
+                            {{doc.detail.AccountingCustomerParty[0].Party[0].PartyName[0].Name[0]['_']}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row header-row">
+                <div class="col-sm-4">
+                    <!-- Issue Date -->
+                    <div class="header-value">
+                        <div class="title">Issue Date</div>
+                        <div class="value">
+                            <company-date date="doc.detail.IssueDate[0]['_']"></company-date>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <!-- Statement Period -->
+                    <div class="header-value">
+                        <div class="title">Statement Period</div>
+                        <div class="value">
+                                <span ng-show="doc.detail.StatementPeriod[0].StartDate">
+                                    <company-date date="doc.detail.StatementPeriod[0].StartDate[0]['_']"></company-date>
+                                    &mdash;
+                                </span>
+                            <company-date date="doc.detail.StatementPeriod[0].EndDate[0]['_']"></company-date>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Line Items -->
+        <table class="table slim line-items" ng-if="doc.type == 'Statement'">
+            <thead>
+                <tr>
+                    <th class="item">Description</th>
+                    <th class="amount">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="line" ng-repeat="item in doc.detail.StatementLine">
+                    <td class="item">
+                        <span class="item-name" ng-bind-html="item.Note[0]['_']|nl2br"></span>
+                    </td>
+                    <td class="amount">
+                        <span class="item-amount"><money amount="item.BalanceAmount[0]['_']" currency="item.BalanceAmount[0]['currencyID']"></money></span>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <!-- Total Billed -->
+                <tr class="amount-billed">
+                    <td class="title">
+                        Total Billed
+                    </td>
+                    <td class="amount">
+                        <money amount="doc.detail.TotalDebitAmount[0]['_']" currency="doc.detail.TotalDebitAmount[0].currencyID"></money>
+                    </td>
+                </tr>
+
+                <!-- Total Paid -->
+                <tr class="amount-paid">
+                    <td class="title">
+                        Total Paid
+                    </td>
+                    <td class="amount">
+                        <money amount="doc.detail.TotalCreditAmount[0]['_']" currency="doc.detail.TotalCreditAmount[0].currencyID"></money>
+                    </td>
+                </tr>
+
+                <!-- Balance -->
+                <tr class="total">
+                    <td class="title">
+                        {{'general.balance'|translate}}
+                    </td>
+                    <td class="amount">
+                        <money amount="doc.detail.TotalBalanceAmount[0]['_']" currency="doc.detail.TotalBalanceAmount[0].currencyID"></money>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

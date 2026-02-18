@@ -1,0 +1,129 @@
+<div class="search-results-holder" ng-class="{'has-filter': table.filterStr}">
+    <div class="box">
+        <div class="header clearfix">
+            <!-- Actions -->
+            <div class="actions" ng-if="['charges.create', 'payments.create']|hasSomePermissions">
+                <span ng-repeat="action in table.actions" ng-if="action.show">
+                    <a ng-click="table.performAction(action)" class="actions-action {{action.classes}}">
+                        <span ng-if="action.name">{{ action.name }}</span>
+                        <span ng-if="action.nameFunction">{{ action.nameFunction() }}</span>
+                    </a>
+                    <filePond
+                            ng-if="action.directive === 'filePond'"
+                            callback="action.callback"
+                            oninitfile="action.oninitfile"
+                            drop-on-page="action.dropOnPage"
+                            allow-multiple="action.allowMultiple"
+                            types="action.types"
+                            style="display:none"></filePond>
+                </span>
+            </div>
+
+            <!-- Title Bar -->
+            <h2 ng-if="!table.config.titleMenu">{{table.config.titlePlural}}</h2>
+
+            <h2 ng-if="table.config.titleMenu">
+                <div class="btn-group dropdown" dropdown>
+                    <a href="" class="dropdown-toggle" id="nav-dropdown" dropdown-toggle>
+                        {{table.config.titlePlural}}
+                        <span class="fas fa-chevron-down"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li ng-class="{active: menuItem.route == table._currentStateName}" ng-repeat="menuItem in table.config.titleMenu" ng-if="!menuItem.allFeatures || (menuItem.allFeatures|hasAllFeatures)">
+                            <a ui-sref="{{menuItem.route}}">
+                                {{menuItem.title}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </h2>
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="action">
+                    <a href="" ng-click="table.openFilter()">
+                        <div>
+                            <span class="fas fa-filter"></span> {{'filter.title'|translate}}
+                        </div>
+                    </a>
+                </li>
+                <li class="action" ng-if="table.config.savedFilters">
+                    <filter-dropdown type="{{table.config.modelType}}"  saved-filters="table.savedFilters" apply-filter="table.applyFilter" filter="table.filter"></filter-dropdown>
+                </li>
+                <li class="action right hidden-xs hidden-sm" ng-if="table.config.exportable">
+                    <a href="" ng-click="table.export()">
+                        <div>
+                            <span class="far fa-arrow-to-bottom"></span>
+                            {{'transactions.labels.export' | translate }}
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Applied Filter -->
+        <div class="applied-filter" ng-show="table.filterStr">
+            <span class="fas fa-filter filter-icon"></span>
+            <strong>{{table.filterStr}}</strong>
+            <a href="" ng-click="table.resetFilter()">
+                <span class="fas fa-times-circle"></span>
+            </a>
+        </div>
+
+        <p class="loading" ng-show="table.loading"></p>
+
+        <!-- No Results :-( -->
+        <div class="empty-table" ng-show="!table.rows.length && !table.loading">
+            <div class="icon" ng-if="table.config.icon">
+                <img ng-src="{{table.config.icon}}" />
+            </div>
+            {{'general.no_results'|translate}}
+            <span ng-show="table.usingFilter">
+				<a href="" ng-click="table.resetFilter()">{{'filter.reset'|translate}}</a>
+			</span>
+        </div>
+
+        <!-- Data Table -->
+        <div class="column-arrangement-button-holder hidden-xs hidden-sm" ng-hide="table.loading">
+            <a role="button" class="column-arrangement-button" ng-click="table.openColumnSelector()" tooltip="Edit Columns" tooltip-placement="left">
+                <span class="fas fa-line-columns"></span>
+            </a>
+        </div>
+        <div class="custom-table-wrapper">
+            <table class="search-results-table table table-striped" ng-show="table.rows.length > 0 && !table.loading">
+                <thead>
+                    <tr>
+                        <th ng-repeat="column in table.columns" class="{{column.type}}-column" ng-class="{'custom-column-th-container':$last}">
+                            <a ng-if="column.sortable!==false" href="" ng-click="table.toggleSort(column.sortIndex)" ng-class="{down: table.sort==column.sortIndex + ' DESC', up: table.sort==column.sortIndex + ' ASC'}">
+                                {{column.name}}
+                                <span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+                                <span class="sort down"><span class="fas fa-sort-amount-up"></span></span>
+                            </a>
+                            <span ng-if="column.sortable===false">{{column.name}}</span>
+                        </th>
+                        <th class="nopadding noborder"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="row in table.rows" ng-click="table.clickRow($event, row)" ng-class="{clickable: table.clickableRows}">
+                        <td class="mobile-first noborder visible-xs-block"></td>
+                        <td ng-repeat="column in table.columns" class="{{column.type}}-column">
+                            <column-arrangement-cell column="column" data="row" currency="row[column.currencyField]"></column-arrangement-cell>
+                        </td>
+                        <td class="nopadding noborder hover-actions-holder">
+                            <div class="hover-actions">
+                                <a ng-repeat="hoverAction in table.hoverActions" ng-click="table.performHoverAction(hoverAction, row)" class="actions-action {{hoverAction.classes}}" tooltip="{{hoverAction.name}}" tooltip-placement="left" ng-if="hoverAction.show && hoverAction.showForRow(row)">
+                                    <span class="{{hoverAction.icon}}"></span>
+                                </a>
+                            </div>
+                        </td>
+                        <td class="mobile-last noborder visible-xs-block"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <pagination-bar total-count="table.total_count" page-count="table.page_count" ng-change="table.goToPage(page, perPage)" ng-model="table.filter" ng-show="table.rows.length > 0 && !table.loading"></pagination-bar>
+    </div>
+</div>

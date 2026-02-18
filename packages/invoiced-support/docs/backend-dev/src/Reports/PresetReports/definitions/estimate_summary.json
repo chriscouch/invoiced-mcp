@@ -1,0 +1,134 @@
+{
+  "version": 1,
+  "title": "Estimate Summary",
+  "sections": [
+    {
+      "title": "",
+      "object": "estimate",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "name": "Customer",
+          "field": {
+            "id": "customer.name"
+          }
+        },
+        {
+          "name": "# Estimates",
+          "field": {
+            "function": "count"
+          }
+        },
+        {
+          "name": "# Approved",
+          "field": {
+            "function": "count",
+            "arguments": [
+              {
+                "id": "approved"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Total Estimated",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "total"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Total Deposit",
+          "hide_empty": true,
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "deposit"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Deposit Collected",
+          "hide_empty": true,
+          "type": "money",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              [
+                { "id": "deposit_paid" },
+                "*",
+                { "id": "deposit" }
+              ]
+            ]
+          }
+        },
+        {
+          "name": "Total Invoiced",
+          "hide_empty": true,
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "invoice.total"
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "currency"
+          },
+          "value": "$currency",
+          "operator": "="
+        },
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        },
+        {
+          "operator": "=",
+          "value": false,
+          "field": {
+            "id": "voided"
+          }
+        },
+        {
+          "operator": "=",
+          "value": false,
+          "field": {
+            "id": "draft"
+          }
+        }
+      ],
+      "group": [
+        {
+          "expanded": false,
+          "field": {
+            "id": "customer.id"
+          },
+          "ascending": true
+        }
+      ],
+      "sort": [
+        {
+          "field": {
+            "id": "customer.name"
+          },
+          "ascending": true
+        }
+      ]
+    }
+  ]
+}

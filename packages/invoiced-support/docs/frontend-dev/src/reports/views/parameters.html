@@ -1,0 +1,25 @@
+<form name="reportParametersForm" ng-submit="generate(reportParameters)" class="below0">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title">Generate Report</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group" ng-repeat="parameter in reportParameters">
+            <label class="control-label">{{parameter.name}}</label>
+            <div ng-if="parameter.id === '$currency'">
+                <currency-selector ng-model="parameter.value" available="availableCurrencies"></currency-selector>
+            </div>
+            <div ng-if="parameter.id === '$dateRange'">
+                <date-range-picker period="parameter.value"></date-range-picker>
+            </div>
+            <div ng-if="parameter.id !== '$currency' && parameter.id !== '$dateRange'">
+                <input type="text" class="form-control" ng-model="parameter.value"/>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">
+            Generate
+        </button>
+    </div>
+</form>

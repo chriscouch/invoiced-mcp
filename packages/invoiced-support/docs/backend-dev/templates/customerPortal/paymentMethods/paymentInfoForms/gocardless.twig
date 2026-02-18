@@ -1,0 +1,3 @@
+{% trans_default_domain 'customer_portal' %}
+<input type="hidden" value="{{ path('customer_portal_new_direct_debit_mandate', {id: clientId, subdomain: subdomain}) }}" id="gocardlessSetupUrl" />
+<script type="text/javascript" src="{{ asset('/js/views/paymentInfoForms/gocardless.js') }}"></script>

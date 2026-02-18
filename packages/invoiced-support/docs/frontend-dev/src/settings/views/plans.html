@@ -1,0 +1,108 @@
+<feature-upgrade ng-if="!hasFeature"></feature-upgrade>
+<div class="contents" ng-show="hasFeature">
+	<div class="settings-title-bar">
+		<h2 class="title">
+			<div class="docs-link">
+				<a href="https://docs.invoiced.com/subscription-billing" target="_blank">
+					{{'general.documentation'|translate}}
+					<span class="fas fa-external-link"></span>
+				</a>
+			</div>
+			<div class="back-link">
+				<a ui-sref="manage.settings.default">
+					<span class="fas fa-arrow-left"></span>
+					{{'general.settings'|translate}}
+				</a>
+			</div>
+			{{'settings.titles.plans'|translate}}
+		</h2>
+
+		<p class="lead">
+			Plans are the basis for setting up recurring billing on Invoiced.
+		</p>
+	</div>
+
+	<p class="loading" ng-show="loading"></p>
+
+	<div class="panel panel-default settings-panel" ng-hide="loading">
+		<div class="panel-heading">
+			<h4 class="panel-title button-title">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="searchbar light">
+							<div class="bar">
+								<div class="icon"><span class="fas fa-search"></span></div>
+								<input type="text" class="form-control" ng-model="search" tabindex="2000" />
+								<div class="icon right icon-btn" ng-show="search">
+									<button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+										<span class="fas fa-times-circle"></span>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-8 text-right">
+						<a ui-sref="manage.imports.new.spreadsheet({type:'plan'})" class="btn btn-default hidden-xs" ng-if="'imports.create'|hasPermission">
+							Import
+						</a>
+						<button type="button" class="btn btn-success" ng-click="editPlanModal()">
+							New Plan
+						</button>
+					</div>
+				</div>
+			</h4>
+		</div>
+
+		<!-- No Results -->
+		<div class="list-group" ng-show="results.length === 0">
+			<div class="list-group-item">
+				<div class="empty">No plans found.</div>
+			</div>
+		</div>
+
+		<!-- Results Table -->
+		<table class="table table-striped search-results-table" ng-show="results.length > 0">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th class="money-column">Subscribers</th>
+					<th class="money-column">Price</th>
+					<th class="nopadding"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="plan in plans | searchObject:search:['name','id'] | orderBy:'name' | limitTo:100 as results">
+					<td>
+						{{plan.name}}
+						<a href="" class="id-tooltip" tooltip="{{plan.id}}">
+							<span class="fas fa-hashtag"></span>
+						</a>
+					</td>
+					<td class="money-column">
+						{{plan.num_subscriptions}}
+					</td>
+					<td class="money-column">
+						<money amount="plan.amount" currency="plan.currency" ng-show="plan.pricing_mode=='per_unit'"></money>
+						<span ng-show="plan.pricing_mode=='tiered'">Tiered</span>
+						<span ng-show="plan.pricing_mode=='volume'">Volume</span>
+						{{plan.interval_count|recurringFrequency:plan.interval}}
+					</td>
+					<td class="nopadding hover-actions-holder mobile-last mobile-visible">
+						<div class="hover-actions">
+							<a class="btn btn-default btn-sm" href="/subscriptions?page=1&per_page=10&sort=renews_next+ASC&plan={{plan.id}}" tooltip="View Subscriptions">
+								<span class="fas fa-users"></span>
+							</a>
+							<button type="button" class="btn btn-default btn-sm" ng-click="editPlanModal(plan)" tooltip="Edit Plan">
+								<span class="fas fa-pencil"></span>
+							</button>
+							<button type="button" class="btn btn-danger btn-sm" ng-click="delete(plan)" tooltip="Delete Plan" ng-disabled="deleting[plan.id]">
+								<span class="fas fa-trash"></span>
+							</button>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<cut-list-label count="results.length" total="(plans | searchObject:search:['name','id']).length"></cut-list-label>
+</div>

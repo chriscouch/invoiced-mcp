@@ -1,0 +1,30 @@
+{
+  "name": "dashboard.invoiced.com",
+  "private": true,
+  "scripts": {
+    "build": "./build/build.sh",
+    "jshint": "jshint src",
+    "test": "./build/build.sh test && jest",
+    "test-debug": "./build/build.sh test && jest -VVV",
+    "test-audit": "./build/build.sh test && jest -VV",
+    "test-error": "./build/build.sh test && jest -V"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.13.16",
+    "@babel/core": "^7.14.0",
+    "@babel/preset-env": "^7.14.1",
+    "@babel/preset-typescript": "^7.13.0",
+    "@hitc/netsuite-types": "^2021.1.9",
+    "@types/jest": "^27.4.1",
+    "@types/jquery": "^3.5.14",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^26.6.3",
+    "jest": "^26.6.3",
+    "jshint": "^2.13.4",
+    "module-alias": "^2.2.2",
+    "netsumo": "^3.6.7"
+  },
+  "_moduleAliases": {
+    "/tmp": "src"
+  }
+}

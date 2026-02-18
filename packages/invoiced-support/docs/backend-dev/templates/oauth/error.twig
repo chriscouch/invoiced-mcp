@@ -1,0 +1,27 @@
+{% extends "auth/parent.twig" %}
+
+{% block main %}
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6 col-xl-5 my-5 p-4 text-center border rounded">
+                <div class="mb-4">
+                    <img src="{{ asset('/img/logo.png') }}" alt="Invoiced" height="45"/>
+                </div>
+                <h1 class="display-4 mb-3">
+                    Oops, an error occurred!
+                </h1>
+                <p class="mt-5 mb-4 fs-3 text-secondary">
+                    {{ message }}
+                </p>
+
+                <div class="mt-4 border-top pt-4">
+                    <a href="#" onclick="history.back()" class="btn btn-link btn-block">
+                        Go Back
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

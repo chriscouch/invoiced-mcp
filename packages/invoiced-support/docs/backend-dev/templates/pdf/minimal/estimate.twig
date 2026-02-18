@@ -1,0 +1,161 @@
+<div class="header">
+    {% if company.logo %}
+        <img src="{{ company.logo }}" />
+    {% else %}
+        {{ company.name }}
+    {% endif %}
+    <div class="company-address">
+        {% if company.logo %}
+            <div class="name"><span style="font-weight: bold;">{{ company.name }}</span></div>
+        {% endif %}
+        <div class="address">{{ company.address|nl2br }}</div>
+        {% if company.email %}<div class="email">{{ company.email }}</div>{% endif %}
+        {% if company.phone %}<div class="phone">{{ company.phone }}</div>{% endif %}
+        {% if company.website %}<div class="website">{{ company.website }}</div>{% endif %}
+    </div>
+
+    <div class="subtitle-line">
+        <span style="font-weight: bold;">{{ estimate.number }}</span><br>
+
+        {% if estimate.date %}
+            <div>{{ estimate.date }}</div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="context-holder">
+    <div class="context-item">
+        <div class="bolder">{% if theme.use_translations %}{{ trans('labels.bill_to') }}{% else %}{{ theme.to_title }}{% endif %}</div>
+        {% if customer.attention_to %}<div class="attention_to">{{ trans('labels.attention_to') }}: {{ customer.attention_to }}</div>{% endif %}
+        <div class="name">{{ customer.name }}</div>
+        <div class="address">{{ customer.address|nl2br }}</div>
+    </div>
+    {% if estimate.ship_to %}
+        <div class="context-item">
+            <div class="bolder">{% if theme.use_translations %}{{ trans('labels.ship_to') }}{% else %}{{ theme.ship_to_title }}{% endif %}</div>
+            {% if estimate.ship_to.attention_to %}<div class="attention_to">{{ trans('labels.attention_to') }}: {{ estimate.ship_to.attention_to }}</div>{% endif %}
+            <div class="name">{{ estimate.ship_to.name }}</div>
+            <div class="address">{{ estimate.ship_to.address|nl2br }}</div>
+        </div>
+    {% endif %}
+    {% if theme.show_customer_no %}
+        <div class="context-item">
+            <div class="bolder">{% if theme.use_translations %}{{ trans('labels.account_number') }}{% else %}{{ theme.customer_number_title }}{% endif %}</div>
+            <div class="value">{{ customer.number }}</div>
+        </div>
+    {% endif %}
+    {% if estimate.payment_terms %}
+        <div class="context-item">
+            <div class="bolder">{% if theme.use_translations %}{{ trans('labels.payment_terms') }}{% else %}{{ theme.payment_terms_title }}{% endif %}</div>
+            <div class="value">{{ estimate.payment_terms }}</div>
+        </div>
+    {% endif %}
+    {% if estimate.expiration_date %}
+        <div class="context-item">
+            <div class="bolder">{{ trans('labels.expires') }}</div>
+            <div class="value">{{ estimate.expiration_date }}</div>
+        </div>
+    {% endif %}
+    {% if estimate.purchase_order %}
+        <div class="context-item">
+            <div class="bolder">{% if theme.use_translations %}{{ trans('labels.purchase_order') }}{% else %}{{ theme.purchase_order_title }}{% endif %}</div>
+            <div class="value">{{ estimate.purchase_order }}</div>
+        </div>
+    {% endif %}
+    {% for field in estimate.custom_fields %}
+        <div class="context-item">
+            <div class="bolder">{{ field.name }}</div>
+            <div class="value">{{ field.value|raw }}</div>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="items-holder">
+    <table cellpadding=3 cellspacing=0>
+        <thead>
+        <tr>
+            <th class="highlight-color-border">
+                <div>{% if theme.use_translations %}{{ trans('columns.item') }}{% else %}{{ theme.item_header }}{% endif %}</div>
+            </th>
+            <th class="narrow highlight-color-border">
+                <div>{% if theme.use_translations %}{{ trans('columns.quantity') }}{% else %}{{ theme.quantity_header }}{% endif %}</div>
+            </th>
+            <th class="money-column narrow highlight-color-border">
+                <div class="right">{% if theme.use_translations %}{{ trans('columns.unit_cost') }}{% else %}{{ theme.unit_cost_header }}{% endif %}</div>
+            </th>
+            <th class="money-column total-narrow highlight-color-border">
+                <div class="right">{% if theme.use_translations %}{{ trans('columns.amount') }}{% else %}{{ theme.amount_header }}{% endif %}</div>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in estimate.items %}
+            <tr class="item">
+                <td class="name">{{ item.name|nl2br }}</td>
+                <td class="quantity">{{ item.quantity|number_format_no_round }}</td>
+                <td class="unit_cost">{{ item.unit_cost|money_unit_cost }}</td>
+                <td class="amount">{{ item.amount|money }}</td>
+            </tr>
+            {% if item.billing_period %}
+                <tr class="details">
+                    <td colspan="4">
+                        {{ item.billing_period }}
+                    </td>
+                </tr>
+            {% endif %}
+            {% if item.description %}
+                <tr class="details">
+                    <td colspan="4">
+                        {{ item.description|nl2br }}
+                    </td>
+                </tr>
+            {% endif %}
+            {% if item.rates %}
+                <tr class="details">
+                    <td colspan="4">
+                        <div class="rates">{{ item.rates }}</div>
+                    </td>
+                </tr>
+            {% endif %}
+            {% for name, value in item.custom_fields %}
+                <tr class="details">
+                    <td>{{ name }}: {{ value }}</td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+        <tr> <td height="2"> </td> </tr>
+        {% if estimate.rates|length > 0 %}
+            <tr class="summary-item">
+                <td colspan="3">{% if theme.use_translations %}{{ trans('labels.subtotal') }}{% else %}{{ theme.subtotal_title }}{% endif %}</td>
+                <td class="value">{{ estimate.subtotal|money }}</td>
+            </tr>
+        {% endif %}
+        {% for rate in estimate.rates %}
+            <tr class="summary-item">
+                <td colspan="3">{{ rate.name }}</td>
+                <td class="value">{{ rate.total|money }}</td>
+            </tr>
+            {% if rate.expires %}
+                <tr class="summary-item">
+                    <td colspan="2"></td>
+                    <td class="value expires" colspan="2" style="text-align: center;">
+                        {{ trans('labels.expires_on', {'%date%': rate.expires}) }}
+                    </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        <tr class="summary-item">
+            <td colspan="2"></td>
+            <td class="bolder top-border">{% if theme.use_translations %}{{ trans('labels.total') }}{% else %}{{ theme.total_title }}{% endif %}</td>
+            <td class="value bolder top-border">{{ estimate.total|money }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+{% if estimate.notes %}
+    <div class="notes-holder">
+        <div class="field">{% if theme.use_translations %}{{ trans('labels.notes') }}{% else %}{{ theme.notes_title }}{% endif %}</div>
+        <div class="notes">{{ estimate.notes|nl2br }}</div>
+    </div>
+{% endif %}

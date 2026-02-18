@@ -1,0 +1,107 @@
+<p class="alert alert-danger" ng-show="error">
+    {{error.message}}
+</p>
+
+<p class="loading" ng-show="loading"></p>
+<div class="panel panel-default settings-panel" ng-hide="loading">
+    <div class="panel-heading">
+        <h4 class="panel-title button-title">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="searchbar light">
+                        <div class="bar">
+                            <div class="icon"><span class="fas fa-search"></span></div>
+                            <input type="text" class="form-control" ng-model="search" tabindex="2000" />
+                            <div class="icon right icon-btn" ng-show="search">
+                                <button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+                                    <span class="fas fa-times-circle"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8 text-right">
+                    <a ui-sref="manage.collections.new_chasing_cadence" class="btn btn-success">
+                        New Cadence
+                    </a>
+                </div>
+            </div>
+        </h4>
+    </div>
+
+    <!-- No Results -->
+    <div class="list-group" ng-show="results.length === 0">
+        <div class="list-group-item">
+            <div class="empty">No cadences found.</div>
+        </div>
+    </div>
+
+    <!-- Results Table -->
+    <table class="table table-striped search-results-table" ng-show="results.length > 0">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Created</th>
+            <th>Last Run</th>
+            <th>Next Run</th>
+            <th class="money-column noborder"># Customers</th>
+            <th class="nopadding"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="cadence in cadences | searchObject:search:['name'] as results">
+            <td>
+                {{cadence.name}}
+                <a href="" tooltip="New customers will be assigned to this cadence by default." ng-if="cadence.assignment_mode=='default'">
+                    <span class="label label-info">Default</span>
+                </a>
+                <a href="" tooltip="New customers will be assigned to this cadence when certain conditions are met." ng-if="cadence.assignment_mode=='conditions'">
+                    <span class="label label-default">Conditional</span>
+                </a>
+            </td>
+            <td class="light nowrap">
+                <company-date date="cadence.created_at"></company-date>
+            </td>
+            <td class="nowrap">
+                <span ng-show="cadence.last_run">{{cadence.last_run}}</span>
+                <span class="label label-default" ng-hide="cadence.last_run">Never</span>
+            </td>
+            <td class="nowrap">
+                <span ng-show="cadence.next_run">{{cadence.next_run}}</span>
+                <span class="label label-warning" ng-hide="cadence.next_run">Paused</span>
+            </td>
+            <td class="money-column noborder hidden-xs">
+                {{cadence.num_customers}}
+            </td>
+            <td class="nopadding hover-actions-holder mobile-last mobile-visible">
+                <div class="hover-actions">
+                    <a class="btn btn-default btn-sm" href="/customers?chasing_cadence={{cadence.id}}" tooltip="View Customers">
+                        <span class="fas fa-filter"></span>
+                    </a>
+                    <a class="btn btn-default btn-sm" href="" ng-click="assign(cadence)" tooltip="Enroll Customers">
+                        <span class="fas fa-user-plus"></span>
+                    </a>
+                    <a class="btn btn-default btn-sm" ui-sref="manage.collections.duplicate_chasing_cadence({id:cadence.id})" tooltip="Duplicate Cadence">
+                        <span class="fas fa-copy"></span>
+                    </a>
+                    <a class="btn btn-default btn-sm" ui-sref="manage.collections.edit_chasing_cadence({id:cadence.id})" tooltip="Edit Cadence" ng-hide="cadence.paused">
+                        <span class="fas fa-pencil"></span>
+                    </a>
+                    <a href="" class="btn btn-default btn-sm" ng-click="setPaused(cadence, true)" ng-hide="cadence.paused || deleting[cadence.id]" tooltip="Pause Cadence">
+                        <span class="fas fa-pause"></span>
+                    </a>
+                    <a href="" class="btn btn-primary btn-sm" ng-click="setPaused(cadence, false)" ng-show="cadence.paused && !deleting[cadence.id]" tooltip="Resume Cadence">
+                        <span class="fas fa-play"></span>
+                    </a>
+                    <a href="" class="btn btn-primary btn-sm" ng-click="run(cadence)" ng-hide="cadence.paused" tooltip="Run Now">
+                        <span class="fas fa-forward"></span>
+                    </a>
+                    <button type="button" class="btn btn-danger btn-sm" ng-click="delete(cadence)" tooltip="Delete Cadence" ng-hide="deleting[cadence.id]||cadence.num_customers>0">
+                        <span class="fas fa-trash"></span>
+                    </button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

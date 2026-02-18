@@ -1,0 +1,226 @@
+{
+  "version": 1,
+  "title": "Invoiced Active Users",
+  "sections": [
+    {
+      "title": "Signed In Last Month",
+      "object": "member",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "user.name"
+          }
+        },
+        {
+          "field": {
+            "id": "user.email"
+          }
+        },
+        {
+          "field": {
+            "id": "last_accessed"
+          },
+          "name": "Last Sign In"
+        },
+        {
+          "name": "Role",
+          "field": {
+            "id": "role.name"
+          }
+        },
+        {
+          "field": {
+            "id": "restriction_mode"
+          }
+        },
+        {
+          "name": "Custom Field Restrictions",
+          "field": {
+            "id": "restrictions"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "function": "date_add",
+            "arguments": [
+              {
+                "function": "from_unixtime",
+                "arguments": [
+                  {
+                    "id": "last_accessed"
+                  }
+                ]
+              },
+              1,
+              "month"
+            ]
+          },
+          "operator": ">=",
+          "value": "$now"
+        }
+      ],
+      "group": [],
+      "sort": [
+        {
+          "field": {
+            "id": "user.last_name"
+          },
+          "ascending": true
+        },
+        {
+          "field": {
+            "id": "user.first_name"
+          },
+          "ascending": true
+        }
+      ]
+    },
+    {
+      "title": "Signed In Over 1 Month Ago",
+      "object": "member",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "user.name"
+          }
+        },
+        {
+          "field": {
+            "id": "user.email"
+          }
+        },
+        {
+          "field": {
+            "id": "last_accessed"
+          },
+          "name": "Last Sign In"
+        },
+        {
+          "name": "Role",
+          "field": {
+            "id": "role.name"
+          }
+        },
+        {
+          "field": {
+            "id": "restriction_mode"
+          }
+        },
+        {
+          "name": "Custom Field Restrictions",
+          "field": {
+            "id": "restrictions"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "function": "date_add",
+            "arguments": [
+              {
+                "function": "from_unixtime",
+                "arguments": [
+                  {
+                    "id": "last_accessed"
+                  }
+                ]
+              },
+              1,
+              "month"
+            ]
+          },
+          "operator": "<",
+          "value": "$now"
+        },
+        {
+          "operator": "<>",
+          "value": null,
+          "field": {
+            "id": "last_accessed"
+          }
+        }
+      ],
+      "group": [],
+      "sort": [
+        {
+          "field": {
+            "id": "user.last_name"
+          },
+          "ascending": true
+        },
+        {
+          "field": {
+            "id": "user.first_name"
+          },
+          "ascending": true
+        }
+      ]
+    },
+    {
+      "title": "Never Signed In",
+      "object": "member",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "user.name"
+          }
+        },
+        {
+          "field": {
+            "id": "user.email"
+          }
+        },
+        {
+          "name": "Role",
+          "field": {
+            "id": "role.name"
+          }
+        },
+        {
+          "field": {
+            "id": "restriction_mode"
+          }
+        },
+        {
+          "name": "Custom Field Restrictions",
+          "field": {
+            "id": "restrictions"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "operator": "=",
+          "value": null,
+          "field": {
+            "id": "last_accessed"
+          }
+        }
+      ],
+      "group": [],
+      "sort": [
+        {
+          "field": {
+            "id": "user.last_name"
+          },
+          "ascending": true
+        },
+        {
+          "field": {
+            "id": "user.first_name"
+          },
+          "ascending": true
+        }
+      ]
+    }
+  ]
+}

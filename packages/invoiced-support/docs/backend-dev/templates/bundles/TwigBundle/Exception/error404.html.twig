@@ -1,0 +1,24 @@
+{% set title = 'Not Found' %}
+{% extends "bundles/TwigBundle/Exception/parent.twig" %}
+
+{% block content %}
+
+    <section class="error">
+        <div class="container">
+            <div class="logo">
+                <img src="{{ asset('/img/logo.png') }}" alt="Invoiced" />
+            </div>
+            <h1 class="mt-4">
+                Page Not Found
+                <small class="fs-1">404</small>
+            </h1>
+            <p class="lead">Sorry! We were unable to find the page you were looking for. Please contact <a
+                        href="https://app.invoiced.com/help">Invoiced Support</a> if you need help.</p>
+            <p>
+                <a href="https://www.invoiced.com" class="btn btn-primary">Go to Home</a>
+                <a href="https://docs.invoiced.com" class="btn btn-default">Product Documentation</a>
+            </p>
+        </div>
+    </section>
+
+{% endblock %}

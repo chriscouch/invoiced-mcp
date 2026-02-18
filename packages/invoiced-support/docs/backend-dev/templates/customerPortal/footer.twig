@@ -1,0 +1,74 @@
+{% trans_default_domain 'customer_portal' %}
+<div class="container border-top border-3 pb-8 mt-6 px-3 px-md-6 footer-terms">
+    <div class="row">
+        <div class="col-sm-6 pt-5 text-dark">
+            <div class="fs-3 company-details-name mb-3">{{ company.display_name }}</div>
+            {% if signedInCustomer %}
+                {% if company.address %}
+                    <div class="mt-2 row company-details-address">
+                        <div class="col-auto">
+                            <span class="fa-solid fa-location-dot text-dark me-2"></span>
+                        </div>
+                        <div class="col-auto">
+                            {{ company.address|nl2br }}
+                        </div>
+                    </div>
+                {% endif %}
+                {% if company.email %}
+                    <div class="mt-2 row company-details-email">
+                        <div class="col-auto">
+                            <span class="fa-solid fa-paper-plane text-dark me-2"></span>
+                        </div>
+                        <div class="col-auto">
+                            <a href="mailto:{{ company.email }}" class="text-dark">{{ company.email }}</a>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if company.phone %}
+                    <div class="mt-2 row company-details-phone">
+                        <div class="col-auto">
+                            <span class="fa-solid fa-phone text-dark me-2"></span>
+                        </div>
+                        <div class="col-auto">
+                            {{ company.phone }}
+                        </div>
+                    </div>
+                {% endif %}
+                {% if company.website %}
+                    <div class="mt-2 row company-details-website">
+                        <div class="col-auto">
+                            <span class="fa-solid fa-link text-dark me-2"></span>
+                        </div>
+                        <div class="col-auto">
+                            <a href="{{ company.website }}" class="text-dark" target="_blank">{{ company.website|replace({'http://': '', 'https://': ''}) }}</a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+        <div class="col-sm-6 pt-5 text-sm-end">
+            <div>
+                <a href="#" class="text-dark footer-link-change-language" data-bs-toggle="modal" data-bs-target="#changeLanguageModal" translate="no">
+                    <span class="fas fa-language me-1"></span>
+                    {{ currentLanguage.name }}
+                </a>
+            </div>
+            <div class="mt-2">
+                <a href="/faq" class="text-secondary footer-link-faq">{{ 'titles.faq'|trans }}</a>
+                <a href="/terms" class="text-secondary ms-3 footer-link-terms">{{ 'terms'|trans }}</a>
+                <a href="/privacy" class="text-secondary ms-3 footer-link-privacy-policy">{{ 'privacy'|trans }}</a>
+            </div>
+
+            {% if showPoweredBy %}
+                <div class="powered-by mt-6">
+                    <a href="https://invoiced.com/?utm_campaign=powered_by&amp;utm_medium=billing_portal&amp;utm_source=Invoiced&amp;utm_content=footer_logo" target="_blank">
+                        <div class="logo">
+                            <img src="{{ asset('/img/billing-portal/powered-by-invoiced.png') }}" alt="Invoiced"  width="117" height="30" />
+                        </div>
+                        <div class="text-secondary powered-by-text">{{ 'messages.powered_by_invoiced'|trans }}</div>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

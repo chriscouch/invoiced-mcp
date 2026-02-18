@@ -1,0 +1,7 @@
+{% extends "emails/notifications/parent.twig" %}
+{% block title %}AutoPay attempts have failed{% endblock %}
+{% block notification %}
+    {% for charge in charges %}
+        <p><a href="{{ dashboardUrl}}/alerts?account={{ tenant_id  }}">{{ charge.cnt }} AutoPay attempts</a> failed for {{ charge.amount | money(charge.currency)}}</p>
+    {% endfor %}
+{% endblock %}

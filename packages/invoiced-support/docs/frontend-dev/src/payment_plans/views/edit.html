@@ -1,0 +1,114 @@
+<form name="paymentPlanForm" ng-submit="save(invoice, paymentPlan)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			Edit Payment Plan
+		</h4>
+	</div>
+	<div class="modal-body" ng-if="!('payment_plans'|hasFeature)">
+		<feature-upgrade></feature-upgrade>
+	</div>
+
+	<div class="modal-body form-horizontal" ng-show="'payment_plans'|hasFeature">
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<!-- Invoice -->
+		<div class="form-group">
+			<label class="control-label col-sm-3">Invoice</label>
+			<div class="col-sm-9 form-control-static">
+				<document-name document="invoice"></document-name>
+				&mdash;
+				<strong><money currency="invoice.currency" amount="invoice.balance"></money></strong> balance
+			</div>
+		</div>
+
+		<!-- AutoPay -->
+		<div class="form-group" ng-if="'autopay'|hasFeature">
+			<label class="control-label col-sm-3">AutoPay</label>
+			<div class="col-sm-9">
+				<div>
+					<toggle ng-model="paymentPlan.autopay"></toggle>
+				</div>
+
+				<!-- Require Customer Approval -->
+				<label class="checkbox-inline noselect" ng-show="paymentPlan.autopay">
+					<input type="checkbox" ng-model="paymentPlan.require_approval" />
+					Require Customer Approval
+					<a href="" tooltip="Recommended if no payment method on file">
+						<span class="fas fa-info-circle"></span>
+					</a>
+				</label>
+			</div>
+		</div>
+
+		<!-- Installment Schedule -->
+		<div class="set-payment-plan-installments">
+			<table class="table search-results-table">
+				<thead>
+					<tr>
+						<th class="number">Installments</th>
+						<th class="date">{{'general.due_date'|translate}}</th>
+						<th class="amount">Amount</th>
+						<th class="delete"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="installment" ng-repeat="installment in paymentPlan.installments">
+						<td class="number">
+							{{$index + 1}}.
+						</td>
+
+						<!-- Installment Date -->
+						<td class="date">
+							<div class="input-group">
+								<input type="text" class="form-control" ng-model="installment.date" ui-date="dateOptions" is-open="dpOpened[$index]" readonly="readonly" required />
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-primary" ng-click="openDatepicker($event, $index)">
+										<span class="fas fa-calendar-alt"></span>
+									</button>
+								</span>
+							</div>
+						</td>
+					
+						<!-- Installment Amount -->
+						<td class="amount">
+							<div ng-model="installment.amount" currency="invoice.currency" is-rate="false" required input-amount></div>
+						</td>
+
+						<td class="delete">
+							<a href="" ng-click="deleteInstallment(paymentPlan.installments, $index)" ng-show="paymentPlan.installments.length>1">
+								<span class="fas fa-times"></span>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="2">
+							<a href="" ng-click="addInstallment(paymentPlan.installments)">
+								<span class="fas fa-plus"></span> Installment
+							</a>
+						</td>
+						<td class="total">
+							<strong><money currency="invoice.currency" amount="total"></money> total</strong>
+							<div class="text-danger" ng-show="remaining!=0">
+								<money currency="invoice.currency" amount="remaining"></money> remaining
+							</div>
+						</td>
+						<td></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="left">
+			<a href="https://docs.invoiced.com/accounts-receivable/payments/payment-plans" target="_blank">Learn more</a>
+		</div>
+		<button type="submit" class="btn btn-primary Button" ng-disabled="paymentPlanForm.$invalid||remaining!=0||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

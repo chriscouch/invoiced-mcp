@@ -1,0 +1,114 @@
+<form name="paymentForm" ng-submit="save(transaction)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			Edit {{title}}
+		</h4>
+	</div>
+	<div class="modal-body form-horizontal">
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<!-- Customer -->
+		<div class="form-group">
+			<label class="control-label col-sm-3">Customer</label>
+			<div class="col-sm-9 form-control-static">
+				{{transaction.customer.name}}
+			</div>
+		</div>
+
+		<!-- Invoice -->
+		<div class="form-group" ng-show="transaction.invoice">
+			<label class="control-label col-sm-3">Invoice</label>
+			<div class="col-sm-9 form-control-static">
+				<document-name document="transaction.invoice"></document-name>
+			</div>
+		</div>
+
+		<!-- Credit Note -->
+		<div class="form-group" ng-if="transaction.credit_note">
+			<label class="control-label col-sm-3">Credit Note</label>
+			<div class="col-sm-9 form-control-static">
+				<document-name document="transaction.credit_note"></document-name>
+			</div>
+		</div>
+		<hr ng-show="transaction.type=='payment' || transaction.type=='adjustment'" />
+
+		<!-- Transaction Date -->
+		<div class="form-group" ng-if="transaction.type == 'payment'">
+			<label class="control-label col-sm-3">Received On <span class="required"></span></label>
+			<div class="col-sm-4">
+				<div class="input-group">
+					<input type="text" class="form-control" ng-model="transaction.date" ui-date="dateOptions" is-open="dpOpened" readonly="readonly" required />
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'dpOpened')">
+							<span class="fas fa-calendar-alt"></span>
+						</button>
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- Payment Method -->
+		<div class="form-group" ng-if="transaction.type == 'payment'">
+			<label class="control-label col-sm-3">Method <span class="required"></span></label>
+			<div class="col-sm-4">
+				<payment-method-selector ng-model="transaction.method"></payment-method-selector>
+			</div>
+		</div>
+
+		<!-- Transaction Amount -->
+		<div class="form-group" ng-class="{'has-error':invalidAmount}" ng-if="transaction.type == 'payment' || transaction.type == 'adjustment'">
+			<label class="control-label col-sm-3">Amount <span class="required"></span></label>
+			<div class="col-sm-4">
+				<input type="hidden" name="amount" />
+				<div ng-required="true" ng-model="transaction.amount" currency="transaction.currency" is-rate="false" ng-change="changeAmount(transaction.amount)" input-amount></div>
+			</div>
+			<div class="col-sm-5 form-control-static text-danger" ng-show="invalidAmount">
+				Cannot exceed <money amount="maxAmount" currency="transaction.currency"></money>
+			</div>
+		</div>
+
+		<!-- Check # -->
+		<div class="form-group" ng-show="transaction.method=='check'">
+			<label class="control-label col-sm-3">{{'payment_method.check'|translate}} #</label>
+			<div class="col-sm-5">
+				<input class="form-control" type="text" ng-model="transaction.gateway_id" />
+			</div>
+		</div>
+
+		<!-- Reference -->
+		<div class="form-group" ng-show="transaction.method!='check'&&!transaction.gateway">
+			<label class="control-label col-sm-3">{{'transactions.labels.reference'|translate}}</label>
+			<div class="col-sm-5">
+				<input class="form-control" type="text" ng-model="transaction.gateway_id" />
+			</div>
+		</div>
+		<hr/>
+
+		<!-- Notes -->
+		<div class="form-group">
+			<label class="control-label col-sm-3">Notes</label>
+			<div class="col-sm-6 textarea-2-lines">
+				<textarea ng-model="transaction.notes" expanding-textarea class="form-control"></textarea>
+			</div>
+		</div>
+
+		<!-- Custom Fields -->
+		<div class="form-group" ng-repeat="field in customFields">
+			<label class="control-label col-sm-3">{{field.name}}</label>
+			<div class="col-sm-5">
+				<custom-field-input field="field" metadata="transaction.metadata" set-defaults="true"></custom-field-input>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="paymentForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

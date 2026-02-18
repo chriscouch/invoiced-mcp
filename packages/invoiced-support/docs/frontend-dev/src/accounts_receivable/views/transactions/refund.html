@@ -1,0 +1,59 @@
+<div class="modal-header">
+	<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+	<h4 class="modal-title">Refund Payment</h4>
+</div>
+<div class="modal-body" ng-show="loading">
+	<div class="loading"></div>
+</div>
+<div class="modal-body form-horizontal" ng-hide="loading">
+	<p class="alert alert-danger" ng-show="error">
+		{{error.message}}
+	</p>
+	<p class="alert alert-warning" ng-show="payment.gateway=='paypal'">
+		PayPal transactions must be refunded through the <a href="https://paypal.com" target="_blank" rel="noopener noreferrer">PayPal</a> dashboard.
+	</p>
+	<p class="alert alert-warning" ng-show="alreadyRefunded">
+		This payment has already been refunded.
+	</p>
+
+	<div class="create-refund" ng-hide="payment.gateway=='paypal' || alreadyRefunded">
+		<p class="lead">How much do you want to refund?</p>
+
+		<div class="refund-choice" ng-show="allowFullRefund">
+			<label class="noselect">
+				<input type="radio" ng-model="type" value="full" />
+				Full Refund
+				<div class="max-amount">
+					<money amount="maxAmount" currency="payment.currency"></money>
+				</div>
+			</label>
+		</div>
+
+		<div class="refund-choice">
+			<label class="noselect">
+				<input type="radio" ng-model="type" value="partial" />
+				Partial Refund
+			</label>
+		</div>
+
+		<div class="partial-refund-amount" ng-show="type == 'partial' && !hasSubTransactions">
+			<div ng-model="amount" currency="payment.currency" is-rate="false" input-amount></div>
+		</div>
+
+		<div class="partial-refund-choices" ng-show="type == 'partial' && hasSubTransactions">
+			<div class="split-choice" ng-repeat="transaction in subTransactions">
+				<label class="noselect">
+					<input type="checkbox" ng-model="transaction.refund" />
+					<span ng-if="transaction.notes == 'Convenience Fee'">{{'transactions.transaction_types.convenience_fee' | translate }}</span><document-name document="transaction.invoice" ng-if="transaction.invoice"></document-name>:
+					<money amount="transaction.maxAmount" currency="transaction.currency"></money>
+				</label>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal-footer" ng-hide="payment.gateway=='paypal' || alreadyRefunded">
+	<button type="button" class="btn btn-primary Button" ng-disabled="saving" ng-click="refund(type, amount)" v-busy="saving" v-busy-label="Saving" v-pressable>Refund</button>
+</div>
+<div class="modal-footer" ng-show="payment.gateway=='paypal' || alreadyRefunded">
+	<button type="button" class="btn btn-primary" ng-click="close()">Done</button>
+</div>

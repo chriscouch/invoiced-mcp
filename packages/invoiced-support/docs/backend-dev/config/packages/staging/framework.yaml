@@ -1,0 +1,4 @@
+framework:
+  session:
+    name: staginginvoicedcom
+    cookie_secure: true

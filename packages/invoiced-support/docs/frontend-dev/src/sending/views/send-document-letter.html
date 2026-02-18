@@ -1,0 +1,120 @@
+<form name="letterForm" ng-submit="send(letter)">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">Send Letter</h4>
+	</div>
+	<div class="modal-body">
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<!-- Customer -->
+		<div class="row">
+			<div class="col-sm-6">
+				<label class="control-label">Customer</label>
+				<div>
+					{{customer.name}}
+				</div>
+			</div>
+		</div>
+		<hr/>
+
+		<!-- Address -->
+		<div class="row">
+			<div class="col-sm-12">
+				<h4>
+					<div class="pull-right">
+						<div class="dropdown" dropdown>
+							<button type="button" class="btn btn-default btn-sm dropdown-toggle" dropdown-toggle>
+								Addresses
+								<span class="fas fa-chevron-down"></span>
+							</button>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li>
+									<a href="" ng-click="useContact(customer)">Customer Profile</a>
+								</li>
+								<li class="divider" ng-show="contacts.length > 0"></li>
+								<li ng-repeat="contact in contacts">
+									<a href="" ng-click="useContact(contact)">{{contact.name}}</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					To Address
+					<address-validator object="letter"></address-validator>
+				</h4>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="control-label">{{'address.name'|translate}} <span class="required"></span></label>
+					<div>
+						<input type="text" ng-model="letter.name" class="form-control" required />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="control-label">{{'address.address1'|translate}} <span class="required"></span></label>
+					<div>
+						<input type="text" ng-model="letter.address1" class="form-control" required />
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="control-label">{{'address.address2'|translate}}</label>
+					<div>
+						<input type="text" ng-model="letter.address2" class="form-control" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label class="control-label">{{cityLabel}}</label>
+					<div>
+						<input type="text" ng-model="letter.city" class="form-control" />
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label class="control-label">{{stateLabel}} <span class="required"></span></label>
+					<div>
+						<state-selector ng-model="letter.state" country="letter.country" is-required="true"></state-selector>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label class="control-label">{{postalCodeLabel}} <span class="required"></span></label>
+					<div>
+						<input type="text" ng-model="letter.postal_code" class="form-control" required />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="control-label">{{'address.country'|translate}} <span class="required"></span></label>
+					<div>
+						<country-selector ng-model="letter.country" is-required="true" ng-change="changeCountry(country)"></country-selector>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="letterForm.$invalid||sending" v-busy="sending" v-busy-label="Sending" v-pressable>
+			Send
+		</button>
+	</div>
+</form>

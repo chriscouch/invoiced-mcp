@@ -1,0 +1,13 @@
+{
+  "containerOverrides": [
+    {
+      "name": "php",
+      "command": [
+        "bin/console",
+        "doctrine:migrations:migrate",
+        "--em=CustomerAdmin_ORM",
+        "--no-interaction"
+      ]
+    }
+  ]
+}

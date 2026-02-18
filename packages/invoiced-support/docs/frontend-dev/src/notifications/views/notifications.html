@@ -1,0 +1,164 @@
+<div class="search-results-holder" ng-if="member.notifications">
+	<div class="box">
+		<div class="header clearfix">
+			<!-- Title Bar -->
+			<div class="actions">
+				<a ui-sref="manage.settings.notifications" class="btn btn-link">
+					{{'notifications.settings'|translate}}
+				</a>
+			</div>
+			<h2>{{'settings.titles.notifications'|translate}}</h2>
+
+			<!-- Tabs -->
+			<ul class="nav nav-tabs">
+				<li>&nbsp;</li>
+			</ul>
+		</div>
+
+		<div class="loading" ng-show="loading"></div>
+
+		<div class="empty-table" ng-show="user_notifications.length==0&&!loading">
+			{{'notifications.empty'|translate}}
+		</div>
+
+		<table class="search-results-table table table-striped" ng-show="user_notifications.length > 0 && !loading">
+			<thead>
+				<tr>
+					<th class="nowrap">{{'notifications.type'|translate}}</th>
+					<th>{{'notifications.timestamp'|translate}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-class="{clickable: notification.type !== 'autopay.failed' || notification.metadata.payment_id, unvisited: !notification.visited}"  ng-repeat="notification in user_notifications" ng-click="goToNotification(notification)">
+					<td class="col">
+						<div ng-if="notification.message">
+							{{notification.message}}
+						</div>
+						<div ng-if="notification.type == 'email.received'">
+							{{'notifications.list.new_email'|translate}}:
+							{{notification.metadata.subject}}
+						</div>
+						<div ng-if="notification.type == 'thread.assigned'">
+							{{'notifications.list.thread'|translate}}: <a ui-sref="manage.inboxes.browse.view_thread({id: notification.metadata.inbox_id, threadId: notification.metadata.id, customer: notification.metadata.customerId})">
+							{{notification.metadata.name}}
+						</a>
+						</div>
+						<div ng-if="notification.type == 'task.assigned'">
+							{{'notifications.list.task'|translate}}: {{notification.metadata.name}}
+						</div>
+						<div ng-if="notification.type == 'invoice.viewed'">
+							{{'notifications.list.viewed_invoice'|translate}}: {{notification.metadata.number}}
+						</div>
+						<div ng-if="notification.type == 'estimate.viewed'">
+							{{'notifications.list.viewed_estimate'|translate}}: {{notification.metadata.number}}
+						</div>
+						<div ng-if="notification.type == 'estimate.approved'">
+							{{'notifications.list.approved_estimate'|translate}}: {{notification.metadata.number}}
+						</div>
+						<div ng-if="notification.type == 'payment.done'">
+							<a ui-sref="manage.customer.view.summary({ id: notification.metadata.customer_id })">
+								{{notification.metadata.customer_name}}
+							</a>
+							{{'notifications.list.have_paid'|translate}}:
+							<money amount="notification.metadata.amount" currency="notification.metadata.currency"></money>
+						</div>
+						<div ng-if="notification.type == 'lock_box.received'">
+							{{'notifications.list.check_received'|translate}}
+							<money amount="notification.metadata.amount" currency="notification.metadata.currency"></money>
+							{{'notifications.list.check_received_2'|translate}}
+						</div>
+						<div ng-if="notification.type == 'promise.created'">
+							<a ui-sref="manage.customer.view.summary({ id: notification.metadata.customer_id })">
+								{{notification.metadata.customer_name}}
+							</a>
+							{{'notifications.list.promised'|translate}}
+							<money amount="notification.metadata.amount" currency="notification.metadata.currency"></money>
+							{{'notifications.list.on_invoice'|translate}}
+							{{notification.metadata.number}}
+						</div>
+						<div ng-if="notification.type == 'payment_plan.approved'">
+							{{'notifications.list.payment_plan'|translate}}
+							{{notification.metadata.number}}
+							{{'notifications.list.was_approved'|translate}}
+						</div>
+						<div ng-if="notification.type == 'sign_up_page.completed'">
+							{{notification.metadata.customer_name}}
+							{{'notifications.list.completed_sign_up_page'|translate}}<span ng-if="notification.metadata.sign_up_page_name">: {{notification.metadata.sign_up_page_name}}</span>
+						</div>
+						<div ng-if="notification.type == 'payment_link.completed'">
+							<a ui-sref="manage.customer.view.summary({ id: notification.metadata.customer_id })">
+								{{notification.metadata.customer_name}}
+							</a>
+							{{'notifications.list.completed_payment_link'|translate}}: {{notification.metadata.name}}
+						</div>
+						<div ng-if="notification.type == 'autopay.failed'">
+							{{'notifications.list.autopay'|translate}}
+							<money amount="notification.metadata.amount" currency="notification.metadata.currency"></money>
+							{{'notifications.list.failed'|translate}}
+							<a ui-sref="manage.customer.view.summary({ id: notification.metadata.customer_id })">
+								{{notification.metadata.customer_name}}</a>: {{notification.metadata.failure_message}}
+						</div>
+						<div ng-if="notification.type == 'autopay.succeeded'">
+							<a ui-sref="manage.customer.view.summary({ id: notification.metadata.customer_id })">
+								{{notification.metadata.customer_name}}
+							</a>
+							{{'notifications.list.have_paid'|translate}}:
+							<money amount="notification.metadata.amount" currency="notification.metadata.currency"></money>
+						</div>
+						<div ng-if="notification.type == 'subscription.canceled'">
+							{{'notifications.list.subscription'|translate}}
+							{{notification.metadata.plan}}
+							{{'notifications.list.canceled'|translate}}
+							<a ui-sref="manage.customer.view.summary({ id: notification.metadata.customer_id })">
+								{{notification.metadata.customer_name}}
+							</a>
+						</div>
+						<div ng-if="notification.type == 'subscription.expired'">
+							{{'notifications.list.subscription'|translate}}
+							{{notification.metadata.plan}}
+							{{'notifications.list.expired'|translate}}
+						</div>
+						<div ng-if="notification.type == 'reconciliation.error'">
+							{{'notifications.list.reconciliation_error'|translate}}:
+							<i>{{notification.metadata.message}}</i>
+							{{'notifications.list.details'|translate}}
+						</div>
+						<div ng-if="notification.type == 'network_invitation.declined'">
+							{{'notifications.list.invitation_declined'|translate}}:
+							<i>{{notification.metadata.name || notification.metadata.email}}</i>
+						</div>
+						<div ng-if="notification.type == 'network_invitation.accepted'">
+							{{'notifications.list.invitation_accepted'|translate}}:
+							<i ng-show="notification.metadata.customer_id != company.id">{{notification.metadata.customer_name}}</i>
+							<i ng-show="notification.metadata.vendor_id != company.id">{{notification.metadata.vendor_name}}</i>
+						</div>
+						<div ng-if="notification.type == 'network_document.received'">
+							{{notification.metadata.document_type}}
+							{{'notifications.list.document_received'|translate}}
+							<i>{{notification.metadata.from_name}}</i>:
+							{{notification.metadata.reference}}
+						</div>
+						<div ng-if="notification.type == 'network_document_status.changed'">
+							<i>{{notification.metadata.from_name}}</i>
+							{{'notifications.list.document_status_changed'|translate}}
+							{{notification.metadata.document_type}} # {{notification.metadata.reference}}:
+							{{notification.metadata.document_status}}
+							<span ng-show="notification.metadata.description">&mdash; {{notification.metadata.description}}</span>
+						</div>
+					</td>
+					<td class="nowrap light mobile-last col">
+						{{notification.created_at|formatCompanyDateTime}}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<!-- Pagination -->
+		<div class="my-4 history-load-more" ng-show="!paginationTable.loading&&paginationTable.hasMore">
+			<button type="button" class="btn btn-default" ng-click="nextPage()">
+				{{'pagination.more' | translate}}
+			</button>
+		</div>
+		<div class="loading inline" ng-show="paginationTable.loading"></div>
+	</div>
+</div>

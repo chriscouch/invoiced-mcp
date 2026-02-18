@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="17px" viewBox="0 0 18 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>shrink-2</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Chrome-Treatments" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="INV-chrome-opt-001-day-hover" transform="translate(-191.000000, -27.000000)" stroke="#ffffff" stroke-width="1.5">
+            <g id="Group-32">
+                <g id="Group-31">
+                    <g id="Group-29" transform="translate(184.000000, 20.000000)">
+                        <g id="shrink-2" transform="translate(7.960000, 7.725824)">
+                            <path d="M15.5,0.498666667 L9.5,6.49866667" id="Path"></path>
+                            <polyline id="Path" points="6.5 13.9986667 6.5 9.49866667 2 9.49866667"></polyline>
+                            <polyline id="Path" points="9.5 1.99866667 9.5 6.49866667 14 6.49866667"></polyline>
+                            <path d="M6.5,9.49866667 L0.5,15.4986667" id="Path"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

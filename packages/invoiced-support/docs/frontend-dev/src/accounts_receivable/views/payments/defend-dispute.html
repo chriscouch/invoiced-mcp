@@ -1,0 +1,60 @@
+<div class="modal-header">
+    <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+    <h4 class="modal-title">{{'payments.view.dispute.defend'|translate}}</h4>
+</div>
+<form name="defendForm" ng-submit="defend()">
+<div class="modal-body">
+    <div class="form-group">
+        <label class="control-label">{{'payments.view.dispute.reason'|translate}}</label>
+        <div>
+            <div class="invoiced-select">
+                <select ng-model="reason" ng-options="reason.defenseReasonCode for reason in reasons" ng-change="changeReason()" required>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-primary Button" ng-click="addFile()" ng-disabled="!reason || files.length >= reason.defenseDocumentTypes.length">{{'payments.view.dispute.add_file'|translate}}</button>
+    </div>
+
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>{{'payments.view.dispute.code'|translate}}</th>
+            <th>{{'payments.view.dispute.file'|translate}}</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="(index, file) in files"  class="noborder">
+            <td class="noborder">
+                <div class="invoiced-select" ng-if="!file.requirementLevel || file.requirementLevel == 'Optional'">
+                    <select ng-change="updateFile(file, $index)" ng-model="file" ng-options="defenseDocumentType as defenseDocumentType.defenseDocumentTypeCode for defenseDocumentType in reason.defenseDocumentTypes | filter : {requirementLevel: 'Optional'}" required>
+                    </select>
+                </div>
+                <div ng-if="file.requirementLevel == 'Required'">
+                    <input ng-model="file" type="hidden" required/>
+                    {{file.defenseDocumentTypeCode}}
+                </div>
+            </td>
+            <td class="noborder">
+                <input ng-model="file.uploaded" type="file" file-item="file.uploaded" required/>
+            </td>
+            <td class="noborder">
+                <button type="button" class="btn btn-link" ng-click="removeFile($index)" ng-if="file.requirementLevel != 'Required'">
+                    <span class="fas fa-trash"></span>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+<div class="modal-footer">
+    <button type="submit" class="btn btn-success Button" ng-disabled="defendForm.$invalid" v-pressable>
+        Defend
+    </button>
+</div>
+</form>

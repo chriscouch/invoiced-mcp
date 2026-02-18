@@ -1,0 +1,6 @@
+<div class="tax-rates">
+	<div class="tax-rate" ng-repeat="tax in taxes">
+		{{tax|appliedRateName:'tax'}}:
+		<span ng-bind-html="value(tax)"></span>
+	</div>
+</div>

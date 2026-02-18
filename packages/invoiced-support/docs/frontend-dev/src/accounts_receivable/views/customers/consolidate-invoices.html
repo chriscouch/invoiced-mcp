@@ -1,0 +1,39 @@
+<div class="modal-header">
+	<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+	<h4 class="modal-title">Consolidate Invoices</h4>
+</div>
+<div class="modal-body">
+	<p>
+		Generates a consolidated invoice for this customer.
+	</p>
+
+	<p class="alert alert-danger" ng-show="error">
+		{{error.message}}
+	</p>
+
+	<div class="form-group">
+		<div>
+			<label class="control-label">Customer</label>
+		</div>
+		<div>
+			{{customer.name}}
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="control-label">Cutoff Date</label>
+		<div class="input-group">
+			<input class="form-control" type="text" ng-model="cutoffDate" ui-date="dateOptions" is-open="dpOpened" readonly="readonly" required />
+			<span class="input-group-btn">
+				<button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'dpOpened')">
+					<span class="fas fa-calendar-alt"></span>
+				</button>
+			</span>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-primary" ng-click="submit(cutoffDate)">
+		Consolidate
+	</button>
+</div>

@@ -1,0 +1,29 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Mark Fraudulent{% endblock %}
+
+{% block body_class 'ea-edit cancel-account-form' %}
+
+{% block main %}
+    <form action="{{ ea_url().setController('App\\Controller\\Admin\\CompanyCrudController').setAction('markCompanyFraudulent').setEntityId(companyId) }}" method="post">
+        <p>
+            Are you sure you want to mark the account for <strong>{{ companyName }}</strong> as fraudulent?
+        </p>
+        <div>
+            Marking the company as fraudulent will do the following:
+            <ul>
+                <li>Disable the company</li>
+                <li>Disable and sign out all associated users</li>
+                <li>Delete any active API keys</li>
+                <li>Cancel the company's subscription in the billing system</li>
+            </ul>
+        </div>
+
+        <section class="content-footer">
+            <div class="form-actions">
+                <button type="submit" class="btn btn-danger btn">Mark Fraud</button>
+            </div>
+        </section>
+    </form>
+
+{% endblock %}

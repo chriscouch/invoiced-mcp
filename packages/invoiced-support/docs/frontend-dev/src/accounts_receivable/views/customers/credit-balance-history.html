@@ -1,0 +1,24 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
+	<h4 class="modal-title">Credit Balance History</h4>
+</div>
+<div class="modal-body credit-balance-history">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>{{'general.date'|translate}}</th>
+				<th>{{'general.balance'|translate}}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="entry in history">
+				<td>
+					<company-date date="entry.timestamp"></company-date>
+				</td>
+				<td>
+					<strong><money amount="entry.balance" currency="entry.currency"></money></strong>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

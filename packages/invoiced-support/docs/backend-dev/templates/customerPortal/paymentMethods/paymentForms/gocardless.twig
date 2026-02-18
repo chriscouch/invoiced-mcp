@@ -1,0 +1,10 @@
+{% trans_default_domain 'customer_portal' %}
+<p>{{ 'messages.payment_add_bank_account'|trans }}</p>
+
+<div class="row actions">
+    <div class="col-sm-12">
+        <a href="{{ path('customer_portal_new_direct_debit_mandate', {id: clientId, subdomain: subdomain}) }}" class="btn btn-primary payment-button">
+            {{ 'buttons.setup_direct_debit'|trans }}
+        </a>
+    </div>
+</div>

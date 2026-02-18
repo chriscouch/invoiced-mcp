@@ -1,0 +1,58 @@
+fields:
+  amount:
+    name: Amount
+    type: money
+    summarize: true
+  charge:
+    name: Charge
+    type: join
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: 'Y-m-d H:i:s'
+    writable: false
+  currency:
+    name: Currency
+    type: string
+  defense_reason:
+    name: Defense Reason
+    type: string
+  gateway:
+    name: Payment Gateway
+    type: string
+  gateway_id:
+    name: Reference
+    type: string
+  id:
+    name: ID
+    type: string
+    writable: false
+  merchant_account_transaction:
+    name: Merchant Account Transaction
+    type: join
+  reason:
+    name: Reason
+    type: string
+  status:
+    name: Status
+    type: enum
+    values:
+      1: Accepted
+      2: Expired
+      3: Lost
+      4: Pending
+      5: Responded
+      6: Undefended
+      7: Unresponded
+      8: Won
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: 'Y-m-d H:i:s'
+    writable: false

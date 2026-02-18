@@ -1,0 +1,8 @@
+fields:
+  chase_schedule: { name: "Chasing Schedule", type: string }
+  default: { name: "Is Default", type: boolean }
+  id:
+    name: ID
+    type: string
+    writable: false
+  name: { name: Name, type: string }

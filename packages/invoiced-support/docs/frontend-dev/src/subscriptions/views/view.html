@@ -1,0 +1,82 @@
+<p class="loading" ng-show="loading"></p>
+
+<div class="object-view" ng-hide="loading">
+	<div class="title-bar">
+		<h2>Subscription to {{subscription.plan.name}}</h2>
+		<h3>{{modelTitle}}</h3>
+	</div>
+
+	<ul class="nav nav-tabs">
+		<!-- Tab Links -->
+		<li ui-sref-active="active">
+			<a ui-sref=".summary">
+				{{'tabs.summary'|translate}}
+			</a>
+		</li>
+		<li ui-sref-active="active">
+			<a ui-sref=".history">
+				{{'tabs.history'|translate}}
+			</a>
+		</li>
+
+		<!-- Action Buttons -->
+		<li class="action right dropdown" ng-hide="!(['subscriptions.edit', 'subscriptions.delete']|hasSomePermissions) || subscription.status=='finished' || subscription.status=='canceled'" dropdown>
+			<a href="" class="dropdown-toggle" dropdown-toggle>
+				<span class="actions-label"></span>
+				<span class="fas fa-chevron-down"></span>
+			</a>
+			<ul class="dropdown-menu dropdown-menu-right">
+				<li>
+					<a href="" ng-click="resume(subscription)" ng-if="('subscriptions.edit'|hasPermission) && subscription.status=='paused'">
+						{{'subscriptions.actions.resume_subscription'|translate}}
+					</a>
+				</li>
+				<li>
+					<a href="" ng-click="pause(subscription)" ng-if="('subscriptions.edit'|hasPermission) && subscription.status!='paused' && subscription.status!='not_started'">
+						{{'subscriptions.actions.pause_subscription'|translate}}
+					</a>
+				</li>
+				<li ng-if="['billing_portal','email_sending']|hasSomeFeatures">
+					<a href="" ng-click="urlModal(subscription.url)" ng-if="'subscriptions.edit'|hasPermission">
+						{{'subscriptions.actions.client_view_url'|translate}}
+					</a>
+				</li>
+				<li ng-hide="!subscription.renews_next" ng-if="('subscriptions.edit'|hasPermission) && subscription.status!='paused'">
+					<a href="" ng-click="editStartDate(subscription)">
+						<span ng-show="subscription.status=='not_started'">{{'subscriptions.actions.extend_trial'|translate}}</span>
+						<span ng-hide="subscription.status=='not_started'">{{'subscriptions.actions.change_period_start_date'|translate}}</span>
+					</a>
+				</li>
+				<li ng-hide="!subscription.renews_next" ng-if="('subscriptions.edit'|hasPermission) && subscription.status!='paused'">
+					<a href="" ng-click="modifyContract(subscription)">
+						<span ng-show="subscription.cycles > 0">{{'subscriptions.actions.modify_contract'|translate}}</span>
+						<span ng-hide="subscription.cycles > 0">{{'subscriptions.actions.add_contract'|translate}}</span>
+					</a>
+				</li>
+				<li class="divider"></li>
+				<li class="danger" ng-if="'subscriptions.delete'|hasPermission">
+					<a href="" ng-click="cancelModal(subscription)">
+						{{'subscriptions.actions.cancel_subscription'|translate}}
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li class="action right" ng-show="subscription.status!='finished' && subscription.status!='canceled'" ng-if="'subscriptions.edit'|hasPermission">
+			<a href="" ng-click="editModal(subscription)">
+				<div>{{'general.edit'|translate}}</div>
+			</a>
+		</li>
+		<li class="action automation-action right" ng-if="'subscriptions.edit'|hasPermission">
+			<div>
+				<automate-button btn-class="'nav-link-item'" object-type="modelObjectType" object-id="modelId"></automate-button>
+			</div>
+		</li>
+	</ul>
+
+	<!-- Selected Tab -->
+	<div class="tab-content">
+		<div class="tab-pane active">
+			<ui-view/>
+		</div>
+	</div>
+</div>

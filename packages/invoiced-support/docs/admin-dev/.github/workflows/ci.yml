@@ -1,0 +1,103 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request: {}
+
+jobs:
+  phpstan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        id: cache
+        with:
+          path: |
+            ${{ steps.composer-cache.outputs.dir }}
+            bin/.phpunit
+          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: |
+          composer install --prefer-dist --no-progress --no-interaction
+
+      - name: PHPStan
+        run: |
+          vendor/bin/phpstan analyse --memory-limit=-1 --no-progress
+
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    env:
+      APP_ENV: test
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        id: cache
+        with:
+          path: |
+            ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: |
+          composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Validate Composer
+        run: |
+          composer validate
+
+      - name: Validate Symfony
+        run: |
+          bin/console lint:yaml  --parse-tags config
+          bin/console lint:container
+          bin/console lint:xliff translations
+          bin/console lint:twig templates
+
+      - name: PHPUnit
+        run: |
+          ./vendor/bin/simple-phpunit
+
+  security-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Check for vulnerable dependencies
+        uses: symfonycorp/security-checker-action@v3

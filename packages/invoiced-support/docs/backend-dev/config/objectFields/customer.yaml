@@ -1,0 +1,224 @@
+fields:
+  active:
+    name: "Active"
+    type: boolean
+  address1:
+    name: "Address Line 1"
+    type: string
+  address2:
+    name: "Address Line 2"
+    type: string
+  attention_to:
+    name: "Attention To"
+    type: string
+  autopay:
+    name: AutoPay
+    type: boolean
+  autopay_delay_days:
+    name: "AutoPay Delay Days"
+    type: integer
+  avalara_entity_use_code:
+    name: "Avalara Entity Use Code"
+    type: string
+  avalara_exemption_number:
+    name: "Avalara Exemption Number"
+    type: string
+  balance:
+    name: "Balance"
+    type: money
+    summarize: true
+    writable: false
+    filterable: false
+  bank_account:
+    name: Bank Account
+    type: join
+    parent_type_column: default_source_type
+    parent_column: default_source_id
+    writable: false
+    filterable: false
+  bill_to_parent:
+    name: "Bill To Parent"
+    type: boolean
+  card:
+    name: Card
+    type: join
+    parent_type_column: default_source_type
+    parent_column: default_source_id
+    writable: false
+    filterable: false
+  chase:
+    name: Chase
+    type: boolean
+  chasing_cadence:
+    name: "Chasing Cadence"
+    type: join
+  city:
+    name: City
+    type: string
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  consolidated:
+    name: Consolidated
+    type: boolean
+  convenience_fee:
+    name: "Convenience Fees"
+    type: boolean
+  country:
+    name: Country
+    type: string
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  credit_balance:
+    name: "Credit Balance"
+    type: money
+    summarize: true
+    writable: false
+  credit_hold:
+    name: "Credit Hold"
+    type: boolean
+  credit_limit:
+    name: "Credit Limit"
+    type: money
+  currency:
+    name: Currency
+    type: string
+  default_source_type:
+    name: "Default Payment Method"
+    writable: false
+    type: enum
+    values:
+      - card
+      - bank_account
+  email:
+    name: "Email Address"
+    type: string
+  id:
+    name: ID
+    type: string
+    writable: false
+  language:
+    name: Language
+    type: string
+  late_fee_schedule:
+    name: "Late Fee Schedule"
+    type: join
+  metadata:
+    name: 'Metadata'
+    type: metadata
+  name:
+    name: Name
+    type: string
+  next_chase_step:
+    name: "Next Chase Step"
+    type: join
+    join_object: chasing_cadence_step
+  notes:
+    name: Notes
+    type: string
+    filterable: false
+  number:
+    name: "Customer #"
+    type: string
+  owner:
+    name: Owner
+    type: join
+    parent_column: owner_id
+    join_object: member
+    join_column: user_id
+  parent_customer:
+    name: Parent Customer
+    type: join
+    parent_column: parent_customer
+    join_object: customer
+  payment_terms:
+    name: "Payment Terms"
+    type: string
+  phone:
+    name: Phone
+    type: string
+  postal_code:
+    name: "Postal Code"
+    type: string
+  state:
+    name: State
+    type: string
+  surcharging:
+    name: "Surcharging"
+    type: boolean
+  tax_id:
+    name: "Tax ID"
+    type: string
+  taxable:
+    name: Taxable
+    type: boolean
+  taxes:
+    name: Taxes
+    type: string
+    filterable: false
+  type:
+    name: Entity Type
+    type: enum
+    values:
+      company: Company
+      government: Government
+      non_profit: Non-Profit
+      person: Individual
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  credit_notes:
+    name: Credit Notes
+    type: join
+    parent_column: id
+    join_object: credit_note
+    join_column: customer
+    writable: false
+    filterable: false
+  email_threads:
+    name: Email Threads
+    type: join
+    parent_column: id
+    join_object: email_thread
+    join_column: customer_id
+    writable: false
+    filterable: false
+  estimates:
+    name: Estimates
+    type: join
+    parent_column: id
+    join_object: estimate
+    join_column: customer
+    writable: false
+    filterable: false
+  invoices:
+    name: Invoices
+    type: join
+    parent_column: id
+    join_object: invoice
+    join_column: customer
+    writable: false
+    filterable: false
+  collection_notes:
+    name: Notes
+    type: join
+    parent_column: id
+    join_object: note
+    join_column: customer_id
+    writable: false
+    filterable: false
+  network_connection:
+    name: 'Business Profile'
+    type: join
+    parent_column: network_connection_id
+    join_through_tablename: NetworkConnections
+    join_through_column: customer_id
+    writable: false

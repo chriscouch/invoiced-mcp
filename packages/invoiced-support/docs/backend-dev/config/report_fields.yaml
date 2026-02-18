@@ -1,0 +1,130 @@
+approval_workflow: {}
+
+bank_account: {}
+
+bill: {}
+
+calendar:
+  tablename: Calendar
+  standalone: false
+
+card: {}
+
+charge: {}
+
+chasing_cadence: {}
+
+chasing_cadence_step: {}
+
+chasing_statistic: {}
+
+company: {}
+
+contact: {}
+
+coupon: {}
+
+credit_note: {}
+
+credit_note_line_item: {}
+
+customer: {}
+
+customer_portal_event:
+  tablename: CustomerPortalEvents
+
+dispute: {}
+
+document_view: {}
+
+email_thread: {}
+
+estimate: {}
+
+estimate_line_item: {}
+
+inbox_email: {}
+
+invoice: {}
+
+invoice_discount: {}
+
+invoice_chasing_cadence: {}
+
+invoice_line_item: {}
+
+item: {}
+
+late_fee_schedule: {}
+
+letter: {}
+
+member:
+  join_with_tenant_id: true
+
+merchant_account: {}
+
+merchant_account_transaction: {}
+
+mrr_item: {}
+
+mrr_movement: {}
+
+network_connection:
+  standalone: false
+  tablename: Companies
+
+note: {}
+
+payment: {}
+
+payment_plan: {}
+
+payment_plan_installment: {}
+
+pending_line_item: {}
+
+promise_to_pay: {}
+
+payout: {}
+
+plan: {}
+
+refund: {}
+
+role:
+  join_with_tenant_id: true
+
+sale:
+  tablename: Sales
+
+sale_line_item:
+  tablename: SaleLineItems
+
+shipping_detail:
+  standalone: false
+
+subscription: {}
+
+subscription_addon: {}
+
+task: {}
+
+tax_rate: {}
+
+text_message: {}
+
+transaction: {}
+
+user:
+  standalone: false
+
+vendor: {}
+
+vendor_adjustment: {}
+
+vendor_credit: {}
+
+vendor_payment: {}
+
+vendor_payment_batch: {}

@@ -1,0 +1,60 @@
+{% trans_default_domain 'customer_portal' %}
+{% if recentPayments|length > 0 %}
+    <div class="card card-account recent-payment">
+        <div class="card-header">
+            <h4 class="card-title">
+                <a href="/payments" class="action">
+                    {{ 'buttons.view_all'|trans }}
+                </a>
+                <span>{{ 'labels.recent_payments'|trans }}</span>
+            </h4>
+        </div>
+        <div class="card-body">
+            <table class="table table-invoiced">
+                <thead>
+                    <tr>
+                        <th class="payment-date">{{ 'labels.date'|trans }}</th>
+                        <th class="payment-method">{{ 'labels.method'|trans }}</th>
+                        <th class="money-column payment-amount">{{ 'labels.amount'|trans }}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for recentPayment in recentPayments %}
+                    <tr>
+                        <td class="payment-date">{{ recentPayment.date }}</td>
+                        <td class="payment-method">
+                            {% if recentPayment.icon %}
+                                <span class="icon"><img src="{{ asset(recentPayment.icon) }}" /></span>
+                            {% endif %}
+                            {{ recentPayment.method }}</td>
+                        <td class="money-column payment-amount">
+                            {{ recentPayment.amount|money(recentPayment.currency) }}
+                        </td>
+                        <td class="payment-receipt">
+                            {% if recentPayment.status == 'pending' %}
+                                <span class="badge bg-warning">{{ 'labels.pending'|trans }}</span>
+                            {% elseif recentPayment.status == 'failed' %}
+                                {% if recentPayment.failure_reason %}
+                                    <a href="#" data-bs-toggle="tooltip" data-bs-title="{{ recentPayment.failure_reason }}">
+                                        <span class="badge bg-danger">{{ 'failed'|trans }}</span>
+                                    </a>
+                                {% else %}
+                                    <span class="badge bg-danger">{{ 'failed'|trans }}</span>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if recentPayment.pdf_url %}
+                                <a href="{{ recentPayment.pdf_url }}">
+                                    <span class="fas fa-arrow-to-bottom"></span>
+                                    {{ 'buttons.receipt'|trans }}
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}

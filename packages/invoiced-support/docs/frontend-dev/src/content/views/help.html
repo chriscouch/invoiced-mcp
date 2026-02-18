@@ -1,0 +1,111 @@
+<div class="contents medium">
+	<h2>Help &amp; Support</h2>
+	<p>
+		We're here to help in any way we can. Below are a few ways to receive help when using Invoiced.
+	<br/>
+
+	<!-- Navigation -->
+	<div class="help-tiles clearfix">
+		<a class="tile" href="https://docs.invoiced.com" target="_blank">
+			<div class="icon">
+				<img src="/img/icons/book.png" />
+			</div>
+			Documentation
+		</a>
+		<a class="tile" href="https://feedback.invoiced.com/" target="_blank" ng-if="hasFeedback">
+			<div class="icon">
+				<img src="/img/icons/feedback.png" />
+			</div>
+			Send feedback
+		</a>
+		<a class="tile" href="" ng-click="$parent.section='ticket'" ng-class="{active:section=='ticket'}" ng-if="hasEmailSupport">
+			<div class="icon">
+				<img src="/img/icons/email.png" />
+			</div>
+			Open support ticket
+		</a>
+		<a class="tile" href="" ng-click="liveChat()" ng-if="hasLiveChatSupport && liveChatAvailable">
+			<div class="icon">
+				<img src="/img/icons/chat.png" />
+			</div>
+			Live Chat
+		</a>
+		<a class="tile" href="" ng-click="$parent.section='phone'" ng-class="{active:section=='phone'}" ng-if="hasPhoneSupport">
+			<div class="icon">
+				<img src="/img/icons/telephone.png" />
+			</div>
+			Call us
+		</a>
+	</div>
+
+	<!-- Call Us -->
+	<div class="help-action phone-support" ng-if="hasPhoneSupport&&section=='phone'">
+		<h3>Phone Support</h3>
+		<div class="number"><a href="tel:15122703227">+1 (512)-270-3227</a></div>
+		<div class="hours">Hours Available: 9am - 5pm CST</div>
+		<div class="pin" ng-show="supportPin">Your support PIN: <code>{{supportPin}}</code></div>
+	</div>
+
+	<!-- Open Ticket -->
+	<div class="help-action create-help-ticket form-horizontal" ng-show="hasEmailSupport&&section=='ticket'">
+		<h3>Open a support ticket</h3>
+		<div ng-hide="ticketSubmitted">
+			<form name="ticketForm" ng-submit="createTicket(name, email, category, message)">
+				<p>
+					Please submit your request below and we'll get back to you shortly.
+				</p>
+
+				<div class="form-group">
+					<div class="col-sm-12">
+						<label class="control-label">Category <span class="required"></span></label>
+						<div class="invoiced-select">
+							<select ng-model="category" ng-options="supportCategory.name group by supportCategory.section for supportCategory in supportCategories" required></select>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-12 textarea-3-lines">
+						<label class="control-label">Message <span class="required"></span></label>
+						<textarea class="form-control" ng-model="message" placeholder="Your message" expanding-textarea required></textarea>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-6">
+						<label class="control-label">Your name <span class="required"></span></label>
+						<input type="text" class="form-control" ng-model="name" placeholder="Your name" required />
+					</div>
+					<div class="col-sm-6">
+						<label class="control-label">Email <span class="required"></span></label>
+						<input type="email" class="form-control" ng-model="email" placeholder="Email address" required />
+					</div>
+				</div>
+			</form>
+
+			<div class="form-group">
+				<div class="col-sm-6">
+					<label class="control-label">File Attachments</label>
+					<form method="post" enctype="multipart/form-data" id="ticketFileAttachments" target="dummyframe">
+						<input type="file" name="files[]" multiple="multiple" />
+						<input type="hidden" name="ticket_number" id="supportTicketNumber" />
+					</form>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-12">
+					<button type="button" ng-click="createTicket(name, email, category, message)" ng-disabled="ticketForm.$invalid||sending" class="btn btn-success Button" v-busy="sending" v-busy-label="Sending" v-pressable>
+						Send Message
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="alert alert-success" ng-show="ticketSubmitted">
+			Your support ticket <span ng-show="ticketNumber">(# {{ticketNumber}})</span> has been created. We will be responding to you via email shortly. Thank you!
+		</div>
+	</div>
+</div>
+
+<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>

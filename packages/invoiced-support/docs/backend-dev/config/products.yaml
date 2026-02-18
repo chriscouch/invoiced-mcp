@@ -1,0 +1,335 @@
+# This file contains the feature configuration for products.
+# Every account starts with no features.
+# Additional capabilities are added with products, i.e.
+# Intacct integration or NetSuite integration.
+# Capabilities can also be added or removed
+# per account using feature flags.
+
+products:
+  # Free Plans
+  - name: Accounts Payable Free
+    features:
+      - accounts_payable
+      - internationalization
+      - network
+      - notifications_v2_individual
+
+  - name: Accounts Receivable Free
+    features:
+      - accounts_receivable
+      - ach
+      - api
+      - billing_portal
+      - card_payments
+      - cash_application
+      - direct_debit
+      - email_sending
+      - estimates_v2
+      - flywire_payments_ineligible
+      - internationalization
+      - network
+      - notifications_v2_individual
+      - payment_links
+
+  # Trial Plans
+  - name: Free Trial
+    features:
+      - accounts_payable
+      - accounts_receivable
+      - approval_workflow
+      - ar_inbox
+      - audit_log
+      - billing_portal
+      - cash_application
+      - cash_match
+      - estimates
+      - estimates_v2
+      - flywire_payments_ineligible
+      - forecasting
+      - inboxes
+      - internationalization
+      - invoice_chasing
+      - network
+      - notifications_v2_individual
+      - payment_links
+      - payment_plans
+      - roles
+      - smart_chasing
+
+  - name: Sandbox
+    features:
+      - accounting_sync
+      - accounts_receivable
+      - ach
+      - api
+      - ar_inbox
+      - audit_log
+      - autopay
+      - billing_portal
+      - card_payments
+      - cash_application
+      - cash_match
+      - consolidated_invoicing
+      - custom_templates
+      - direct_debit
+      - email_sending
+      - email_whitelabel
+      - estimates
+      - estimates_v2
+      - forecasting
+      - inboxes
+      - intacct
+      - internationalization
+      - invoice_chasing
+      - letters
+      - metered_billing
+      - netsuite
+      - network
+      - network_invitations
+      - new_trials
+      - notifications_v2_individual
+      - payment_links
+      - payment_plans
+      - powered_by
+      - roles
+      - smart_chasing
+      - sms
+      - subscription_billing
+      - subscriptions
+      - unlimited_recipients
+      - virtual_terminal
+
+  # Standalone Product Plans
+  - name: Advanced Accounts Payable
+    features:
+      - accounts_payable
+      - api
+      - approval_workflow
+      - audit_log
+      - email_sending
+      - inboxes
+      - internationalization
+      - live_chat
+      - network
+      - network_invitations
+      - new_trials
+      - notifications_v2_individual
+      - phone_support
+      - roles
+
+  - name: Cash Application
+    features:
+      - cash_application
+      - cash_match
+
+  - name: Advanced Accounts Receivable
+    features:
+      - accounting_sync
+      - accounts_receivable
+      - ach
+      - api
+      - ar_inbox
+      - audit_log
+      - autopay
+      - billing_portal
+      - card_payments
+      - cash_application
+      - cash_match
+      - custom_templates
+      - direct_debit
+      - email_sending
+      - email_whitelabel
+      - estimates
+      - estimates_v2
+      - flywire_payments_ineligible
+      - forecasting
+      - inboxes
+      - internationalization
+      - invoice_chasing
+      - letters
+      - live_chat
+      - network
+      - network_invitations
+      - new_trials
+      - notifications_v2_individual
+      - payment_links
+      - payment_plans
+      - phone_support
+      - roles
+      - smart_chasing
+      - sms
+      - unlimited_recipients
+
+  - name: Customer Portal
+    features:
+      - billing_portal
+      - custom_domain
+
+  - name: Intacct Integration
+    features:
+      - accounting_sync
+      - intacct
+
+  - name: NetSuite Integration
+    features:
+      - accounting_sync
+      - netsuite
+
+  - name: Advanced Reporting
+    features:
+      - forecasting
+      - report_builder
+
+  - name: Salesforce Integration
+    features:
+      - salesforce
+
+
+  - name: Automations
+    features:
+      - automations
+
+  - name: Subscription Billing
+    features:
+      - accounts_receivable
+      - ach
+      - api
+      - audit_log
+      - autopay
+      - billing_portal
+      - card_payments
+      - consolidated_invoicing
+      - custom_templates
+      - direct_debit
+      - email_sending
+      - email_whitelabel
+      - estimates
+      - estimates_v2
+      - internationalization
+      - live_chat
+      - metered_billing
+      - network
+      - network_invitations
+      - new_trials
+      - notifications_v2_individual
+      - payment_links
+      - phone_support
+      - roles
+      - subscription_billing
+      - subscriptions
+      - unlimited_recipients
+
+  # 2024 Bundled Products
+  - name: Essentials
+    features:
+      - accounting_sync
+      - accounts_payable
+      - accounts_receivable
+      - ach
+      - ar_inbox
+      - billing_portal
+      - card_payments
+      - cash_application
+      - direct_debit
+      - email_sending
+      - email_whitelabel
+      - estimates
+      - estimates_v2
+      - inboxes
+      - internationalization
+      - invoice_chasing
+      - letters
+      - network
+      - network_invitations
+      - new_trials
+      - notifications_v2_individual
+      - payment_links
+      - smart_chasing
+      - sms
+      - unlimited_recipients
+
+  - name: Growth
+    features:
+      - accounting_sync
+      - accounts_payable
+      - accounts_receivable
+      - ach
+      - api
+      - approval_workflow
+      - ar_inbox
+      - audit_log
+      - autopay
+      - billing_portal
+      - card_payments
+      - cash_application
+      - cash_match
+      - consolidated_invoicing
+      - direct_debit
+      - email_sending
+      - email_whitelabel
+      - estimates
+      - estimates_v2
+      - inboxes
+      - internationalization
+      - invoice_chasing
+      - letters
+      - live_chat
+      - metered_billing
+      - network
+      - network_invitations
+      - new_trials
+      - notifications_v2_individual
+      - payment_links
+      - payment_plans
+      - smart_chasing
+      - sms
+      - subscription_billing
+      - subscriptions
+      - unlimited_recipients
+
+  - name: Premium
+    features:
+      - accounting_sync
+      - accounts_payable
+      - accounts_receivable
+      - ach
+      - api
+      - approval_workflow
+      - ar_inbox
+      - audit_log
+      - autopay
+      - billing_portal
+      - card_payments
+      - cash_application
+      - cash_match
+      - consolidated_invoicing
+      - custom_domain
+      - direct_debit
+      - email_sending
+      - email_whitelabel
+      - estimates
+      - estimates_v2
+      - forecasting
+      - inboxes
+      - intacct
+      - internationalization
+      - invoice_chasing
+      - letters
+      - live_chat
+      - metered_billing
+      - netsuite
+      - network
+      - network_invitations
+      - new_trials
+      - notifications_v2_individual
+      - payment_links
+      - payment_plans
+      - phone_support
+      - roles
+      - salesforce
+      - saml
+      - smart_chasing
+      - sms
+      - subscription_billing
+      - subscriptions
+      - unlimited_recipients

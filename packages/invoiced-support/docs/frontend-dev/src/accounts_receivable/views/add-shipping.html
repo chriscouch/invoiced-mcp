@@ -1,0 +1,136 @@
+<form name="shippingForm" ng-submit="save(shipTo)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			Edit Shipping Details
+		</h4>
+	</div>
+	<div class="modal-body">
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<h4>
+					<div class="pull-right">
+						<div class="dropdown" dropdown>
+							<button type="button" class="btn btn-default btn-sm dropdown-toggle" dropdown-toggle>
+								Addresses
+								<span class="fas fa-chevron-down"></span>
+							</button>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li>
+									<a href="" ng-click="useContact(customer)">Customer Profile</a>
+								</li>
+								<li class="divider" ng-show="contacts.length > 0"></li>
+								<li ng-repeat="contact in contacts">
+									<a href="" ng-click="useContact(contact)">{{contact.name}}</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					To Address
+					<address-validator object="shipTo"></address-validator>
+				</h4>
+			</div>
+		</div>
+
+		<div class="row">
+			<!-- Name -->
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="control-label">{{'address.name'|translate}} <span class="required"></span></label>
+					<div>
+						<input type="text" placeholder="Contact name..." ng-model="shipTo.name" class="form-control" required />
+					</div>
+				</div>
+			</div>
+			<!-- Attention To -->
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="control-label">{{'address.attention_to'|translate}}</label>
+					<div>
+						<div class="input-group">
+							<span class="input-group-addon">ATTN:</span>
+							<input type="text" ng-model="shipTo.attention_to" class="form-control" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<!-- Address 1 -->
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="control-label">{{'address.address1'|translate}}</label>
+					<div>
+						<input type="text" ng-model="shipTo.address1" class="form-control" />
+					</div>
+				</div>
+			</div>
+			<!-- Address 2 -->
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="control-label">{{'address.address2'|translate}}</label>
+					<div>
+						<input type="text" ng-model="shipTo.address2" class="form-control" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<!-- City -->
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="control-label">{{cityLabel}}</label>
+					<div>
+						<input type="text" ng-model="shipTo.city" class="form-control"  />
+					</div>
+				</div>
+			</div>
+			<!-- State -->
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="control-label">{{stateLabel}}</label>
+					<div>
+						<state-selector ng-model="shipTo.state" country="shipTo.country" is-required="false"></state-selector>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<!-- Postal Code -->
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="control-label">{{postalCodeLabel}}</label>
+					<div>
+						<input type="text" ng-model="shipTo.postal_code" class="form-control" />
+					</div>
+				</div>
+			</div>
+			<!-- Country -->
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="control-label">{{'address.country'|translate}}</label>
+					<div>
+						<country-selector ng-model="shipTo.country" is-required="false" ng-change="changeCountry(country)"></country-selector>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="left" ng-show="hasAddress">
+			<a href="" class="danger" ng-click="clear()">
+				{{'general.remove'|translate}}
+			</a>
+		</div>
+		<button type="submit" class="btn btn-primary Button" ng-disabled="shippingForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

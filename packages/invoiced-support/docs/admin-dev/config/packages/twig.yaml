@@ -1,0 +1,9 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    paths:
+        '%kernel.project_dir%/assets/images': images
+        '%kernel.project_dir%/assets/css': styles
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    globals:
+        invoiced_environment: '%app.api_log_env%'

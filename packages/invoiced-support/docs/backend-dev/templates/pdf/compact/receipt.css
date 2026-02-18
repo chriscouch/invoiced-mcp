@@ -1,0 +1,90 @@
+.container {
+    padding: 0 20px;
+    line-height: 14pt;
+    word-wrap: break-word;
+}
+
+.logo {
+    display: table-cell;
+}
+
+.logo img {
+    max-width: 200px;
+    max-height: 30px;
+    margin: 0;
+    vertical-align: bottom;
+}
+
+.title-bar {
+    display: table;
+    width: 100%;
+    font-size: 11pt;
+}
+
+.title-bar div {
+    width: 33%;
+}
+
+.title-bar .title {
+    display: table-cell;
+    text-align: center;
+    vertical-align: bottom;
+}
+
+.title-bar .company-name {
+    display: table-cell;
+    text-align: right;
+    vertical-align: bottom;
+}
+
+.spacer {
+    width: 100%;
+    border-bottom: 1px solid #65d8bf;
+    margin: 10px 0;
+}
+
+.context-holder {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8pt;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.contact-from {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.contact-from .field {
+    font-weight: bold;
+}
+
+.context-table {
+    width: 100%;
+}
+
+.context-table .value {
+    width: 150px;
+}
+
+.contact-to {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 0 5px;
+}
+
+.contact-to .field {
+    font-weight: bold;
+    padding-bottom: 1px;
+}
+
+#footer {
+    margin: 75px 0 0;
+    width: 100%;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #879099;
+}

@@ -1,0 +1,43 @@
+# This tests a bill in advance scenario
+# that starts in the past with calendar billing.
+
+#debug: true
+data:
+  - object: plan
+    interval: month
+
+operations:
+  - operation: create
+    time: 2021-06-07
+    parameters:
+      start_date: 2021-02-01
+      snap_to_nth_day: 1
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-02-01
+        period_end: 2021-02-28T23:59:59Z
+      invoice:
+        date: 2021-02-01
+
+  - operation: bill
+    name: Second Invoice
+    time: 2021-06-07
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-03-01
+        period_end: 2021-03-31T23:59:59Z
+      invoice:
+        date: 2021-03-01
+
+  - operation: bill
+    name: Third Invoice
+    time: 2021-06-07
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-04-01
+        period_end: 2021-04-30T23:59:59Z
+      invoice:
+        date: 2021-04-01

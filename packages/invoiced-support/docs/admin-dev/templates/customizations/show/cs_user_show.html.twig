@@ -1,0 +1,25 @@
+{% extends '@EasyAdmin/crud/detail.html.twig' %}
+{% set user=entity.instance %}
+
+{% block content_title %}
+    {{ user.getFirstName }} {{ user.getLastName }} <small># {{ user.getId }}</small>
+{% endblock %}
+
+{% block page_actions %}
+    {{ parent() }}
+
+    {% if user.getId == app.user.id %}
+        <a href="{{ path('new_password') }}" class="btn">
+            <i class="fa fa-lock"></i> Change Password
+        </a>
+    {% elseif is_granted('ROLE_ALLOWED_TO_SWITCH', user) %}
+        <a href="/admin?_switch_user={{ user.getUsername }}" class="btn">
+            Impersonate User
+        </a>
+    {% endif %}
+    {% if is_granted('ROLE_SUPER_ADMIN', user) %}
+        <a href="{{ ea_url().setController('App\\Controller\\Admin\\CsAuditEntryCrudController').setAction('index').set('filters', {'user': {'comparison': '=', 'value': user.getUsername}}).setEntityId(null) }}" class="btn">
+            Audit Entries
+        </a>
+    {% endif %}
+{% endblock %}

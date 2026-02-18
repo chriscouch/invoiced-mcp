@@ -1,0 +1,193 @@
+<p class="loading" ng-show="loading"></p>
+
+<div class="object-view" ng-hide="loading">
+	<div class="title-bar">
+		<!-- Title -->
+		<h2>Disbursement</h2>
+		<h3><money currency="disbursement.currency" amount="disbursement.amount"></money></h3>
+	</div>
+
+
+	<ul class="nav nav-tabs">
+		<!-- Tab Links -->
+		<li ui-sref-active="active">
+			<a ui-sref=".">
+				{{'tabs.summary'|translate}}
+			</a>
+		</li>
+	</ul>
+
+	<!-- Selected Tab Content -->
+	<div class="tab-content">
+		<div class="tab-pane active">
+			<div class="row two-pane">
+				<div class="col-sm-4 left-pane">
+					<div class="details-list vertical">
+						<h4>
+							{{'disbursement.details'|translate}}
+						</h4>
+
+						<!-- Disbursement ID -->
+						<div>
+							<div class="title">Disbursement ID</div>
+							<div class="value">
+								{{disbursement.disbursement_id}}
+							</div>
+						</div>
+
+						<!-- Status -->
+						<div>
+							<div class="title">{{'general.status'|translate}}</div>
+							<div class="value">
+								<span class="label label-warning" ng-if="disbursement.status_text == 'pending'">{{disbursement.status_text}}</span>
+								<span class="label label-success" ng-if="disbursement.status_text == 'delivered'">{{disbursement.status_text}}</span>
+								<span class="label label-default" ng-if="disbursement.status_text != 'delivered' && disbursement.status_text != 'pending'">{{disbursement.status_text}}</span>
+							</div>
+						</div>
+
+						<!-- Delivered At -->
+						<div>
+							<div class="title">{{'disbursement.delivered_at'|translate}}</div>
+							<div class="value">
+								<company-date date="disbursement.delivered_at"></company-date>
+							</div>
+						</div>
+
+						<!-- Bank Account Number -->
+						<div ng-if="disbursement.bank_account_number">
+							<div class="title">{{'disbursement.bank_account_number'|translate}}</div>
+							<div class="value">
+								{{disbursement.bank_account_number}}
+							</div>
+						</div>
+
+						<!-- Amount -->
+						<div>
+							<div class="title">{{'general.amount'|translate}}</div>
+							<div class="value">
+								<money currency="disbursement.currency" amount="disbursement.amount"></money>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-8 right-pane">
+					<!-- Payouts -->
+					<div class="panel panel-invoiced light">
+						<div class="panel-heading with-tabs">
+							<ul class="nav nav-tabs">
+								<li ng-class="{active:transactionsTab=='payments'}">
+									<a href="" ng-click="setTransactionsTab(disbursement, 'payments')">
+										Payments
+									</a>
+								</li>
+								<li ng-class="{active:transactionsTab=='refunds'}">
+									<a href="" ng-click="setTransactionsTab(disbursement, 'refunds')">
+										Refunds
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="panel-body" ng-if="!loadedTransactions||transactions.length==0">
+							<div class="loading inline" ng-hide="loadedTransactions"></div>
+							<div class="empty" ng-show="loadedTransactions">
+								None found.
+							</div>
+						</div>
+
+						<table class="table table-striped search-results-table slim transactions" ng-if="loadedTransactions && transactions.length > 0 && transactionsTab == 'payments'">
+							<thead>
+								<tr>
+									<th>{{'disbursement.payment_id'|translate}}</th>
+									<th>{{'general.status'|translate}}</th>
+									<th class="money-column noborder">{{'general.amount'|translate}}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="clickable" ng-repeat="payout in transactions" ng-click="goToObject(payout.payment.ar_payment)">
+									<td>{{payout.payment.payment_id}}</td>
+									<td>
+										<span class="label label-warning" ng-if="payout.payment.status == 'initiated'">Initiated</span>
+										<span class="label label-info" ng-if="payout.payment.status == 'processed'">Processed</span>
+										<span class="label label-success" ng-if="payout.payment.status == 'guaranteed'">Guaranteed</span>
+										<span class="label label-success" ng-if="payout.payment.status == 'delivered'">Delivered</span>
+										<span class="label label-danger" ng-if="payout.payment.status == 'failed'">Failed</span>
+										<span class="label label-danger" ng-if="payout.payment.status == 'canceled'">Canceled</span>
+										<span class="label label-danger" ng-if="payout.payment.status == 'reversed'">Reversed</span>
+									</td>
+									<td class="mobile-last money-column noborder">
+										<money currency="payout.currency" amount="payout.amount"></money>
+									</td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr class="invoice-pagination">
+									<td colspan="5">
+										<div class="controls" ng-show="transactionPageCount > 1">
+											<div class="btn-group">
+												<button type="button" class="btn btn-link btn-sm" ng-click="prevTransactionPage(disbursement)" ng-show="transactionPage > 1">
+													<span class="fas fa-angle-left"></span>
+												</button>
+												<button type="button" class="btn btn-link btn-sm" ng-click="nextTransactionPage(disbursement)" ng-show="transactionPage < transactionPageCount">
+													<span class="fas fa-angle-right"></span>
+												</button>
+											</div>
+										</div>
+										<div class="total-records">
+											Showing {{transactionRange}} of <strong>{{totalTransactions|number}} payments</strong>.
+										</div>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+
+						<table class="table table-striped search-results-table slim transactions" ng-if="loadedTransactions && transactions.length > 0 && transactionsTab == 'refunds'">
+							<thead>
+								<tr>
+									<th>{{'disbursement.refund_id'|translate}}</th>
+									<th>{{'general.status'|translate}}</th>
+									<th class="money-column noborder">{{'general.amount'|translate}}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="clickable" ng-repeat="refund in refunds" ng-click="goToObject(refund.payment.ar_payment)">
+									<td>{{refund.refund_id}}</td>
+									<td>
+										<span class="label label-warning" ng-if="refund.status == 'initiated'">Initiated</span>
+										<span class="label label-warning" ng-if="refund.status == 'pending'">Pending</span>
+										<span class="label label-info" ng-if="refund.status == 'received'">Received</span>
+										<span class="label label-success" ng-if="refund.status == 'finished'">Finished</span>
+										<span class="label label-danger" ng-if="refund.status == 'canceled'">Canceled</span>
+										<span class="label label-danger" ng-if="refund.status == 'returned'">Returned</span>
+									</td>
+									<td class="mobile-last money-column noborder">
+										<money currency="refund.currency" amount="refund.amount"></money>
+									</td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr class="invoice-pagination">
+									<td colspan="5">
+										<div class="controls" ng-show="transactionPageCount > 1">
+											<div class="btn-group">
+												<button type="button" class="btn btn-link btn-sm" ng-click="prevTransactionPage(disbursement)" ng-show="transactionPage > 1">
+													<span class="fas fa-angle-left"></span>
+												</button>
+												<button type="button" class="btn btn-link btn-sm" ng-click="nextTransactionPage(disbursement)" ng-show="transactionPage < transactionPageCount">
+													<span class="fas fa-angle-right"></span>
+												</button>
+											</div>
+										</div>
+										<div class="total-records">
+											Showing {{transactionRange}} of <strong>{{totalTransactions|number}} refunds</strong>.
+										</div>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

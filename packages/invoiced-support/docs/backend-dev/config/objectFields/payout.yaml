@@ -1,0 +1,68 @@
+fields:
+  amount:
+    name: Amount
+    type: money
+  arrival_date:
+    name: Arrival Date
+    type: date
+  bank_account_name:
+    name: Bank Account Name
+    type: string
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: 'Y-m-d H:i:s'
+    writable: false
+  currency:
+    name: Currency
+    type: string
+  description:
+    name: Description
+    type: string
+  failure_message:
+    name: Failure Message
+    type: string
+  gross_amount:
+    name: Gross Amount
+    type: money
+  id:
+    name: ID
+    type: string
+    writable: false
+  initiated_at:
+    name: Initiated At
+    type: datetime
+  merchant_account:
+    name: Merchant Account
+    type: join
+  merchant_account_transaction:
+    name: Merchant Account Transaction
+    type: join
+  pending_amount:
+    name: Pending Amount
+    type: money
+  reference:
+    name: Reference
+    type: string
+  statement_descriptor:
+    name: Statement Descriptor
+    type: string
+  status:
+    name: Status
+    type: enum
+    values:
+      completed: Completed
+      pending: Pending
+      canceled: Canceled
+      failed: Failed
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: 'Y-m-d H:i:s'
+    writable: false

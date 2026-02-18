@@ -1,0 +1,78 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.approve_payment_plan'|trans %}
+{% extends "customerPortal/parentFrameTwoColumn.twig" %}
+
+{% block left %}
+	<div class="main">
+		<p>
+            {{ 'messages.review_installment_schedule'|trans }}
+		</p>
+
+		<!-- Payment Schedule Agreement -->
+		<form action="{{ url }}" method="POST">
+			<input type="hidden" name="_csrf_token" value="{{ csrf_token('customer_portal_approve_payment_plan') }}" />
+
+			<div class="form-section nopadding">
+				<div class="form-check">
+					<input type="checkbox" class="form-check-input" name="accepted" value="1" id="acceptPaymentPlan" />
+					<label class="payment-plan-agreement form-check-label noselect" for="acceptPaymentPlan">
+						{{ 'labels.accept_payment_plan'|trans }}
+					</label>
+				</div>
+			</div>
+
+			<div class="form-section nopadding">
+				<div class="row actions">
+					<div class="col-sm-12">
+						<button type="submit" class="btn btn-primary payment-button" disabled="disabled">
+							{{ 'buttons.approve'|trans }}
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		{% if needsPaymentSource %}
+			<br/>
+			<p class="alert alert-info">
+				<span class="fas fa-info-circle"></span>
+				{{ 'messages.collect_payment_info_next'|trans }}
+			</p>
+		{% endif %}
+	</div>
+	<script type="text/javascript" src="{{ asset('/js/views/payment_plan.js') }}"></script>
+{% endblock %}
+
+{% block right %}
+	<!-- Payment Schedule -->
+	<h4>{{ 'labels.payment_schedule'|trans }}</h4>
+	<table class="table table-invoiced payment-summary-table">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>{{ 'labels.date'|trans }}</th>
+				<th class="text-right">{{ 'labels.amount'|trans }}</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for installment in installments %}
+			<tr class="installment">
+				<td>{{ loop.index }}.</td>
+				<td>{{ installment.date }}</td>
+				<td class="money text-right">{{ installment.amount|money(currency) }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+		<!-- Total -->
+		<tfoot>
+			<tr>
+				<td colspan="2">
+					<strong>{{ 'labels.total'|trans }}:</strong>
+				</td>
+				<td class="money text-right">
+					<strong>{{ balance|money(currency) }}</strong>
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+{% endblock %}

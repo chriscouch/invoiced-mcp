@@ -1,0 +1,129 @@
+.header {
+    text-align: left;
+    font-size: 28pt;
+    width: 80%;
+    margin-left: 10%;
+    padding-top: 60px;
+    clear: both;
+}
+
+.header .company-address {
+    float: right;
+    font-size: 10pt;
+    text-align: right;
+}
+
+.header img,
+.logo img {
+    max-width: 200px;
+    height: auto;
+    max-height: 100px;
+    width: auto;
+}
+
+.header small {
+    font-size: 9pt;
+}
+
+.subtitle-line {
+    font-size: 10pt;
+    width: 200px;
+}
+
+.right {
+    text-align: right;
+    float: right;
+}
+
+.bolder {
+    font-weight: bold;
+}
+
+.context-holder {
+    width: 20%;
+    margin: 35px 0 0 10%;
+    font-size: 8pt;
+    float: left;
+}
+
+.context-item {
+    margin: 15px 0;
+}
+
+.context-item .value {
+    clear: both;
+}
+
+.items-holder {
+    width: 57%;
+    float: right;
+    font-size: 9pt;
+    margin: 50px 10% 0 0;
+}
+
+.items-holder table {
+    table-layout: fixed;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.narrow {
+    width: 18.5%;
+}
+
+.total-narrow {
+    width: 22%;
+}
+
+.money-column,
+td.unit_cost,
+td.amount {
+    text-align: right;
+}
+
+.items-holder table thead tr th {
+    border-bottom: 1px solid #3d4c59;
+    text-align: left;
+}
+
+.items-holder table tbody .item {
+    font-size: inherit;
+}
+
+.items-holder table tbody .details td {
+    padding: 0 0 5px 5px;
+    font-size: 7pt;
+    color: #3d4c59;
+}
+
+.summary-item {
+    text-align: right;
+}
+
+.top-border {
+    border-top: 1px solid #3d4c59;
+}
+
+.top-border-2 {
+    border-top: 2px solid #3d4c59;
+}
+
+.notes-holder {
+    position: static;
+    clear: both;
+    width: 90%;
+    margin-left: 5%;
+    padding-top: 15px;
+    font-size: 8pt;
+}
+
+.paid-stamp {
+    position: fixed;
+    padding: 3px;
+    top: 100px;
+    right: 210px;
+    color: #e35c44;
+    border: 8px solid #e35c44;
+    font-size: 40pt;
+    -webkit-transform: rotate(30deg);
+}

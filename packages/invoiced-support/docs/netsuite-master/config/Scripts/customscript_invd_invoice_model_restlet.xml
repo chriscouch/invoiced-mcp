@@ -1,0 +1,22 @@
+<restlet scriptid="customscript_invd_invoice_model_restlet">
+  <description>Sync Invoices from Invoiced</description>
+  <isinactive>F</isinactive>
+  <name>Invoiced - Sync Invoices from Invoiced</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <notifyuser>F</notifyuser>
+  <scriptfile>[/SuiteBundles/Bundle 265184/src/InvoiceRestlet.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_invd_invoice_model_restlet">
+      <allemployees>F</allemployees>
+      <allpartners>F</allpartners>
+      <allroles>T</allroles>
+      <audslctrole></audslctrole>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>RELEASED</status>
+      <title>Invoiced - Sync Invoices from Invoiced</title>
+    </scriptdeployment>
+  </scriptdeployments>
+</restlet>

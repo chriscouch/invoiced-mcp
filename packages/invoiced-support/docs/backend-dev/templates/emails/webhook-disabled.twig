@@ -1,0 +1,19 @@
+{% extends "emails/parent.twig" %}
+{% block title %}Webhook Disabled{% endblock %}
+{% block content %}
+<row>
+    <columns>
+        <p>Hi {{ company }},</p>
+
+        <p>This notice is to inform you that we have been unable to deliver data to your webhook endpoint for the past 48 hours. Your webhook endpoint has been disabled for the time being.</p>
+
+        <p>Endpoint: <b>{{ url }}</b></p>
+
+        <p>Please correct the issue in order to resume receiving data at your webhook endpoint. Once you are sure that your webhook endpoint is ready to begin processing data again you may go to Settings > Developers to re-enable your webhook.</p>
+
+        <p>Once the issue has been resolved you can re-attempt webhooks individually on any past events from the Invoiced application. Or you can use the Events API to catch up on any events you might have missed: https://developer.invoiced.com/api#events</p>
+
+        <p>Please contact us if you have any questions.</p>
+    </columns>
+</row>
+{% endblock %}

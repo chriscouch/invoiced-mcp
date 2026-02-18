@@ -1,0 +1,46 @@
+parameters:
+  env(APP_PROTOCOL): '%env(default:default_router_scheme:NGROK_PROTOCOL)%'
+  env(APP_DOMAIN): '%env(default:default_domain:NGROK_DOMAIN)%'
+  env(DEFAULT_SEARCH_BACKEND): 'database'
+
+  app.adyen_client_key: test_2SDZVDJOJFEQRGXX4U7VIKJPQABDERQM
+  app.adyen_theme_id: ONBT42CLN22322695M2HPTT4M34FQX
+  app.api_domain: api.invoiced.localhost
+  app.api_url: http://api.invoiced.localhost:1234
+  app.avalara_environment: sandbox
+  app.dashboard_url: http://app.invoiced.localhost:1236
+  app.default_from_name: Invoiced Dev
+  app.default_search_backend: '%env(DEFAULT_SEARCH_BACKEND)%'
+  app.domain: '%env(APP_DOMAIN)%'
+  app.flywire_checkout_url: https://checkout-api.demo.flywire.com/rest/payor/charge
+  app.flywire_doc_verify_url: https://doc-verify.flywire.lol/api
+  app.flywire_private_api_url: https://api.flywire.lol
+  app.gocardless_environment: sandbox
+  app.inbound_email_domain: dev.invoicedmail.com
+  app.invoiced_sandbox: true
+  app.invoiced_tokenization_url: http://localhost:8080/invoiced.js
+  app.payments_host: '%env(default:default_payments_host:PAYMENTS_HOST)%'
+  app.plaid_sandbox: true
+  app.port: 1234
+  app.protocol: '%env(APP_PROTOCOL)%'
+  app.quickbooks_userinfo_url: https://sandbox-accounts.platform.intuit.com/v1/openid_connect/userinfo
+  app.s3_bucket_adyen_reports: invoiced-adyen-reports-test
+  app.s3_bucket_attachments: invoiced-attachments-staging
+  app.s3_bucket_checks: invoiced-attachments-staging
+  app.s3_bucket_document_pdfs: invoiced-document-pdfs-staging
+  app.s3_bucket_documents: invoiced-documents-staging
+  app.s3_bucket_emails: invoiced-email-bodies-staging
+  app.s3_bucket_events: invoiced-events-staging
+  app.s3_bucket_exports: invoiced-exports-2-staging
+  app.s3_bucket_imports: invoiced-imports-2-staging
+  app.s3_bucket_qwc: invoiced-qwc-staging
+  app.s3_bucket_region: us-west-2
+  app.s3_bucket_reports: invoiced-reports-staging
+  app.s3_bucket_webhooks: invoiced-webhooks-staging
+  app.title: Invoiced (Dev)
+  app.tokenization_url: http://tknz.invoiced.localhost:1234
+  app.files_url: http://files.invoiced.localhost:1234
+  default_domain: invoiced.localhost
+  default_payments_host: https://payments.invoiced.com
+  default_router_scheme: http
+  router.request_context.host: 'invoiced.localhost'

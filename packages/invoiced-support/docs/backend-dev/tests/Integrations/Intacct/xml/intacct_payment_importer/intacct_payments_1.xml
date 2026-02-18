@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+    <control>
+        <status>success</status>
+        <senderid>Invoiced</senderid>
+        <controlid>1620757552</controlid>
+        <uniqueid>false</uniqueid>
+        <dtdversion>3.0</dtdversion>
+    </control>
+    <operation>
+        <authentication>
+            <status>success</status>
+            <userid>Guest</userid>
+            <companyid>Invoiced-DEV SE</companyid>
+            <locationid></locationid>
+            <sessiontimestamp>2021-05-11T18:25:52+00:00</sessiontimestamp>
+            <sessiontimeout>2021-05-12T06:25:52+00:00</sessiontimeout>
+        </authentication>
+        <result>
+            <status>success</status>
+            <function>readByQuery</function>
+            <controlid>bf730067-fe02-45ca-848d-78dfce8d4d10</controlid>
+            <data listtype="arpayment" count="100" totalcount="1867" numremaining="0" resultId="7765623331YJrMLx4E24BHajQtmfO2xAAAAAY4">
+                <arpayment>
+                    <RECORDNO>0000</RECORDNO>
+                </arpayment>
+                <arpayment>
+                    <RECORDNO>0001</RECORDNO>
+                </arpayment>
+                <arpayment>
+                    <RECORDNO>0002</RECORDNO>
+                </arpayment>
+            </data>
+        </result>
+    </operation>
+</response>

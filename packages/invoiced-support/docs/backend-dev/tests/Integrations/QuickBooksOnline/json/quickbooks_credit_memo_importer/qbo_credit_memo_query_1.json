@@ -1,0 +1,63 @@
+{
+  "QueryResponse": {
+    "startPosition": 1,
+    "CreditMemo": [
+      {
+        "Id": "73",
+        "DocNumber": "CN-1026",
+        "Balance": 0,
+        "TxnDate": "2021-01-08",
+        "TotalAmt": 396.0,
+        "CustomerRef": {
+          "name": "Test",
+          "value": "1"
+        },
+        "CurrencyRef": {
+          "name": "United States Dollar",
+          "value": "USD"
+        },
+        "DepartmentRef": {
+          "name": "Test Location",
+          "value": "1"
+        },
+        "Line": [
+          {
+            "Id": "1",
+            "LineNum": 1,
+            "Description": "Details...",
+            "Amount": 396.00,
+            "DetailType": "SalesItemLineDetail",
+            "SalesItemLineDetail": {
+              "ItemRef": {
+                "name": "Marketing guides",
+                "value": "42"
+              },
+              "UnitPrice": 99.00,
+              "Qty": 4,
+              "TaxCodeRef": {
+                "value": "NON"
+              }
+            }
+          },
+          {
+            "Amount": 396.00,
+            "DetailType": "SubTotalLineDetail",
+            "SubTotalLineDetail": {}
+          }
+        ],
+        "CustomField": [
+          {
+            "DefinitionId": "1",
+            "Type": "StringType",
+            "Name": "Crew #"
+          }
+        ],
+        "TxnTaxDetail": {
+          "TotalTax": 0
+        }
+      }
+    ],
+    "maxResults": 1
+  },
+  "time": "2021-01-08T09:13:36.246-07:00"
+}

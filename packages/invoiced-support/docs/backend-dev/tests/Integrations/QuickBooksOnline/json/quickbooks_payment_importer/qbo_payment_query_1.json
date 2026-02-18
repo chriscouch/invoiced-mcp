@@ -1,0 +1,120 @@
+{
+  "QueryResponse": {
+    "startPosition": 1,
+    "Payment": [
+      {
+        "SyncToken": "0",
+        "domain": "QBO",
+        "DepositToAccountRef": {
+          "value": "4"
+        },
+        "UnappliedAmt": 10.0,
+        "TxnDate": "2021-01-18",
+        "TotalAmt": 65.0,
+        "ProcessPayment": false,
+        "sparse": false,
+        "Line": [
+          {
+            "Amount": 55.0,
+            "LineEx": {
+              "any": [
+                {
+                  "name": "{http://schema.intuit.com/finance/v3}NameValue",
+                  "nil": false,
+                  "value": {
+                    "Name": "txnId",
+                    "Value": "456"
+                  },
+                  "declaredType": "com.intuit.schema.finance.v3.NameValue",
+                  "scope": "javax.xml.bind.JAXBElement$GlobalScope",
+                  "globalScope": true,
+                  "typeSubstituted": false
+                },
+                {
+                  "name": "{http://schema.intuit.com/finance/v3}NameValue",
+                  "nil": false,
+                  "value": {
+                    "Name": "txnOpenBalance",
+                    "Value": "71.00"
+                  },
+                  "declaredType": "com.intuit.schema.finance.v3.NameValue",
+                  "scope": "javax.xml.bind.JAXBElement$GlobalScope",
+                  "globalScope": true,
+                  "typeSubstituted": false
+                },
+                {
+                  "name": "{http://schema.intuit.com/finance/v3}NameValue",
+                  "nil": false,
+                  "value": {
+                    "Name": "txnReferenceNumber",
+                    "Value": "1024"
+                  },
+                  "declaredType": "com.intuit.schema.finance.v3.NameValue",
+                  "scope": "javax.xml.bind.JAXBElement$GlobalScope",
+                  "globalScope": true,
+                  "typeSubstituted": false
+                }
+              ]
+            },
+            "LinkedTxn": [
+              {
+                "TxnId": "456",
+                "TxnType": "Invoice"
+              }
+            ]
+          }
+        ],
+        "CustomerRef": {
+          "name": "Test",
+          "value": "1"
+        },
+        "Id": "163",
+        "MetaData": {
+          "CreateTime": "2021-01-18T15:08:12-08:00",
+          "LastUpdatedTime": "2021-01-18T15:08:12-08:00"
+        }
+      },
+      {
+        "SyncToken": "0",
+        "domain": "QBO",
+        "DepositToAccountRef": {
+          "value": "4"
+        },
+        "TxnDate": "2021-01-18",
+        "TotalAmt": 65.0,
+        "ProcessPayment": false,
+        "sparse": false,
+        "Line": [
+          {
+            "Amount": 55.0,
+            "LinkedTxn": [
+              {
+                "TxnId": "202",
+                "TxnType": "Expense"
+              }
+            ]
+          },
+          {
+            "Amount": 10.0,
+            "LinkedTxn": [
+              {
+                "TxnId": "203",
+                "TxnType": "Check"
+              }
+            ]
+          }
+        ],
+        "CustomerRef": {
+          "name": "Test",
+          "value": "1"
+        },
+        "Id": "293",
+        "MetaData": {
+          "CreateTime": "2021-01-18T15:08:12-08:00",
+          "LastUpdatedTime": "2021-01-18T15:08:12-08:00"
+        }
+      }
+    ],
+    "time": "2015-07-28T15:16:15.435-07:00"
+  }
+}

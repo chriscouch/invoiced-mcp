@@ -1,0 +1,311 @@
+<div class="loading" ng-show="loadingTemplates"></div>
+
+<form name="emailSettingsForm" ng-submit="save(triggers)" ng-hide="loadingTemplates" class="email-trigger-settings form-horizontal">
+	<h4 class="settings-section-title">{{'settings.emails.triggers.invoices_notices'|translate}}</h4>
+	<div class="trigger-section">
+		<div class="form-group main-option">
+			<div class="col-sm-12">
+				<label>
+					<input type="checkbox" ng-model="triggers.new_invoice" />
+					{{'settings.emails.triggers.new_invoice'|translate}}
+				</label>
+				<div class="form-group sub-option" ng-show="hasAutoPay && triggers.new_invoice">
+					<div class="col-sm-12">
+						<label>
+							<input type="checkbox" ng-model="triggers.new_autopay_invoice" />
+							<span class="checkbox-text">{{'settings.emails.triggers.new_autopay_invoice'|translate}}</span>
+						</label>
+					</div>
+				</div>
+				<div class="form-group sub-option" ng-show="triggers.new_invoice">
+					<div class="col-sm-12">
+						<label>
+							<input type="checkbox" ng-model="triggers.has_invoice_start_date" />
+							<span class="checkbox-text">{{'settings.emails.triggers.invoice_start_date'|translate}}</span>
+						</label>
+						<div class="input-group input-medium invoice-start-date" ng-show="triggers.has_invoice_start_date">
+							<input type="text" class="form-control" ng-model="triggers.invoice_start_date" ui-date="dateOptions" is-open="dpOpened" readonly="readonly" required />
+							<span class="input-group-btn">
+								<button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'dpOpened')">
+									<span class="fas fa-calendar-alt"></span>
+								</button>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="template-details" ng-show="triggers.new_invoice">
+					Template: <strong>{{emailTemplates.new_invoice_email.name}}</strong><br/>
+					<a href="" ng-click="customize(emailTemplates.new_invoice_email)">
+						{{'general.customize'|translate}}
+						<span class="fas fa-caret-right"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group main-option" ng-show="hasSubscriptions">
+			<div class="col-sm-12">
+				<label>
+					<input type="checkbox" ng-model="triggers.new_subscription_invoice" />
+					{{'settings.emails.triggers.new_subscription_invoice'|translate}}
+				</label>
+				<div class="template-details" ng-show="triggers.new_subscription_invoice">
+					Template: <strong>{{emailTemplates.new_invoice_email.name}}</strong><br/>
+					<a href="" ng-click="customize(emailTemplates.new_invoice_email)">
+						{{'general.customize'|translate}}
+						<span class="fas fa-caret-right"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group main-option">
+			<div class="col-sm-12">
+				<label>
+					<input type="checkbox" ng-model="triggers.invoice_reminder" />
+					{{'settings.emails.triggers.invoice_reminder'|translate}}
+				</label>
+				<div class="sub-option" ng-show="triggers.invoice_reminder">
+					<span class="text">{{'settings.emails.triggers.invoice_reminder_days'|translate}}</span>
+					<div class="input-group input-medium">
+						<input type="number" class="form-control" ng-model="triggers.invoice_reminder_days" />
+						<span class="input-group-addon">days</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group main-option">
+			<div class="col-sm-12">
+				<label>
+					<input type="checkbox" ng-model="triggers.paid_invoice" />
+					{{'settings.emails.triggers.paid_invoice'|translate}}
+				</label>
+				<div class="template-details" ng-show="triggers.paid_invoice">
+					Template: <strong>{{emailTemplates.paid_invoice_email.name}}</strong><br/>
+					<a href="" ng-click="customize(emailTemplates.paid_invoice_email)">
+						{{'general.customize'|translate}}
+						<span class="fas fa-caret-right"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr/>
+
+	<h4 class="settings-section-title">{{'settings.emails.triggers.payment_notices'|translate}}</h4>
+	<div class="trigger-section">
+		<div class="form-group main-option">
+			<div class="col-sm-12">
+				<label>
+					<input type="checkbox" ng-model="triggers.send_receipt" />
+					{{'settings.emails.triggers.send_receipt'|translate}}
+				</label>
+				<div class="template-details" ng-show="triggers.send_receipt">
+					Template: <strong>{{emailTemplates.payment_receipt_email.name}}</strong><br/>
+					<a href="" ng-click="customize(emailTemplates.payment_receipt_email)">
+						{{'general.customize'|translate}}
+						<span class="fas fa-caret-right"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group main-option">
+			<div class="col-sm-12">
+				<label>
+					<input type="checkbox" ng-model="triggers.send_refund" />
+					{{'settings.emails.triggers.send_refund'|translate}}
+				</label>
+				<div class="template-details" ng-show="triggers.send_refund">
+					Template: <strong>{{emailTemplates.refund_email.name}}</strong><br/>
+					<a href="" ng-click="customize(emailTemplates.refund_email)">
+						{{'general.customize'|translate}}
+						<span class="fas fa-caret-right"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group main-option" ng-show="hasAutoPay">
+			<div class="col-sm-12">
+				<label>
+					<input type="checkbox" ng-model="triggers.send_auto_payment_failed" />
+					{{'settings.emails.triggers.send_auto_payment_failed'|translate}}
+				</label>
+				<div class="template-details" ng-show="triggers.send_auto_payment_failed">
+					Template: <strong>{{emailTemplates.auto_payment_failed_email.name}}</strong><br/>
+					<a href="" ng-click="customize(emailTemplates.auto_payment_failed_email)">
+						{{'general.customize'|translate}}
+						<span class="fas fa-caret-right"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr/>
+
+	<div ng-show="hasPaymentPlans">
+		<h4 class="settings-section-title">{{'settings.emails.triggers.payment_plan_notices'|translate}}</h4>
+		<div class="trigger-section">
+			<div class="form-group main-option">
+				<div class="col-sm-12">
+					<label>
+						<input type="checkbox" ng-model="triggers.new_payment_plan" />
+						{{'settings.emails.triggers.new_payment_plan'|translate}}
+					</label>
+					<div class="template-details" ng-show="triggers.new_payment_plan">
+						Template: <strong>{{emailTemplates.payment_plan_onboard_email.name}}</strong><br/>
+						<a href="" ng-click="customize(emailTemplates.payment_plan_onboard_email)">
+							{{'general.customize'|translate}}
+							<span class="fas fa-caret-right"></span>
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group main-option">
+				<div class="col-sm-12">
+					<label>
+						<input type="checkbox" ng-model="triggers.payment_plan_reminder" />
+						{{'settings.emails.triggers.payment_plan_reminder'|translate}}
+					</label>
+					<div class="sub-option" ng-show="triggers.payment_plan_reminder">
+						<span class="text">{{'settings.emails.triggers.payment_plan_reminder_days'|translate}}</span>
+						<div class="input-group input-medium">
+							<input type="number" class="form-control" ng-model="triggers.payment_plan_reminder_days" />
+							<span class="input-group-addon">days</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr/>
+	</div>
+
+	<h4 class="settings-section-title">{{'settings.emails.triggers.credit_note_notices'|translate}}</h4>
+	<div class="trigger-section">
+		<div class="form-group main-option">
+			<div class="col-sm-12">
+				<label>
+					<input type="checkbox" ng-model="triggers.new_credit_note" />
+					{{'settings.emails.triggers.new_credit_note'|translate}}
+				</label>
+				<div class="template-details" ng-show="triggers.new_credit_note">
+					Template: <strong>{{emailTemplates.credit_note_email.name}}</strong><br/>
+					<a href="" ng-click="customize(emailTemplates.credit_note_email)">
+						{{'general.customize'|translate}}
+						<span class="fas fa-caret-right"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr/>
+
+	<div ng-show="hasSubscriptions">
+		<h4 class="settings-section-title">{{'settings.emails.triggers.subscription_notices'|translate}}</h4>
+		<div class="trigger-section">
+			<div class="form-group main-option">
+				<div class="col-sm-12">
+					<label>
+						<input type="checkbox" ng-model="triggers.subscription_confirmation" />
+						{{'settings.emails.triggers.subscription_confirmation'|translate}}
+					</label>
+					<div class="template-details" ng-show="triggers.subscription_confirmation">
+						Template: <strong>{{emailTemplates.subscription_confirmation_email.name}}</strong><br/>
+						<a href="" ng-click="customize(emailTemplates.subscription_confirmation_email)">
+							{{'general.customize'|translate}}
+							<span class="fas fa-caret-right"></span>
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group main-option">
+				<div class="col-sm-12">
+					<label>
+						<input type="checkbox" ng-model="triggers.subscription_renews_soon" />
+						{{'settings.emails.triggers.subscription_renews_soon'|translate}}
+					</label>
+					<div class="template-details" ng-show="triggers.subscription_renews_soon">
+						Template: <strong>{{emailTemplates.subscription_renews_soon_email.name}}</strong><br/>
+						<a href="" ng-click="customize(emailTemplates.subscription_renews_soon_email)">
+							{{'general.customize'|translate}}
+							<span class="fas fa-caret-right"></span>
+						</a>
+					</div>
+					<div class="sub-option" ng-show="triggers.subscription_renews_soon">
+						<span class="text">{{'settings.emails.triggers.subscription_renews_soon_days'|translate}}</span>
+						<div class="input-group input-medium">
+							<input type="number" class="form-control" ng-model="triggers.subscription_renews_soon_days" />
+							<span class="input-group-addon">days</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group main-option">
+				<div class="col-sm-12">
+					<label>
+						<input type="checkbox" ng-model="triggers.subscription_canceled" />
+						{{'settings.emails.triggers.subscription_canceled'|translate}}
+					</label>
+					<div class="template-details" ng-show="triggers.subscription_canceled">
+						Template: <strong>{{emailTemplates.subscription_canceled_email.name}}</strong><br/>
+						<a href="" ng-click="customize(emailTemplates.subscription_canceled_email)">
+							{{'general.customize'|translate}}
+							<span class="fas fa-caret-right"></span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr/>
+	</div>
+
+	<div ng-show="hasEstimates">
+		<h4 class="settings-section-title">{{'settings.emails.triggers.estimate_notices'|translate}}</h4>
+		<div class="trigger-section">
+			<div class="form-group main-option">
+				<div class="col-sm-12">
+					<label>
+						<input type="checkbox" ng-model="triggers.new_estimate" />
+						{{'settings.emails.triggers.new_estimate'|translate}}
+					</label>
+					<div class="template-details" ng-show="triggers.new_estimate">
+						Template: <strong>{{emailTemplates.estimate_email.name}}</strong><br/>
+						<a href="" ng-click="customize(emailTemplates.estimate_email)">
+							{{'general.customize'|translate}}
+							<span class="fas fa-caret-right"></span>
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group main-option">
+				<div class="col-sm-12">
+					<label>
+						<input type="checkbox" ng-model="triggers.estimate_reminder" />
+						{{'settings.emails.triggers.estimate_reminder'|translate}}
+					</label>
+					<div class="sub-option" ng-show="triggers.estimate_reminder">
+						<span class="text">{{'settings.emails.triggers.estimate_reminder_days'|translate}}</span>
+						<div class="input-group input-medium">
+							<input type="number" class="form-control" ng-model="triggers.estimate_reminder_days" />
+							<span class="input-group-addon">days</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group form-actions">
+		<div class="col-sm-12">
+			<button type="submit" class="btn btn-primary Button" ng-disabled="emailSettingsForm.$invalid||emailSettingsForm.$pristine||saving" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+				<span translate>general.save</span>
+			</button>
+		</div>
+	</div>
+</form>

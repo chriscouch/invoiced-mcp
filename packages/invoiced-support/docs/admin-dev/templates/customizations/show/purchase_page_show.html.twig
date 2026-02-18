@@ -1,0 +1,16 @@
+{% extends '@EasyAdmin/crud/detail.html.twig' %}
+{% set purchasePage=entity.instance %}
+
+{% block content_title %}
+    <div class="fs-6 fw-light text-secondary">Purchase Page # {{ purchasePage.getId }}</div>
+    {{ purchasePage.billingProfile.name }}
+    &mdash;
+    {{ purchasePage.formattedReason }}
+    <div class="badges">
+        {% if purchasePage.completedAt %}
+            <span class="badge badge-success">Completed</span>
+        {% elseif purchasePage.isExpired %}
+            <span class="badge badge-danger">Expired</span>
+        {% endif %}
+    </div>
+{% endblock %}

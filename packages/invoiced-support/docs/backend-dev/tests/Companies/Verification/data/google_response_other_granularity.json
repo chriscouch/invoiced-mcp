@@ -1,0 +1,85 @@
+{
+  "result": {
+    "verdict": {
+      "inputGranularity": "OTHER",
+      "validationGranularity": "OTHER",
+      "geocodeGranularity": "OTHER"
+    },
+    "address": {
+      "formattedAddress": "Austin, TX, USA",
+      "postalAddress": {
+        "regionCode": "US",
+        "languageCode": "en",
+        "administrativeArea": "TX",
+        "locality": "Austin"
+      },
+      "addressComponents": [
+        {
+          "componentName": {
+            "text": "Austin",
+            "languageCode": "en"
+          },
+          "componentType": "locality",
+          "confirmationLevel": "CONFIRMED"
+        },
+        {
+          "componentName": {
+            "text": "TX",
+            "languageCode": "en"
+          },
+          "componentType": "administrative_area_level_1",
+          "confirmationLevel": "CONFIRMED"
+        },
+        {
+          "componentName": {
+            "text": "USA",
+            "languageCode": "en"
+          },
+          "componentType": "country",
+          "confirmationLevel": "CONFIRMED"
+        }
+      ],
+      "missingComponentTypes": [
+        "route",
+        "postal_code",
+        "street_number"
+      ]
+    },
+    "geocode": {
+      "location": {
+        "latitude": 30.267153,
+        "longitude": -97.7430608
+      },
+      "plusCode": {
+        "globalCode": "86247784+VQ"
+      },
+      "bounds": {
+        "low": {
+          "latitude": 30.0986589,
+          "longitude": -97.9383829
+        },
+        "high": {
+          "latitude": 30.5168629,
+          "longitude": -97.573102
+        }
+      },
+      "featureSizeMeters": 20000,
+      "placeId": "ChIJLwPMoJm1RIYRetVp1EtGm10",
+      "placeTypes": [
+        "political",
+        "locality"
+      ]
+    },
+    "uspsData": {
+      "standardizedAddress": {
+        "cityStateZipAddressLine": "AUSTIN",
+        "city": "AUSTIN",
+        "state": "TX"
+      },
+      "dpvFootnote": "A1M1",
+      "postOfficeCity": "AUSTIN",
+      "postOfficeState": "TX"
+    }
+  },
+  "responseId": "55422cba-1f9a-4f94-adcd-4697ac8886ce"
+}

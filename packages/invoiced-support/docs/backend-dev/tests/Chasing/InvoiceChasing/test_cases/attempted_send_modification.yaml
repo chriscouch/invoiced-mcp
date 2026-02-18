@@ -1,0 +1,207 @@
+# Tests that any attempted sends (sent, failed, skipped) are not updated
+# if their associated chasing step is updated.
+#
+# Specific scenario tested:
+# A repeater with multiple steps that has the first step as sent.
+
+operations:
+
+  # PART 1: Create and send ScheduledSends for a repeater option.
+
+  - operation: create
+    mock_time: '2022-01-01 09:52:12' # Time was chosen at random, date was not
+    data:
+      invoice:
+        due_date: '2022-01-07 09:52:12'
+        items:
+          - quantity: 1
+            unit_cost: 100
+      delivery:
+        chase_schedule:
+          - trigger: 3
+            # Option specifies a two day repeater which happens 3 times.
+            options:
+              hour: 8
+              days: 2
+              repeats: 3
+              email: true
+              sms: false
+              letter: false
+    expect:
+      delivery:
+        processed: false
+      delivery_state:
+        # 3 scheduled sends since it repeats 3 times
+        - state:
+            - date: '2022-01-09 08:00:00'
+              skipped: false
+              sent:
+                email: false
+            - date: '2022-01-11 08:00:00'
+              skipped: false
+              sent:
+                email: false
+            - date: '2022-01-13 08:00:00'
+              skipped: false
+              sent:
+                email: false
+      scheduled_sends: []
+
+  - operation: schedule
+    mock_time: '2022-01-01 09:53:12' # 1 minute after create time (last operation)
+    expect:
+      delivery:
+        processed: true
+      delivery_state:
+        - state:
+            - date: '2022-01-09 08:00:00'
+              skipped: false
+              sent:
+                email: false
+            - date: '2022-01-11 08:00:00'
+              skipped: false
+              sent:
+                email: false
+            - date: '2022-01-13 08:00:00'
+              skipped: false
+              sent:
+                email: false
+      scheduled_sends:
+        - send_after: '2022-01-09 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+        - send_after: '2022-01-11 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+        - send_after: '2022-01-13 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+
+  - operation: send
+    mock_time: '2022-01-10 09:53:12' # 9 days after create operation
+    delivery_state:
+      - state:
+          - date: '2022-01-09 08:00:00'
+            skipped: false
+            sent:
+              email: true
+          - date: '2022-01-11 08:00:00'
+            skipped: false
+            sent:
+              email: false
+          - date: '2022-01-13 08:00:00'
+            skipped: false
+            sent:
+              email: false
+    scheduled_sends:
+      - send_after: '2022-01-09 08:00:00'
+        channel: 0
+        sent: true
+        canceled: false
+        skipped: false
+        failed: false
+      - send_after: '2022-01-11 08:00:00'
+        channel: 0
+        sent: false
+        canceled: false
+        skipped: false
+        failed: false
+      - send_after: '2022-01-13 08:00:00'
+        channel: 0
+        sent: false
+        canceled: false
+        skipped: false
+        failed: false
+
+    # PART 2: Test that only the non-sent ScheduledSends are updated.
+    # The test updates the invoice date which should show that since
+    # the repeater has already started, the start date of the repeaters
+    # is based on the send_after property of the first sent repeating
+    # ScheduledSend
+
+  - operation: edit
+    mock_time: '2022-01-10 09:54:12' # 1 minute after previous operation
+    data:
+      invoice:
+        due_date: 2021-11-27
+      delivery:
+        chase_schedule:
+          - id: 0 # Refers to an index not the actual id. See test suite for more detail.
+            trigger: 3
+            options:
+              hour: 8
+              days: 3 # Increase this so show that the send date is based on the already sent ScheduledSend despite the due date change.
+              repeats: 2 # Cut this down to 2 to test that the last ScheduledSend is removed.
+              email: true
+              sms: false
+              letter: false
+    expect:
+      delivery:
+        processed: false
+      delivery_state:
+        - state:
+            - date: '2022-01-09 08:00:00'
+              skipped: false
+              sent:
+                email: true
+            - date: '2022-01-12 08:00:00' # Since the initial ScheduledSend was sent, repeaters are based on it's send time (i.e. 8 - days option + (3 first step) + (3 second step))
+              skipped: false
+              sent:
+                email: false
+      scheduled_sends: # not updated yet
+        - send_after: '2022-01-09 08:00:00'
+          channel: 0
+          sent: true
+          canceled: false
+          skipped: false
+          failed: false
+        - send_after: '2022-01-11 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+        - send_after: '2022-01-13 08:00:00'
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false
+
+  - operation: schedule
+    mock_time: '2022-01-10 09:55:12' # 1 minute after previous operation
+    expect:
+      delivery:
+        processed: true
+      delivery_state:
+        - state:
+            - date: '2022-01-09 08:00:00'
+              skipped: false
+              sent:
+                email: true
+            - date: '2022-01-12 08:00:00' # Since the initial ScheduledSend was sent, repeaters are based on it's send time (i.e. 8 - days option + (3 first step) + (3 second step))
+              skipped: false
+              sent:
+                email: false
+      scheduled_sends:
+        - send_after: '2022-01-09 08:00:00'
+          channel: 0
+          sent: true
+          canceled: false
+          skipped: false
+          failed: false
+        - send_after: '2022-01-12 08:00:00' # Since the initial ScheduledSend was sent, repeaters are based on it's send time (i.e. 8 - days option + (3 first step) + (3 second step))
+          channel: 0
+          sent: false
+          canceled: false
+          skipped: false
+          failed: false

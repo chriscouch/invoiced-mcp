@@ -1,0 +1,238 @@
+{% trans_default_domain 'customer_portal' %}
+{% set title = 'titles.invoices'|trans %}
+{% extends "customerPortal/activity.twig" %}
+
+{% block data_table %}
+	<div class="filter">
+		<div class="row">
+			<div class="col-sm-3 form-section">
+				<form method="get">
+					<!-- Search -->
+					<div class="input-group">
+						<input type="text" name="search" class="form-control" placeholder="{{ 'labels.invoice_number'|trans }} / {{ 'labels.po_number'|trans }}" value="{{ app.request.query.get('search') }}">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit">
+								<span class="fas fa-search"></span>
+							</button>
+						</span>
+					</div>
+				</form>
+			</div>
+			<div class="col-sm-9 form-section">
+				<form method="get" class="form-inline">
+					<div class="row align-items-center gx-1">
+						<div class="col-auto">
+							<span class="fas fa-filter"></span>
+						</div>
+
+						<!-- Status -->
+						<div class="col-auto ms-3">
+							<select class="form-select input-medium" name="status">
+								<option value="all" {% if app.request.query.get('status') == 'all' %}selected="selected"{% endif %}>{{ 'labels.all'|trans }}</option>
+								<option disabled="disabled">---</option>
+								<option value="open" {% if app.request.query.get('status') == 'open' %}selected="selected"{% endif %}>{{ 'labels.open'|trans }}</option>
+								<option value="past_due" {% if app.request.query.get('status') == 'past_due' %}selected="selected"{% endif %}>{{ 'labels.past_due'|trans }}</option>
+								<option value="paid" {% if app.request.query.get('status') == 'paid' %}selected="selected"{% endif %}>{{ 'labels.paid'|trans }}</option>
+							</select>
+						</div>
+
+						<!-- Date Range -->
+						<div class="col-auto ms-3">
+							<div class="input-group input-date">
+								<span class="input-group-text text-dark">
+									<span class="far fa-calendar"></span>
+								</span>
+								<input type="text" class="form-control date" id="startDate" placeholder="{{ 'labels.date'|trans }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+								<input type="hidden" id="startDateAlt" name="start_date" value="{{ app.request.query.get('start_date') }}" />
+							</div>
+						</div>
+						<div class="col-auto">
+							&mdash;
+						</div>
+						<div class="col-auto">
+							<div class="input-group input-date">
+								<span class="input-group-text text-dark">
+									<span class="far fa-calendar"></span>
+								</span>
+								<input type="text" class="form-control date" id="endDate" placeholder="{{ 'labels.date'|trans }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+								<input type="hidden" id="endDateAlt" name="end_date" value="{{ app.request.query.get('end_date') }}" />
+							</div>
+						</div>
+
+						<!-- Submit -->
+						<div class="col-auto ms-3">
+							<button type="submit" class="btn btn-default">
+								{{ 'labels.apply'|trans }}
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bulk Actions -->
+	<div class="selected hidden">
+		<div class="title">
+			<span class="num-checkbox-rows-selected"></span> {{ 'labels.selected'|trans }}
+			<a href="#" class="clear-selection"><span class="fas fa-times-circle"></span></a>
+		</div>
+		<div class="actions">
+			{% if acceptsPayments %}
+				<button type="button" class="btn btn-primary pay-selected">
+					{{ 'buttons.pay'|trans }}
+				</button>
+			{% endif %}
+		</div>
+	</div>
+
+	{% if results|length > 0 %}
+		<table class="table table-invoiced mobile-stack">
+			<thead>
+				<tr>
+					<th class="checkbox-column">
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="check-all" />
+							<label class="form-check-label" for="check-all"></label>
+						</div>
+					</th>
+					<th class="column-invoice-number">
+						<a href="{{ filter.sortBase }}&sort=number+{% if sort == 'number ASC' %}DESC{% else %}ASC{% endif %}" class="{% if sort == 'number DESC' %}down{% elseif sort == 'number ASC' %}up{% endif %}">
+							{{ 'labels.invoice_number'|trans }}
+							<span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+							<span class="sort down"><span class="fas fa-sort-amount-up-alt"></span></span>
+						</a>
+					</th>
+					{% if showCustomer %}
+						<th class="column-customer">
+							{{ 'labels.customer'|trans }}
+						</th>
+					{% endif %}
+					<th class="column-date">
+						<a href="{{ filter.sortBase }}&sort=date+{% if sort == 'date DESC' %}ASC{% else %}DESC{% endif %}" class="{% if sort == 'date DESC' %}down{% elseif sort == 'date ASC' %}up{% endif %}">
+							{{ 'labels.date'|trans }}
+							<span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+							<span class="sort down"><span class="fas fa-sort-amount-up-alt"></span></span>
+						</a>
+					</th>
+					<th class="column-status">
+						<a href="{{ filter.sortBase }}&sort=status+{% if sort == 'status ASC' %}DESC{% else %}ASC{% endif %}" class="{% if sort == 'status DESC' %}down{% elseif sort == 'status ASC' %}up{% endif %}">
+							{{ 'labels.status'|trans }}
+							<span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+							<span class="sort down"><span class="fas fa-sort-amount-up-alt"></span></span>
+						</a>
+					</th>
+					<th class="column-due-date">
+						<a href="{{ filter.sortBase }}&sort=due_date+{% if sort == 'due_date ASC' %}DESC{% else %}ASC{% endif %}" class="{% if sort == 'due_date DESC' %}down{% elseif sort == 'due_date ASC' %}up{% endif %}">
+							{{ 'labels.due_date'|trans }}
+							<span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+							<span class="sort down"><span class="fas fa-sort-amount-up-alt"></span></span>
+						</a>
+					</th>
+					<th class="column-po-number">
+						<a href="{{ filter.sortBase }}&sort=purchase_order+{% if sort == 'purchase_order ASC' %}DESC{% else %}ASC{% endif %}" class="{% if sort == 'purchase_order DESC' %}down{% elseif sort == 'purchase_order ASC' %}up{% endif %}">
+							{{ 'labels.po_number'|trans }}
+							<span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+							<span class="sort down"><span class="fas fa-sort-amount-up-alt"></span></span>
+						</a>
+					</th>
+					<th class="column-total money-column">
+						<a href="{{ filter.sortBase }}&sort=total+{% if sort == 'total ASC' %}DESC{% else %}ASC{% endif %}" class="{% if sort == 'total DESC' %}down{% elseif sort == 'total ASC' %}up{% endif %}">
+							{{ 'labels.total'|trans }}
+							<span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+							<span class="sort down"><span class="fas fa-sort-amount-up-alt"></span></span>
+						</a>
+					</th>
+					<th class="column-balance money-column">
+						<a href="{{ filter.sortBase }}&sort=balance+{% if sort == 'balance ASC' %}DESC{% else %}ASC{% endif %}" class="{% if sort == 'balance DESC' %}down{% elseif sort == 'balance ASC' %}up{% endif %}">
+							{{ 'labels.balance'|trans }}
+							<span class="sort up"><span class="fas fa-sort-amount-down-alt"></span></span>
+							<span class="sort down"><span class="fas fa-sort-amount-up-alt"></span></span>
+						</a>
+					</th>
+					<th class="column-actions"></th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for invoice in results %}
+				<tr>
+					<td class="checkbox-column">
+						<div class="form-check">
+                            {% for name, value in invoice.metadata %}
+                                <input type="hidden" name="metadata[{{ invoice.client_id }}][{{ name }}]" value="{{ value }}" />
+                            {% endfor %}
+							<input type="checkbox" class="form-check-input" data-id="{{ invoice.client_id }}" data-payable="{% if acceptsPayments and invoice.payment_url %}1{% else %}0{% endif %}" id="col-checkbox-{{ loop.index }}" />
+							<label class="form-check-label" for="col-checkbox-{{ loop.index }}"></label>
+						</div>
+					</td>
+					<td class="column-invoice-number mobile-first">
+						<a href="{{ invoice.url }}">
+							{{ invoice.number }}
+						</a>
+					</td>
+					{% if showCustomer %}
+						<td class="column-customer">
+							{{ invoice.customer.name }}
+						</td>
+					{% endif %}
+					<td class="column-date">{{ invoice.date }}</td>
+					<td class="column-status status">
+						{% if invoice.status == 'paid' %}
+							<span class="badge bg-success">{{ 'labels.paid'|trans }}</span>
+						{% elseif invoice.status == 'past_due' %}
+							<span class="badge bg-danger">{{ 'labels.past_due'|trans }}</span>
+						{% elseif invoice.status == 'bad_debt' %}
+							<span class="badge bg-danger">{{ 'labels.bad_debt'|trans }}</span>
+						{% elseif invoice.status == 'pending' %}
+							<span class="badge bg-warning">{{ 'labels.pending'|trans }}</span>
+						{% else %}
+							<span class="badge bg-light text-dark">{{ 'labels.open'|trans }}</span>
+						{% endif %}
+					</td>
+					<td class="column-due-date">{{ invoice.due_date }}</td>
+					<td class="column-po-number">{{ invoice.purchase_order }}</td>
+					<td class="column-total money-column">{{ invoice.total|money(invoice.currency) }}</td>
+					<td class="column-balance money-column">
+						{% if invoice.status != 'paid' %}
+							{{ invoice.balance|money(invoice.currency) }}
+						{% endif %}
+					</td>
+					<td class="column-actions mobile-last">
+						<a href="{{ invoice.pdf_url }}">
+							<span class="fas fa-arrow-to-bottom"></span>
+							{{ 'labels.pdf'|trans }}
+						</a>
+						{% if acceptsPayments and invoice.payment_url %}
+							<a href="{{ invoice.payment_url }}">
+								<span class="fas fa-dollar-sign"></span>
+								{{ 'buttons.pay'|trans }}
+							</a>
+						{% endif %}
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+			<tfoot>
+				<tr>
+					<td class="checkbox-column"></td>
+					<td class="column-invoice-number"></td>
+					{% if showCustomer %}<td class="column-customer"></td>{% endif %}
+					<td class="column-date"></td>
+					<td class="column-status"></td>
+					<td class="column-due-date"></td>
+					<td class="column-po-number"></td>
+					<td class="column-total money-column">{{ totals.total|money(totals.total_currency) }}</td>
+					<td class="column-balance money-column">{{ totals.balance|money(totals.balance_currency) }}</td>
+					<td class="column-actions"></td>
+				</tr>
+			</tfoot>
+		</table>
+
+		<!-- Pagination -->
+		{{ include('customerPortal/pagination.twig') }}
+	{% else %}
+		<p class="empty">
+			{{ 'messages.no_invoices_found'|trans }}
+		</p>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,64 @@
+<div class="loading" ng-show="loading"></div>
+<div class="contents large" ng-show="!loading">
+    <form name="syncForm" class="form-horizontal" ng-submit="start(settings, readers)">
+        <div class="row">
+            <div class="col-md-9 col-md-offset-3">
+                <h4 class="settings-section-title">Initial Data Sync</h4>
+
+                <p>Use our Initial Data Sync to effortlessly transfer past data into Invoiced. Ideal for importing data before Invoiced or missing details. For optimal performance, select only necessary data with minimal date ranges, as <strong>syncing over 1,000 records at once may not finish</strong>.</p>
+
+                <p>Tip: When syncing invoices or credit notes, include payments to obtain accurate balances.</p>
+            </div>
+        </div>
+        <hr/>
+
+        <div class="row">
+            <div class="col-md-9 col-md-offset-3">
+                <div class="alert alert-danger" ng-show="error">{{error.message}}</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3">Data to Sync</label>
+            <div class="col-md-9">
+                <div class="checkbox" ng-repeat="reader in readers">
+                    <label class="noselect">
+                        <input type="checkbox" ng-model="reader.enabled"/>
+                        {{reader.name}}
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3">{{'filter.date_range'|translate}}</label>
+            <div class="col-md-4">
+                <date-range-picker period="settings.period"></date-range-picker>
+            </div>
+            <div class="col-md-5 help-block text-muted">
+                Applies to transactions only.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3">{{'general.options'|translate}}</label>
+            <div class="checkbox col-md-4">
+                <label class="noselect">
+                    <input type="checkbox" ng-model="settings.open_items_only"/>
+                    Sync Open Items Only
+                </label>
+            </div>
+            <div class="col-md-5 help-block text-muted">
+                Only syncs invoices and credit notes with a balance.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-9 col-md-offset-3">
+                <button type="submit" class="btn btn-success Button" ng-disabled="starting||syncForm.$invalid" v-busy="starting" v-busy-label="{{'general.starting'|translate}}" v-busy-text="{{'general.start'|translate}}" v-pressable>
+                    <span translate>general.start</span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

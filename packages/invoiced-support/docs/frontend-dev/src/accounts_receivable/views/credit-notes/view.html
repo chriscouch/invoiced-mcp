@@ -1,0 +1,111 @@
+<p class="loading" ng-show="loading"></p>
+
+<div class="object-view invoice-summary" ng-hide="loading">
+	<div class="title-bar">
+		<!-- Balance -->
+		<div class="balance" ng-show="creditNote.balance > 0">
+			<div class="owes">
+				<span class="balance-label">{{'general.balance'|translate}}</span>
+				<span class="amount"><money amount="creditNote.balance" currency="creditNote.currency"></money></span>
+			</div>
+			<div class="bar">
+				<invoice-balance-bar invoice="creditNote" max="creditNote.balance"></invoice-balance-bar>
+			</div>
+		</div>
+
+		<!-- Title -->
+		<h2>
+			{{creditNote.name}}
+			<span class="draft-label" ng-show="creditNote.draft">Draft</span>
+		</h2>
+		<h3>{{creditNote.number}}</h3>
+	</div>
+
+	<ul class="nav nav-tabs">
+		<!-- Tab Links -->
+		<li ui-sref-active="active">
+			<a ui-sref=".summary">
+				{{'tabs.summary'|translate}}
+			</a>
+		</li>
+		<li ui-sref-active="active">
+			<a ui-sref=".messages">
+				{{'inboxes.messages.title'|translate}}
+			</a>
+		</li>
+		<li ui-sref-active="active">
+			<a ui-sref=".history">
+				{{'tabs.history'|translate}}
+			</a>
+		</li>
+
+		<!-- Action Buttons -->
+		<li class="action dropdown right" dropdown>
+			<a href="" class="dropdown-toggle" dropdown-toggle>
+				<span class="actions-label"></span>
+				<span class="fas fa-chevron-down"></span>
+			</a>
+			<ul class="dropdown-menu dropdown-menu-right">
+				<li ng-show="creditNote.pdf_url">
+					<a href="{{creditNote.pdf_url}}?t=0" target="_self">
+						Download as PDF
+					</a>
+				</li>
+				<li ng-if="'emails.send'|hasPermission" ng-hide="creditNote.status=='voided'">
+					<a href="" ng-click="emailModal(creditNote)">
+						Send Credit Note
+					</a>
+				</li>
+				<li ng-show="creditNote.url">
+					<a href="" ng-click="urlModal(creditNote.url)" ng-if="'credit_notes.edit'|hasPermission">
+						Client View URL
+					</a>
+				</li>
+				<li class="divider" ng-hide="creditNote.status=='voided'"></li>
+				<li ng-if="'credits.create'|hasPermission" ng-hide="creditNote.status == 'voided'||creditNote.draft||creditNote.paid||creditNote.closed">
+					<a href="" ng-click="paymentModal(creditNote)">
+						Apply Credit Note
+					</a>
+				</li>
+				<li ng-if="('credit_notes.create'|hasPermission) && editable">
+					<a ui-sref="manage.credit_note.duplicate({id:creditNote.id})">
+						{{'general.make_copy'|translate}}
+					</a>
+				</li>
+				<li ng-if="('credit_notes.edit'|hasPermission) && editable" ng-hide="creditNote.status=='voided' || !creditNote.closed">
+					<a href="" ng-click="setClosed(false, creditNote)">
+						Reopen Credit Note
+					</a>
+				</li>
+				<li class="divider"></li>
+				<li class="danger" ng-if="('credit_notes.void'|hasPermission) && editable" ng-hide="creditNote.status=='voided'">
+					<a href="" ng-click="void(creditNote)" ng-hide="deleting">
+						Void Credit Note
+					</a>
+				</li>
+				<li class="danger" ng-if="'credit_notes.delete'|hasPermission">
+					<a href="" ng-click="delete(creditNote)" ng-hide="deleting">
+						Delete Credit Note
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li class="action right hidden-xs" ng-hide="creditNote.closed||creditNote.status=='voided'" ng-if="('credit_notes.edit'|hasPermission) && editable">
+			<a ui-sref="manage.credit_note.edit({id:creditNote.id})">
+				<div>{{'general.edit'|translate}}</div>
+			</a>
+		</li>
+		<li class="action automation-action right" ng-if="'credit_notes.edit'|hasPermission">
+			<div>
+				<automate-button btn-class="'nav-link-item'" object-type="modelObjectType" object-id="modelId"></automate-button>
+			</div>
+		</li>
+	</ul>
+
+	<!-- Selected Tab Content -->
+	<div class="tab-content">
+		<div class="tab-pane active">
+			<ui-view/>
+		</div>
+	</div>
+</div>

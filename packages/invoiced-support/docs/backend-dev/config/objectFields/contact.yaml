@@ -1,0 +1,38 @@
+fields:
+  address1: { name: "Address Line 1", type: string }
+  address2: { name: "Address Line 2", type: string }
+  city: { name: City, type: string }
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  country: { name: Country, type: string }
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  customer:
+    name: Customer
+    type: join
+    writable: false
+  department: { name: Department, type: string }
+  email: { name: "Email Address", type: string }
+  id:
+    name: ID
+    type: string
+    writable: false
+  name: { name: Name, type: string }
+  phone: { name: Phone, type: string }
+  postal_code: { name: "Postal Code", type: string }
+  primary: { name: "Billing Contact", type: boolean }
+  sms_enabled: { name: "SMS Enabled", type: boolean }
+  state: { name: State, type: string }
+  title: { name: Title, type: string }
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false

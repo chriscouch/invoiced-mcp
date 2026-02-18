@@ -1,0 +1,48 @@
+fields:
+  brand: { name: "Card Brand", type: string }
+  chargeable: { name: "Card Saved", type: boolean }
+  company:
+    name: Company
+    type: join
+    parent_column: tenant_id
+    writable: false
+    filterable: false
+  created_at:
+    name: Created At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false
+  customer: { name: Customer, type: join }
+  exp_date:
+    name: Expiration Date
+    type: date
+    date_format: "Y-m-d"
+  exp_month: { name: "Expiration Month", type: string }
+  exp_year: { name: "Expiration Year", type: string }
+  failure_reason: { name: "Failure Reason", type: string }
+  funding:
+    name: "Card Funding"
+    type: enum
+    values:
+      credit: Credit
+      debit: Debit
+      prepaid: Prepaid
+      unknown: Unknown
+  gateway: { name: "Payment Gateway", type: string }
+  gateway_customer: { name: "Payment Gateway Customer", type: string }
+  gateway_id: { name: "Payment Gateway ID", type: string }
+  id:
+    name: ID
+    type: string
+    writable: false
+  issuing_country:
+    name: Issuing Country
+    type: string
+  last4: { name: "Card Last 4", type: string }
+  merchant_account: { name: "Gateway Configuration", type: join }
+  receipt_email: { name: "Receipt Email", type: string }
+  updated_at:
+    name: Updated At
+    type: datetime
+    date_format: "Y-m-d H:i:s"
+    writable: false

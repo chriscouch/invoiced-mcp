@@ -1,0 +1,54 @@
+<form class="form-horizontal" name="earthClassMailForm" ng-submit="save(inbox_id)">
+    <div class="form-group">
+        <div class="col-sm-8 col-sm-offset-4">
+            <h4 class="settings-section-title">Settings</h4>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-4">
+            {{'earth_class_mail.settings.inbox' | translate}}
+        </label>
+        <div class="col-sm-3">
+            <div class="invoiced-select" ng-hide="loading">
+                <select ng-model="inbox.id" ng-options="inbox.id as inbox.name for inbox in inboxes" required></select>
+            </div>
+            <div ng-show="loading" class="loading inline"></div>
+        </div>
+        <div class="col-sm-5 help-text">
+            <a href="" tooltip="Which Earth Class Mail inbox should we import checks from?">
+                <span class="fas fa-question-circle"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-4">
+            {{'accounting_sync.last_synced' | translate}}
+        </label>
+        <div class="col-sm-8 form-control-static">
+            <span ng-if="!integration.extra.last_retrieved_data_at">
+                <em>{{'accounting_sync.not_synced_yet' | translate}}</em>
+            </span>
+            <span ng-if="integration.extra.last_retrieved_data_at > 0">
+                <company-date-time date="integration.extra.last_retrieved_data_at"></company-date-time>
+            </span>
+            <span ng-hide="synced">
+                &mdash;
+                <a href="" ng-click="sync()">
+                    {{'earth_class_mail.settings.sync_now' | translate}}
+                </a>
+            </span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-8 col-sm-offset-4">
+            <button type="submit" class="btn btn-primary Button" ng-disabled="saving||earthClassMailForm.$invalid"
+                    v-busy="saving" v-busy-label="{{'general.saving'|translate}}"
+                    v-busy-text="{{'general.save'|translate}}" v-pressable>
+                <span translate>general.save</span>
+            </button>
+        </div>
+    </div>
+</form>

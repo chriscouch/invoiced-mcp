@@ -1,0 +1,427 @@
+<div class="loading" ng-show="loading"></div>
+<form name="reportBuilderForm" ng-submit="generateReport(report)" ng-hide="loading">
+    <div class="contents report-builder">
+        <div class="title-bar">
+            <h2 class="title">
+                <div class="docs-link">
+                    <a href="https://docs.invoiced.com/reporting/report-builder" target="_blank">
+                        {{'general.documentation'|translate}}
+                        <span class="fas fa-external-link"></span>
+                    </a>
+                </div>
+                <div class="back-link">
+                    <a ui-sref="manage.reports.list">
+                        <span class="fas fa-arrow-left"></span>
+                        Reports
+                    </a>
+                </div>
+                Report Builder
+            </h2>
+        </div>
+        <p class="lead">
+            The report builder lets you build custom reports to drill down into your accounts receivable data.
+        </p>
+
+        <feature-upgrade ng-if="!('report_builder'|hasFeature)"></feature-upgrade>
+        <div ng-if="'report_builder'|hasFeature">
+            <p class="required-indicator">
+                <span class="required"></span> {{'general.indicates_required_field'|translate}}
+            </p>
+
+            <!-- Report Title -->
+            <div class="form-group">
+                <label class="control-label">Report Title</label>
+                <div>
+                    <input type="text" class="form-control input-large" ng-model="report.title" />
+                </div>
+            </div>
+
+            <!-- Sections -->
+            <h4 class="settings-section-title">Sections</h4>
+
+            <div class="report-section" ng-repeat="section in report.sections">
+                <!-- Section Title -->
+                <div class="section-title">
+                    <div class="number">{{$index + 1}}.</div>
+
+                    <div class="actions">
+                        <button type="button" class="btn btn-default" ng-click="makeAdvanced(section)" ng-hide="section._advancedMode">
+                            Advanced Mode
+                        </button>
+                        <button type="button" class="btn btn-default" ng-click="makeSimple(section)" ng-show="section._advancedMode">
+                            Simple Mode
+                        </button>
+                        <button type="button" ng-click="moveSectionUp($index)" class="btn btn-link" ng-hide="report.sections.length <= 1 || $index == 0">
+                            <span class="fas fa-arrow-up"></span>
+                        </button>
+                        <button type="button" ng-click="moveSectionDown($index)" class="btn btn-link" ng-hide="report.sections.length <= 1 || $index >= report.sections.length - 1">
+                            <span class="fas fa-arrow-down"></span>
+                        </button>
+                        <button type="button" ng-click="deleteSection($index)" class="btn btn-danger btn-sm" ng-hide="report.sections.length <= 1">
+                            <span class="fas fa-trash"></span>
+                        </button>
+                    </div>
+
+                    <div ng-hide="section._advancedInput">
+                        <label class="control-label">Title</label>
+                        <input type="text" class="form-control input-large" ng-model="section.title" />
+                    </div>
+                </div>
+
+                <!-- Simple Editor -->
+                <div class="simple-mode" ng-if="!section._advancedMode">
+                    <div class="section-options">
+                        <div class="report-options">
+                            <!-- Object -->
+                            <div class="report-option data-type">
+                                <label class="control-label">Data Type <span class="required"></span></label>
+                                <div class="invoiced-select">
+                                    <select ng-model="section.object" ng-options="object.id as object.name for object in reportObjects | filter:{standalone:true}" ng-change="changeObject(section)" required></select>
+                                </div>
+                            </div>
+
+                            <!-- Section Type -->
+                            <div class="report-option visualization">
+                                <label class="control-label">Visualization <span class="required"></span></label>
+                                <div>
+                                    <div class="btn-group btn-radio">
+                                        <button type="button" class="btn btn-default" tooltip="Table" ng-model="section.type" btn-radio="'table'" ng-change="changeVisualization(section)">
+                                            <span class="far fa-table"></span>
+                                        </button>
+                                        <button type="button" class="btn btn-default" tooltip="Chart" ng-model="section.type" btn-radio="'chart'" ng-change="changeVisualization(section)">
+                                            <span class="far fa-chart-pie"></span>
+                                        </button>
+                                        <button type="button" class="btn btn-default" tooltip="Metric" ng-model="section.type" btn-radio="'metric'" ng-change="changeVisualization(section)">
+                                            <span class="fas fa-hashtag"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Chart Type -->
+                            <div class="report-option chart-type" ng-if="section.type == 'chart'">
+                                <label class="control-label">Chart Type <span class="required"></span></label>
+                                <div class="invoiced-select">
+                                    <select ng-model="section.chart_type" required>
+                                        <option value="bar">Bar</option>
+                                        <option value="doughnut">Doughnut</option>
+                                        <option value="line">Line</option>
+                                        <option value="pie">Pie</option>
+                                        <option value="polar">Polar</option>
+                                        <option value="radar">Radar</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Multi-Entity -->
+                            <div class="report-option multi-entity">
+                                <label class="control-label">Multi-Entity</label>
+                                <div>
+                                    <toggle ng-model="section.multi_entity"></toggle>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columns -->
+                    <div class="columns">
+                        <h5>
+                            Columns
+                            <span class="required"></span>
+                        </h5>
+
+                        <!-- Chart Columns -->
+                        <div class="holder" ng-if="section.type == 'chart'">
+                            <div class="columns-list">
+                                <div class="column">
+                                    <div class="report-options">
+                                        <div class="report-option field">
+                                            <label class="control-label">Dimension</label>
+                                            <select-report-field ng-model="section.fields[0]" object="section.object"></select-report-field>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <div class="report-options">
+                                        <div class="report-option field">
+                                            <label class="control-label">Values</label>
+                                            <select-report-field ng-model="section.fields[1]" object="section.object"></select-report-field>
+                                        </div>
+                                        <div class="report-option summarize" ng-show="section.fields[1]._function != 'count' && (section.fields[1]._meta.type == 'float' || section.fields[1]._meta.type == 'integer' || section.fields[1]._meta.type == 'money')">
+                                            <label class="control-label">Summarize</label>
+                                            <div class="invoiced-select">
+                                                <select ng-model="section.fields[1]._function">
+                                                    <option value=""></option>
+                                                    <option value="sum">Sum</option>
+                                                    <option value="avg">Average</option>
+                                                    <option value="min">Min</option>
+                                                    <option value="max">Max</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Metric Columns -->
+                        <div class="holder" ng-if="section.type == 'metric'">
+                            <div class="columns-list">
+                                <div class="column">
+                                    <div class="report-options">
+                                        <div class="report-option field">
+                                            <select-report-field ng-model="section.fields[0]" object="section.object"></select-report-field>
+                                        </div>
+                                        <div class="report-option summarize" ng-show="section.group.length > 0 && !section.group[0].expanded && section.fields[0]._function != 'count' && (section.fields[0]._meta.type == 'float' || section.fields[0]._meta.type == 'integer' || section.fields[0]._meta.type == 'money')">
+                                            <div class="invoiced-select">
+                                                <select ng-model="section.fields[0]._function">
+                                                    <option value=""></option>
+                                                    <option value="sum">Sum</option>
+                                                    <option value="avg">Average</option>
+                                                    <option value="min">Min</option>
+                                                    <option value="max">Max</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="report-option title">
+                                            <input type="text" class="form-control input-medium" ng-model="section.fields[0].name" placeholder="Metric Name" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Table Columns -->
+                        <div class="holder" ng-if="section.type == 'table'">
+                            <div class="columns-list has-sorting" ui-sortable="sortableOptions" ng-model="section.fields">
+                                <div class="column" ng-repeat="column in section.fields">
+                                    <div class="report-options">
+                                        <div class="report-option order" ng-hide="section.fields.length==1">
+                                            <div class="sortable-handle">
+                                                <span class="fas fa-grip-lines"></span>
+                                            </div>
+                                        </div>
+                                        <div class="report-option type">
+                                            <span class="field-type {{column._meta.type}}">
+                                                <span ng-show="column._meta.type == 'boolean'">
+                                                    <span class="fad fa-toggle-on"></span>
+                                                </span>
+                                                <span ng-show="column._meta.type == 'date'">
+                                                    <span class="fad fa-calendar"></span>
+                                                </span>
+                                                <span ng-show="column._meta.type == 'datetime'">
+                                                    <span class="fad fa-clock"></span>
+                                                </span>
+                                                <span ng-show="column._meta.type == 'float'">
+                                                    <span class="fad fa-hashtag"></span>
+                                                </span>
+                                                <span ng-show="column._meta.type == 'integer'">
+                                                    <span class="fad fa-hashtag"></span>
+                                                </span>
+                                                <span ng-show="column._meta.type == 'money'">
+                                                    <span class="fad fa-dollar-sign"></span>
+                                                </span>
+                                                <span ng-show="column._meta.type == 'enum' || column._meta.type == 'string'">
+                                                    <span class="fad fa-text"></span>
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div class="report-option field">
+                                            {{column._meta.name}}
+                                        </div>
+                                        <div class="report-option summarize" ng-show="section.group.length > 0 && !section.group[0].expanded && column._function != 'count' && (column._meta.type == 'float' || column._meta.type == 'integer' || column._meta.type == 'money')">
+                                            <div class="invoiced-select">
+                                                <select ng-model="column._function">
+                                                    <option value=""></option>
+                                                    <option value="sum">Sum</option>
+                                                    <option value="avg">Average</option>
+                                                    <option value="min">Min</option>
+                                                    <option value="max">Max</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="report-option title">
+                                            <div ng-show="column.name">
+                                                <input type="text" class="form-control input-medium" ng-model="column.name" placeholder="Column Name" />
+                                            </div>
+                                            <div ng-hide="column.name">
+                                                <a href="" ng-click="changeColumnName(column)">
+                                                    Change Display Name
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="report-option actions">
+                                            <button type="button" ng-click="deleteColumn(section, $index)" class="btn btn-link">
+                                                <span class="fas fa-times"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="add-columns">
+                                <div class="add-column">
+                                    <button type="button" ng-click="addColumns(section)" class="btn btn-default">
+                                        <span class="fas fa-plus"></span>
+                                        Columns
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filter -->
+                    <div class="filters" ng-show="section.filter.length > 0">
+                        <h5>Filters</h5>
+
+                        <div class="filter-condition" ng-repeat="filterField in section.filter">
+                            <div class="title" ng-hide="$index == 0">
+                                <label class="control-label">And</label>
+                            </div>
+                            <div class="report-options">
+                                <div class="report-option field">
+                                    <select-report-field ng-model="filterField" object="section.object"></select-report-field>
+                                </div>
+                                <div class="report-option operator" ng-show="filterField._field">
+                                    <div class="invoiced-select">
+                                        <select ng-options="operator.id as operator.name for operator in filterField._meta.operators" ng-model="filterField.operator"></select>
+                                    </div>
+                                </div>
+                                <div class="report-option value" ng-hide="!filterField._field || !filterField.operator || filterField.operator == 'true' || filterField.operator == 'false' || filterField.operator == 'empty' || filterField.operator == 'not_empty' || filterField.operator == 'between_date_range' || filterField.operator == 'not_between_date_range'">
+                                    <div class="invoiced-select" ng-if="filterField._meta.type == 'enum' && (filterField.operator == '=' || filterField.operator == '<>')">
+                                        <select ng-model="filterField.value" ng-options="key as value for (key, value) in filterField._meta.values"></select>
+                                    </div>
+                                    <div class="multi-select" ng-if="filterField.operator == 'one_of' || filterField.operator == 'not_one_of'">
+                                        <input type="hidden" ng-model="filterField.value" ui-select2="filterField._meta.select2Options" />
+                                    </div>
+                                    <div ng-if="filterField._meta.type != 'enum' && filterField.operator != 'one_of' && filterField.operator != 'not_one_of'">
+                                        <input type="text" class="form-control input-large" ng-model="filterField.value" />
+                                    </div>
+                                </div>
+                                <div class="report-option actions">
+                                    <button type="button" ng-click="deleteFilterCondition(section, $index)" class="btn btn-link">
+                                        <span class="fas fa-times"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="add-filter-condition">
+                            <button type="button" ng-click="addFilterCondition(section)" class="btn btn-link">
+                                <span class="fas fa-plus"></span>
+                                Add a condition
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Grouping -->
+                    <div class="grouping" ng-show="section.group.length > 0 && section.type === 'table'">
+                        <h5>Group by</h5>
+                        <div class="group-field" ng-repeat="groupField in section.group">
+                            <div class="title" ng-hide="$index == 0">
+                                <label class="control-label">Then by</label>
+                            </div>
+                            <div class="report-options">
+                                <div class="report-option field">
+                                    <select-report-field ng-model="groupField" object="section.object"></select-report-field>
+                                </div>
+                                <div class="report-option direction">
+                                    <div class="invoiced-select">
+                                        <select ng-model="groupField.sort_direction">
+                                            <option value="asc">Sort Ascending</option>
+                                            <option value="desc">Sort Descending</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="report-option expanded">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" ng-model="groupField.expanded" />
+                                        Expanded
+                                    </label>
+                                </div>
+                                <div class="report-option actions">
+                                    <button type="button" ng-click="deleteGroupField(section, $index)" class="btn btn-link">
+                                        <span class="fas fa-times"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="add-group-field" ng-hide="section.group.length >= 2">
+                            <button type="button" ng-click="addGroupField(section)" class="btn btn-link">
+                                <span class="fas fa-plus"></span>
+                                Group by another column
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Sorting -->
+                    <div class="sorting" ng-show="section.sort.length > 0 && section.type !== 'metric'">
+                        <h5>Sort by</h5>
+                        <div class="sort-field" ng-repeat="sortField in section.sort">
+                            <div class="title" ng-hide="$index == 0">
+                                <label class="control-label">Then by</label>
+                            </div>
+                            <div class="report-options">
+                                <div class="report-option field">
+                                    <select-report-field ng-model="sortField" object="section.object"></select-report-field>
+                                </div>
+                                <div class="report-option direction">
+                                    <div class="invoiced-select">
+                                        <select ng-model="sortField.sort_direction">
+                                            <option value="asc">Sort Ascending</option>
+                                            <option value="desc">Sort Descending</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="report-option actions">
+                                    <button type="button" ng-click="deleteSortField(section, $index)" class="btn btn-link">
+                                        <span class="fas fa-times"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="add-sort-field" ng-hide="section.sort.length >= 3">
+                            <button type="button" ng-click="addSortField(section)" class="btn btn-link">
+                                <span class="fas fa-plus"></span>
+                                Sort by another column
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="controls" ng-show="!section.filter.length || (section.type === 'table' && !section.group.length) || (section.type !== 'metric' && !section.sort.length)">
+                        <button type="button" ng-click="addFilterCondition(section)" class="btn btn-default" ng-hide="section.filter.length > 0">
+                            <span class="fas fa-plus"></span>
+                            Filter condition
+                        </button>
+                        <button type="button" ng-click="addGroupField(section)" class="btn btn-default" ng-hide="section.group.length > 0 || section.type !== 'table'">
+                            <span class="fas fa-plus"></span>
+                            Grouping
+                        </button>
+                        <button type="button" ng-click="addSortField(section)" class="btn btn-default" ng-hide="section.sort.length > 0 || section.type === 'metric'">
+                            <span class="fas fa-plus"></span>
+                            Sort
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Advanced Editor -->
+                <div class="advanced-mode" ng-if="section._advancedMode">
+                    <textarea ui-codemirror="cmOptions" ng-model="section._advancedInput" ui-refresh="cmRefresh"></textarea>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" ng-click="addSection()" class="btn btn-link btn-lg" ng-hide="sections.length > 10">
+                    <span class="fas fa-plus"></span>
+                    Add Section
+                </button>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary Button" ng-disabled="building||reportForm.$invalid" v-busy="building" v-busy-label="Building" v-pressable>
+                    Generate Report
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

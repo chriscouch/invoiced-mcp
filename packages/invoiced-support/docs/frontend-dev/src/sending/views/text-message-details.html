@@ -1,0 +1,88 @@
+<div class="modal-header">
+	<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+	<h4 class="modal-title">Text Message Details</h4>
+</div>
+<div class="modal-body form-horizontal">
+	<div ng-show="loading" class="loading"></div>
+	<div ng-show="!loading&&!textMessage">
+		<p class="empty">
+			Sorry, we could not find this text message.
+		</p>
+	</div>
+	<div ng-hide="loading||!textMessage">
+		<!-- Recipient -->
+		<div class="form-group">
+			<label class="control-label col-sm-3">Recipient</label>
+			<div class="col-sm-9 form-control-static" ng-bind-html="textMessage.to|nl2br"></div>
+		</div>
+
+		<!-- Sent -->
+		<div class="form-group">
+			<label class="control-label col-sm-3">Sent On</label>
+			<div class="col-sm-9 form-control-static">
+				<company-date-time date="textMessage.created_at"></company-date-time>
+			</div>
+		</div>
+
+		<!-- State -->
+		<div class="form-group">
+			<label class="control-label col-sm-3">State</label>
+			<div class="col-sm-9 form-control-static">
+				<span class="label label-success" ng-show="textMessage.state=='sent'">Sent</span>
+				<span class="label label-warning" ng-show="textMessage.state=='scheduled'">Scheduled</span>
+				<span class="label label-warning" ng-show="textMessage.state=='queued'">Queued</span>
+				<span class="label label-warning" ng-show="textMessage.state=='deferred'">Deferred</span>
+				<span class="label label-danger" ng-show="textMessage.state=='invalid'">Invalid</span>
+				<span class="label label-danger" ng-show="textMessage.state=='rejected'">Rejected</span>
+				<span class="label label-danger" ng-show="textMessage.state=='soft-bounced'">Soft Bounced</span>
+				<span class="label label-danger" ng-show="textMessage.state=='bounced'">Bounced</span>
+				<span ng-show="textMessage.reject_reason">&mdash; {{textMessage.reject_reason}}</span>
+			</div>
+		</div>
+
+		<!-- Object Link -->
+		<div class="form-group" ng-show="customerId">
+			<label class="control-label col-sm-3">Customer</label>
+			<div class="col-sm-9">
+				<a ui-sref="manage.customer.view.summary({id:customerId})" class="btn btn-default" ng-click="close()">
+					View
+				</a>
+			</div>
+		</div>
+		<div class="form-group" ng-show="estimateId">
+			<label class="control-label col-sm-3">Estimate</label>
+			<div class="col-sm-9">
+				<a ui-sref="manage.estimate.view.summary({id:estimateId})" class="btn btn-default" ng-click="close()">
+					View
+				</a>
+			</div>
+		</div>
+		<div class="form-group" ng-show="creditNoteId">
+			<label class="control-label col-sm-3">Credit Note</label>
+			<div class="col-sm-9">
+				<a ui-sref="manage.credit_note.view.summary({id:creditNoteId})" class="btn btn-default" ng-click="close()">
+					View
+				</a>
+			</div>
+		</div>
+		<div class="form-group" ng-show="invoiceId">
+			<label class="control-label col-sm-3">Invoice</label>
+			<div class="col-sm-9">
+				<a ui-sref="manage.invoice.view.summary({id:invoiceId})" class="btn btn-default" ng-click="close()">
+					View
+				</a>
+			</div>
+		</div>
+		<div class="form-group" ng-show="paymentId">
+			<label class="control-label col-sm-3">Payment</label>
+			<div class="col-sm-9">
+				<a ui-sref="manage.payment.view.summary({id:paymentId})" class="btn btn-default" ng-click="close()">
+					View
+				</a>
+			</div>
+		</div>
+
+		<!-- Message -->
+		<div class="well" ng-bind-html="textMessage.message|linky:'_blank'|nl2br"></div>
+	</div>
+</div>

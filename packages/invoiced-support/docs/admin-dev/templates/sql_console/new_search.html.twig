@@ -1,0 +1,68 @@
+{% form_theme form with '@EasyAdmin/crud/form_theme.html.twig' %}
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}SQL Console{% endblock %}
+
+{% block body_class 'ea-index sql-console' %}
+
+{% block page_actions %}
+    {{ parent() }}
+    <button type="submit" class="btn btn-primary" form="searchForm">Execute</button>
+{% endblock %}
+
+{% block main %}
+    {{ form_start(form, {attr: {id: 'searchForm'}}) }}
+
+    {{ form_widget(form) }}
+
+    {{ form_end(form) }}
+
+    {% if submitted %}
+        {% if count > 0 %}
+            <div class="mt-3">
+                <div class="float-end">
+                    <button class="btn btn-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExport" aria-expanded="false" aria-controls="collapseExport">
+                        <span class="fa fa-arrow-down"></span>
+                        Export
+                    </button>
+                </div>
+                <h4 class="fw-bolder fs-4">
+                    Results
+                    <span class="badge badge-secondary">{{ results|length }}</span>
+                </h4>
+            </div>
+
+            <div class="collapse mt-3" id="collapseExport">
+                <div class="text-muted fs-6 mb-1">Copy the data below to paste into a spreadsheet</div>
+                <textarea class="form-control mb-5" rows="10">{{ export }}</textarea>
+            </div>
+
+            <div class="table-responsive pb-5">
+                <table class="table datagrid">
+                    <thead>
+                        <tr>
+                            {% for key,value in results[0] %}
+                                <th>
+                                    <span>{{ key }}</span>
+                                </th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for result in results %}
+                            <tr>
+                            {% for key,value in result %}
+                                <td data-label="{{ key }}">
+                                    <span>{{ value }}</span>
+                                </td>
+                            {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {%  else %}
+            No results found
+        {%  endif %}
+    {%  endif %}
+{% endblock %}

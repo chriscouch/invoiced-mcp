@@ -1,0 +1,31 @@
+{% trans_default_domain 'customer_portal' %}
+<div id="paypalFormParams">
+	<input type="hidden" name="button" value="buynow" />
+	<input type="hidden" name="charset" value="utf-8" />
+	<input type="hidden" name="quantity" value="1" />
+	<input type="hidden" name="return" value="{{ returnUrl }}" />
+	<input type="hidden" name="rm" value="1" />
+	<input type="hidden" name="shopping_url" value="{{ shoppingUrl }}" />
+	<input type="hidden" name="cancel_return" value="{{ cancelReturnUrl }}" />
+	<input type="hidden" name="notify_url" value="{{ ipnUrl | raw }}" />
+	<input type="hidden" name="env" value="{{ paypalEnv }}" />
+	<input type="hidden" name="cmd" value="_xclick" />
+	<input type="hidden" name="tax" value="0" />
+	<input type="hidden" name="business" value="{{ paypalEmail }}" />
+	<input type="hidden" name="custom" value="{{ companyIdentifier }}" />
+	<input type="hidden" name="bn" value="Invoiced_SP" />
+	<input type="hidden" id="paypalUrl" value="{{ paypalUrl }}" />
+	<input type="hidden" name="invoice" value="{{ paypalInvoice }}" />
+	<input type="hidden" name="item_name" value="{{ description }}" />
+	<input type="hidden" name="currency_code" value="{{ currency | upper }}" />
+</div>
+
+<div class="alert bg-danger-soft text-dark border border-danger errors paypal-errors hidden"></div>
+
+<div class="checkout-with-paypal-holder">
+	<button type="button" class="paypal-checkout-button">
+        {{ 'labels.check_out_with_paypal'|trans }}
+	</button>
+</div>
+
+<script type="text/javascript" src="{{ asset('/js/views/paymentForms/paypal.js') }}"></script>

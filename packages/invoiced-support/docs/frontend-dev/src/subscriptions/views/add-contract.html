@@ -1,0 +1,87 @@
+<form name="subscriptionForm" ng-submit="save(id, contractInterval, contractIntervalCount, renewalMode, contractRenewalInterval, contractRenewalIntervalCount)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			<span ng-show="hasContract">Modify Contract</span>
+			<span ng-hide="hasContract">Add Contract</span>
+		</h4>
+	</div>
+	<div class="modal-body">
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+		<!-- Contract Term  -->
+		<div class="form-group">
+			<label class="control-label">
+				Contract Term
+				<a href="" tooltip="How long is the initial term of the contract?">
+					<span class="fas fa-question-circle"></span>
+				</a>
+				<span class="required"></span>
+			</label>
+			<div class="row no-margin">
+				<div class="col-xs-6">
+					<input type="number" class="form-control" ng-model="contractIntervalCount" required />
+				</div>
+				<div class="col-xs-6">
+					<div class="invoiced-select">
+						<select name="interval" ng-model="contractInterval" ng-options="row.value as row.name for row in contractRenewalOptions"></select>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Contract Renewal Mode -->
+		<div class="form-group">
+			<label class="control-label">
+				When Contract Ends
+			</label>
+			<div>
+				<div class="invoiced-select">
+					<select ng-model="renewalMode">
+						<option value="auto">Auto-renew</option>
+						<option ng-if="'subscription_manual_renewal'|hasFeature" value="manual">Require approval to renew</option>
+						<option value="none">Stop billing</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<!-- Contract Renewal Term  -->
+		<div class="form-group" ng-show="renewalMode=='auto'">
+			<label class="control-label">
+				Renewal Term
+				<a href="" tooltip="How long is the term of subsequent renewals?">
+					<span class="fas fa-question-circle"></span>
+				</a>
+				<span class="required"></span>
+			</label>
+			<div>
+				<label class="noselect">
+					<input type="checkbox" ng-model="sameRenewalLength" />
+					Same as the initial term
+				</label>
+			</div>
+			<div class="row no-margin" ng-hide="sameRenewalLength">
+				<div class="col-xs-6">
+					<input type="number" class="form-control" ng-model="contractRenewalIntervalCount" required />
+				</div>
+				<div class="col-xs-6">
+					<div class="invoiced-select">
+						<select name="interval" ng-model="contractRenewalInterval" ng-options="row.value as row.name for row in contractRenewalOptions"></select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="left" ng-show="hasContract">
+			<a href="" class="danger" ng-click="removeContract(id)" ng-hide="saving">
+				Remove Contract
+			</a>
+		</div>
+		<button type="submit" class="btn btn-primary Button" ng-disabled="subscriptionForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

@@ -1,0 +1,26 @@
+{% extends "emails/parent.twig" %}
+{% block title %}Welcome to Invoiced!{% endblock %}
+{% block content %}
+<row>
+	<columns>
+		{# The greeting was removed because it was often a vector for spam sign ups to insert links #}
+		<p>We're so happy you're here. Invoiced was founded because we wanted to help accounting teams get paid faster, automate collections, and streamline payments.</p>
+
+		<p>By joining Invoiced, you have just made an essential step towards taking control of your accounting processes.</p>
+
+		<p>You can access Invoiced anytime, from any device, by signing in at <a href="https://invoiced.com">invoiced.com</a>.</p>
+
+		<p>
+			To jumpstart your Invoiced experience, we recommend taking a look at the following resources:<br/>
+			<a href="https://invoiced.com/docs">Documentation</a><br>
+			<a href="https://docs.invoiced.com/getting-started/onboarding-guide">Onboarding Guide</a><br>
+			<a href="https://app.invoiced.com/help">Help &amp; Support</a><br>
+			<a href="https://sandbox.invoiced.com">Sandbox Environment</a>
+		</p>
+
+		<p>As you become acquainted with Invoiced, please let us know your thoughts. In addition, you may <a href="https://app.invoiced.com/help">contact us</a> with any issues, comments, or suggestions.</p>
+
+		<p>Sincerely,<br> The team at Invoiced</p>
+	</columns>
+</row>
+{% endblock %}

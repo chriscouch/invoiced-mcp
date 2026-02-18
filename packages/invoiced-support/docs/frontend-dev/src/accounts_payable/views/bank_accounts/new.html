@@ -1,0 +1,72 @@
+<form name="modelForm" ng-submit="save()" class="below0">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title">
+            {{'settings.vendor_bank_accounts.title'|translate}}
+        </h4>
+    </div>
+    <div class="modal-body form-horizontal">
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <p class="required-indicator">
+            <span class="required"></span> {{'general.indicates_required_field'|translate}}
+        </p>
+
+        <div class="form-group">
+            <label class="control-label col-sm-4">{{'settings.vendor_bank_accounts.inputs.name'|translate}} <span class="required"></span></label>
+            <div class="col-sm-6">
+                <input class="form-control input-sm" placeholder="{{'settings.vendor_bank_accounts.inputs.name_placeholder'|translate}}" ng-model="item.name" required />
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="('ap_plaid'|hasFeature)">
+            <label class="control-label col-sm-4">{{'settings.vendor_bank_accounts.payment_methods'|translate}} <span class="required"></span></label>
+            <div class="col-sm-6">
+                <div class="row">
+                    <label class="control-label"><input type="checkbox" ng-model="purpose_print_check" /> {{'settings.vendor_bank_accounts.inputs.purpose_print_check'|translate}}</label>
+                </div>
+                <div class="row" ng-show="'ap_plaid'|hasFeature">
+                    <label class="control-label"><input type="checkbox" ng-model="purpose_e_check" /> {{'settings.vendor_bank_accounts.inputs.purpose_e_check'|translate}}</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="purpose_print_check || purpose_e_check">
+            <label class="control-label col-sm-4">{{'settings.vendor_bank_accounts.check_number'|translate}} <span class="required"></span></label>
+            <div class="col-sm-6">
+                <input type="number" class="form-control input-sm" placeholder="#" ng-model="item.check_number" />
+            </div>
+        </div>
+        <div class="form-group" ng-show="purpose_print_check">
+            <label class="control-label col-sm-4">{{'settings.vendor_bank_accounts.check_layout'|translate}} <span class="required"></span></label>
+            <div class="col-sm-6">
+                <div class="invoiced-select">
+                    <select ng-model="item.check_layout">
+                        <option value="CheckOnTop">Check on Top</option>
+                        <option value="ThreePerPage">Three Checks Per Page</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" ng-show="purpose_e_check">
+            <label class="control-label col-sm-4">{{'settings.vendor_bank_accounts.inputs.signature'|translate}} <span class="required"></span></label>
+            <div class="col-sm-6 signature-container">
+                <signature-pad accept="accept" clear="clear" dataurl="signature" height="220" width="568" disabled="false" ng-style="{'height': purpose_e_check ? '103px' : '0'}"></signature-pad>
+                <button type="button" class="btn btn-default" ng-click="doAccept(clear())" ng-show="signed">{{'settings.vendor_bank_accounts.inputs.clear_signature'|translate}}</button>
+                <button type="button" class="btn btn-default" ng-click="doAccept(accept())" ng-show="signature && signature != emptyImage && signature != item.signature">{{'settings.vendor_bank_accounts.inputs.sign'|translate}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <button type="button" class="btn btn-primary" ng-show="item.id && item.plaid_id && !item.plaid.verified" ng-click="verify()" ng-disabled="saving" tooltip="{{'settings.vendor_bank_accounts.inputs.verify'|translate}}">
+                Verify
+            </button>
+            <button type="submit" class="btn btn-primary Button" ng-disabled="modelForm.$invalid||saving||nonSavable()" v-busy="saving" v-busy-label="Saving" v-pressable>
+                {{'general.save'|translate}}
+            </button>
+        </div>
+    </div>
+</form>

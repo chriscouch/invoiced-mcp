@@ -1,0 +1,228 @@
+<!-- Mobile Header -->
+<nav class="navbar" role="navigation">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<!-- Hamburger -->
+			<div class="bun" ng-click="toggleDrawer()">
+				<div class="hamburger" ng-class="{open:drawerOpen}">
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+			</div>
+
+			<!-- Logo -->
+			<div class="navbar-brand">
+				<img src="/img/{{logoFile}}" alt="Invoiced" />
+
+				<!-- New Stuff! -->
+				<a ui-sref="manage.announcements" class="announcements" ng-show="notifCount>0">
+					<span class="circle"></span>
+				</a>
+			</div>
+
+			<!-- Search -->
+			<div class="search-btn">
+				<a href="" ng-click="searchModal()">
+					<span class="fas fa-search"></span>
+				</a>
+			</div>
+		</div>
+	</div>
+</nav>
+
+<div id="content" class="clearfix" ng-class="{'shrunk':shrinkNav}">
+	<div id="left-navbar" class="drawers scrollable">
+		<div class="left-drawer">
+			<!-- Logo -->
+			<div class="top-logo">
+				<img src="/img/{{logoFile}}" alt="Invoiced" class="logo-img" />
+
+				<!-- New Stuff! -->
+				<a ui-sref="manage.announcements" class="announcements" ng-show="notifCount>0">
+					<div class="circle"></div>
+				</a>
+
+				<a href="" ng-click="toggleNavSize()" class="expand-btn" ng-class="{'show-expand':shrinkNav, 'show-shrink':!shrinkNav}">
+					<img src="/img/icons/expand.svg" class="expand-img" alt="Expand" />
+					<img src="/img/icons/shrink.svg" class="shrink-img" alt="Shrink" />
+				</a>
+			</div>
+
+			<!-- Signed In User (mobile) -->
+			<div class="person visible-xs visible-sm">
+				<div class="col">
+					<img avatar="avatarOptions" user="user" class="img-circle" />
+				</div>
+				<div class="col position-relative">
+					<a href="" ng-click="goNotifications()">
+						<span class="icon fas fa-bell"></span>
+						<span class="notifications-indicator mobile" ng-if="notificationIndicator"></span>
+					</a>
+				</div>
+				<div class="col">
+					<a ui-sref="manage.account" ng-click="closeDrawer()">
+						<span class="icon fas fa-user-circle"></span>
+					</a>
+				</div>
+				<div class="col">
+					<a ui-sref="auth.logout" ng-click="closeDrawer()">
+						<span class="icon fas fa-sign-out"></span>
+					</a>
+				</div>
+			</div>
+
+			<!-- Company Selector -->
+			<div class="company-selector">
+				<a href="" class="dropdown-toggle" ng-click="switchCompany()" ng-class="{'no-logo':!company.logo}">
+					<div class="logo">
+						<img ng-src="{{company.logo}}" alt="Logo" ng-if="!!company.logo" />
+					</div>
+					<div class="name">
+						{{company._name}}
+					</div>
+					<div class="arrow"><span class="fas fa-angles-up-down"></span></div>
+				</a>
+			</div>
+			
+			<!-- Navigation Bar -->
+			<ul class="nav">
+				<li ng-repeat="navItem in navigation">
+					<a ui-sref="{{navItem.route}}" class="nav-btn" ng-class="{active: navItem.isActive, 'has-parent': navItem.parent}" ng-click="closeDrawer()" ng-if="navItem.type === 'link'" ng-hide="navItem.hidden">
+						<div class="icon icon-{{navItem.id}}" ng-if="navItem.icon"></div>
+						<span class="text">{{'navigation.' + navItem.id|translate}}</span>
+					</a>
+					<a href="" class="nav-btn" ng-click="toggleSubmenu(navItem)" ng-if="navItem.type === 'submenu'">
+						<div class="icon icon-{{navItem.id}}" ng-if="navItem.icon"></div>
+						<span class="text">{{'navigation.' + navItem.id|translate}}</span>
+						<div class="nav-arrow" ng-class="{open: navItem.open}">
+							<span class="fas fa-chevron-down down"></span>
+							<span class="fas fa-chevron-up up"></span>
+						</div>
+					</a>
+					<a href="" class="nav-create-btn" ng-click="createShortcut(navItem)" title="New" ng-if="navItem.create">
+						<span class="fas fa-plus"></span>
+					</a>
+				</li>
+			</ul>
+			<div class="settings-btn" ng-if="['settings.edit', 'catalog.edit', 'business.admin', 'business.billing']|hasSomePermissions">
+				<a ui-sref="manage.settings.default" class="nav-btn" ng-class="{active:section=='settings'}" ng-click="closeDrawer()">
+					<div class="icon icon-settings"></div>
+					<span class="text">{{'general.settings'|translate}}</span>
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<div id="page">
+		<div class="scrollable">
+			<!-- Top Nav Bar -->
+			<div class="top-nav-bar">
+				<!-- Searchbar -->
+				<div class="searchbar light no-hover" searchbar></div>
+
+				<!-- History -->
+				<history-button></history-button>
+
+				<div ng-if="'business.billing'|hasPermission">
+					<!-- Purchase Now Btn -->
+					<div class="not-activated" ng-show="'not_activated'|hasFeature">
+						<a ng-href="{{activateUrl}}" tooltip="Some features disabled until you activate your account." tooltip-placement="bottom">
+							<span class="icon"><span class="fas fa-triangle-exclamation"></span></span>
+							Not Activated
+						</a>
+					</div>
+
+					<div class="trial-remaining-days hidden-xs hidden-sm hidden-md" ng-show="company.billing.status=='trialing'">
+						<a ng-href="{{activateUrl}}" tooltip="Days left in free trial" tooltip-placement="bottom">
+							Days remaining: {{trialDaysRemaining}}
+						</a>
+					</div>
+
+					<!-- Billing Problem -->
+					<div class="past-due">
+						<a ui-sref="manage.settings.billing" ng-show="company.billing.status=='past_due'">
+							<span class="fas fa-exclamation-triangle"></span>
+							Your Invoiced account is past due. Please resolve now to prevent a disruption in service.
+						</a>
+					</div>
+				</div>
+
+				<!-- Test Mode Label -->
+				<div class="test-mode" ng-show="company.test_mode">
+					<a href="" class="test-mode-label" tooltip="Account is in test mode. No live charges will be performed." tooltip-placement="bottom"></a>
+				</div>
+
+				<div class="notification-icon" ng-if="member.notifications">
+					<a ui-sref="manage.notifications" title="{{'navigation.notifications'|translate}}">
+						<span class="fas fa-bell"></span>
+					</a>
+					<span class="notifications-indicator" ng-if="notificationIndicator"></span>
+				</div>
+
+				<!-- Help Icon -->
+				<help-icon></help-icon>
+
+				<!-- Signed In User -->
+				<div class="signed-in-user dropdown" dropdown>
+					<a href="" class="dropdown-toggle" dropdown-toggle>
+						<img avatar="avatarOptions" user="user" class="img-circle" />
+					</a>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li ng-if="!member.notifications">
+							<a ui-sref="manage.settings.notifications">
+								<span class="icon fas fa-bell"></span>
+								Notifications
+							</a>
+						</li>
+						<li>
+							<a ui-sref="manage.account">
+								<span class="icon fas fa-user-circle"></span>
+								My Account
+							</a>
+						</li>
+						<li ng-if="'business.billing'|hasPermission">
+							<a ui-sref="manage.settings.billing">
+								Manage Billing
+							</a>
+						</li>
+						<li class="divider"></li>
+						<li class="danger">
+							<a ui-sref="auth.logout">
+								<span class="icon fas fa-sign-out"></span>
+								Sign Out
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<!-- Mobile Nav Breadcrumbs -->
+			<div breadcrumbs></div>
+
+			<!-- Active view (the most important part) -->
+			<div ui-view></div>
+
+			<!-- Footer -->
+			<footer>
+				<p class="links">
+					<a href="https://docs.invoiced.com" target="_blank">Documentation</a>
+					<a ui-sref="manage.help">Help &amp; Support</a>
+					<a href="https://docs.invoiced.com/changelog" target="_blank">Release Notes</a>
+					<a href="https://invoiced.com/blog" target="_blank">Blog</a>
+					<a href="https://developer.invoiced.com/api" target="_blank">API</a>
+					<a href="https://invoiced.com/terms" target="_blank">Terms</a>
+					<a href="https://invoiced.com/privacy" target="_blank">Privacy</a>
+					<br/>
+					&copy; {{date | date:'yyyy'}} Invoiced, Inc.
+				</p>
+			</footer>
+		</div>
+	</div>
+</div>
+
+<!-- App Success/Error Messages -->
+<div id="app-messages"></div>
+
+<script type="text/javascript">resizeAppPage();initSnapper();</script>

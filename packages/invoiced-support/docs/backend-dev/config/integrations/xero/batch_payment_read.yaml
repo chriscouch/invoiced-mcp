@@ -1,0 +1,6 @@
+mapping:
+  - sourceField: BatchPaymentID
+    destinationField: accounting_id
+
+  - sourceField: Reference
+    destinationField: reference

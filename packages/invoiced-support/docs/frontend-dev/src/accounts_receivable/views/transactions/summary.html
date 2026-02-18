@@ -1,0 +1,232 @@
+<div class="row two-pane">
+	<div class="col-sm-4 left-pane">
+		<div class="details-list vertical">
+			<h4>
+				{{modelTitle}} {{'transactions.view.details'|translate}}
+			</h4>
+
+			<!-- Customer -->
+			<div>
+				<div class="title">Customer</div>
+				<div class="value">
+					<a href="/customers/{{transaction.customer.id}}">
+						{{transaction.customer.name}}
+					</a>
+				</div>
+			</div>
+
+			<!-- State -->
+			<div ng-show="transaction.status!='succeeded'">
+				<div class="title">State</div>
+				<div class="value">
+					<transaction-status transaction="transaction"></transaction-status>
+				</div>
+			</div>
+
+			<!-- Date -->
+			<div>
+				<div class="title">{{'general.date'|translate}}</div>
+				<div class="value">
+					<company-date date="transaction.date"></company-date>
+				</div>
+			</div>
+			
+			<!-- Payment Method -->
+			<div ng-show="transaction.type!='adjustment'&&!transaction.payment_source">
+				<div class="title">Payment Method</div>
+				<div class="value">
+					{{transaction.method|paymentMethodName}}
+				</div>
+			</div>
+
+			<!-- Payment Method -->
+			<div ng-show="transaction.payment_source">
+				<div class="title">Payment Method</div>
+				<div class="value">
+					<transaction-source source="transaction.payment_source"></transaction-source>
+				</div>
+			</div>
+			
+			<!-- Amount Paid -->
+			<div ng-show="paid>0">
+				<div class="title">Paid</div>
+				<div class="value">
+					<money amount="paid" currency="transaction.currency"></money>
+					<span ng-hide="transaction.currency == company.currency">{{transaction.currency | uppercase}}</span>
+				</div>
+			</div>
+
+			<!-- Amount Refunded -->
+			<div ng-show="refunded>0">
+				<div class="title">Refunded</div>
+				<div class="value text-danger">
+					<money amount="refunded" currency="transaction.currency"></money>
+					<span ng-hide="transaction.currency == company.currency">{{transaction.currency | uppercase}}</span>
+				</div>
+			</div>
+
+			<!-- Amount Credited -->
+			<div ng-show="credited!=0">
+				<div class="title">Credited</div>
+				<div class="value" ng-class="{'text-danger':credited<0,'text-success':credited>0}">
+					<money amount="credited" currency="transaction.currency"></money>
+					<span ng-hide="transaction.currency == company.currency">{{transaction.currency | uppercase}}</span>
+				</div>
+			</div>
+
+			<!-- Net Amount -->
+			<div ng-show="paid>0&&net!=paid">
+				<div class="title">Net</div>
+				<div class="value">
+					<money amount="net" currency="transaction.currency"></money>
+					<span ng-hide="transaction.currency == company.currency">{{transaction.currency | uppercase}}</span>
+				</div>
+			</div>
+
+			<!-- Transaction ID -->
+			<div ng-if="transaction.gateway&&transaction.gateway_id">
+				<div class="title">{{transaction.gateway|gatewayName}} Transaction ID</div>
+				<div class="value">
+					{{transaction.gateway_id}}
+				</div>
+			</div>
+
+			<!-- GoCardless link -->
+			<div ng-if="transaction.gateway=='gocardless'&&transaction.gateway_id">
+				<div class="title">GoCardless Payment</div>
+				<div class="value">
+					<a href="{{gocardlessDashboardUrl}}/payments/{{transaction.gateway_id}}" target="_blank" rel="noopener noreferrer">
+						View on GoCardless
+					</a>
+				</div>
+			</div>
+
+			<!-- Stripe link -->
+			<div ng-if="transaction.gateway=='stripe'&&transaction.gateway_id">
+				<div class="title">Stripe Charge</div>
+				<div class="value">
+					<a href="{{stripeDashboardUrl}}/payments/{{transaction.gateway_id}}" target="_blank" rel="noopener noreferrer">
+						View on Stripe
+					</a>
+				</div>
+			</div>
+
+			<!-- Check # -->
+			<div ng-if="transaction.method=='check'&&transaction.gateway_id">
+				<div class="title">{{'payment_method.check'|translate}} #</div>
+				<div class="value">
+					{{transaction.gateway_id}}
+				</div>
+			</div>
+
+			<!-- Reference # -->
+			<div ng-if="transaction.method!='check'&&!transaction.gateway&&transaction.gateway_id">
+				<div class="title">{{'transactions.labels.reference'|translate}} #</div>
+				<div class="value">
+					{{transaction.gateway_id}}
+				</div>
+			</div>
+
+			<!-- Metadata -->
+			<div class="metadata" ng-repeat="(key, value) in transaction.metadata" ng-hide="key=='intacct_payment_id'||key=='imported_from_intacct'||key=='netsuite_payment_id'||key=='imported_from_netsuite'||key=='quickbooks_payment_id'||key=='imported_from_quickbooks'||key=='xero_payment_id'||key=='imported_from_xero'||key=='last_synced'">
+				<div class="title"><metadata-name field-id="key" object-type="'transaction'"></metadata-name></div>
+				<div class="value">
+					<metadata-value field-id="key" object-type="'transaction'" value="value"></metadata-value>
+				</div>
+			</div>
+		</div>
+
+		<!-- Notes -->
+		<div class="details-list vertical notes">
+			<h4>
+				<div class="action" ng-if="'payments.edit'|hasPermission">
+					<a href="" ng-click="editNotes(transaction)" ng-hide="editingNotes">
+						{{'general.edit'|translate}}
+					</a>
+					<a href="" ng-click="saveNotes(transaction, newNotes)" ng-show="editingNotes&&!saving">
+						{{'general.save'|translate}}
+					</a>
+					<a href="" ng-click="cancelNotesEdit()" ng-show="editingNotes&&!saving">
+						{{'general.cancel'|translate}}
+					</a>
+				</div>
+				Notes
+			</h4>
+			<div class="hover-edit">
+				<div ng-show="!editingNotes&&transaction.notes" ng-bind-html="transaction.notes|linky:'_blank'|nl2br"></div>
+				<div class="empty" ng-hide="editingNotes||transaction.notes">
+					None
+				</div>
+				<div class="textarea-2-lines" ng-show="editingNotes">
+					<textarea class="form-control" ng-model="newNotes" placeholder="Enter any private notes here" expanding-textarea></textarea>
+				</div>
+			</div>
+		</div>
+
+		<!-- Accounting Sync Status -->
+		<sync-status synced-object="syncedObject" editable="editable" object-type="'payment'"></sync-status>
+	</div>
+
+	<div class="col-sm-8 right-pane">
+		<div class="action-items">
+			<div class="action-item info" ng-if="transaction.status=='pending'">
+				<div class="icon"></div>
+				<p>
+					This payment is currently pending. It will not be considered collected until it has cleared.
+				</p>
+			</div>
+
+			<div class="action-item warning" ng-if="transaction.status=='failed'&&transaction.failure_reason">
+				<div class="icon"></div>
+				<p>
+					This payment failed. The reason given was:<br/>
+					<strong>{{transaction.failure_reason}}</strong>
+				</p>
+			</div>
+		</div>
+
+		<!-- Applied To -->
+		<div class="panel panel-invoiced light" ng-show="appliedTo.length>0">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					Applied To
+				</h4>
+			</div>
+			<table class="search-results-table table table-striped slim">
+				<thead>
+					<tr>
+						<th>Document</th>
+						<th>Type</th>
+						<th>{{'general.date'|translate}}</th>
+						<th class="money-column">Amount</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="split in appliedTo" ng-click="goSplit($event,split)" ng-class="{clickable: isClickable(split)}">
+						<td class="title">
+							<a ui-sref="manage.invoice.view.summary({id:split.invoice.id})" ng-if="split.invoice">
+								<document-name document="split.invoice"></document-name>
+							</a>
+							<a ui-sref="manage.credit_note.view.summary({id:split.credit_note.id})" ng-if="split.credit_note">
+								<document-name document="split.credit_note"></document-name>
+							</a>
+							<a ui-sref="manage.estimate.view.summary({id:split.estimate.id})" ng-if="split.estimate">
+								<document-name document="split.estimate"></document-name>
+							</a>
+							<span ng-if="split.notes == 'Convenience Fee'">{{'transactions.transaction_types.convenience_fee' | translate }}</span>
+						</td>
+						<td>
+							<transaction-type transaction="split"></transaction-type>
+						</td>
+						<td class="nowrap light">
+							<company-date date="split.date"></company-date>
+						</td>
+						<td class="money-column nowrap mobile-last">
+							<span class="negative-sign" ng-show="split.type=='refund'">-</span><money amount="split.amount" currency="split.currency"></money>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

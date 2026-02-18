@@ -1,0 +1,102 @@
+{% trans_default_domain 'customer_portal' %}
+
+{% macro companyLogo() %}
+    <header class="{% if not(company.logo) %}no-logo{% endif %}">
+        <div class="logo-holder">
+            <div class="bar highlight-color-bg"></div>
+            {% if company.logo %}
+                <div class="logo">
+                    <img src="{{ company.logo }}" alt="{{ company.display_name }} Logo" />
+                </div>
+            {% endif %}
+        </div>
+        {% if not(company.logo) or customerPortal.showCompanyName() %}
+            <div class="company">{{ company.display_name }}</div>
+        {% endif %}
+    </header>
+{% endmacro %}
+
+{% macro billFrom(billFrom) %}
+    <div class="text-body bill-from-name">{{ billFrom.name }}</div>
+    {% if billFrom.address %}
+        <div class="bill-from-address">{{ billFrom.address|nl2br }}</div>
+    {% endif %}
+{% endmacro %}
+
+{% macro billTo(billTo) %}
+    {% if billTo.attentionTo %}
+        <div class="bill-to-attention-to">{{ 'labels.attention_to'|trans }}: {{ billTo.attentionTo }}</div>
+    {% endif %}
+    <div class="text-body bill-to-name">{{ billTo.name }}</div>
+    {% if billTo.address %}
+        <div class="bill-to-address">{{ billTo.address|nl2br }}</div>
+    {% endif %}
+{% endmacro %}
+
+{% macro comment(list, title) %}
+    {% if list|length == 0 %}
+        <p class="no-comments">
+            {{ 'comment_box_intro'|trans({'%title%': title}) }}
+        </p>
+    {% endif %}
+    <div class="comments">
+        <ul class="comment-list clearfix">
+            {% for item in list %}
+                <li class="{% if item.from_customer %}me{% else %}not_me{% endif %}">
+                    <div class="body">
+                        <div class="words">
+                            {{ item.text|nl2br }}
+                        </div>
+                    </div>
+                    {% if item.attachments|length > 0 %}
+                        <div class="file-attachments clearfix">
+                            {% for attachment in item.attachments %}
+                                <div class="cell">
+                                    <a class="attachment" href="{{ attachment.file.url }}" target="_blank" rel="noopener noreferrer" title="{{ 'download'|trans }}">
+                                        <div class="square">
+                                            <div class="icon">
+                                                <span class="fas fa-arrow-to-bottom"></span>
+                                            </div>
+                                            {{ attachment.file.name }}
+                                            <div class="size">
+                                                {{ attachment.size }}
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div class="when">
+                        {{ item.name }}
+                        &middot;
+                        {{ item.when }}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div id="commentMessages"></div>
+    </div>
+{% endmacro %}
+
+{% macro changeLanguageModal() %}
+    <div class="modal fade" id="changeLanguageModal" tabindex="-1" role="dialog" aria-labelledby="changeLanguageModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changeLanguageModalLabel">{{ 'labels.change_language'|trans }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <nav class="nav flex-column flex-sm-row">
+                        {% for lang in languages %}
+                            <a class="col-sm-4 nav-link {% if currentLanguage.code == lang.code %}active{% endif %}" href="?locale={{ lang.code }}" translate="no">
+                                {{ lang.name }}
+                            </a>
+                        {% endfor %}
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}

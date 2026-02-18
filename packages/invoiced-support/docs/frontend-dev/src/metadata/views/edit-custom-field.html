@@ -1,0 +1,149 @@
+<form name="modelForm" ng-submit="save(customField)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			<span ng-show="isExisting">Edit</span><span ng-hide="isExisting">New</span> Custom Field
+		</h4>
+	</div>
+	<div class="modal-body form-horizontal">
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<!-- ID [Edit Screen Only] -->
+		<div class="form-group" ng-show="isExisting">
+			<label class="control-label col-sm-3">ID</label>
+			<div class="col-sm-6 form-control-static">
+				{{customField.id}}
+			</div>
+		</div>
+
+		<!-- Object [Edit Screen Only] -->
+		<div class="form-group" ng-show="isExisting">
+			<label class="control-label col-sm-3">Object</label>
+			<div class="col-sm-4 form-control-static">
+				{{customField.object}}
+			</div>
+		</div>
+
+		<!-- Name -->
+		<div class="form-group">
+			<label class="control-label col-sm-3">Name <span class="required"></span></label>
+			<div class="col-sm-6">
+				<input type="text" placeholder="Field name..." ng-model="customField.name" ng-change="generateID(customField)" class="form-control" required />
+			</div>
+		</div>
+
+		<!-- ID [New Screen Only] -->
+		<div class="form-group" ng-if="!isExisting">
+			<label class="control-label col-sm-3">ID <span class="required"></span></label>
+			<div class="col-sm-6 form-control-static" ng-show="shouldGenID">
+				<span class="start-typing-id" ng-hide="customField.id">Start by typing name</span>
+				{{customField.id}}
+				<a href="" ng-show="customField.id" ng-click="$parent.shouldGenID=false;$event.preventDefault()">
+					<span class="fas fa-pencil"></span>
+				</a>
+			</div>
+			<div class="col-sm-6" ng-hide="shouldGenID">
+				<input type="text" placeholder="Unique identifier..." ng-model="customField.id" class="form-control" required />
+			</div>
+			<div class="col-sm-3 form-control-static">
+				<a href="" tooltip="A unique identifier that represents this field, for internal use only. Allowed characters: a-Z, 0-9, _, -">
+					What's this?
+				</a>
+			</div>
+		</div>
+
+		<!-- Object [New Screen Only] -->
+		<div class="form-group" ng-if="!isExisting">
+			<label class="control-label col-sm-3">Object <span class="required"></span></label>
+			<div class="col-sm-6">
+				<div class="invoiced-select">
+					<select ng-model="customField.object" required>
+						<option value="credit_note">{{'metadata.object_names.credit_note'|translate}}</option>
+						<option value="customer">{{'metadata.object_names.customer'|translate}}</option>
+						<option value="estimate">{{'metadata.object_names.estimate'|translate}}</option>
+						<option value="invoice">{{'metadata.object_names.invoice'|translate}}</option>
+						<option value="item">{{'metadata.object_names.item'|translate}}</option>
+						<option value="line_item">{{'metadata.object_names.line_item'|translate}}</option>
+						<option value="payment">{{'metadata.object_names.payment'|translate}}</option>
+						<option value="plan">{{'metadata.object_names.plan'|translate}}</option>
+						<option value="subscription">{{'metadata.object_names.subscription'|translate}}</option>
+						<option value="transaction">{{'metadata.object_names.transaction'|translate}}</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<!-- Type -->
+		<div class="form-group">
+			<label class="control-label col-sm-3">Type <span class="required"></span></label>
+			<div class="col-sm-6">
+				<div class="invoiced-select">
+					<select ng-model="customField.type">
+						<option value="string">{{'metadata.field_types.string'|translate}}</option>
+						<option value="double">{{'metadata.field_types.double'|translate}}</option>
+						<option value="boolean">{{'metadata.field_types.boolean'|translate}}</option>
+						<option value="enum">{{'metadata.field_types.enum'|translate}}</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<!-- Choices -->
+		<div ng-show="customField.type == 'enum'">
+			<div class="form-group">
+				<label class="control-label col-sm-3">Choices</label>
+				<div class="col-sm-9">
+					<div class="custom-fields-choices">
+						<div class="choices" ui-sortable="sortableOptions" ng-model="customField.choices">
+							<div class="choice" ng-repeat="choice in customField.choices">
+								<div class="delete">
+									<button type="button" class="btn btn-link btn-sm" ng-click="deleteChoice(customField, choice)">
+										<span class="fas fa-times"></span>
+									</button>
+								</div>
+								<div class="sortable-handle">
+									<span class="fas fa-grip-lines"></span>
+								</div>
+								<div class="title">
+									{{choice}}
+								</div>
+							</div>
+						</div>
+
+						<div class="row new-choice">
+							<div class="col-xs-8 pl-0">
+								<input type="text" class="form-control" placeholder="Enter a new choice" ng-model="newChoice" ng-keypress="choiceKeypress($event)" />
+							</div>
+							<div class="col-xs-3">
+								<button type="button" class="btn btn-default" ng-click="addChoice(customField, newChoice)" ng-disabled="!newChoice">
+									{{'general.add'|translate}}
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Customer Visibility -->
+		<div class="form-group slim" ng-show="fieldCanBeExternal(customField.object)">
+			<label class="control-label col-sm-3">Visibility</label>
+			<div class="col-sm-6 form-control-static">
+				<label class="noselect">
+					<input type="checkbox" ng-model="customField.external" />
+					Customers can see this field
+				</label>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="modelForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

@@ -1,0 +1,32 @@
+<div class="bank-account-holder">
+	<div class="field">
+		<label class="control-label">Name on Account</label>
+		<div>
+			<input id="acct-holder-name" type="text" class="form-control" placeholder="Account holder name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" ng-model="bankAccount.account_holder_name" required />
+		</div>
+	</div>
+
+	<div class="field">
+		<label class="control-label">Account Holder Type</label>
+		<div>
+		    <div class="btn-group btn-radio">
+		        <label id="individual-btn" class="btn" ng-model="bankAccount.account_holder_type" btn-radio="'individual'">Individual</label>
+		        <label id="company-btn" class="btn" ng-model="bankAccount.account_holder_type" btn-radio="'company'">Company</label>
+		    </div>
+		</div>
+	</div>
+
+	<div class="field">
+		<label class="control-label">Routing #</label>
+		<div>
+			<input id="bank-acct-routing-number" type="text" class="form-control" ng-model="bankAccount.routing_number" placeholder="ex. 110000000" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required />
+		</div>
+	</div>
+
+	<div class="field">
+		<label class="control-label">Bank Account #</label>
+		<div>
+			<input id="bank-acct-number" type="text" class="form-control" ng-model="bankAccount.account_number" placeholder="ex. 000123456789" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required />
+		</div>
+	</div>
+</div>

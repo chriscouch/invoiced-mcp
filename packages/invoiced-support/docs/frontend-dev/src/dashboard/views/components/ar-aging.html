@@ -1,0 +1,34 @@
+<div class="loading" ng-show="loading"></div>
+<div class="dashboard-component-aging" ng-show="!loading">
+    <h4>
+        A/R Aging
+    </h4>
+
+    <table class="table table-aging">
+        <thead>
+            <tr>
+                <th class="age">Age</th>
+                <th class="count">Open Items</th>
+                <th class="balance">{{'general.total'|translate}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="entry in aging">
+                <td class="age">
+                    <a href="/invoices?status=unpaid&amp;sort=date+ASC&amp;{{agingDate}}={{dateRange(entry)}}&amp;currency={{context.currency}}">
+                        <span class="aging-color age-severity-{{entry.severity}}"></span>
+                        {{entry.title}}
+                    </a>
+                </td>
+                <td class="count">
+                    {{entry.count | number:0}}
+                </td>
+                <td class="balance">
+                    <money amount="entry.amount" currency="context.currency"></money>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="empty" ng-hide="aging.length">No outstanding invoices</div>
+</div>

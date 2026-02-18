@@ -1,0 +1,1370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="ro" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="qiIpUIi" resname="buttons.pay_invoice" xml:space="preserve" approved="yes">
+        <source>buttons.pay_invoice</source>
+        <target state="translated">Plătiți Factura</target>
+      </trans-unit>
+      <trans-unit id="zTbP57E" resname="buttons.pay_now" xml:space="preserve" approved="yes">
+        <source>buttons.pay_now</source>
+        <target state="translated">Plătește acum</target>
+      </trans-unit>
+      <trans-unit id="50GxJMq" resname="buttons.approve_payment_plan" xml:space="preserve" approved="yes">
+        <source>buttons.approve_payment_plan</source>
+        <target state="translated">Aprobați planul de plată</target>
+      </trans-unit>
+      <trans-unit id="rfn1jyQ" resname="buttons.verify_account" xml:space="preserve" approved="yes">
+        <source>buttons.verify_account</source>
+        <target state="translated">Verifica contul</target>
+      </trans-unit>
+      <trans-unit id="UAEnMuR" resname="buttons.change" xml:space="preserve" approved="yes">
+        <source>buttons.change</source>
+        <target state="translated">Schimbare</target>
+      </trans-unit>
+      <trans-unit id="9zYU3Px" resname="buttons.approve_estimate" xml:space="preserve" approved="yes">
+        <source>buttons.approve_estimate</source>
+        <target state="translated">Aproba</target>
+      </trans-unit>
+      <trans-unit id="8cAC8ix" resname="buttons.download_invoice" xml:space="preserve" approved="yes">
+        <source>buttons.download_invoice</source>
+        <target state="translated">Descărcați factura</target>
+      </trans-unit>
+      <trans-unit id="imcEBhm" resname="buttons.download_credit_note" xml:space="preserve" approved="yes">
+        <source>buttons.download_credit_note</source>
+        <target state="translated">Descărcați nota de credit</target>
+      </trans-unit>
+      <trans-unit id="T51p9aY" resname="buttons.download_estimate" xml:space="preserve" approved="yes">
+        <source>buttons.download_estimate</source>
+        <target state="translated">Descărcați estimarea</target>
+      </trans-unit>
+      <trans-unit id="ryfDhhc" resname="buttons.download_statement" xml:space="preserve" approved="yes">
+        <source>buttons.download_statement</source>
+        <target state="translated">Descărcați declarația</target>
+      </trans-unit>
+      <trans-unit id="iLrElud" resname="buttons.submit_comment" xml:space="preserve" approved="yes">
+        <source>buttons.submit_comment</source>
+        <target state="translated">Trimite</target>
+      </trans-unit>
+      <trans-unit id="_IHzsIN" resname="billed_to" xml:space="preserve" approved="yes">
+        <source>billed_to</source>
+        <target state="translated">Facturat către</target>
+      </trans-unit>
+      <trans-unit id="1ld_le_" resname="subtotal" xml:space="preserve" approved="yes">
+        <source>subtotal</source>
+        <target state="translated">Subtotal</target>
+      </trans-unit>
+      <trans-unit id="mE9Idjw" resname="labels.total" xml:space="preserve" approved="yes">
+        <source>labels.total</source>
+        <target state="translated">Total</target>
+      </trans-unit>
+      <trans-unit id=".oPAixJ" resname="discounts" xml:space="preserve" approved="yes">
+        <source>discounts</source>
+        <target state="translated">Reduceri</target>
+      </trans-unit>
+      <trans-unit id="wG3IzBc" resname="taxes" xml:space="preserve" approved="yes">
+        <source>taxes</source>
+        <target state="translated">Impozite</target>
+      </trans-unit>
+      <trans-unit id="dABiZ2o" resname="shipping" xml:space="preserve" approved="yes">
+        <source>shipping</source>
+        <target state="translated">Transport</target>
+      </trans-unit>
+      <trans-unit id="HswNz72" resname="amount_paid" xml:space="preserve" approved="yes">
+        <source>amount_paid</source>
+        <target state="translated">Suma plătită</target>
+      </trans-unit>
+      <trans-unit id="OTDmccn" resname="attachments" xml:space="preserve" approved="yes">
+        <source>attachments</source>
+        <target state="translated">Atasamente</target>
+      </trans-unit>
+      <trans-unit id="aP9j_4L" resname="download" xml:space="preserve" approved="yes">
+        <source>download</source>
+        <target state="translated">Descarca</target>
+      </trans-unit>
+      <trans-unit id="ew9Wx.M" resname="titles.my_account" xml:space="preserve" approved="yes">
+        <source>titles.my_account</source>
+        <target state="translated">Contul meu</target>
+      </trans-unit>
+      <trans-unit id="PMYQJA7" resname="discussion" xml:space="preserve" approved="yes">
+        <source>discussion</source>
+        <target state="translated">Mesaje</target>
+      </trans-unit>
+      <trans-unit id="S_WsBss" resname="have_questions" xml:space="preserve" approved="yes">
+        <source>have_questions</source>
+        <target state="translated">Ai întrebări?</target>
+      </trans-unit>
+      <trans-unit id="0Ulryib" resname="comment_box_intro" xml:space="preserve" approved="yes">
+        <source>comment_box_intro</source>
+        <target state="translated">Lăsați întrebări sau comentarii aici despre %title%. Vom reveni cu tine cât mai curând posibil.</target>
+      </trans-unit>
+      <trans-unit id="xDqrPRz" resname="placeholder_leave_comment" xml:space="preserve" approved="yes">
+        <source>placeholder_leave_comment</source>
+        <target state="translated">Lasă-ne un mesaj</target>
+      </trans-unit>
+      <trans-unit id="I2kT9mB" resname="status_credit_note_paid" xml:space="preserve" approved="yes">
+        <source>status_credit_note_paid</source>
+        <target state="translated">Creditat integral</target>
+      </trans-unit>
+      <trans-unit id="Se9WMMT" resname="status_draft" xml:space="preserve" approved="yes">
+        <source>status_draft</source>
+        <target state="translated">Proiect</target>
+      </trans-unit>
+      <trans-unit id="07hyihn" resname="status_estimate_declined" xml:space="preserve" approved="yes">
+        <source>status_estimate_declined</source>
+        <target state="translated">A refuzat</target>
+      </trans-unit>
+      <trans-unit id="J3RyIwH" resname="status_pending" xml:space="preserve" approved="yes">
+        <source>status_pending</source>
+        <target state="translated">Plata este în așteptare</target>
+      </trans-unit>
+      <trans-unit id="Rof6Hss" resname="status_past_due" xml:space="preserve" approved="yes">
+        <source>status_past_due</source>
+        <target state="translated"><![CDATA[<strong>%amount%</strong> restante]]></target>
+      </trans-unit>
+      <trans-unit id=".QgMZ1r" resname="status_past_due_since" xml:space="preserve" approved="yes">
+        <source>status_past_due_since</source>
+        <target state="translated"><![CDATA[<strong>%amount%</strong> restante din %date%]]></target>
+      </trans-unit>
+      <trans-unit id="HOmT9lN" resname="status_due_by" xml:space="preserve" approved="yes">
+        <source>status_due_by</source>
+        <target state="translated"><![CDATA[<strong>%amount%</strong> scadent până la %date%]]></target>
+      </trans-unit>
+      <trans-unit id="jJApMVK" resname="status_due_now" xml:space="preserve" approved="yes">
+        <source>status_due_now</source>
+        <target state="translated"><![CDATA[<strong>%amount%</strong> scadent acum]]></target>
+      </trans-unit>
+      <trans-unit id="gavJtOf" resname="status_payment_plan" xml:space="preserve" approved="yes">
+        <source>status_payment_plan</source>
+        <target state="translated"><![CDATA[Plan de plată: <strong>%amount%</strong> rămas]]></target>
+      </trans-unit>
+      <trans-unit id=".ZIjLTN" resname="status_bad_debt" xml:space="preserve" approved="yes">
+        <source>status_bad_debt</source>
+        <target state="translated">Datorii rele</target>
+      </trans-unit>
+      <trans-unit id="2huhdFK" resname="status_paid" xml:space="preserve" approved="yes">
+        <source>status_paid</source>
+        <target state="translated">Plătit integral - Mulțumesc!</target>
+      </trans-unit>
+      <trans-unit id="X7Q7VeS" resname="status_autopay" xml:space="preserve" approved="yes">
+        <source>status_autopay</source>
+        <target state="translated">Plată automată - Nu este necesară nicio acțiune</target>
+      </trans-unit>
+      <trans-unit id="5cNElgf" resname="status_estimate_billed" xml:space="preserve" approved="yes">
+        <source>status_estimate_billed</source>
+        <target state="translated">Aprobat și facturat - Mulțumesc!</target>
+      </trans-unit>
+      <trans-unit id="ruqHpjV" resname="status_estimate_approved" xml:space="preserve" approved="yes">
+        <source>status_estimate_approved</source>
+        <target state="translated">Aprobat de %initials%</target>
+      </trans-unit>
+      <trans-unit id="56zpJKE" resname="status_estimate_expired" xml:space="preserve" approved="yes">
+        <source>status_estimate_expired</source>
+        <target state="translated">A expirat pe %date%</target>
+      </trans-unit>
+      <trans-unit id="oDaKyXm" resname="status_estimate_valid_until" xml:space="preserve" approved="yes">
+        <source>status_estimate_valid_until</source>
+        <target state="translated">Valabil până la %date%</target>
+      </trans-unit>
+      <trans-unit id="K49pfvB" resname="status_estimate_deposit_required" xml:space="preserve" approved="yes">
+        <source>status_estimate_deposit_required</source>
+        <target state="translated"><![CDATA[<strong>%amount%</strong> este necesară plata depozitului]]></target>
+      </trans-unit>
+      <trans-unit id="zqkLZUQ" resname="status_statement_due" xml:space="preserve" approved="yes">
+        <source>status_statement_due</source>
+        <target state="translated"><![CDATA[<strong>%amount%</strong> datorat]]></target>
+      </trans-unit>
+      <trans-unit id="fm9H4s2" resname="next_charge_on" xml:space="preserve" approved="yes">
+        <source>next_charge_on</source>
+        <target state="translated">Următoarea taxă: %amount% pe %date%</target>
+      </trans-unit>
+      <trans-unit id="MutSjxr" resname="installment_schedule" xml:space="preserve" approved="yes">
+        <source>installment_schedule</source>
+        <target state="translated">Program de rate</target>
+      </trans-unit>
+      <trans-unit id=".OSuWUF" resname="buttons.view_installment_schedule" xml:space="preserve" approved="yes">
+        <source>buttons.view_installment_schedule</source>
+        <target state="translated">Vedeți programul de rate</target>
+      </trans-unit>
+      <trans-unit id="_3lzd7Y" resname="buttons.sign_out" xml:space="preserve" approved="yes">
+        <source>buttons.sign_out</source>
+        <target state="translated">Sign out</target>
+      </trans-unit>
+      <trans-unit id="SgCXuxz" resname="missing_email_address" xml:space="preserve" approved="yes">
+        <source>missing_email_address</source>
+        <target state="translated">Lipsește adresa de e-mail</target>
+      </trans-unit>
+      <trans-unit id="DrlzWsW" resname="missing_billing_address" xml:space="preserve" approved="yes">
+        <source>missing_billing_address</source>
+        <target state="translated">Lipsește adresa de facturare</target>
+      </trans-unit>
+      <trans-unit id=".P1Ckor" resname="buttons.add_payment_method" xml:space="preserve" approved="yes">
+        <source>buttons.add_payment_method</source>
+        <target state="translated">Adăugați o metodă de plată</target>
+      </trans-unit>
+      <trans-unit id="LyOB8YF" resname="buttons.make_default" xml:space="preserve" approved="yes">
+        <source>buttons.make_default</source>
+        <target state="translated">Face implicit</target>
+      </trans-unit>
+      <trans-unit id="v3UUKaF" resname="buttons.remove" xml:space="preserve" approved="yes">
+        <source>buttons.remove</source>
+        <target state="translated">Elimina</target>
+      </trans-unit>
+      <trans-unit id="X21OZb." resname="buttons.receipt" xml:space="preserve" approved="yes">
+        <source>buttons.receipt</source>
+        <target state="translated">Chitanță</target>
+      </trans-unit>
+      <trans-unit id="GJ0obOG" resname="buttons.view_all" xml:space="preserve" approved="yes">
+        <source>buttons.view_all</source>
+        <target state="translated">A vedea tot</target>
+      </trans-unit>
+      <trans-unit id="t5_pA4q" resname="buttons.add" xml:space="preserve" approved="yes">
+        <source>buttons.add</source>
+        <target state="translated">Adăuga</target>
+      </trans-unit>
+      <trans-unit id="F.v3JlG" resname="buttons.cancel" xml:space="preserve" approved="yes">
+        <source>buttons.cancel</source>
+        <target state="translated">Anulare</target>
+      </trans-unit>
+      <trans-unit id="XRPKcqy" resname="labels.past_due" xml:space="preserve" approved="yes">
+        <source>labels.past_due</source>
+        <target state="translated">Ulterior</target>
+      </trans-unit>
+      <trans-unit id="JA.6H5." resname="trialing" xml:space="preserve" approved="yes">
+        <source>trialing</source>
+        <target state="translated">Încercarea</target>
+      </trans-unit>
+      <trans-unit id="7OalAU3" resname="payment_plan" xml:space="preserve" approved="yes">
+        <source>payment_plan</source>
+        <target state="translated">Plan de plată</target>
+      </trans-unit>
+      <trans-unit id="LqH3Wvv" resname="autopay" xml:space="preserve" approved="yes">
+        <source>autopay</source>
+        <target state="translated">Plată automată</target>
+      </trans-unit>
+      <trans-unit id="lhy9QXI" resname="labels.pending" xml:space="preserve" approved="yes">
+        <source>labels.pending</source>
+        <target state="translated">In asteptarea</target>
+      </trans-unit>
+      <trans-unit id="vgYpK2o" resname="buttons.approve" xml:space="preserve" approved="yes">
+        <source>buttons.approve</source>
+        <target state="translated">Aproba</target>
+      </trans-unit>
+      <trans-unit id="7phFmSe" resname="buttons.pay" xml:space="preserve" approved="yes">
+        <source>buttons.pay</source>
+        <target state="translated">A plati</target>
+      </trans-unit>
+      <trans-unit id="vXDwYj1" resname="ends_on" xml:space="preserve" approved="yes">
+        <source>ends_on</source>
+        <target state="translated">Se încheie %date%</target>
+      </trans-unit>
+      <trans-unit id="nKyRwfV" resname="subscriptions" xml:space="preserve" approved="yes">
+        <source>subscriptions</source>
+        <target state="translated">Abonament|Abonamente|Abonamente</target>
+      </trans-unit>
+      <trans-unit id="wz4mSqM" resname="open_estimates" xml:space="preserve" approved="yes">
+        <source>open_estimates</source>
+        <target state="translated">Deschide Estimare|Deviz Deschis|Deviz Deschis</target>
+      </trans-unit>
+      <trans-unit id="TLmg_k7" resname="payment_methods" xml:space="preserve" approved="yes">
+        <source>payment_methods</source>
+        <target state="translated">Metodă de plată|Metode de plată|Metode de plată</target>
+      </trans-unit>
+      <trans-unit id="l7fi23m" resname="unverified" xml:space="preserve" approved="yes">
+        <source>unverified</source>
+        <target state="translated">Neverificat</target>
+      </trans-unit>
+      <trans-unit id="N6juwc4" resname="default" xml:space="preserve" approved="yes">
+        <source>default</source>
+        <target state="translated">Mod implicit</target>
+      </trans-unit>
+      <trans-unit id="XSipD0S" resname="failed" xml:space="preserve" approved="yes">
+        <source>failed</source>
+        <target state="translated">A eșuat</target>
+      </trans-unit>
+      <trans-unit id="pg3FDJz" resname="messages.billing_details_updated" xml:space="preserve" approved="yes">
+        <source>messages.billing_details_updated</source>
+        <target state="translated">Detaliile dvs. de facturare au fost actualizate. Mulțumesc!</target>
+      </trans-unit>
+      <trans-unit id="ydGpQfF" resname="messages.payment_method_updated" xml:space="preserve" approved="yes">
+        <source>messages.payment_method_updated</source>
+        <target state="translated">Metoda dvs. de plată a fost actualizată. Mulțumesc!</target>
+      </trans-unit>
+      <trans-unit id="qdP1YeY" resname="no_payment_method" xml:space="preserve" approved="yes">
+        <source>no_payment_method</source>
+        <target state="translated">Nu este atașată nicio metodă de plată</target>
+      </trans-unit>
+      <trans-unit id="maDhWCR" resname="percent_paid" xml:space="preserve" approved="yes">
+        <source>percent_paid</source>
+        <target state="translated">%%%% plătit</target>
+      </trans-unit>
+      <trans-unit id="HI5nVQ." resname="labels.balance_due" xml:space="preserve" approved="yes">
+        <source>labels.balance_due</source>
+        <target state="translated">Sold debitor</target>
+      </trans-unit>
+      <trans-unit id="p0V_wp2" resname="labels.past_due_balance" xml:space="preserve" approved="yes">
+        <source>labels.past_due_balance</source>
+        <target state="translated">Sold restante</target>
+      </trans-unit>
+      <trans-unit id="jvzinMb" resname="login_email_intro" xml:space="preserve" approved="yes">
+        <source>login_email_intro</source>
+        <target state="translated">Bine ati venit! Vă rugăm să introduceți adresa dvs. de e-mail pentru a primi un link de conectare.</target>
+      </trans-unit>
+      <trans-unit id="bSQsS26" resname="labels.email_address" xml:space="preserve" approved="yes">
+        <source>labels.email_address</source>
+        <target state="translated">Adresa de e-mail</target>
+      </trans-unit>
+      <trans-unit id="nRsTaCd" resname="buttons.send_sign_in_link" xml:space="preserve" approved="yes">
+        <source>buttons.send_sign_in_link</source>
+        <target state="translated">Trimite-mi un link de conectare</target>
+      </trans-unit>
+      <trans-unit id="8Fvy4ix" resname="labels.account_number" xml:space="preserve" approved="yes">
+        <source>labels.account_number</source>
+        <target state="translated">Numărul de cont</target>
+      </trans-unit>
+      <trans-unit id="AUA0lmg" resname="labels.invoice_number" xml:space="preserve" approved="yes">
+        <source>labels.invoice_number</source>
+        <target state="translated">Factura fiscala #</target>
+      </trans-unit>
+      <trans-unit id="BLYAi3U" resname="buttons.sign_in" xml:space="preserve" approved="yes">
+        <source>buttons.sign_in</source>
+        <target state="translated">Conectare</target>
+      </trans-unit>
+      <trans-unit id="LPnL892" resname="titles.sign_in_link_sent" xml:space="preserve" approved="yes">
+        <source>titles.sign_in_link_sent</source>
+        <target state="translated">Conectare Link trimis</target>
+      </trans-unit>
+      <trans-unit id="8zypfB6" resname="messages.sign_in_link_sent" xml:space="preserve" approved="yes">
+        <source>messages.sign_in_link_sent</source>
+        <target state="translated"><![CDATA[Am trimis un link de conectare către <strong>%email%</strong>. Vă rugăm să căutați un e-mail cu subiectul „Conectați-vă la portalul nostru pentru clienți” și apoi faceți clic pe butonul Conectare pentru a accesa portalul nostru de facturare. Linkul va expira în 24 de ore.]]></target>
+      </trans-unit>
+      <trans-unit id="52p0s_P" resname="titles.page_not_found" xml:space="preserve" approved="yes">
+        <source>titles.page_not_found</source>
+        <target state="translated">Pagina nu a fost gasita</target>
+      </trans-unit>
+      <trans-unit id="huXpZgy" resname="messages.page_not_found" xml:space="preserve" approved="yes">
+        <source>messages.page_not_found</source>
+        <target state="translated">Îmi pare rău! Nu am putut găsi pagina pe care o căutați. Vă rugăm să ne contactați dacă aveți nevoie de ajutor.</target>
+      </trans-unit>
+      <trans-unit id="dpquWYl" resname="need_help_contact_us" xml:space="preserve" approved="yes">
+        <source>need_help_contact_us</source>
+        <target state="translated">Nevoie de ajutor? Contactaţi-ne.</target>
+      </trans-unit>
+      <trans-unit id="UdI2H0_" resname="terms" xml:space="preserve" approved="yes">
+        <source>terms</source>
+        <target state="translated">Termenii serviciului</target>
+      </trans-unit>
+      <trans-unit id="pMxrwBq" resname="privacy" xml:space="preserve" approved="yes">
+        <source>privacy</source>
+        <target state="translated">Politica de confidențialitate</target>
+      </trans-unit>
+      <trans-unit id="X4UL86f" resname="messages.javascript_disabled" xml:space="preserve" approved="yes">
+        <source>messages.javascript_disabled</source>
+        <target state="translated">Vă rugăm să activați Javascript pentru a vizualiza această pagină.</target>
+      </trans-unit>
+      <trans-unit id="XOpmxGr" resname="buttons.go_to_my_account" xml:space="preserve" approved="yes">
+        <source>buttons.go_to_my_account</source>
+        <target state="translated">Mergi la Contul Meu</target>
+      </trans-unit>
+      <trans-unit id="1AYqDBZ" resname="titles.subscription_canceled" xml:space="preserve" approved="yes">
+        <source>titles.subscription_canceled</source>
+        <target state="translated">Abonament anulat</target>
+      </trans-unit>
+      <trans-unit id="35yU65Q" resname="titles.faq" xml:space="preserve" approved="yes">
+        <source>titles.faq</source>
+        <target state="translated">FAQ</target>
+      </trans-unit>
+      <trans-unit id="rSViePM" resname="messages.subscription_canceled" xml:space="preserve" approved="yes">
+        <source>messages.subscription_canceled</source>
+        <target state="translated">Abonamentul dvs. a fost anulat. Vă mulțumesc pentru afacerea dvs.</target>
+      </trans-unit>
+      <trans-unit id="HoN41Lz" resname="titles.sign_ups_disabled" xml:space="preserve" approved="yes">
+        <source>titles.sign_ups_disabled</source>
+        <target state="translated">Înscrierile sunt dezactivate</target>
+      </trans-unit>
+      <trans-unit id="QUIY.bR" resname="messages.sign_ups_disabled" xml:space="preserve" approved="yes">
+        <source>messages.sign_ups_disabled</source>
+        <target state="translated">Îmi pare rău! În prezent nu acceptăm înscrieri noi. Vă rugăm să ne contactați pentru ajutor.</target>
+      </trans-unit>
+      <trans-unit id="sSMaWpN" resname="titles.sign_up_thank_you" xml:space="preserve" approved="yes">
+        <source>titles.sign_up_thank_you</source>
+        <target state="translated">Mulțumesc!</target>
+      </trans-unit>
+      <trans-unit id="UjEjfKc" resname="messages.subscribed" xml:space="preserve" approved="yes">
+        <source>messages.subscribed</source>
+        <target state="translated">Ai fost înscris.</target>
+      </trans-unit>
+      <trans-unit id="OuIlZ9J" resname="messages.subscribed_with_plan" xml:space="preserve" approved="yes">
+        <source>messages.subscribed_with_plan</source>
+        <target state="translated"><![CDATA[Ați fost înscris(ă) la <strong>%plan%</strong>.]]></target>
+      </trans-unit>
+      <trans-unit id="kW4broH" resname="titles.invoice_not_found" xml:space="preserve" approved="yes">
+        <source>titles.invoice_not_found</source>
+        <target state="translated">Factura nu a fost găsită</target>
+      </trans-unit>
+      <trans-unit id="vuLoCB3" resname="titles.credit_note_not_found" xml:space="preserve" approved="yes">
+        <source>titles.credit_note_not_found</source>
+        <target state="translated">Nota de credit nu a fost găsită</target>
+      </trans-unit>
+      <trans-unit id="5Ho2nmD" resname="titles.estimate_not_found" xml:space="preserve" approved="yes">
+        <source>titles.estimate_not_found</source>
+        <target state="translated">Estimarea nu a fost găsită</target>
+      </trans-unit>
+      <trans-unit id="Ntf8xnT" resname="titles.estimate_expired" xml:space="preserve" approved="yes">
+        <source>titles.estimate_expired</source>
+        <target state="translated">Estimarea a expirat</target>
+      </trans-unit>
+      <trans-unit id="D_lcZF3" resname="titles.estimates" xml:space="preserve" approved="yes">
+        <source>titles.estimates</source>
+        <target state="translated">Estimări</target>
+      </trans-unit>
+      <trans-unit id="kIKf1Tb" resname="titles.invoices" xml:space="preserve" approved="yes">
+        <source>titles.invoices</source>
+        <target state="translated">Facturi</target>
+      </trans-unit>
+      <trans-unit id="NZlwInE" resname="titles.payments" xml:space="preserve" approved="yes">
+        <source>titles.payments</source>
+        <target state="translated">Plăți</target>
+      </trans-unit>
+      <trans-unit id="xQMGiqY" resname="titles.approve_estimate" xml:space="preserve" approved="yes">
+        <source>titles.approve_estimate</source>
+        <target state="translated">Aprobați estimarea</target>
+      </trans-unit>
+      <trans-unit id="TfSeoBh" resname="titles.sign_up" xml:space="preserve" approved="yes">
+        <source>titles.sign_up</source>
+        <target state="translated">Inscrie-te</target>
+      </trans-unit>
+      <trans-unit id="wM_6hxs" resname="titles.billing_details" xml:space="preserve" approved="yes">
+        <source>titles.billing_details</source>
+        <target state="translated">detalii de facturare</target>
+      </trans-unit>
+      <trans-unit id="dfRgaYB" resname="titles.attachments" xml:space="preserve" approved="yes">
+        <source>titles.attachments</source>
+        <target state="translated">Documente</target>
+      </trans-unit>
+      <trans-unit id="03ip_Ts" resname="titles.account_statement" xml:space="preserve" approved="yes">
+        <source>titles.account_statement</source>
+        <target state="translated">Extras de cont</target>
+      </trans-unit>
+      <trans-unit id="l9JVnu." resname="titles.approve_payment_plan" xml:space="preserve" approved="yes">
+        <source>titles.approve_payment_plan</source>
+        <target state="translated">Plan de plată</target>
+      </trans-unit>
+      <trans-unit id="Dfr6XIP" resname="titles.pay_invoice" xml:space="preserve" approved="yes">
+        <source>titles.pay_invoice</source>
+        <target state="translated">Plătiți Factura</target>
+      </trans-unit>
+      <trans-unit id="hhNrO8z" resname="titles.submit_payment" xml:space="preserve" approved="yes">
+        <source>titles.submit_payment</source>
+        <target state="translated">Plătește</target>
+      </trans-unit>
+      <trans-unit id="qwNsmIN" resname="titles.verify_bank_account" xml:space="preserve" approved="yes">
+        <source>titles.verify_bank_account</source>
+        <target state="translated">Verificați contul bancar</target>
+      </trans-unit>
+      <trans-unit id="2iSazkV" resname="titles.verified_bank_account_thank_you" xml:space="preserve" approved="yes">
+        <source>titles.verified_bank_account_thank_you</source>
+        <target state="translated">Mulțumesc!</target>
+      </trans-unit>
+      <trans-unit id="u8TFlZC" resname="titles.expected_payment_thank_you" xml:space="preserve" approved="yes">
+        <source>titles.expected_payment_thank_you</source>
+        <target state="translated">Mulțumesc!</target>
+      </trans-unit>
+      <trans-unit id="hZQNcSx" resname="titles.successful_payment" xml:space="preserve" approved="yes">
+        <source>titles.successful_payment</source>
+        <target state="translated">Mulțumesc!</target>
+      </trans-unit>
+      <trans-unit id="w.l9KZr" resname="messages.credit_note_not_found" xml:space="preserve" approved="yes">
+        <source>messages.credit_note_not_found</source>
+        <target state="translated">Îmi pare rău! Nota de credit pe care o căutați nu există sau acest link a expirat. Vă rugăm să ne contactați pentru a retrimite nota de credit.</target>
+      </trans-unit>
+      <trans-unit id="Ot23Uwy" resname="messages.estimate_not_found" xml:space="preserve" approved="yes">
+        <source>messages.estimate_not_found</source>
+        <target state="translated">Îmi pare rău! Estimarea pe care o căutați nu există sau acest link a expirat. Vă rugăm să ne contactați pentru a ne retrimite estimarea.</target>
+      </trans-unit>
+      <trans-unit id="8HmqWow" resname="messages.invoice_not_found" xml:space="preserve" approved="yes">
+        <source>messages.invoice_not_found</source>
+        <target state="translated">Îmi pare rău! Factura pe care o căutați nu există sau acest link a expirat. Vă rugăm să ne contactați pentru a retrimite factura.</target>
+      </trans-unit>
+      <trans-unit id="qXvPRN6" resname="messages.estimate_expired" xml:space="preserve" approved="yes">
+        <source>messages.estimate_expired</source>
+        <target state="translated">Îmi pare rău! Estimarea pe care o căutați a expirat. Vă rugăm să ne contactați dacă aveți întrebări.</target>
+      </trans-unit>
+      <trans-unit id="oLggNV1" resname="labels.account_name" xml:space="preserve" approved="yes">
+        <source>labels.account_name</source>
+        <target state="translated">Nume de cont</target>
+      </trans-unit>
+      <trans-unit id="u9NQ9im" resname="labels.address_line1" xml:space="preserve" approved="yes">
+        <source>labels.address_line1</source>
+        <target state="translated">Adresa Rândul 1</target>
+      </trans-unit>
+      <trans-unit id="2PtwTHW" resname="labels.address_line2" xml:space="preserve" approved="yes">
+        <source>labels.address_line2</source>
+        <target state="translated">Linia de adresă 2</target>
+      </trans-unit>
+      <trans-unit id="LRthRI_" resname="labels.address_city" xml:space="preserve" approved="yes">
+        <source>labels.address_city</source>
+        <target state="translated">Oraș</target>
+      </trans-unit>
+      <trans-unit id="96AtnmA" resname="labels.address_state" xml:space="preserve" approved="yes">
+        <source>labels.address_state</source>
+        <target state="translated">Stat/Provincie</target>
+      </trans-unit>
+      <trans-unit id="U9p1q3F" resname="labels.address_postal_code" xml:space="preserve" approved="yes">
+        <source>labels.address_postal_code</source>
+        <target state="translated">Zip / Cod Poştal</target>
+      </trans-unit>
+      <trans-unit id="RE__X4i" resname="labels.address_country" xml:space="preserve" approved="yes">
+        <source>labels.address_country</source>
+        <target state="translated">Țară</target>
+      </trans-unit>
+      <trans-unit id="bCfGOIk" resname="labels.optional" xml:space="preserve" approved="yes">
+        <source>labels.optional</source>
+        <target state="translated">Opțional</target>
+      </trans-unit>
+      <trans-unit id="49uUjMR" resname="buttons.pdf" xml:space="preserve" approved="yes">
+        <source>buttons.pdf</source>
+        <target state="translated">PDF</target>
+      </trans-unit>
+      <trans-unit id="bOKmMiv" resname="labels.date" xml:space="preserve" approved="yes">
+        <source>labels.date</source>
+        <target state="translated">Data</target>
+      </trans-unit>
+      <trans-unit id="QFQqxZU" resname="labels.due_date" xml:space="preserve" approved="yes">
+        <source>labels.due_date</source>
+        <target state="translated">Data scadenței</target>
+      </trans-unit>
+      <trans-unit id="YkErLwX" resname="labels.type" xml:space="preserve" approved="yes">
+        <source>labels.type</source>
+        <target state="translated">Tip</target>
+      </trans-unit>
+      <trans-unit id="0QzozfY" resname="labels.amount" xml:space="preserve" approved="yes">
+        <source>labels.amount</source>
+        <target state="translated">Cantitate</target>
+      </trans-unit>
+      <trans-unit id="5bcrii0" resname="labels.balance" xml:space="preserve" approved="yes">
+        <source>labels.balance</source>
+        <target state="translated">Echilibru</target>
+      </trans-unit>
+      <trans-unit id="ntwoHp2" resname="labels.previous_balance" xml:space="preserve" approved="yes">
+        <source>labels.previous_balance</source>
+        <target state="translated">Echilibru precedent</target>
+      </trans-unit>
+      <trans-unit id="EyIn7q9" resname="labels.total_billed" xml:space="preserve" approved="yes">
+        <source>labels.total_billed</source>
+        <target state="translated">Total facturat</target>
+      </trans-unit>
+      <trans-unit id="RBug4mB" resname="labels.total_paid" xml:space="preserve" approved="yes">
+        <source>labels.total_paid</source>
+        <target state="translated">Plata totala</target>
+      </trans-unit>
+      <trans-unit id="1yVeisT" resname="labels.available_credits" xml:space="preserve" approved="yes">
+        <source>labels.available_credits</source>
+        <target state="translated">Credite disponibile</target>
+      </trans-unit>
+      <trans-unit id="wjsV3fl" resname="labels.paid" xml:space="preserve" approved="yes">
+        <source>labels.paid</source>
+        <target state="translated">Plătit</target>
+      </trans-unit>
+      <trans-unit id="E5TFPXM" resname="labels.bad_debt" xml:space="preserve" approved="yes">
+        <source>labels.bad_debt</source>
+        <target state="translated">Datorii rele</target>
+      </trans-unit>
+      <trans-unit id="idadBK0" resname="labels.outstanding" xml:space="preserve" approved="yes">
+        <source>labels.outstanding</source>
+        <target state="translated">Remarcabil</target>
+      </trans-unit>
+      <trans-unit id="bYnzQJs" resname="labels.invoice" xml:space="preserve" approved="yes">
+        <source>labels.invoice</source>
+        <target state="translated">Factura fiscala</target>
+      </trans-unit>
+      <trans-unit id="xjrGXGs" resname="labels.status" xml:space="preserve" approved="yes">
+        <source>labels.status</source>
+        <target state="translated">stare</target>
+      </trans-unit>
+      <trans-unit id="4ZnDOXK" resname="labels.estimate_number" xml:space="preserve" approved="yes">
+        <source>labels.estimate_number</source>
+        <target state="translated">Estimare #</target>
+      </trans-unit>
+      <trans-unit id="WlnHCag" resname="buttons.view_invoice" xml:space="preserve" approved="yes">
+        <source>buttons.view_invoice</source>
+        <target state="translated">Vezi factura</target>
+      </trans-unit>
+      <trans-unit id="cIid75N" resname="buttons.download_receipt" xml:space="preserve" approved="yes">
+        <source>buttons.download_receipt</source>
+        <target state="translated">Descărcați chitanța</target>
+      </trans-unit>
+      <trans-unit id="GNOFSbO" resname="labels.declined" xml:space="preserve" approved="yes">
+        <source>labels.declined</source>
+        <target state="translated">A refuzat</target>
+      </trans-unit>
+      <trans-unit id="RlttFCP" resname="labels.invoiced" xml:space="preserve" approved="yes">
+        <source>labels.invoiced</source>
+        <target state="translated">Facturat</target>
+      </trans-unit>
+      <trans-unit id="JiaBnyK" resname="labels.expired" xml:space="preserve" approved="yes">
+        <source>labels.expired</source>
+        <target state="translated">Expirat</target>
+      </trans-unit>
+      <trans-unit id="LobzxMi" resname="labels.approved" xml:space="preserve" approved="yes">
+        <source>labels.approved</source>
+        <target state="translated">Aprobat</target>
+      </trans-unit>
+      <trans-unit id="1z136ge" resname="labels.credit" xml:space="preserve" approved="yes">
+        <source>labels.credit</source>
+        <target state="translated">Credit</target>
+      </trans-unit>
+      <trans-unit id="1WikmvD" resname="labels.method" xml:space="preserve" approved="yes">
+        <source>labels.method</source>
+        <target state="translated">Metodă</target>
+      </trans-unit>
+      <trans-unit id="Am46KO2" resname="messages.showing_num_results" xml:space="preserve" approved="yes">
+        <source>messages.showing_num_results</source>
+        <target state="translated"><![CDATA[Se afișează %num_shown% din <strong>%total% rezultat.</strong> Pe pagină: |Se afișează %num_shown% din <strong>%total% rezultate.</strong> Pe pagină: |Se afișează %num_shown% din <strong>%total% rezultate.</strong> Pe pagină: ]]></target>
+      </trans-unit>
+      <trans-unit id="lPWJA.x" resname="messages.no_invoices_found" xml:space="preserve" approved="yes">
+        <source>messages.no_invoices_found</source>
+        <target state="translated">Nu am găsit nicio factură potrivită în istoricul contului dvs.</target>
+      </trans-unit>
+      <trans-unit id="VZGsLat" resname="messages.no_payments_found" xml:space="preserve" approved="yes">
+        <source>messages.no_payments_found</source>
+        <target state="translated">Nu am găsit nicio plată potrivită în istoricul contului dvs.</target>
+      </trans-unit>
+      <trans-unit id="m9bLBwn" resname="messages.no_estimates_found" xml:space="preserve" approved="yes">
+        <source>messages.no_estimates_found</source>
+        <target state="translated">Nu am găsit estimări potrivite în istoricul contului dvs.</target>
+      </trans-unit>
+      <trans-unit id="Jo88ccS" resname="titles.login" xml:space="preserve" approved="yes">
+        <source>titles.login</source>
+        <target state="translated">Log in</target>
+      </trans-unit>
+      <trans-unit id="6Q8X3Go" resname="titles.estimate_number" xml:space="preserve" approved="yes">
+        <source>titles.estimate_number</source>
+        <target state="translated">Estimare # %number%</target>
+      </trans-unit>
+      <trans-unit id="WokfmoV" resname="titles.approve_estimate_number" xml:space="preserve" approved="yes">
+        <source>titles.approve_estimate_number</source>
+        <target state="translated">Aprobați estimarea # %number%</target>
+      </trans-unit>
+      <trans-unit id="4Dx8kUq" resname="titles.credit_note_number" xml:space="preserve" approved="yes">
+        <source>titles.credit_note_number</source>
+        <target state="translated">Nota de credit # %number%</target>
+      </trans-unit>
+      <trans-unit id="NBZSv1Z" resname="titles.invoice_number" xml:space="preserve" approved="yes">
+        <source>titles.invoice_number</source>
+        <target state="translated">Număr de factură%</target>
+      </trans-unit>
+      <trans-unit id="gT1nGch" resname="labels.estimate_amount" xml:space="preserve" approved="yes">
+        <source>labels.estimate_amount</source>
+        <target state="translated">Suma estimată</target>
+      </trans-unit>
+      <trans-unit id="Q5SC7eS" resname="buttons.modify" xml:space="preserve" approved="yes">
+        <source>buttons.modify</source>
+        <target state="translated">Modifica</target>
+      </trans-unit>
+      <trans-unit id="A9cfgsP" resname="labels.payment_information" xml:space="preserve" approved="yes">
+        <source>labels.payment_information</source>
+        <target state="translated">Informatii de plata</target>
+      </trans-unit>
+      <trans-unit id="mL3W.3f" resname="labels.please_initial" xml:space="preserve" approved="yes">
+        <source>labels.please_initial</source>
+        <target state="translated">Va rog parafa aici:</target>
+      </trans-unit>
+      <trans-unit id="rvQCzQQ" resname="labels.initials" xml:space="preserve" approved="yes">
+        <source>labels.initials</source>
+        <target state="translated">Inițiale</target>
+      </trans-unit>
+      <trans-unit id="ELhB5fq" resname="messages.terms_i_agree_estimate" xml:space="preserve" approved="yes">
+        <source>messages.terms_i_agree_estimate</source>
+        <target state="translated">Sunt de acord cu termenii acestei estimări.</target>
+      </trans-unit>
+      <trans-unit id="OPL8Sr6" resname="labels.terms" xml:space="preserve" approved="yes">
+        <source>labels.terms</source>
+        <target state="translated">Termeni</target>
+      </trans-unit>
+      <trans-unit id="dqXE56O" resname="labels.pay_with" xml:space="preserve" approved="yes">
+        <source>labels.pay_with</source>
+        <target state="translated">Plateste cu</target>
+      </trans-unit>
+      <trans-unit id="zWOgjtx" resname="labels.deposit" xml:space="preserve" approved="yes">
+        <source>labels.deposit</source>
+        <target state="translated">Depozit</target>
+      </trans-unit>
+      <trans-unit id="kIKH5lU" resname="labels.pay_up_front" xml:space="preserve" approved="yes">
+        <source>labels.pay_up_front</source>
+        <target state="translated">Plătește în avans</target>
+      </trans-unit>
+      <trans-unit id="g8epfng" resname="labels.pay_up_front_with" xml:space="preserve" approved="yes">
+        <source>labels.pay_up_front_with</source>
+        <target state="translated">Plătiți în avans cu %method%</target>
+      </trans-unit>
+      <trans-unit id="ZAl3mJg" resname="messages.must_enroll_in_autopay" xml:space="preserve" approved="yes">
+        <source>messages.must_enroll_in_autopay</source>
+        <target state="translated">Trebuie să vă înregistrați în AutoPay pentru a continua</target>
+      </trans-unit>
+      <trans-unit id="dD2e62J" resname="messages.deposit_payment_required" xml:space="preserve" approved="yes">
+        <source>messages.deposit_payment_required</source>
+        <target state="translated"><![CDATA[<strong>%amount%</strong> este necesară plata depozitului pentru a continua]]></target>
+      </trans-unit>
+      <trans-unit id="rlaUUZD" resname="labels.enroll_in_autopay" xml:space="preserve" approved="yes">
+        <source>labels.enroll_in_autopay</source>
+        <target state="translated">Înscrieți-vă în AutoPay</target>
+      </trans-unit>
+      <trans-unit id="wuEdiqc" resname="messages.autopay_explanation" xml:space="preserve" approved="yes">
+        <source>messages.autopay_explanation</source>
+        <target state="translated">Debitează automat metoda dvs. de plată pe măsură ce sunt emise noi facturi</target>
+      </trans-unit>
+      <trans-unit id="BKedAk_" resname="labels.name" xml:space="preserve" approved="yes">
+        <source>labels.name</source>
+        <target state="translated">Nume</target>
+      </trans-unit>
+      <trans-unit id="1YUtDJ0" resname="labels.size" xml:space="preserve" approved="yes">
+        <source>labels.size</source>
+        <target state="translated">mărimea</target>
+      </trans-unit>
+      <trans-unit id="b0UiRAK" resname="labels.order_summary" xml:space="preserve" approved="yes">
+        <source>labels.order_summary</source>
+        <target state="translated">Comanda Rezumat</target>
+      </trans-unit>
+      <trans-unit id="WFy.AKG" resname="buttons.subscribe" xml:space="preserve" approved="yes">
+        <source>buttons.subscribe</source>
+        <target state="translated">Abonati-va</target>
+      </trans-unit>
+      <trans-unit id="_Ym_voG" resname="buttons.submit" xml:space="preserve" approved="yes">
+        <source>buttons.submit</source>
+        <target state="translated">Trimite</target>
+      </trans-unit>
+      <trans-unit id="82uD.q3" resname="labels.shipping_information" xml:space="preserve" approved="yes">
+        <source>labels.shipping_information</source>
+        <target state="translated">Informații despre livrare</target>
+      </trans-unit>
+      <trans-unit id="GYRzhVV" resname="labels.plan" xml:space="preserve" approved="yes">
+        <source>labels.plan</source>
+        <target state="translated">Plan</target>
+      </trans-unit>
+      <trans-unit id="v.eXmxo" resname="labels.quantity" xml:space="preserve" approved="yes">
+        <source>labels.quantity</source>
+        <target state="translated">Cantitate</target>
+      </trans-unit>
+      <trans-unit id="gFGzg_A" resname="labels.addons" xml:space="preserve" approved="yes">
+        <source>labels.addons</source>
+        <target state="translated">Suplimente</target>
+      </trans-unit>
+      <trans-unit id="1DrEm8e" resname="buttons.apply" xml:space="preserve" approved="yes">
+        <source>buttons.apply</source>
+        <target state="translated">aplica</target>
+      </trans-unit>
+      <trans-unit id="pXg83dz" resname="labels.have_a_coupon" xml:space="preserve" approved="yes">
+        <source>labels.have_a_coupon</source>
+        <target state="translated">Aveți un cod de cupon?</target>
+      </trans-unit>
+      <trans-unit id="qOf5FEX" resname="labels.coupon_code" xml:space="preserve" approved="yes">
+        <source>labels.coupon_code</source>
+        <target state="translated">Cod cupon</target>
+      </trans-unit>
+      <trans-unit id="qjWnSOa" resname="labels.enter_coupon" xml:space="preserve" approved="yes">
+        <source>labels.enter_coupon</source>
+        <target state="translated">Introduceți cuponul dvs</target>
+      </trans-unit>
+      <trans-unit id="jSF9VGD" resname="labels.coupon" xml:space="preserve" approved="yes">
+        <source>labels.coupon</source>
+        <target state="translated">Cupon</target>
+      </trans-unit>
+      <trans-unit id="S0ev9yi" resname="labels.accept_tos" xml:space="preserve" approved="yes">
+        <source>labels.accept_tos</source>
+        <target state="translated"><![CDATA[Accept <a href="%url%" target="_blank" rel="noopener noreferrer">Termenii și condițiile</a>]]></target>
+      </trans-unit>
+      <trans-unit id="F5nDXC0" resname="labels.free_trial" xml:space="preserve" approved="yes">
+        <source>labels.free_trial</source>
+        <target state="translated">%numDays%-zile de încercare gratuită</target>
+      </trans-unit>
+      <trans-unit id="i4TIKm8" resname="labels.starts_now" xml:space="preserve" approved="yes">
+        <source>labels.starts_now</source>
+        <target state="translated">începe acum</target>
+      </trans-unit>
+      <trans-unit id="av9CGyF" resname="labels.first_bill_prorated" xml:space="preserve" approved="yes">
+        <source>labels.first_bill_prorated</source>
+        <target state="translated">prima factură proporțională până la %nthDay%</target>
+      </trans-unit>
+      <trans-unit id="ypiqdWx" resname="labels.you_will_be_enrolled_in_autopay" xml:space="preserve" approved="yes">
+        <source>labels.you_will_be_enrolled_in_autopay</source>
+        <target state="translated">Veți fi înscris în AutoPay</target>
+      </trans-unit>
+      <trans-unit id="UpA9TQa" resname="messages.already_paid" xml:space="preserve" approved="yes">
+        <source>messages.already_paid</source>
+        <target state="translated">Această factură a fost deja plătită. Mulțumesc!</target>
+      </trans-unit>
+      <trans-unit id="MY6odah" resname="messages.nothing_due" xml:space="preserve" approved="yes">
+        <source>messages.nothing_due</source>
+        <target state="translated">Ura! În prezent, nu există facturi restante pe care să le plătiți.</target>
+      </trans-unit>
+      <trans-unit id="6c7kM0M" resname="buttons.next" xml:space="preserve" approved="yes">
+        <source>buttons.next</source>
+        <target state="translated">Următorul</target>
+      </trans-unit>
+      <trans-unit id="KRQvqxK" resname="buttons.save" xml:space="preserve" approved="yes">
+        <source>buttons.save</source>
+        <target state="translated">Salvați</target>
+      </trans-unit>
+      <trans-unit id="FH6bUWI" resname="labels.how_would_you_like_to_pay" xml:space="preserve" approved="yes">
+        <source>labels.how_would_you_like_to_pay</source>
+        <target state="translated">Cum ai vrea sa platesti?</target>
+      </trans-unit>
+      <trans-unit id="6TUSd6V" resname="messages.online_payments_not_accepted" xml:space="preserve" approved="yes">
+        <source>messages.online_payments_not_accepted</source>
+        <target state="translated">Nu există metode de plată disponibile pentru suma selectată. Vă rugăm să ajustați suma pe care încercați să o plătiți sau să ne contactați pentru asistență.</target>
+      </trans-unit>
+      <trans-unit id="HXhDDg6" resname="messages.review_installment_schedule" xml:space="preserve" approved="yes">
+        <source>messages.review_installment_schedule</source>
+        <target state="translated">Vă rugăm să confirmați că sunteți de acord să plătiți acest sold al facturii conform programului de plată.</target>
+      </trans-unit>
+      <trans-unit id="tt1pw24" resname="labels.payment_schedule" xml:space="preserve" approved="yes">
+        <source>labels.payment_schedule</source>
+        <target state="translated">Programul de plată</target>
+      </trans-unit>
+      <trans-unit id="dA9V1DI" resname="messages.collect_payment_info_next" xml:space="preserve" approved="yes">
+        <source>messages.collect_payment_info_next</source>
+        <target state="translated">În continuare, vom colecta informațiile dvs. de plată.</target>
+      </trans-unit>
+      <trans-unit id="33Wx_zO" resname="labels.accept_payment_plan" xml:space="preserve" approved="yes">
+        <source>labels.accept_payment_plan</source>
+        <target state="translated">Sunt de acord cu acest program de plată</target>
+      </trans-unit>
+      <trans-unit id="Drk9nTO" resname="messages.multiple_invoices_outstanding" xml:space="preserve" approved="yes">
+        <source>messages.multiple_invoices_outstanding</source>
+        <target state="translated">În prezent aveți %numInvoices% facturi restante. Doriți să plătiți întregul sold?</target>
+      </trans-unit>
+      <trans-unit id="Kwiv8gH" resname="labels.pay_full_balance" xml:space="preserve" approved="yes">
+        <source>labels.pay_full_balance</source>
+        <target state="translated"><![CDATA[Plătiți soldul complet: <strong>%amount%</strong>]]></target>
+      </trans-unit>
+      <trans-unit id="uCuOWaq" resname="labels.pay_invoice" xml:space="preserve" approved="yes">
+        <source>labels.pay_invoice</source>
+        <target state="translated"><![CDATA[Plătiți factura # %number%: <strong>%amount%</strong>]]></target>
+      </trans-unit>
+      <trans-unit id="kYPVPfD" resname="messages.charge_after_updating_payment_info" xml:space="preserve" approved="yes">
+        <source>messages.charge_after_updating_payment_info</source>
+        <target state="translated"><![CDATA[În prezent, datorați <strong>%amount%</strong>. Când vă actualizați informațiile de plată, vom reîncerca imediat plata.]]></target>
+      </trans-unit>
+      <trans-unit id="aXqQWdG" resname="messages.payment_pending" xml:space="preserve" approved="yes">
+        <source>messages.payment_pending</source>
+        <target state="translated"><![CDATA[Plata dvs. pentru <strong>%amount%</strong> este în prezent în așteptare. Odată ce tranzacția trece printr-o chitanță va fi trimisă la adresa ta de e-mail.]]></target>
+      </trans-unit>
+      <trans-unit id=".NFUynt" resname="messages.payment_successful" xml:space="preserve" approved="yes">
+        <source>messages.payment_successful</source>
+        <target state="translated"><![CDATA[Am primit plata dvs. pentru <strong>%amount%</strong>. A fost trimisă o chitanță la adresa dvs. de e-mail.]]></target>
+      </trans-unit>
+      <trans-unit id="AcJ3_II" resname="messages.payment_expected" xml:space="preserve" approved="yes">
+        <source>messages.payment_expected</source>
+        <target state="translated">Am primit instrucțiunile dvs. când să așteptăm plata. Vă rugăm să ne contactați dacă se schimbă ceva.</target>
+      </trans-unit>
+      <trans-unit id="CaYlkVq" resname="messages.bank_account_verified_autopay" xml:space="preserve" approved="yes">
+        <source>messages.bank_account_verified_autopay</source>
+        <target state="translated">Contul dvs. bancar a fost verificat. Vom colecta plata pentru orice facturi restante în curând. Nu este necesară nicio acțiune suplimentară din partea dvs.</target>
+      </trans-unit>
+      <trans-unit id="7rMuSb7" resname="messages.bank_account_verified" xml:space="preserve" approved="yes">
+        <source>messages.bank_account_verified</source>
+        <target state="translated">Contul dvs. bancar a fost verificat. Acum îl puteți folosi pentru plăți.</target>
+      </trans-unit>
+      <trans-unit id="2PG.SWb" resname="messages.bank_account_added_unverified" xml:space="preserve" approved="yes">
+        <source>messages.bank_account_added_unverified</source>
+        <target state="translated">Contul dvs. bancar a fost conectat! V-am trimis un e-mail de confirmare cu un link către această pagină. După ce ați primit depunerile de verificare, vă rugăm să reveniți aici pentru a le confirma.</target>
+      </trans-unit>
+      <trans-unit id="wmSGpN0" resname="labels.bank_account" xml:space="preserve" approved="yes">
+        <source>labels.bank_account</source>
+        <target state="translated">Cont bancar</target>
+      </trans-unit>
+      <trans-unit id="4u.t04M" resname="messages.verify_microdeposits_prompt" xml:space="preserve" approved="yes">
+        <source>messages.verify_microdeposits_prompt</source>
+        <target state="translated"><![CDATA[Pentru a efectua plăți cu acest cont bancar trebuie mai întâi să dovediți că sunteți autorizat să îl utilizați. Am emis 2 mici depozite în contul dvs. Localizați aceste depuneri pe extrasul dvs. bancar și confirmați sumele lor mai jos, în orice ordine.<br/><br/>Microdepozitele vor dura 2-5 zile lucrătoare pentru a apărea în extrasul dvs. Descrierea extrasului pentru aceste depozite va fi <strong>AMNTS: </strong> și apoi valorile celor două microdepozite care au fost trimise.]]></target>
+      </trans-unit>
+      <trans-unit id="Qt17E9s" resname="labels.deposit_n" xml:space="preserve" approved="yes">
+        <source>labels.deposit_n</source>
+        <target state="translated">Depozit %num%</target>
+      </trans-unit>
+      <trans-unit id="nxIcLDr" resname="messages.where_do_i_find_account_routing" xml:space="preserve" approved="yes">
+        <source>messages.where_do_i_find_account_routing</source>
+        <target state="translated">Unde îmi găsesc rutarea și numărul de cont?</target>
+      </trans-unit>
+      <trans-unit id="wtOahkN" resname="labels.cardholder_name" xml:space="preserve" approved="yes">
+        <source>labels.cardholder_name</source>
+        <target state="translated">Nume Deţinător Card</target>
+      </trans-unit>
+      <trans-unit id="j9guQ9j" resname="labels.please_enter_card" xml:space="preserve" approved="yes">
+        <source>labels.please_enter_card</source>
+        <target state="translated">Vă rugăm să introduceți un card de credit sau de debit</target>
+      </trans-unit>
+      <trans-unit id="_86ekN5" resname="labels.please_billing_address" xml:space="preserve" approved="yes">
+        <source>labels.please_billing_address</source>
+        <target state="translated">Vă rugăm să introduceți adresa dvs. de facturare</target>
+      </trans-unit>
+      <trans-unit id="vWl4nxs" resname="labels.cvc" xml:space="preserve" approved="yes">
+        <source>labels.cvc</source>
+        <target state="translated">CVC</target>
+      </trans-unit>
+      <trans-unit id="egDP.6H" resname="labels.make_default_payment_method" xml:space="preserve" approved="yes">
+        <source>labels.make_default_payment_method</source>
+        <target state="translated">Stabiliți metoda de plată prestabilită</target>
+      </trans-unit>
+      <trans-unit id="pwEflKT" resname="labels.pay_with_apple_pay" xml:space="preserve" approved="yes">
+        <source>labels.pay_with_apple_pay</source>
+        <target state="translated">Plătiți cu Apple Pay</target>
+      </trans-unit>
+      <trans-unit id="9rBVk2e" resname="labels.payment_instructions" xml:space="preserve" approved="yes">
+        <source>labels.payment_instructions</source>
+        <target state="translated">Instrucțiuni de plată</target>
+      </trans-unit>
+      <trans-unit id="pSSVqXA" resname="buttons.payment_sent" xml:space="preserve" approved="yes">
+        <source>buttons.payment_sent</source>
+        <target state="translated">Am trimis plata</target>
+      </trans-unit>
+      <trans-unit id="yuFZ0Bl" resname="labels.expected_arrival_date" xml:space="preserve" approved="yes">
+        <source>labels.expected_arrival_date</source>
+        <target state="translated">Data estimată a sosirii</target>
+      </trans-unit>
+      <trans-unit id="sekUVmm" resname="labels.expected_arrival_date_comments" xml:space="preserve" approved="yes">
+        <source>labels.expected_arrival_date_comments</source>
+        <target state="translated">Note</target>
+      </trans-unit>
+      <trans-unit id="juCjwID" resname="labels.check_out_with_paypal" xml:space="preserve" approved="yes">
+        <source>labels.check_out_with_paypal</source>
+        <target state="translated">Check out cu paypal</target>
+      </trans-unit>
+      <trans-unit id="kh9Wpyq" resname="labels.account_holder_name" xml:space="preserve" approved="yes">
+        <source>labels.account_holder_name</source>
+        <target state="translated">Numele deținătorului contului</target>
+      </trans-unit>
+      <trans-unit id="xP8r7pR" resname="labels.individual" xml:space="preserve" approved="yes">
+        <source>labels.individual</source>
+        <target state="translated">Individual</target>
+      </trans-unit>
+      <trans-unit id="M05t893" resname="labels.company" xml:space="preserve" approved="yes">
+        <source>labels.company</source>
+        <target state="translated">Companie</target>
+      </trans-unit>
+      <trans-unit id="7GGV.Ez" resname="labels.routing_number" xml:space="preserve" approved="yes">
+        <source>labels.routing_number</source>
+        <target state="translated">Numărul de rutare</target>
+      </trans-unit>
+      <trans-unit id="SQU1VJM" resname="labels.bank_account_number" xml:space="preserve" approved="yes">
+        <source>labels.bank_account_number</source>
+        <target state="translated">Numarul contului bancar</target>
+      </trans-unit>
+      <trans-unit id="4_l7NWl" resname="labels.confirm_bank_account_number" xml:space="preserve" approved="yes">
+        <source>labels.confirm_bank_account_number</source>
+        <target state="translated">Confirmați numărul de cont</target>
+      </trans-unit>
+      <trans-unit id="BjrKGVw" resname="labels.add_bank_account" xml:space="preserve" approved="yes">
+        <source>labels.add_bank_account</source>
+        <target state="translated">Adăugați un cont bancar</target>
+      </trans-unit>
+      <trans-unit id="jt.wbYG" resname="buttons.verify_instantly" xml:space="preserve" approved="yes">
+        <source>buttons.verify_instantly</source>
+        <target state="translated">Verificați instantaneu</target>
+      </trans-unit>
+      <trans-unit id="yMdKgyJ" resname="buttons.verify_manually" xml:space="preserve" approved="yes">
+        <source>buttons.verify_manually</source>
+        <target state="translated">Verificați manual</target>
+      </trans-unit>
+      <trans-unit id="i9bzslK" resname="labels.or" xml:space="preserve" approved="yes">
+        <source>labels.or</source>
+        <target state="translated">sau</target>
+      </trans-unit>
+      <trans-unit id="UCTDZfM" resname="messages.add_bank_account_verify_prompt" xml:space="preserve" approved="yes">
+        <source>messages.add_bank_account_verify_prompt</source>
+        <target state="translated">Pentru a vă folosi contul bancar pentru plăți, trebuie doar să verificăm mai întâi că sunteți autorizat să plătiți cu acesta. Cum ați dori să vă verificați contul?</target>
+      </trans-unit>
+      <trans-unit id="YKozyoq" resname="messages.add_bank_account_manual_verification" xml:space="preserve" approved="yes">
+        <source>messages.add_bank_account_manual_verification</source>
+        <target state="translated">Adăugați orice cont bancar cu o rutare și un număr de cont. Vom trimite apoi două micro-depozite în contul dvs. pentru a le verifica. Verificarea poate dura până la 2 zile lucrătoare.</target>
+      </trans-unit>
+      <trans-unit id="4NZvK5V" resname="titles.add_payment_method" xml:space="preserve" approved="yes">
+        <source>titles.add_payment_method</source>
+        <target state="translated">Adăugați o metodă de plată</target>
+      </trans-unit>
+      <trans-unit id="c4URl7s" resname="titles.update_payment_method" xml:space="preserve" approved="yes">
+        <source>titles.update_payment_method</source>
+        <target state="translated">Schimbă modalitatea de plată</target>
+      </trans-unit>
+      <trans-unit id="K8F4eX0" resname="labels.pay_selected_invoices" xml:space="preserve" approved="yes">
+        <source>labels.pay_selected_invoices</source>
+        <target state="translated">Selectați facturile de plătit</target>
+      </trans-unit>
+      <trans-unit id="wx1dwHu" resname="labels.tax_id" xml:space="preserve" approved="yes">
+        <source>labels.tax_id</source>
+        <target state="translated">Cod fiscal</target>
+      </trans-unit>
+      <trans-unit id="GGIjRfB" resname="buttons.csv" xml:space="preserve" approved="yes">
+        <source>buttons.csv</source>
+        <target state="translated">CSV</target>
+      </trans-unit>
+      <trans-unit id="gksoz9F" resname="labels.receipt_email" xml:space="preserve" approved="yes">
+        <source>labels.receipt_email</source>
+        <target state="translated">E-mail de primire</target>
+      </trans-unit>
+      <trans-unit id="NRoWURm" resname="buttons.attach_file" xml:space="preserve" approved="yes">
+        <source>buttons.attach_file</source>
+        <target state="translated">Ataseaza fisier...</target>
+      </trans-unit>
+      <trans-unit id="QhooH8c" resname="messages.gocardless_payment_reason" xml:space="preserve" approved="yes">
+        <source>messages.gocardless_payment_reason</source>
+        <target state="translated">Plăți automate ale facturilor către %companyName%</target>
+      </trans-unit>
+      <trans-unit id="OQIsvq3" resname="buttons.setup_direct_debit" xml:space="preserve" approved="yes">
+        <source>buttons.setup_direct_debit</source>
+        <target state="translated">Configurați debit direct</target>
+      </trans-unit>
+      <trans-unit id="LXmd33i" resname="messages.payment_form_invoice_description" xml:space="preserve" approved="yes">
+        <source>messages.payment_form_invoice_description</source>
+        <target state="translated">{0} Soldul contului|{1} Factura # %invoiceNumber%|]1,Inf[ %count% Facturi</target>
+      </trans-unit>
+      <trans-unit id="JYcm0oz" resname="messages.information_being_saved" xml:space="preserve" approved="yes">
+        <source>messages.information_being_saved</source>
+        <target state="translated">Informațiile dvs. sunt salvate. Mulțumesc!</target>
+      </trans-unit>
+      <trans-unit id="7X17a50" resname="messages.payment_processing" xml:space="preserve" approved="yes">
+        <source>messages.payment_processing</source>
+        <target state="translated">Plata dvs. este în curs de procesare. Mulțumesc!</target>
+      </trans-unit>
+      <trans-unit id="AEQBBf2" resname="warnings.convenience_fee" xml:space="preserve" approved="yes">
+        <source>warnings.convenience_fee</source>
+        <target state="translated">La plată va fi adăugată o taxă de confort %fee%.</target>
+      </trans-unit>
+      <trans-unit id="8c1FunS" resname="labels.convenience_fee" xml:space="preserve" approved="yes">
+        <source>labels.convenience_fee</source>
+        <target state="translated">Taxa de confort</target>
+      </trans-unit>
+      <trans-unit id="IswwNM7" resname="labels.open_item" xml:space="preserve" approved="yes">
+        <source>labels.open_item</source>
+        <target state="translated">Deschideți articolul</target>
+      </trans-unit>
+      <trans-unit id="MRmfnd3" resname="titles.credit_notes" xml:space="preserve" approved="yes">
+        <source>titles.credit_notes</source>
+        <target state="translated">Note de credit</target>
+      </trans-unit>
+      <trans-unit id="3Ytdm_m" resname="labels.credit_note_number" xml:space="preserve" approved="yes">
+        <source>labels.credit_note_number</source>
+        <target state="translated">Nota de credit #</target>
+      </trans-unit>
+      <trans-unit id="5W5KWuG" resname="messages.no_credit_notes_found" xml:space="preserve" approved="yes">
+        <source>messages.no_credit_notes_found</source>
+        <target state="translated">Nu am găsit note de credit care să se potrivească în istoricul contului dvs.</target>
+      </trans-unit>
+      <trans-unit id="yk9xeNZ" resname="labels.address" xml:space="preserve" approved="yes">
+        <source>labels.address</source>
+        <target state="translated">Abordare</target>
+      </trans-unit>
+      <trans-unit id="aAlCY3O" resname="labels.off" xml:space="preserve" approved="yes">
+        <source>labels.off</source>
+        <target state="translated">Oprit</target>
+      </trans-unit>
+      <trans-unit id="Ffrwqa2" resname="labels.enabled" xml:space="preserve" approved="yes">
+        <source>labels.enabled</source>
+        <target state="translated">Activat</target>
+      </trans-unit>
+      <trans-unit id="049uRUv" resname="labels.payment_date" xml:space="preserve" approved="yes">
+        <source>labels.payment_date</source>
+        <target state="translated">Data de plată</target>
+      </trans-unit>
+      <trans-unit id="OKJpx4u" resname="labels.days" xml:space="preserve" approved="yes">
+        <source>labels.days</source>
+        <target state="translated">zi|zile|zile</target>
+      </trans-unit>
+      <trans-unit id="s1.80DN" resname="titles.activity" xml:space="preserve" approved="yes">
+        <source>titles.activity</source>
+        <target state="translated">Activitate</target>
+      </trans-unit>
+      <trans-unit id=".06W_Ql" resname="titles.statements" xml:space="preserve" approved="yes">
+        <source>titles.statements</source>
+        <target state="translated">Declarații</target>
+      </trans-unit>
+      <trans-unit id="2gw8e3G" resname="labels.expiration_date" xml:space="preserve" approved="yes">
+        <source>labels.expiration_date</source>
+        <target state="translated">Data expirării</target>
+      </trans-unit>
+      <trans-unit id="VB.qtSV" resname="labels.all" xml:space="preserve" approved="yes">
+        <source>labels.all</source>
+        <target state="translated">Toate</target>
+      </trans-unit>
+      <trans-unit id="5qZeUIn" resname="labels.open" xml:space="preserve" approved="yes">
+        <source>labels.open</source>
+        <target state="translated">Deschis</target>
+      </trans-unit>
+      <trans-unit id="jHqD_bx" resname="labels.apply" xml:space="preserve" approved="yes">
+        <source>labels.apply</source>
+        <target state="translated">aplica</target>
+      </trans-unit>
+      <trans-unit id="1FD7klK" resname="labels.selected" xml:space="preserve" approved="yes">
+        <source>labels.selected</source>
+        <target state="translated">selectat</target>
+      </trans-unit>
+      <trans-unit id="iwqyWqt" resname="labels.pdf" xml:space="preserve" approved="yes">
+        <source>labels.pdf</source>
+        <target state="translated">PDF</target>
+      </trans-unit>
+      <trans-unit id="ryLL3CY" resname="labels.aging" xml:space="preserve" approved="yes">
+        <source>labels.aging</source>
+        <target state="translated">Îmbătrânire</target>
+      </trans-unit>
+      <trans-unit id="hq.S8R2" resname="labels.num_invoices" xml:space="preserve" approved="yes">
+        <source>labels.num_invoices</source>
+        <target state="translated"># Facturi</target>
+      </trans-unit>
+      <trans-unit id="Jv2p1cp" resname="labels.account_summary" xml:space="preserve" approved="yes">
+        <source>labels.account_summary</source>
+        <target state="translated">Rezumat cont</target>
+      </trans-unit>
+      <trans-unit id="C7TayrU" resname="labels.recent_payments" xml:space="preserve" approved="yes">
+        <source>labels.recent_payments</source>
+        <target state="translated">Plăți recente</target>
+      </trans-unit>
+      <trans-unit id="h.SpHjM" resname="labels.start_date" xml:space="preserve" approved="yes">
+        <source>labels.start_date</source>
+        <target state="translated">Data de început</target>
+      </trans-unit>
+      <trans-unit id="G9Gzmjv" resname="labels.currently_due" xml:space="preserve" approved="yes">
+        <source>labels.currently_due</source>
+        <target state="translated">Momentan scadent</target>
+      </trans-unit>
+      <trans-unit id="_ja4Un7" resname="labels.next_due_date" xml:space="preserve" approved="yes">
+        <source>labels.next_due_date</source>
+        <target state="translated">Următoarea dată scadentă</target>
+      </trans-unit>
+      <trans-unit id="0ZNtsx6" resname="labels.po_number" xml:space="preserve" approved="yes">
+        <source>labels.po_number</source>
+        <target state="translated">DUPĂ #</target>
+      </trans-unit>
+      <trans-unit id="Q3et9EE" resname="labels.credit_note" xml:space="preserve" approved="yes">
+        <source>labels.credit_note</source>
+        <target state="translated">Nota de credit</target>
+      </trans-unit>
+      <trans-unit id="K.Ap7ZV" resname="messages.payment_form_credit_note_description" xml:space="preserve" approved="yes">
+        <source>messages.payment_form_credit_note_description</source>
+        <target state="translated">{1} Nota de credit # %creditNoteNumber%|]1,Inf[ %count% Note de credit</target>
+      </trans-unit>
+      <trans-unit id="J1bDBq0" resname="labels.document_number" xml:space="preserve" approved="yes">
+        <source>labels.document_number</source>
+        <target state="translated">Document #</target>
+      </trans-unit>
+      <trans-unit id="gKhcfsa" resname="messages.payment_zero_success" xml:space="preserve" approved="yes">
+        <source>messages.payment_zero_success</source>
+        <target state="translated">Am procesat cererea dvs.</target>
+      </trans-unit>
+      <trans-unit id="Ua.VrHU" resname="labels.description" xml:space="preserve" approved="yes">
+        <source>labels.description</source>
+        <target state="translated">Descriere</target>
+      </trans-unit>
+      <trans-unit id="2iKHZ2X" resname="labels.summary" xml:space="preserve" approved="yes">
+        <source>labels.summary</source>
+        <target state="translated">rezumat</target>
+      </trans-unit>
+      <trans-unit id="J5dO.KR" resname="labels.promise_to_pay" xml:space="preserve" approved="yes">
+        <source>labels.promise_to_pay</source>
+        <target state="translated">Promisiunea de plată</target>
+      </trans-unit>
+      <trans-unit id="nxrrPlj" resname="messages.promise_to_pay_description" xml:space="preserve" approved="yes">
+        <source>messages.promise_to_pay_description</source>
+        <target state="translated">Vă rugăm să furnizați sfaturi de plată odată ce o plată este în curs.</target>
+      </trans-unit>
+      <trans-unit id="8_.488W" resname="titles.payment_selection" xml:space="preserve" approved="yes">
+        <source>titles.payment_selection</source>
+        <target state="translated">Selectarea plății</target>
+      </trans-unit>
+      <trans-unit id="Fu1TrS1" resname="labels.payment_reference" xml:space="preserve" approved="yes">
+        <source>labels.payment_reference</source>
+        <target state="translated">Referință de plată #</target>
+      </trans-unit>
+      <trans-unit id="DC0vY0D" resname="labels.price" xml:space="preserve" approved="yes">
+        <source>labels.price</source>
+        <target state="translated">Preț</target>
+      </trans-unit>
+      <trans-unit id="H.wEBrm" resname="tax" xml:space="preserve" approved="yes">
+        <source>tax</source>
+        <target state="translated">impozit</target>
+      </trans-unit>
+      <trans-unit id="lHLyLBw" resname="includes" xml:space="preserve" approved="yes">
+        <source>includes</source>
+        <target state="translated">include</target>
+      </trans-unit>
+      <trans-unit id="81alaCs" resname="labels.tiered" xml:space="preserve" approved="yes">
+        <source>labels.tiered</source>
+        <target state="translated">Nivelate</target>
+      </trans-unit>
+      <trans-unit id="zykxVkI" resname="labels.PayInFull" xml:space="preserve" approved="yes">
+        <source>labels.PayInFull</source>
+        <target state="translated">Plătiți integral</target>
+      </trans-unit>
+      <trans-unit id="NPHcEJe" resname="labels.PayPartial" xml:space="preserve" approved="yes">
+        <source>labels.PayPartial</source>
+        <target state="translated">Plătiți o sumă parțială</target>
+      </trans-unit>
+      <trans-unit id="5VJPedQ" resname="labels.ApplyCredit" xml:space="preserve" approved="yes">
+        <source>labels.ApplyCredit</source>
+        <target state="translated">Aplică credit</target>
+      </trans-unit>
+      <trans-unit id="VgM0xrI" resname="labels.PaymentPlan" xml:space="preserve" approved="yes">
+        <source>labels.PaymentPlan</source>
+        <target state="translated">Următoarea tranșă</target>
+      </trans-unit>
+      <trans-unit id="ub2CIJg" resname="labels.amount_to_pay" xml:space="preserve" approved="yes">
+        <source>labels.amount_to_pay</source>
+        <target state="translated">Suma de platit</target>
+      </trans-unit>
+      <trans-unit id="olq6ngN" resname="labels.AdvancePayment" xml:space="preserve" approved="yes">
+        <source>labels.AdvancePayment</source>
+        <target state="translated">Plată în avans</target>
+      </trans-unit>
+      <trans-unit id="Ofp1Mr8" resname="buttons.save_to_invoiced" xml:space="preserve" approved="yes">
+        <source>buttons.save_to_invoiced</source>
+        <target state="translated">Salvați în facturat</target>
+      </trans-unit>
+      <trans-unit id="RcW7iDA" resname="titles.invoice_from" xml:space="preserve" approved="yes">
+        <source>titles.invoice_from</source>
+        <target state="translated">Factură de la %fromName%</target>
+      </trans-unit>
+      <trans-unit id="xuZLJ1R" resname="labels.bill_from" xml:space="preserve" approved="yes">
+        <source>labels.bill_from</source>
+        <target state="translated">Bill De la</target>
+      </trans-unit>
+      <trans-unit id="t114NXp" resname="labels.bill_to" xml:space="preserve" approved="yes">
+        <source>labels.bill_to</source>
+        <target state="translated">Proiect de lege pentru</target>
+      </trans-unit>
+      <trans-unit id="DlKW1PP" resname="labels.ship_to" xml:space="preserve" approved="yes">
+        <source>labels.ship_to</source>
+        <target state="translated">Îmbarca spre</target>
+      </trans-unit>
+      <trans-unit id="RJGJEPj" resname="labels.attention_to" xml:space="preserve" approved="yes">
+        <source>labels.attention_to</source>
+        <target state="translated">ATTN</target>
+      </trans-unit>
+      <trans-unit id="s.upHgu" resname="labels.payment_terms" xml:space="preserve" approved="yes">
+        <source>labels.payment_terms</source>
+        <target state="translated">Termeni de plată</target>
+      </trans-unit>
+      <trans-unit id="g6nmwmz" resname="labels.unit_cost" xml:space="preserve" approved="yes">
+        <source>labels.unit_cost</source>
+        <target state="translated">Cost unitar</target>
+      </trans-unit>
+      <trans-unit id="yG9Oc78" resname="labels.credits_applied" xml:space="preserve" approved="yes">
+        <source>labels.credits_applied</source>
+        <target state="translated">Credite aplicate</target>
+      </trans-unit>
+      <trans-unit id="g_9xYt." resname="labels.notes" xml:space="preserve" approved="yes">
+        <source>labels.notes</source>
+        <target state="translated">Note</target>
+      </trans-unit>
+      <trans-unit id="m0eYIwH" resname="buttons.learn_more" xml:space="preserve" approved="yes">
+        <source>buttons.learn_more</source>
+        <target state="translated">Află mai multe</target>
+      </trans-unit>
+      <trans-unit id="5Dc9mCj" resname="titles.estimate_from" xml:space="preserve" approved="yes">
+        <source>titles.estimate_from</source>
+        <target state="translated">Estimare de la %fromName%</target>
+      </trans-unit>
+      <trans-unit id="8L_w8yT" resname="titles.credit_note_from" xml:space="preserve" approved="yes">
+        <source>titles.credit_note_from</source>
+        <target state="translated">Nota de credit de la %fromName%</target>
+      </trans-unit>
+      <trans-unit id="HVyyUyT" resname="titles.statement_from" xml:space="preserve" approved="yes">
+        <source>titles.statement_from</source>
+        <target state="translated">Declarație de la %fromName%</target>
+      </trans-unit>
+      <trans-unit id="r2pB5_G" resname="buttons.view_on_invoiced" xml:space="preserve" approved="yes">
+        <source>buttons.view_on_invoiced</source>
+        <target state="translated">Vizualizare pe facturat</target>
+      </trans-unit>
+      <trans-unit id="VhX.pin" resname="buttons.xml" xml:space="preserve" approved="yes">
+        <source>buttons.xml</source>
+        <target state="translated">XML</target>
+      </trans-unit>
+      <trans-unit id="qlr0CE8" resname="labels.contacts" xml:space="preserve" approved="yes">
+        <source>labels.contacts</source>
+        <target state="translated">Contacte</target>
+      </trans-unit>
+      <trans-unit id="nv1fXH9" resname="messages.contacts_explanation" xml:space="preserve" approved="yes">
+        <source>messages.contacts_explanation</source>
+        <target state="translated">Adăugați persoane de contact suplimentare în contul dvs. care ar trebui să aibă acces la portalul clienților.</target>
+      </trans-unit>
+      <trans-unit id="glEpeao" resname="labels.phone" xml:space="preserve" approved="yes">
+        <source>labels.phone</source>
+        <target state="translated">Telefon</target>
+      </trans-unit>
+      <trans-unit id="z9WDTAm" resname="messages.contact_saved" xml:space="preserve" approved="yes">
+        <source>messages.contact_saved</source>
+        <target state="translated">Contactul a fost salvat.</target>
+      </trans-unit>
+      <trans-unit id="7Wmf_w1" resname="messages.contact_deleted" xml:space="preserve" approved="yes">
+        <source>messages.contact_deleted</source>
+        <target state="translated">Contactul a fost șters.</target>
+      </trans-unit>
+      <trans-unit id="7" resname="titles.select_customer" xml:space="preserve" approved="yes">
+        <source>titles.select_customer</source>
+        <target state="translated">Selectați Client</target>
+      </trans-unit>
+      <trans-unit id="8" resname="labels.change_language" xml:space="preserve" approved="yes">
+        <source>labels.change_language</source>
+        <target state="translated">Schimbați limba</target>
+      </trans-unit>
+      <trans-unit id="9" resname="messages.powered_by_invoiced" xml:space="preserve" approved="yes">
+        <source>messages.powered_by_invoiced</source>
+        <target state="translated">O modalitate mai bună de a trimite și de a primi facturi</target>
+      </trans-unit>
+      <trans-unit id="11" resname="labels.new_contact" xml:space="preserve" approved="yes">
+        <source>labels.new_contact</source>
+        <target state="translated">Contact nou</target>
+      </trans-unit>
+      <trans-unit id="12" resname="labels.edit_contact" xml:space="preserve" approved="yes">
+        <source>labels.edit_contact</source>
+        <target state="translated">Editați contactul</target>
+      </trans-unit>
+      <trans-unit id="13" resname="messages.csrf_error" xml:space="preserve" approved="yes">
+        <source>messages.csrf_error</source>
+        <target state="translated">Este posibil ca sesiunea dvs. să fi expirat sau este posibil să nu aveți module cookie activate. Vă rugăm să utilizați butonul Înapoi și să încercați din nou.</target>
+      </trans-unit>
+      <trans-unit id="14" resname="labels.please_try_again" xml:space="preserve" approved="yes">
+        <source>labels.please_try_again</source>
+        <target state="translated">Vă rugăm să încercați din nou</target>
+      </trans-unit>
+      <trans-unit id="15" resname="labels.error" xml:space="preserve" approved="yes">
+        <source>labels.error</source>
+        <target state="translated">Eroare</target>
+      </trans-unit>
+      <trans-unit id="16" resname="messages.sandbox_account" xml:space="preserve" approved="yes">
+        <source>messages.sandbox_account</source>
+        <target state="translated">Acesta este un cont sandbox. Acestea nu sunt facturi reale și nu procesează plăți live.</target>
+      </trans-unit>
+      <trans-unit id="17" resname="labels.delete_contact" xml:space="preserve" approved="yes">
+        <source>labels.delete_contact</source>
+        <target state="translated">Ștergeți contactul</target>
+      </trans-unit>
+      <trans-unit id="18" resname="messages.are_you_sure" xml:space="preserve" approved="yes">
+        <source>messages.are_you_sure</source>
+        <target state="translated">Esti sigur?</target>
+      </trans-unit>
+      <trans-unit id="19" resname="messages.payment_add_bank_account" xml:space="preserve" approved="yes">
+        <source>messages.payment_add_bank_account</source>
+        <target state="translated">Pentru a trimite o plată, trebuie mai întâi să conectați un cont bancar.</target>
+      </trans-unit>
+      <trans-unit id="20" resname="labels.date_range" xml:space="preserve" approved="yes">
+        <source>labels.date_range</source>
+        <target state="translated">Interval de date</target>
+      </trans-unit>
+      <trans-unit id="21" resname="messages.welcome_line1" xml:space="preserve" approved="yes">
+        <source>messages.welcome_line1</source>
+        <target state="translated">Bun venit pe portalul nostru pentru clienți! Conectați-vă pentru a vă accesa contul, unde puteți vedea facturile, efectua plăți, vă puteți actualiza informațiile de facturare și puteți verifica istoricul contului.</target>
+      </trans-unit>
+      <trans-unit id="22" resname="messages.welcome_line2" xml:space="preserve" approved="yes">
+        <source>messages.welcome_line2</source>
+        <target state="translated">Dacă întâmpinați probleme în timpul utilizării portalului, vă rugăm să nu ezitați să ne contactați pentru asistență.</target>
+      </trans-unit>
+      <trans-unit id="23" resname="labels.customer" xml:space="preserve" approved="yes">
+        <source>labels.customer</source>
+        <target state="translated">Client</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

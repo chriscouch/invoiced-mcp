@@ -1,0 +1,328 @@
+<div class="loading inline" ng-show="loading"></div>
+<div ng-show="!loading">
+	<form class="form-horizontal" name="settingsForm" ng-submit="save(syncProfile)">
+		<div class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</div>
+
+		<!-- Sync Behavior -->
+		<div class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-12">
+				<h4 class="settings-section-title">{{'quickbooks_online.data_flow'|translate}}</h4>
+			</div>
+		</div>
+		<table class="table search-results-table">
+			<thead>
+				<tr>
+					<th></th>
+					<th class="text-center">{{'quickbooks_online.read_from_quickbooks'|translate}}</th>
+					<th class="text-center">{{'quickbooks_online.write_to_quickbooks'|translate}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>{{'quickbooks_online.customers'|translate}}</td>
+					<td class="text-center">
+						<toggle ng-model="syncProfile.read_customers"></toggle>
+					</td>
+					<td class="text-center">
+						<toggle ng-model="syncProfile.write_customers"></toggle>
+					</td>
+				</tr>
+				<tr>
+					<td>{{'quickbooks_online.invoices'|translate}}</td>
+					<td class="text-center">
+						<toggle ng-model="syncProfile.read_invoices"></toggle>
+					</td>
+					<td class="text-center">
+						<toggle ng-model="syncProfile.write_invoices"></toggle>
+					</td>
+				</tr>
+				<tr>
+					<td>{{'quickbooks_online.payments'|translate}}</td>
+					<td class="text-center">
+						<toggle ng-model="syncProfile.read_payments"></toggle>
+					</td>
+					<td class="text-center">
+						<toggle ng-model="syncProfile.write_payments"></toggle>
+					</td>
+				</tr>
+				<tr>
+					<td>{{'quickbooks_online.credit_notes'|translate}}</td>
+					<td class="text-center">
+						<toggle ng-model="syncProfile.read_credit_notes"></toggle>
+					</td>
+					<td class="text-center">
+						<toggle ng-model="syncProfile.write_credit_notes"></toggle>
+					</td>
+				</tr>
+				<tr>
+					<td>{{'quickbooks_online.convenience_fees'|translate}}</td>
+					<td class="text-center">
+						&mdash;
+					</td>
+					<td class="text-center">
+						<toggle ng-model="syncProfile.write_convenience_fees"></toggle>
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="3"></td>
+				</tr>
+			</tfoot>
+		</table>
+
+		<div class="form-group">
+			<div class="col-sm-4 col-sm-offset-4">
+				<h4 class="settings-section-title">{{'quickbooks_online.sync_settings'|translate}}</h4>
+			</div>
+		</div>
+
+		<div class="form-group" ng-show="syncProfile.read_invoices">
+			<div class="col-sm-4 col-sm-offset-4">
+				<label class="noselect">
+					<input type="checkbox" ng-model="syncProfile.read_invoices_as_drafts" />
+					{{'quickbooks_online.import_as_draft'|translate}}
+				</label>
+			</div>
+			<div class="col-sm-4">
+				{{'quickbooks_online.import_as_draft_info'|translate}}
+			</div>
+		</div>
+
+		<div class="form-group" ng-show="syncProfile.read_invoices || syncProfile.read_credit_notes">
+			<div class="col-sm-4 col-sm-offset-4">
+				<label class="noselect">
+					<input type="checkbox" ng-model="syncProfile.read_pdfs" />
+					{{'quickbooks_online.import_pdfs'|translate}}
+				</label>
+			</div>
+			<div class="col-sm-4">
+				{{'quickbooks_online.import_pdfs_info'|translate}}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">
+				{{'accounting_sync.date_range'|translate}}
+			</label>
+			<div class="col-sm-8 form-control-static">
+				<label class="noselect">
+					<input type="checkbox" ng-model="syncAllInvoices" />
+					{{'accounting_sync.all_invoices'|translate}}
+				</label>
+				<div ng-if="!syncAllInvoices">
+					<div>{{'accounting_sync.only_invoices_on_after'|translate}}</div>
+					<div class="input-group input-medium">
+						<input type="text" class="form-control" ng-model="syncProfile.invoice_start_date" ui-date="dateOptions" is-open="dpOpened" readonly="readonly" required />
+						<span class="input-group-btn">
+					<button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'dpOpened')">
+						<span class="fas fa-calendar-alt"></span>
+					</button>
+				</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Map to Existing -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">
+				{{'quickbooks_online.map_to_existing'|translate}}
+			</label>
+			<div class="col-sm-8 form-control-static">
+				<div>
+					<label class="noselect">
+						<input type="checkbox" ng-model="mapToExistingCustomers" />
+						{{'quickbooks_online.customers'|translate}}
+					</label>
+				</div>
+				<div>
+					<label class="noselect">
+						<input type="checkbox" ng-model="mapToExistingInvoices" />
+						{{'quickbooks_online.invoices'|translate}}
+					</label>
+				</div>
+				<div>
+					<label class="noselect">
+						<input type="checkbox" ng-model="mapToExistingItems" />
+						{{'quickbooks_online.items'|translate}}
+					</label>
+				</div>
+			</div>
+		</div>
+
+		<!-- Custom Fields -->
+		<div ng-if="select2Options.customFieldsQbo.data.length > 0 && select2Options.customFields.data.length > 0">
+			<div class="form-group">
+				<label class="control-label col-sm-4">{{'quickbooks_online.custom_fields'|translate}}</label>
+				<div class="col-sm-6">
+					<div class="qbo-custom-field-mapping" ng-repeat="mapping in customFieldsMapping">
+						<div class="remove">
+							<a href="" ng-click="removeCustomFieldMapping($index)">
+								{{'quickbooks_online.remove'|translate}}
+							</a>
+						</div>
+						<div class="invoiced-field">
+							<input type="hidden" ng-model="mapping.invoiced" ui-select2="select2Options.customFields" required />
+						</div>
+						<div class="arrow">
+							<span class="fas fa-arrow-alt-down"></span>
+						</div>
+						<div class="qbo-field">
+							<input type="hidden" ng-model="mapping.qbo" ui-select2="select2Options.customFieldsQbo" required />
+						</div>
+					</div>
+
+					<div ng-show="customFieldsMapping.length < numCustomFields">
+						<button type="button" class="btn btn-default" ng-click="addCustomFieldMapping()">
+							+
+							{{'quickbooks_online.mapping'|translate}}
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr/>
+
+		<!-- Mapping -->
+		<div ng-if="!loading && syncProfile.write_payments">
+			<div class="form-group">
+				<div class="col-sm-12">
+					<h4 class="settings-section-title">{{'quickbooks_online.payment_deposits'|translate}}</h4>
+				</div>
+			</div>
+
+			<table class="table table-striped search-results-table">
+				<thead>
+					<tr>
+						<th>{{'general.payment_method'|translate}}</th>
+						<th ng-show="'multi_currency'|hasFeature">{{'general.currency'|translate}}</th>
+						<th ng-show="merchantAccounts.length > 0">{{'general.payment_gateway'|translate}}</th>
+						<th>{{'quickbooks_online.deposit_to_account'|translate}}</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="rule in syncProfile.payment_accounts">
+						<td>
+							<label class="noselect">
+								<input type="checkbox" ng-model="rule.no_method" />
+								Any
+							</label>
+							<payment-method-selector ng-model="rule.method" ng-if="!rule.no_method"></payment-method-selector>
+						</td>
+						<td ng-show="'multi_currency'|hasFeature">
+							<label class="noselect">
+								<input type="checkbox" ng-model="rule.no_currency" />
+								Any
+							</label>
+							<currency-selector ng-model="rule.currency" ng-if="!rule.no_currency"></currency-selector>
+						</td>
+						<td ng-show="merchantAccounts.length > 0">
+							<label class="noselect">
+								<input type="checkbox" ng-model="rule.no_merchant_account" />
+								Any
+							</label>
+							<div class="invoiced-select" ng-if="!rule.no_merchant_account">
+								<select ng-model="rule.merchant_account" ng-options="merchantAccount.id as merchantAccount.name for merchantAccount in merchantAccounts | orderBy:'name'">
+									<option value="">{{'general.none'|translate}}<option>
+								</select>
+							</div>
+						</td>
+						<td>
+							<label class="noselect">
+								<input type="checkbox" ng-model="rule.quickbooks_no_account" />
+								Default
+							</label>
+							<input type="hidden" ng-model="rule.account" ng-if="!rule.quickbooks_no_account" ui-select2="select2Options.depositToAccount" required />
+						</td>
+						<td>
+							<button type="button" class="btn btn-link" ng-click="deletePaymentAccount($index)">
+								<span class="fas fa-times"></span>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+				<tr>
+					<td colspan="{{hasMultiCurrency + (merchantAccounts.length > 0?1:0) + 4}}">
+						<button type="button" class="btn btn-link" ng-click="addPaymentAccount()">
+							<span class="fas fa-plus"></span>
+							Rule
+						</button>
+					</td>
+				</tr>
+				</tfoot>
+			</table>
+			<hr/>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-4 col-sm-offset-4">
+				<h4 class="settings-section-title">{{'quickbooks_online.account_mappings'|translate}}</h4>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'quickbooks_online.income_account'|translate}}</label>
+			<div class="col-sm-4">
+				<div class="accounting-sync-account-map" ng-if="!loading">
+					<input type="hidden" ng-model="syncProfile.undeposited_funds_account" ui-select2="select2Options.incomeAccount" />
+				</div>
+			</div>
+			<div class="col-sm-4 form-control-static">
+				{{'quickbooks_online.use_default_account_info'|translate}}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'quickbooks_online.discount_account'|translate}}</label>
+			<div class="col-sm-4">
+				<div class="accounting-sync-account-map" ng-if="!loading">
+					<input type="hidden" ng-model="syncProfile.discount_account" ui-select2="select2Options.incomeAccount" />
+				</div>
+			</div>
+			<div class="col-sm-4 form-control-static">
+				{{'quickbooks_online.use_default_discount_info'|translate}}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'quickbooks_online.match_tax_rates'|translate}}</label>
+			<div class="col-sm-4">
+				<label class="noselect">
+					<toggle ng-model="syncProfile.match_tax_rates"></toggle>
+				</label>
+			</div>
+			<div class="col-sm-4 form-control-static">
+				{{'quickbooks_online.match_tax_rate_info'|translate}}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">{{'quickbooks_online.tax_code'|translate}}</label>
+			<div class="col-sm-4">
+				<div class="accounting-sync-account-map" ng-if="!loading">
+					<input type="hidden" ng-model="syncProfile.tax_code" ui-select2="select2Options.taxCode" />
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group form-actions">
+			<div class="col-sm-offset-4 col-sm-8">
+				<button type="submit" class="btn btn-primary Button" ng-disabled="saving||settingsForm.$invalid" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+					<span translate>general.save</span>
+				</button>
+				<a href="{{connectUrl}}" class="btn btn-default">
+					{{'general.reconnect'|translate}}
+				</a>
+			</div>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,238 @@
+<form name="modelForm" ng-submit="save(item)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			<span ng-show="isExisting">Edit</span><span ng-hide="isExisting">New</span> Item
+		</h4>
+	</div>
+	<div class="modal-body form-horizontal">
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<div class="form-group" ng-show="isExisting">
+			<label class="control-label col-sm-4">ID</label>
+			<div class="col-sm-8 form-control-static">
+				{{item.id}}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">Name <span class="required"></span></label>
+			<div class="col-sm-7">
+				<input type="text" placeholder="Item name..." ng-model="item.name" ng-change="generateID(item)" class="form-control" required />
+			</div>
+		</div>
+
+		<div class="form-group" ng-hide="isExisting">
+			<label class="control-label col-sm-4">ID <span class="required"></span></label>
+			<div class="col-sm-5 form-control-static" ng-show="shouldGenID">
+				<span class="start-typing-id" ng-hide="item.id">Start by typing name</span>
+				{{item.id}}
+				<a href="" ng-show="item.id" ng-click="shouldGenID=false;$event.preventDefault()">
+					<span class="fas fa-pencil"></span>
+				</a>
+			</div>
+			<div class="col-sm-5" ng-hide="shouldGenID">
+				<input type="text" placeholder="Unique identifier..." ng-model="item.id" class="form-control" required />
+			</div>
+			<div class="col-sm-3 form-control-static">
+				<a href="" tooltip="A unique identifier or SKU that represents this item, for internal use only. Allowed characters: a-Z, 0-9, _, -">
+					What's this?
+				</a>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">Type</label>
+			<div class="col-sm-4">
+				<item-type-selector ng-model="item.type"></item-type-selector>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">Description</label>
+			<div class="col-sm-7">
+				<textarea class="form-control" ng-model="item.description" placeholder="Optional item description..." expanding-textarea></textarea>
+			</div>
+		</div>
+
+		<!-- Custom Fields -->
+		<div class="form-group metadata" ng-repeat="customField in customFields">
+			<label class="control-label col-sm-4">{{customField.name}}</label>
+			<div class="col-sm-7">
+				<custom-field-input field="customField" metadata="item.metadata" set-defaults="true"></custom-field-input>
+			</div>
+		</div>
+		<hr/>
+
+		<!-- Modify Pricing Details -->
+		<div ng-if="!isExisting||changePricing">
+			<div class="alert alert-info" ng-show="changePricing">
+				<span class="fas fa-info-circle"></span>
+				Modifying the item price will not change any existing line items or subscription addons where this item is used.
+				&mdash;
+				<a href="" ng-click="$parent.changePricing=false">
+					{{'general.cancel'|translate}}
+				</a>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-7 col-sm-offset-4">
+					<label class="noselect">
+						<input type="checkbox" ng-model="$parent.hasDefaultPrice" />
+						Set a default price
+					</label>
+				</div>
+			</div>
+
+			<div ng-if="hasDefaultPrice">
+				<div class="form-group" ng-if="hasMultiCurrency">
+					<label class="control-label col-sm-4">{{'general.currency'|translate}} <span class="required"></span></label>
+					<div class="col-sm-3">
+						<currency-selector ng-model="item.currency" required></currency-selector>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-4">Unit Cost <span class="required"></span></label>
+					<div class="col-sm-4">
+						<div ng-model="item.unit_cost" currency="item.currency" input-amount ng-required="true"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group" ng-if="hasGlAccounts">
+				<label class="control-label col-sm-4">G/L Account</label>
+				<div class="col-sm-7">
+					<select-gl-account ng-model="item.gl_account"></select-gl-account>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">Discounts</label>
+				<div class="col-sm-7">
+					<label class="padded-label left inline noselect">
+						<input type="checkbox" ng-model="item.discountable" />
+						Discountable
+					</label>
+				</div>
+			</div>
+
+			<div class="form-group" ng-if="settings.tax_calculator == 'invoiced'">
+				<label class="control-label col-sm-4">Taxes</label>
+				<div class="col-sm-7">
+					<editable-rates-list line="item.taxes" currency="item.currency" options="rateListOptions"></editable-rates-list>
+					<label class="padded-label left inline noselect">
+						<input type="checkbox" ng-model="item.taxable" />
+						Taxable
+					</label>
+					<button type="button" class="btn btn-default" ng-click="addRateModal(item.taxes, 'tax')" ng-show="item.taxable">
+						<span class="fas fa-plus"></span>
+						Tax
+					</button>
+				</div>
+			</div>
+
+			<div class="form-group" ng-if="settings.tax_calculator == 'avalara'">
+				<label class="control-label col-sm-4">Tax Code</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" ng-model="item.avalara_tax_code" />
+				</div>
+				<div class="col-sm-4 form-control-static">
+					<a href="https://taxcode.avatax.avalara.com/" target="_blank" rel="noopener noreferrer">
+						<span class="fas fa-external-link"></span>
+						Avalara Tax Codes
+					</a>
+				</div>
+			</div>
+
+			<div class="form-group" ng-if="settings.tax_calculator == 'avalara'">
+				<label class="control-label col-sm-4">Location Code</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" ng-model="item.avalara_location_code" />
+				</div>
+			</div>
+		</div>
+
+		<!-- Read-Only Pricing Details -->
+		<div ng-if="isExisting&&!changePricing">
+			<div class="form-group slim">
+				<label class="control-label col-sm-4">Unit Cost</label>
+				<div class="col-sm-3 form-control-static" ng-show="hasDefaultPrice">
+					<money currency="item.currency" amount="item.unit_cost" precision="settings.unit_cost_precision"></money>
+				</div>
+				<div class="col-sm-3 form-control-static" ng-hide="hasDefaultPrice">
+					&mdash;
+				</div>
+			</div>
+
+			<div class="form-group slim" ng-if="hasGlAccounts">
+				<label class="control-label col-sm-4">G/L Account</label>
+				<div class="col-sm-3 form-control-static" ng-show="item.gl_account">
+					{{item.gl_account}}
+				</div>
+				<div class="col-sm-3 form-control-static" ng-hide="item.gl_account">
+					&mdash;
+				</div>
+			</div>
+
+			<div class="form-group slim" ng-hide="item.discountable">
+				<label class="control-label col-sm-4">Discounts</label>
+				<div class="col-sm-7 form-control-static">
+					<span class="label label-default">Not discounted</span>
+				</div>
+			</div>
+
+			<div class="form-group slim" ng-hide="item.taxable">
+				<label class="control-label col-sm-4">Taxes</label>
+				<div class="col-sm-7 form-control-static">
+					<span class="label label-default">Not taxed</span>
+				</div>
+			</div>
+			<div class="form-group slim" ng-show="taxes">
+				<label class="control-label col-sm-4">Taxes</label>
+				<div class="col-sm-7 form-control-static">
+					{{taxes}}
+				</div>
+			</div>
+
+			<div class="form-group slim" ng-show="settings.tax_calculator == 'avalara'">
+				<label class="control-label col-sm-4">Tax Code</label>
+				<div class="col-sm-3 form-control-static" ng-show="item.avalara_tax_code">
+					{{item.avalara_tax_code}}
+				</div>
+				<div class="col-sm-3 form-control-static" ng-hide="item.avalara_tax_code">
+					&mdash;
+				</div>
+			</div>
+
+			<div class="form-group slim" ng-show="settings.tax_calculator == 'avalara'">
+				<label class="control-label col-sm-4">Location Code</label>
+				<div class="col-sm-3 form-control-static" ng-show="item.avalara_location_code">
+					{{item.avalara_location_code}}
+				</div>
+				<div class="col-sm-3 form-control-static" ng-hide="item.avalara_location_code">
+					&mdash;
+				</div>
+			</div>
+
+			<div class="form-group slim">
+				<div class="col-sm-8 col-sm-offset-4">
+					<a href="" ng-click="$parent.changePricing=true">
+						Modify
+						<span class="fas fa-caret-right"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="modelForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

@@ -1,0 +1,6 @@
+<div class="coupon-name">{{coupon.name}}</div>
+<div class="coupon-details">
+	<span ng-hide="coupon.is_percent">$</span><span ng-show="coupon.value">{{coupon.value}}</span><span ng-show="coupon.is_percent">%</span>
+	off
+	<span ng-show="coupon.duration==0"> forever</span><span ng-show="coupon.duration>0"> for {{coupon.duration}} billing cycle<span ng-hide="coupon.duration==1">s</span></span>
+</div>

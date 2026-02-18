@@ -1,0 +1,233 @@
+<div class="row" ng-hide="loading">
+	<div class="col-lg-5">
+		<!-- Activity -->
+		<div class="collection-notes-holder">
+			<h4>
+				<div class="btns">
+					<a href="" class="btn btn-default" ng-click="addPromiseToPay(customer)" ng-if="'invoices.edit'|hasPermission">
+						<span class="fas fa-plus"></span>
+						Promise-to-Pay
+					</a>
+					<a href="" class="btn btn-default" ng-click="newNote()" ng-if="'notes.create'|hasPermission">
+						<span class="fas fa-plus"></span>
+						Note
+					</a>
+					<a href="" class="btn btn-default" ng-click="addTask(customer)" ng-if="'tasks.create'|hasPermission">
+						<span class="fas fa-plus"></span>
+						Task
+					</a>
+				</div>
+				Activity
+			</h4>
+			<div class="filter-controls">
+				<a href="" ng-click="showCompletedTasks(customer, true)" ng-hide="showingCompletedTasks">
+					Show completed tasks
+				</a>
+				<a href="" ng-click="showCompletedTasks(customer, false)" ng-show="showingCompletedTasks">
+					Show to do tasks
+				</a>
+			</div>
+			<div class="collection-activity">
+				<!-- New Note -->
+				<div class="item note" ng-show="newNoteForm">
+					<div class="draft-form">
+						<div class="message">
+							<textarea class="form-control" ng-model="newNote.notes" placeholder="Note here..." expanding-textarea></textarea>
+						</div>
+						<div class="form-actions">
+							<button type="button" class="btn btn-primary Button" ng-click="addNote(customer, newNote)" ng-disabled="creatingNote||!newNote.notes" v-busy="creatingNote" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.add'|translate}}" v-pressable>
+								<span translate>general.add</span>
+							</button>
+							<button type="button" class="btn btn-link" ng-click="cancelNote()">{{'general.cancel'|translate}}</button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Task -->
+				<div class="item task" ng-repeat="task in tasks" ng-class="{completed:task.complete}">
+					<div class="edit" ng-if="'tasks.edit'|hasPermission">
+						<a href="" ng-click="editTask(task)" tooltip="{{'general.edit'|translate}}">
+							<span class="fas fa-pencil"></span>
+						</a>
+					</div>
+					<div class="delete" ng-if="'tasks.delete'|hasPermission">
+						<a href="" ng-click="deleteTask(task, $index)" tooltip="{{'general.delete'|translate}}">
+							<span class="fas fa-trash"></span>
+						</a>
+					</div>
+					<div class="update-status mark-complete" ng-if="'tasks.edit'|hasPermission">
+						<a href="" ng-click="markComplete(task, true)" tooltip="Mark Complete">
+							<span class="far fa-square"></span>
+						</a>
+					</div>
+					<div class="update-status mark-incomplete" ng-if="'tasks.edit'|hasPermission">
+						<a href="" ng-click="markComplete(task, false)" tooltip="Mark Incomplete">
+							<span class="far fa-check-square"></span>
+						</a>
+					</div>
+					<div class="name">
+						{{task.name}}
+					</div>
+					<div class="type">
+						<task-type task="task"></task-type>
+					</div>
+					<div class="phone" ng-show="task.action=='phone'">
+						<a href="tel:{{customer.phone}}" ng-show="customer.phone">
+							{{customer.phone|formatPhoneNumber}}
+						</a>
+						<span class="text-danger" ng-hide="customer.phone">
+							Missing phone #
+						</span>
+					</div>
+					<div class="user" ng-if="task.user_id&&!task.complete">
+						{{task.user_id.name}}
+					</div>
+					<div class="user" ng-if="task.completed_by_user_id&&task.complete">
+						Completed By: {{task.completed_by_user_id.name}}
+					</div>
+					<div class="due-date">
+						Due: {{task.due_date|taskDueDate}}
+					</div>
+					<div class="completed-date">
+						Completed: <company-date date="task.completed_date"></company-date>
+					</div>
+				</div>
+
+				<!-- Note -->
+				<div class="item note" ng-repeat="note in collectionNotes">
+					<div ng-hide="note._edit">
+						<div class="edit" ng-if="'notes.edit'|hasPermission">
+							<a href="" ng-click="editNote(note)" tooltip="{{'general.edit'|translate}}">
+								<span class="fas fa-pencil"></span>
+							</a>
+						</div>
+						<div class="delete" ng-if="'notes.delete'|hasPermission">
+							<a href="" ng-click="deleteNote(note, $index)" tooltip="{{'general.delete'|translate}}">
+								<span class="fas fa-trash"></span>
+							</a>
+						</div>
+						<div class="content" ng-bind-html="note.notes|linky|nl2br"></div>
+						<div class="user" ng-if="note.name">
+							{{note.name}}
+						</div>
+						<div class="date">
+							<company-date-time date="note.created_at"></company-date-time>
+						</div>
+					</div>
+					<div class="draft-form" ng-show="note._edit">
+						<div class="message">
+							<textarea class="form-control" ng-model="note._draft" placeholder="Note here..." expanding-textarea></textarea>
+						</div>
+						<div class="form-actions">
+							<button type="button" class="btn btn-primary Button" ng-click="saveNoteEdit(note)" ng-disabled="editingNote||!note._draft" v-busy="editingNote" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+								<span translate>general.save</span>
+							</button>
+							<button type="button" class="btn btn-link" ng-click="cancelNoteEdit(note)">{{'general.cancel'|translate}}</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- No Activity -->
+			<div class="alert alert-default" ng-show="tasks.length==0&&collectionNotes.length==0">
+				No recent activity.
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-6 col-lg-offset-1">
+		<!-- Setup Chasing -->
+		<div class="alert alert-info enable-chasing-message" ng-hide="chasingCadence" ng-if="'customers.edit'|hasPermission">
+			<p>
+				This account is currently not set up for chasing. Turn on chasing to get paid faster with less effort.
+			</p>
+			<p>
+				<a href="" class="btn btn-primary" ng-click="selectChasingCadence(customer, chasingCadence)">
+					Enable Chasing
+				</a>
+			</p>
+		</div>
+
+		<!-- Cadence -->
+		<div class="customer-chasing-schedule" ng-show="chasingCadence">
+			<div class="header">
+				<div class="btns">
+					<a href="" class="btn btn-default" ng-click="selectChasingCadence(customer, chasingCadence)" ng-if="'customers.edit'|hasPermission">
+						Modify
+					</a>
+					<a href="" class="btn btn-default" ng-click="pauseChasingCadence(customer)" ng-show="customer.chase" ng-if="'customers.edit'|hasPermission" tooltip="Pause chasing">
+						<span class="fas fa-pause"></span>
+					</a>
+					<a href="" class="btn btn-default" ng-click="selectChasingCadence(customer, chasingCadence)" ng-hide="customer.chase" ng-if="'customers.edit'|hasPermission" tooltip="Resume chasing">
+						<span class="fas fa-play"></span>
+					</a>
+				</div>
+				<h4>Cadence: {{chasingCadence.name}}</h4>
+				<div class="next-run" ng-show="customer.chase&&nextChaseStep">
+					Next Run:
+					<span ng-show="chasingCadence.next_run">{{chasingCadence.next_run}}</span>
+					<span ng-hide="chasingCadence.next_run"><em>Cadence is paused</em></span>
+				</div>
+				<div class="below-threshold alert alert-info" ng-show="chasingCadence.min_balance > 0 && balance.net_outstanding > 0 && balance.net_outstanding < chasingCadence.min_balance">
+					<span class="fas fa-info-circle"></span>
+					This customer is not going to be chased because their balance of <money amount="balance.net_outstanding" currency="balance.currency"></money> is below the minimum threshold of <money amount="chasingCadence.min_balance" currency="balance.currency"></money> for chasing.
+				</div>
+			</div>
+
+			<div class="steps">
+				<div class="step" ng-repeat="(i, step) in chasingCadence.steps" ng-class="{complete: stepWasCompleted(step), skipped: stepWasSkipped(step, i)}">
+					<div class="num">
+						{{(i + 1)}}.
+					</div>
+					<div class="check">
+						<span class="fas fa-check"></span>
+					</div>
+					<div class="skip">
+						<span class="fas fa-forward"></span>
+					</div>
+					<div class="icon {{step.action}}">
+						<a href="" tooltip="{{step.action|chasingAction}}">
+							<span ng-show="step.action=='email'"><span class="fad fa-envelope-open-text"></span></span>
+							<span ng-show="step.action=='escalate'"><span class="fad fa-pennant"></span></span>
+							<span ng-show="step.action=='phone'"><span class="fad fa-phone-volume"></span></span>
+							<span ng-show="step.action=='mail'"><span class="fad fa-mailbox"></span></span>
+							<span ng-show="step.action=='sms'"><span class="fad fa-sms"></span></span>
+						</a>
+					</div>
+					<a class="pointer" ng-class="{hidden:nextChaseStep!=step.id}" href="" tooltip="Next Step"></a>
+					<div class="step-color" ng-class="{'age':step.schedule.indexOf('age')===0,'past_due_age':step.schedule.indexOf('past_due_age')===0}"></div>
+					<div class="title">
+						{{step.name}}
+					</div>
+					<div class="details">
+						{{chasingStepDescription(step)}}
+						<span ng-show="lastRunTime(step)">
+							&middot;
+							Last Run:
+							<company-date-time date="lastRunTime(step)"></company-date-time>
+							<a ng-hide="stepWasSuccessful(step)" tooltip="{{stepErrorMessage(step)}}"><span class="label label-danger">{{'general.failed'|translate}}</span></a>
+						</span>
+						<a href="" tooltip="This task is due now and has not yet been completed" ng-show="stepHasOpenTask(step)">
+							<span class="label label-warning">TO DO</span>
+						</a>
+					</div>
+				</div>
+				<div class="step-end noselect">
+					<div class="left">
+						<div class="step finished has-arrow">
+							<a class="pointer" ng-class="{hidden:!atChasingEnd}" href=""></a>
+							Finished
+						</div>
+					</div>
+					<div class="right">
+						<div class="step paid has-arrow">
+							<a class="pointer" ng-class="{hidden:!atChasingBegin}" href=""></a>
+							Paid
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Loading -->
+<div class="loading" ng-show="loading"></div>

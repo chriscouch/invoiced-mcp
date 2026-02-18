@@ -1,0 +1,57 @@
+.header {
+    text-align: left;
+    font-size: 28pt;
+    width: 80%;
+    margin-left: 10%;
+    padding-top: 60px;
+    clear: both;
+}
+
+.header .company-address {
+    float: right;
+    font-size: 10pt;
+    text-align: right;
+}
+
+.header img,
+.logo img {
+    max-width: 200px;
+    height: auto;
+    max-height: 100px;
+    width: auto;
+}
+
+.subtitle-line {
+    font-size: 10pt;
+    width: 200px;
+}
+
+.bolder {
+    font-weight: bold;
+}
+
+.context-holder {
+    width: 20%;
+    margin: 35px 0 0 10%;
+    font-size: 8pt;
+    float: left;
+    word-wrap: break-word;
+}
+
+.context-item {
+    margin: 15px 0;
+}
+
+.context-item .value {
+    clear: both;
+}
+
+#footer {
+    margin: 75px 0 0;
+    width: 100%;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #879099;
+    clear: both;
+}

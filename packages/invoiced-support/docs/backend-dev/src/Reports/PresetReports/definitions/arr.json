@@ -1,0 +1,116 @@
+{
+  "version": 1,
+  "title": "Annual Recurring Revenue",
+  "sections": [
+    {
+      "title": "",
+      "object": "mrr_item",
+      "type": "chart",
+      "chart_type": "bar",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "month"
+          }
+        },
+        {
+          "name": "ARR",
+          "field": [
+            {
+              "function": "sum",
+              "arguments": [
+                {
+                  "id": "mrr"
+                }
+              ]
+            },
+            "*",
+            12
+          ]
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "partial_month"
+          },
+          "value": false
+        },
+        {
+          "operator": ">=",
+          "field": {
+            "id": "month"
+          },
+          "value": "$startMonth"
+        },
+        {
+          "operator": "<=",
+          "field": {
+            "id": "month"
+          },
+          "value": "$endMonth"
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "month"
+          },
+          "name": "Month",
+          "expanded": false,
+          "fill_missing_data": true
+        }
+      ],
+      "sort": []
+    },
+    {
+      "title": "",
+      "object": "mrr_item",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "name": "ARR",
+          "field": [
+            {
+              "function": "sum",
+              "arguments": [
+                {
+                  "id": "mrr"
+                }
+              ]
+            },
+            "*",
+            12
+          ]
+        },
+        {
+          "name": "Discounts",
+          "field": [
+            {
+              "function": "sum",
+              "arguments": [
+                {
+                  "id": "discount"
+                }
+              ]
+            },
+            "*",
+            12
+          ]
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "partial_month"
+          },
+          "value": false
+        }
+      ],
+      "group": [],
+      "sort": []
+    }
+  ]
+}

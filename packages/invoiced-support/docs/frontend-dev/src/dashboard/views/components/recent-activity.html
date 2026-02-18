@@ -1,0 +1,11 @@
+<div class="dashboard-component-recent-activity">
+    <div class="actions" ng-if="'audit_log'|hasFeature">
+        <a ui-sref="manage.events.browse">
+            {{'general.view_all'|translate}}
+        </a>
+    </div>
+    <h4>
+        Recent Activity
+    </h4>
+    <event-list options="eventOptions"></event-list>
+</div>

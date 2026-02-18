@@ -1,0 +1,33 @@
+<form name="approverForm" ng-submit="assign()" class="below0" ng-show="'bills.edit'|hasPermission">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">Assign Approver</h4>
+	</div>
+
+	<div class="modal-body form-horizontal">
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<!-- User -->
+		<div class="form-group">
+			<label class="control-label col-sm-4">
+				User
+				<span class="required"></span>
+			</label>
+			<div class="col-sm-7">
+				<select-user ng-model="user" is-required="true"></select-user>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="approverForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.apply'|translate}}
+		</button>
+	</div>
+</form>

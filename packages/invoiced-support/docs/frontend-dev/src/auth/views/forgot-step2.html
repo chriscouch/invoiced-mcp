@@ -1,0 +1,47 @@
+<h1 class="logo">
+	<a href="{{baseUrl}}">
+		<img src="/img/auth-logo@2x.png" width="181" height="46" alt="Invoiced" />
+	</a>
+</h1>
+
+<div class="body skinny minimal container">
+	<h4 class="title">Change your password</h4>
+
+	<div ng-hide="changed">
+		<p>Please enter a new password.</p>
+
+		<div class="alert alert-danger" ng-show="error" ng-bind-html="error.message|nl2br"></div>
+
+		<form name="forgotForm" ng-submit="submit(password1, password2)">
+			<div class="form-group">
+	            <div class="floating-label-input">
+	                <input type="password" ng-model="password1" class="form-control input-lg" autocomplete="new-password" autofocus required />
+	                <span class="floating-label">New Password (min. 8 chars.)</span>
+	            </div>
+			</div>
+			<div class="form-group">
+	            <div class="floating-label-input">
+	                <input type="password" ng-model="password2" class="form-control input-lg" autocomplete="new-password" required />
+	                <span class="floating-label">Confirm New Password</span>
+	            </div>
+			</div>
+			<div class="form-group">
+				<div class="controls">
+					<button type="submit" class="btn btn2 btn-evergreen btn-block btn-lg" ng-disabled="forgotForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+						Change Password
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div ng-show="changed">
+		<div class="alert alert-success">
+			Your password has been changed!
+		</div>
+		<div class="alert alert-danger" ng-show="error">{{error.message}}</div>
+		<p>
+			<a ui-sref="auth.login" class="btn btn2 btn-evergreen btn-block btn-lg">Sign In</a>
+		</p>
+	</div>
+</div>

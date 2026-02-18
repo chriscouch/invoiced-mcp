@@ -1,0 +1,136 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - production
+      - sandbox
+      - dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    env:
+      APP_ENV: prod
+      DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+      GITHUB_JOB_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      REPO_NAME: ${{ github.event.repository.name }}
+      SENTRY_WEBHOOK: ${{ secrets.SENTRY_WEBHOOK }}
+
+    steps:
+      - name: Determine environment
+        uses: iamtheyammer/branch-env-vars@v1.1.2
+        with:
+          bevActionOnNoRef: error
+          AWS_REGION: |
+            production:us-east-2
+            sandbox:us-west-1
+            dev:us-west-2
+          DOCKER_ENV: |
+            production:production
+            sandbox:sandbox
+            dev:staging
+          ECS_CLUSTER: |
+            production:InvoicedProduction
+            sandbox:InvoicedSandbox
+            dev:InvoicedStaging
+          API_URL: |
+            production:https:\/\/api.invoiced.com
+            sandbox:https:\/\/api.sandbox.invoiced.com
+            dev:https:\/\/api.staging.invoiced.com
+          API_HOST: |
+            production:api.invoiced.com
+            sandbox:api.sandbox.invoiced.com
+            dev:api.staging.invoiced.com
+          APP_DOMAIN: |
+            production:app
+            sandbox:app.sandbox
+            dev:app.staging
+          CLOUDFLARE_DOMAIN: invoiced.com
+
+      - uses: actions/checkout@v2
+
+      - name: Start deploy notification
+        run: .github/deploy/start.sh
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+
+      - name: Get npm cache directory
+        id: npm-cache
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+
+      - name: Cache node dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Cache bower dependencies
+        uses: actions/cache@v4
+        with:
+          path: components
+          key: ${{ runner.os }}-bower-${{ hashFiles('**/bower.json') }}
+          restore-keys: |
+            ${{ runner.os }}-bower-
+
+      - name: Install dependencies
+        run: |
+          npm install
+          node_modules/.bin/bower install -p
+          node_modules/.bin/bower prune
+
+      - name: Build application
+        run: |
+          cp config.${DOCKER_ENV}.js config.js
+          ./version.sh
+          grunt release
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build and push container
+        uses: docker/build-push-action@v2.6.1
+        with:
+          file: Dockerfile
+          context: .
+          build-args: |
+            API_URL=${{ env.API_URL }}
+            API_HOST=${{ env.API_HOST }}
+          push: true
+          tags: ${{ steps.login-ecr.outputs.registry }}/dashboard:${{ env.DOCKER_ENV }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ecs/task-definition.${{ env.DOCKER_ENV }}.json
+          service: Dashboard
+          cluster: ${{ env.ECS_CLUSTER }}
+          force-new-deployment: true
+
+      - name: Successful deploy notification
+        run: .github/deploy/succeeded.sh
+
+      - name: Failed Notification
+        run: .github/deploy/failed.sh
+        if: ${{ failure() }} # Pick up events if the job fails.

@@ -1,0 +1,229 @@
+<div class="loading" ng-show="loadingSettings"></div>
+
+<div class="form-horizontal" ng-hide="loadingSettings">
+	<div ng-hide="editSettings">
+		<div class="form-group">
+			<div class="col-sm-3 col-sm-offset-3">
+				<h4 class="settings-section-title">Settings</h4>
+			</div>
+			<div class="col-sm-3">
+				<button type="button" class="btn btn-success" ng-click="editSettings=true">
+					Change
+				</button>
+			</div>
+		</div>
+
+		<div class="form-group" ng-show="'inboxes'|hasFeature">
+			<label class="control-label col-sm-3">Reply To Email</label>
+			<div class="col-sm-9 form-control-static">
+				<span ng-show="settings.reply_to_inbox_id">Invoiced Inbox<br/><code>{{inbox.email}}</code></span>
+				<span ng-hide="settings.reply_to_inbox_id">{{company.email}}</span>
+			</div>
+		</div>
+
+		<div class="alert alert-info" ng-hide="settings.reply_to_inbox_id || !('inboxes'|hasFeature)">
+			<p>
+				If you want to see customer replies in Invoiced then you must do one of the following:
+			</p>
+			<ol class="numbered">
+				<li>Change the <em>Reply To Email</em> setting to <strong>Invoiced Inbox</strong> (recommended), or</li>
+				<li>Set up <em>{{company.email}}</em> to forward email to <code>{{inbox.email}}</code></li>
+			</ol>
+		</div>
+
+		<div class="form-group" ng-if="hasFeature">
+			<label class="control-label col-sm-3">Send Email</label>
+			<div class="col-sm-9 form-control-static">
+				<span ng-show="settings.email_provider=='invoiced'">via Invoiced</span>
+				<span class="label label-danger" ng-show="settings.email_provider=='null'">Sending Disabled</span>
+				<span ng-show="settings.email_provider=='smtp'">via custom SMTP gateway</span>
+			</div>
+		</div>
+
+		<div ng-if="settings.email_provider=='smtp'">
+			<p class="alert alert-danger" ng-show="!smtpAccount.last_send_successful && smtpAccount.last_error_timestamp > 0">
+				The latest attempt to send through your SMTP gateway failed on <company-date-time date="smtpAccount.last_error_timestamp"></company-date-time>.
+				<br/><br/>
+				Error message:<br/>
+				{{smtpAccount.last_error_message}}
+			</p>
+
+			<div class="form-group">
+				<label class="control-label col-sm-3">Host</label>
+				<div class="col-sm-9 form-control-static">
+					{{smtpAccount.host}}<span ng-show="smtpAccount.port">:{{smtpAccount.port}}</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-3">Username</label>
+				<div class="col-sm-9 form-control-static">
+					{{smtpAccount.username}}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-3">Password</label>
+				<div class="col-sm-9 form-control-static">
+					******
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-3">Encryption</label>
+				<div class="col-sm-9 form-control-static">
+					{{smtpAccount.encryption}}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-3">Auth Mode</label>
+				<div class="col-sm-9 form-control-static">
+					{{smtpAccount.auth_mode}}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-3">Failover</label>
+				<div class="col-sm-9 form-control-static">
+					<span class="label label-danger" ng-show="!smtpAccount.fallback_on_failure">{{'general.off'|translate}}</span>
+					<span class="label label-success" ng-show="smtpAccount.fallback_on_failure">{{'general.on'|translate}}</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-3">BCC Addresses</label>
+			<div class="col-sm-9 form-control-static">
+				<em ng-hide="settings.bcc">None set up</em>
+				{{settings.bcc}}
+			</div>
+		</div>
+	</div>
+
+	<!-- Edit Settings -->
+	<form name="emailSettingsForm" ng-submit="saveSettings(_settings, _smtpAccount, replyTo)" ng-show="editSettings">
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+
+		<div class="form-group">
+			<div class="col-sm-3 col-sm-offset-3">
+				<h4 class="settings-section-title">Settings</h4>
+			</div>
+		</div>
+
+		<!-- Reply To Settings -->
+		<div class="form-group" ng-show="'inboxes'|hasFeature">
+			<label class="control-label col-sm-3">Reply To Email</label>
+			<div class="col-sm-4">
+				<div class="invoiced-select">
+					<select ng-model="replyTo">
+						<option value="inbox">Invoiced Inbox (recommended)</option>
+						<option value="company_email">{{company.email}}</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<!-- Email Sending Adapter Settings -->
+		<div class="form-group" ng-if="hasFeature">
+			<label class="control-label col-sm-3">Send Email</label>
+			<div class="col-sm-4">
+				<div class="invoiced-select">
+					<select ng-model="_settings.email_provider">
+						<option value="invoiced">via Invoiced</option>
+						<option value="smtp">via custom SMTP gateway</option>
+						<option value="null">Disable Sending</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-3 help-block">
+				<a href="https://docs.invoiced.com/accounts-receivable/emails#9GwDg" target="_blank">Learn more</a>
+			</div>
+		</div>
+
+		<div class="form-group" ng-if="_settings.email_provider=='smtp'">
+			<div class="col-sm-9 col-sm-offset-3">
+				Customer emails will be sent from <strong>{{companyEmail}}</strong>.
+			</div>
+		</div>
+
+		<div class="well" ng-if="_settings.email_provider=='smtp'&&hasFeature">
+			<div class="form-group">
+				<label class="control-label col-sm-3">Host <span class="required"></span></label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" ng-model="_smtpAccount.host" placeholder="smtp.gmail.com" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-3">Port <span class="required"></span></label>
+				<div class="col-sm-3">
+					<input type="number" class="form-control" ng-model="_smtpAccount.port" placeholder="587" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-3">Username <span class="required"></span></label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" ng-model="_smtpAccount.username" placeholder="me@gmail.com" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-3">Password <span class="required"></span></label>
+				<div class="col-sm-3">
+					<input type="password" class="form-control" ng-model="_smtpAccount.password" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-3">Encryption <span class="required"></span></label>
+				<div class="col-sm-3">
+					<div class="invoiced-select">
+						<select ng-model="_smtpAccount.encryption">
+							<option value="tls">TLS</option>
+							<option value="ssl">SSL (less secure)</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-3">Failover to Invoiced</label>
+				<div class="col-sm-3">
+					<toggle ng-model="_smtpAccount.fallback_on_failure"></toggle>
+				</div>
+			</div>
+
+			<div class="alert" ng-class="{'alert-success':testResponseOk,'alert-danger':!testResponseOk}" ng-show="testResponse">
+				{{testResponse}}
+			</div>
+			<div class="form-group">
+				<div class="col-sm-9 col-sm-offset-3">
+					<button type="button" class="btn btn-primary Button" ng-click="testSmtp(_smtpAccount.host,_smtpAccount.port,_smtpAccount.username,_smtpAccount.password,_smtpAccount.encryption,_smtpAccount.auth_mode)" ng-disabled="testing" v-busy="testing" v-busy-label="Testing" v-pressable>
+						Test Connection
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-3">BCC Addresses</label>
+			<div class="col-sm-4">
+				<div>
+					<input type="text" class="form-control" ng-model="_settings.bcc" />
+				</div>
+				<p class="help-block">
+					We can send you a copy of any emails sent to customers from Invoiced. You can enter up to 5 email addresses separated by commas.
+				</p>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-9 col-sm-offset-3">
+				<button type="submit" class="btn btn-primary Button" ng-disabled="emailSettingsForm.$invalid||emailSettingsForm.$pristine||saving||(_settings.email_provider=='smtp'&&testResponse&&!testResponseOk)||testing||(_settings.email_provider=='smtp'&&!hasFeature)" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+					<span translate>general.save</span>
+				</button>
+				<button type="button" class="btn btn-default" ng-click="editSettings=false" ng-show="editSettings">
+					{{'general.cancel'|translate}}
+				</button>
+			</div>
+		</div>
+	</form>
+</div>

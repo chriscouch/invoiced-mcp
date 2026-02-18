@@ -1,0 +1,51 @@
+{
+    "Payment": {
+        "Id": "3833",
+        "SyncToken": "0",
+        "MetaData": {
+            "CreateTime": "2017-12-11T08:32:11-08:00",
+            "LastUpdatedTime": "2017-12-11T08:32:11-08:00"
+        },
+        "TxnDate": "2017-12-11",
+        "CurrencyRef": {
+            "_name": "United States Dollar",
+            "__text": "USD"
+        },
+        "Line": {
+            "Amount": "2.51",
+            "LinkedTxn": {
+                "TxnId": "456",
+                "TxnType": "Invoice"
+            },
+            "LineEx": {
+                "NameValue": [
+                    {
+                        "Name": "txnId",
+                        "Value": "3786"
+                    },
+                    {
+                        "Name": "txnOpenBalance",
+                        "Value": "54667.49"
+                    },
+                    {
+                        "Name": "txnReferenceNumber",
+                        "Value": "00000101"
+                    }
+                ]
+            }
+        },
+        "CustomerRef": {
+            "_name": "Acme",
+            "__text": "186"
+        },
+        "DepositToAccountRef": "4",
+        "PaymentMethodRef": "8",
+        "PaymentRefNum": "5a2eb051d3aca",
+        "TotalAmt": "2.51",
+        "UnappliedAmt": "0",
+        "ProcessPayment": false,
+        "_domain": "QBO",
+        "_sparse": false
+    },
+    "time": "2018-04-01T15:40:30.317-07:00"
+}

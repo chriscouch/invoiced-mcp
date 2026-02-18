@@ -1,0 +1,37 @@
+{% extends "emails/parent.twig" %}
+{% block title %}Notification{% endblock %}
+{% block content %}
+	<row>
+		<columns>
+			{% block message %}
+				<center>
+					<p>{{ message|raw }}</p>
+				</center>
+			{% endblock %}
+		</columns>
+	</row>
+
+	{% block view_button %}
+		{% if href %}
+			<row>
+				<columns>
+					<center>
+						<spacer size="5"></spacer>
+						<button class="radius" href="{{ href }}">View on Invoiced</button>
+						<spacer size="5"></spacer>
+					</center>
+				</columns>
+			</row>
+		{% endif %}
+	{% endblock %}
+
+	<row>
+		<columns>
+			<center>
+				<p style="margin-top:30px;">
+					<a href="{{ notificationsUrl }}" style="font-size:13px;">Change your notification settings</a>
+				</p>
+			</center>
+		</columns>
+	</row>
+{% endblock %}

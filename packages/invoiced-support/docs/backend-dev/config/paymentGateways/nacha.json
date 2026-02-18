@@ -1,0 +1,12 @@
+{
+  "methods": {
+    "ach": {
+      "currencies": [
+        "usd"
+      ]
+    }
+  },
+  "minPayment": {
+    "*": 50
+  }
+}

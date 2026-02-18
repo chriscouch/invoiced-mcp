@@ -1,0 +1,131 @@
+<div class="loading" ng-show="loading"></div>
+<form name="modelForm" ng-submit="save(bill)" ng-hide="loading">
+    <div class="contents bill-editor">
+        <div class="title-bar">
+            <h2 class="title">
+                <span ng-show="bill.id">Edit Bill</span>
+                <span ng-hide="bill.id">New Bill</span>
+            </h2>
+        </div>
+
+        <p class="required-indicator">
+            <span class="required"></span> {{'general.indicates_required_field'|translate}}
+        </p>
+        <p class="alert alert-danger" ng-show="error">
+            {{error}}
+        </p>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Vendor <span class="required"></span></label>
+                    <div>
+                        <picklist type="'vendor'" ng-model="bill.vendor" allow-new="true" required="true"></picklist>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Invoice # <span class="required"></span></label>
+                    <div>
+                        <input type="text" class="form-control" ng-model="bill.number" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Date <span class="required"></span></label>
+                    <div>
+                        <div class="input-group">
+                            <input class="form-control" type="text" ng-model="bill.date" ui-date="dateOptions" is-open="dpOpened" readonly="readonly" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'dpOpened')">
+                                    <span class="fas fa-calendar-alt"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Due Date</label>
+                    <div>
+                        <div class="input-group">
+                            <input class="form-control" type="text" ng-model="bill.due_date" ui-date="dateOptions" is-open="dpOpened2" readonly="readonly" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-primary" ng-click="openDatepicker($event, 'dpOpened2')">
+                                    <span class="fas fa-calendar-alt"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3" ng-show="'multi_currency'|hasFeature">
+                <div class="form-group">
+                    <label class="control-label">Currency <span class="required"></span></label>
+                    <div>
+                        <currency-selector ng-model="bill.currency"></currency-selector>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Line Items -->
+        <div class="bill-line-items">
+            <h4 class="settings-section-title">Line Items <span class="required"></span></h4>
+            <table class="table table-striped search-results-table">
+                <thead>
+                    <tr>
+                        <th class="col-description">Description</th>
+                        <th class="col-amount money-column">Amount</th>
+                        <th class="col-actions"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="line" ng-repeat="lineItem in bill.line_items">
+                        <td class="col-description">
+                            <input type="text" class="form-control" ng-model="lineItem.description" required />
+                        </td>
+                        <td class="col-amount money-column">
+                            <input class="form-control" type="text" currency-input ng-model="lineItem.amount" currency="bill.currency" required="true" />
+                        </td>
+                        <td class="col-actions">
+                            <button type="button" class="btn btn-link" ng-click="removeLineItem(bill, $index)">
+                                <span class="fas fa-trash"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="text-right">
+                            Total
+                        </td>
+                        <td class="text-right">
+                            <money amount="billTotal" currency="bill.currency"></money>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr class="add-line-item">
+                        <td colspan="3">
+                            <button type="button" class="btn btn-default" ng-click="addLineItem(bill)">
+                                <span class="fas fa-plus"></span>
+                                Line Item
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" ng-disabled="modelForm.$invalid||saving">
+                <span ng-show="bill.id">{{'general.save'|translate}}</span>
+                <span ng-hide="bill.id">{{'general.create'|translate}}</span>
+            </button>
+            <invoice-capture ng-hide="bill.id" document="bill"></invoice-capture>
+        </div>
+    </div>
+</form>

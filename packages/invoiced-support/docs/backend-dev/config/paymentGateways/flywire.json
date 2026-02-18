@@ -1,0 +1,19 @@
+{
+	"methods": {
+		"credit_card": {
+			"currencies": "*"
+		},
+		"direct_debit": {
+			"currencies": "*"
+		},
+		"bank_transfer": {
+			"currencies": "*"
+		},
+		"online": {
+			"currencies": "*"
+		}
+	},
+	"minPayment": {
+		"*": 1
+	}
+}

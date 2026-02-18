@@ -1,0 +1,142 @@
+{
+  "title": "Too Many Columns",
+  "sections": [
+    {
+      "type": "table",
+      "object": "customer",
+      "title": "",
+      "fields": [
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        },
+        {
+          "field": {
+            "id": "name"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,195 @@
+<div class="dashboard-component-setup-checklist" ng-show="showWelcome">
+    <div class="hide-btn">
+        <a href="" ng-click="hideWelcome()">
+            <span class="fas fa-times"></span>
+        </a>
+    </div>
+    <h1>Welcome to Invoiced, {{user.first_name}}!</h1>
+    <h2>Let's help you set up your account.</h2>
+
+    <div class="row">
+        <div class="col-sm-4 left">
+            <ul class="nav nav-stacked">
+                <li ng-class="{active:setupTab=='branding',complete:setup.branding}">
+                    <a href="" ng-click="setupTab='branding'">
+                        Complete your business profile
+                    </a>
+                    <div class="complete-checkmark"><span class="fas fa-check"></span></div>
+                </li>
+                <li ng-class="{active:setupTab=='payments',complete:setup.payments}" ng-show="'accounts_receivable'|hasFeature">
+                    <a href="" ng-click="setupTab='payments'">
+                        Enable payments
+                    </a>
+                    <div class="complete-checkmark"><span class="fas fa-check"></span></div>
+                </li>
+                <li ng-class="{active:setupTab=='import',complete:setup.import}" ng-show="'accounts_receivable'|hasFeature">
+                    <a href="" ng-click="setupTab='import'">
+                        Import data
+                    </a>
+                    <div class="complete-checkmark"><span class="fas fa-check"></span></div>
+                </li>
+                <li ng-class="{active:setupTab=='verify',complete:setup.verify}">
+                    <a href="" ng-click="setupTab='verify'">
+                        Verify your email address
+                    </a>
+                    <div class="complete-checkmark"><span class="fas fa-check"></span></div>
+                </li>
+                <li ng-class="{active:setupTab=='send',complete:setup.send}" ng-show="'accounts_receivable'|hasFeature">
+                    <a href="" ng-click="setupTab='send'">
+                        Send your first invoice
+                    </a>
+                    <div class="complete-checkmark"><span class="fas fa-check"></span></div>
+                </li>
+                <li ng-class="{active:setupTab=='accounting',complete:setup.accounting}">
+                    <a href="" ng-click="setupTab='accounting'">
+                        Connect your accounting system
+                    </a>
+                    <div class="complete-checkmark"><span class="fas fa-check"></span></div>
+                </li>
+                <li ng-class="{active:setupTab=='team',complete:setup.team}">
+                    <a href="" ng-click="setupTab='team'">
+                        Invite team members
+                    </a>
+                    <div class="complete-checkmark"><span class="fas fa-check"></span></div>
+                </li>
+                <li class="mark-all hidden-xs">
+                    <a href="" ng-click="markSetupComplete()">
+                        Mark All Complete
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-8 right">
+            <!-- Branding Tab -->
+            <div class="tab-content branding-tab" ng-show="setupTab=='branding'">
+                <h3>Branding &amp; Contact Information</h3>
+                <p>
+                    This one is important. Make it clear to customers who they are paying! You should add your billing address, contact information, and your logo in <strong>Settings</strong> &gt; <strong>Business Profile</strong>.
+                </p>
+                <h4 class="subtitle">Example:</h4>
+                <p>
+                    <img src="/img/setup/branding-sample.png" alt="Branding setup" class="img-responsive" />
+                </p>
+                <h4 class="subtitle">Current Address:</h4>
+                <p>
+                    <span ng-bind-html="company|address:true:true:true"></span>
+                </p>
+                <p>
+                    <a ui-sref="manage.settings.business" class="btn btn-default btn-lg">
+                        Do this now
+                        &rarr;
+                    </a>
+                </p>
+            </div>
+
+            <!-- Payments Tab -->
+            <div class="tab-content payments-tab" ng-show="setupTab=='payments'">
+                <h3>Setup Payments</h3>
+                <p>
+                    Don't forget to let your customers know how to pay! With Invoiced you can get paid in a variety of ways, making it more convenient for customers.
+                </p>
+
+                <h4 class="subtitle">Online Payments</h4>
+                <p>
+                    You can accept instant, online payments with Invoiced, including credit and debit cards, ACH, direct debit, and PayPal. When you receive a payment online, Invoiced will mark the invoice as paid, automatically.
+                </p>
+
+                <h4 class="subtitle">Payment Instructions</h4>
+                <p>
+                    Customers still sending a check? No problem! We can display your payment instructions on invoices and the payment page.
+                    Your customers can even click a button to let you know when a check is in the mail (known as a promise to pay).
+                </p>
+                <p>
+                    <a ui-sref="manage.settings.payments.methods" class="btn btn-default btn-lg">
+                        Do this now
+                        &rarr;
+                    </a>
+                </p>
+            </div>
+
+            <!-- Import Tab -->
+            <div class="tab-content import-tab" ng-show="setupTab=='import'">
+                <h3>Importing Data</h3>
+                <p>
+                    Already have existing billing data you need to pull into Invoiced? Data can be imported from a variety of sources, including from spreadsheets and your accounting system.
+                </p>
+
+                <p>
+                    <a ui-sref="manage.imports.new.spreadsheet({type:'customer'})" class="btn btn-default btn-lg">
+                        Import Customers
+                    </a>
+                    <a ui-sref="manage.imports.new.spreadsheet({type:'invoice'})" class="btn btn-default btn-lg">
+                        Import Invoices
+                    </a>
+                </p>
+            </div>
+
+            <!-- Verify Tab -->
+            <div class="tab-content verify-tab" ng-show="setupTab=='verify'">
+                <h3>Verify Your Account</h3>
+                <p>
+                    Before you can send invoices, you must first verify your email address. Please check your inbox for an email titled <code>Please verify your email address</code> and click the button contained in the email.
+                </p>
+
+                <p ng-hide="setup.verify">
+                    Didn't receive it?
+                    <a href="" ng-click="resendVerification()">
+                        Resend verification request
+                    </a>
+                </p>
+            </div>
+
+            <!-- Send Invoices Tab -->
+            <div class="tab-content send-tab" ng-show="setupTab=='send'">
+                <h3>Sending Invoices</h3>
+                <p>
+                    Once you have setup your business profile and enabled payments, you are ready to send your first invoice. If you have not already, you will need to <a ui-sref="manage.invoices.new">create an invoice</a> first.
+                </p>
+
+                <p>
+                    Invoices can be sent via email, direct mail, and text message. In order to send your first invoice, you simply <strong>Send Invoice</strong> on an open invoice.
+                </p>
+
+                <p>
+                    <a ui-sref="manage.invoices.browse" class="btn btn-default btn-lg">
+                        Do this now
+                        &rarr;
+                    </a>
+                </p>
+            </div>
+
+            <!-- Accounting Tab -->
+            <div class="tab-content accounting-tab" ng-show="setupTab=='accounting'">
+                <h3>Connect Your Accounting System</h3>
+                <p>
+                    Invoiced integrates with many accounting systems out of the box. With an accounting integration you can pull in outstanding invoices and automatically reconcile payments received through Invoiced.
+                </p>
+
+                <p>
+                    <a ui-sref="manage.settings.apps({tab:'all'})" class="btn btn-default btn-lg">
+                        Do this now
+                        &rarr;
+                    </a>
+                </p>
+            </div>
+
+            <!-- Team Tab -->
+            <div class="tab-content team-tab" ng-show="setupTab=='team'">
+                <h3>Invite Team Members</h3>
+                <p>
+                    Do other team members within your organization participate in invoicing and collections? Add them to your Invoiced account to start collaborating and get paid faster.
+                </p>
+
+                <p>
+                    Invoiced has many features that get even better in a multi-user environment, like follow up notes, the activity log, account managers, and Smart Chasing.
+                </p>
+                <p>
+                    <a ui-sref="manage.settings.team.users" class="btn btn-default btn-lg">
+                        Do this now
+                        &rarr;
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

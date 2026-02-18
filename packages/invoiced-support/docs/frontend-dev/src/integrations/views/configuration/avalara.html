@@ -1,0 +1,44 @@
+<form name="avalaraForm" class="form-horizontal" ng-submit="save(integration.extra.commit_mode)">
+    <div class="form-group">
+        <div class="col-sm-8 col-sm-offset-4">
+            <h4 class="settings-section-title">Settings</h4>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-4">Connected Company</label>
+        <div class="col-sm-8 form-control-static">
+            {{integration.name}}<br/>
+            <code>{{integration.extra.company_code}}</code>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-4">
+            Commit Mode
+        </label>
+        <div class="col-sm-3">
+            <div class="invoiced-select">
+                <select ng-model="integration.extra.commit_mode">
+                    <option value="committed">
+                        Commit invoices and credit notes
+                    </option>
+                    <option value="uncommitted">
+                        Don't commit invoices and credit notes
+                    </option>
+                    <option value="disable">
+                        Disable Avalara tax calculation
+                    </option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-8 col-sm-offset-4">
+            <button type="submit" class="btn btn-primary Button" ng-disabled="saving||avalaraForm.$invalid" v-busy="saving" v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}" v-pressable>
+                <span translate>general.save</span>
+            </button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,118 @@
+<feature-upgrade ng-if="!('inboxes'|hasFeature)"></feature-upgrade>
+<div class="email-inbox" ng-class="{collapsed: hideThreads}" ng-if="'inboxes'|hasFeature">
+    <div class="threads-collapsed">
+        <div class="expand-btn">
+            <a href="" ng-click="hideThreads = false">
+                <span class="fas fa-caret-right"></span>
+            </a>
+        </div>
+    </div>
+    <div class="threads">
+        <div class="header">
+            <div class="control collapse-btn">
+                <a href="" ng-click="hideThreads = true">
+                    <span class="fas fa-caret-left"></span>
+                </a>
+            </div>
+
+            <div class="control new-email">
+                <thread-modal inbox-id="inbox"></thread-modal>
+            </div>
+
+            <div class="control refresh" ng-hide="loading">
+                <a href="" ng-click="reload()">
+                    <span class="fas fa-sync-alt"></span>
+                </a>
+            </div>
+
+            <div class="control open-filter">
+                <a href="" ng-click="openFilter()">
+                    <span class="fas fa-filter"></span>
+                </a>
+            </div>
+
+            <h1>{{'inboxes.title' | translate}}</h1>
+
+            <!-- Filtering -->
+            <ul class="nav nav-tabs">
+                <li ng-class="{active:filter.status.value=='open'}">
+                    <a href="" ng-click="addToFilter({status:'open'})">
+                        {{'inboxes.open' | translate}}
+                    </a>
+                </li>
+                <li ng-class="{active:filter.status.value=='pending'}">
+                    <a href="" ng-click="addToFilter({status:'pending'})">
+                        {{'inboxes.pending' | translate}}
+                    </a>
+                </li>
+                <li ng-class="{active:filter.status.value=='closed'}">
+                    <a href="" ng-click="addToFilter({status:'closed'})">
+                        {{'inboxes.closed' | translate}}
+                    </a>
+                </li>
+                <li ng-class="{active:filter.status.value=='all'}">
+                    <a href="" ng-click="addToFilter({status:'all'})">
+                        {{'inboxes.all' | translate}}
+                    </a>
+                </li>
+                <li ng-class="{active:filter.status.value=='sent'}">
+                    <a href="" ng-click="addToFilter({status:'sent'})">
+                        {{'inboxes.outgoing.title' | translate}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="loading" ng-show="loading"></div>
+        <div class="threads-list-holder" ng-hide="loading">
+            <!-- Applied Filter -->
+            <div class="search-results-holder"  ng-class="{'has-filter': filterStr}">
+                <div class="box">
+                    <div class="applied-filter" ng-show="filterStr">
+                        <span class="fas fa-filter filter-icon"></span>
+                        <strong>{{filterStr}}</strong>
+                        <a href="" ng-click="resetFilter()">
+                            <span class="fas fa-times-circle"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+			<!-- No Email Threads -->
+            <div class="empty" ng-if="!threads.length">
+                {{'inboxes.threads.empty' | translate}}
+            </div>
+
+			<!-- Threads List -->
+            <div class="threads-list" ng-if="threads.length">
+                <a class="inbox-item" ui-sref=".view_thread({threadId: thread.id, emailId: thread.emailId})" ui-sref-active="active" ng-repeat="thread in threads">
+                    <div class="from" ng-if="thread.customer">
+                        {{thread.customer.name}}
+                    </div>
+                    <div class="subject">
+                        {{thread.name}}
+                    </div>
+					<div class="details">
+                        <div class="created">
+                            <company-date-time date="thread.created_at"></company-date-time>
+                        </div>
+                        <div class="owner" ng-show="thread.assignee">
+                            <span ng-if="thread.assignee.id != currentUser.profile.id">{{thread.assignee.first_name}} {{thread.assignee.last_name}}</span>
+                            <span ng-if="thread.assignee.id == currentUser.profile.id">{{'inboxes.mine' | translate}}</span>
+                        </div>
+					</div>
+					<div class="email-count" ng-show="thread.cnt > 0">
+						{{thread.cnt}}
+					</div>
+                </a>
+            </div>
+
+            <!-- Pagination -->
+            <pagination-bar total-count="total_count" page-count="page_count" ng-change="goToPage(page, perPage)"
+                            ng-model="filter" ng-show="threads.length > 0"></pagination-bar>
+        </div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- Thread Sub-view -->
+    <ui-view></ui-view>
+</div>

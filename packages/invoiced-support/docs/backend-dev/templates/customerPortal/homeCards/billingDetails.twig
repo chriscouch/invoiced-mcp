@@ -1,0 +1,75 @@
+{% trans_default_domain 'customer_portal' %}
+<div id="billing-details-panel" class="card card-account billing-details">
+    <div class="card-header">
+        <h4 class="card-title">
+            {% if updateBillingInfoUrl %}
+                <a id="update-billing-details-link" href="{{ updateBillingInfoUrl }}" class="action">
+                    {{ 'buttons.change'|trans }}
+                </a>
+            {% endif %}
+            <span>{{ 'titles.billing_details'|trans }}</span>
+        </h4>
+    </div>
+    <div class="card-body">
+        <div class="section">
+            <div class="subsection with-icon customer-name">
+                <div class="icon">
+                    <span class="fad fa-user"></span>
+                </div>
+                <div class="value">
+                    {{ customer.name }}
+                </div>
+            </div>
+            <div class="subsection with-icon customer-email">
+                <div class="icon">
+                    <span class="fad fa-paper-plane"></span>
+                </div>
+                <div class="value">
+                    {% if customer.email %}
+                        {{ customer.email }}
+                    {% else %}
+                        <span class="text-secondary fst-italic">{{ 'missing_email_address'|trans }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% if phone %}
+                <div class="subsection with-icon customer-phone">
+                    <div class="icon">
+                        <span class="fad fa-phone"></span>
+                    </div>
+                    <div class="value">
+                        {{ phone }}
+                    </div>
+                </div>
+            {% endif %}
+            <div class="subsection with-icon customer-address">
+                <div class="icon">
+                    <span class="fad fa-map-marked-alt"></span>
+                </div>
+                <div class="value">
+                    {% if address %}
+                        {{ address|nl2br }}
+                    {% else %}
+                        <span class="text-secondary fst-italic">{{ 'missing_billing_address'|trans }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% if accountNumber %}
+                <div class="subsection customer-account-number">
+                    <div class="value">
+                        {{ 'labels.account_number'|trans }}:
+                        {{ accountNumber }}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% for customField in customFields %}
+                <div class="subsection custom-field custom-field-{{ customField.id }}">
+                    <div class="value">
+                        {{ customField.name }}: {{ customField.value | raw }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

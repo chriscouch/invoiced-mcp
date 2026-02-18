@@ -1,0 +1,43 @@
+<h1 class="logo">
+	<a href="{{baseUrl}}">
+		<img src="/img/auth-logo@2x.png" width="181" height="46" alt="Invoiced" />
+	</a>
+</h1>
+
+<div class="body skinny minimal container">
+	<h4 class="title">Forgot your password?</h4>
+
+	<div ng-hide="sent">
+		<p>Tell us the email address you registered with and we will send a link to change your password.</p>
+
+		<div class="alert alert-danger" ng-show="error">{{error.message}}</div>
+
+		<form name="forgotForm" ng-submit="submit(email)">
+			<div class="form-group">
+	            <div class="floating-label-input">
+	                <input type="email" ng-model="email" class="form-control input-lg" autocomplete="username" autofocus required />
+	                <span class="floating-label">Email Address</span>
+	            </div>
+	        </div>
+
+			<div class="form-group">
+				<button type="submit" class="btn btn2 btn-evergreen btn-block btn-lg" ng-disabled="forgotForm.$invalid||sending" v-busy="sending" v-busy-label="Sending" v-pressable>
+					Send Password Reset
+				</button>
+			</div>
+		</form>
+	</div>
+
+	<div ng-show="sent">
+		<div class="alert alert-success">
+			If the supplied email address is associated with a user account then a password reset email has been sent.
+		</div>
+		<p>
+			You will receive an email shortly at <strong>{{email}}</strong> with a temporary link to change your password.
+		</p>
+
+		<p>
+			<a ui-sref="auth.login">Return to sign in page</a>
+		</p>
+	</div>
+</div>

@@ -1,0 +1,73 @@
+{% form_theme form with '@EasyAdmin/crud/form_theme.html.twig' %}
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}New Customer{% endblock %}
+
+{% block body_class 'ea-edit' %}
+
+{% block page_actions %}
+    {{ parent() }}
+    <button type="submit" class="btn btn-primary" form="newForm">Create</button>
+{% endblock %}
+
+{% block main %}
+    {{ form_start(form, {attr: {id: 'newForm'}}) }}
+
+    <div class="col-12">
+        <div class="row">
+            <div class="col-sm-8">
+                <p>You can use this form to create a new customer that will be created as a new billing profile. If this is already an existing customer then you must select the existing billing profile.</p>
+            </div>
+        </div>
+
+        <div class="my-custom-class-for-errors">
+            {{ form_errors(form) }}
+        </div>
+
+        <div class="form-panel-body show">
+            <div class="row">
+                <div class="col-sm-4">
+                    {{ form_row(form.name) }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form_row(form.billingEmail) }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form_row(form.billingPhone) }}
+                </div>
+            </div>
+
+            <div class="form-panel-header">
+                <div class="form-panel-title">
+                    <a href="#" class="not-collapsible">
+                        Address
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    {{ form_row(form.address1) }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form_row(form.address2) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    {{ form_row(form.city) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.state) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.postalCode) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ form_row(form.country) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

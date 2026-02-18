@@ -1,0 +1,222 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}
+    <div class="fs-6 fw-light text-secondary">Request # {{ requestId }}</div>
+    {{ method }} {{ endpoint }}
+    <div class="badges">
+        <span class="badge {% if statusCode >= 400 %}badge-danger{% else %}badge-success{% endif %}">{{ statusCode }}</span>
+    </div>
+{% endblock %}
+
+{% block body_class 'ea-detail' %}
+
+{% block page_actions %}
+    {{ parent() }}
+    <a class="btn" href="{{ ea_url().setRoute('payment_log_viewer', {tenantId: tenantId}) }}">
+        New Search
+    </a>
+{% endblock %}
+
+{% block main %}
+    <style type="text/css">
+        pre {
+            white-space: pre-wrap;       /* Since CSS 2.1 */
+            white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+        }
+    </style>
+
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="field-group col-md-6">
+                <fieldset>
+                    <div class="form-group">
+                        <label>Correlation ID</label>
+                        <div>
+                            {{ correlationId }}
+                        </div>
+                    </div>
+
+                    {% if tenantId %}
+                        <div class="form-group">
+                            <label>Tenant</label>
+                            <div>
+                                <a href="{{ ea_url().setController('App\\Controller\\Admin\\CompanyCrudController').setAction('detail').setEntityId(tenantId) }}">
+                                    {{ tenantId }}
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if gateway %}
+                        <div class="form-group">
+                            <label>Gateway</label>
+                            <div>
+                                {{ gateway }}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <div class="form-group">
+                        <label>Timestamp</label>
+                        <div>
+                            {{ timestamp|date('n/j/Y g:i:s a') }}
+                        </div>
+                    </div>
+
+                    {% if queryParams %}
+                        <div class="form-group">
+                            <label>Query Parameters</label>
+                            <div>
+                                <table class="table table-sm">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Key</th>
+                                            <th>Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for key, value in queryParams %}
+                                        <tr>
+                                            <td>{{ key }}</td>
+                                            {% if value is iterable %}
+                                            <td>{{ value|json_encode }}</td>
+                                            {% else %}
+                                                <td>{{ value }}</td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <div class="form-group">
+                        <label>IP Address</label>
+                        <div>
+                            {{ ip|ipInfoLink }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>User Agent</label>
+                        <div>
+                            {{ userAgent }}
+                        </div>
+                    </div>
+
+                    {% if requestHeaders %}
+                        <div class="form-group">
+                            <label>Request Headers</label>
+                            <div>
+                                <dl class="dl-horizontal">
+                                    {% for key, value in requestHeaders %}
+                                        <dt>{{ key }}</dt>
+                                        <dd>{{ value }}</dd>
+                                    {% endfor %}
+                                </dl>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if requestBody %}
+                        <div class="form-group">
+                            <label>Request Body</label>
+                            <div>
+                                <pre>{{ requestBody }}</pre>
+                            </div>
+                        </div>
+                    {% endif %}
+                </fieldset>
+            </div>
+
+            <div class="field-group col-md-6">
+                <fieldset>
+                    <legend class="with-icon">
+                        Response
+                    </legend>
+                    {% if responseTime %}
+                        <div class="form-group">
+                            <label>Response Time</label>
+                            <div>
+                                {{ responseTime }}s
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if responseHeaders %}
+                        <div class="form-group">
+                            <label>Response Headers</label>
+                            <div>
+                                <dl>
+                                    {% for key, value in responseHeaders %}
+                                        <dt>{{ key }}</dt>
+                                        <dd>{{ value }}</dd>
+                                    {% endfor %}
+                                </dl>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if responseBody %}
+                        <div class="form-group">
+                            <label>Response Body</label>
+                            <div>
+                                <pre>{{ responseBody }}</pre>
+                            </div>
+                        </div>
+                    {% endif %}
+                </fieldset>
+            </div>
+
+            {% if gateway %}
+                <div class="field-group col-md-6">
+                    <fieldset>
+                        <legend class="with-icon">
+                            {{ gateway }} Request
+                        </legend>
+
+                        {% if gatewayRequest %}
+                            <div class="form-group">
+                                <label>Gateway Request</label>
+                                <div>
+                                    <pre>{{ gatewayRequest }}</pre>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </fieldset>
+                </div>
+
+                <div class="field-group col-md-6">
+                    <fieldset>
+                        <legend class="with-icon">
+                            {{ gateway }} Response
+                        </legend>
+
+                        {% if gatewayResponseTime %}
+                            <div class="form-group">
+                                <label>Gateway Response Time</label>
+                                <div>
+                                    {{ gatewayResponseTime }}s
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if gatewayResponse %}
+                            <div class="form-group">
+                                <label>Gateway Response</label>
+                                <div>
+                                    <pre>{{ gatewayResponse }}</pre>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </fieldset>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

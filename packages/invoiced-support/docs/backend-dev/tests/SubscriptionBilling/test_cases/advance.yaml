@@ -1,0 +1,44 @@
+# This tests a typical bill in advance scenario
+# that starts in the past. This is billed bi-monthly.
+
+#debug: true
+data:
+  - object: plan
+    interval: month
+    interval_count: 2
+    amount: 500
+
+operations:
+  - operation: create
+    time: 2021-06-07
+    parameters:
+      start_date: 2021-02-01
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-02-01
+        period_end: 2021-03-31T23:59:59Z
+      invoice:
+        date: 2021-02-01
+
+  - operation: bill
+    name: Second Invoice
+    time: 2021-06-07
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-04-01
+        period_end: 2021-05-31T23:59:59Z
+      invoice:
+        date: 2021-04-01
+
+  - operation: bill
+    name: Third Invoice
+    time: 2021-06-07
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-06-01
+        period_end: 2021-07-31T23:59:59Z
+      invoice:
+        date: 2021-06-01

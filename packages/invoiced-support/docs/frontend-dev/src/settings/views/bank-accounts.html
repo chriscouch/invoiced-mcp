@@ -1,0 +1,98 @@
+<p class="loading" ng-show="loading"></p>
+<div class="contents" ng-show="'settings.edit'|hasPermission" ng-hide="loading">
+    <div class="settings-title-bar">
+        <h2 class="title">
+            <div class="back-link">
+                <a ui-sref="manage.settings.default">
+                    <span class="fas fa-arrow-left"></span>
+                    {{'general.settings'|translate}}
+                </a>
+            </div>
+            <div class="docs-link">
+                <a href="https://docs.invoiced.com/accounts-payable/payments" target="_blank">
+                    {{'general.documentation'|translate}}
+                    <span class="fas fa-external-link"></span>
+                </a>
+            </div>
+            {{'settings.titles.bank_accounts'|translate}}
+        </h2>
+    </div>
+
+    <div class="panel panel-default settings-panel">
+        <div class="panel-heading">
+            <h4 class="panel-title button-title">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="searchbar light">
+                            <div class="bar">
+                                <div class="icon"><span class="fas fa-search"></span></div>
+                                <input type="text" class="form-control" ng-model="search" tabindex="2000" />
+                                <div class="icon right icon-btn" ng-show="search">
+                                    <button type="button" class="btn btn-link" ng-click="search=''" tabindex="2001">
+                                        <span class="fas fa-times-circle"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 text-right">
+                        <a ng-click="new()" class="btn btn-success">
+                            {{'settings.vendor_bank_accounts.new'|translate}}
+                        </a>
+                    </div>
+                </div>
+            </h4>
+        </div>
+
+        <!-- No Results -->
+        <div class="list-group" ng-show="results.length == 0">
+            <div class="list-group-item">
+                <div class="empty">{{'settings.vendor_bank_accounts.empty'|translate}}</div>
+            </div>
+        </div>
+
+        <!-- Results Table -->
+        <table class="table table-striped search-results-table" ng-show="results.length > 0">
+            <thead>
+                <tr>
+                    <th>{{'settings.vendor_bank_accounts.name'|translate}}</th>
+                    <th>{{'settings.vendor_bank_accounts.payment_methods'|translate}}</th>
+                    <th>{{'settings.vendor_bank_accounts.check_layout'|translate}}</th>
+                    <th>{{'settings.vendor_bank_accounts.check_number'|translate}}</th>
+                    <th class="noborder">{{'settings.vendor_bank_accounts.created'|translate}}</th>
+                    <th class="nopadding"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="bankAccount in bankAccounts | searchObject:search:['name'] as results">
+                    <td>
+                        {{bankAccount.name}}
+                    </td>
+                    <td>
+                        {{bankAccount._payment_methods}}
+                    </td>
+                    <td>
+                        <span ng-if="bankAccount.check_layout=='CheckOnTop'">{{'vendor_payment_batches.view.layout_one'|translate}}</span>
+                        <span ng-if="bankAccount.check_layout=='ThreePerPage'">{{'vendor_payment_batches.view.layout_three'|translate}}</span>
+                    </td>
+                    <td>
+                        {{bankAccount.check_number}}
+                    </td>
+                    <td class="light nowrap noborder hidden-xs">
+                        <company-date date="bankAccount.created_at"></company-date>
+                    </td>
+                    <td class="nopadding hover-actions-holder mobile-last mobile-visible">
+                        <div class="hover-actions">
+                            <a class="btn btn-default btn-sm" ng-click="new(bankAccount)" tooltip="{{'settings.vendor_bank_accounts.edit'|translate}}">
+                                <span class="fas fa-pencil"></span>
+                            </a>
+                            <button type="button" class="btn btn-danger btn-sm" ng-click="delete(bankAccount, $index)" tooltip="{{'settings.vendor_bank_accounts.delete'|translate}}" ng-hide="deleting[bankAccount.id]">
+                                <span class="fas fa-trash"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

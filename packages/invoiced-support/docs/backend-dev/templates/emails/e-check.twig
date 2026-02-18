@@ -1,0 +1,24 @@
+{% extends "emails/parent.twig" %}
+{% block title %}E-check received{% endblock %}
+{% block content %}
+	<row>
+		<columns>
+			<p>{{ vendor_name }}</p>
+
+			<p>Great news! You've got check from {{ customer_name }}.</p>
+			<p>
+				You can access your e-check using the button below.
+				To access the data, you would need to enter the password - which is your account number.
+			</p>
+		</columns>
+	</row>
+	<row>
+		<columns>
+			<center>
+				<spacer size="5"></spacer>
+				<button class="radius" href="{{ href }}">View on Invoiced</button>
+				<spacer size="5"></spacer>
+			</center>
+		</columns>
+	</row>
+{% endblock %}

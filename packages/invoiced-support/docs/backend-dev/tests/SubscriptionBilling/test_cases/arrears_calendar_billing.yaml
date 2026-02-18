@@ -1,0 +1,55 @@
+# Tests a bill in arrears subscription
+# that starts in the past with calendar billing
+# enabled.
+
+#debug: true
+data:
+  - object: plan
+
+operations:
+  - operation: create
+    parameters:
+      start_date: 2021-04-01
+      bill_in: arrears
+      snap_to_nth_day: 1
+    time: 2021-08-01
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-05-01
+        period_end: 2021-05-31T23:59:59Z
+      invoice:
+        date: 2021-04-30T23:59:59Z
+
+  - operation: bill
+    name: Second Invoice
+    time: 2021-08-01
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-06-01
+        period_end: 2021-06-30T23:59:59Z
+      invoice:
+        date: 2021-05-31T23:59:59Z
+
+  - operation: bill
+    name: Third Invoice
+    time: 2021-08-01
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-07-01
+        period_end: 2021-07-31T23:59:59Z
+      invoice:
+        date: 2021-06-30T23:59:59Z
+
+  - operation: bill
+    name: Fourth Invoice
+    time: 2021-08-01
+    assertions:
+      subscription:
+        status: active
+        period_start: 2021-08-01
+        period_end: 2021-08-31T23:59:59Z
+      invoice:
+        date: 2021-07-31T23:59:59Z

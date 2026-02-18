@@ -1,0 +1,111 @@
+<form name="lateFeeForm" ng-submit="save(schedule)" class="below0">
+    <div class="modal-header">
+        <a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+        <h4 class="modal-title"><span ng-show="schedule.id">{{'settings.late_fee_schedules.edit'|translate}}</span><span ng-hide="schedule.id">{{'settings.late_fee_schedules.new'|translate}}</span></h4>
+    </div>
+    <div class="modal-body edit-late-fee form-horizontal">
+        <p class="required-indicator">
+            <span class="required"></span> {{'general.indicates_required_field'|translate}}
+        </p>
+        <p class="alert alert-danger" ng-show="error">
+            {{error.message}}
+        </p>
+
+        <!-- Name -->
+        <div class="form-group">
+            <label class="control-label col-sm-4">{{'settings.late_fee_schedules.name'|translate}} <span class="required"></span></label>
+            <div class="col-sm-7">
+                <input class="form-control" ng-model="schedule.name" ng-required="true" />
+            </div>
+        </div>
+        <hr/>
+
+        <div class="form-group">
+            <div class="col-sm-8 col-sm-offset-4">
+                <h4 class="settings-section-title">{{'settings.late_fee_schedules.fee'|translate}}</h4>
+            </div>
+        </div>
+
+        <!-- Amount -->
+        <div class="form-group">
+            <label class="control-label col-sm-4">{{'general.amount'|translate}} <span class="required"></span></label>
+            <div class="col-sm-4">
+                <div ng-required="true" ng-model="schedule.amount" currency="currency" is-rate="schedule.is_percent" has-selector="true" input-amount></div>
+            </div>
+        </div>
+
+        <!-- Recurring -->
+        <div class="form-group slim">
+            <label class="control-label col-sm-4">{{'settings.late_fee_schedules.recurring'|translate}}</label>
+            <div class="col-sm-4">
+                <toggle ng-model="hasRecurringLateFee" ng-change="hasRecurringLateFee"></toggle>
+            </div>
+            <div class="col-sm-4 help-text form-control-static">
+                <a href="" tooltip="Assess the late fee every N days. % late fee is compounding. Flat amount is non-compounding.">
+                    <span class="fas fa-question-circle"></span>
+                </a>
+            </div>
+        </div>
+
+        <div class="form-group slim" ng-show="hasRecurringLateFee">
+            <label class="control-label col-sm-4">{{'general.every'|translate}} <span class="required"></span></label>
+            <div class="col-sm-4">
+                <div class="input-group">
+                    <input ng-required="hasRecurringLateFee" type="number" class="form-control"
+                           ng-model="schedule.recurring_days"/>
+                    <span class="input-group-addon">{{'general.days'|translate}}</span>
+                </div>
+            </div>
+        </div>
+        <hr/>
+
+        <div class="form-group">
+            <div class="col-sm-8 col-sm-offset-4">
+                <h4 class="settings-section-title">{{'settings.late_fee_schedules.timing'|translate}}</h4>
+            </div>
+        </div>
+
+        <!-- Start Date -->
+        <div class="form-group">
+            <label class="control-label col-sm-4">{{'settings.late_fee_schedules.start_date'|translate}} <span class="required"></span></label>
+            <div class="col-sm-4">
+                <div class="input-group">
+                    <input class="form-control" ng-model="schedule.start_date" ui-date="dateOptions" is-open="dpOpened" readonly required>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary" ng-click="dpOpened=true">
+                            <span class="fas fa-calendar-alt"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-4 help-text form-control-static">
+                <a href="" tooltip="Assess the late fee to invoices issued ON or AFTER this date.">
+                    <span class="fas fa-question-circle"></span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Grace Period -->
+        <div class="form-group">
+            <label class="control-label col-sm-4">{{'settings.late_fee_schedules.grace'|translate}} <span class="required"></span></label>
+            <div class="col-sm-4">
+                <div class="input-group">
+                    <input type="number" class="form-control" ng-model="schedule.grace_period" required />
+                    <span class="input-group-addon">{{'general.days'|translate}}</span>
+                </div>
+            </div>
+            <div class="col-sm-4 help-text form-control-static">
+                <a href="" tooltip="# of days the invoice must be past due when the late fee is assessed.">
+                    <span class="fas fa-question-circle"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary Button" ng-disabled="lateFeeForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+            <span ng-show="schedule.id">{{'general.save'|translate}}</span>
+            <span ng-hide="schedule.id">{{'general.create'|translate}}</span>
+        </button>
+    </div>
+</form>

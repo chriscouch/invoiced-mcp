@@ -1,0 +1,13 @@
+{
+  "Contacts": [
+    {
+      "ContactID": "2f4c2a04-ceb1-428f-b7e8-4e423cd7d360",
+      "ContactStatus": "ACTIVE",
+      "Name": "After",
+      "EmailAddress": "after@example.com",
+      "UpdatedDateUTC": "\/Date(1518685950940+0000)\/",
+      "IsSupplier": "false",
+      "IsCustomer": "true"
+    }
+  ]
+}

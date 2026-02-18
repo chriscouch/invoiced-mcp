@@ -1,0 +1,13 @@
+{% trans_default_domain 'customer_portal' %}
+
+
+<div class="alert bg-danger-soft text-dark border border-danger errors invoiced-affirm-errors hidden"></div>
+<div class="mb-3" id="affirm-card-container"></div>
+
+<script id="affirm-card-data" type="text/json">
+  {{ adyenData|json_encode|raw }}
+</script>
+
+<script src="{{ scriptUrl }}" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="{{ stylesheetUrl }}" crossorigin="anonymous" />
+<script type="text/javascript" src="{{ asset('/js/views/paymentForms/affirm.js') }}?t={{ 'now'|date('U') }}"></script>

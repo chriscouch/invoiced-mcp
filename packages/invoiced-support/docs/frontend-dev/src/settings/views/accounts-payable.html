@@ -1,0 +1,253 @@
+<div class="contents form-horizontal">
+    <div class="settings-title-bar">
+        <h2 class="title">
+            <div class="back-link">
+                <a ui-sref="manage.settings.default">
+                    <span class="fas fa-arrow-left"></span>
+                    {{'general.settings' | translate}}
+                </a>
+            </div>
+            {{'settings.titles.accounts_payable' | translate}}
+        </h2>
+
+        <p class="lead">
+            Here you can change the behavior of several core A/P features.
+        </p>
+    </div>
+
+    <p class="alert alert-danger" ng-show="error">
+        {{error.message}}
+    </p>
+
+    <!-- Automatic Numbering -->
+    <div class="form-group">
+        <div class="col-sm-4 col-sm-offset-4">
+            <h4 class="settings-section-title">Automatic Numbering</h4>
+        </div>
+        <div class="col-sm-4">
+            <button type="button" class="btn btn-success" ng-click="editAutoNumbering=true" ng-hide="editAutoNumbering">
+                Change
+            </button>
+        </div>
+    </div>
+
+    <p class="loading" ng-show="loadingAutoNumbering"></p>
+
+    <div ng-hide="editAutoNumbering||loadingAutoNumbering">
+        <div class="form-group">
+            <label class="control-label col-sm-4">Vendor Numbers</label>
+            <div class="col-sm-8 form-control-static">
+                <span class="label label-info">Next</span> {{next_vendor_number_full}}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-4">Payment Numbers</label>
+            <div class="col-sm-8 form-control-static">
+                <span class="label label-info">Next</span> {{next_vendor_payment_number_full}}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-4">Payment Batch Numbers</label>
+            <div class="col-sm-8 form-control-static">
+                <span class="label label-info">Next</span> {{next_vendor_payment_batch_number_full}}
+            </div>
+        </div>
+    </div>
+
+    <form name="autoNumberingForm" ng-submit="saveAutoNumbering()" ng-show="editAutoNumbering">
+        <!-- Vendor Numbers -->
+        <div class="form-group">
+            <label class="control-label col-sm-4">Vendor Numbers</label>
+            <div class="col-sm-2 form-control-static">
+                <div>Prefix</div>
+                <input type="text" class="form-control" ng-model="vendor_no_prefix"/>
+            </div>
+            <div class="col-sm-2 form-control-static">
+                <div>Next Number</div>
+                <input type="text" class="form-control" ng-model="next_vendor_number"/>
+            </div>
+        </div>
+
+        <!-- Vendor Payment Numbers -->
+        <div class="form-group">
+            <label class="control-label col-sm-4">Payment Numbers</label>
+            <div class="col-sm-2 form-control-static">
+                <div>Prefix</div>
+                <input type="text" class="form-control" ng-model="vendor_payment_no_prefix"/>
+            </div>
+            <div class="col-sm-2 form-control-static">
+                <div>Next Number</div>
+                <input type="text" class="form-control" ng-model="next_vendor_payment_number"/>
+            </div>
+        </div>
+
+        <!-- Vendor Payment Batch Numbers -->
+        <div class="form-group">
+            <label class="control-label col-sm-4">Payment Batch Numbers</label>
+            <div class="col-sm-2 form-control-static">
+                <div>Prefix</div>
+                <input type="text" class="form-control" ng-model="vendor_payment_batch_no_prefix"/>
+            </div>
+            <div class="col-sm-2 form-control-static">
+                <div>Next Number</div>
+                <input type="text" class="form-control" ng-model="next_vendor_payment_batch_number"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-8 col-sm-offset-4">
+                <button type="submit" class="btn btn-primary Button"
+                        ng-disabled="autoNumberingForm.$invalid||autoNumberingForm.$pristine||saving" v-busy="saving"
+                        v-busy-label="{{'general.saving'|translate}}" v-busy-text="{{'general.save'|translate}}"
+                        v-pressable>
+                    <span translate>general.save</span>
+                </button>
+                <button type="button" class="btn btn-default" ng-click="editAutoNumbering=false"
+                        ng-show="editAutoNumbering">
+                    {{'general.cancel' | translate}}
+                </button>
+            </div>
+        </div>
+    </form>
+    <hr/>
+
+    <!-- Aging -->
+    <div class="form-group">
+        <div class="col-sm-4 col-sm-offset-4">
+            <h4 class="settings-section-title">Aging</h4>
+        </div>
+        <div class="col-sm-4">
+            <button type="button" class="btn btn-success" ng-click="editAging=true" ng-hide="editAging">
+                Change
+            </button>
+        </div>
+    </div>
+
+    <!-- Aging Date -->
+    <div class="form-group" ng-hide="editAging">
+        <label class="control-label col-sm-4">Aging Date</label>
+        <div class="form-control-static col-sm-4">
+            <span ng-show="settings.aging_date == 'due_date'">Due Date</span>
+            <span ng-show="settings.aging_date == 'date'">Date</span>
+        </div>
+    </div>
+
+    <!-- Aging Ranges -->
+    <div class="form-group" ng-hide="editAging">
+        <label class="control-label col-sm-4">Aging Ranges</label>
+        <div class="form-control-static col-sm-4">
+            <div ng-if="settings.aging_buckets[0] == -1">Current</div>
+            <div ng-if="settings.aging_buckets[0] == 0">0 to {{settings.aging_buckets[1] - 1}} days</div>
+            <div ng-repeat="x in settings.aging_buckets" ng-if="!($last) && !($first)">{{x}} to
+                {{settings.aging_buckets[$index + 1] - 1}} days
+            </div>
+            <div>{{settings.aging_buckets[settings.aging_buckets.length - 1]}}+ days</div>
+        </div>
+    </div>
+
+    <!-- Aging Form -->
+    <form name="agingForm" ng-submit="saveAging(settings)" ng-show="editAging">
+
+        <!-- Aging Date Form -->
+        <div class="form-group">
+            <label class="control-label col-sm-4">Aging Date</label>
+            <div class="col-sm-4">
+                <div class="invoiced-select">
+                    <select ng-change="updateAgingBuckets(settings)" ng-model="settings.aging_date">
+                        <option value="date">Date</option>
+                        <option value="due_date">Due Date</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aging Ranges Form -->
+        <div class="form-group">
+            <label class="control-label col-sm-4">Aging Ranges</label>
+            <div class="col-sm-5">
+                <table class="table search-results-table table-aging-setting">
+                    <thead>
+                    <tr>
+                        <th>Begin</th>
+                        <th>End</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="settings.aging_date == 'due_date'">
+                        <td class="static-elem">Current</td>
+                        <td></td>
+                        <td class="button-placeholder"></td>
+                    </tr>
+                    <tr>
+                        <td class="static-elem">0</td>
+                        <td class="static-elem">
+                            {{settings.aging_date == 'due_date' ? settings.aging_buckets[2] - 1 : settings.aging_buckets[1] - 1}}
+                        </td>
+                        <td class="button-placeholder"></td>
+                    </tr>
+                    <tr ng-repeat="bucket in settings.aging_buckets track by $index"
+                        ng-if="![-1, 0].includes(settings.aging_buckets[$index])">
+                        <td>
+                            <input type="number" min="1" class="form-control input-small"
+                                   ng-model="settings.aging_buckets[$index]"/>
+                        </td>
+                        <td class="static-elem">
+                            <span ng-show="!$last && settings.aging_buckets[$index + 1] > 0">{{settings.aging_buckets[$index + 1] - 1}}</span>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-link" ng-show="$index > 3 && $last"
+                                    ng-click="settings.aging_buckets.pop()" tooltip="Delete Range">
+                                <span class="fas fa-times"></span>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div ng-if="settings.aging_buckets.length < 6">
+                    <button type="button" class="btn btn-default" ng-click="settings.aging_buckets.push({})">
+                        <span class="fas fa-plus"></span>
+                        Range
+                    </button>
+                </div>
+                <div class="alert alert-danger" ng-show="error">
+                    {{error}}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-8 col-sm-offset-4">
+                <button type="submit" class="btn btn-primary Button" ng-disabled="defaultsForm.$invalid||saving"
+                        v-busy="saving" v-busy-label="{{'general.saving'|translate}}"
+                        v-busy-text="{{'general.save'|translate}}" v-pressable>
+                    <span translate>general.save</span>
+                </button>
+                <button type="button" class="btn btn-default" ng-click="cancelEditAging()" ng-show="editAging">
+                    {{'general.cancel' | translate}}
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <!-- A/P Inbox -->
+    <div ng-show="('inboxes'|hasFeature) && inbox">
+        <hr/>
+
+        <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-4">
+                <h4 class="settings-section-title">A/P Inbox</h4>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-4">Email Address</label>
+            <div class="col-sm-4 form-control-static">{{inbox.email}}</div>
+            <div class="col-sm-4 help-block">
+                Vendors can submit invoices and other accounts payable communications to this email address.
+            </div>
+        </div>
+    </div>
+</div>

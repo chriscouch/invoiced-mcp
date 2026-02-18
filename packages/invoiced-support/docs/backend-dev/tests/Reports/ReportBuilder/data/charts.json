@@ -1,0 +1,369 @@
+{
+  "title": "Chart Test",
+  "sections": [
+    {
+      "type": "chart",
+      "chart_type": "bar",
+      "object": "invoice",
+      "title": "Revenue by State",
+      "fields": [
+        {
+          "field": {
+            "id": "customer.state"
+          }
+        },
+        {
+          "name": "$ Billed",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "total"
+              }
+            ]
+          }
+        },
+        {
+          "name": "$ Collected",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "amount_paid"
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "voided"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "draft"
+          },
+          "value": false
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "customer.state"
+          }
+        }
+      ]
+    },
+    {
+      "type": "chart",
+      "chart_type": "doughnut",
+      "object": "invoice",
+      "title": "Revenue by Country",
+      "fields": [
+        {
+          "field": {
+            "id": "customer.country"
+          }
+        },
+        {
+          "name": "Total",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "total"
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "voided"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "draft"
+          },
+          "value": false
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "customer.country"
+          }
+        }
+      ]
+    },
+    {
+      "type": "chart",
+      "chart_type": "radar",
+      "object": "invoice",
+      "title": "Revenue by Sales Rep",
+      "fields": [
+        {
+          "field": {
+            "id": "customer.metadata.accout_representative"
+          }
+        },
+        {
+          "name": "Total",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "total"
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "voided"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "draft"
+          },
+          "value": false
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "customer.metadata.accout_representative"
+          }
+        }
+      ]
+    },
+    {
+      "type": "chart",
+      "chart_type": "doughnut",
+      "object": "invoice",
+      "title": "$ Billed per Payment Terms",
+      "fields": [
+        {
+          "field": {
+            "id": "payment_terms"
+          }
+        },
+        {
+          "name": "Total",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "total"
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "voided"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "draft"
+          },
+          "value": false
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "payment_terms"
+          }
+        }
+      ]
+    },
+    {
+      "type": "chart",
+      "chart_type": "bar",
+      "object": "payment",
+      "title": "Payment Methods",
+      "fields": [
+        {
+          "field": {
+            "id": "method"
+          }
+        },
+        {
+          "name": "Amount",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "amount"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Balance",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "balance"
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "voided"
+          },
+          "value": false
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "method"
+          }
+        }
+      ]
+    },
+    {
+      "type": "chart",
+      "chart_type": "polar",
+      "object": "invoice",
+      "title": "Invoice Status",
+      "fields": [
+        {
+          "field": {
+            "id": "status"
+          }
+        },
+        {
+          "name": "Total",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "total"
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "voided"
+          },
+          "value": false
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "status"
+          }
+        }
+      ]
+    },
+    {
+      "type": "chart",
+      "chart_type": "doughnut",
+      "object": "subscription",
+      "title": "MRR by Customer",
+      "fields": [
+        {
+          "field": {
+            "id": "customer.name"
+          }
+        },
+        {
+          "name": "MRR",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "mrr"
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "canceled"
+          },
+          "value": false
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "customer.name"
+          }
+        }
+      ]
+    },
+    {
+      "type": "chart",
+      "chart_type": "doughnut",
+      "object": "invoice_line_item",
+      "title": "Sales by Plan",
+      "fields": [
+        {
+          "field": {
+            "id": "plan.name"
+          }
+        },
+        {
+          "name": "Amount",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "amount"
+              }
+            ]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "invoice.draft"
+          },
+          "value": false
+        },
+        {
+          "field": {
+            "id": "invoice.voided"
+          },
+          "value": false
+        }
+      ],
+      "group": [
+        {
+          "field": {
+            "id": "plan.id"
+          }
+        }
+      ]
+    }
+  ]
+}

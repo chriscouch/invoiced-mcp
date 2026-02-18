@@ -1,0 +1,14 @@
+{
+  "PaymentMethod": {
+    "Id": "8",
+    "SyncToken": "0",
+    "MetaData": {
+      "CreateTime": "2017-09-29T15:02:31-07:00",
+      "LastUpdatedTime": "2017-09-29T15:02:31-07:00"
+    },
+    "Name": "Check",
+    "Active": true,
+    "Type": "NON_CREDIT_CARD"
+  },
+  "time": "2021-01-03T15:02:31-07:00"
+}

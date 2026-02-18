@@ -1,0 +1,157 @@
+{
+  "version": 1,
+  "title": "Average Sale Price",
+  "sections": [
+    {
+      "title": "",
+      "object": "mrr_movement",
+      "type": "chart",
+      "chart_type": "line",
+      "multi_entity": false,
+      "fields": [
+        {
+          "field": {
+            "id": "month"
+          }
+        },
+        {
+          "name": "Average Sale Price",
+          "type": "money",
+          "field": [
+            {
+              "function": "sum",
+              "arguments": [
+                {
+                  "id": "mrr"
+                }
+              ]
+            },
+            "/",
+            {
+              "function": "count_distinct",
+              "arguments": [
+                {
+                  "id": "customer.id"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        },
+        {
+          "field": {
+            "id": "movement_type"
+          },
+          "operator": "=",
+          "value": 1
+        }
+      ],
+      "group": [
+        {
+          "name": "Month",
+          "field": {
+            "id": "month"
+          },
+          "expanded": false,
+          "fill_missing_data": true
+        }
+      ],
+      "sort": []
+    },
+    {
+      "title": "",
+      "object": "mrr_movement",
+      "type": "table",
+      "multi_entity": false,
+      "fields": [
+        {
+          "name": "Month",
+          "field": {
+            "id": "month"
+          }
+        },
+        {
+          "name": "New Business",
+          "field": {
+            "function": "sum",
+            "arguments": [
+              {
+                "id": "mrr"
+              }
+            ]
+          }
+        },
+        {
+          "name": "#",
+          "field": {
+            "function": "count_distinct",
+            "arguments": [
+              {
+                "id": "customer.id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Average Sale Price",
+          "type": "money",
+          "field": [
+            {
+              "function": "sum",
+              "arguments": [
+                {
+                  "id": "mrr"
+                }
+              ]
+            },
+            "/",
+            {
+              "function": "count_distinct",
+              "arguments": [
+                {
+                  "id": "customer.id"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "filter": [
+        {
+          "field": {
+            "id": "date"
+          },
+          "operator": "between",
+          "value": "$dateRange"
+        },
+        {
+          "field": {
+            "id": "movement_type"
+          },
+          "operator": "=",
+          "value": 1
+        }
+      ],
+      "group": [
+        {
+          "name": "Month",
+          "field": {
+            "id": "month"
+          },
+          "expanded": false,
+          "ascending": false,
+          "fill_missing_data": true
+        }
+      ],
+      "sort": []
+    }
+  ]
+}

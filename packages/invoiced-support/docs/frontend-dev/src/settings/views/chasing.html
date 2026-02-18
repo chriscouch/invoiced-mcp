@@ -1,0 +1,51 @@
+<feature-upgrade ng-if="!('smart_chasing'|hasFeature)"></feature-upgrade>
+
+<div class="contents" ng-show="'smart_chasing'|hasFeature">
+	<div class="settings-title-bar">
+		<h2 class="title">
+			<div class="docs-link">
+				<a href="https://docs.invoiced.com/accounts-receivable/chasing" target="_blank">
+					{{'general.documentation'|translate}}
+					<span class="fas fa-external-link"></span>
+				</a>
+			</div>
+			<div class="back-link">
+				<a ui-sref="manage.settings.default">
+					<span class="fas fa-arrow-left"></span>
+					{{'general.settings'|translate}}
+				</a>
+			</div>
+			{{'settings.titles.chasing'|translate}}
+		</h2>
+
+		<p class="lead">
+			Automate distributing invoices and following up with customers with Smart Chasing.
+		</p>
+	</div>
+
+	<ul class="nav nav-tabs">
+		<!-- Tab Links -->
+		<li ui-sref-active="active">
+			<a ui-sref=".customers">
+				Customers
+			</a>
+		</li>
+		<li ui-sref-active="active" ng-if="'invoice_chasing'|hasFeature">
+			<a ui-sref=".invoices">
+				Invoices
+			</a>
+		</li>
+		<li ui-sref-active="active">
+			<a ui-sref=".roles">
+				Contact Roles
+			</a>
+		</li>
+	</ul>
+
+	<!-- Selected Tab Content -->
+	<div class="tab-content">
+		<div class="tab-pane active">
+			<ui-view/>
+		</div>
+	</div>
+</div>

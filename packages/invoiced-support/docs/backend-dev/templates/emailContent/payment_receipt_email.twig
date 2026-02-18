@@ -1,0 +1,7 @@
+Hi {{customer_contact_name}},
+
+We have received your payment for invoice # {{invoice_number}}, thank you. Attached is a receipt for your payment.
+
+Received On: {{payment_date}}
+Amount: {{payment_amount}}
+Payment Method: {{payment_method}}{% if payment_source %} - {{payment_source}}{% endif %}

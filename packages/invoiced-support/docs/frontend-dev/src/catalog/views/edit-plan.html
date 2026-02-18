@@ -1,0 +1,244 @@
+<form name="planForm" ng-submit="save(plan)" class="below0">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">
+			<span ng-hide="isExisting">New</span>
+			<span ng-show="isExisting">Edit</span>
+			Plan
+		</h4>
+	</div>
+	<div class="modal-body form-horizontal">
+		<p class="required-indicator">
+			<span class="required"></span> {{'general.indicates_required_field'|translate}}
+		</p>
+		<p class="alert alert-danger" ng-show="error">
+			{{error.message}}
+		</p>
+
+		<div class="form-group" ng-show="isExisting">
+			<label class="control-label col-sm-4">ID</label>
+			<div class="col-sm-8 form-control-static">
+				{{plan.id}}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">Name <span class="required"></span></label>
+			<div class="col-sm-7">
+				<input type="text" class="form-control" ng-model="plan.name" ng-change="generateID(plan)" required />
+			</div>
+		</div>
+
+		<div class="form-group" ng-hide="isExisting">
+			<label class="control-label col-sm-4">ID <span class="required"></span></label>
+			<div class="col-sm-4 form-control-static" ng-show="shouldGenID">
+				<span class="start-typing-id" ng-hide="plan.id">Start by typing name</span>
+				{{plan.id}}
+				<a href="" ng-show="plan.id" ng-click="shouldGenID=false;$event.preventDefault()">
+					<span class="fas fa-pencil"></span>
+				</a>
+			</div>
+			<div class="col-sm-4" ng-hide="shouldGenID">
+				<input type="text" placeholder="Unique identifier..." ng-model="plan.id" class="form-control" required />
+			</div>
+			<div class="col-sm-4 form-control-static">
+				<a href="" tooltip="A unique identifier that represents this plan, for internal use only. Allowed characters: a-Z, 0-9, _, -">
+					What's this?
+				</a>
+			</div>
+		</div>
+
+		<div class="form-group" ng-show="hadDescription">
+			<label class="control-label col-sm-4">Description</label>
+			<div class="col-sm-6">
+				<textarea class="form-control" placeholder="Optional description..." ng-model="plan.description" expanding-textarea></textarea>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4">Item</label>
+			<div class="col-sm-4" ng-class="{'form-control-static':plan.catalog_item}">
+				<div ng-show="plan.catalog_item">
+					<span ng-show="plan.catalog_item.name">{{plan.catalog_item.name}}</span>
+					<span ng-hide="plan.catalog_item.name">{{plan.catalog_item}}</span>
+					<button type="button" class="btn btn-link" ng-click="plan.catalog_item = null;">
+						<span class="fas fa-times"></span>
+					</button>
+				</div>
+				<div>
+					<a href="" class="btn btn-default" ng-click="selectItem(plan)">
+						Select
+					</a>
+				</div>
+			</div>
+			<div class="col-sm-4 form-control-static">
+				<a href="" tooltip="You can associate an item with your plan in order to have different plans reported as the same item in the sales reporting. This is useful if you sell a product/service at different price points.">
+					What's this?
+				</a>
+			</div>
+		</div>
+
+		<!-- Custom Fields -->
+		<div class="form-group metadata" ng-repeat="customField in customFields">
+			<label class="control-label col-sm-4">{{customField.name}}</label>
+			<div class="col-sm-7">
+				<custom-field-input field="customField" metadata="plan.metadata" set-defaults="true"></custom-field-input>
+			</div>
+		</div>
+		<hr/>
+
+		<div ng-if="!isExisting||changePricing">
+			<div class="alert alert-info" ng-show="changePricing">
+				<span class="fas fa-info-circle"></span>
+				Modifying the plan price or recurring interval will not change any existing subscriptions where this plan is used.
+				&mdash;
+				<a href="" ng-click="$parent.changePricing=false">
+					{{'general.cancel'|translate}}
+				</a>
+			</div>
+
+			<div class="form-group" ng-if="hasMultiCurrency">
+				<label class="control-label col-sm-4">{{'general.currency'|translate}} <span class="required"></span></label>
+				<div class="col-sm-3">
+					<currency-selector ng-model="plan.currency" required></currency-selector>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-4">Pricing Mode <span class="required"></span></label>
+				<div class="col-sm-4">
+					<div class="invoiced-select">
+						<select ng-model="plan.pricing_mode">
+							<option value="custom">Custom</option>
+							<option value="per_unit">Per Unit</option>
+							<option value="tiered">Tiered</option>
+							<option value="volume">Volume</option>
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<!-- Per Unit Pricing -->
+			<div class="form-group" ng-if="plan.pricing_mode=='per_unit'">
+				<label class="control-label col-sm-4">Amount <span class="required"></span></label>
+				<div class="col-sm-4">
+					<div ng-model="plan.amount" currency="plan.currency" input-amount ng-required="true"></div>
+				</div>
+			</div>
+
+			<!-- Tiered Pricing -->
+			<div ng-if="plan.pricing_mode=='tiered'||plan.pricing_mode=='volume'">
+				<div class="form-group">
+					<div class="col-sm-12">
+						<table class="table search-results-table">
+							<thead>
+								<tr>
+									<th>Min Qty</th>
+									<th>Max Qty</th>
+									<th>Amount</th>
+									<th ng-show="plan.tiers.length > 2"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="tier" ng-repeat="tier in plan.tiers">
+									<td>
+                                        <div class="form-control-static">{{tier.min_qty}}</div>
+									</td>
+									<td>
+										<input type="number" class="form-control" ng-model="tier.max_qty" ng-change="updateTier(plan, $index)" ng-show="!$last" />
+									</td>
+									<td>
+										<div ng-model="tier.unit_cost" currency="plan.currency" input-amount ng-required="true"></div>
+									</td>
+									<td ng-show="plan.tiers.length > 2">
+										<button type="button" class="btn btn-link" ng-click="deleteTier(plan, $index)" ng-show="!($first || $last)">
+											<span class="fas fa-times"></span>
+										</button>
+									</td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="4"></td>
+								</tr>
+							</tfoot>
+						</table>
+						<div class="add-tier">
+							<button type="button" class="btn btn-default" ng-click="addTier(plan);updateTier(plan, plan.tiers.length - 2)">
+								<span class="fas fa-plus"></span>
+								Tier
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Billing Interval -->
+			<div class="form-group">
+				<label class="control-label col-sm-4">Billing Interval <span class="required"></span></label>
+				<div class="col-sm-4">
+					<div class="invoiced-select">
+						<select ng-model="$parent.recurs">
+							<option value="daily">Daily</option>
+							<option value="weekly">Weekly</option>
+							<option value="monthly">Monthly</option>
+							<option value="quarterly">Quarterly</option>
+							<option value="semiannual">Semiannually</option>
+							<option value="yearly">Yearly</option>
+							<option value="custom">Custom</option>
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group" ng-show="$parent.recurs=='custom'">
+				<div class="col-sm-6 col-sm-offset-4">
+					<div class="row no-margin">
+						<div class="col-xs-6">
+							<div class="input-group">
+								<span class="input-group-addon">every</span>
+								<input type="number" class="form-control" ng-model="plan.interval_count" required />
+							</div>
+						</div>
+						<div class="col-xs-6">
+							<div class="invoiced-select">
+								<select ng-model="plan.interval">
+									<option value="day">Day<span ng-hide="plan.interval_count==1">s</span></option>
+									<option value="week">Week<span ng-hide="plan.interval_count==1">s</span></option>
+									<option value="month">Month<span ng-hide="plan.interval_count==1">s</span></option>
+									<option value="year">Year<span ng-hide="plan.interval_count==1">s</span></option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div ng-if="isExisting&&!changePricing">
+			<div class="form-group">
+				<label class="control-label col-sm-4">Amount</label>
+				<div class="col-sm-8 form-control-static">
+					<money amount="plan.amount" currency="plan.currency" ng-show="plan.pricing_mode=='per_unit'"></money>
+					<span ng-show="plan.pricing_mode=='tiered'">Tiered</span>
+					<span ng-show="plan.pricing_mode=='volume'">Volume</span>
+					{{plan.interval_count|recurringFrequency:plan.interval}}
+				</div>
+			</div>
+
+			<div class="form-group slim">
+				<div class="col-sm-8 col-sm-offset-4">
+					<a href="" ng-click="$parent.changePricing=true">
+						Modify
+						<span class="fas fa-caret-right"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="planForm.$invalid||saving" v-busy="saving" v-busy-label="Saving" v-pressable>
+			{{'general.save'|translate}}
+		</button>
+	</div>
+</form>

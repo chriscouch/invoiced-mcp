@@ -1,0 +1,102 @@
+{% trans_default_domain 'customer_portal' %}
+{% if isUpdate %}
+	{% set title = 'titles.update_payment_method'|trans %}
+{% else %}
+	{% set title = 'titles.add_payment_method'|trans %}
+{% endif %}
+{% extends "customerPortal/parentFrameOneColumn.twig" %}
+
+{% block left %}
+	<div class="main">
+        {% if noPaymentMethods %}
+			<div class="alert bg-danger-soft text-dark border border-danger">
+				{{ 'messages.online_payments_not_accepted'|trans }}
+			</div>
+        {% else %}
+			{% if outstandingAmount > 0 %}
+				<div class="alert alert-info" id="outstandingAmount">
+					{{ 'messages.charge_after_updating_payment_info'|trans({'%amount%': outstandingAmount|money(currency)})|raw }}
+				</div>
+			{% endif %}
+
+			<div class="alert bg-danger-soft text-dark border border-danger errors payment-source-errors hidden"></div>
+
+			<div class="payment-form">
+				<form id="paymentSourceForm">
+                    <input type="hidden" id="paymentSourceCustomer" value="{{ clientId }}" />
+					<input type="hidden" id="openModal" value="{{ openModal }}" />
+
+					<div class="form-section {% if methods|length == 1 %}d-none{% endif %}">
+						<div class="field">
+							<label class="form-label">{{ 'labels.pay_with'|trans }}</label>
+							<div>
+								<select class="form-select input-large" name="method" id="paymentMethodSelector">
+									{% for method in methods %}
+										<option value="{{ method.id }}" data-gateway="{{ method.gateway }}" {% if selectedPaymentMethod == method.id %}selected="selected"{% endif %}>{{ method.name }}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<!-- Payment Form -->
+                    {% for row in paymentSourceViews %}
+						<div class="payment-method-form hidden {{ row.method.id }}">
+                            {{ row.view.render(companyObj, row.method, row.merchantAccount, tokenizationFlow)|raw }}
+						</div>
+                    {% endfor %}
+
+					<!-- Make Default -->
+					{% if hasPaymentSource %}
+						<div class="form-section submittable-hidden-field">
+							<div class="form-check make-default">
+								<input type="checkbox" class="form-check-input" id="makeDefault" {% if makeDefault %}checked="checked" disabled="disabled"{% endif %} />
+								<label class="form-check-label noselect" for="makeDefault">
+									{{ 'labels.make_default_payment_method'|trans }}
+								</label>
+							</div>
+						</div>
+					{% endif %}
+
+					{% if allowAutoPayEnrollment %}
+						<!-- AutoPay Enrollment -->
+						<div class="form-section submittable-hidden-field">
+							<div class="form-check autopay-enrollment">
+								<input type="checkbox" class="form-check-input" id="enrollAutoPay" {% if shouldEnrollInAutoPay %}checked="checked" disabled="disabled"{% endif %} />
+								<label class="form-check-label noselect" for="enrollAutoPay">
+									{{ 'labels.enroll_in_autopay'|trans }}
+									<a href="#" data-bs-toggle="tooltip" data-bs-title="{{ 'messages.autopay_explanation'|trans }}">
+										<span class="fas fa-info-circle"></span>
+									</a>
+								</label>
+							</div>
+						</div>
+					{% endif %}
+
+					<div class="row actions submittable-hidden-field">
+						<div class="col-xs-12">
+							<button type="submit" class="btn btn-success payment-button">
+								{% if isUpdate %}
+									{{ 'buttons.save'|trans }}
+								{% else %}
+									{{ 'buttons.add'|trans }}
+								{% endif %}
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<form id="paymentSourceSubmitForm">
+				<input type="hidden" name="_csrf_token" value="{{ csrf_token('customer_portal_payment_info') }}" />
+				<div id="paymentSourceData"></div>
+				<input type="hidden" name="make_default" id="paymentMakeDefault" value="0" />
+				<input type="hidden" name="enroll_autopay" id="paymentEnrollAutoPay" value="0" />
+			</form>
+		{% endif %}
+	</div>
+	<script type="text/javascript" src="{{ asset('/js/views/payment_info_form.js') }}"></script>
+
+	<!-- Hidden Translation Strings -->
+	<div id="informationBeingSavedMessage" class="hidden">{{ 'messages.information_being_saved'|trans }}</div>
+{% endblock %}

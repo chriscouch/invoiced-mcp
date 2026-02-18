@@ -1,0 +1,53 @@
+{% trans_default_domain 'general' %}
+{% set title='Purchase Complete' %}
+{% set noNav = true %}
+{% extends "billing/parent.twig" %}
+{% block bodyClass %}{{ parent() }} d-flex align-items-center{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6 col-xl-5 my-5 p-4 text-center border rounded">
+                <div class="mb-4">
+                    <img src="{{ asset('/img/logo.png') }}" alt="Invoiced" height="45"/>
+                </div>
+                <h1 class="display-4 mb-3">
+                    Thank you!
+                </h1>
+                <p class="mb-4 fs-3">
+                    Thanks for selecting Invoiced. You'll receive an email shortly with more information about your new purchase.
+                    {% if not token %}You can also visit your account at the link below.{% endif %}
+                </p>
+
+                {% if token %}
+                    <p class=" fs-3">
+                        We have created a new Invoiced account for you using your email address. Please choose a password to finish setting up your account.
+                    </p>
+                    <form method="post" action="/verifyEmail/{{ token }}">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('set_password') }}" />
+                        <div class="form-group">
+                            <div class="floating-label-input">
+                                <input type="password" name="password" class="form-control" required />
+                                <span class="floating-label">Password (at least <em>8 characters</em>)</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                {% else %}
+                    <form action="{{ dashboardUrl }}">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                Sign In to Invoiced
+                            </button>
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

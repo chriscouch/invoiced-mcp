@@ -1,0 +1,19 @@
+<form name="emailForm" ng-submit="send(options)">
+	<div class="modal-header">
+		<a role="button" class="close" ng-click="close()" aria-hidden="true">&times;</a>
+		<h4 class="modal-title">{{'inboxes.email.send_email'|translate}}</h4>
+	</div>
+	<div class="modal-body send-email-form">
+		<div class="line" ng-show="error">
+			<p class="alert alert-danger">
+				{{error.message}}
+			</p>
+		</div>
+		<email-form options="options"></email-form>
+	</div>
+	<div class="modal-footer send-email-form-footer">
+		<button type="submit" class="btn btn-primary Button" ng-disabled="emailForm.$invalid||saving||!options.to||!options.message" v-busy="saving" v-busy-label="Sending" v-pressable>
+			{{'inboxes.email.send'|translate}}
+		</button>
+	</div>
+</form>
