@@ -44,7 +44,7 @@ This MCP server provides Claude and other MCP-compatible AI assistants with the 
 Clone and install locally:
 
 ```bash
-git clone https://github.com/invoiced/invoiced-mcp.git
+git clone https://github.com/chriscouch/invoiced-mcp.git
 cd invoiced-mcp
 npm install
 ```
